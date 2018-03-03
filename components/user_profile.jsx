@@ -8,7 +8,7 @@ import {OverlayTrigger} from 'react-bootstrap';
 import Pluggable from 'plugins/pluggable';
 import * as Utils from 'utils/utils.jsx';
 
-import ProfilePopover from './profile_popover.jsx';
+import ProfilePopover from './profile_popover';
 
 export default class UserProfile extends React.Component {
     constructor(props) {

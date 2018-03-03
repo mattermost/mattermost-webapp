@@ -1,6 +1,8 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -8,6 +10,7 @@ import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
 export function sendDesktopNotification(post, msgProps) {
     if ((UserStore.getCurrentId() === post.user_id && post.props.from_webhook !== 'true')) {
@@ -44,8 +47,9 @@ export function sendDesktopNotification(post, msgProps) {
         return;
     }
 
+    const config = getConfig(store.getState());
     let username = Utils.localizeMessage('channel_loader.someone', 'Someone');
-    if (post.props.override_username && global.window.mm_config.EnablePostUsernameOverride === 'true') {
+    if (post.props.override_username && config.EnablePostUsernameOverride === 'true') {
         username = post.props.override_username;
     } else if (msgProps.sender_name) {
         username = msgProps.sender_name;

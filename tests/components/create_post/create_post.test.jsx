@@ -512,6 +512,10 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         instance.showShortcuts({ctrlKey: true, keyCode: Constants.KeyCodes.BACK_SLASH, preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
+        instance.showShortcuts({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH, preventDefault: jest.fn()});
+        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
+        instance.showShortcuts({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN, preventDefault: jest.fn()});
+        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
         instance.showShortcuts({ctrlKey: true, keyCode: Constants.KeyCodes.FORWARD_SLASH, preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });

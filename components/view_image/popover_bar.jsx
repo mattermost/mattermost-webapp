@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as FileUtils from 'utils/file_utils';
-
-export default class ViewImagePopoverBar extends React.PureComponent {
+export default class PopoverBar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -44,6 +42,8 @@ export default class ViewImagePopoverBar extends React.PureComponent {
          * Set whether public links are enabled.
          */
         enablePublicLink: PropTypes.bool.isRequired,
+
+        canDownloadFiles: PropTypes.bool.isRequired,
 
         /**
          * Function to call when click on "Get Public Link"
@@ -87,7 +87,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         }
 
         let downloadLinks = null;
-        if (FileUtils.canDownloadFiles()) {
+        if (this.props.canDownloadFiles) {
             downloadLinks = (
                 <div className='image-links'>
                     {publicLink}

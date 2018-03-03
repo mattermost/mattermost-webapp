@@ -7,7 +7,6 @@ import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils
 
 import {FileTypes} from 'utils/constants.jsx';
 import {
-    canDownloadFiles,
     trimFilename,
 } from 'utils/file_utils';
 import {
@@ -16,9 +15,10 @@ import {
     loadImage,
 } from 'utils/utils.jsx';
 
-import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-import FileThumbnail from 'components/file_attachment/file_thumbnail.jsx';
 import DownloadIcon from 'components/svg/download_icon';
+
+import FilenameOverlay from './filename_overlay.jsx';
+import FileThumbnail from './file_thumbnail.jsx';
 
 export default class FileAttachment extends React.PureComponent {
     static propTypes = {
@@ -42,6 +42,8 @@ export default class FileAttachment extends React.PureComponent {
          * Display in compact format
          */
         compactDisplay: PropTypes.bool,
+
+        canDownloadFiles: PropTypes.bool,
     };
 
     constructor(props) {
@@ -138,14 +140,13 @@ export default class FileAttachment extends React.PureComponent {
             );
         }
 
-        const canDownload = canDownloadFiles();
         let filenameOverlay;
-        if (canDownload) {
+        if (this.props.canDownloadFiles) {
             filenameOverlay = (
                 <FilenameOverlay
                     fileInfo={fileInfo}
                     compactDisplay={compactDisplay}
-                    canDownload={canDownload}
+                    canDownload={this.props.canDownloadFiles}
                     handleImageClick={this.onAttachmentClick}
                     iconClass={'post-image__download'}
                 >
