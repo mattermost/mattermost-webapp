@@ -49,7 +49,7 @@ function renderLeaveChannelMessage(post, options) {
 
 function renderAddToChannelMessage(post, options) {
     const username = renderUsernameForUserId(post.user_id, options);
-    const addedUsername = renderUsername(post.props.addedUsername, options);
+    const addedUsername = renderUsernameForUserId(post.props.addedUserId, options);
 
     return (
         <FormattedMessage
@@ -64,7 +64,7 @@ function renderAddToChannelMessage(post, options) {
 }
 
 function renderRemoveFromChannelMessage(post, options) {
-    const removedUsername = renderUsername(post.props.removedUsername, options);
+    const removedUsername = renderUsernameForUserId(post.props.removedUserId, options);
 
     return (
         <FormattedMessage
@@ -103,7 +103,7 @@ function renderLeaveTeamMessage(post, options) {
 
 function renderAddToTeamMessage(post, options) {
     const username = renderUsernameForUserId(post.user_id, options);
-    const addedUsername = renderUsername(post.props.addedUsername, options);
+    const addedUsername = renderUsernameForUserId(post.props.addedUserId, options);
 
     return (
         <FormattedMessage
