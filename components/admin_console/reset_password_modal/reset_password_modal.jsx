@@ -16,6 +16,7 @@ export default class ResetPasswordModal extends React.Component {
         show: PropTypes.bool.isRequired,
         onModalSubmit: PropTypes.func,
         onModalDismissed: PropTypes.func,
+        passwordConfig: PropTypes.object,
     };
 
     static defaultProps = {
@@ -61,7 +62,7 @@ export default class ResetPasswordModal extends React.Component {
 
         const password = this.refs.password.value;
 
-        const passwordErr = Utils.isValidPassword(password, Utils.getPasswordConfig());
+        const passwordErr = Utils.isValidPassword(password, this.props.passwordConfig);
         if (passwordErr) {
             this.setState({serverErrorNewPass: passwordErr});
             return;
