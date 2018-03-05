@@ -268,7 +268,7 @@ export function extractFirstLink(text) {
 
     // remove markdown *, ~~ and _ characters
     inText = loopReplacePattern(inText, /(\*|~~)(.*?)\1/, '$2');
-    inText = loopReplacePattern(inText, /([\s\n]|^)_(.*?)_([\s\n]|$)/, '$1$2');
+    inText = loopReplacePattern(inText, /([\s\n]|^)_(.*?)_([\s\n]|$)/, '$1$2$3');
 
     const match = pattern.exec(inText);
     if (match) {
