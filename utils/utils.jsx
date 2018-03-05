@@ -242,7 +242,20 @@ export function getTimestamp() {
     return Date.now();
 }
 
-// extracts links not styled by Markdown
+// Replaces all occurrences of a pattern
+export function loopReplacePattern(text, pattern, replacement) {
+    let result = text;
+
+    let match = pattern.exec(result);
+    while (match) {
+        result = result.replace(pattern, replacement);
+        match = pattern.exec(result);
+    }
+
+    return result;
+}
+
+// extracts the first link from the text
 export function extractFirstLink(text) {
     const pattern = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[-A-Z0-9+\u0026\u2019@#/%?=()~_|!:,.;]*[-A-Z0-9+\u0026@#/%=~()_|])/i;
     let inText = text;
@@ -252,6 +265,10 @@ export function extractFirstLink(text) {
 
     // strip out inline markdown images
     inText = inText.replace(/!\[[^\]]*]\([^)]*\)/g, '');
+
+    // remove markdown *, ~~ and _ characters
+    inText = loopReplacePattern(inText, /(\*|~~)(.*?)\1/, '$2');
+    inText = loopReplacePattern(inText, /([\s\n]|^)_(.*?)_([\s\n]|$)/, '$1$2$3');
 
     const match = pattern.exec(inText);
     if (match) {
@@ -317,7 +334,7 @@ export function areObjectsEqual(x, y) {
         return false;
     }
 
-    // Quick checking of one object beeing a subset of another.
+    // Quick checking of one object being a subset of another.
     for (p in y) {
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
             return false;
