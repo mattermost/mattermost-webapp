@@ -14,7 +14,7 @@ import RadioSetting from './radio_setting';
 
 const exportFormats = {
     EXPORT_FORMAT_ACTIANCE: 'actiance',
-    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay'
+    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
 };
 
 export default class MessageExportSettings extends AdminSettings {
@@ -35,7 +35,7 @@ export default class MessageExportSettings extends AdminSettings {
                 CustomerType: this.state.globalRelayCustomerType,
                 SmtpUsername: this.state.globalRelaySmtpUsername,
                 SmtpPassword: this.state.globalRelaySmtpPassword,
-                EmailAddress: this.state.globalRelayEmailAddress
+                EmailAddress: this.state.globalRelayEmailAddress,
 
             };
         }
@@ -46,12 +46,7 @@ export default class MessageExportSettings extends AdminSettings {
         const state = {
             enableComplianceExport: config.MessageExportSettings.EnableExport,
             exportFormat: config.MessageExportSettings.ExportFormat,
-<<<<<<< HEAD
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
-            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress,
-=======
-            exportJobStartTime: config.MessageExportSettings.DailyRunTime
->>>>>>> Added system console integration for new GlobalRelay config values
         };
         if (config.MessageExportSettings.GlobalRelaySettings) {
             state.globalRelayCustomerType = config.MessageExportSettings.GlobalRelaySettings.CustomerType;
@@ -74,7 +69,7 @@ export default class MessageExportSettings extends AdminSettings {
     renderSettings() {
         const exportFormatOptions = [
             {value: exportFormats.EXPORT_FORMAT_ACTIANCE, text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
-            {value: exportFormats.EXPORT_FORMAT_GLOBALRELAY, text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')}
+            {value: exportFormats.EXPORT_FORMAT_GLOBALRELAY, text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
 
         // if the export format is globalrelay, the user needs to set some additional parameters
@@ -86,7 +81,7 @@ export default class MessageExportSettings extends AdminSettings {
                     id='globalRelayCustomerType'
                     values={[
                         {value: 'A9', text: Utils.localizeMessage('admin.complianceExport.globalRelayCustomerType.a9.description', 'A9/Type 9')},
-                        {value: 'A10', text: Utils.localizeMessage('admin.complianceExport.globalRelayCustomerType.a10.description', 'A10/Type 10')}
+                        {value: 'A10', text: Utils.localizeMessage('admin.complianceExport.globalRelayCustomerType.a10.description', 'A10/Type 10')},
                     ]}
                     label={
                         <FormattedMessage
