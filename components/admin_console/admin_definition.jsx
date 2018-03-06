@@ -462,6 +462,40 @@ export default {
                     ],
                 },
             },
+            mfa: {
+                schema: {
+                    id: 'ServiceSettings',
+                    name: 'admin.mfa.title',
+                    name_default: 'Multi-factor Authentication',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BANNER,
+                            label: 'admin.mfa.bannerDesc',
+                            label_default: '<a href=\'https://docs.mattermost.com/deployment/auth.html\' target=\'_blank\'>Multi-factor authentication</a> is available for accounts with AD/LDAP or email login. If other login methods are used, MFA should be configured with the authentication provider.',
+                            label_html: true,
+                            banner_type: 'info',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableMultifactorAuthentication',
+                            label: 'admin.service.mfaTitle',
+                            label_default: 'Enable Multi-factor Authentication:',
+                            help_text: 'admin.service.mfaDesc',
+                            help_text_default: 'When true, users with AD/LDAP or email login can add multi-factor authentication to their account using Google Authenticator.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnforceMultifactorAuthentication',
+                            label: 'admin.service.enforceMfaTitle',
+                            label_default: 'Enforce Multi-factor Authentication:',
+                            help_text: 'admin.service.enforceMfaDesc',
+                            help_text_html: true,
+                            help_text_default: 'When true, <a href=\'https://docs.mattermost.com/deployment/auth.html\' target=\'_blank\'>multi-factor authentication</a> is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.<br/><br/>If your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
+                            needs: [['EnableMultifactorAuthentication', true]],
+                        },
+                    ],
+                },
+            },
         },
         security: {
         },
