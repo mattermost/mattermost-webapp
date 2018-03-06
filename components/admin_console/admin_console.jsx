@@ -29,7 +29,6 @@ import LdapSettings from 'components/admin_console/ldap_settings.jsx';
 import LegalAndSupportSettings from 'components/admin_console/legal_and_support_settings.jsx';
 import LicenseSettings from 'components/admin_console/license_settings.jsx';
 import LinkPreviewsSettings from 'components/admin_console/link_previews_settings.jsx';
-import LocalizationSettings from 'components/admin_console/localization_settings.jsx';
 import LogSettings from 'components/admin_console/log_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
 import MetricsSettings from 'components/admin_console/metrics_settings.jsx';
@@ -172,8 +171,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/localization`}
-                                        component={LocalizationSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.general.localization.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/users_and_teams`}
