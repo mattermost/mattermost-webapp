@@ -20,14 +20,25 @@ body {
     .app__body.font--open_sans {
         font-family: 'Fira Sans', 'sans-serif' !important;
     }
-
-    .post p, .post .post__body ul, .post .post__body ol {
-        font-size: 16px;    
-    }
     
     .form-control {
         font-size: 16px;
     }
+}
+
+blockquote {
+    padding: 8px 8px 8px 32px;
+
+    &:before {
+        opacity: 0.2;
+        left: 0px;
+        top: 8px;
+        font-size: 28px;
+    }
+}
+
+b, strong {
+    font-weight: 700;
 }
 
 //CHANNEL HEADER
@@ -153,6 +164,7 @@ body {
         span {
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
         .icon {
@@ -345,6 +357,21 @@ body {
 	.post__body {
 		padding: 0 0 0 4px;
 
+        ul, ol {
+            margin-bottom: 8px;
+            margin-top: 4px;
+            padding-left: 17px; // the list style bullet or square or asterix require this to be 17px
+        }
+
+        p, ul, li {
+            font-size: 16px;
+        }
+
+        hr {
+            opacity: 0.1;
+            margin: 16px 0 12px;
+        }
+
         .post-reaction-list {
             display: flex;
             align-items: center;
@@ -360,10 +387,6 @@ body {
                     top: 0;
                     vertical-align: sub;
                 }
-            }
-
-            .post-add-reaction {
-
             }
         }
 	}
@@ -629,4 +652,69 @@ body {
             }
         }
     }
+}
+
+// MEMBER POPOVER
+
+.member-list__popover {
+    .more-modal__header {
+        padding: 16px;
+    }
+
+    .more-modal__list {
+        .more-modal__row {
+            padding: 4px 16px;
+            padding-right: 24px;
+            border-left: 3px solid;
+            margin: 0;
+
+            &:hover {
+                padding-left: 16px;
+            }
+        }
+
+        .more-modal__details {
+            padding-left: 16px;
+        }
+
+        .more-modal__actions {
+            display: flex;
+            padding-left: 16px;
+
+            .icon {
+                display: flex;
+                align-items: center;
+                top: 0;
+            }
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+}
+
+// MARKDOWN CSS
+
+.mardown_heading {
+    margin: 8px 0;
+
+    &:first-child {
+        margin: 4px 0 8px;
+    }
+}
+
+h1.markdown_heading {font-size: 32px;}
+h2.markdown_heading {font-size: 28px;}
+h3.markdown_heading {font-size: 24px;}
+h4.markdown_heading {font-size: 20px;}
+h5.markdown_heading {font-size: 16px;}
+h6.markdown_heading {font-size: 16px;}
+
+.post-code code {
+    font-size: 14px;
+    line-height: 1.6em;
+    padding: 8px;
+    border-radius: 4px;
 }
