@@ -15,7 +15,6 @@ import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
 import ConnectionSettings from 'components/admin_console/connection_settings.jsx';
 import CustomBrandSettings from 'components/admin_console/custom_brand_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
-import CustomIntegrationsSettings from 'components/admin_console/custom_integrations_settings.jsx';
 import DataRetentionSettings from 'components/admin_console/data_retention_settings.jsx';
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
 import DeveloperSettings from 'components/admin_console/developer_settings.jsx';
@@ -316,8 +315,11 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/custom`}
-                                        component={CustomIntegrationsSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.integrations.custom.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/external`}
