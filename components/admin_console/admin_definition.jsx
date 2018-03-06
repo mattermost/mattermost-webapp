@@ -429,6 +429,39 @@ export default {
             },
         },
         authentication: {
+            email: {
+                schema: {
+                    id: 'EmailSettings',
+                    name: 'admin.authentication.email',
+                    name_default: 'Email Authentication',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableSignUpWithEmail',
+                            label: 'admin.email.allowSignupTitle',
+                            label_default: 'Enable account creation with email:',
+                            help_text: 'admin.email.allowSignupDescription',
+                            help_text_default: 'When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableSignInWithEmail',
+                            label: 'admin.email.allowEmailSignInTitle',
+                            label_default: 'Enable sign-in with email:',
+                            help_text: 'admin.email.allowEmailSignInDescription',
+                            help_text_default: 'When true, Mattermost allows users to sign in using their email and password.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableSignInWithUsername',
+                            label: 'admin.email.allowUsernameSignInTitle',
+                            label_default: 'Enable sign-in with username:',
+                            help_text: 'admin.email.allowUsernameSignInDescription',
+                            help_text_default: 'When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login.',
+                        },
+                    ],
+                },
+            },
         },
         security: {
         },

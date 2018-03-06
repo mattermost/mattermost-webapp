@@ -20,7 +20,6 @@ import DataRetentionSettings from 'components/admin_console/data_retention_setti
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
 import DeveloperSettings from 'components/admin_console/developer_settings.jsx';
 import ElasticsearchSettings from 'components/admin_console/elasticsearch_settings.jsx';
-import EmailAuthenticationSettings from 'components/admin_console/email_authentication_settings.jsx';
 import EmailSettings from 'components/admin_console/email_settings.jsx';
 import ExternalServiceSettings from 'components/admin_console/external_service_settings.jsx';
 import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
@@ -218,8 +217,11 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/authentication_email`}
-                                        component={EmailAuthenticationSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.authentication.email.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/gitlab`}
