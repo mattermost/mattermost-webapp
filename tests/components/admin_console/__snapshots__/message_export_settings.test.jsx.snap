@@ -28,8 +28,8 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           className="banner__content"
         >
           <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description_without_globalrelay"
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
             values={Object {}}
           />
         </div>
@@ -116,6 +116,10 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
             Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
             },
           ]
         }
@@ -482,8 +486,8 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           className="banner__content"
         >
           <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description_without_globalrelay"
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
             values={Object {}}
           />
         </div>
@@ -571,6 +575,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
               "text": "Actiance XML",
               "value": "actiance",
             },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
+            },
           ]
         }
       />
@@ -650,8 +658,8 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           className="banner__content"
         >
           <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description_without_globalrelay"
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
             values={Object {}}
           />
         </div>
@@ -738,6 +746,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
             },
           ]
         }

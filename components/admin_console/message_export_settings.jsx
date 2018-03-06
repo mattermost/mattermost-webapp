@@ -95,7 +95,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='The type of GlobalRelay customer account that your organization has.'
                         />
                     }
-                    value={this.state.globalRelayCustomerType}
+                    value={this.state.globalRelayCustomerType ? this.state.globalRelayCustomerType : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
@@ -117,7 +117,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='The username that is used to authenticate against the GlobalRelay SMTP server.'
                         />
                     }
-                    value={this.state.globalRelaySmtpUsername === null ? '' : this.state.globalRelaySmtpUsername}
+                    value={this.state.globalRelaySmtpUsername ? this.state.globalRelaySmtpUsername : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
@@ -139,7 +139,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='The password that is used to authenticate against the GlobalRelay SMTP server.'
                         />
                     }
-                    value={this.state.globalRelaySmtpPassword === null ? '' : this.state.globalRelaySmtpPassword}
+                    value={this.state.globalRelaySmtpPassword ? this.state.globalRelaySmtpPassword : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
@@ -161,7 +161,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='The email address that your GlobalRelay server monitors for incoming Compliance Exports.'
                         />
                     }
-                    value={this.state.globalRelayEmailAddress === null ? '' : this.state.globalRelayEmailAddress}
+                    value={this.state.globalRelayEmailAddress ? this.state.globalRelayEmailAddress : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
@@ -201,22 +201,11 @@ export default class MessageExportSettings extends AdminSettings {
 
         return (
             <SettingsGroup>
-                {/*
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedHTMLMessage
                             id='admin.complianceExport.description'
                             defaultMessage='This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
-                        />
-                    </div>
-                </div>
-                */}
-
-                <div className='banner'>
-                    <div className='banner__content'>
-                        <FormattedHTMLMessage
-                            id='admin.complianceExport.description_without_globalrelay'
-                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
                         />
                     </div>
                 </div>
