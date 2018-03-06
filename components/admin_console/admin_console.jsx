@@ -51,7 +51,6 @@ import SessionSettings from 'components/admin_console/session_settings.jsx';
 import SignupSettings from 'components/admin_console/signup_settings.jsx';
 import StorageSettings from 'components/admin_console/storage_settings.jsx';
 import SystemUsers from 'components/admin_console/system_users';
-import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings.jsx';
 import WebrtcSettings from 'components/admin_console/webrtc_settings.jsx';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -179,8 +178,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/users_and_teams`}
-                                        component={UsersAndTeamsSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.general.users_and_teams.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/privacy`}
