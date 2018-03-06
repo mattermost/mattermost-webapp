@@ -354,6 +354,31 @@ export default {
                     ],
                 },
             },
+            privacy: {
+                schema: {
+                    id: 'PrivacySettings',
+                    name: 'admin.general.privacy',
+                    name_default: 'Privacy',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ShowEmailAddress',
+                            label: 'admin.privacy.showEmailTitle',
+                            label_default: 'Show Email Address:',
+                            help_text: 'admin.privacy.showEmailDescription',
+                            help_text_default: 'When false, hides the email address of members from everyone except System Administrators.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ShowFullName',
+                            label: 'admin.privacy.showFullNameTitle',
+                            label_default: 'Show Full Name:',
+                            help_text: 'admin.privacy.showFullNameDescription',
+                            help_text_default: 'When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.',
+                        },
+                    ],
+                },
+            },
         },
         authentication: {
         },

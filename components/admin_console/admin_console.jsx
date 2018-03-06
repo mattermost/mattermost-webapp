@@ -41,7 +41,6 @@ import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PolicySettings from 'components/admin_console/policy_settings.jsx';
-import PrivacySettings from 'components/admin_console/privacy_settings.jsx';
 import PublicLinkSettings from 'components/admin_console/public_link_settings.jsx';
 import PushSettings from 'components/admin_console/push_settings.jsx';
 import RateSettings from 'components/admin_console/rate_settings.jsx';
@@ -186,8 +185,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/privacy`}
-                                        component={PrivacySettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.general.privacy.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/policy`}
