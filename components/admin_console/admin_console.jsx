@@ -12,7 +12,6 @@ import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import Audits from 'components/admin_console/audits';
 import ClientVersionsSettings from 'components/admin_console/client_versions_settings.jsx';
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
-import ComplianceSettings from 'components/admin_console/compliance_settings.jsx';
 import ConnectionSettings from 'components/admin_console/connection_settings.jsx';
 import CustomBrandSettings from 'components/admin_console/custom_brand_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
@@ -198,8 +197,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/compliance`}
-                                        component={ComplianceSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.general.compliance.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/logging`}
