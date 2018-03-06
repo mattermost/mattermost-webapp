@@ -27,10 +27,15 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         }
       />
       <TextSetting
-        helpText="This is some help text for the text field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the text field.
+          </span>
+        }
         id="settinga"
-        key="testplugin_plugin_text_settinga"
-        label="Setting One:"
+        key="testplugin_text_settinga"
+        label="Setting One"
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
@@ -46,10 +51,14 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        helpText="This is some help text for the bool field."
+        helpText={
+          <span>
+            This is some help text for the bool field.
+          </span>
+        }
         id="settingb"
-        key="testplugin_plugin_bool_settingb"
-        label="Setting Two:"
+        key="testplugin_bool_settingb"
+        label="Setting Two"
         onChange={[Function]}
         trueText={
           <FormattedMessage
@@ -61,11 +70,16 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         value={true}
       />
       <DropdownSetting
-        helpText="This is some help text for the dropdown field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the dropdown field.
+          </span>
+        }
         id="settingc"
         isDisabled={false}
-        key="testplugin_plugin_dropdown_settingc"
-        label="Setting Three:"
+        key="testplugin_dropdown_settingc"
+        label="Setting Three"
         onChange={[Function]}
         value="option1"
         values={
@@ -86,11 +100,16 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         }
       />
       <RadioSetting
-        helpText="This is some help text for the radio field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the radio field.
+          </span>
+        }
         id="settingd"
         isDisabled={false}
-        key="testplugin_plugin_radio_settingd"
-        label="Setting Four:"
+        key="testplugin_radio_settingd"
+        label="Setting Four"
         onChange={[Function]}
         value="option2"
         values={
@@ -112,10 +131,14 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
       <GeneratedSetting
         disabled={false}
-        helpText="This is some help text for the generated field."
+        helpText={
+          <span>
+            This is some help text for the generated field.
+          </span>
+        }
         id="settinge"
-        key="testplugin_plugin_generated_settinge"
-        label="Setting Five:"
+        key="testplugin_generated_settinge"
+        label="Setting Five"
         onChange={[Function]}
         placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
         regenerateHelpText="This is help text for the regenerate button."
@@ -129,10 +152,15 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         value=""
       />
       <UserAutocompleteSetting
-        helpText="This is some help text for the user autocomplete field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the user autocomplete field.
+          </span>
+        }
         id="settingf"
-        key="testplugin_plugin_userautocomplete_settingf"
-        label="Setting Six:"
+        key="testplugin_userautocomplete_settingf"
+        label="Setting Six"
         onChange={[Function]}
         placeholder="Type a username here"
         value=""
@@ -249,15 +277,20 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         }
       />
       <TextSetting
-        helpText="This is some help text for the text field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the text field.
+          </span>
+        }
         id="settinga"
-        key="testplugin_plugin_text_settinga"
-        label="Setting One:"
+        key="testplugin_text_settinga"
+        label="Setting One"
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         type="input"
-        value="fsdsdg"
+        value="setting_default"
       />
       <BooleanSetting
         disabled={false}
@@ -268,10 +301,14 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        helpText="This is some help text for the bool field."
+        helpText={
+          <span>
+            This is some help text for the bool field.
+          </span>
+        }
         id="settingb"
-        key="testplugin_plugin_bool_settingb"
-        label="Setting Two:"
+        key="testplugin_bool_settingb"
+        label="Setting Two"
         onChange={[Function]}
         trueText={
           <FormattedMessage
@@ -280,39 +317,19 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        value={false}
+        value={true}
       />
       <DropdownSetting
-        helpText="This is some help text for the dropdown field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the dropdown field.
+          </span>
+        }
         id="settingc"
         isDisabled={false}
-        key="testplugin_plugin_dropdown_settingc"
-        label="Setting Three:"
-        onChange={[Function]}
-        value="option3"
-        values={
-          Array [
-            Object {
-              "text": "Option 1",
-              "value": "option1",
-            },
-            Object {
-              "text": "Option 2",
-              "value": "option2",
-            },
-            Object {
-              "text": "Option 3",
-              "value": "option3",
-            },
-          ]
-        }
-      />
-      <RadioSetting
-        helpText="This is some help text for the radio field."
-        id="settingd"
-        isDisabled={false}
-        key="testplugin_plugin_radio_settingd"
-        label="Setting Four:"
+        key="testplugin_dropdown_settingc"
+        label="Setting Three"
         onChange={[Function]}
         value="option1"
         values={
@@ -332,12 +349,46 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           ]
         }
       />
+      <RadioSetting
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the radio field.
+          </span>
+        }
+        id="settingd"
+        isDisabled={false}
+        key="testplugin_radio_settingd"
+        label="Setting Four"
+        onChange={[Function]}
+        value="option2"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
       <GeneratedSetting
         disabled={false}
-        helpText="This is some help text for the generated field."
+        helpText={
+          <span>
+            This is some help text for the generated field.
+          </span>
+        }
         id="settinge"
-        key="testplugin_plugin_generated_settinge"
-        label="Setting Five:"
+        key="testplugin_generated_settinge"
+        label="Setting Five"
         onChange={[Function]}
         placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
         regenerateHelpText="This is help text for the regenerate button."
@@ -348,16 +399,21 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
+        value=""
       />
       <UserAutocompleteSetting
-        helpText="This is some help text for the user autocomplete field."
+        disabled={false}
+        helpText={
+          <span>
+            This is some help text for the user autocomplete field.
+          </span>
+        }
         id="settingf"
-        key="testplugin_plugin_userautocomplete_settingf"
-        label="Setting Six:"
+        key="testplugin_userautocomplete_settingf"
+        label="Setting Six"
         onChange={[Function]}
         placeholder="Type a username here"
-        value="3xz3r6n7dtbbmgref3yw4zg7sr"
+        value=""
       />
       <div
         className="banner"

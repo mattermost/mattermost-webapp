@@ -102,10 +102,13 @@ describe('components/admin_console/CustomPluginSettings', () => {
     });
 
     test('should match snapshot with settings and plugin', () => {
+        const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
+            return {...setting, label: setting.display_name};
+        });
         const wrapper = shallow(
             <CustomPluginSettings
                 config={config}
-                plugin={plugin}
+                schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -115,13 +118,10 @@ describe('components/admin_console/CustomPluginSettings', () => {
         const wrapper = shallow(
             <CustomPluginSettings
                 config={config}
-                plugin={{
+                schema={{
                     id: 'testplugin',
                     name: 'testplugin',
-                    description: '',
-                    webapp: {
-                        bundle_path: '/static/testplugin_bundle.js',
-                    },
+                    translate: false,
                 }}
             />
         );
@@ -129,6 +129,9 @@ describe('components/admin_console/CustomPluginSettings', () => {
     });
 
     test('should match snapshot with no settings and plugin', () => {
+        const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
+            return {...setting, label: setting.display_name};
+        });
         const wrapper = shallow(
             <CustomPluginSettings
                 config={{
@@ -136,7 +139,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         Plugins: {},
                     },
                 }}
-                plugin={plugin}
+                schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
             />
         );
         expect(wrapper).toMatchSnapshot();
