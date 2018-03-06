@@ -1,15 +1,96 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
-
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+const SECTION_NONE = (
+    <tr>
+        <td>
+            <FormattedMessage
+                id='admin.connectionSecurityNone'
+                defaultMessage='None'
+            />
+        </td>
+        <td>
+            <FormattedMessage
+                id='admin.connectionSecurityNoneDescription'
+                defaultMessage='Mattermost will connect over an insecure connection.'
+            />
+        </td>
+    </tr>
+);
 
-import DropdownSetting from './dropdown_setting.jsx';
+const SECTION_TLS = (
+    <tr>
+        <td>
+            <FormattedMessage
+                id='admin.connectionSecurityTls'
+                defaultMessage='TLS'
+            />
+        </td>
+        <td>
+            <FormattedMessage
+                id='admin.connectionSecurityTlsDescription'
+                defaultMessage='Encrypts the communication between Mattermost and your server.'
+            />
+        </td>
+    </tr>
+);
 
-const WEBSERVER_MODE_HELP_TEXT = (
+const SECTION_STARTTLS = (
+    <tr>
+        <td>
+            <FormattedMessage
+                id='admin.connectionSecurityStart'
+                defaultMessage='STARTTLS'
+            />
+        </td>
+        <td>
+            <FormattedMessage
+                id='admin.connectionSecurityStartDescription'
+                defaultMessage='Takes an existing insecure connection and attempts to upgrade it to a secure connection using TLS.'
+            />
+        </td>
+    </tr>
+);
+
+export const CONNECTION_SECURITY_HELP_TEXT_EMAIL = (
+    <table
+        className='table table-bordered table-margin--none'
+        cellPadding='5'
+    >
+        <tbody>
+            {SECTION_NONE}
+            {SECTION_TLS}
+            {SECTION_STARTTLS}
+        </tbody>
+    </table>
+);
+
+export const CONNECTION_SECURITY_HELP_TEXT_LDAP = (
+    <table
+        className='table table-bordered table-margin--none'
+        cellPadding='5'
+    >
+        <tbody>
+            {SECTION_NONE}
+            {SECTION_TLS}
+            {SECTION_STARTTLS}
+        </tbody>
+    </table>
+);
+
+export const CONNECTION_SECURITY_HELP_TEXT_WEBSERVER = (
+    <table
+        className='table table-bordered table-margin--none'
+        cellPadding='5'
+    >
+        <tbody>
+            {SECTION_NONE}
+            {SECTION_TLS}
+        </tbody>
+    </table>
+);
+
+export const WEBSERVER_MODE_HELP_TEXT = (
     <div>
         <table
             className='table table-bordered table-margin--none'
@@ -68,34 +149,3 @@ const WEBSERVER_MODE_HELP_TEXT = (
         </p>
     </div>
 );
-
-export default function WebserverModeDropdownSetting(props) {
-    return (
-        <DropdownSetting
-            id='webserverMode'
-            values={[
-                {value: 'gzip', text: Utils.localizeMessage('admin.webserverModeGzip', 'gzip')},
-                {value: 'uncompressed', text: Utils.localizeMessage('admin.webserverModeUncompressed', 'Uncompressed')},
-                {value: 'disabled', text: Utils.localizeMessage('admin.webserverModeDisabled', 'Disabled')},
-            ]}
-            label={
-                <FormattedMessage
-                    id='admin.webserverModeTitle'
-                    defaultMessage='Webserver Mode:'
-                />
-            }
-            value={props.value}
-            onChange={props.onChange}
-            disabled={props.disabled}
-            helpText={WEBSERVER_MODE_HELP_TEXT}
-        />
-    );
-}
-WebserverModeDropdownSetting.defaultProps = {
-};
-
-WebserverModeDropdownSetting.propTypes = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
-};

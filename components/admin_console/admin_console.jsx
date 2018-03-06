@@ -13,7 +13,6 @@ import Audits from 'components/admin_console/audits';
 import ClientVersionsSettings from 'components/admin_console/client_versions_settings.jsx';
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
 import ComplianceSettings from 'components/admin_console/compliance_settings.jsx';
-import ConfigurationSettings from 'components/admin_console/configuration_settings.jsx';
 import ConnectionSettings from 'components/admin_console/connection_settings.jsx';
 import CustomBrandSettings from 'components/admin_console/custom_brand_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
@@ -41,6 +40,7 @@ import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginSettings from 'components/admin_console/plugin_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
+import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PolicySettings from 'components/admin_console/policy_settings.jsx';
 import PrivacySettings from 'components/admin_console/privacy_settings.jsx';
 import PublicLinkSettings from 'components/admin_console/public_link_settings.jsx';
@@ -59,6 +59,7 @@ import TeamAnalytics from 'components/analytics/team_analytics';
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
+import AdminDefinition from './admin_definition';
 
 const SCRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disable-line react/prop-types
     <Route
@@ -163,8 +164,11 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/configuration`}
-                                        component={ConfigurationSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.general.configuration.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/localization`}
