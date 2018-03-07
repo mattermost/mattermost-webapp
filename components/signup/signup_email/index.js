@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+import {getPasswordConfig} from 'utils/utils.jsx';
+
 import SignupEmail from './signup_email.jsx';
 
 function mapStateToProps(state) {
@@ -28,6 +30,7 @@ function mapStateToProps(state) {
         customBrand,
         enableCustomBrand,
         customDescriptionText,
+        passwordConfig: getPasswordConfig(license, config),
     };
 }
 

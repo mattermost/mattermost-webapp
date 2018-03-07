@@ -72,15 +72,15 @@ export default class MultiSelectList extends React.Component {
         }
 
         let selected;
-        switch (e.keyCode) {
-        case KeyCodes.DOWN:
+        switch (e.key) {
+        case KeyCodes.DOWN[0]:
             if (this.state.selected === -1) {
                 selected = 0;
                 break;
             }
             selected = Math.min(this.state.selected + 1, options.length - 1);
             break;
-        case KeyCodes.UP:
+        case KeyCodes.UP[0]:
             if (this.state.selected === -1) {
                 selected = 0;
                 break;
