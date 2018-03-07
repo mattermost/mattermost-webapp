@@ -585,6 +585,23 @@ describe('Utils.isKeyPressed', function() {
         }
     });
 
+    test('Key match works for uppercase letters, but it does not ignore case', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65}),
+                key: ['a', 65],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65}),
+                key: ['A', 65],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
     test('KeyCode is used for dead letter keys', function() {
         for (const data of [
             {

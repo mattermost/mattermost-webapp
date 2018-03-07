@@ -101,7 +101,7 @@ class UserSettingsModal extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.keyCode === Constants.KeyCodes.A) {
+        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
             this.setState({
                 show: !this.state.show,
             });

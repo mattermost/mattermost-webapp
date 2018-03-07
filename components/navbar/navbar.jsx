@@ -229,7 +229,7 @@ export default class Navbar extends React.Component {
     }
 
     handleQuickSwitchKeyPress = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && e.keyCode === Constants.KeyCodes.K) {
+        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             if (!e.altKey) {
                 e.preventDefault();
                 this.toggleQuickSwitchModal('channel');

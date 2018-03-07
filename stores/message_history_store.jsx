@@ -44,12 +44,12 @@ class MessageHistoryStoreClass {
             return null;
         }
 
-        if (keyCode === Constants.KeyCodes.UP) {
+        if (keyCode === Constants.KeyCodes.UP[1]) {
             store.dispatch({
                 type: PostTypes.MOVE_HISTORY_INDEX_BACK,
                 data: type,
             });
-        } else if (keyCode === Constants.KeyCodes.DOWN) {
+        } else if (keyCode === Constants.KeyCodes.DOWN[1]) {
             store.dispatch({
                 type: PostTypes.MOVE_HISTORY_INDEX_FORWARD,
                 data: type,
