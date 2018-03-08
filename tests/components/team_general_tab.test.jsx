@@ -2,15 +2,12 @@ import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import GeneralTab from 'components/team_general_tab.jsx';
+import GeneralTab from 'components/team_general_tab/team_general_tab.jsx';
 
 describe('components/TeamSettings', () => {
-    beforeEach(() => {
-        global.window.mm_config = {};
-    });
-
     const defaultProps = {
         team: {},
+        maxFileSize: 50,
         activeSection: 'team_icon',
         updateSection: () => () => true,
         closeModal: () => () => true,
@@ -40,15 +37,13 @@ describe('components/TeamSettings', () => {
     });
 
     test('should handle too large files', () => {
-        global.window.mm_config.MaxFileSize = 50;
-
         const wrapper = mountWithIntl(<GeneralTab {...defaultProps}/>);
 
         wrapper.instance().updateTeamIcon({
             target: {
                 files: [{
                     type: 'image/jpeg',
-                    size: 12345,
+                    size: defaultProps.maxFileSize + 1,
                 }],
             },
         });

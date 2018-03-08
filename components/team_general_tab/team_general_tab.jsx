@@ -13,7 +13,17 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 
-class GeneralTab extends React.Component {
+export default class GeneralTab extends React.Component {
+
+    static propTypes = {
+        updateSection: PropTypes.func.isRequired,
+        team: PropTypes.object.isRequired,
+        activeSection: PropTypes.string.isRequired,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired,
+        maxFileSize: PropTypes.number.isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -55,7 +65,6 @@ class GeneralTab extends React.Component {
             clientError: '',
             teamIconFile: null,
             loadingIcon: false,
-            maxFileSize: global.window.mm_config.MaxFileSize,
         };
     }
 
@@ -275,7 +284,7 @@ class GeneralTab extends React.Component {
                 this.setState({
                     clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons'),
                 });
-            } else if (file.size > this.state.maxFileSize) {
+            } else if (file.size > this.props.maxFileSize) {
                 this.setState({
                     clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons'),
                 });
@@ -699,13 +708,3 @@ class GeneralTab extends React.Component {
         );
     }
 }
-
-GeneralTab.propTypes = {
-    updateSection: PropTypes.func.isRequired,
-    team: PropTypes.object.isRequired,
-    activeSection: PropTypes.string.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-};
-
-export default GeneralTab;
