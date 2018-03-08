@@ -229,25 +229,20 @@
   "admin.complianceExport.exportJobStartTime.description": "Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.",
   "admin.complianceExport.exportJobStartTime.example": "E.g.: \"02:00\"",
   "admin.complianceExport.exportJobStartTime.title": "Compliance Export time:",
-
   "admin.complianceExport.globalRelaySettings.title": "GlobalRelay Settings:",
   "admin.complianceExport.globalRelayCustomerType.title": "Customer Type:",
   "admin.complianceExport.globalRelayCustomerType.description": "The type of GlobalRelay customer account that your organization has.",
   "admin.complianceExport.globalRelayCustomerType.a9.description": "A9/Type 9",
   "admin.complianceExport.globalRelayCustomerType.a10.description": "A10/Type 10",
-
   "admin.complianceExport.globalRelayEmailAddress.title": "Email Address:",
   "admin.complianceExport.globalRelayEmailAddress.description": "The email address that your GlobalRelay server monitors for incoming Compliance Exports.",
   "admin.complianceExport.globalRelayEmailAddress.example": "E.g.: \"globalrelay@mattermost.com\"",
-
   "admin.complianceExport.globalRelaySmtpUsername.title": "SMTP Username:",
   "admin.complianceExport.globalRelaySmtpUsername.description": "The username that is used to authenticate against the GlobalRelay SMTP server.",
   "admin.complianceExport.globalRelaySmtpUsername.example": "E.g.: \"globalRelayUser\"",
-
   "admin.complianceExport.globalRelaySmtpPassword.title": "SMTP Password:",
   "admin.complianceExport.globalRelaySmtpPassword.description": "The password that is used to authenticate against the GlobalRelay SMTP server.",
   "admin.complianceExport.globalRelaySmtpPassword.example": "E.g.: \"globalRelayPassword\"",
-
   "admin.complianceExport.title": "Compliance Export (Beta)",
   "admin.compliance_reports.desc": "Job Name:",
   "admin.compliance_reports.desc_placeholder": "E.g. \"Audit 445 for HR\"",
