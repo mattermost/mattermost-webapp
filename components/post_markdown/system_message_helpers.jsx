@@ -16,9 +16,11 @@ import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 function renderUsername(value, options) {
     return renderFormattedText(value, {...options, markdown: false});
 }
+
 function renderUsernameForUserId(value, options) {
     return renderUsername(Utils.displayUsername(value, options));
 }
+
 function renderFormattedText(value, options) {
     return <span dangerouslySetInnerHTML={{__html: formatText(value, options)}}/>;
 }
