@@ -35,8 +35,6 @@ export async function loadMe() {
 export async function loadMeAndConfig(callback) {
     const {data: config} = await getClientConfig()(store.dispatch, store.getState);
 
-    global.window.mm_config = config;
-
     const promises = [];
 
     if (document.cookie.indexOf('MMUSERID=') > -1) {
@@ -59,13 +57,7 @@ export async function loadMeAndConfig(callback) {
         promises.push(loadMe());
     }
 
-    promises.push(
-        getLicenseConfig()(store.dispatch, store.getState).then(
-            ({data: license}) => {
-                global.window.mm_license = license;
-            }
-        )
-    );
+    promises.push(getLicenseConfig()(store.dispatch, store.getState));
 
     Promise.all(promises).then(callback);
 }

@@ -341,7 +341,7 @@ export default class Sidebar extends React.PureComponent {
     }
 
     navigateChannelShortcut = (e) => {
-        if (e.altKey && !e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
+        if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             if (this.isSwitchingChannel) {
@@ -358,7 +358,7 @@ export default class Sidebar extends React.PureComponent {
                 }
             }
             let nextIndex = curIndex;
-            if (e.keyCode === Constants.KeyCodes.DOWN) {
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
                 nextIndex = curIndex + 1;
             } else {
                 nextIndex = curIndex - 1;
@@ -367,13 +367,13 @@ export default class Sidebar extends React.PureComponent {
             this.props.actions.goToChannelById(nextChannel);
             this.updateScrollbarOnChannelChange(nextChannel);
             this.isSwitchingChannel = false;
-        } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.keyCode === Constants.KeyCodes.K) {
+        } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.handleOpenMoreDirectChannelsModal(e);
         }
     }
 
     navigateUnreadChannelShortcut = (e) => {
-        if (e.altKey && e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
+        if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             if (this.isSwitchingChannel) {
@@ -385,7 +385,7 @@ export default class Sidebar extends React.PureComponent {
             const allChannelIds = this.getDisplayedChannels();
 
             let direction = 0;
-            if (e.keyCode === Constants.KeyCodes.UP) {
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
                 direction = -1;
             } else {
                 direction = 1;

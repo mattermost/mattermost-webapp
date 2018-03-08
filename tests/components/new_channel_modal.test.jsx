@@ -135,12 +135,12 @@ describe('components/NewChannelModal', () => {
         );
         wrapper.instance().handleSubmit = jest.fn();
 
-        let evt = {ctrlSend: true, keyCode: Constants.KeyCodes.ENTER, ctrlKey: true};
+        let evt = {ctrlSend: true, key: Constants.KeyCodes.ENTER[0], ctrlKey: true};
         wrapper.instance().onEnterKeyDown(evt);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(evt);
 
-        evt = {ctrlSend: false, keyCode: Constants.KeyCodes.ENTER, shiftKey: false, altKey: false};
+        evt = {ctrlSend: false, key: Constants.KeyCodes.ENTER[0], shiftKey: false, altKey: false};
         wrapper.instance().onEnterKeyDown(evt);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(2);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(evt);

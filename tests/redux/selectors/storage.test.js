@@ -20,8 +20,8 @@ describe('Selectors.Storage', () => {
         },
         storage: {
             storage: {
-                'global-item': 'global-item-value',
-                user_id_item: 'item-value',
+                'global-item': {value: 'global-item-value', timestamp: new Date()},
+                user_id_item: {value: 'item-value', timestamp: new Date()},
             },
         },
     };

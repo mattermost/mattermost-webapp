@@ -322,19 +322,19 @@ export default class SuggestionBox extends React.Component {
 
     handleKeyDown(e) {
         if (this.props.value && SuggestionStore.hasSuggestions(this.suggestionId)) {
-            if (e.which === KeyCodes.UP) {
+            if (Utils.isKeyPressed(e, KeyCodes.UP)) {
                 GlobalActions.emitSelectPreviousSuggestion(this.suggestionId);
                 e.preventDefault();
-            } else if (e.which === KeyCodes.DOWN) {
+            } else if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
                 GlobalActions.emitSelectNextSuggestion(this.suggestionId);
                 e.preventDefault();
-            } else if (e.which === KeyCodes.ENTER || (this.props.completeOnTab && e.which === KeyCodes.TAB)) {
+            } else if (Utils.isKeyPressed(e, KeyCodes.ENTER) || (this.props.completeOnTab && Utils.isKeyPressed(e, KeyCodes.TAB))) {
                 this.handleCompleteWord(SuggestionStore.getSelection(this.suggestionId), SuggestionStore.getSelectedMatchedPretext(this.suggestionId));
                 if (this.props.onKeyDown) {
                     this.props.onKeyDown(e);
                 }
                 e.preventDefault();
-            } else if (e.which === KeyCodes.ESCAPE) {
+            } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
                 GlobalActions.emitClearSuggestions(this.suggestionId);
                 e.preventDefault();
                 e.stopPropagation();
