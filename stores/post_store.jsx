@@ -4,6 +4,7 @@
 import EventEmitter from 'events';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+import {PostTypes} from 'mattermost-redux/action_types';
 
 import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -202,6 +203,7 @@ PostStore.dispatchToken = AppDispatcher.register((payload) => {
         dispatch({...action, type: ActionTypes.EDIT_POST});
         break;
     case ActionTypes.RECEIVED_POST_SELECTED:
+        dispatch({data: action.postId, type: PostTypes.RECEIVED_POST_SELECTED});
         dispatch({...action, type: ActionTypes.SELECT_POST});
         break;
     case ActionTypes.RECEIVED_POST_PINNED:
