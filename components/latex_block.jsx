@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
 
 export default class LatexBlock extends React.Component {
     static propTypes = {
@@ -34,14 +35,26 @@ export default class LatexBlock extends React.Component {
             );
         }
 
-        const html = this.state.katex.renderToString(this.props.content, {throwOnError: false, displayMode: true});
+        try {
+            const html = this.state.katex.renderToString(this.props.content, {throwOnError: false, displayMode: true});
 
-        return (
-            <div
-                className='post-body--code tex'
-                dangerouslySetInnerHTML={{__html: html}}
-            />
-        );
+            return (
+                <div
+                    className='post-body--code tex'
+                    dangerouslySetInnerHTML={{__html: html}}
+                />
+            );
+        } catch (e) {
+            return (
+                <div
+                    className='post-body--code tex'
+                >
+                    <FormattedMessage
+                        id='katex.error'
+                        defaultMessage='Error: Invalid Latex code'
+                    />
+                </div>
+            );
+        }
     }
 }
-

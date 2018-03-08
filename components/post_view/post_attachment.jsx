@@ -51,14 +51,14 @@ export default class PostAttachment extends React.PureComponent {
     getInitState() {
         const shouldCollapse = this.shouldCollapse();
         const text = TextFormatting.formatText(this.props.attachment.text || '');
-        const uncollapsedText = text + (shouldCollapse ? `<div><a class="attachment-link-more" href="#">${localizeMessage('post_attachment.collapse', 'Show less...')}</a></div>` : '');
-        const collapsedText = shouldCollapse ? this.getCollapsedText() : text;
+        const uncollapsedTextHTML = text + (shouldCollapse ? `<div><a class="attachment-link-more" href="#">${localizeMessage('post_attachment.collapse', 'Show less...')}</a></div>` : '');
+        const collapsedTextHTML = shouldCollapse ? this.getCollapsedTextHTML() : text;
 
         return {
             shouldCollapse,
-            collapsedText,
-            uncollapsedText,
-            text: shouldCollapse ? collapsedText : uncollapsedText,
+            collapsedTextHTML,
+            uncollapsedTextHTML,
+            textHTML: shouldCollapse ? collapsedTextHTML : uncollapsedTextHTML,
             collapsed: shouldCollapse,
         };
     }
@@ -67,7 +67,7 @@ export default class PostAttachment extends React.PureComponent {
         e.preventDefault();
         this.setState((prevState) => {
             return {
-                text: prevState.collapsed ? prevState.uncollapsedText : prevState.collapsedText,
+                textHTML: prevState.collapsed ? prevState.uncollapsedTextHTML : prevState.collapsedTextHTML,
                 collapsed: !prevState.collapsed,
             };
         });
@@ -78,7 +78,7 @@ export default class PostAttachment extends React.PureComponent {
         return (text.match(/\n/g) || []).length >= 5 || text.length > 700;
     }
 
-    getCollapsedText() {
+    getCollapsedTextHTML() {
         let text = this.props.attachment.text || '';
         if ((text.match(/\n/g) || []).length >= 5) {
             text = text.split('\n').splice(0, 5).join('\n');
@@ -297,10 +297,9 @@ export default class PostAttachment extends React.PureComponent {
 
         let text;
         if (data.text) {
-            const formattedText = TextFormatting.formatText(data.text || '');
             text = (
                 <div className='attachment__text'>
-                    {messageHtmlToComponent(formattedText, false)}
+                    {messageHtmlToComponent(this.state.textHTML, false)}
                 </div>
             );
         }
