@@ -3016,5 +3016,5 @@
   "webrtc.unpause_video": "Turn on camera",
   "webrtc.unsupported": "{username} client does not support video calls.",
   "youtube_video.notFound": "Video not found",
-  "katex.error": "Error: Invalid Latex code"
+  "katex.error": "Couldn't compile your Latex code. Please review the syntax and try again."
 }
