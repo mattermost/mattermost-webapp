@@ -68,7 +68,7 @@ export default {
                             label: 'admin.service.tlsCertFile',
                             label_default: 'TLS Certificate File:',
                             help_text: 'admin.service.tlsCertFileDescription',
-                            help_text_defalt: 'The certificate file to use.',
+                            help_text_default: 'The certificate file to use.',
                             needs: [['UseLetsEncrypt', false]],
                         },
                         {
