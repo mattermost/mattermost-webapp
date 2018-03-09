@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, FormattedDate} from 'react-intl';
 
-import {updateTeam, setTeamIcon} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -22,6 +21,10 @@ export default class GeneralTab extends React.Component {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         maxFileSize: PropTypes.number.isRequired,
+        actions: PropTypes.shape({
+            updateTeam: PropTypes.func.isRequired,
+            setTeamIcon: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -65,6 +68,7 @@ export default class GeneralTab extends React.Component {
             clientError: '',
             teamIconFile: null,
             loadingIcon: false,
+            submitActive: false,
         };
     }
 
@@ -92,23 +96,23 @@ export default class GeneralTab extends React.Component {
         this.setState({allow_open_invite: openInvite});
     }
 
-    handleOpenInviteSubmit() {
+    handleOpenInviteSubmit = async () => {
         var state = {serverError: '', clientError: ''};
 
         var data = {...this.props.team};
         data.allow_open_invite = this.state.allow_open_invite;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
-    handleNameSubmit() {
+    handleNameSubmit = async () => {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -142,18 +146,18 @@ export default class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.display_name = this.state.name;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
-    handleInviteIdSubmit() {
+    handleInviteIdSubmit = async () => {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -173,22 +177,22 @@ export default class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.invite_id = this.state.invite_id;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
     handleClose() {
         this.updateSection('');
     }
 
-    handleDescriptionSubmit() {
+    handleDescriptionSubmit = async () => {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -208,18 +212,18 @@ export default class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.description = this.state.description;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
-    handleTeamIconSubmit(e) {
+    handleTeamIconSubmit = async (e) => {
         e.preventDefault();
 
         if (!this.state.teamIconFile) {
@@ -237,23 +241,20 @@ export default class GeneralTab extends React.Component {
 
         this.setState({loadingIcon: true});
 
-        setTeamIcon(
-            this.props.team.id,
-            this.state.teamIconFile,
-            () => {
-                this.setState({
-                    loadingIcon: false,
-                    submitActive: false,
-                });
-                this.updateSection('');
-            },
-            (err) => {
-                this.setState({
-                    loadingIcon: false,
-                    serverError: err.message,
-                });
-            }
-        );
+        const {error} = await this.props.actions.setTeamIcon(this.props.team.id, this.state.teamIconFile);
+
+        if (error) {
+            this.setState({
+                loadingIcon: false,
+                serverError: error.message,
+            });
+        } else {
+            this.setState({
+                loadingIcon: false,
+                submitActive: false,
+            });
+            this.updateSection('');
+        }
     }
 
     componentDidMount() {
