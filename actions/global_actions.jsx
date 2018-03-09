@@ -168,10 +168,11 @@ export function toggleShortcutsModal() {
     });
 }
 
-export function showDeletePostModal(post, commentCount = 0) {
+export function showDeletePostModal(post, commentCount = 0, isRHS) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_DELETE_POST_MODAL,
         value: true,
+        isRHS,
         post,
         commentCount,
     });
