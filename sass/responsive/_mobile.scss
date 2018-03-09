@@ -44,6 +44,8 @@
     }
 
     .post-create__container {
+        z-index: 2;
+
         .post-create-footer {
             padding: 0 10px;
         }
