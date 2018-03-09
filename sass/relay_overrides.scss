@@ -102,6 +102,10 @@ b, strong {
             top: 0;
         }
     }
+
+    .heading {
+        font-size: 16px;
+    }
 }
 
 .channel-header .channel-header__icon {
@@ -148,8 +152,19 @@ b, strong {
 		height: 68px;
 		padding: 8px 16px;
 		align-items: center;
+
         .user__picture {
             border-radius: 4px;
+        }
+
+        .sidebar-header-dropdown .sidebar-header-dropdown__icon {
+            width: 24px;
+            height: 24px;
+            right: 0;
+            top: -4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 	}
 
@@ -233,7 +248,11 @@ b, strong {
 	.nav li > h4 {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 12px;
+        line-height: 20px;
 		font-weight: 800;
+
+        margin: 16px 0 8px;
+        padding: 0 12px 0 16px;
 	}
 
 	.nav li {
@@ -256,6 +275,20 @@ b, strong {
 
         span {
             padding-left: 24px;
+        }
+    }
+
+    #publicChannel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .add-channel-btn.cursor--pointer.style--none {
+            font-size: 20px;
+            line-height: 20px;
+            float: none;
+            margin: 0;
+            padding: 0 4px;
         }
     }
 }
@@ -353,6 +386,18 @@ b, strong {
 			border-radius: 4px;
 		}
 	}
+
+    &.post--comment {
+        .post__body {
+            padding-left: 8px;
+            margin-left: 4px;
+        }
+    }
+
+    .post__link {
+        font-size: 14px;
+        margin: 2px 0 4px 4px;
+    }
 
 	.post__body {
 		padding: 0 0 0 4px;
