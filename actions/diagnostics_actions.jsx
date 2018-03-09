@@ -1,6 +1,9 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
@@ -118,5 +121,7 @@ function isSupported(checks) {
 }
 
 function isDevMode() {
-    return global.mm_config.EnableDeveloper === 'true';
+    const config = getConfig(store.getState());
+
+    return config.EnableDeveloper === 'true';
 }

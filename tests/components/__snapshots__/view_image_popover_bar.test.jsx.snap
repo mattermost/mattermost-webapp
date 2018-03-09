@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ViewImagePopoverBar should match snapshot with public links disabled 1`] = `
+exports['components/view_image/PopoverBar should match snapshot with public links disabled 1'] = `
 <div
   className="modal-button-bar footer--show"
 >
@@ -38,7 +38,7 @@ exports[`components/ViewImagePopoverBar should match snapshot with public links 
 </div>
 `;
 
-exports[`components/ViewImagePopoverBar should match snapshot with public links enabled 1`] = `
+exports['components/view_image/PopoverBar should match snapshot with public links enabled 1'] = `
 <div
   className="modal-button-bar footer--show"
 >

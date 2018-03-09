@@ -18,7 +18,6 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {checkIfMFARequired} from 'utils/route';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
@@ -42,6 +41,7 @@ export default class NeedsTeam extends React.Component {
             getMyChannelMembers: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
+        mfaRequired: PropTypes.bool.isRequired,
     };
 
     constructor(params) {
@@ -52,7 +52,7 @@ export default class NeedsTeam extends React.Component {
 
         this.blurTime = new Date().getTime();
 
-        if (checkIfMFARequired(this.props.match.url)) {
+        if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
             return;
         }
@@ -119,7 +119,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     onShortcutKeyDown(e) {
-        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.L) {
+        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
             if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
                 document.getElementById('reply_textbox').focus();
             } else {

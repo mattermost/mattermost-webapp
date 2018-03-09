@@ -112,7 +112,7 @@ describe('components/SettingItemMin', () => {
             <SettingItemMax {...props}/>
         );
         const instance = wrapper.instance();
-        instance.onKeyDown({preventDefault: jest.fn(), keyCode: Constants.KeyCodes.ENTER});
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0]});
         expect(submit).toHaveBeenCalled();
         expect(submit).toHaveBeenCalledWith('setting');
     });

@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -20,6 +21,7 @@ import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 import {getSiteURL} from 'utils/url';
+import store from 'stores/redux_store.jsx';
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
@@ -53,9 +55,16 @@ export function createSafeId(prop) {
 
 export function cmdOrCtrlPressed(e, allowAlt = false) {
     if (allowAlt) {
-        return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
+        return (isMac() && e.metaKey) || e.ctrlKey;
     }
-    return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
+    return (isMac() && e.metaKey) || (e.ctrlKey && !e.altKey);
+}
+
+export function isKeyPressed(event, key) {
+    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
+        return event.key === key[0] || event.key === key[0].toUpperCase();
+    }
+    return event.keyCode === key[1];
 }
 
 export function isInRole(roles, inRole) {
@@ -71,8 +80,8 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(roles) {
-    if (global.mm_license.IsLicensed !== 'true') {
+export function isChannelAdmin(isLicensed, roles) {
+    if (!isLicensed) {
         return false;
     }
 
@@ -233,7 +242,20 @@ export function getTimestamp() {
     return Date.now();
 }
 
-// extracts links not styled by Markdown
+// Replaces all occurrences of a pattern
+export function loopReplacePattern(text, pattern, replacement) {
+    let result = text;
+
+    let match = pattern.exec(result);
+    while (match) {
+        result = result.replace(pattern, replacement);
+        match = pattern.exec(result);
+    }
+
+    return result;
+}
+
+// extracts the first link from the text
 export function extractFirstLink(text) {
     const pattern = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[-A-Z0-9+\u0026\u2019@#/%?=()~_|!:,.;]*[-A-Z0-9+\u0026@#/%=~()_|])/i;
     let inText = text;
@@ -243,6 +265,10 @@ export function extractFirstLink(text) {
 
     // strip out inline markdown images
     inText = inText.replace(/!\[[^\]]*]\([^)]*\)/g, '');
+
+    // remove markdown *, ~~ and _ characters
+    inText = loopReplacePattern(inText, /(\*|~~)(.*?)\1/, '$2');
+    inText = loopReplacePattern(inText, /([\s\n]|^)_(.*?)_([\s\n]|$)/, '$1$2$3');
 
     const match = pattern.exec(inText);
     if (match) {
@@ -308,7 +334,7 @@ export function areObjectsEqual(x, y) {
         return false;
     }
 
-    // Quick checking of one object beeing a subset of another.
+    // Quick checking of one object being a subset of another.
     for (p in y) {
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
             return false;
@@ -659,6 +685,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
         changeCss('.app__body .channel-header__icon svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .channel-header__icon .icon--stroke svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -762,6 +789,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header .channel-header__icon:hover #member_popover, .app__body .channel-header .channel-header__icon.active #member_popover', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header .pinned-posts-button:hover svg', 'fill:' + changeOpacity(theme.linkColor, 0.6));
         changeCss('.app__body .member-list__popover .more-modal__actions svg, .app__body .channel-header .channel-header__icon:hover svg, .app__body .channel-header .channel-header__icon.active svg', 'fill:' + theme.linkColor);
+        changeCss('.app__body .channel-header .channel-header__icon:hover .icon--stroke svg', 'stroke:' + theme.linkColor);
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'background:' + changeOpacity(theme.linkColor, 0.1));
         changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .post-reaction.post-reaction--current-user', 'border-color:' + changeOpacity(theme.linkColor, 0.4));
         changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover, .app__body .channel-header .channel-header__icon:hover, .app__body .channel-header .channel-header__icon.active, .app__body .search-bar__container .search__form.focused', 'border-color:' + theme.linkColor);
@@ -1084,8 +1112,10 @@ export function displayUsername(userId) {
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
 export function displayUsernameForUser(user) {
+    const config = getConfig(store.getState());
+
     if (user) {
-        const nameFormat = global.window.mm_config.TeammateNameDisplay;
+        const nameFormat = config.TeammateNameDisplay;
         let name = user.username;
         if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname !== '') {
             name = user.nickname;
@@ -1185,17 +1215,6 @@ export function fileSizeToString(bytes) {
     }
 
     return bytes + 'B';
-}
-
-// Gets the websocket port to use. Configurable on the server.
-export function getWebsocketPort(protocol) {
-    if ((/^wss:/).test(protocol)) { // wss://
-        return ':' + global.window.mm_config.WebsocketSecurePort;
-    }
-    if ((/^ws:/).test(protocol)) {
-        return ':' + global.window.mm_config.WebsocketPort;
-    }
-    return '';
 }
 
 // Generates a RFC-4122 version 4 compliant globally unique identifier.
@@ -1352,7 +1371,11 @@ export function mod(a, b) {
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
 export function canCreateCustomEmoji(user) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const state = store.getState();
+    const license = getLicense(state);
+    const config = getConfig(state);
+
+    if (license.IsLicensed !== 'true') {
         return true;
     }
 
@@ -1361,9 +1384,9 @@ export function canCreateCustomEmoji(user) {
     }
 
     // already checked for system admin for both these cases
-    if (window.mm_config.RestrictCustomEmojiCreation === 'system_admin') {
+    if (config.RestrictCustomEmojiCreation === 'system_admin') {
         return false;
-    } else if (window.mm_config.RestrictCustomEmojiCreation === 'admin') {
+    } else if (config.RestrictCustomEmojiCreation === 'admin') {
         // check whether the user is an admin on any of their teams
         if (TeamStore.isTeamAdminForAnyTeam()) {
             return true;
@@ -1375,16 +1398,16 @@ export function canCreateCustomEmoji(user) {
     return true;
 }
 
-export function getPasswordConfig() {
+export function getPasswordConfig(license, config) {
     return {
-        isEnterprise: global.window.mm_config.BuildEnterpriseReady === 'true',
-        isLicensed: global.window.mm_license.IsLicensed === 'true',
-        isPasswordRequirements: global.window.mm_license.PasswordRequirements === 'true',
-        minimumLength: parseInt(global.window.mm_config.PasswordMinimumLength, 10),
-        requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
-        requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
-        requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
-        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true',
+        isEnterprise: config.BuildEnterpriseReady === 'true',
+        isLicensed: license.IsLicensed === 'true',
+        isPasswordRequirements: license.PasswordRequirements === 'true',
+        minimumLength: parseInt(config.PasswordMinimumLength, 10),
+        requireLowercase: config.PasswordRequireLowercase === 'true',
+        requireUppercase: config.PasswordRequireUppercase === 'true',
+        requireNumber: config.PasswordRequireNumber === 'true',
+        requireSymbol: config.PasswordRequireSymbol === 'true',
     };
 }
 
@@ -1464,7 +1487,7 @@ export function handleFormattedTextClick(e) {
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
-        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
+        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || cmdOrCtrlPressed(e) || e.shiftKey)) {
             e.preventDefault();
 
             const urlparse = document.createElement('a');
@@ -1503,7 +1526,7 @@ export function removePrefixFromLocalStorage(prefix) {
     }
 }
 
-export function getEmailInterval(isEmailEnabled) {
+export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     const {
         INTERVAL_NEVER,
         INTERVAL_IMMEDIATE,
@@ -1522,7 +1545,7 @@ export function getEmailInterval(isEmailEnabled) {
 
     let emailInterval;
 
-    if (global.mm_config.EnableEmailBatching === 'true') {
+    if (enableEmailBatching) {
         // when email batching is enabled, the default interval is 15 minutes
         emailInterval = PreferenceStore.getInt(CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
 

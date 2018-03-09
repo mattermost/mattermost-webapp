@@ -15,7 +15,7 @@ import {
 import {postListScrollChange} from 'actions/global_actions.jsx';
 
 import LoadingImagePreview from 'components/loading_image_preview';
-import ViewImageModal from 'components/view_image.jsx';
+import ViewImageModal from 'components/view_image';
 
 const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;

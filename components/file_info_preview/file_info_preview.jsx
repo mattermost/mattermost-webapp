@@ -4,21 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
 
 export default class FileInfoPreview extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Object with info about file
-         */
         fileInfo: PropTypes.object.isRequired,
-
-        /**
-         * String containing file URL
-         */
         fileUrl: PropTypes.string.isRequired,
+        canDownloadFiles: PropTypes.bool.isRequired,
     };
 
     render() {
@@ -37,7 +29,7 @@ export default class FileInfoPreview extends React.PureComponent {
         const infoString = infoParts.join(', ');
 
         let preview = null;
-        if (FileUtils.canDownloadFiles()) {
+        if (this.props.canDownloadFiles) {
             preview = (
                 <a
                     className='file-details__preview'

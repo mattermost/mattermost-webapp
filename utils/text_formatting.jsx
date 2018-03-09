@@ -13,7 +13,7 @@ import * as Markdown from './markdown';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
-// pattern to detect the existance of a Chinese, Japanese, or Korean character in a string
+// pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
 // http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
 const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf\uac00-\ud7a3]/;
 
@@ -32,6 +32,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - channelNamesMap - An object mapping channel display names to channels. If provided, ~channel mentions will be replaced with
 //      links to the relevant channel.
 // - team - The current team.
+// - proxyImages - If specified, images are proxied. Defaults to false.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -371,7 +372,7 @@ function parseSearchTerms(searchTerm) {
         }
 
         // capture at mentions differently from the server so we can highlight them with the preceeding at sign
-        captured = (/^@\w+\b/).exec(termString);
+        captured = (/^@[a-z0-9.-_]+\b/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 

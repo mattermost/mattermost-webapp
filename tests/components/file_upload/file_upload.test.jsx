@@ -222,7 +222,8 @@ describe('components/FileUpload', () => {
 
     test('should functions when handleDrop is called', () => {
         const onUploadError = jest.fn();
-        const props = {...baseProps, onUploadError};
+        const onFileUploadChange = jest.fn();
+        const props = {...baseProps, onUploadError, onFileUploadChange};
 
         const wrapper = shallowWithIntl(
             <FileUpload {...props}/>
@@ -238,5 +239,8 @@ describe('components/FileUpload', () => {
 
         expect(instance.uploadFiles).toBeCalled();
         expect(instance.uploadFiles).toHaveBeenCalledWith(e.originalEvent.dataTransfer.files);
+
+        expect(onFileUploadChange).toBeCalled();
+        expect(onFileUploadChange).toHaveBeenCalledWith();
     });
 });
