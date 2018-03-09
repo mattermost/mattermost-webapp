@@ -2,16 +2,20 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-import {getUsersTypingByChannelAndPost} from 'mattermost-redux/selectors/entities/typing';
+import {makeGetUsersTypingByChannelAndPost} from 'mattermost-redux/selectors/entities/typing';
 
 import MsgTyping from './msg_typing.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const typingUsers = getUsersTypingByChannelAndPost(state, {channelId: ownProps.channelId, postId: ownProps.postId});
+function makeMapStateToProps() {
+    const getUsersTypingByChannelAndPost = makeGetUsersTypingByChannelAndPost();
 
-    return {
-        typingUsers,
+    return function mapStateToProps(state, ownProps) {
+        const typingUsers = getUsersTypingByChannelAndPost(state, {channelId: ownProps.channelId, postId: ownProps.postId});
+
+        return {
+            typingUsers,
+        };
     };
 }
 
-export default connect(mapStateToProps)(MsgTyping);
+export default connect(makeMapStateToProps)(MsgTyping);
