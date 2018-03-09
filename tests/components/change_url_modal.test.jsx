@@ -9,18 +9,6 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import ChangeURLModal from 'components/change_url_modal/change_url_modal';
 
 describe('components/ChangeURLModal', () => {
-    global.window.mm_license = {};
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'false';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-        global.window.mm_config = {};
-    });
-
     const baseProps = {
         show: true,
         onDataChanged: jest.fn(),

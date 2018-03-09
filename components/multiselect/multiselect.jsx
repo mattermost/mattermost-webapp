@@ -97,16 +97,16 @@ export default class MultiSelect extends React.Component {
     }
 
     onInputKeyDown = (e) => {
-        switch (e.keyCode) {
-        case KeyCodes.ENTER:
+        switch (e.key) {
+        case KeyCodes.ENTER[0]:
             e.preventDefault();
             break;
         }
     }
 
     handleEnterPress = (e) => {
-        switch (e.keyCode) {
-        case KeyCodes.ENTER:
+        switch (e.key) {
+        case KeyCodes.ENTER[0]:
             if (this.selected == null) {
                 this.props.handleSubmit();
                 return;

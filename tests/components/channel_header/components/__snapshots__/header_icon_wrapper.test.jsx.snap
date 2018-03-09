@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on FlagIcon 1`] = `
+<div
+  className="flex-child"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="text-nowrap"
+        id="flaggedTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="channel_header.flagged"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      className="button_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <FlagIcon
+        aria-hidden="true"
+        className="icon icon__flag"
+      />
+    </button>
+  </OverlayTrigger>
+</div>
+`;
+
+exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on MentionsIcon 1`] = `
+<div
+  className="flex-child"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className=""
+        id="recentMentionsTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="channel_header.recentMentions"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      className="button_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <MentionsIcon
+        aria-hidden="true"
+        className="icon icon__mentions"
+      />
+    </button>
+  </OverlayTrigger>
+</div>
+`;
+
+exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on PinIcon 1`] = `
+<div
+  className="flex-child"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className=""
+        id="pinnedPostTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Pinned Posts"
+          id="channel_header.pinnedPosts"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      className="pinned_posts_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <PinIcon
+        aria-hidden="true"
+        className="icon icon__pin"
+      />
+    </button>
+  </OverlayTrigger>
+</div>
+`;
+
+exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on SearchIcon 1`] = `
+<div
+  className="flex-child"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className=""
+        id="searchTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Search"
+          id="channel_header.search"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      className="search_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <SearchIcon
+        aria-hidden="true"
+        className="icon icon__search"
+      />
+    </button>
+  </OverlayTrigger>
+</div>
+`;

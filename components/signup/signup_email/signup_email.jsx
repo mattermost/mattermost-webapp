@@ -29,7 +29,8 @@ export default class SignupEmail extends React.Component {
             privacyPolicyLink: PropTypes.string,
             customBrand: PropTypes.bool.isRequired,
             enableCustomBrand: PropTypes.bool.isRequired,
-            customDescriptionText: PropTypes.string.isRequired,
+            customDescriptionText: PropTypes.string,
+            passwordConfig: PropTypes.object,
         };
     }
 
@@ -213,7 +214,7 @@ export default class SignupEmail extends React.Component {
         }
 
         const providedPassword = this.refs.password.value;
-        const pwdError = Utils.isValidPassword(providedPassword, Utils.getPasswordConfig());
+        const pwdError = Utils.isValidPassword(providedPassword, this.props.passwordConfig);
         if (pwdError) {
             this.setState({
                 nameError: '',

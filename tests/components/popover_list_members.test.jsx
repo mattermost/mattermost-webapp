@@ -14,7 +14,6 @@ jest.mock('actions/channel_actions.jsx', () => ({
 }));
 
 describe('components/PopoverListMembers', () => {
-    global.window.mm_config = {};
     const channel = {
         id: 'channel_id',
         name: 'channel-name',
@@ -37,16 +36,6 @@ describe('components/PopoverListMembers', () => {
         currentUserId: 'current_user_id',
         actions,
     };
-
-    global.window.mm_license = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'false';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(

@@ -4,30 +4,30 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FileInfoPreview from 'components/file_info_preview.jsx';
+import FileInfoPreview from 'components/file_info_preview/file_info_preview.jsx';
 
 describe('components/FileInfoPreview', () => {
-    const requiredProps = {
-        fileUrl: 'https://pre-release.mattermost.com/api/v4/files/rqir81f7a7ft8m6j6ej7g1txuo',
-        fileInfo: {name: 'Test Image', size: 100, extension: 'jpg'},
-    };
-
-    test('should match snapshot', () => {
+    test('should match snapshot, can download files', () => {
         const wrapper = shallow(
-            <FileInfoPreview {...requiredProps}/>
+            <FileInfoPreview
+                fileUrl='https://pre-release.mattermost.com/api/v4/files/rqir81f7a7ft8m6j6ej7g1txuo'
+                fileInfo={{name: 'Test Image', size: 100, extension: 'jpg'}}
+                canDownloadFiles={true}
+            />
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should receive props', () => {
+    test('should match snapshot, cannot download files', () => {
         const wrapper = shallow(
-            <FileInfoPreview {...requiredProps}/>
+            <FileInfoPreview
+                fileUrl='https://pre-release.mattermost.com/api/v4/files/aasf9afshaskj1asf91jasf0a0'
+                fileInfo={{name: 'Test Image 2', size: 200, extension: 'png'}}
+                canDownloadFiles={false}
+            />
         );
 
-        const instance = wrapper.instance();
-
-        expect(instance.props.fileUrl).toBe(requiredProps.fileUrl);
-        expect(wrapper.find('.file-details__name').text()).toBe(requiredProps.fileInfo.name);
+        expect(wrapper).toMatchSnapshot();
     });
 });

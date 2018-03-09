@@ -43,7 +43,7 @@ describe('components/mfa/components/Confirm', () => {
 
         const event = {
             preventDefault: jest.fn(),
-            which: Constants.KeyCodes.ENTER,
+            key: Constants.KeyCodes.ENTER[0],
         };
         map.keydown(event);
 

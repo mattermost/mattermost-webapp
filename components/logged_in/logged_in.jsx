@@ -16,7 +16,6 @@ import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import {checkIfMFARequired} from 'utils/route';
 import store from 'stores/redux_store.jsx';
 
 const dispatch = store.dispatch;
@@ -151,7 +150,7 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        if (this.props.location.pathname !== '/mfa/setup' && checkIfMFARequired(this.props.match.url)) {
+        if (this.props.location.pathname !== '/mfa/setup' && this.props.mfaRequired) {
             return <Redirect to={'/mfa/setup'}/>;
         }
 
@@ -169,4 +168,5 @@ export default class LoggedIn extends React.Component {
 
 LoggedIn.propTypes = {
     children: PropTypes.object,
+    mfaRequired: PropTypes.bool.isRequired,
 };

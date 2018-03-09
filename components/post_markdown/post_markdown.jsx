@@ -52,6 +52,10 @@ export default class PostMarkdown extends React.PureComponent {
          */
         team: PropTypes.object.isRequired,
 
+        /**
+         * If an image proxy is enabled.
+         */
+        hasImageProxy: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -66,6 +70,9 @@ export default class PostMarkdown extends React.PureComponent {
             atMentions: true,
             channelNamesMap: this.props.channelNamesMap,
             team: this.props.team,
+
+            // Proxy images if we have an image proxy and the server hasn't already rewritten the post's image URLs.
+            proxyImages: this.props.hasImageProxy && (!this.props.post || !this.props.post.message_source || this.props.post.message === this.props.post.message_source),
         }, this.props.options);
 
         if (this.props.post) {

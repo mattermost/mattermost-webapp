@@ -21,6 +21,12 @@ import SelectTeamItem from './components/select_team_item.jsx';
 
 export default class SelectTeam extends React.Component {
     static propTypes = {
+        isLicensed: PropTypes.bool.isRequired,
+        customBrand: PropTypes.bool.isRequired,
+        enableCustomBrand: PropTypes.bool.isRequired,
+        customDescriptionText: PropTypes.string,
+        enableTeamCreation: PropTypes.bool.isRequired,
+        siteName: PropTypes.string,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
         }).isRequired,
@@ -130,7 +136,7 @@ export default class SelectTeam extends React.Component {
                 }
             }
 
-            if (openTeamContents.length === 0 && (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin)) {
+            if (openTeamContents.length === 0 && (this.props.enableTeamCreation || isSystemAdmin)) {
                 openTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
@@ -174,7 +180,7 @@ export default class SelectTeam extends React.Component {
         }
 
         let teamHelp = null;
-        if (isSystemAdmin && (global.window.mm_config.EnableTeamCreation === 'false')) {
+        if (isSystemAdmin && !this.props.enableTeamCreation) {
             teamHelp = (
                 <FormattedMessage
                     id='login.createTeamAdminOnly'
@@ -184,7 +190,7 @@ export default class SelectTeam extends React.Component {
         }
 
         let teamSignUp;
-        if (isSystemAdmin || global.window.mm_config.EnableTeamCreation === 'true') {
+        if (isSystemAdmin || this.props.enableTeamCreation) {
             teamSignUp = (
                 <div className='margin--extra'>
                     <Link
@@ -221,8 +227,8 @@ export default class SelectTeam extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -260,7 +266,7 @@ export default class SelectTeam extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{global.window.mm_config.SiteName}</h1>
+                        <h1>{this.props.siteName}</h1>
                         <h4 className='color--light'>
                             {description}
                         </h4>
