@@ -38,7 +38,6 @@ export default class AnnouncementBar extends React.PureComponent {
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
-        enableAPIv3: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -70,9 +69,6 @@ export default class AnnouncementBar extends React.PureComponent {
                 return;
             } else if (!this.props.sendEmailNotifications) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.PREVIEW_MODE});
-                return;
-            } else if (isSystemAdmin && this.props.enableAPIv3) {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.APIV3_ENABLED});
                 return;
             }
         }
@@ -244,13 +240,6 @@ export default class AnnouncementBar extends React.PureComponent {
                 <FormattedMessage
                     id={ErrorBarTypes.PREVIEW_MODE}
                     defaultMessage='Preview Mode: Email notifications have not been configured'
-                />
-            );
-        } else if (message === ErrorBarTypes.APIV3_ENABLED) {
-            message = (
-                <FormattedHTMLMessage
-                    id={ErrorBarTypes.APIV3_ENABLED}
-                    defaultMessage='API version 3 is deprecated and scheduled for removal. <a href="https://api.mattermost.com/#tag/APIv3-Deprecation" target="_blank">Learn how to migrate to APIv4</a>.'
                 />
             );
         } else if (message === ErrorBarTypes.LICENSE_EXPIRING) {
