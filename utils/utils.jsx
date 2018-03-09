@@ -53,9 +53,9 @@ export function createSafeId(prop) {
 
 export function cmdOrCtrlPressed(e, allowAlt = false) {
     if (allowAlt) {
-        return (isMac() && e.metaKey) || e.ctrlKey;
+        return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
     }
-    return (isMac() && e.metaKey) || (e.ctrlKey && !e.altKey);
+    return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
 export function isInRole(roles, inRole) {
@@ -1466,7 +1466,7 @@ export function handleFormattedTextClick(e) {
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
-        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || cmdOrCtrlPressed(e) || e.shiftKey)) {
+        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
 
             const urlparse = document.createElement('a');
