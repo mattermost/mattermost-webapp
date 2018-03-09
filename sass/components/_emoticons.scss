@@ -169,7 +169,7 @@
                     position: relative;
                     top: -21px;
 
-                    &.emoji-category-custom-undefined {
+                    &.emoji-category--custom {
                         @include transform(scale(1));
                         height: auto;
                         left: auto;

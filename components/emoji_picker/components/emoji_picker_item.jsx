@@ -83,7 +83,7 @@ export default class EmojiPickerItem extends React.Component {
             image = (
                 <img
                     src={EmojiStore.getEmojiImageUrl(emoji)}
-                    className={spriteClassName}
+                    className={'emoji-category--custom'}
                 />
             );
             handleMouseOver = this.handleMouseOver;
