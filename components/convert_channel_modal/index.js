@@ -13,15 +13,15 @@ import ConvertChannelModal from './convert_channel_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        currentTeamDetails: getCurrentTeam(state)
+        currentTeamDetails: getCurrentTeam(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            updateChannel
-        }, dispatch)
+            updateChannel,
+        }, dispatch),
     };
 }
 

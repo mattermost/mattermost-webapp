@@ -27,8 +27,8 @@ export default class ConvertChannelModal extends React.PureComponent {
             /**
             * Function called for converting channel to private,
             */
-            updateChannel: PropTypes.func.isRequired
-        })
+            updateChannel: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
@@ -66,7 +66,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                             id='convert_channel.title'
                             defaultMessage='Convert {display_name} to a private channel?'
                             values={{
-                                display_name: this.props.channel.display_name
+                                display_name: this.props.channel.display_name,
                             }}
                         />
                     </h4>
@@ -77,7 +77,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                             id='convert_channel.question1'
                             defaultMessage='When you convert <strong>{display_name}</strong> to a private channel, history and membership are preserved. Publicly shared files remain accessible to anyone with the link. Membership in a private channel is by invitation only.'
                             values={{
-                                display_name: this.props.channel.display_name
+                                display_name: this.props.channel.display_name,
                             }}
                         />
                     </p>
@@ -92,7 +92,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                             id='convert_channel.question3'
                             defaultMessage='Are you sure you want to convert <strong>{display_name}</strong> to a private channel?'
                             values={{
-                                display_name: this.props.channel.display_name
+                                display_name: this.props.channel.display_name,
                             }}
                         />
                     </p>

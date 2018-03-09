@@ -64,7 +64,7 @@ describe('Channel Utils', () => {
         test('users cannot convert private channel to private', () => {
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showConvertOption(channel, true, true)).
                 toEqual(false);
@@ -73,7 +73,7 @@ describe('Channel Utils', () => {
         test('user who is not system admin nor team admin cannot convert channels', () => {
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showConvertOption(channel, false, false)).
                 toEqual(false);
@@ -82,7 +82,7 @@ describe('Channel Utils', () => {
         test('user who is team admin but not system admin can convert channels', () => {
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showConvertOption(channel, true, false)).
                 toEqual(true);
@@ -91,7 +91,7 @@ describe('Channel Utils', () => {
         test('user who is system admin but not team admin can convert channels', () => {
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showConvertOption(channel, false, true)).
                 toEqual(true);
@@ -100,7 +100,7 @@ describe('Channel Utils', () => {
         test('user who is system admin and team admin can convert channels', () => {
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showConvertOption(channel, true, true)).
                 toEqual(true);

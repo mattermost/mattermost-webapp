@@ -365,7 +365,7 @@ export default class Navbar extends React.Component {
             let setChannelPurposeOption;
             let notificationPreferenceOption;
             let renameChannelOption;
-            let convertChannelOption
+            let convertChannelOption;
             let deleteChannelOption;
             let leaveChannelOption;
 
