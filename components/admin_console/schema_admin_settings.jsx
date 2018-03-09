@@ -22,6 +22,22 @@ import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 
 export default class SchemaAdminSettings extends AdminSettings {
+    constructor(props) {
+        super(props);
+        this.buildSettingFunctions = {
+            [SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
+            [SettingsTypes.TYPE_NUMBER]: this.buildTextSetting,
+            [SettingsTypes.TYPE_BOOL]: this.buildBoolSetting,
+            [SettingsTypes.TYPE_DROPDOWN]: this.buildDropdownSetting,
+            [SettingsTypes.TYPE_RADIO]: this.buildRadioSetting,
+            [SettingsTypes.TYPE_BANNER]: this.buildBannerSetting,
+            [SettingsTypes.TYPE_GENERATED]: this.buildGeneratedSetting,
+            [SettingsTypes.TYPE_USERNAME]: this.buildUsernameSetting,
+            [SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
+            [SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
+        };
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.schema !== this.props.schema) {
             this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
@@ -160,37 +176,10 @@ export default class SchemaAdminSettings extends AdminSettings {
         return false;
     }
 
-    buildSetting = (id, setting) => {
-        switch (setting.type) {
-        case SettingsTypes.TYPE_TEXT:
-            return this.buildTextSetting(id, setting);
-        case SettingsTypes.TYPE_NUMBER:
-            return this.buildTextSetting(id, setting);
-        case SettingsTypes.TYPE_BOOL:
-            return this.buildBoolSetting(id, setting);
-        case SettingsTypes.TYPE_DROPDOWN:
-            return this.buildDropdownSetting(id, setting);
-        case SettingsTypes.TYPE_RADIO:
-            return this.buildRadioSetting(id, setting);
-        case SettingsTypes.TYPE_BANNER:
-            return this.buildBannerSetting(id, setting);
-        case SettingsTypes.TYPE_GENERATED:
-            return this.buildGeneratedSetting(id, setting);
-        case SettingsTypes.TYPE_USERNAME:
-            return this.buildUsernameSetting(id, setting);
-        case SettingsTypes.TYPE_BUTTON:
-            return this.buildButtonSetting(id, setting);
-        case SettingsTypes.TYPE_LANGUAGE:
-            return this.buildLanguageSetting(id, setting);
-        }
-
-        return null;
-    }
-
-    buildButtonSetting = (id, setting) => {
+    buildButtonSetting = (setting) => {
         return (
             <RequestButton
-                key={this.props.schema.id + '_text_' + id}
+                key={this.props.schema.id + '_text_' + setting.key}
                 requestAction={setting.action}
                 helpText={this.renderHelpText(setting)}
                 buttonText={<span>{this.renderLabel(setting)}</span>}
@@ -204,59 +193,59 @@ export default class SchemaAdminSettings extends AdminSettings {
         );
     }
 
-    buildTextSetting = (id, setting) => {
+    buildTextSetting = (setting) => {
         let inputType = 'input';
         if (setting.type === SettingsTypes.TYPE_NUMBER) {
             inputType = 'number';
         }
         return (
             <TextSetting
-                key={this.props.schema.id + '_text_' + id}
-                id={id}
+                key={this.props.schema.id + '_text_' + setting.key}
+                id={setting.key}
                 type={inputType}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
-                value={this.state[id] || ''}
+                value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
         );
     }
 
-    buildBoolSetting = (id, setting) => {
+    buildBoolSetting = (setting) => {
         return (
             <BooleanSetting
-                key={this.props.schema.id + '_bool_' + id}
-                id={id}
+                key={this.props.schema.id + '_bool_' + setting.key}
+                id={setting.key}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
-                value={this.state[id] || false}
+                value={this.state[setting.key] || false}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
         );
     }
 
-    buildDropdownSetting = (id, setting) => {
+    buildDropdownSetting = (setting) => {
         const options = setting.options || [];
         const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
 
         return (
             <DropdownSetting
-                key={this.props.schema.id + '_dropdown_' + id}
-                id={id}
+                key={this.props.schema.id + '_dropdown_' + setting.key}
+                id={setting.key}
                 values={values}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
-                value={this.state[id] || values[0].value}
+                value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
         );
     }
 
-    buildLanguageSetting = (id, setting) => {
+    buildLanguageSetting = (setting) => {
         const locales = I18n.getAllLanguages();
         const values = Object.keys(locales).map((l) => {
             return {value: locales[l].value, text: locales[l].name, order: locales[l].order};
@@ -277,12 +266,12 @@ export default class SchemaAdminSettings extends AdminSettings {
             );
             return (
                 <MultiSelectSetting
-                    key={this.props.schema.id + '_language_' + id}
-                    id={id}
+                    key={this.props.schema.id + '_language_' + setting.key}
+                    id={setting.key}
                     label={this.renderLabel(setting)}
                     values={values}
                     helpText={this.renderHelpText(setting)}
-                    selected={(this.state[id] && this.state[id].split(',')) || []}
+                    selected={(this.state[setting.key] && this.state[setting.key].split(',')) || []}
                     disabled={this.isDisabled(setting)}
                     onChange={(changedId, value) => this.handleChange(changedId, value.join(','))}
                     noResultText={noResultText}
@@ -292,44 +281,44 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
         return (
             <DropdownSetting
-                key={this.props.schema.id + '_language_' + id}
-                id={id}
+                key={this.props.schema.id + '_language_' + setting.key}
+                id={setting.key}
                 label={this.renderLabel(setting)}
                 values={values}
                 helpText={this.renderHelpText(setting)}
-                value={this.state[id] || values[0].value}
+                value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
         );
     }
 
-    buildRadioSetting = (id, setting) => {
+    buildRadioSetting = (setting) => {
         const options = setting.options || [];
         const values = options.map((o) => ({value: o.value, text: o.display_name}));
 
         return (
             <RadioSetting
-                key={this.props.schema.id + '_radio_' + id}
-                id={id}
+                key={this.props.schema.id + '_radio_' + setting.key}
+                id={setting.key}
                 values={values}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
-                value={this.state[id] || values[0]}
+                value={this.state[setting.key] || values[0]}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
         );
     }
 
-    buildBannerSetting = (id, setting) => {
+    buildBannerSetting = (setting) => {
         if (this.isDisabled(setting)) {
             return null;
         }
         return (
             <div
                 className={'banner ' + setting.banner_type}
-                key={this.props.schema.id + '_bool_' + id}
+                key={this.props.schema.id + '_bool_' + setting.key}
             >
                 <div className='banner__content'>
                     <span>{this.renderBanner(setting)}</span>
@@ -338,16 +327,16 @@ export default class SchemaAdminSettings extends AdminSettings {
         );
     }
 
-    buildGeneratedSetting = (id, setting) => {
+    buildGeneratedSetting = (setting) => {
         return (
             <GeneratedSetting
-                key={this.props.schema.id + '_generated_' + id}
-                id={id}
+                key={this.props.schema.id + '_generated_' + setting.key}
+                id={setting.key}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
                 regenerateHelpText={setting.regenerate_help_text}
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
-                value={this.state[id] || ''}
+                value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleGeneratedChange}
             />
@@ -358,15 +347,15 @@ export default class SchemaAdminSettings extends AdminSettings {
         this.handleChange(id, s.replace('+', '-').replace('/', '_'));
     }
 
-    buildUsernameSetting = (id, setting) => {
+    buildUsernameSetting = (setting) => {
         return (
             <UserAutocompleteSetting
-                key={this.props.schema.id + '_userautocomplete_' + id}
-                id={id}
+                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                id={setting.key}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default) || Utils.localizeMessage('search_bar.search', 'Search')}
-                value={this.state[id] || ''}
+                value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
@@ -383,7 +372,9 @@ export default class SchemaAdminSettings extends AdminSettings {
         const settingsList = [];
         if (schema.settings) {
             schema.settings.forEach((setting) => {
-                settingsList.push(this.buildSetting(setting.key, setting));
+                if (this.buildSettingFunctions[setting.type]) {
+                    settingsList.push(this.buildSettingFunctions[setting.type](setting));
+                }
             });
         }
 
