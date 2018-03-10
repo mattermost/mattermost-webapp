@@ -17,8 +17,12 @@ function renderUsername(value, options) {
     return renderFormattedText(value, {...options, markdown: false});
 }
 
-function renderUsernameForUserId(value, options) {
-    return renderUsername(Utils.displayUsername(value, options));
+function renderUsernameForUserIdAndUsername(userId, username, options) {
+    let displayUsername = Utils.displayUsername(userId, options);
+    if (displayUsername && displayUsername.trim() !== '') {
+        return displayUsername;
+    }
+    return username;
 }
 
 function renderFormattedText(value, options) {
@@ -26,7 +30,7 @@ function renderFormattedText(value, options) {
 }
 
 function renderJoinChannelMessage(post, options) {
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
 
     return (
         <FormattedMessage
@@ -38,7 +42,7 @@ function renderJoinChannelMessage(post, options) {
 }
 
 function renderLeaveChannelMessage(post, options) {
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
 
     return (
         <FormattedMessage
@@ -50,8 +54,8 @@ function renderLeaveChannelMessage(post, options) {
 }
 
 function renderAddToChannelMessage(post, options) {
-    const username = renderUsernameForUserId(post.user_id, options);
-    const addedUsername = renderUsernameForUserId(post.props.addedUserId, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
+    const addedUsername = renderUsernameForUserIdAndUsername(post.props.addedUserId, post.props.addedUsername, options);
 
     return (
         <FormattedMessage
@@ -66,7 +70,7 @@ function renderAddToChannelMessage(post, options) {
 }
 
 function renderRemoveFromChannelMessage(post, options) {
-    const removedUsername = renderUsernameForUserId(post.props.removedUserId, options);
+    const removedUsername = renderUsernameForUserIdAndUsername(post.props.removedUserId, post.props.removedUsername, options);
 
     return (
         <FormattedMessage
@@ -80,7 +84,7 @@ function renderRemoveFromChannelMessage(post, options) {
 }
 
 function renderJoinTeamMessage(post, options) {
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
 
     return (
         <FormattedMessage
@@ -92,7 +96,7 @@ function renderJoinTeamMessage(post, options) {
 }
 
 function renderLeaveTeamMessage(post, options) {
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
 
     return (
         <FormattedMessage
@@ -104,8 +108,8 @@ function renderLeaveTeamMessage(post, options) {
 }
 
 function renderAddToTeamMessage(post, options) {
-    const username = renderUsernameForUserId(post.user_id, options);
-    const addedUsername = renderUsernameForUserId(post.props.addedUserId, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
+    const addedUsername = renderUsernameForUserIdAndUsername(post.props.addedUserId, post.props.addedUsername, options);
 
     return (
         <FormattedMessage
@@ -120,7 +124,7 @@ function renderAddToTeamMessage(post, options) {
 }
 
 function renderRemoveFromTeamMessage(post, options) {
-    const removedUsername = renderUsernameForUserId(post.user_id, options);
+    const removedUsername = renderUsernameForUserIdAndUsername(post.user_id, post.props.removedUsername, options);
 
     return (
         <FormattedMessage
@@ -143,7 +147,7 @@ function renderHeaderChangeMessage(post, options) {
         singleline: true,
     };
 
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
     const oldHeader = post.props.old_header ? renderFormattedText(post.props.old_header, headerOptions) : null;
     const newHeader = post.props.new_header ? renderFormattedText(post.props.new_header, headerOptions) : null;
 
@@ -193,7 +197,7 @@ function renderDisplayNameChangeMessage(post, options) {
         return null;
     }
 
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
     const oldDisplayName = post.props.old_displayname;
     const newDisplayName = post.props.new_displayname;
 
@@ -215,7 +219,7 @@ function renderPurposeChangeMessage(post, options) {
         return null;
     }
 
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
     const oldPurpose = post.props.old_purpose;
     const newPurpose = post.props.new_purpose;
 
@@ -265,7 +269,7 @@ function renderChannelDeletedMessage(post, options) {
         return null;
     }
 
-    const username = renderUsernameForUserId(post.user_id, options);
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
 
     return (
         <FormattedMessage
