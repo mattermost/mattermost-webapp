@@ -62,6 +62,11 @@ export default class EditPostModal extends React.PureComponent {
              * What to show in the title of the modal as "Edit {title}"
              */
             title: PropTypes.string,
+
+            /**
+             * Whether or not the modal was open from RHS
+             */
+            isRHS: PropTypes.bool,
         }).isRequired,
 
         actions: PropTypes.shape({
@@ -160,7 +165,7 @@ export default class EditPostModal extends React.PureComponent {
         const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide(false);
-            GlobalActions.showDeletePostModal(Selectors.getPost(getState(), editingPost.postId), editingPost.commentsCount);
+            GlobalActions.showDeletePostModal(Selectors.getPost(getState(), editingPost.postId), editingPost.commentsCount, editingPost.isRHS);
             return;
         }
 
