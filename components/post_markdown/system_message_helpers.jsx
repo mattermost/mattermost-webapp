@@ -18,11 +18,11 @@ function renderUsername(value, options) {
 }
 
 function renderUsernameForUserIdAndUsername(userId, username, options) {
-    let displayUsername = Utils.displayUsername(userId, options);
+    const displayUsername = Utils.displayUsername(userId, options);
     if (displayUsername && displayUsername.trim() !== '') {
-        return displayUsername;
+        return renderUsername(displayUsername);
     }
-    return username;
+    return renderUsername(username);
 }
 
 function renderFormattedText(value, options) {
