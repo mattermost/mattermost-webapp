@@ -36,7 +36,7 @@ export default class PostAttachment extends React.PureComponent {
 
         this.state = {
             collapsed: true,
-        }
+        };
     }
 
     toggleCollapseState(e) {
@@ -276,15 +276,19 @@ export default class PostAttachment extends React.PureComponent {
         if (data.text) {
             const shouldCollapse = this.shouldCollapse();
             const collapsed = shouldCollapse && this.state.collapsed;
-            const textHTML = collapsed ? this.getCollapsedTextHTML() : TextFormatting.formatText(this.props.attachment.text || '');    
+            const textHTML = collapsed ? this.getCollapsedTextHTML() : TextFormatting.formatText(this.props.attachment.text || '');
             const collapseMessage = collapsed ? localizeMessage('post_attachment.more', 'Show more...') : localizeMessage('post_attachment.collapse', 'Show less...');
 
             text = (
                 <div className='attachment__text'>
                     {messageHtmlToComponent(textHTML, false)}
-                    {shouldCollapse && 
+                    {shouldCollapse &&
                         <div>
-                            <a class="attachment-link-more" href="#" onClick={this.toggleCollapseState}>
+                            <a 
+                                className="attachment-link-more" 
+                                href="#" 
+                                onClick={this.toggleCollapseState}
+                            >
                                 {collapseMessage}
                             </a>
                         </div>
