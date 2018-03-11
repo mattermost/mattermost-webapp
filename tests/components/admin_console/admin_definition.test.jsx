@@ -63,7 +63,6 @@ const settingButton = yup.object().shape({
 const settingLanguage = yup.object().shape({
     type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_LANGUAGE]),
     ...fieldShape,
-    multiple: yup.boolean(),
 });
 
 const settingMultiLanguage = yup.object().shape({
