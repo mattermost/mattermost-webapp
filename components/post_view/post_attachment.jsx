@@ -30,7 +30,6 @@ export default class PostAttachment extends React.PureComponent {
         this.handleActionButtonClick = this.handleActionButtonClick.bind(this);
         this.getActionView = this.getActionView.bind(this);
         this.getFieldsTable = this.getFieldsTable.bind(this);
-        this.getInitState = this.getInitState.bind(this);
         this.shouldCollapse = this.shouldCollapse.bind(this);
         this.toggleCollapseState = this.toggleCollapseState.bind(this);
 
