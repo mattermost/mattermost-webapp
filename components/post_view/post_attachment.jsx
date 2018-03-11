@@ -27,18 +27,12 @@ export default class PostAttachment extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleActionButtonClick = this.handleActionButtonClick.bind(this);
-        this.getActionView = this.getActionView.bind(this);
-        this.getFieldsTable = this.getFieldsTable.bind(this);
-        this.shouldCollapse = this.shouldCollapse.bind(this);
-        this.toggleCollapseState = this.toggleCollapseState.bind(this);
-
         this.state = {
             collapsed: true,
         };
     }
 
-    toggleCollapseState(e) {
+    toggleCollapseState = (e) => {
         e.preventDefault();
         this.setState((prevState) => {
             return {
@@ -98,7 +92,7 @@ export default class PostAttachment extends React.PureComponent {
         );
     }
 
-    handleActionButtonClick(e) {
+    handleActionButtonClick = (e) => {
         e.preventDefault();
         const actionId = e.currentTarget.getAttribute('data-action-id');
         PostActions.doPostAction(this.props.postId, actionId);
