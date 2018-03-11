@@ -284,8 +284,8 @@ export default class PostAttachment extends React.PureComponent {
                     {shouldCollapse &&
                         <div>
                             <a 
-                                className="attachment-link-more" 
-                                href="#" 
+                                className="attachment-link-more"
+                                href="#"
                                 onClick={this.toggleCollapseState}
                             >
                                 {collapseMessage}
