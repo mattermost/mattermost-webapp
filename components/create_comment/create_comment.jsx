@@ -21,6 +21,7 @@ import * as Utils from 'utils/utils.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
+const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -285,8 +286,10 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        if (this.refs.textbox.state.preview) {
-            this.refs.textbox.hidePreview();
+        if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
+            if (this.refs.textbox.state.preview) {
+                this.refs.textbox.hidePreview();
+            }
         }
 
         try {
