@@ -294,6 +294,7 @@ export default class CreateComment extends React.PureComponent {
             });
         } catch (err) {
             this.setState({serverError: err.message});
+            return;
         }
 
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
