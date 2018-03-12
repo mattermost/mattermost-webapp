@@ -106,6 +106,14 @@ b, strong {
     .heading {
         font-size: 16px;
     }
+
+    .channel-header__favorites {
+        padding-top: 0;
+    }
+
+    .header-dropdown__icon {
+        top: 0;
+    }
 }
 
 .channel-header .channel-header__icon {
@@ -203,6 +211,15 @@ b, strong {
         width: 16px;
         top: 0;
 
+        &.status-edit {
+            .fa {
+                &:before {
+                    position: relative;
+                    top: -2px;
+                }
+            }
+        }
+
         &.status--group {
             width: 16px;
             height: 16px;
@@ -219,16 +236,16 @@ b, strong {
     }
 
     .status-wrapper .status {
-        top: 24px;
-        height: 16px;
+        top: 26px;
+        height: 12px;
         right: -12px;
-        width: 16px;
+        width: 12px;
 
         svg {
             top: 0;
             left: 0;
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
         }
     }
 
@@ -299,7 +316,8 @@ b, strong {
     width: 32px;
     height: 32px;
     font-weight: 300;
-    text-transform: capitalize; 
+    text-transform: capitalize;
+    margin-left: 16px;
 
     &:before {
         border-top-right-radius: 4px;
@@ -310,6 +328,7 @@ b, strong {
         width: 100%;
         height: 100%;
         opacity: 0.5;
+        margin-left: 0;
     }
 
     &.unread:before {
@@ -356,7 +375,8 @@ b, strong {
 
 //POSTS
 .post {
-	padding: 4px 16px;
+	padding: 16px;
+    padding-bottom: 4px;
 
     p,a,li,span,h1,h2,h3,h4,h5,h6 {
         line-height: 1.44em;
@@ -366,14 +386,8 @@ b, strong {
 		padding: 0 16px;
 	}
 
-    .flag-icon__container {
-        margin: 0;
-        top: 2px;
-        left: 8px;
-
-        svg {
-            height: 12px;
-        }
+    .post__permalink {
+        line-height: 16px;
     }
 
 	.post__img {
@@ -438,8 +452,13 @@ b, strong {
 
 	.post__header {
         display: flex;
+        align-items: center;
 		padding-left: 4px;
-        margin-bottom: 0;
+        margin-bottom: 4px;
+
+        > .col {
+            max-height: 16px;
+        }
 
         .col.col__reply {
             display: flex;
@@ -503,22 +522,53 @@ b, strong {
 
         .col__name .user-popover {
             font-weight: 800;
-            line-height: 1.5em;
+            line-height: 16px;
+        }
+
+        .post__header--info {
+            line-height: 16px;
+
+            span.icon {
+                display: flex;
+                height: 16px;
+            }
+
+            .flag-icon__container {
+                margin: 0;
+                top: 1px;
+                left: 8px;
+
+                svg {
+                    height: 12px;
+                }
+            }
         }
 	}
 
 	.post__time {
-		font-size: 10px;
+		font-size: 12px;
 	}
 
     .post__content {
         padding-left: 0;
     }
+
+    .status-wrapper .status {
+        border-radius: 50%;
+        bottom: -8px;
+        right: -4px;
+        height: 12px;
+        width: 12px;
+
+        svg {
+            max-height: 8px;
+        }
+    }
 }
 
 .post .post__dropdown:after {
     content: '...';
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 24px;
@@ -629,6 +679,7 @@ b, strong {
     text-align: left;
     align-items: flex-start;
     margin: 16px 0;
+    margin-bottom: 8px;
     padding: 0 16px;
 
     hr.separator__hr {
@@ -653,13 +704,53 @@ b, strong {
     }
 }
 
-.new-separator {
+.date-separator + .new-separator {
     margin-top: -16px;
 }
 
 .new-separator {
     &.hovered--after:before, &.hovered--before:after {
         display: none;
+    }
+}
+
+.suggestion-list {
+
+    .suggestion-list__divider {
+        line-height: 20px;
+        margin: 4px 0 4px 4px;
+
+        &:first-child {
+            margin-top: 4px;
+        }
+
+        > span {
+            font-size: 12px;
+            line-height: 20px;
+        }
+    }
+
+    .mentions__name {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        padding: 8px;
+
+        .icon, .icon.icon--globe {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.2;
+            margin: 0 8px 0 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
     }
 }
 
