@@ -6,23 +6,26 @@ import {connect} from 'react-redux';
 import {addChannelMember} from 'mattermost-redux/actions/channels';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import PostAddChannelMember from './post_add_channel_member.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const currentChannelId = getCurrentChannelId(state);
-    const channel = getChannel(state, currentChannelId);
+    const post = getPost(state, ownProps.postId) || {};
     let channelType = '';
-    if (channel && channel.type) {
-        channelType = channel.type;
+    if (post && post.channel_id) {
+        const channel = getChannel(state, post.channel_id);
+        if (channel && channel.type) {
+            channelType = channel.type;
+        }
     }
 
     return {
         ...ownProps,
         channelType,
         currentUser: getCurrentUser(state),
+        post,
     };
 }
 
@@ -30,7 +33,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addChannelMember,
-            getPost,
             removePost,
         }, dispatch),
     };
