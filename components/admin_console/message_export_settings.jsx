@@ -74,7 +74,6 @@ export default class MessageExportSettings extends AdminSettings {
 
         // if the export format is globalrelay, the user needs to set some additional parameters
         let globalRelaySettings;
-        let dropdownHelpText;
         if (this.state.exportFormat === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
             const globalRelayCustomerType = (
                 <RadioSetting
@@ -183,21 +182,14 @@ export default class MessageExportSettings extends AdminSettings {
                     {globalRelayEmail}
                 </SettingsGroup>
             );
-
-            dropdownHelpText = (
-                <FormattedMessage
-                    id='admin.complianceExport.exportFormat.globalrelay.description'
-                    defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address.'
-                />
-            );
-        } else {
-            dropdownHelpText = (
-                <FormattedHTMLMessage
-                    id='admin.complianceExport.exportFormat.actiance.description'
-                    defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the "exports" subdirectory of the configured <a href="/admin_console/files/storage">Local Storage Directory</a>.'
-                />
-            );
         }
+
+        const dropdownHelpText = (
+            <FormattedHTMLMessage
+                id='admin.complianceExport.exportFormat.description'
+                defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the "exports" subdirectory of the configured <a href="/admin_console/files/storage">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address.'
+            />
+        );
 
         return (
             <SettingsGroup>
