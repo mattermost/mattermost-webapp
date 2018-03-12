@@ -192,6 +192,8 @@ export default class AddUsersToTeam extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
+        const status = UserStore.getStatus(option.id);
+
         return (
             <div
                 key={option.id}
@@ -201,6 +203,7 @@ export default class AddUsersToTeam extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                    status={status}
                     width='32'
                     height='32'
                 />
