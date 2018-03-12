@@ -95,8 +95,8 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         disabled={true}
         helpText={
           <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>."
-            id="admin.complianceExport.exportFormat.actiance.description"
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
@@ -266,9 +266,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <DropdownSetting
         disabled={true}
         helpText={
-          <FormattedMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address."
-            id="admin.complianceExport.exportFormat.globalrelay.description"
+          <FormattedHTMLMessage
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
@@ -553,8 +553,8 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         disabled={false}
         helpText={
           <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>."
-            id="admin.complianceExport.exportFormat.actiance.description"
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
@@ -724,9 +724,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <DropdownSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address."
-            id="admin.complianceExport.exportFormat.globalrelay.description"
+          <FormattedHTMLMessage
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
