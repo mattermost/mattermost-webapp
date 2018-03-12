@@ -536,8 +536,9 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                // draft.uploadsInProgress.splice(index, 1);
-                this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance().refs.FileUpload) {
+                    this.refs.fileUpload.getWrappedInstance().refs.FileUpload.getWrappedInstance().cancelUpload(id);
+                }
             }
         } else {
             const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
