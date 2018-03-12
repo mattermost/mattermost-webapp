@@ -278,8 +278,8 @@ export const UserStatuses = {
 export const UserStatusesWeight = {
     online: 0,
     away: 1,
-    offline: 2,
-    dnd: 3,
+    dnd: 2,
+    offline: 3,
 };
 
 export const UserSearchOptions = {
