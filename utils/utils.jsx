@@ -1117,9 +1117,9 @@ export function displayUsernameForUser(user) {
     if (user) {
         const nameFormat = config.TeammateNameDisplay;
         let name = user.username;
-        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname !== '') {
+        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname.trim().length > 0) {
             name = user.nickname;
-        } else if ((user.first_name || user.last_name) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
+        } else if (((user.first_name && user.first_name.trim().length > 0) || (user.last_name && user.last_name.trim().length > 0)) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
             name = getFullName(user);
         }
 
