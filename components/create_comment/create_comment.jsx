@@ -255,6 +255,10 @@ export default class CreateComment extends React.PureComponent {
         }
 
         await this.doSubmit(e);
+
+        const fasterThanHumanWillClick = 150;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.focusTextbox(forceFocus);
     }
 
     doSubmit = async (e) => {
@@ -281,9 +285,9 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-        this.focusTextbox(forceFocus);
+        if (this.refs.textbox.state.preview) {
+            this.refs.textbox.hidePreview();
+        }
 
         try {
             await this.props.onSubmit();
