@@ -17,20 +17,9 @@ jest.mock('actions/global_actions.jsx', () => {
 });
 
 describe('components/post_view/PostAddChannelMember', () => {
-    const team = {
-        id: 'team_id',
-        name: 'team_name',
-    };
-    const channel = {
-        id: 'channel_id',
-        name: 'channel_name',
-        type: 'O',
-    };
-
     const requiredProps = {
         currentUser: {id: 'current_user_id', username: 'current_username'},
-        team,
-        channel,
+        channelType: 'O',
         postId: 'post_id_1',
         userIds: ['user_id_1'],
         usernames: ['username_1'],
@@ -48,15 +37,9 @@ describe('components/post_view/PostAddChannelMember', () => {
     });
 
     test('should match snapshot, private channel', () => {
-        const privateChannel = {
-            id: 'channel_id',
-            name: 'channel_name',
-            type: 'P',
-        };
-
         const props = {
             ...requiredProps,
-            channel: privateChannel,
+            channelType: 'P',
         };
 
         const wrapper = shallow(<PostAddChannelMember {...props}/>);
@@ -87,9 +70,9 @@ describe('components/post_view/PostAddChannelMember', () => {
 
         expect(actions.getPost).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
-        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0]);
+        expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0]);
         expect(sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
-        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], channel.id, post.root_id);
+        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], post.channel_id, post.root_id);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
     });

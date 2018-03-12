@@ -21,14 +21,9 @@ export default class PostAddChannelMember extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
 
         /*
-        * Current team
+        * Type of current channel
         */
-        team: PropTypes.object.isRequired,
-
-        /*
-        * Current channel
-        */
-        channel: PropTypes.object.isRequired,
+        channelType: PropTypes.string.isRequired,
 
         /*
         * post id of an ephemeral message
@@ -126,13 +121,13 @@ export default class PostAddChannelMember extends React.PureComponent {
     }
 
     render() {
-        const {channel, usernames} = this.props;
+        const {channelType, usernames} = this.props;
         let linkId;
         let linkText;
-        if (channel.type === Constants.PRIVATE_CHANNEL) {
+        if (channelType === Constants.PRIVATE_CHANNEL) {
             linkId = 'post_body.check_for_out_of_channel_mentions.link.private';
             linkText = 'add them to this private channel';
-        } else if (channel.type === Constants.OPEN_CHANNEL) {
+        } else if (channelType === Constants.OPEN_CHANNEL) {
             linkId = 'post_body.check_for_out_of_channel_mentions.link.public';
             linkText = 'add them to the channel';
         }
