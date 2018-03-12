@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {
+    getChannel,
     createDirectChannel,
     getChannelAndMyMember,
     getChannelStats,
@@ -12,7 +13,6 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
-import {getChannel} from 'mattermost-redux/actions/channels';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -140,7 +140,7 @@ export async function emitPostFocusEvent(postId, returnTo = '') {
         channel = channelData;
     }
 
-    if (channel.team_id !== teamId) {
+    if (channel.team_id && channel.team_id !== teamId) {
         browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
         return;
     }
