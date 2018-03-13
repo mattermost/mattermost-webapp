@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+import {debounce} from 'underscore';
 
 import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
@@ -117,6 +118,7 @@ export default class PostList extends React.PureComponent {
             isDoingInitialLoad: true,
             isScrolling: false,
             lastViewed: props.lastViewedAt,
+            loadedMorePosts: true,
         };
     }
 
@@ -246,6 +248,7 @@ export default class PostList extends React.PureComponent {
             // New posts added at the top, maintain scroll position
             if (this.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
+                this.setLoadedMorePosts();
             }
         }
     }
@@ -310,6 +313,10 @@ export default class PostList extends React.PureComponent {
         }
 
         return this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >= this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN;
+    }
+
+    setLoadedMorePosts = () => {
+        this.setState({loadedMorePosts: true});
     }
 
     handleWindowResize = () => {
@@ -380,6 +387,17 @@ export default class PostList extends React.PureComponent {
         });
     }
 
+    shouldInfiniteScroll = () => {
+        return this.state.loadedMorePosts === true && this.refs.postlist.scrollTop <= 500;
+    }
+
+    infiniteScroll = debounce(() => {
+        if (this.shouldInfiniteScroll()) {
+            this.loadMorePosts();
+            this.setState({loadedMorePosts: false});
+        }
+    }, 250);
+
     handleScroll = () => {
         // Only count as user scroll if we've already performed our first load scroll
         this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
@@ -407,6 +425,10 @@ export default class PostList extends React.PureComponent {
                 unViewedCount: 0,
                 isScrolling: false,
             });
+        }
+
+        if (this.shouldInfiniteScroll()) {
+            this.infiniteScroll();
         }
 
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
@@ -570,16 +592,15 @@ export default class PostList extends React.PureComponent {
             topRow = <LoadingScreen style={{height: '0px'}}/>;
         } else {
             topRow = (
-                <button
+                <div
                     ref='loadmoretop'
-                    className='more-messages-text theme style--none color--link'
-                    onClick={this.loadMorePosts}
+                    className='more-messages-text theme style--none'
                 >
                     <FormattedMessage
-                        id='posts_view.loadMore'
-                        defaultMessage='Load more messages'
+                        id='posts_view.loadingMore'
+                        defaultMessage='Loading more messages...'
                     />
-                </button>
+                </div>
             );
         }
 
