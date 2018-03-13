@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {showMentions, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
@@ -20,7 +20,7 @@ function mapStateToProps(state) {
     const rhsState = getRhsState(state);
 
     const enableTutorial = config.EnableTutorial === 'true';
-    const tutorialStep = parseInt(get(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
+    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
 
     const isLicensed = license.IsLicensed === 'true';
     const appDownloadLink = config.AppDownloadLink;
