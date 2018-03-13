@@ -341,6 +341,9 @@ export default class CreateComment extends React.PureComponent {
 
         if (!Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
+            if (this.refs.textbox) {
+                this.refs.textbox.blur();
+            }
             this.props.onEditLatestPost();
         }
 
