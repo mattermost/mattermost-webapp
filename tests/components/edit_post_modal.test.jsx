@@ -340,9 +340,9 @@ describe('components/EditPostModal', () => {
         instance.handleEdit = jest.fn();
         instance.handleKeyDown({keyCode: 1, ctrlKey: true});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.ENTER, ctrlKey: false});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.ENTER, ctrlKey: true});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true});
         expect(instance.handleEdit).toBeCalled();
 
         wrapper = shallow(createEditPost({ctrlSend: false}));
@@ -350,9 +350,9 @@ describe('components/EditPostModal', () => {
         instance.handleEdit = jest.fn();
         instance.handleKeyDown({keyCode: 1, ctrlKey: true});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.ENTER, ctrlKey: false});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.ENTER, ctrlKey: true});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true});
         expect(instance.handleEdit).not.toBeCalled();
     });
 
@@ -365,10 +365,10 @@ describe('components/EditPostModal', () => {
         instance.handleEditKeyPress({which: 1, ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
         expect(instance.handleEdit).not.toBeCalled();
         expect(preventDefault).not.toBeCalled();
-        instance.handleEditKeyPress({which: Constants.KeyCodes.ENTER, ctrlKey: false, preventDefault, shiftKey: false, altKey: false});
+        instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: false, preventDefault, shiftKey: false, altKey: false});
         expect(instance.handleEdit).not.toBeCalled();
         expect(preventDefault).not.toBeCalled();
-        instance.handleEditKeyPress({which: Constants.KeyCodes.ENTER, ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
+        instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
         expect(instance.handleEdit).toBeCalled();
         expect(preventDefault).toBeCalled();
 
@@ -380,13 +380,13 @@ describe('components/EditPostModal', () => {
         instance.handleEditKeyPress({which: 1, ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
         expect(instance.handleEdit).not.toBeCalled();
         expect(preventDefault).not.toBeCalled();
-        instance.handleEditKeyPress({which: Constants.KeyCodes.ENTER, ctrlKey: true, preventDefault, shiftKey: true, altKey: false});
+        instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: true, preventDefault, shiftKey: true, altKey: false});
         expect(instance.handleEdit).not.toBeCalled();
         expect(preventDefault).not.toBeCalled();
-        instance.handleEditKeyPress({which: Constants.KeyCodes.ENTER, ctrlKey: true, preventDefault, shiftKey: false, altKey: true});
+        instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: true, preventDefault, shiftKey: false, altKey: true});
         expect(instance.handleEdit).not.toBeCalled();
         expect(preventDefault).not.toBeCalled();
-        instance.handleEditKeyPress({which: Constants.KeyCodes.ENTER, ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
+        instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
         expect(instance.handleEdit).toBeCalled();
         expect(preventDefault).toBeCalled();
     });

@@ -87,6 +87,8 @@ export default class SecurityTab extends React.Component {
         // Whether or not the experimental authentication transfer is enabled.
         experimentalEnableAuthenticationTransfer: PropTypes.bool,
 
+        passwordConfig: PropTypes.object,
+
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
 
@@ -172,7 +174,7 @@ export default class SecurityTab extends React.Component {
             return;
         }
 
-        const passwordErr = Utils.isValidPassword(newPassword, Utils.getPasswordConfig());
+        const passwordErr = Utils.isValidPassword(newPassword, this.props.passwordConfig);
         if (passwordErr !== '') {
             this.setState({
                 passwordError: passwordErr,
@@ -1089,7 +1091,7 @@ export default class SecurityTab extends React.Component {
     }
 
     saveTokenKeyPress = (e) => {
-        if (e.which === Constants.KeyCodes.ENTER) {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.confirmCreateToken();
         }
     }

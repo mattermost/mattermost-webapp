@@ -420,7 +420,7 @@ export default class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
-            if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
+            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.textbox).blur();
                 this.handleSubmit(e);
@@ -536,8 +536,9 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                // draft.uploadsInProgress.splice(index, 1);
-                this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance().refs.FileUpload) {
+                    this.refs.fileUpload.getWrappedInstance().refs.FileUpload.getWrappedInstance().cancelUpload(id);
+                }
             }
         } else {
             const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
@@ -557,8 +558,7 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        const FORWARD_SLASH_KEY = ['/', 191];
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, FORWARD_SLASH_KEY)) {
+        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -591,9 +591,9 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && ctrlOrMetaKeyPressed;
-        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
-        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
+        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
         if (ctrlEnterKeyCombo) {
@@ -602,9 +602,9 @@ export default class CreatePost extends React.Component {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
             this.replyToLastPost(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.UP) {
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
             this.loadPrevMessage(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.DOWN) {
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
         }
     }

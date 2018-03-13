@@ -1572,11 +1572,11 @@
   "error.oauth_missing_code.office365": "For {link} make sure the administrator of your Microsoft organization has enabled the Mattermost app.",
   "error.oauth_missing_code.office365.link": "Office 365",
   "error.oauth_missing_code.title": "Mattermost needs your help",
+  "error_bar.apiv3_enabled": "API version 3 is deprecated and scheduled for removal. <a href=\"https://api.mattermost.com/#tag/APIv3-Deprecation\" target=\"_blank\">Learn how to migrate to APIv4</a>.",
   "error_bar.expired": "Enterprise license is expired and some features may be disabled. <a href='{link}' target='_blank'>Please renew</a>.",
   "error_bar.expiring": "Enterprise license expires on {date}. <a href='{link}' target='_blank'>Please renew</a>.",
   "error_bar.past_grace": "Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.",
   "error_bar.preview_mode": "Preview Mode: Email notifications have not been configured",
-  "error_bar.apiv3_enabled": "API version 3 is deprecated and scheduled for removal. <a href=\"https://api.mattermost.com/#tag/APIv3-Deprecation\" target=\"_blank\">Learn how to migrate to APIv4</a>.",
   "error_bar.site_url": "Please configure your {docsLink} in the {link}.",
   "error_bar.site_url.docsLink": "Site URL",
   "error_bar.site_url.link": "System Console",
@@ -2868,7 +2868,7 @@
   "user.settings.push_notification.allActivityOnline": "For all activity when online, away or offline",
   "user.settings.push_notification.away": "Away or offline",
   "user.settings.push_notification.disabled": "Disabled by System Administrator",
-  "user.settings.push_notification.disabled_long": "Push notifications for mobile devices have been disabled by your System Administrator.",
+  "user.settings.push_notification.disabled_long": "Push Notifications are not enabled. Contact your System Administrator.",
   "user.settings.push_notification.info": "Notification alerts are pushed to your mobile device when there is activity in Mattermost.",
   "user.settings.push_notification.off": "Off",
   "user.settings.push_notification.offline": "Offline",
@@ -3015,5 +3015,6 @@
   "webrtc.unmute_audio": "Unmute microphone",
   "webrtc.unpause_video": "Turn on camera",
   "webrtc.unsupported": "{username} client does not support video calls.",
-  "youtube_video.notFound": "Video not found"
+  "youtube_video.notFound": "Video not found",
+  "katex.error": "Error: Invalid Latex code"
 }

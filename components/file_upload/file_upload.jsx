@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
@@ -17,6 +17,7 @@ import {
 import {
     clearFileInput,
     cmdOrCtrlPressed,
+    isKeyPressed,
     generateId,
     isFileTransfer,
     localizeMessage,
@@ -46,7 +47,7 @@ const holders = defineMessages({
 
 const OVERLAY_TIMEOUT = 500;
 
-class FileUpload extends React.PureComponent {
+class FileUpload extends PureComponent {
     static propTypes = {
 
         /**
@@ -391,7 +392,7 @@ class FileUpload extends React.PureComponent {
     }
 
     keyUpload = (e) => {
-        if (cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
+        if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
             if (!this.props.canUploadFiles) {

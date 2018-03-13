@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {
+    getChannel,
     createDirectChannel,
     getChannelAndMyMember,
     getChannelStats,
@@ -14,6 +15,7 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -118,22 +120,38 @@ export function emitCloseRightHandSide() {
 
 export async function emitPostFocusEvent(postId, returnTo = '') {
     loadChannelsForCurrentUser();
-    const {data} = await getPostThread(postId)(dispatch, getState);
+    const {data} = await dispatch(getPostThread(postId));
 
-    if (data) {
-        const channelId = data.posts[data.order[0]].channel_id;
-        const channel = ChannelStore.getChannelById(channelId);
-
-        if (channel && channel.type === Constants.DM_CHANNEL) {
-            loadNewDMIfNeeded(channel.id);
-        } else if (channel && channel.type === Constants.GM_CHANNEL) {
-            loadNewGMIfNeeded(channel.id);
-        }
-
-        await doFocusPost(channelId, postId, data);
-    } else {
+    if (!data) {
         browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+        return;
     }
+
+    const channelId = data.posts[data.order[0]].channel_id;
+    let channel = getState().entities.channels.channels[channelId];
+    const teamId = getCurrentTeamId(getState());
+
+    if (!channel) {
+        const {data: channelData} = await dispatch(getChannel(channelId));
+        if (!channelData) {
+            browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+            return;
+        }
+        channel = channelData;
+    }
+
+    if (channel.team_id && channel.team_id !== teamId) {
+        browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+        return;
+    }
+
+    if (channel && channel.type === Constants.DM_CHANNEL) {
+        loadNewDMIfNeeded(channel.id);
+    } else if (channel && channel.type === Constants.GM_CHANNEL) {
+        loadNewGMIfNeeded(channel.id);
+    }
+
+    await doFocusPost(channelId, postId, data);
 }
 
 export function emitLeaveTeam() {
@@ -168,10 +186,11 @@ export function toggleShortcutsModal() {
     });
 }
 
-export function showDeletePostModal(post, commentCount = 0) {
+export function showDeletePostModal(post, commentCount = 0, isRHS) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_DELETE_POST_MODAL,
         value: true,
+        isRHS,
         post,
         commentCount,
     });

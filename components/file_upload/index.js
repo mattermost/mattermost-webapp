@@ -23,4 +23,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(FileUpload);
+export default connect(mapStateToProps, null, null, {withRef: true})(FileUpload);

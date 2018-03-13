@@ -194,8 +194,6 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        this.initialScroll();
-
         // Scroll to focused post on first load
         const focusedPost = this.refs[this.props.focusedPostId];
         if (focusedPost && this.props.posts) {
@@ -207,6 +205,16 @@ export default class PostList extends React.PureComponent {
             } else if (this.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
             }
+            return;
+        }
+
+        const didInitialScroll = this.initialScroll();
+
+        if (posts.length >= POSTS_PER_PAGE) {
+            this.hasScrolledToNewMessageSeparator = true;
+        }
+
+        if (didInitialScroll) {
             return;
         }
 
@@ -242,28 +250,35 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    // Scroll to new message indicator or bottom on first load
+    // Scroll to new message indicator or bottom on first load. Returns true
+    // if we just scrolled for the initial load.
     initialScroll = () => {
+        if (this.hasScrolledToNewMessageSeparator) {
+            // Already scrolled to new messages indicator
+            return false;
+        }
+
         const postList = this.refs.postlist;
         const posts = this.props.posts;
-        if (this.hasScrolledToNewMessageSeparator || !postList || !posts) {
-            return;
+        if (!postList || !posts) {
+            // Not able to do initial scroll yet
+            return false;
         }
 
         const messageSeparator = this.refs.newMessageSeparator;
         if (messageSeparator) {
+            // Scroll to new message indicator since we have unread posts
             messageSeparator.scrollIntoView();
             if (!this.checkBottom()) {
                 this.setUnreadsBelow(posts, this.props.currentUserId);
             }
-        } else {
-            postList.scrollTop = postList.scrollHeight;
-            this.atBottom = true;
+            return true;
         }
 
-        if (posts.length >= POSTS_PER_PAGE) {
-            this.hasScrolledToNewMessageSeparator = true;
-        }
+        // Scroll to bottom since we don't have unread posts
+        postList.scrollTop = postList.scrollHeight;
+        this.atBottom = true;
+        return true;
     }
 
     setUnreadsBelow = (posts, currentUserId) => {

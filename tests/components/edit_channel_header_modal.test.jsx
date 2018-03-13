@@ -235,7 +235,8 @@ describe('components/EditChannelHeaderModal', () => {
 
         wrapper.find(Textbox).simulate('keypress', {
             preventDefault: emptyFunction,
-            which: KeyCodes.ENTER,
+            key: KeyCodes.ENTER[0],
+            which: KeyCodes.ENTER[1],
             shiftKey: false,
             altKey: false,
             ctrlKey: true,
@@ -258,7 +259,8 @@ describe('components/EditChannelHeaderModal', () => {
 
         wrapper.find(Textbox).simulate('keypress', {
             preventDefault: emptyFunction,
-            which: KeyCodes.ENTER,
+            key: KeyCodes.ENTER[0],
+            which: KeyCodes.ENTER[1],
             shiftKey: false,
             altKey: false,
             ctrlKey: false,
@@ -281,8 +283,9 @@ describe('components/EditChannelHeaderModal', () => {
 
         wrapper.find(Textbox).simulate('keydown', {
             preventDefault: emptyFunction,
-            keyCode: KeyCodes.ENTER,
-            which: KeyCodes.ENTER,
+            key: KeyCodes.ENTER[0],
+            keyCode: KeyCodes.ENTER[1],
+            which: KeyCodes.ENTER[1],
             shiftKey: false,
             altKey: false,
             ctrlKey: true,

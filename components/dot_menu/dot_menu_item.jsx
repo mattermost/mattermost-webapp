@@ -27,7 +27,7 @@ export default function DotMenuItem(props) {
 
     function handleDeletePost(e) {
         e.preventDefault();
-        showDeletePostModal(props.post, props.commentCount);
+        showDeletePostModal(props.post, props.commentCount, props.isRHS);
     }
 
     const attrib = {};
@@ -94,6 +94,7 @@ export default function DotMenuItem(props) {
 DotMenuItem.propTypes = {
     idPrefix: PropTypes.string.isRequired,
     idCount: PropTypes.number,
+    isRHS: PropTypes.bool,
     post: PropTypes.object,
     handleOnClick: PropTypes.func,
     commentCount: PropTypes.number,

@@ -21,6 +21,7 @@ export default class DotMenu extends Component {
         post: PropTypes.object.isRequired,
         commentCount: PropTypes.number,
         isFlagged: PropTypes.bool,
+        isRHS: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
 
@@ -58,6 +59,7 @@ export default class DotMenu extends Component {
         post: {},
         commentCount: 0,
         isFlagged: false,
+        isRHS: false,
     }
 
     constructor(props) {
@@ -179,6 +181,7 @@ export default class DotMenu extends Component {
             dotMenuDelete = (
                 <DotMenuItem
                     idPrefix={idPrefix + 'Delete'}
+                    isRHS={this.props.isRHS}
                     idCount={this.props.idCount}
                     post={this.props.post}
                     commentCount={type === 'Post' ? this.props.commentCount : 0}
@@ -191,6 +194,7 @@ export default class DotMenu extends Component {
             dotMenuEdit = (
                 <DotMenuEdit
                     idPrefix={idPrefix + 'Edit'}
+                    isRHS={this.props.isRHS}
                     idCount={this.props.idCount}
                     post={this.props.post}
                     type={type}

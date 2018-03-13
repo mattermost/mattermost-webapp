@@ -169,13 +169,15 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: false,
-            keyCode: Constants.KeyCodes.DOWN,
+            key: Constants.KeyCodes.DOWN[0],
+            keyCode: Constants.KeyCodes.DOWN[1],
         };
         const prevEvent = {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: false,
-            keyCode: Constants.KeyCodes.UP,
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
         };
 
         const wrapper = shallow(
@@ -255,13 +257,15 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: true,
-            keyCode: Constants.KeyCodes.DOWN,
+            key: Constants.KeyCodes.DOWN[0],
+            keyCode: Constants.KeyCodes.DOWN[1],
         };
         const prevEvent = {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: true,
-            keyCode: Constants.KeyCodes.UP,
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
         };
 
         const wrapper = shallow(
@@ -328,14 +332,16 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             altKey: false,
             shiftKey: true,
             ctrlKey: true,
-            keyCode: Constants.KeyCodes.K,
+            key: Constants.KeyCodes.K[0],
+            keyCode: Constants.KeyCodes.K[1],
         };
         const cmdShiftK = {
             preventDefault: jest.fn(),
             altKey: false,
             shiftKey: true,
             metaKey: true,
-            keyCode: Constants.KeyCodes.K,
+            key: Constants.KeyCodes.K[0],
+            keyCode: Constants.KeyCodes.K[1],
         };
 
         const wrapper = shallow(

@@ -12,16 +12,6 @@ jest.mock('actions/post_actions.jsx', () => ({
 }));
 
 describe('components/post_view/Reaction', () => {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.TeammateNameDisplay = 'username';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
     const post = {id: 'post_id_1'};
     const profiles = [{id: 'user_id_2', username: 'username_2'}];
     const reactions = [{user_id: 'user_id_2'}, {user_id: 'user_id_3'}];

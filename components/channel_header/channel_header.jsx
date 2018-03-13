@@ -183,7 +183,7 @@ export default class ChannelHeader extends React.Component {
 
     handleShortcut = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (e.keyCode === Constants.KeyCodes.M) {
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
                 this.searchMentions(e);
             }

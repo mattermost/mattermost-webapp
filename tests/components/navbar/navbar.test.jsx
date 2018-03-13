@@ -24,19 +24,6 @@ describe('components/navbar/Navbar', () => {
         currentUser: {id: 'current_user_id'},
     };
 
-    global.window.mm_license = {};
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'true';
-        global.window.mm_config.EnableWebrtc = 'true';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-        global.window.mm_config = {};
-    });
-
     test('should match snapshot, invalid state', () => {
         const wrapper = shallow(
             <Navbar {...baseProps}/>
@@ -55,7 +42,6 @@ describe('components/navbar/Navbar', () => {
     });
 
     test('should match snapshot, if not licensed', () => {
-        global.window.mm_license.IsLicensed = 'false';
         const wrapper = shallow(
             <Navbar
                 {...baseProps}
@@ -68,7 +54,6 @@ describe('components/navbar/Navbar', () => {
     });
 
     test('should match snapshot, if enabled WebRTC and DM channel', () => {
-        global.window.mm_config.EnableWebrtc = 'true';
         const wrapper = shallow(
             <Navbar
                 {...baseProps}
@@ -82,7 +67,6 @@ describe('components/navbar/Navbar', () => {
     });
 
     test('should match snapshot, if WebRTC is not enabled', () => {
-        global.window.mm_config.EnableWebrtc = 'false';
         const wrapper = shallow(
             <Navbar
                 {...baseProps}

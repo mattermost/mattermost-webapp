@@ -14,18 +14,6 @@ import NewChannelFlow, {
 } from 'components/new_channel_flow';
 
 describe('components/NewChannelFlow', () => {
-    global.window.mm_license = {};
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'false';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-        global.window.mm_config = {};
-    });
-
     const baseProps = {
         show: true,
         channelType: Constants.OPEN_CHANNEL,
