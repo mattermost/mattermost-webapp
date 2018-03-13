@@ -126,7 +126,7 @@ export default class DotMenu extends Component {
         const idPrefix = this.props.idPrefix + 'DotMenu';
 
         let dotMenuFlag = null;
-        if (isMobile) {
+        if (isMobile && !isSystemMessage) {
             dotMenuFlag = (
                 <DotMenuFlag
                     idPrefix={idPrefix + 'Flag'}
