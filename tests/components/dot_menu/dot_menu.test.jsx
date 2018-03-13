@@ -29,6 +29,7 @@ describe('components/dot_menu/DotMenu', () => {
         idCount: -1,
         post: {id: 'post_id_1', is_pinned: false},
         isFlagged: false,
+        isRHS: false,
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         actions: {

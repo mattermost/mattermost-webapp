@@ -14,6 +14,7 @@ describe('components/dot_menu/DotMenuEdit', () => {
         post: {id: 'post_id_1'},
         type: 'Post',
         commentsCount: 1,
+        isRHS: false,
         actions: {setEditingPost: jest.fn()},
     };
 
@@ -26,7 +27,7 @@ describe('components/dot_menu/DotMenuEdit', () => {
 
         wrapper.find('button').first().simulate('click');
         expect(baseProps.actions.setEditingPost).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.setEditingPost).toHaveBeenCalledWith('post_id_1', 1, 'post_textbox', 'Post');
+        expect(baseProps.actions.setEditingPost).toHaveBeenCalledWith('post_id_1', 1, 'post_textbox', 'Post', false);
 
         expect(wrapper.find('#center2').exists()).toBe(false);
         wrapper.setProps({idCount: 2});
@@ -43,7 +44,7 @@ describe('components/dot_menu/DotMenuEdit', () => {
 
         wrapper.find('button').first().simulate('click');
         expect(baseProps.actions.setEditingPost).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.setEditingPost).toHaveBeenCalledWith('post_id_1', 1, 'reply_textbox', 'Comment');
+        expect(baseProps.actions.setEditingPost).toHaveBeenCalledWith('post_id_1', 1, 'reply_textbox', 'Comment', false);
 
         expect(wrapper.find('#rhs3').exists()).toBe(false);
         wrapper.setProps({idCount: 3});

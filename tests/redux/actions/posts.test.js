@@ -23,6 +23,7 @@ describe('Actions.Posts', () => {
                 refocusId: 'test',
                 show: true,
                 title: 'title',
+                isRHS: false,
             }
         );
 
@@ -36,6 +37,7 @@ describe('Actions.Posts', () => {
                 refocusId: 'test2',
                 show: true,
                 title: 'title2',
+                isRHS: false,
             }
         );
     });
