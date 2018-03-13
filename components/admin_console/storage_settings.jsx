@@ -281,7 +281,7 @@ export default class StorageSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3EndpointDescription'
-                            defaultMessage='Hostname of your S3 Compatible Storage provider. Defaults to `s3.amazonaws.com`.'
+                            defaultMessage='Hostname of your S3 Compatible Storage provider. Defaults to "s3.amazonaws.com".'
                         />
                     }
                     value={this.state.amazonS3Endpoint}
