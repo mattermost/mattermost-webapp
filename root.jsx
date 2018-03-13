@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
+import PDFJS from 'pdfjs-dist';
 
 // Import our styles
 import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
@@ -17,6 +18,8 @@ import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root.jsx';
 
 const Root = makeAsyncComponent(loadRoot);
+
+PDFJS.disableWorker = true;
 
 // This is for anything that needs to be done for ALL react components.
 // This runs before we start to render anything.
