@@ -11,7 +11,7 @@ import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/p
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 
 import {
     clearCommentDraftUploads,
@@ -20,18 +20,16 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {makeGetCommentDraft} from 'selectors/rhs';
+import {getPostDraft} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
 
-    const getCommentDraft = makeGetCommentDraft(ownProps.rootId);
-
-    const draft = getCommentDraft(state);
-
+    const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
     const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
+
     const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
     const messageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT)(state);
 
