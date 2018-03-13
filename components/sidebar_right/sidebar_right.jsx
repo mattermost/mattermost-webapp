@@ -14,7 +14,7 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import RhsThread from 'components/rhs_thread';
-import SearchBox from 'components/search_bar';
+import SearchBar from 'components/search_bar';
 import SearchResults from 'components/search_results';
 
 export default class SidebarRight extends React.Component {
@@ -140,7 +140,7 @@ export default class SidebarRight extends React.Component {
 
         var searchForm = null;
         if (this.props.currentUser) {
-            searchForm = <SearchBox isFocus={this.props.searchVisible && Utils.isMobile()}/>;
+            searchForm = <SearchBar isFocus={this.props.searchVisible}/>;
         }
 
         const channel = this.props.channel;

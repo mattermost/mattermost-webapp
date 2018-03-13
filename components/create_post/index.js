@@ -28,7 +28,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {emitUserPostedEvent, postListScrollChange} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
-import {makeGetGlobalItem} from 'selectors/storage';
+import {getPostDraft} from 'selectors/rhs';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps} from 'utils/constants.jsx';
 import {canUploadFiles} from 'utils/file_utils';
@@ -39,11 +39,7 @@ function mapStateToProps() {
     return (state) => {
         const config = getConfig(state);
         const currentChannel = getCurrentChannel(state) || {};
-        const getDraft = makeGetGlobalItem(StoragePrefixes.DRAFT + currentChannel.id, {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        });
+        const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
         const post = getPost(state, recentPostIdInChannel);
         const getCommentCountForPost = makeGetCommentCountForPost();
@@ -63,7 +59,7 @@ function mapStateToProps() {
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
             messageInHistoryItem: makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST)(state),
-            draft: getDraft(state),
+            draft,
             recentPostIdInChannel,
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,

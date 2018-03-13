@@ -575,7 +575,7 @@ function handleReactionRemovedEvent(msg) {
 
 function handleChannelViewedEvent(msg) {
 // Useful for when multiple devices have the app open to different channels
-    if (ChannelStore.getCurrentId() !== msg.data.channel_id &&
+    if ((!window.isActive || ChannelStore.getCurrentId() !== msg.data.channel_id) &&
         UserStore.getCurrentId() === msg.broadcast.user_id) {
         // Mark previous and next channel as read
         ChannelStore.resetCounts([msg.data.channel_id]);

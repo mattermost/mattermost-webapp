@@ -255,7 +255,7 @@ var config = {
             children: true,
         }),
         new webpack.DefinePlugin({
-            COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString()),
+            COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
         }),
         extractCSS,
         extractSCSS,
