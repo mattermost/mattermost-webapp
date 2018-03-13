@@ -90,6 +90,11 @@ export default class MoreDirectChannels extends React.Component {
         if (props.currentChannelMembers) {
             for (let i = 0; i < props.currentChannelMembers.length; i++) {
                 const user = Object.assign({}, props.currentChannelMembers[i]);
+
+                if (user.id === props.currentUserId) {
+                    continue;
+                }
+
                 user.value = user.id;
                 user.label = '@' + user.username;
                 values.push(user);
