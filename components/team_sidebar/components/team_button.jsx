@@ -33,6 +33,8 @@ export default class TeamButton extends React.Component {
     }
 
     render() {
+        const teamIconUrl = this.props.teamIconUrl;
+
         let teamClass = this.props.active ? 'active' : '';
         const btnClass = this.props.btnClass;
         const disabled = this.props.disabled ? 'team-disabled' : '';
@@ -44,26 +46,37 @@ export default class TeamButton extends React.Component {
 
             if (this.props.mentions) {
                 badge = (
-                    <span className='badge pull-right small'>{this.props.mentions}</span>
+                    <span className={`badge pull-right small ${teamIconUrl ? 'stroked' : ''}`}>{this.props.mentions}</span>
                 );
             }
         }
 
         let btn;
-        let initials = this.props.displayName;
         let content = this.props.content;
-        if (!content) {
-            initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
 
-            content = (
-                <div className='team-btn__initials'>
-                    {initials}
-                    <div className='team-btn__content'>
-                        {this.props.displayName}
+        if (!content) {
+            if (teamIconUrl) {
+                content = (
+                    <div
+                        className='team-btn__image'
+                        style={{backgroundImage: `url('${teamIconUrl}')`}}
+                    />
+                );
+            } else {
+                let initials = this.props.displayName;
+                initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
+
+                content = (
+                    <div className='team-btn__initials'>
+                        {initials}
+                        <div className='team-btn__content'>
+                            {this.props.displayName}
+                        </div>
                     </div>
-                </div>
-            );
+                );
+            }
         }
+
         if (this.props.isMobile) {
             btn = (
                 <div className={'team-btn ' + btnClass}>
@@ -158,4 +171,5 @@ TeamButton.propTypes = {
     unread: PropTypes.bool,
     mentions: PropTypes.number,
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
+    teamIconUrl: PropTypes.string,
 };
