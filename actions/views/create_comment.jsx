@@ -204,8 +204,9 @@ export function makeOnEditLatestPost(channelId, rootId) {
         dispatch(PostActions.setEditingPost(
             lastPost.id,
             getCommentCount(state, {post: lastPost}),
-            '#reply_textbox',
-            Utils.localizeMessage('create_comment.commentTitle', 'Comment')
+            'reply_textbox',
+            Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
+            true
         ));
     };
 }
