@@ -79,7 +79,6 @@ export default class SidebarRight extends React.Component {
         $('.multi-teams .team-sidebar').removeClass('move--right');
         $('.app__body .sidebar--right').addClass('move--left');
 
-        //$('.sidebar--right').prepend('<div class="sidebar__overlay"></div>');
         if (!this.props.searchVisible && !this.props.postRightVisible) {
             $('.app__body .inner-wrap').removeClass('move--left').removeClass('move--right');
             $('.app__body .sidebar--right').removeClass('move--left');
@@ -88,11 +87,6 @@ export default class SidebarRight extends React.Component {
             );
         }
 
-        /*setTimeout(() => {
-            $('.sidebar__overlay').fadeOut('200', () => {
-                $('.sidebar__overlay').remove();
-            });
-            }, 500);*/
         return null;
     }
 
@@ -131,6 +125,19 @@ export default class SidebarRight extends React.Component {
     }
 
     render() {
+        const {
+            channel,
+            currentUser,
+            isFlaggedPosts,
+            isMentionSearch,
+            isPinnedPosts,
+            postRightVisible,
+            previousRhsState,
+            searchVisible,
+        } = this.props;
+
+        const {useMilitaryTime} = this.state;
+
         let content = null;
         let expandedClass = '';
 
@@ -139,11 +146,9 @@ export default class SidebarRight extends React.Component {
         }
 
         var searchForm = null;
-        if (this.props.currentUser) {
-            searchForm = <SearchBar isFocus={this.props.searchVisible}/>;
+        if (currentUser) {
+            searchForm = <SearchBar isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}/>;
         }
-
-        const channel = this.props.channel;
 
         let channelDisplayName = '';
         if (channel) {
@@ -154,31 +159,31 @@ export default class SidebarRight extends React.Component {
             }
         }
 
-        if (this.props.searchVisible) {
+        if (searchVisible) {
             content = (
                 <div className='sidebar--right__content'>
                     <div className='search-bar__container channel-header alt'>{searchForm}</div>
                     <SearchResults
-                        isMentionSearch={this.props.isMentionSearch}
-                        isFlaggedPosts={this.props.isFlaggedPosts}
-                        isPinnedPosts={this.props.isPinnedPosts}
-                        useMilitaryTime={this.state.useMilitaryTime}
+                        isMentionSearch={isMentionSearch}
+                        isFlaggedPosts={isFlaggedPosts}
+                        isPinnedPosts={isPinnedPosts}
+                        useMilitaryTime={useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
                     />
                 </div>
             );
-        } else if (this.props.postRightVisible) {
+        } else if (postRightVisible) {
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
                     <div className='search-bar__container channel-header alt'>{searchForm}</div>
                     <RhsThread
-                        previousRhsState={this.props.previousRhsState}
+                        previousRhsState={previousRhsState}
                         isWebrtc={WebrtcStore.isBusy()}
-                        currentUser={this.props.currentUser}
-                        useMilitaryTime={this.state.useMilitaryTime}
+                        currentUser={currentUser}
+                        useMilitaryTime={useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
