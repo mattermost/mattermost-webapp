@@ -1532,7 +1532,7 @@
   "emoji_list.delete.confirm.title": "Delete Custom Emoji",
   "emoji_list.empty": "No Custom Emoji Found",
   "emoji_list.header": "Custom Emoji",
-  "emoji_list.help": "Custom emoji are available to everyone on your server. Type ':' in a message box to bring up the emoji selection menu. Other users may need to refresh the page before new emojis appear.",
+  "emoji_list.help": "Custom emoji are available to everyone on your server. Type ':' followed by two characters in a message box to bring up the emoji selection menu.",
   "emoji_list.help2": "Tip: If you add #, ##, or ### as the first character on a new line containing emoji, you can use larger sized emoji. To try it out, send a message such as: '# :smile:'.",
   "emoji_list.image": "Image",
   "emoji_list.name": "Name",
