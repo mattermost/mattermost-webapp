@@ -2,10 +2,11 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import {PostTypes} from 'mattermost-redux/action_types';
+import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+import {comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
@@ -98,8 +99,25 @@ export async function flagPost(postId) {
 
     const rhsState = getRhsState(getState());
 
+    // This is a hack that should be fixed with better reducers/actions, see MM-9793
     if (rhsState === RHSStates.FLAG) {
-        dispatch(RhsActions.getFlaggedPosts());
+        let results = getState().entities.search.results;
+        const index = results.indexOf(postId);
+        if (index === -1) {
+            results = [...results, postId];
+
+            const posts = {};
+            results.forEach((id) => {
+                posts[id] = Selectors.getPost(getState(), id);
+            });
+
+            results.sort((a, b) => comparePosts(posts[a], posts[b]));
+
+            dispatch({
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: {posts, order: results},
+            });
+        }
     }
 }
 
@@ -108,8 +126,24 @@ export async function unflagPost(postId) {
 
     const rhsState = getRhsState(getState());
 
+    // This is a hack that should be fixed with better reducers/actions, see MM-9793
     if (rhsState === RHSStates.FLAG) {
-        dispatch(RhsActions.getFlaggedPosts());
+        let results = getState().entities.search.results;
+        const index = results.indexOf(postId);
+        if (index > -1) {
+            results = [...results];
+            results.splice(index, 1);
+
+            const posts = {};
+            results.forEach((id) => {
+                posts[id] = Selectors.getPost(getState(), id);
+            });
+
+            dispatch({
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: {posts, order: results},
+            });
+        }
     }
 }
 

@@ -124,7 +124,7 @@ function renderAddToTeamMessage(post, options) {
 }
 
 function renderRemoveFromTeamMessage(post, options) {
-    const removedUsername = renderUsernameForUserIdAndUsername(post.user_id, post.props.removedUsername, options);
+    const removedUsername = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
 
     return (
         <FormattedMessage

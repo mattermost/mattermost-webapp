@@ -51,7 +51,7 @@ export default class LatexBlock extends React.Component {
                 >
                     <FormattedMessage
                         id='katex.error'
-                        defaultMessage='Error: Invalid Latex code'
+                        defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."
                     />
                 </div>
             );

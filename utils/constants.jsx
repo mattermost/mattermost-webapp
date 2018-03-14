@@ -424,7 +424,6 @@ export const ErrorBarTypes = {
     LICENSE_PAST_GRACE: 'error_bar.past_grace',
     PREVIEW_MODE: 'error_bar.preview_mode',
     SITE_URL: 'error_bar.site_url',
-    APIV3_ENABLED: 'error_bar.apiv3_enabled',
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
 };
 

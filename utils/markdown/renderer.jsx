@@ -177,7 +177,7 @@ export default class Renderer extends marked.Renderer {
         }
 
         if (internalLink) {
-            output += ' data-link="' + outHref.substring(this.formattingOptions.siteURL) + '"';
+            output += ' data-link="' + outHref.substring(this.formattingOptions.siteURL.length) + '"';
         } else {
             output += ' target="_blank"';
         }
