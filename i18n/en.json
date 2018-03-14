@@ -1849,6 +1849,7 @@
   "invite_member.send2": "Send Invitations",
   "invite_member.sending": " Sending",
   "invite_member.teamInviteLink": "You can also invite people using the {link}.",
+  "katex.error": "Couldn't compile your Latex code. Please review the syntax and try again.",
   "ldap_signup.find": "Find my teams",
   "ldap_signup.ldap": "Create team with AD/LDAP Account",
   "ldap_signup.length_error": "Name must be 3 or more characters up to a maximum of 15",
@@ -2166,8 +2167,9 @@
   "mobile.search.from_modifier_title": "username",
   "mobile.search.in_modifier_description": "to find posts in specific channels",
   "mobile.search.in_modifier_title": "channel-name",
-  "mobile.search.jump": "JUMP",
+  "mobile.search.jump": "Jump to recent messages",
   "mobile.search.no_results": "No Results Found",
+  "mobile.search.recent_title": "Recent Searches",
   "mobile.select_team.choose": "Your teams:",
   "mobile.select_team.join_open": "Open teams you can join",
   "mobile.select_team.no_teams": "There are no available teams for you to join.",
@@ -3015,6 +3017,5 @@
   "webrtc.unmute_audio": "Unmute microphone",
   "webrtc.unpause_video": "Turn on camera",
   "webrtc.unsupported": "{username} client does not support video calls.",
-  "youtube_video.notFound": "Video not found",
-  "katex.error": "Couldn't compile your Latex code. Please review the syntax and try again."
+  "youtube_video.notFound": "Video not found"
 }
