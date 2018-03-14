@@ -96,6 +96,7 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
     height="32"
     isRHS={false}
     src="/api/v4/users/id/image?_=12345"
+    status="offline"
     width="32"
   />
   <div
@@ -136,6 +137,7 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
     height="32"
     isRHS={false}
     src="/api/v4/users/id/image?_=12345"
+    status="offline"
     width="32"
   />
   <div
