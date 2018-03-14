@@ -16,16 +16,14 @@
 
 .file-preview {
     @include clearfix;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
     border: 1px solid $light-gray;
     display: inline-block;
     height: 100px;
-    margin: 0 0 0 10px;
+    margin-right: 10px;
     position: relative;
     width: 120px;
-
-    &:first-child {
-        margin-left: 0;
-    }
 
     .spinner {
         height: 32px;

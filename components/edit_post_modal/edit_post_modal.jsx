@@ -191,7 +191,7 @@ export default class EditPostModal extends React.PureComponent {
             e.preventDefault();
             this.refs.editbox.blur();
             this.handleEdit();
-        } else if (this.props.ctrlSend && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+        } else if (this.props.ctrlSend && e.ctrlKey && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             e.preventDefault();
             this.refs.editbox.blur();
             this.handleEdit();
@@ -199,7 +199,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && Utils.cmdOrCtrlPressed(e)) {
+        if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
         }
     }

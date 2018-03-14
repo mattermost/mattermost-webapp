@@ -16,7 +16,7 @@ import {Constants, UserStatuses, WebrtcActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ring from 'images/ring.mp3';
 import ConnectingScreen from 'components/loading_screen.jsx';
-import SearchBox from 'components/search_bar';
+import SearchBar from 'components/search_bar';
 
 import WebrtcHeader from '../webrtc_header.jsx';
 
@@ -1137,7 +1137,7 @@ export default class WebrtcController extends React.Component {
 
         let searchForm;
         if (currentId != null) {
-            searchForm = <SearchBox/>;
+            searchForm = <SearchBar/>;
         }
 
         const buttons = this.renderButtons();
