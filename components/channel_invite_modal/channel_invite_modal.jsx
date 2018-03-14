@@ -6,7 +6,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {searchProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
-import {Client4} from 'mattermost-redux/client';
 
 import {searchUsers} from 'actions/user_actions.jsx';
 import {addUserToChannel} from 'actions/channel_actions.jsx';
@@ -15,9 +14,8 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
 const USERS_PER_PAGE = 50;
@@ -190,38 +188,6 @@ export default class ChannelInviteModal extends React.Component {
         );
     }
 
-    renderOption = (option, isSelected, onAdd) => {
-        var rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
-
-        return (
-            <div
-                key={option.id}
-                ref={isSelected ? 'selected' : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
-                onClick={() => onAdd(option)}
-            >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    width='32'
-                    height='32'
-                />
-                <div className='more-modal__details'>
-                    <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
-                    </div>
-                </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <i className='fa fa-plus'/>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     renderValue = (user) => {
         return user.username;
     }
@@ -257,7 +223,6 @@ export default class ChannelInviteModal extends React.Component {
                 <MultiSelect
                     key='addUsersToChannelKey'
                     options={users}
-                    optionRenderer={this.renderOption}
                     values={this.state.values}
                     valueRenderer={this.renderValue}
                     perPage={USERS_PER_PAGE}
