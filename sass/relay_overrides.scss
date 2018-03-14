@@ -317,7 +317,8 @@ b, strong {
     height: 32px;
     font-weight: 300;
     text-transform: capitalize;
-    margin-left: 16px;
+    margin: 0 auto;
+    margin-bottom: 16px;
 
     &:before {
         border-top-right-radius: 4px;
