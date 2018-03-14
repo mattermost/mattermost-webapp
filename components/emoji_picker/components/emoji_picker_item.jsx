@@ -70,31 +70,30 @@ export default class EmojiPickerItem extends React.Component {
         spriteClassName += ' emoji-' + emoji.filename;
 
         let image;
-        let handleMouseOver;
         if (emoji.category && emoji.batch) {
             image = (
                 <img
+                    onMouseOver={this.handleMouseOverThrottle}
                     src='/static/images/img_trans.gif'
                     className={spriteClassName}
+                    onClick={this.handleClick}
                 />
             );
-            handleMouseOver = this.handleMouseOverThrottle;
         } else {
             image = (
                 <img
+                    onMouseOver={this.handleMouseOver}
                     src={EmojiStore.getEmojiImageUrl(emoji)}
                     className={'emoji-category--custom'}
+                    onClick={this.handleClick}
                 />
             );
-            handleMouseOver = this.handleMouseOver;
         }
 
         return (
             <div
                 className={itemClassName}
                 ref={this.emojiItemRef}
-                onMouseOver={handleMouseOver}
-                onClick={this.handleClick}
             >
                 <div>
                     {image}
