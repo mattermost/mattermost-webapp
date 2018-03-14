@@ -3,6 +3,7 @@
 
 import {
     createDirectChannel,
+    getChannelByNameAndTeamName,
     getChannelAndMyMember,
     getChannelStats,
     getMyChannelMember,
@@ -509,6 +510,11 @@ export async function redirectUserToDefaultTeam() {
             if (data) {
                 dispatch(selectChannel(channelId));
                 channelName = data.channel.name;
+            }
+        } else {
+            const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
+            if (data) {
+                dispatch(selectChannel(data.id));
             }
         }
 
