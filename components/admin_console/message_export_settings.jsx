@@ -167,15 +167,7 @@ export default class MessageExportSettings extends AdminSettings {
             );
 
             globalRelaySettings = (
-                <SettingsGroup
-                    id={'globalRelaySettings'}
-                    header={
-                        <FormattedMessage
-                            id='admin.complianceExport.globalRelaySettings.title'
-                            defaultMessage='GlobalRelay Settings:'
-                        />
-                    }
-                >
+                <SettingsGroup id={'globalRelaySettings'} >
                     {globalRelayCustomerType}
                     {globalRelaySmtpUsername}
                     {globalRelaySmtpPassword}
