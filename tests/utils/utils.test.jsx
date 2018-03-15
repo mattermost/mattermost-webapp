@@ -118,11 +118,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userC, userA],
+                result: [userD, userE, userF, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userI, userG],
+                result: [userE, userF, userJ, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
@@ -147,11 +147,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userC, userA],
+                result: [userF, userE, userD, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userI, userG],
+                result: [userJ, userF, userE, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
@@ -176,11 +176,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userC, userA],
+                result: [userD, userF, userE, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userI, userG],
+                result: [userF, userE, userJ, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],

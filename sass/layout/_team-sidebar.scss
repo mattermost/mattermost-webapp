@@ -41,14 +41,15 @@
                     display: table-cell;
                     font-size: 12px;
                     font-weight: bold;
-                    padding: 4px 5px;
                     position: relative;
                     text-align: center;
                     vertical-align: top;
-                    width: 40px;
+                    width: 43px;
+                    height: 39px;
 
                     .team-btn__initials {
                         text-align: left;
+                        margin: 4px 5px;
                     }
 
                     .team-btn__content {
@@ -61,17 +62,25 @@
                         width: 31px;
                     }
 
+                    .team-btn__image {
+                        height: 100%;
+                        background-size: contain;
+                        background-repeat: round;
+                    }
+
                     .badge {
                         font-size: 10px;
                         position: absolute;
                         right: -6px;
                         top: -3px;
+
+                        &.stroked {
+                            border: 1px solid;
+                        }
                     }
 
                     &.team-btn__add {
-                        height: 39px;
                         vertical-align: middle;
-                        width: 43px;
                     }
                 }
 

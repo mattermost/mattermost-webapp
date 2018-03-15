@@ -278,8 +278,8 @@ export const UserStatuses = {
 export const UserStatusesWeight = {
     online: 0,
     away: 1,
-    offline: 2,
-    dnd: 3,
+    dnd: 2,
+    offline: 3,
 };
 
 export const UserSearchOptions = {
@@ -424,7 +424,6 @@ export const ErrorBarTypes = {
     LICENSE_PAST_GRACE: 'error_bar.past_grace',
     PREVIEW_MODE: 'error_bar.preview_mode',
     SITE_URL: 'error_bar.site_url',
-    APIV3_ENABLED: 'error_bar.apiv3_enabled',
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
 };
 
@@ -551,8 +550,6 @@ export const Constants = {
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
-    PROFILE_WIDTH: 128,
-    PROFILE_HEIGHT: 128,
     WEB_VIDEO_WIDTH: 640,
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,

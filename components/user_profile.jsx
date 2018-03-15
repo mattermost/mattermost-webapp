@@ -56,7 +56,7 @@ export default class UserProfile extends React.Component {
         let name = '...';
         let profileImg = '';
 
-        if (this.props.user) {
+        if (this.props.user && this.props.user.id) {
             name = Utils.displayUsername(this.props.user.id);
             profileImg = Utils.imageURLForUser(this.props.user);
         }

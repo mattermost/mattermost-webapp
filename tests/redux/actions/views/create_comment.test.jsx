@@ -400,8 +400,9 @@ describe('rhs view actions', () => {
             testStore.dispatch(PostActions.setEditingPost(
                 latestPostId,
                 0,
-                '#reply_textbox',
-                'Comment'
+                'reply_textbox',
+                'Comment',
+                true
             ));
 
             expect(store.getActions()).toEqual(testStore.getActions());

@@ -15,7 +15,8 @@ test: .yarninstall ## Runs tests
 
 .yarninstall: package.json
 	@echo Getting dependencies using yarn
-
+	
+	yarn cache clean --pattern "mattermost-redux"
 	yarn install --pure-lockfile
 	cd node_modules/mattermost-redux; npm run build
 
@@ -49,6 +50,8 @@ run-fullmap: .yarninstall ## Runs the app with the JS mapped to source (good for
 
 stop: ## Stops webpack
 	@echo Stopping changes watching
+
+restart: | stop run ## Restarts the app
 
 ifeq ($(OS),Windows_NT)
 	wmic process where "Caption='node.exe' and CommandLine like '%webpack%'" call terminate

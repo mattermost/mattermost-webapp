@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/post_view/PostAddChannelMember should match snapshot, empty channelType 1`] = `""`;
+
+exports[`components/post_view/PostAddChannelMember should match snapshot, empty postId 1`] = `""`;
+
 exports[`components/post_view/PostAddChannelMember should match snapshot, private channel 1`] = `
 <p>
   <Connect(AtMention)

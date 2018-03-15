@@ -44,6 +44,8 @@ export default class SidebarHeaderDropdown extends React.Component {
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
         restrictTeamInvite: PropTypes.string,
+        showDropdown: PropTypes.bool.isRequired,
+        onToggleDropdown: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -52,8 +54,6 @@ export default class SidebarHeaderDropdown extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.toggleDropdown = this.toggleDropdown.bind(this);
 
         this.handleAboutModal = this.handleAboutModal.bind(this);
         this.aboutModalDismissed = this.aboutModalDismissed.bind(this);
@@ -76,7 +76,6 @@ export default class SidebarHeaderDropdown extends React.Component {
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
             showAboutModal: false,
-            showDropdown: false,
             showTeamSettingsModal: false,
             showTeamMembersModal: false,
             showAddUsersToTeamModal: false,
@@ -90,9 +89,9 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
     }
 
-    toggleDropdown(val) {
+    toggleDropdown = (val) => {
         if (typeof (val) === 'boolean') {
-            this.setState({showDropdown: val});
+            this.props.onToggleDropdown(val);
             return;
         }
 
@@ -100,7 +99,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             val.preventDefault();
         }
 
-        this.setState({showDropdown: !this.state.showDropdown});
+        this.props.onToggleDropdown();
     }
 
     handleAboutModal(e) {
@@ -108,8 +107,8 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         this.setState({
             showAboutModal: true,
-            showDropdown: false,
         });
+        this.props.onToggleDropdown(false);
     }
 
     aboutModalDismissed() {
@@ -119,14 +118,14 @@ export default class SidebarHeaderDropdown extends React.Component {
     showAccountSettingsModal(e) {
         e.preventDefault();
 
-        this.setState({showDropdown: false});
+        this.props.onToggleDropdown(false);
 
         GlobalActions.showAccountSettingsModal();
     }
 
     toggleShortcutsModal(e) {
         e.preventDefault();
-        this.setState({showDropdown: false});
+        this.props.onToggleDropdown(false);
 
         GlobalActions.toggleShortcutsModal();
     }
@@ -136,8 +135,8 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         this.setState({
             showAddUsersToTeamModal: true,
-            showDropdown: false,
         });
+        this.props.onToggleDropdown(false);
     }
 
     hideAddUsersToTeamModal() {
@@ -149,7 +148,7 @@ export default class SidebarHeaderDropdown extends React.Component {
     showInviteMemberModal(e) {
         e.preventDefault();
 
-        this.setState({showDropdown: false});
+        this.props.onToggleDropdown(false);
 
         GlobalActions.showInviteMemberModal();
     }
@@ -157,7 +156,7 @@ export default class SidebarHeaderDropdown extends React.Component {
     showGetTeamInviteLinkModal(e) {
         e.preventDefault();
 
-        this.setState({showDropdown: false});
+        this.props.onToggleDropdown(false);
 
         GlobalActions.showGetTeamInviteLinkModal();
     }
@@ -166,9 +165,9 @@ export default class SidebarHeaderDropdown extends React.Component {
         e.preventDefault();
 
         this.setState({
-            showDropdown: false,
             showTeamSettingsModal: true,
         });
+        this.props.onToggleDropdown(false);
     }
 
     hideTeamSettingsModal = () => {
@@ -199,8 +198,8 @@ export default class SidebarHeaderDropdown extends React.Component {
         this.setState({
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
-            showDropdown: false,
         });
+        this.props.onToggleDropdown(false);
     }
 
     componentWillUnmount() {
@@ -635,7 +634,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         return (
             <Dropdown
                 id='sidebar-header-dropdown'
-                open={this.state.showDropdown}
+                open={this.props.showDropdown}
                 onToggle={this.toggleDropdown}
                 className='sidebar-header-dropdown'
                 pullRight={true}

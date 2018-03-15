@@ -993,19 +993,10 @@
         position: relative;
     }
 
-
-    &:not(.post--compact) {
-        .post--edited {
-            .post-message__text > p:last-child {
-                display: inline-block;
-                width: auto;
-            }
-        }
-    }
-
     .post--edited {
         .post-message__text > p:last-child {
-            display: inline;
+            display: inline-block;
+            width: auto;
         }
     }
 

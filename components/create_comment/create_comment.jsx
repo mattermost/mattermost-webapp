@@ -294,13 +294,14 @@ export default class CreateComment extends React.PureComponent {
             });
         } catch (err) {
             this.setState({serverError: err.message});
+            return;
         }
 
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
     }
 
     commentMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && Utils.cmdOrCtrlPressed(e)) || !this.props.ctrlSend)) {
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && (e.ctrlKey || e.metaKey)) || !this.props.ctrlSend)) {
             if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 this.refs.textbox.blur();
@@ -330,7 +331,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && Utils.cmdOrCtrlPressed(e)) {
+        if (this.props.ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && (e.ctrlKey || e.metaKey)) {
             this.commentMsgKeyPress(e);
             return;
         }
@@ -338,12 +339,15 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const {message} = draft;
 
-        if (!Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
+        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
+            if (this.refs.textbox) {
+                this.refs.textbox.blur();
+            }
             this.props.onEditLatestPost();
         }
 
-        if ((Utils.cmdOrCtrlPressed(e)) && !e.altKey && !e.shiftKey) {
+        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexBack();
@@ -427,8 +431,8 @@ export default class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance().refs.FileUpload) {
+                    this.refs.fileUpload.getWrappedInstance().refs.FileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {

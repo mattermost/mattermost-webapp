@@ -9,6 +9,8 @@ import {Client4} from 'mattermost-redux/client';
 import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
 
+import * as Utils from 'utils/utils.jsx';
+
 export default class AtMention extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
@@ -97,7 +99,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className={className}>{'@' + user.username}</a>
+                    <a className={className}>{'@' + Utils.displayUsernameForUser(user)}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>

@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
@@ -47,7 +47,7 @@ const holders = defineMessages({
 
 const OVERLAY_TIMEOUT = 500;
 
-class FileUpload extends React.PureComponent {
+class FileUpload extends PureComponent {
     static propTypes = {
 
         /**

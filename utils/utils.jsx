@@ -55,9 +55,9 @@ export function createSafeId(prop) {
 
 export function cmdOrCtrlPressed(e, allowAlt = false) {
     if (allowAlt) {
-        return (isMac() && e.metaKey) || e.ctrlKey;
+        return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
     }
-    return (isMac() && e.metaKey) || (e.ctrlKey && !e.altKey);
+    return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
 export function isKeyPressed(event, key) {
@@ -642,15 +642,15 @@ export function applyTheme(theme) {
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
         changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
-        changeCss('.app__body .sidebar--left .badge', 'background:' + mentionBg);
-        changeCss('.multi-teams .team-sidebar .badge', 'background:' + mentionBg);
+        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
+        changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
         changeCss('.sidebar--left .nav-pills__unread-indicator svg', 'fill:' + theme.mentionColor);
         changeCss('.app__body .sidebar--left .nav-pills__unread-indicator', 'color:' + theme.mentionColor);
-        changeCss('.app__body .sidebar--left .badge', 'color:' + theme.mentionColor);
-        changeCss('.app__body .multi-teams .team-sidebar .badge', 'color:' + theme.mentionColor);
+        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
+        changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
     }
 
     if (theme.centerChannelBg) {
@@ -1117,9 +1117,9 @@ export function displayUsernameForUser(user) {
     if (user) {
         const nameFormat = config.TeammateNameDisplay;
         let name = user.username;
-        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname !== '') {
+        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname.trim().length > 0) {
             name = user.nickname;
-        } else if ((user.first_name || user.last_name) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
+        } else if (((user.first_name && user.first_name.trim().length > 0) || (user.last_name && user.last_name.trim().length > 0)) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
             name = getFullName(user);
         }
 
@@ -1199,6 +1199,19 @@ export function imageURLForUser(userIdOrObject) {
         return Constants.TRANSPARENT_PIXEL;
     }
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
+}
+
+// in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
+export function imageURLForTeam(teamIdOrObject) {
+    if (typeof teamIdOrObject == 'string') {
+        const team = TeamStore.get(teamIdOrObject);
+        if (team) {
+            return imageURLForTeam(team);
+        }
+        return null;
+    }
+
+    return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
 }
 
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
@@ -1487,13 +1500,10 @@ export function handleFormattedTextClick(e) {
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
-        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || cmdOrCtrlPressed(e) || e.shiftKey)) {
+        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
 
-            const urlparse = document.createElement('a');
-            urlparse.href = linkAttribute.value;
-
-            browserHistory.push(urlparse.pathname);
+            browserHistory.push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
