@@ -11,7 +11,7 @@ import ComplianceReports from './compliance_reports.jsx';
 
 function mapStateToProps(state) {
     const license = getLicense(state);
-    const isLicensed = license.IsLicened === 'true';
+    const isLicensed = license.IsLicensed === 'true';
 
     let enabled = false;
     const config = getConfig(state);

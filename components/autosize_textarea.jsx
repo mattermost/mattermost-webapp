@@ -27,6 +27,22 @@ export default class AutosizeTextarea extends React.Component {
         this.refs.textarea.value = value;
     }
 
+    get selectionStart() {
+        return this.refs.textarea.selectionStart;
+    }
+
+    set selectionStart(selectionStart) {
+        this.refs.textarea.selectionStart = selectionStart;
+    }
+
+    get selectionEnd() {
+        return this.refs.textarea.selectionEnd;
+    }
+
+    set selectionEnd(selectionEnd) {
+        this.refs.textarea.selectionEnd = selectionEnd;
+    }
+
     focus() {
         this.refs.textarea.focus();
     }
