@@ -297,13 +297,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         }
       />
       <SettingsGroup
-        header={
-          <FormattedMessage
-            defaultMessage="GlobalRelay Settings:"
-            id="admin.complianceExport.globalRelaySettings.title"
-            values={Object {}}
-          />
-        }
         id="globalRelaySettings"
         show={true}
       >
@@ -755,13 +748,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         }
       />
       <SettingsGroup
-        header={
-          <FormattedMessage
-            defaultMessage="GlobalRelay Settings:"
-            id="admin.complianceExport.globalRelaySettings.title"
-            values={Object {}}
-          />
-        }
         id="globalRelaySettings"
         show={true}
       >
