@@ -536,8 +536,8 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance().refs.FileUpload) {
-                    this.refs.fileUpload.getWrappedInstance().refs.FileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
