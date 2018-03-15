@@ -228,7 +228,6 @@
   "admin.complianceExport.exportJobStartTime.description": "Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.",
   "admin.complianceExport.exportJobStartTime.example": "E.g.: \"02:00\"",
   "admin.complianceExport.exportJobStartTime.title": "Compliance Export time:",
-  "admin.complianceExport.globalRelaySettings.title": "Global Relay Settings:",
   "admin.complianceExport.globalRelayCustomerType.title": "Global Relay Customer Account:",
   "admin.complianceExport.globalRelayCustomerType.description": "Type of Global Relay customer account your organization has.",
   "admin.complianceExport.globalRelayCustomerType.a9.description": "A9/Type 9",
