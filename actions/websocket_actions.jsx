@@ -11,7 +11,7 @@ import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} fro
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -526,8 +526,9 @@ function handlePreferencesDeletedEvent(msg) {
 
 function handleUserTypingEvent(msg) {
     const state = getState();
-    const {currentUserId, profiles, statuses} = state.entities.users;
-    const {config} = state.entities.general;
+    const config = getConfig(state);
+    const currentUserId = getCurrentUserId(state);
+    const currentUser = getCurrentUser(state);
     const userId = msg.data.user_id;
 
     const data = {
@@ -548,11 +549,11 @@ function handleUserTypingEvent(msg) {
         }, getState);
     }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
-    if (!profiles[userId] && userId !== currentUserId) {
+    if (!currentUser && userId !== currentUserId) {
         getProfilesByIds([userId])(dispatch, getState);
     }
 
-    const status = statuses[userId];
+    const status = getStatusForUserId(state, userId);
     if (status !== General.ONLINE) {
         getStatusesByIds([userId])(dispatch, getState);
     }

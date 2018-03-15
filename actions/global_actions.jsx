@@ -428,7 +428,7 @@ let lastTimeTypingSent = 0;
 export function emitLocalUserTypingEvent(channelId, parentPostId) {
     const userTyping = async (actionDispatch, actionGetState) => {
         const state = actionGetState();
-        const config = state.entities.general.config;
+        const config = getConfig(state);
         const t = Date.now();
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;
