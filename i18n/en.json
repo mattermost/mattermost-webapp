@@ -1385,6 +1385,7 @@
   "channel_members_dropdown.remove_member": "Remove Member",
   "channel_members_modal.addNew": " Add New Members",
   "channel_members_modal.members": " Members",
+  "channel_members_modal.remove": "Remove",
   "channel_modal.cancel": "Cancel",
   "channel_modal.createNew": "Create New Channel",
   "channel_modal.descriptionHelp": "Describe how this channel should be used.",
