@@ -1553,6 +1553,10 @@ capture-stack-trace@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/capture-stack-trace/-/capture-stack-trace-1.0.0.tgz#4a6fa07399c26bba47f0b2496b4d0fb408c5550d"
 
+case@^1.2.1:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/case/-/case-1.5.4.tgz#b201642aae9e374feb5750d1181a76850153830c"
+
 caseless@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
@@ -3305,6 +3309,10 @@ flux@3.1.3:
   dependencies:
     fbemitter "^2.0.0"
     fbjs "^0.8.0"
+
+fn-name@~1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-1.0.1.tgz#de8d8a15388b33cbf2145782171f73770c6030f0"
 
 font-awesome@4.7.0:
   version "4.7.0"
@@ -5473,7 +5481,7 @@ lodash@^4.0.0, lodash@^4.0.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lo
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-lodash@^4.17.4:
+lodash@^4.17.0, lodash@^4.17.4:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -6846,6 +6854,10 @@ prop-types@^15.5.10, prop-types@^15.5.8:
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
+
+property-expr@^1.2.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/property-expr/-/property-expr-1.4.0.tgz#e28cfe4e7a5a231fb14c8ad687a93a5342e05a8c"
 
 proxy-agent@2.0.0:
   version "2.0.0"
@@ -8334,6 +8346,10 @@ symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
 
+synchronous-promise@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/synchronous-promise/-/synchronous-promise-1.0.18.tgz#936e8763e6554088cdcf78dc64f7473b972fcefc"
+
 table@^3.7.8:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/table/-/table-3.8.3.tgz#2bbc542f0fda9861a755d3947fefd8b3f513855f"
@@ -8495,6 +8511,10 @@ to-space-case@^1.0.0:
   dependencies:
     to-no-case "^1.0.0"
 
+toposort@^0.2.10:
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/toposort/-/toposort-0.2.12.tgz#c7d2984f3d48c217315cc32d770888b779491e81"
+
 toposort@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.3.tgz#f02cd8a74bd8be2fc0e98611c3bacb95a171869c"
@@ -8572,6 +8592,10 @@ type-check@~0.3.2:
 type-detect@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-0.1.1.tgz#0ba5ec2a885640e470ea4e8505971900dac58822"
+
+type-name@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/type-name/-/type-name-2.0.2.tgz#efe7d4123d8ac52afff7f40c7e4dec5266008fb4"
 
 typedarray@^0.0.6:
   version "0.0.6"
@@ -9202,6 +9226,18 @@ yauzl@^2.2.1, yauzl@^2.5.0:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
+
+yup@^0.24.1:
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/yup/-/yup-0.24.1.tgz#2c8a81b5f929ef29aaf77a8b7c9acfa52ab6a7d1"
+  dependencies:
+    case "^1.2.1"
+    fn-name "~1.0.1"
+    lodash "^4.17.0"
+    property-expr "^1.2.0"
+    synchronous-promise "^1.0.18"
+    toposort "^0.2.10"
+    type-name "^2.0.1"
 
 zen-observable@^0.2.1:
   version "0.2.1"
