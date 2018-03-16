@@ -15,8 +15,9 @@ import {
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -424,23 +425,24 @@ export function loadDefaultLocale() {
 }
 
 let lastTimeTypingSent = 0;
-export function emitLocalUserTypingEvent(channelId, parentId) {
-    const t = Date.now();
-    const membersInChannel = ChannelStore.getStats(channelId).member_count;
+export function emitLocalUserTypingEvent(channelId, parentPostId) {
+    const userTyping = async (actionDispatch, actionGetState) => {
+        const state = actionGetState();
+        const config = getConfig(state);
+        const t = Date.now();
+        const stats = getCurrentChannelStats(state);
+        const membersInChannel = stats ? stats.member_count : 0;
 
-    const license = getLicense(getState());
-    const config = getConfig(getState());
-    if (license.IsLicensed === 'true' && config.ExperimentalTownSquareIsReadOnly === 'true') {
-        const channel = ChannelStore.getChannelById(channelId);
-        if (channel && ChannelStore.isDefault(channel)) {
-            return;
+        if (((t - lastTimeTypingSent) > config.TimeBetweenUserTypingUpdatesMilliseconds) &&
+            (membersInChannel < config.MaxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {
+            WebSocketClient.userTyping(channelId, parentPostId);
+            lastTimeTypingSent = t;
         }
-    }
 
-    if (((t - lastTimeTypingSent) > config.TimeBetweenUserTypingUpdatesMilliseconds) && membersInChannel < config.MaxNotificationsPerChannel && config.EnableUserTypingMessages === 'true') {
-        WebSocketClient.userTyping(channelId, parentId);
-        lastTimeTypingSent = t;
-    }
+        return {data: true};
+    };
+
+    return dispatch(userTyping);
 }
 
 export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {

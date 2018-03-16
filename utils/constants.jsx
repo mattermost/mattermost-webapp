@@ -200,8 +200,6 @@ export const ActionTypes = keyMirror({
 
     SHOW_SEARCH: null,
 
-    USER_TYPING: null,
-
     TOGGLE_ACCOUNT_SETTINGS_MODAL: null,
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
