@@ -41,11 +41,11 @@ const holders = defineMessages({
     },
     zeroBytesFiles: {
         id: 'file_upload.zeroBytesFiles',
-        defaultMessage: 'Empty files could not be uploaded: {filenames}',
+        defaultMessage: 'You are uploading empty files: {filenames}',
     },
     zeroBytesFile: {
         id: 'file_upload.zeroBytesFile',
-        defaultMessage: 'Empty file could not be uploaded: {filename}',
+        defaultMessage: 'You are uploading an empty file: {filename}',
     },
     pasted: {
         id: 'file_upload.pasted',
@@ -195,7 +195,6 @@ export default class FileUpload extends PureComponent {
             }
             if (sortedFiles[i].size === 0) {
                 zeroFiles.push(sortedFiles[i]);
-                continue;
             }
 
             // generate a unique id that can be used by other components to refer back to this upload
