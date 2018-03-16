@@ -10,6 +10,14 @@
             background: alpha-color($black, .1);
         }
     }
+
+    .badge {
+        float: right;
+        color: rgb(61, 60, 64);
+        background: #CECECF;
+        font-size: 10px;
+        margin-top: 2px;
+    }
 }
 
 .suggestion-list--top {

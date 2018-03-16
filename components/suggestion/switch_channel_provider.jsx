@@ -35,6 +35,14 @@ class SwitchChannelSuggestion extends Suggestion {
         const {item, isSelection} = this.props;
         const channel = item.channel;
 
+        const member = getMyChannelMemberships(getState())[item.id];
+        let badge = null;
+        if (member) {
+            if (member.notify_props && member.mention_count > 0) {
+                badge = <span className='badge'>{member.mention_count}</span>;
+            }
+        }
+
         let className = 'mentions__name';
         if (isSelection) {
             className += ' suggestion--selected';
@@ -71,6 +79,7 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 {displayName}
+                {badge}
             </div>
         );
     }
@@ -356,12 +365,11 @@ export default class SwitchChannelProvider extends Provider {
                 );
             }
             wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
+            wrappedChannel.id = channel.id;
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.
-            sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.channel.name);
+        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.name);
 
         setTimeout(() => {
             AppDispatcher.handleServerAction({
