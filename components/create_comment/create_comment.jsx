@@ -431,8 +431,8 @@ export default class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance().refs.FileUpload) {
-                    this.refs.fileUpload.getWrappedInstance().refs.FileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {

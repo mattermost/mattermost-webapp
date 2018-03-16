@@ -36,7 +36,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -256,7 +256,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -380,7 +380,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
