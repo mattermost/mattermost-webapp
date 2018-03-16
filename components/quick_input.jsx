@@ -44,6 +44,10 @@ export default class QuickInput extends React.PureComponent {
     }
 
     updateInputFromProps = () => {
+        if (!this.input) {
+            return;
+        }
+
         if (UserAgent.isWindows7() && UserAgent.isInternetExplorer()) {
             // The textbox already knows where it's cursor is supposed to be because we've already
             // typed in it, but it needs to be reminded of that
