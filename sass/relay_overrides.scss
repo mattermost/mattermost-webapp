@@ -273,8 +273,12 @@ b, strong {
 	}
 
 	.nav li {
-		 > .sidebar-item.unread-title {
+		> .sidebar-item.unread-title {
 			font-weight: 800;
+
+            .icon.icon__globe {
+                border: 1px solid red;
+            }
 		}
 	}
 
