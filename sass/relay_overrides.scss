@@ -666,7 +666,7 @@ b, strong {
 
     .textarea-wrapper {
         textarea {
-            height: 48px !important;
+            min-height: 48px !important;
             font-size: 16px;
             line-height: 24px;
         }
