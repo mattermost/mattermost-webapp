@@ -565,6 +565,68 @@ b, strong {
             max-height: 8px;
         }
     }
+    
+    //Compact mode fixes
+    &.post--compact {
+
+        &:not(.post--thread) {
+            .post__link {
+                margin: 5px 0 4px;
+            }
+        }
+
+        .post--content {
+            display: flex;
+
+            > div {
+                display: flex;
+                align-items: flex-start;
+                align-self: flex-start;
+
+                .status-wrapper {
+                    height: auto;
+                }
+            }
+        }
+
+        .post__header--info {
+            .flag-icon__container {
+                top: 8px;
+                left: -16px;
+                line-height: 16px;
+            }
+        }
+
+        .col__name {
+            margin-top: 4px;
+            
+            strong.colon {
+                line-height: 16px;
+                vertical-align: top;
+            }
+        }
+
+        .status-wrapper {
+            .status {
+                svg {
+                    max-height: 10px;
+                    top: 2px;
+                }
+            }
+        }
+    }
+}
+
+//Fixing flag icon and time alignment in compact mode
+.channel__wrap {
+    .post.post--compact {
+        .post__time {
+            font-size: 12px;
+            left: -80px;
+            top: 7px;
+            width: 56px;
+        }
+    }
 }
 
 .post .post__dropdown:after {
