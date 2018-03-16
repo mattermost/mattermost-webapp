@@ -243,6 +243,17 @@ export const ActionTypes = keyMirror({
     SELECT_CHANNEL_WITH_MEMBER: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
+
+    TOGGLE_LHS: null,
+    OPEN_LHS: null,
+    CLOSE_LHS: null,
+
+    TOGGLE_RHS_MENU: null,
+    OPEN_RHS_MENU: null,
+    CLOSE_RHS_MENU: null,
+
+    INIT_WEBRTC: null,
+    CLOSE_WEBRTC: null,
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -259,7 +270,6 @@ export const WebrtcActionTypes = keyMirror({
     MUTED: null,
     IN_PROGRESS: null,
     DISABLED: null,
-    RHS: null,
 });
 
 export const ModalIdentifiers = {

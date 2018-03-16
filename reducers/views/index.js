@@ -9,6 +9,8 @@ import rhs from './rhs';
 import posts from './posts';
 import modals from './modals';
 import emoji from './emoji';
+import lhs from './lhs';
+import webrtc from './webrtc';
 
 export default combineReducers({
     admin,
@@ -17,4 +19,6 @@ export default combineReducers({
     posts,
     modals,
     emoji,
+    lhs,
+    webrtc,
 });

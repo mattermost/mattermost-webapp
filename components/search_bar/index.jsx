@@ -11,6 +11,7 @@ import {
     showFlaggedPosts,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {closeWebrtc} from 'actions/views/webrtc';
 import {getRhsState, getSearchTerms, getIsSearchingTerm} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants.jsx';
 
@@ -35,6 +36,7 @@ function mapDispatchToProps(dispatch) {
             showMentions,
             showFlaggedPosts,
             closeRightHandSide,
+            closeWebrtc,
         }, dispatch),
     };
 }
