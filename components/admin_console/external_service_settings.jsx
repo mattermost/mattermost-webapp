@@ -54,7 +54,7 @@ export default class ExternalServiceSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.googleDescription'
-                            defaultMessage='Set this key to enable the display of titles for embedded YouTube video previews. Without the key, YouTube previews will still be created based on hyperlinks appearing in messages or comments but they will not show the video title. View a <a href="https://www.youtube.com/watch?v=Im69kzhpR3I" target="_blank">Google Developers Tutorial</a> for instructions on how to obtain a key.'
+                            defaultMessage='Set this key to enable the display of titles for embedded YouTube video previews. Without the key, YouTube previews will still be created based on hyperlinks appearing in messages or comments but they will not show the video title. View a <a href="https://www.youtube.com/watch?v=Im69kzhpR3I" target="_blank">Google Developers Tutorial</a> for instructions on how to obtain a key and add YouTube Data API v3 as a service to your key.'
                         />
                     }
                     value={this.state.googleDeveloperKey}
