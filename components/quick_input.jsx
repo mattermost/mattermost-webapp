@@ -84,6 +84,10 @@ export default class QuickInput extends React.PureComponent {
         return this.input;
     };
 
+    setInput = (input) => {
+        this.input = input;
+    }
+
     render() {
         const {value, inputComponent, ...props} = this.props;
 
@@ -93,9 +97,7 @@ export default class QuickInput extends React.PureComponent {
             inputComponent || 'input',
             {
                 ...props,
-                ref: (input) => {
-                    this.input = input;
-                },
+                ref: this.setInput,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );
