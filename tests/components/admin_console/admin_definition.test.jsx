@@ -81,6 +81,12 @@ const settingDropdown = yup.object().shape({
     options: yup.array().of(option),
 });
 
+const settingCustom = yup.object().shape({
+    type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_CUSTOM]),
+    ...baseShape,
+    component: yup.object().required(),
+});
+
 const setting = yup.mixed().test('is-setting', 'not a valid setting', (value) => {
     let valid = false;
     valid = valid || settingBanner.isValidSync(value);
@@ -91,6 +97,7 @@ const setting = yup.mixed().test('is-setting', 'not a valid setting', (value) =>
     valid = valid || settingLanguage.isValidSync(value);
     valid = valid || settingMultiLanguage.isValidSync(value);
     valid = valid || settingDropdown.isValidSync(value);
+    valid = valid || settingCustom.isValidSync(value);
     return valid;
 });
 

@@ -453,6 +453,9 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           }
         }
       />
+      <component
+        key="Config_userautocomplete_custom"
+      />
     </SettingsGroup>
     <div
       className="form-group"

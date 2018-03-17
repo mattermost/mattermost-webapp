@@ -36,6 +36,9 @@ import {CONNECTION_SECURITY_HELP_TEXT_WEBSERVER, WEBSERVER_MODE_HELP_TEXT} from 
 //   - needs_license: True if need to have license to be shown.
 //   - needs_no_license: True if need to have not license to be shown.
 //
+// Custom Widget (extends from Widget):
+//   - component: The component used to render the widget
+//
 // Banner Widget (extends from Widget):
 //   - banner_type: The type of banner (options: info or warning)
 //

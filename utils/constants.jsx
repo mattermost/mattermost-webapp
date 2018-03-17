@@ -47,6 +47,7 @@ export const SettingsTypes = {
     TYPE_USERNAME: 'username',
     TYPE_BUTTON: 'button',
     TYPE_LANGUAGE: 'language',
+    TYPE_CUSTOM: 'custom',
 };
 
 export const Preferences = {

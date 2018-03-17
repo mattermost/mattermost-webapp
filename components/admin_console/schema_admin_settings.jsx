@@ -35,6 +35,7 @@ export default class SchemaAdminSettings extends AdminSettings {
             [SettingsTypes.TYPE_USERNAME]: this.buildUsernameSetting,
             [SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
             [SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
+            [SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
         };
     }
 
@@ -358,6 +359,15 @@ export default class SchemaAdminSettings extends AdminSettings {
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
+            />
+        );
+    }
+
+    buildCustomSetting = (setting) => {
+        const CustomComponent = setting.component;
+        return (
+            <CustomComponent
+                key={this.props.schema.id + '_userautocomplete_' + setting.key}
             />
         );
     }

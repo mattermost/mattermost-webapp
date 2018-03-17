@@ -143,6 +143,11 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     error_message: 'admin.reload.reloadFail',
                     error_message_default: 'Reload unsuccessful: {error}',
                 },
+                {
+                    type: 'custom',
+                    key: 'custom',
+                    component: () => <p>{'Test'}</p>,
+                },
             ],
         };
 
