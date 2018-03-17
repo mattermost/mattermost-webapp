@@ -308,7 +308,7 @@ export default class LdapSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.ldap.firstnameAttrTitle'
-                            defaultMessage='First Name Attribute'
+                            defaultMessage='First Name Attribute:'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.ldap.firstnameAttrEx', 'Ex "givenName"')}

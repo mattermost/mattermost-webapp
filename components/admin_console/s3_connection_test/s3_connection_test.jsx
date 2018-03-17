@@ -1,4 +1,4 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import PropTypes from 'prop-types';
@@ -7,14 +7,14 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class EmailConnectionTestButton extends React.Component {
+export default class S3ConnectionTestButton extends React.Component {
     static get propTypes() {
         return {
             config: PropTypes.object.isRequired,
             getConfigFromState: PropTypes.func.isRequired,
             disabled: PropTypes.bool.isRequired,
             actions: PropTypes.shape({
-                testEmail: PropTypes.func.isRequired,
+                testS3Connection: PropTypes.func.isRequired,
             }).isRequired,
         };
     }
@@ -41,7 +41,7 @@ export default class EmailConnectionTestButton extends React.Component {
         const config = JSON.parse(JSON.stringify(this.props.config));
         this.props.getConfigFromState(config);
 
-        this.props.actions.testEmail(config).then(
+        this.props.actions.testS3Connection(config).then(
             (data) => {
                 if (data.error) {
                     let fail = data.error.message;
@@ -69,8 +69,8 @@ export default class EmailConnectionTestButton extends React.Component {
                 <div className='alert alert-success'>
                     <i className='fa fa-check'/>
                     <FormattedMessage
-                        id='admin.email.emailSuccess'
-                        defaultMessage='No errors were reported while sending an email.  Please check your inbox to make sure.'
+                        id='admin.s3.s3Success'
+                        defaultMessage='Connection was successful'
                     />
                 </div>
             );
@@ -79,7 +79,7 @@ export default class EmailConnectionTestButton extends React.Component {
                 <div className='alert alert-warning'>
                     <i className='fa fa-warning'/>
                     <FormattedMessage
-                        id='admin.email.emailFail'
+                        id='admin.s3.s3Fail'
                         defaultMessage='Connection unsuccessful: {error}'
                         values={{
                             error: this.state.fail,
@@ -94,20 +94,20 @@ export default class EmailConnectionTestButton extends React.Component {
             contents = (
                 <span>
                     <span className='fa fa-refresh icon--rotate'/>
-                    {Utils.localizeMessage('admin.email.testing', 'Testing...')}
+                    {Utils.localizeMessage('admin.s3.testing', 'Testing...')}
                 </span>
             );
         } else {
             contents = (
                 <FormattedMessage
-                    id='admin.email.connectionSecurityTest'
+                    id='admin.s3.connectionS3Test'
                     defaultMessage='Test Connection'
                 />
             );
         }
 
         return (
-            <div className='form-group email-connection-test'>
+            <div className='form-group s3-connection-test'>
                 <div className='col-sm-offset-4 col-sm-8'>
                     <div className='help-text'>
                         <button

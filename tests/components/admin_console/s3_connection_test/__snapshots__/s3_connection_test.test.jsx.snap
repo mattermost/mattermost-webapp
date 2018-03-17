@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/email_connection_test/email_connection_test should match snapshot, disabled 1`] = `
+exports[`components/admin_console/s3_connection_test/s3_connection_test should match snapshot, disabled 1`] = `
 <div
-  className="form-group email-connection-test"
+  className="form-group s3-connection-test"
 >
   <div
     className="col-sm-offset-4 col-sm-8"
@@ -17,7 +17,7 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
       >
         <FormattedMessage
           defaultMessage="Test Connection"
-          id="admin.email.connectionSecurityTest"
+          id="admin.s3.connectionS3Test"
           values={Object {}}
         />
       </button>
@@ -27,9 +27,9 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
 </div>
 `;
 
-exports[`components/admin_console/email_connection_test/email_connection_test should match snapshot, enable 1`] = `
+exports[`components/admin_console/s3_connection_test/s3_connection_test should match snapshot, enable 1`] = `
 <div
-  className="form-group email-connection-test"
+  className="form-group s3-connection-test"
 >
   <div
     className="col-sm-offset-4 col-sm-8"
@@ -44,7 +44,7 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
       >
         <FormattedMessage
           defaultMessage="Test Connection"
-          id="admin.email.connectionSecurityTest"
+          id="admin.s3.connectionS3Test"
           values={Object {}}
         />
       </button>

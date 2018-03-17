@@ -6,6 +6,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
+import S3ConnectionTest from 'components/admin_console/s3_connection_test';
+
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
@@ -194,44 +196,6 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_LOCAL}
                 />
                 <TextSetting
-                    id='amazonS3AccessKeyId'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3IdTitle'
-                            defaultMessage='Amazon S3 Access Key ID:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'Ex "AKIADTOVBGERKLCBV"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.image.amazonS3IdDescription'
-                            defaultMessage='Obtain this credential from your Amazon EC2 administrator.'
-                        />
-                    }
-                    value={this.state.amazonS3AccessKeyId}
-                    onChange={this.handleChange}
-                    disabled={this.state.driverName !== DRIVER_S3}
-                />
-                <TextSetting
-                    id='amazonS3SecretAccessKey'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3SecretTitle'
-                            defaultMessage='Amazon S3 Secret Access Key:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.image.amazonS3SecretDescription'
-                            defaultMessage='Obtain this credential from your Amazon EC2 administrator.'
-                        />
-                    }
-                    value={this.state.amazonS3SecretAccessKey}
-                    onChange={this.handleChange}
-                    disabled={this.state.driverName !== DRIVER_S3}
-                />
-                <TextSetting
                     id='amazonS3Bucket'
                     label={
                         <FormattedMessage
@@ -288,6 +252,44 @@ export default class StorageSettings extends AdminSettings {
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
+                <TextSetting
+                    id='amazonS3AccessKeyId'
+                    label={
+                        <FormattedMessage
+                            id='admin.image.amazonS3IdTitle'
+                            defaultMessage='Amazon S3 Access Key ID:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'Ex "AKIADTOVBGERKLCBV"')}
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.image.amazonS3IdDescription'
+                            defaultMessage='(Optional) Only required if you do not want to authenticate to S3 using an <a target="_blank" href="https://about.mattermost.com/default-iam-role">IAM role</a>. Enter the Access Key ID provided by your Amazon EC2 administrator.'
+                        />
+                    }
+                    value={this.state.amazonS3AccessKeyId}
+                    onChange={this.handleChange}
+                    disabled={this.state.driverName !== DRIVER_S3}
+                />
+                <TextSetting
+                    id='amazonS3SecretAccessKey'
+                    label={
+                        <FormattedMessage
+                            id='admin.image.amazonS3SecretTitle'
+                            defaultMessage='Amazon S3 Secret Access Key:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.image.amazonS3SecretDescription'
+                            defaultMessage='(Optional) The secret access key associated with your Amazon S3 Access Key ID.'
+                        />
+                    }
+                    value={this.state.amazonS3SecretAccessKey}
+                    onChange={this.handleChange}
+                    disabled={this.state.driverName !== DRIVER_S3}
+                />
                 <BooleanSetting
                     id='amazonS3SSL'
                     label={
@@ -323,6 +325,11 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.amazonS3Trace}
                     onChange={this.handleChange}
+                    disabled={this.state.driverName !== DRIVER_S3}
+                />
+                <S3ConnectionTest
+                    config={this.props.config}
+                    getConfigFromState={this.getConfigFromState}
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <BooleanSetting
