@@ -168,4 +168,14 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot with custom component', () => {
+        const wrapper = shallow(
+            <SchemaAdminSettings
+                config={config}
+                schema={{component: () => <p>{'Test'}</p>}}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

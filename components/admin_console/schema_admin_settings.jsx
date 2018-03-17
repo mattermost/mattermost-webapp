@@ -406,4 +406,14 @@ export default class SchemaAdminSettings extends AdminSettings {
             </SettingsGroup>
         );
     }
+
+    render = () => {
+        const schema = this.props.schema;
+
+        if (schema.component) {
+            const CustomComponent = schema.component;
+            return (<CustomComponent {...this.props}/>);
+        }
+        return AdminSettings.prototype.render.call(this);
+    }
 }
