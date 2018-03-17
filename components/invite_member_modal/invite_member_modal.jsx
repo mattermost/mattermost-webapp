@@ -225,7 +225,7 @@ class InviteMemberModal extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        if (e.keyCode === Constants.KeyCodes.ENTER) {
+        if (utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             e.preventDefault();
             this.handleSubmit();
         }

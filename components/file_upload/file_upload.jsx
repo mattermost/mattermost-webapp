@@ -3,9 +3,9 @@
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, intlShape} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
 
 import Constants from 'utils/constants.jsx';
@@ -17,6 +17,7 @@ import {
 import {
     clearFileInput,
     cmdOrCtrlPressed,
+    isKeyPressed,
     generateId,
     isFileTransfer,
     localizeMessage,
@@ -46,18 +47,13 @@ const holders = defineMessages({
 
 const OVERLAY_TIMEOUT = 500;
 
-class FileUpload extends React.PureComponent {
+export default class FileUpload extends PureComponent {
     static propTypes = {
 
         /**
          * Current channel's ID
          */
         currentChannelId: PropTypes.string.isRequired,
-
-        /**
-         * react-intl helper object
-         */
-        intl: intlShape.isRequired,
 
         /**
          * Number of files to attach
@@ -113,6 +109,10 @@ class FileUpload extends React.PureComponent {
          * Whether or not file upload is allowed.
          */
         canUploadFiles: PropTypes.bool.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     constructor(props) {
@@ -207,7 +207,7 @@ class FileUpload extends React.PureComponent {
 
         this.props.onUploadStart(clientIds, currentChannelId);
 
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         if (sortedFiles.length > uploadsRemaining) {
             this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
         } else if (tooLargeFiles.length > 1) {
@@ -242,6 +242,8 @@ class FileUpload extends React.PureComponent {
         if (typeof files !== 'string' && files.length) {
             this.uploadFiles(files);
         }
+
+        this.props.onFileUploadChange();
     }
 
     registerDragEvents = (containerSelector, overlaySelector) => {
@@ -296,12 +298,10 @@ class FileUpload extends React.PureComponent {
         }
 
         $(containerSelector).dragster(dragsterActions);
-
-        this.props.onFileUploadChange();
     }
 
     pasteUpload = (e) => {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         if (!e.clipboardData || !e.clipboardData.items) {
             return;
@@ -391,7 +391,7 @@ class FileUpload extends React.PureComponent {
     }
 
     keyUpload = (e) => {
-        if (cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
+        if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
             if (!this.props.canUploadFiles) {
@@ -421,7 +421,8 @@ class FileUpload extends React.PureComponent {
     handleMaxUploadReached = (e) => {
         e.preventDefault();
 
-        const {onUploadError, intl: {formatMessage}} = this.props;
+        const {onUploadError} = this.props;
+        const {formatMessage} = this.context.intl;
 
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
@@ -467,5 +468,3 @@ class FileUpload extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(FileUpload, {withRef: true});

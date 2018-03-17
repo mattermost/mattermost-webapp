@@ -10,6 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
@@ -28,41 +29,37 @@ const getState = store.getState;
 
 export async function loadMe() {
     await UserActions.loadMe()(dispatch, getState);
-
-    if (window.mm_config) {
-        loadCurrentLocale();
-    }
+    loadCurrentLocale();
 }
 
 export async function loadMeAndConfig(callback) {
     const {data: config} = await getClientConfig()(store.dispatch, store.getState);
 
-    global.window.mm_config = config;
+    const promises = [];
 
-    if (global.window && global.window.analytics) {
-        global.window.analytics.identify(global.window.mm_config.DiagnosticId, {}, {
-            context: {
-                ip: '0.0.0.0',
-            },
-            page: {
-                path: '',
-                referrer: '',
-                search: '',
-                title: '',
-                url: '',
-            },
-            anonymousId: '00000000000000000000000000',
-        });
+    if (document.cookie.indexOf('MMUSERID=') > -1) {
+        if (global.window && global.window.analytics) {
+            global.window.analytics.identify(config.DiagnosticId, {}, {
+                context: {
+                    ip: '0.0.0.0',
+                },
+                page: {
+                    path: '',
+                    referrer: '',
+                    search: '',
+                    title: '',
+                    url: '',
+                },
+                anonymousId: '00000000000000000000000000',
+            });
+        }
+
+        promises.push(loadMe());
     }
 
-    Promise.all([
-        loadMe(),
-        getLicenseConfig()(store.dispatch, store.getState).then(
-            ({data: license}) => {
-                global.window.mm_license = license;
-            }
-        ),
-    ]).then(callback);
+    promises.push(getLicenseConfig()(store.dispatch, store.getState));
+
+    Promise.all(promises).then(callback);
 }
 
 export async function switchFromLdapToEmail(email, password, token, ldapPassword, success, error) {
@@ -490,7 +487,9 @@ export async function deactivateMfa(success, error) {
 }
 
 export async function checkMfa(loginId, success, error) {
-    if (global.window.mm_config.EnableMultifactorAuthentication !== 'true') {
+    const config = getConfig(getState());
+
+    if (config.EnableMultifactorAuthentication !== 'true') {
         success(false);
         return;
     }

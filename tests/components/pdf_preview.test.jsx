@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PDFPreview from 'components/pdf_preview.jsx';
-import FileInfoPreview from 'components/file_info_preview.jsx';
 
 jest.mock('pdfjs-dist', () => ({
     getDocument: () => Promise.resolve({
@@ -30,13 +29,12 @@ describe('component/PDFPreview', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, loaded with FileInfoPreview', () => {
+    test('should match snapshot, not successful', () => {
         const wrapper = shallow(
             <PDFPreview {...requiredProps}/>
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(FileInfoPreview).exists()).toBe(true);
     });
 
     test('should return correct state when updateStateFromProps is called', () => {

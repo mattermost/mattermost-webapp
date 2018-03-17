@@ -69,6 +69,7 @@ const actionsProp = {
     removeReaction: emptyFunction,
     clearDraftUploads: emptyFunction,
     onSubmitPost: emptyFunction,
+    selectPostFromRightHandSideSearchByPostId: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction,
 };
@@ -219,7 +220,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         const postTextbox = wrapper.find('#post_textbox');
-        postTextbox.simulate('KeyPress', {which: KeyCodes.ENTER, preventDefault: jest.fn()});
+        postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
@@ -368,16 +369,17 @@ describe('components/create_post', () => {
         expect(wrapper.find('#postCreateFooter').hasClass('post-create-footer has-error')).toBe(true);
     });
 
-    it('check for handleFileUploadChange callbak for focus', () => {
+    it('check for handleFileUploadChange callback for focus', () => {
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
         expect(instance.focusTextbox).toBeCalled();
+        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
-    it('check for handleFileUploadStart callbak', () => {
+    it('check for handleFileUploadStart callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
@@ -403,7 +405,7 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
-    it('check for handleFileUploadComplete callbak', () => {
+    it('check for handleFileUploadComplete callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
@@ -441,7 +443,7 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
     });
 
-    it('check for handleUploadError callbak', () => {
+    it('check for handleUploadError callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
@@ -508,9 +510,13 @@ describe('components/create_post', () => {
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
-        instance.showShortcuts({ctrlKey: true, keyCode: Constants.KeyCodes.BACK_SLASH, preventDefault: jest.fn()});
+        instance.showShortcuts({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn});
         expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
-        instance.showShortcuts({ctrlKey: true, keyCode: Constants.KeyCodes.FORWARD_SLASH, preventDefault: jest.fn()});
+        instance.showShortcuts({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
+        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
+        instance.showShortcuts({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn});
+        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        instance.showShortcuts({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
@@ -519,7 +525,7 @@ describe('components/create_post', () => {
             ctrlSend: true,
         }));
         const instance = wrapper.instance();
-        instance.handleKeyDown({ctrlKey: true, keyCode: Constants.KeyCodes.ENTER});
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
@@ -533,7 +539,7 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
@@ -552,7 +558,7 @@ describe('components/create_post', () => {
         });
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
@@ -572,7 +578,7 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.DOWN, ctrlKey: true, preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.DOWN[0], ctrlKey: true, preventDefault: jest.fn()});
         expect(moveHistoryIndexForward).toHaveBeenCalled();
     });
 
@@ -592,7 +598,7 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, ctrlKey: true, preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], ctrlKey: true, preventDefault: jest.fn()});
         expect(moveHistoryIndexBack).toHaveBeenCalled();
     });
 
@@ -627,6 +633,27 @@ describe('components/create_post', () => {
         expect(onSubmitPost).toHaveBeenCalledTimes(1);
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
         expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
+    });
+
+    it('Should have called actions.selectPostFromRightHandSideSearchByPostId on replyToLastPost', () => {
+        const selectPostFromRightHandSideSearchByPostId = jest.fn();
+        let latestReplyablePostId = '';
+        const wrapper = shallow(createPost({
+            actions: {
+                ...actionsProp,
+                selectPostFromRightHandSideSearchByPostId,
+            },
+            latestReplyablePostId,
+        }));
+
+        wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
+        expect(selectPostFromRightHandSideSearchByPostId).not.toBeCalled();
+
+        latestReplyablePostId = 'latest_replyablePost_id';
+        wrapper.setProps({latestReplyablePostId});
+        wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
+        expect(selectPostFromRightHandSideSearchByPostId).toHaveBeenCalledTimes(1);
+        expect(selectPostFromRightHandSideSearchByPostId.mock.calls[0][0]).toEqual(latestReplyablePostId);
     });
 
     it('should match snapshot for read only channel', () => {

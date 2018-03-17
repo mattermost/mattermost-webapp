@@ -59,6 +59,7 @@ export default class DeletePostModal extends React.Component {
         this.setState({
             show: value,
             post: args.post,
+            isRHS: args.isRHS,
             commentCount: args.commentCount,
             error: '',
         });
@@ -68,7 +69,11 @@ export default class DeletePostModal extends React.Component {
         this.setState({show: false});
 
         if (!UserAgent.isMobile()) {
-            document.getElementById('post_textbox').focus();
+            if (this.state.isRHS) {
+                document.getElementById('reply_textbox').focus();
+            } else {
+                document.getElementById('post_textbox').focus();
+            }
         }
     }
 

@@ -429,6 +429,7 @@ export default class LoginController extends React.Component {
                                 placeholder={this.createLoginPlaceholder()}
                                 spellCheck='false'
                                 autoCapitalize='off'
+                                autoFocus='true'
                             />
                         </div>
                         <div className={'form-group' + errorClass}>

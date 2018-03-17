@@ -85,7 +85,7 @@ export default class ChannelMembersDropdown extends React.Component {
 
     render() {
         const supportsChannelAdmin = this.props.isLicensed;
-        const isChannelAdmin = supportsChannelAdmin && Utils.isChannelAdmin(this.props.channelMember.roles);
+        const isChannelAdmin = supportsChannelAdmin && Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles);
 
         let serverError = null;
         if (this.state.serverError) {

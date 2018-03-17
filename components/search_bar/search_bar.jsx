@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {Popover} from 'react-bootstrap';
+import {FormattedHTMLMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -12,6 +12,7 @@ import SearchChannelProvider from 'components/suggestion/search_channel_provider
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
@@ -33,12 +34,13 @@ export default class SearchBar extends React.Component {
         }),
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             focused: false,
             isPristine: true,
+            searchTerms: this.props.searchTerms,
         };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
@@ -55,6 +57,12 @@ export default class SearchBar extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            searchTerms: nextProps.searchTerms,
+        });
+    }
+
     handleClose = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
@@ -69,7 +77,7 @@ export default class SearchBar extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        if (e.which === KeyCodes.ESCAPE) {
+        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
             e.stopPropagation();
             e.preventDefault();
         }
@@ -77,7 +85,9 @@ export default class SearchBar extends React.Component {
 
     handleChange = (e) => {
         var term = e.target.value;
-        this.props.actions.updateSearchTerms(term);
+        this.setState({
+            searchTerms: term,
+        });
     }
 
     handleUserBlur = () => {
@@ -85,7 +95,9 @@ export default class SearchBar extends React.Component {
     }
 
     handleClear = () => {
-        this.props.actions.updateSearchTerms('');
+        this.setState({
+            searchTerms: '',
+        });
     }
 
     handleUserFocus = () => {
@@ -97,6 +109,8 @@ export default class SearchBar extends React.Component {
             this.setState({
                 isPristine: false,
             });
+
+            this.props.actions.updateSearchTerms(terms);
 
             const {error} = await this.props.actions.showSearchResults();
 
@@ -114,7 +128,7 @@ export default class SearchBar extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const terms = this.props.searchTerms.trim();
+        const terms = this.state.searchTerms.trim();
 
         if (terms.length === 0) {
             return;
@@ -174,30 +188,9 @@ export default class SearchBar extends React.Component {
         }
 
         let helpClass = 'search-help-popover';
-        if (!this.props.searchTerms && this.state.focused) {
+        if (!this.state.searchTerms && this.state.focused) {
             helpClass += ' visible';
         }
-
-        const recentMentionsTooltip = (
-            <Tooltip id='recentMentionsTooltip'>
-                <FormattedMessage
-                    id='channel_header.recentMentions'
-                    defaultMessage='Recent Mentions'
-                />
-            </Tooltip>
-        );
-
-        const flaggedTooltip = (
-            <Tooltip
-                id='flaggedTooltip'
-                className='text-nowrap'
-            >
-                <FormattedMessage
-                    id='channel_header.flagged'
-                    defaultMessage='Flagged Posts'
-                />
-            </Tooltip>
-        );
 
         let mentionBtn;
         let flagBtn;
@@ -205,49 +198,37 @@ export default class SearchBar extends React.Component {
             var mentionBtnClass = this.props.isMentionSearch ? 'active' : '';
 
             mentionBtn = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={recentMentionsTooltip}
-                >
-                    <div
-                        className={'channel-header__icon ' + mentionBtnClass}
-                        onClick={this.searchMentions}
-                    >
+                <HeaderIconWrapper
+                    iconComponent={
                         <MentionsIcon
                             className='icon icon__mentions'
                             aria-hidden='true'
                         />
-                    </div>
-                </OverlayTrigger>
+                    }
+                    buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
+                    buttonId={'channelHeaderMentionButton'}
+                    onClick={this.searchMentions}
+                    tooltipKey={'recentMentions'}
+                />
             );
 
             var flagBtnClass = this.props.isFlaggedPosts ? 'active' : '';
 
             flagBtn = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={flaggedTooltip}
-                >
-                    <div
-                        className={'channel-header__icon ' + flagBtnClass}
-                    >
-                        <button
-                            onClick={this.getFlagged}
-                            className='style--none'
-                        >
-                            <FlagIcon className='icon icon__flag'/>
-                        </button>
-                    </div>
-                </OverlayTrigger>
+                <HeaderIconWrapper
+                    iconComponent={
+                        <FlagIcon className='icon icon__flag'/>
+                    }
+                    buttonClass={'channel-header__icon style--none ' + flagBtnClass}
+                    buttonId={'channelHeaderFlagButton'}
+                    onClick={this.getFlagged}
+                    tooltipKey={'flaggedPosts'}
+                />
             );
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
+        if (!this.props.isSearchingTerm && this.state.searchTerms && this.state.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -287,7 +268,7 @@ export default class SearchBar extends React.Component {
                             ref={this.getSearch}
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            value={this.props.searchTerms}
+                            value={this.state.searchTerms}
                             onFocus={this.handleUserFocus}
                             onBlur={this.handleUserBlur}
                             onChange={this.handleChange}
@@ -295,7 +276,8 @@ export default class SearchBar extends React.Component {
                             listComponent={SearchSuggestionList}
                             providers={this.suggestionProviders}
                             type='search'
-                            autoFocus={this.props.isFocus && this.props.searchTerms === ''}
+                            autoFocus={this.props.isFocus && this.state.searchTerms === ''}
+                            delayInputUpdate={true}
                         />
                         <div
                             id='searchClearButton'
@@ -313,12 +295,8 @@ export default class SearchBar extends React.Component {
                         {this.renderHintPopover(helpClass)}
                     </form>
                 </div>
-                <div>
-                    {mentionBtn}
-                </div>
-                <div>
-                    {flagBtn}
-                </div>
+                {mentionBtn}
+                {flagBtn}
             </div>
         );
     }

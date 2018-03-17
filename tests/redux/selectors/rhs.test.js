@@ -49,8 +49,8 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
             },
             storage: {
                 storage: {
-                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: false,
-                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false,
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: {value: false, timestamp: new Date()},
+                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: {value: false, timestamp: new Date()},
                 },
             },
         };
@@ -71,7 +71,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 ...state.storage,
                 storage: {
                     ...state.storage.storage,
-                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: null,
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: {value: null, timestamp: new Date()},
                 },
             },
         };
@@ -147,7 +147,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 ...state.storage,
                 storage: {
                     ...state.storage.storage,
-                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: true,
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: {value: true, timestamp: new Date()},
                 },
             },
         };
@@ -176,7 +176,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 ...state.storage,
                 storage: {
                     ...state.storage.storage,
-                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false,
+                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: {value: false, timestamp: new Date()},
                 },
             },
         };

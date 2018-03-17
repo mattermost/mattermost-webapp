@@ -63,7 +63,7 @@ class TestHelperClass {
 
     createWebSocketClient(token) {
         var ws = new WebSocketClient();
-        ws.initialize('http://localhost:8065/api/v3/users/websocket', token);
+        ws.initialize('http://localhost:8065/api/v4/websocket', token);
         return ws;
     }
 

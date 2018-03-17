@@ -7,6 +7,8 @@ import {clearUserAccessTokens, createUserAccessToken, getMe, getUserAccessTokens
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+import {getPasswordConfig} from 'utils/utils.jsx';
+
 import SecurityTab from './user_settings_security.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -28,7 +30,7 @@ function mapStateToProps(state, ownProps) {
     const enableLdap = config.EnableLdap === 'true';
     const enableSaml = config.EnableSaml === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
-    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
+    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer !== 'false';
 
     return {
         userAccessTokens: state.entities.users.myUserAccessTokens,
@@ -45,6 +47,7 @@ function mapStateToProps(state, ownProps) {
         enableSaml,
         enableSignUpWithOffice365,
         experimentalEnableAuthenticationTransfer,
+        passwordConfig: getPasswordConfig(license, config),
     };
 }
 

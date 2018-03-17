@@ -6,7 +6,7 @@
     left: 0;
     position: fixed;
     width: 220px;
-    z-index: 6;
+    z-index: 5;
 
     .error-bar--fixed & {
         height: calc(100% - 22px);

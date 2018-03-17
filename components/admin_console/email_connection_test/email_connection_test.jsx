@@ -117,7 +117,9 @@ export default class EmailConnectionTestButton extends React.Component {
                         >
                             {contents}
                         </button>
-                        {testMessage}
+                        <div>
+                            {testMessage}
+                        </div>
                     </div>
                 </div>
             </div>

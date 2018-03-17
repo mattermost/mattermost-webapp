@@ -422,7 +422,7 @@ export default class NotificationsTab extends React.Component {
                     >
                         <FormattedMessage
                             id='user.settings.push_notification.disabled_long'
-                            defaultMessage='Push notifications for mobile devices have been disabled by your System Administrator.'
+                            defaultMessage='Push Notifications are not enabled. Contact your System Administrator.'
                         />
                     </div>
                 );
@@ -876,7 +876,7 @@ export default class NotificationsTab extends React.Component {
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
                         enableEmail={enableEmail}
-                        emailInterval={Utils.getEmailInterval(enableEmail)}
+                        emailInterval={Utils.getEmailInterval(this.props.enableEmailBatching, enableEmail)}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
                         saving={this.state.isSaving}

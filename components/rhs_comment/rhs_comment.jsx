@@ -383,6 +383,7 @@ export default class RhsComment extends React.Component {
             const dotMenu = (
                 <DotMenu
                     idPrefix={Constants.RHS}
+                    isRHS={true}
                     idCount={idCount}
                     post={this.props.post}
                     isFlagged={this.props.isFlagged}

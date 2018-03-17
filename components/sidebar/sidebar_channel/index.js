@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getChannelsNameMapInCurrentTeam, getMyChannelMemberships, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
-import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -25,7 +25,7 @@ function makeMapStateToProps() {
         const channel = getChannel(state, {id: channelId}) || {};
 
         const enableTutorial = config.EnableTutorial === 'true';
-        const tutorialStep = parseInt(getPreference(state, Constants.Preferences.TUTORIAL_STEP, ownProps.currentUserId, Constants.TutorialSteps.FINISHED), 10);
+        const tutorialStep = getInt(state, Constants.Preferences.TUTORIAL_STEP, ownProps.currentUserId, Constants.TutorialSteps.FINISHED);
         const channelsByName = getChannelsNameMapInCurrentTeam(state);
         const memberIds = getUserIdsInChannels(state);
 
