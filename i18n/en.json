@@ -1257,6 +1257,7 @@
   "audit_table.attemptedAllowOAuthAccess": "Attempted to allow a new OAuth service access",
   "audit_table.attemptedLicenseAdd": "Attempted to add new license",
   "audit_table.attemptedLogin": "Attempted to login",
+  "audit_table.authenticated": "Successfully authenticated",
   "audit_table.attemptedOAuthToken": "Attempted to get an OAuth access token",
   "audit_table.attemptedPassword": "Attempted to change password",
   "audit_table.attemptedRegisterApp": "Attempted to register a new OAuth Application with ID {id}",
