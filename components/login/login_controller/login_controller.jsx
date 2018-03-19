@@ -114,43 +114,43 @@ export default class LoginController extends React.Component {
         // don't trim the password since we support spaces in passwords
         loginId = loginId.trim().toLowerCase();
 
-        if (!loginId) {
-            // it's slightly weird to be constructing the message ID, but it's a bit nicer than triply nested if statements
-            let msgId = 'login.no';
-            if (this.state.emailSigninEnabled) {
-                msgId += 'Email';
-            }
-            if (this.state.usernameSigninEnabled) {
-                msgId += 'Username';
-            }
-            if (this.state.ldapEnabled) {
-                msgId += 'LdapUsername';
-            }
+        // if (!loginId) {
+        //     // it's slightly weird to be constructing the message ID, but it's a bit nicer than triply nested if statements
+        //     let msgId = 'login.no';
+        //     if (this.state.emailSigninEnabled) {
+        //         msgId += 'Email';
+        //     }
+        //     if (this.state.usernameSigninEnabled) {
+        //         msgId += 'Username';
+        //     }
+        //     if (this.state.ldapEnabled) {
+        //         msgId += 'LdapUsername';
+        //     }
 
-            this.setState({
-                serverError: (
-                    <FormattedMessage
-                        id={msgId}
-                        values={{
-                            ldapUsername: this.props.ldapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username'),
-                        }}
-                    />
-                ),
-            });
-            return;
-        }
+        //     this.setState({
+        //         serverError: (
+        //             <FormattedMessage
+        //                 id={msgId}
+        //                 values={{
+        //                     ldapUsername: this.props.ldapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username'),
+        //                 }}
+        //             />
+        //         ),
+        //     });
+        //     return;
+        // }
 
-        if (!password) {
-            this.setState({
-                serverError: (
-                    <FormattedMessage
-                        id='login.noPassword'
-                        defaultMessage='Please enter your password'
-                    />
-                ),
-            });
-            return;
-        }
+        // if (!password) {
+        //     this.setState({
+        //         serverError: (
+        //             <FormattedMessage
+        //                 id='login.noPassword'
+        //                 defaultMessage='Please enter your password'
+        //             />
+        //         ),
+        //     });
+        //     return;
+        // }
 
         checkMfa(
             loginId,
