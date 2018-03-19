@@ -10,7 +10,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
     />
   }
   focused={false}
-  section=""
+  section="desktop"
   title={
     <SectionTitle
       section="desktop"
@@ -29,7 +29,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
     />
   }
   focused={false}
-  section=""
+  section="markUnread"
   title={
     <SectionTitle
       section="markUnread"
@@ -48,7 +48,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
     />
   }
   focused={false}
-  section=""
+  section="push"
   title={
     <SectionTitle
       section="push"
