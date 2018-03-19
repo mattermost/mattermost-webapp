@@ -39,6 +39,14 @@ const holders = defineMessages({
         id: 'file_upload.fileAbove',
         defaultMessage: 'File above {max}MB could not be uploaded: {filename}',
     },
+    zeroBytesFiles: {
+        id: 'file_upload.zeroBytesFiles',
+        defaultMessage: 'You are uploading empty files: {filenames}',
+    },
+    zeroBytesFile: {
+        id: 'file_upload.zeroBytesFile',
+        defaultMessage: 'You are uploading an empty file: {filename}',
+    },
     pasted: {
         id: 'file_upload.pasted',
         defaultMessage: 'Image Pasted at ',
@@ -177,12 +185,16 @@ export default class FileUpload extends PureComponent {
 
         // keep track of how many files have been too large
         const tooLargeFiles = [];
+        const zeroFiles = [];
         const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
             if (sortedFiles[i].size > this.props.maxFileSize) {
                 tooLargeFiles.push(sortedFiles[i]);
                 continue;
+            }
+            if (sortedFiles[i].size === 0) {
+                zeroFiles.push(sortedFiles[i]);
             }
 
             // generate a unique id that can be used by other components to refer back to this upload
@@ -208,14 +220,29 @@ export default class FileUpload extends PureComponent {
         this.props.onUploadStart(clientIds, currentChannelId);
 
         const {formatMessage} = this.context.intl;
+        const errors = [];
         if (sortedFiles.length > uploadsRemaining) {
-            this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
-        } else if (tooLargeFiles.length > 1) {
+            errors.push(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
+        }
+
+        if (tooLargeFiles.length > 1) {
             var tooLargeFilenames = tooLargeFiles.map((file) => file.name).join(', ');
 
-            this.props.onUploadError(formatMessage(holders.filesAbove, {max: (this.props.maxFileSize / 1048576), filenames: tooLargeFilenames}));
+            errors.push(formatMessage(holders.filesAbove, {max: (this.props.maxFileSize / 1048576), filenames: tooLargeFilenames}));
         } else if (tooLargeFiles.length > 0) {
-            this.props.onUploadError(formatMessage(holders.fileAbove, {max: (this.props.maxFileSize / 1048576), filename: tooLargeFiles[0].name}));
+            errors.push(formatMessage(holders.fileAbove, {max: (this.props.maxFileSize / 1048576), filename: tooLargeFiles[0].name}));
+        }
+
+        if (zeroFiles.length > 1) {
+            var zeroFilenames = zeroFiles.map((file) => file.name).join(', ');
+
+            errors.push(formatMessage(holders.zeroBytesFiles, {filenames: zeroFilenames}));
+        } else if (zeroFiles.length > 0) {
+            errors.push(formatMessage(holders.zeroBytesFile, {filename: zeroFiles[0].name}));
+        }
+
+        if (errors.length > 0) {
+            this.props.onUploadError(errors.join(', '));
         }
     }
 

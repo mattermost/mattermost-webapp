@@ -1619,6 +1619,8 @@
   "file_upload.disabled": "File attachments are disabled.",
   "file_upload.fileAbove": "File above {max}MB cannot be uploaded: {filename}",
   "file_upload.filesAbove": "Files above {max}MB cannot be uploaded: {filenames}",
+  "file_upload.zeroBytesFiles": "You are uploading empty files: {filenames}",
+  "file_upload.zeroBytesFile": "You are uploading an empty file: {filename}",
   "file_upload.limited": "Uploads limited to {count, number} files maximum. Please use additional posts for more files.",
   "file_upload.pasted": "Image Pasted at ",
   "filtered_channels_list.search": "Search channels",
