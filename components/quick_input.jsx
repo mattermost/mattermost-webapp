@@ -44,41 +44,49 @@ export default class QuickInput extends React.PureComponent {
     }
 
     updateInputFromProps = () => {
+        if (!this.input) {
+            return;
+        }
+
         if (UserAgent.isWindows7() && UserAgent.isInternetExplorer()) {
             // The textbox already knows where it's cursor is supposed to be because we've already
             // typed in it, but it needs to be reminded of that
-            const caret = Utils.getCaretPosition(this.refs.input);
+            const caret = Utils.getCaretPosition(this.input);
 
-            this.refs.input.value = this.props.value;
+            this.input.value = this.props.value;
 
-            this.refs.input.selectionStart = caret;
-            this.refs.input.selectionEnd = this.refs.input.selectionStart;
+            this.input.selectionStart = caret;
+            this.input.selectionEnd = this.input.selectionStart;
 
             return;
         }
 
-        this.refs.input.value = this.props.value;
+        this.input.value = this.props.value;
     }
 
     get value() {
-        return this.refs.input.value;
+        return this.input.value;
     }
 
     set value(value) {
-        this.refs.input.value = value;
+        this.input.value = value;
     }
 
     focus() {
-        this.refs.input.focus();
+        this.input.focus();
     }
 
     blur() {
-        this.refs.input.blur();
+        this.input.blur();
     }
 
     getInput = () => {
-        return this.refs.input;
+        return this.input;
     };
+
+    setInput = (input) => {
+        this.input = input;
+    }
 
     render() {
         const {value, inputComponent, ...props} = this.props;
@@ -89,7 +97,7 @@ export default class QuickInput extends React.PureComponent {
             inputComponent || 'input',
             {
                 ...props,
-                ref: 'input',
+                ref: this.setInput,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );
