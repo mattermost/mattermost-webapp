@@ -149,3 +149,91 @@ export const WEBSERVER_MODE_HELP_TEXT = (
         </p>
     </div>
 );
+
+export const LOG_FORMAT_HELP_TEXT = (
+    <div>
+        <FormattedMessage
+            id='admin.log.formatDescription'
+            defaultMessage='Format of log message output. If blank will be set to "[%D %T] [%L] %M", where:'
+        />
+        <table
+            className='table table-bordered'
+            cellPadding='5'
+        >
+            <tbody>
+                <tr>
+                    <td>{'%T'}</td>
+                    <td>
+                        <FormattedMessage
+                            id='admin.log.formatTime'
+                            defaultMessage='Time (15:04:05 MST)'
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{'%D'}</td>
+                    <td>
+                        <FormattedMessage
+                            id='admin.log.formatDateLong'
+                            defaultMessage='Date (2006/01/02)'
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{'%d'}</td>
+                    <td>
+                        <FormattedMessage
+                            id='admin.log.formatDateShort'
+                            defaultMessage='Date (01/02/06)'
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{'%L'}</td>
+                    <td>
+                        <FormattedMessage
+                            id='admin.log.formatLevel'
+                            defaultMessage='Level (DEBG, INFO, EROR)'
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{'%S'}</td>
+                    <td>
+                        <FormattedMessage
+                            id='admin.log.formatSource'
+                            defaultMessage='Source'
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>{'%M'}</td>
+                    <td>
+                        <FormattedMessage
+                            id='admin.log.formatMessage'
+                            defaultMessage='Message'
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+);
+
+export const LOG_LEVEL_OPTIONS = [
+    {
+        value: 'DEBUG',
+        display_name: 'DEBUG',
+        display_name_default: 'DEBUG',
+    },
+    {
+        value: 'INFO',
+        display_name: 'INFO',
+        display_name_default: 'INFO',
+    },
+    {
+        value: 'ERROR',
+        display_name: 'ERROR',
+        display_name_default: 'ERROR',
+    },
+];

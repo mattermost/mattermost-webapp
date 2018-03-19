@@ -1,5 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/admin_console/SchemaAdminSettings should match snapshot with custom component 1`] = `
+<component
+  config={
+    Object {
+      "Config": Object {
+        "settinga": "fsdsdg",
+        "settingb": false,
+        "settingc": "option3",
+        "settingd": "option1",
+        "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
+        "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
+        "settingg": 7,
+      },
+    }
+  }
+  schema={
+    Object {
+      "component": [Function],
+    }
+  }
+/>
+`;
+
 exports[`components/admin_console/SchemaAdminSettings should match snapshot with settings and plugin 1`] = `
 <div
   className="wrapper--fixed"
@@ -429,6 +452,9 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             "id": "admin.requestButton.requestSuccess",
           }
         }
+      />
+      <component
+        key="Config_userautocomplete_custom"
       />
     </SettingsGroup>
     <div

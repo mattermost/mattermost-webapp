@@ -9,7 +9,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import AnnouncementBar from 'components/announcement_bar';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
-import Audits from 'components/admin_console/audits';
 import ClientVersionsSettings from 'components/admin_console/client_versions_settings.jsx';
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
 import ConnectionSettings from 'components/admin_console/connection_settings.jsx';
@@ -24,9 +23,7 @@ import ExternalServiceSettings from 'components/admin_console/external_service_s
 import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
 import LdapSettings from 'components/admin_console/ldap_settings.jsx';
 import LegalAndSupportSettings from 'components/admin_console/legal_and_support_settings.jsx';
-import LicenseSettings from 'components/admin_console/license_settings.jsx';
 import LinkPreviewsSettings from 'components/admin_console/link_previews_settings.jsx';
-import LogSettings from 'components/admin_console/log_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
 import MetricsSettings from 'components/admin_console/metrics_settings.jsx';
 import NativeAppLinkSettings from 'components/admin_console/native_app_link_settings.jsx';
@@ -41,14 +38,10 @@ import PublicLinkSettings from 'components/admin_console/public_link_settings.js
 import PushSettings from 'components/admin_console/push_settings.jsx';
 import RateSettings from 'components/admin_console/rate_settings.jsx';
 import SamlSettings from 'components/admin_console/saml_settings.jsx';
-import Logs from 'components/admin_console/server_logs';
 import SessionSettings from 'components/admin_console/session_settings.jsx';
 import SignupSettings from 'components/admin_console/signup_settings.jsx';
 import StorageSettings from 'components/admin_console/storage_settings.jsx';
-import SystemUsers from 'components/admin_console/system_users';
 import WebrtcSettings from 'components/admin_console/webrtc_settings.jsx';
-import SystemAnalytics from 'components/analytics/system_analytics';
-import TeamAnalytics from 'components/analytics/team_analytics';
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
@@ -148,8 +141,11 @@ export default class AdminConsole extends React.Component {
                     <Switch>
                         <SCRoute
                             path={`${this.props.match.url}/system_analytics`}
-                            component={SystemAnalytics}
-                            extraProps={extraProps}
+                            component={SchemaAdminSettings}
+                            extraProps={{
+                                ...extraProps,
+                                schema: AdminDefinition.reporting.system_analytics.schema,
+                            }}
                         />
                         <Route
                             path={`${this.props.match.url}/general`}
@@ -202,8 +198,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/logging`}
-                                        component={LogSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.general.logging.schema,
+                                        }}
                                     />
                                     <Redirect to={`${props.match.url}/configuration`}/>
                                 </Switch>
@@ -462,28 +461,43 @@ export default class AdminConsole extends React.Component {
                         />
                         <SCRoute
                             path={`${this.props.match.url}/users`}
-                            component={SystemUsers}
-                            extraProps={extraProps}
+                            component={SchemaAdminSettings}
+                            extraProps={{
+                                ...extraProps,
+                                schema: AdminDefinition.reporting.system_users.schema,
+                            }}
                         />
                         <SCRoute
                             path={`${this.props.match.url}/team_analytics`}
-                            component={TeamAnalytics}
-                            extraProps={extraProps}
+                            component={SchemaAdminSettings}
+                            extraProps={{
+                                ...extraProps,
+                                schema: AdminDefinition.reporting.team_analytics.schema,
+                            }}
                         />
                         <SCRoute
                             path={`${this.props.match.url}/license`}
-                            component={LicenseSettings}
-                            extraProps={extraProps}
+                            component={SchemaAdminSettings}
+                            extraProps={{
+                                ...extraProps,
+                                schema: AdminDefinition.other.license.schema,
+                            }}
                         />
                         <SCRoute
                             path={`${this.props.match.url}/audits`}
-                            component={Audits}
-                            extraProps={extraProps}
+                            component={SchemaAdminSettings}
+                            extraProps={{
+                                ...extraProps,
+                                schema: AdminDefinition.other.audits.schema,
+                            }}
                         />
                         <SCRoute
                             path={`${this.props.match.url}/logs`}
-                            component={Logs}
-                            extraProps={extraProps}
+                            component={SchemaAdminSettings}
+                            extraProps={{
+                                ...extraProps,
+                                schema: AdminDefinition.reporting.server_logs.schema,
+                            }}
                         />
                         <Redirect to={`${this.props.match.url}/system_analytics`}/>
                     </Switch>

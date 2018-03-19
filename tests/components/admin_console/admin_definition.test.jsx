@@ -81,6 +81,12 @@ const settingDropdown = yup.object().shape({
     options: yup.array().of(option),
 });
 
+const settingCustom = yup.object().shape({
+    type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_CUSTOM]),
+    ...baseShape,
+    component: yup.object().required(),
+});
+
 const setting = yup.mixed().test('is-setting', 'not a valid setting', (value) => {
     let valid = false;
     valid = valid || settingBanner.isValidSync(value);
@@ -91,6 +97,7 @@ const setting = yup.mixed().test('is-setting', 'not a valid setting', (value) =>
     valid = valid || settingLanguage.isValidSync(value);
     valid = valid || settingMultiLanguage.isValidSync(value);
     valid = valid || settingDropdown.isValidSync(value);
+    valid = valid || settingCustom.isValidSync(value);
     return valid;
 });
 
@@ -101,8 +108,18 @@ var schema = yup.object().shape({
     settings: yup.array().of(setting).required(),
 });
 
+var customComponentSchema = yup.object().shape({
+    id: yup.string().required(),
+    component: yup.object().required(),
+});
+
 var definition = yup.object().shape({
-    reporting: yup.object().shape({}),
+    reporting: yup.object().shape({
+        system_analytics: yup.object().shape({schema: customComponentSchema}),
+        team_analytics: yup.object().shape({schema: customComponentSchema}),
+        system_users: yup.object().shape({schema: customComponentSchema}),
+        server_logs: yup.object().shape({schema: customComponentSchema}),
+    }),
     settings: yup.object().shape({
         general: yup.object().shape({
             configuration: yup.object().shape({schema}),
@@ -126,7 +143,10 @@ var definition = yup.object().shape({
         compliance: yup.object().shape({}),
         advanced: yup.object().shape({}),
     }),
-    other: yup.object().shape({}),
+    other: yup.object().shape({
+        license: yup.object().shape({schema: customComponentSchema}),
+        audits: yup.object().shape({schema: customComponentSchema}),
+    }),
 });
 
 describe('components/admin_console/admin_definition', () => {
