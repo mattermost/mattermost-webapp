@@ -12,14 +12,11 @@ exports[`/components/create_team should match snapshot 1`] = `
     <div
       className="signup-team__container"
     >
-      <h1>
-        Mattermost
-      </h1>
-      <h4
-        className="color--light"
-      >
-        Welcome to our custom branded site!
-      </h4>
+      <SiteNameAndDescription
+        customDescriptionText="Welcome to our custom branded site!"
+        isLicensed={true}
+        siteName="Mattermost"
+      />
       <div
         className="signup__content"
       >
