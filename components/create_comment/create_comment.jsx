@@ -21,6 +21,7 @@ import * as Utils from 'utils/utils.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
+const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -281,12 +282,18 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-        this.focusTextbox(forceFocus);
+        if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
+            if (this.refs.textbox.state.preview) {
+                this.refs.textbox.hidePreview();
+            }
+        }
 
         try {
             await this.props.onSubmit();
+
+            const fasterThanHumanWillClick = 150;
+            const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+            this.focusTextbox(forceFocus);
 
             this.setState({
                 postError: null,
