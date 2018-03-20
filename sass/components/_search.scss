@@ -46,9 +46,10 @@
 
     .search-bar__container & {
         @include border-radius(50px);
+        @include single-transition(all, .3s, ease-out);
         border: 1px solid $light-gray;
         margin: 20px 9px 0 0;
-        width: 296px;
+        width: 180px;
     }
 
     .sidebar--right & {

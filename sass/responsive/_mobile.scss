@@ -1059,6 +1059,7 @@
             background: $white;
             border: none;
             margin-top: 9px;
+            padding-left: 40px;
             width: 100%;
 
             .fa-spin {
@@ -1073,7 +1074,7 @@
 
             .search__icon {
                 left: 15px;
-                top: 7px;
+                top: 8px;
 
                 svg {
                     stroke: $black;
