@@ -20,7 +20,6 @@ import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -361,7 +360,7 @@ export default class SwitchChannelProvider extends Provider {
                 wrappedChannel.name = getChannelDisplayName(channel);
             } else if (channel.type === Constants.DM_CHANNEL) {
                 wrappedChannel = this.userWrappedChannel(
-                    UserStore.getProfile(Utils.getUserIdFromChannelId(channel.name))
+                    getUser(getState(), Utils.getUserIdFromChannelId(channel.name))
                 );
             }
             wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
