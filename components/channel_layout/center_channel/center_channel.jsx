@@ -6,9 +6,10 @@ import PropTypes from 'prop-types';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
-import PermalinkView from 'components/permalink_view';
+import PermalinkView from 'components/permalink_view/index.js';
 import Navbar from 'components/navbar';
-import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
+
+import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router.jsx';
 
 export default class CenterChannel extends React.PureComponent {
     static propTypes = {
@@ -65,7 +66,13 @@ export default class CenterChannel extends React.PureComponent {
                         />
                         <Route
                             path={'/:team/:path(channels|messages)/:identifier'}
-                            component={ChannelIdentifierRouter}
+                            render={({props, match, history}) => (
+                                <ChannelIdentifierRouter
+                                    match={match}
+                                    history={history}
+                                    {...props}
+                                />
+                            )}
                         />
                         <Redirect to={lastChannelPath}/>
                     </Switch>
