@@ -51,7 +51,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     });
 
     test('should match snapshot, on NEVER', () => {
-        const props = {...baseProps, memberNotifyLevel: NotificationLevels.NEVER};
+        const props = {...baseProps, memberNotifyLevel: NotificationLevels.NONE};
         const wrapper = shallow(
             <Describe {...props}/>
         );
