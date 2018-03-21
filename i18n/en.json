@@ -175,7 +175,7 @@
   "admin.cluster.ClusterNameDesc": "The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database.",
   "admin.cluster.ClusterNameEx": "E.g.: \"Production\" or \"Staging\"",
   "admin.cluster.GossipPort": "Gossip Port:",
-  "admin.cluster.GossipPortDesc": "The port used for the gossip protocol.  Both UDP and TCP should abe allowed on this port.",
+  "admin.cluster.GossipPortDesc": "The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port.",
   "admin.cluster.GossipPortEx": "E.g.: \"8074\"",
   "admin.cluster.OverrideHostname": "Override Hostname:",
   "admin.cluster.OverrideHostnameDesc": "The default value of <blank> will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed.",
