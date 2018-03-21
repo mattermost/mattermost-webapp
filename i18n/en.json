@@ -2625,6 +2625,7 @@
   "suggestion.mention.special": "Special Mentions",
   "suggestion.search.private": "Private Channels",
   "suggestion.search.public": "Public Channels",
+  "suggestion.mention.unread.channels": "Unread Channels",
   "system_users_list.count": "{count, number} {count, plural, one {user} other {users}}",
   "system_users_list.countPage": "{startCount, number} - {endCount, number} {count, plural, one {user} other {users}} of {total, number} total",
   "system_users_list.countSearch": "{count, number} {count, plural, one {user} other {users}} of {total, number} total",
