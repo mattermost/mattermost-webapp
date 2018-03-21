@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/components/common/SiteNameAndDescription should match snapshot, default 1`] = `
+<React.Fragment>
+  <h1>
+    Mattermost
+  </h1>
+  <h4
+    className="color--light"
+  >
+    <FormattedMessage
+      defaultMessage="All team communication in one place, searchable and accessible anywhere"
+      id="web.root.signup_info"
+      values={Object {}}
+    />
+  </h4>
+</React.Fragment>
+`;
+
+exports[`/components/common/SiteNameAndDescription should match snapshot, with custom site name and description 1`] = `
+<React.Fragment>
+  <h1>
+    other_site
+  </h1>
+  <h4
+    className="color--light"
+  >
+    <FormattedMessage
+      defaultMessage="All team communication in one place, searchable and accessible anywhere"
+      id="web.root.signup_info"
+      values={Object {}}
+    />
+  </h4>
+</React.Fragment>
+`;
+
+exports[`/components/common/SiteNameAndDescription should match snapshot, with custom site name and description 2`] = `
+<React.Fragment>
+  <h1>
+    other_site
+  </h1>
+  <h4
+    className="color--light"
+  >
+    custom_description_text
+  </h4>
+</React.Fragment>
+`;

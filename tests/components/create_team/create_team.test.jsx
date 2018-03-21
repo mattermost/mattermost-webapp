@@ -34,14 +34,6 @@ describe('/components/create_team', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should display custom branded description', () => {
-        const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
-
-        const customText = wrapper.find('h4').text();
-
-        expect(customText).toBe(defaultProps.customDescriptionText);
-    });
-
     test('should run props.history.push with new state', () => {
         const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
 
