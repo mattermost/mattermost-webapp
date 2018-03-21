@@ -67,11 +67,6 @@ describe('components/EditPostModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should match without editingPost', () => {
-        const wrapper = shallow(createEditPost({editingPost: {}}));
-        expect(wrapper).toMatchSnapshot();
-    });
-
     it('should not call GlobalActions.showDeletePostModal on empty edited message but with attachment', () => {
         const actions = {
             editPost: jest.fn(),

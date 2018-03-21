@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {showDeletePostModal, showGetPostLinkModal} from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
 import DotMenuItem from 'components/dot_menu/dot_menu_item.jsx';
 
 jest.mock('actions/global_actions.jsx', () => {
@@ -132,7 +131,7 @@ describe('components/dot_menu/DotMenuItem', () => {
 
     test('should match snapshot, on RHS_ROOT', () => {
         const props = {
-            idPrefix: Constants.RHS_ROOT,
+            idPrefix: 'rhsrootDotMenuDelete',
             idCount: -1,
             post: {id: 'post_id_1'},
             commentCount: 0,
@@ -142,6 +141,6 @@ describe('components/dot_menu/DotMenuItem', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#rhsroot').exists()).toBe(true);
+        expect(wrapper.find('#rhsrootDotMenuDelete').exists()).toBe(true);
     });
 });
