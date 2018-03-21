@@ -50,7 +50,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, on NEVER', () => {
+    test('should match snapshot, on NONE', () => {
         const props = {...baseProps, memberNotifyLevel: NotificationLevels.NONE};
         const wrapper = shallow(
             <Describe {...props}/>
