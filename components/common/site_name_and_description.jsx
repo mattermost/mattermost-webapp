@@ -7,20 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 export default class SiteNameAndDescription extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Custom description of the site
-         */
         customDescriptionText: PropTypes.string,
-
-        /**
-         * Set to true if instance is licensed; false as default
-         */
         isLicensed: PropTypes.bool,
-
-        /**
-         * Site name; "Mattermost" as default
-         */
         siteName: PropTypes.string,
     };
 

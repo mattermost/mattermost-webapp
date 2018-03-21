@@ -18,7 +18,7 @@ import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import SiteNameAndDescription from 'components/common/site_name_and_description.jsx';
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 

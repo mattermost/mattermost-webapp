@@ -23,7 +23,7 @@ import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 
 import logoImage from 'images/logo.png';
 
-import SiteNameAndDescription from 'components/common/site_name_and_description.jsx';
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
 

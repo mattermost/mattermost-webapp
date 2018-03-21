@@ -18,7 +18,7 @@ import logoImage from 'images/logo.png';
 
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
-import SiteNameAndDescription from 'components/common/site_name_and_description.jsx';
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 export default class SignupLdap extends React.Component {
     static get propTypes() {
