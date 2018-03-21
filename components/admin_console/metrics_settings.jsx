@@ -77,7 +77,7 @@ export default class MetricsSettings extends AdminSettings {
                             defaultMessage='Listen Address:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.metrics.listenAddressEx', 'Ex ":8067"')}
+                    placeholder={Utils.localizeMessage('admin.metrics.listenAddressEx', 'E.g.: ":8067"')}
                     helpText={
                         <FormattedMessage
                             id='admin.metrics.listenAddressDesc'

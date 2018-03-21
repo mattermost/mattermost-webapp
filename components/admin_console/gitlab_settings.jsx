@@ -102,7 +102,7 @@ export default class GitLabSettings extends AdminSettings {
                             defaultMessage='Application ID:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.clientIdExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    placeholder={Utils.localizeMessage('admin.gitlab.clientIdExample', 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
                     helpText={
                         <FormattedMessage
                             id='admin.gitlab.clientIdDescription'
@@ -121,7 +121,7 @@ export default class GitLabSettings extends AdminSettings {
                             defaultMessage='Application Secret Key:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.clientSecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    placeholder={Utils.localizeMessage('admin.gitlab.clientSecretExample', 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
                     helpText={
                         <FormattedMessage
                             id='admin.gitlab.clientSecretDescription'

@@ -89,7 +89,7 @@ export default class RateSettings extends AdminSettings {
                             defaultMessage='Maximum Queries per Second:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.rate.queriesExample', 'Ex "10"')}
+                    placeholder={Utils.localizeMessage('admin.rate.queriesExample', 'E.g.: "10"')}
                     helpText={
                         <FormattedMessage
                             id='admin.rate.queriesDescription'
@@ -108,7 +108,7 @@ export default class RateSettings extends AdminSettings {
                             defaultMessage='Maximum Burst Size:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.rate.maxBurstExample', 'Ex "100"')}
+                    placeholder={Utils.localizeMessage('admin.rate.maxBurstExample', 'E.g.: "100"')}
                     helpText={
                         <FormattedMessage
                             id='admin.rate.maxBurstDescription'
@@ -127,7 +127,7 @@ export default class RateSettings extends AdminSettings {
                             defaultMessage='Memory Store Size:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.rate.memoryExample', 'Ex "10000"')}
+                    placeholder={Utils.localizeMessage('admin.rate.memoryExample', 'E.g.: "10000"')}
                     helpText={
                         <FormattedMessage
                             id='admin.rate.memoryDescription'
@@ -182,7 +182,7 @@ export default class RateSettings extends AdminSettings {
                             defaultMessage='Vary rate limit by HTTP header:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.rate.httpHeaderExample', 'Ex "X-Real-IP", "X-Forwarded-For"')}
+                    placeholder={Utils.localizeMessage('admin.rate.httpHeaderExample', 'E.g.: "X-Real-IP", "X-Forwarded-For"')}
                     helpText={
                         <FormattedMessage
                             id='admin.rate.httpHeaderDescription'
