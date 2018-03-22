@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -166,15 +165,15 @@ export default class EditPostModal extends React.PureComponent {
         const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide(false);
-            
+
             const modalData = {
                 ModalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
-                    post: Selectors.getPost(getState(), editingPost.postId), 
+                    post: Selectors.getPost(getState(), editingPost.postId),
                     commentCount: editingPost.commentsCount,
-                    isRHS: editingPost.isRHS
-                }
+                    isRHS: editingPost.isRHS,
+                },
             };
 
             this.props.actions.openModal(modalData);

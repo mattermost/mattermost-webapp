@@ -269,7 +269,7 @@ export const ModalIdentifiers = {
     CHANNEL_INVITE: 'channel_invite',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
-    DELETE_POST: 'delete_post'
+    DELETE_POST: 'delete_post',
 };
 
 export const UserStatuses = {

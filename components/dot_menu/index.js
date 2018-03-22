@@ -22,7 +22,7 @@ function mapDispatchToProps(dispatch) {
             setEditingPost,
             pinPost,
             unpinPost,
-            openModal
+            openModal,
         }, dispatch),
     };
 }
