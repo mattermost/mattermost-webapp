@@ -9,7 +9,6 @@ import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 jest.useFakeTimers();
 
 jest.mock('actions/global_actions.jsx', () => ({
-    showDeletePostModal: jest.fn(),
     emitClearSuggestions: jest.fn(),
 }));
 
@@ -39,6 +38,7 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
         editPost: jest.fn(),
         addMessageIntoHistory: jest.fn(),
         hideEditPostModal: jest.fn(),
+        openModal: jest.fn(),
     };
     return (
         <EditPostModal
@@ -67,11 +67,12 @@ describe('components/EditPostModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should not call GlobalActions.showDeletePostModal on empty edited message but with attachment', () => {
+    it('should not call openModal on empty edited message but with attachment', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         const editingPost = {
             postId: '123',
@@ -92,7 +93,7 @@ describe('components/EditPostModal', () => {
         wrapper.setState({editText: ''});
         instance.handleEdit();
 
-        expect(GlobalActions.showDeletePostModal).not.toHaveBeenCalled();
+        expect(actions.openModal).not.toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).toBeCalled();
         expect(actions.editPost).toBeCalled();
     });
@@ -102,6 +103,7 @@ describe('components/EditPostModal', () => {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
 
@@ -216,6 +218,7 @@ describe('components/EditPostModal', () => {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -234,6 +237,7 @@ describe('components/EditPostModal', () => {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         var wrapper = shallow(createEditPost({actions}));
         var instance = wrapper.instance();
@@ -244,7 +248,7 @@ describe('components/EditPostModal', () => {
         instance.handleEdit();
 
         expect(actions.hideEditPostModal).toBeCalled();
-        expect(GlobalActions.showDeletePostModal).toHaveBeenCalled();
+        expect(actions.openModal).toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
 
@@ -259,7 +263,7 @@ describe('components/EditPostModal', () => {
         await instance.handleEdit();
 
         expect(actions.hideEditPostModal).toBeCalled();
-        expect(GlobalActions.showDeletePostModal).toHaveBeenCalled();
+        expect(actions.openModal).toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
     });
@@ -271,6 +275,7 @@ describe('components/EditPostModal', () => {
             }),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         global.scrollTo = jest.fn();
         const wrapper = shallow(createEditPost({actions}));
@@ -297,6 +302,7 @@ describe('components/EditPostModal', () => {
             editPost: jest.fn((data) => data),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -313,6 +319,7 @@ describe('components/EditPostModal', () => {
             editPost: jest.fn((data) => data),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
