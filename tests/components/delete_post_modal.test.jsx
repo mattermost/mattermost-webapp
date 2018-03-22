@@ -53,7 +53,6 @@ describe('components/delete_post_modal', () => {
         wrapper.instance().onHide();
         expect(wrapper.state('show')).toEqual(false);
     });
-    
 
     test('should have called actions.deletePost when handleDelete is called', async () => {
         browserHistory.push = jest.fn();
