@@ -7,38 +7,7 @@ export default class MemberIcon extends React.PureComponent {
     render() {
         return (
             <span {...this.props}>
-                <svg
-                    width='16px'
-                    height='16px'
-                    viewBox='0 0 16 16'
-                >
-                    <g
-                        id='Symbols'
-                        stroke='none'
-                        strokeWidth='1'
-                        fill='inherit'
-                        fillRule='evenodd'
-                    >
-                        <g
-                            id='Channel-Header/Web-HD'
-                            transform='translate(-725.000000, -32.000000)'
-                            fillRule='nonzero'
-                            fill='inherit'
-                        >
-                            <g id='Channel-Header'>
-                                <g
-                                    id='user-count'
-                                    transform='translate(676.000000, 22.000000)'
-                                >
-                                    <path
-                                        d='M64.9481342,24 C64.6981342,20.955 63.2551342,19.076 60.6731342,18.354 C61.4831342,17.466 61.9881342,16.296 61.9881342,15 C61.9881342,12.238 59.7501342,10 56.9881342,10 C54.2261342,10 51.9881342,12.238 51.9881342,15 C51.9881342,16.297 52.4941342,17.467 53.3031342,18.354 C50.7221342,19.076 49.2771342,20.955 49.0271342,24 C49.0161342,24.146 49.0061342,24.577 49.0001342,25.001 C48.9911342,25.553 49.4361342,26 49.9881342,26 L63.9881342,26 C64.5411342,26 64.9851342,25.553 64.9761342,25.001 C64.9701342,24.577 64.9601342,24.146 64.9481342,24 Z M56.9881342,12 C58.6421342,12 59.9881342,13.346 59.9881342,15 C59.9881342,16.654 58.6421342,18 56.9881342,18 C55.3341342,18 53.9881342,16.654 53.9881342,15 C53.9881342,13.346 55.3341342,12 56.9881342,12 Z M51.0321342,24 C51.2981342,21.174 52.7911342,20 55.9881342,20 L57.9881342,20 C61.1851342,20 62.6781342,21.174 62.9441342,24 L51.0321342,24 Z'
-                                        id='User_4_x2C__Profile_5-Copy-9'
-                                    />
-                                </g>
-                            </g>
-                        </g>
-                    </g>
-                </svg>
+                <svg version="1.1" width="36" height="36"  viewBox="0 0 36 36" preserveAspectRatio="xMidYMid meet" xlinkHref="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink"><title>search-line</title><path d="M18,17a7,7,0,1,0-7-7A7,7,0,0,0,18,17ZM18,5a5,5,0,1,1-5,5A5,5,0,0,1,18,5Z" class="clr-i-outline clr-i-outline-path-1"></path><path d="M30.47,24.37a17.16,17.16,0,0,0-24.93,0A2,2,0,0,0,5,25.74V31a2,2,0,0,0,2,2H29a2,2,0,0,0,2-2V25.74A2,2,0,0,0,30.47,24.37ZM29,31H7V25.73a15.17,15.17,0,0,1,22,0h0Z" class="clr-i-outline clr-i-outline-path-2"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"/></svg>
             </span>
         );
     }

@@ -7,34 +7,7 @@ export default class PinIcon extends React.PureComponent {
     render() {
         return (
             <span {...this.props}>
-                <svg
-                    width='16px'
-                    height='16px'
-                    viewBox='0 0 16 16'
-                    version='1.1'
-                >
-                    <g
-                        id='Symbols'
-                        stroke='inherit'
-                        strokeWidth='1'
-                        fill='inherit'
-                        fillRule='evenodd'
-                    >
-                        <g
-                            transform='translate(-775.000000, -32.000000)'
-                            fillRule='nonzero'
-                            fill='inherit'
-                        >
-                            <g>
-                                <g transform='translate(764.000000, 22.000000)'>
-                                    <g transform='translate(10.000000, 10.000000)'>
-                                        <path d='M16.456,7.291 L9.483,0.25 C9.31,0.078 9.178,0 9.08,0 C8.896,0 8.831,0.276 8.831,0.732 L8.831,3.044 L5.831,5.96 L2.578,6.268 C1.887,6.405 1.668,6.917 2.167,7.41 L4.781,10.011 L3.83,10.961 L1.05,15.511 C0.93,15.761 1.03,15.862 1.28,15.74 L5.83,12.961 L6.786,12.005 L9.359,14.565 C9.556,14.76 9.754,14.854 9.929,14.854 C10.197,14.854 10.413,14.634 10.497,14.219 L10.83,10.961 L13.746,7.961 L16.082,7.961 C16.788,7.961 16.955,7.785 16.456,7.291 Z M12.312,6.567 L9.396,9.567 L8.911,10.065 L8.84,10.757 L8.797,11.184 L5.589,7.992 L6.018,7.952 L6.72,7.886 L7.225,7.396 L10.225,4.48 L10.547,4.167 L12.616,6.256 L12.312,6.567 Z'/>
-                                    </g>
-                                </g>
-                            </g>
-                        </g>
-                    </g>
-                </svg>
+                <svg version="1.1" width="36" height="36"  viewBox="0 0 36 36" preserveAspectRatio="xMidYMid meet" xlinkHref="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink"><title>pin-line</title><path class="clr-i-outline clr-i-outline-path-1" d="M33,16.59a1,1,0,0,1-.71-.29L19.7,3.71a1,1,0,0,1,1.41-1.41L33.71,14.89A1,1,0,0,1,33,16.59Z"></path><path class="clr-i-outline clr-i-outline-path-2" d="M28.52,15.56l-1.41-1.41-7.2,7.2a1,1,0,0,0-.25,1,9,9,0,0,1-1.53,8.09L5.58,17.87a9,9,0,0,1,8.09-1.53,1,1,0,0,0,1-.25l7.2-7.2L20.44,7.48l-6.79,6.79A10.94,10.94,0,0,0,3.41,17.11a1,1,0,0,0,0,1.42l6.33,6.33L2.29,32.29a1,1,0,1,0,1.41,1.41l7.44-7.44,6.33,6.33a1,1,0,0,0,.71.29h0a1,1,0,0,0,.71-.3,11,11,0,0,0,2.84-10.24Z"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"/></svg>
             </span>
         );
     }

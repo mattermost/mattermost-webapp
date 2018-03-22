@@ -7,32 +7,7 @@ export default class FlagIcon extends React.PureComponent {
     render() {
         return (
             <span {...this.props}>
-                <svg
-                    width='16px'
-                    height='16px'
-                    viewBox='0 0 16 16'
-                >
-                    <g
-                        stroke='none'
-                        strokeWidth='1'
-                        fill='inherit'
-                        fillRule='evenodd'
-                    >
-                        <g
-                            transform='translate(-1106.000000, -33.000000)'
-                            fillRule='nonzero'
-                            fill='inherit'
-                        >
-                            <g>
-                                <g transform='translate(1096.000000, 22.000000)'>
-                                    <g transform='translate(10.000000, 11.000000)'>
-                                        <path d='M8,1 L2,1 C2,0.447 1.553,0 1,0 C0.447,0 0,0.447 0,1 L0,15.5 C0,15.776 0.224,16 0.5,16 L1.5,16 C1.776,16 2,15.776 2,15.5 L2,11 L7,11 L7,12 C7,12.553 7.447,13 8,13 L15,13 C15.553,13 16,12.553 16,12 L16,4 C16,3.447 15.553,3 15,3 L9,3 L9,2 C9,1.447 8.553,1 8,1 Z M9,11 L9,9.5 C9,9.224 8.776,9 8.5,9 L2,9 L2,3 L7,3 L7,4.5 C7,4.776 7.224,5 7.5,5 L14,5 L14,11 L9,11 Z'/>
-                                    </g>
-                                </g>
-                            </g>
-                        </g>
-                    </g>
-                </svg>
+                <svg version="1.1" width="36" height="36"  viewBox="0 0 36 36" preserveAspectRatio="xMidYMid meet" xlinkHref="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink"><title>flag-line</title><path class="clr-i-outline clr-i-outline-path-1" d="M6,34a1,1,0,0,1-1-1V3A1,1,0,0,1,7,3V33A1,1,0,0,1,6,34Z"></path><path class="clr-i-outline clr-i-outline-path-2" d="M30.55,3.82a1,1,0,0,0-1,0,14.9,14.9,0,0,1-6.13,1.16,13.11,13.11,0,0,1-5.18-1.49,12.78,12.78,0,0,0-5-1.45A10.86,10.86,0,0,0,9,2.85V5.08A8.8,8.8,0,0,1,13.25,4a11.22,11.22,0,0,1,4.2,1.28,14.84,14.84,0,0,0,6,1.66A18.75,18.75,0,0,0,29,6.12V18.95a16.16,16.16,0,0,1-5.58.93,13.11,13.11,0,0,1-5.18-1.49,12.78,12.78,0,0,0-5-1.45A10.86,10.86,0,0,0,9,17.79V20a8.8,8.8,0,0,1,4.25-1.08,11.22,11.22,0,0,1,4.2,1.28,14.84,14.84,0,0,0,6,1.66,16.79,16.79,0,0,0,7-1.37,1,1,0,0,0,.55-.89V4.67A1,1,0,0,0,30.55,3.82Z"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"/></svg>
             </span>
         );
     }

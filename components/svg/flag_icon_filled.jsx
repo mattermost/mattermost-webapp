@@ -7,32 +7,7 @@ export default class FlagIconFilled extends React.PureComponent {
     render() {
         return (
             <span {...this.props}>
-                <svg
-                    width='16px'
-                    height='16px'
-                    viewBox='0 0 16 16'
-                >
-                    <g
-                        stroke='none'
-                        strokeWidth='1'
-                        fill='inherit'
-                        fillRule='evenodd'
-                    >
-                        <g
-                            transform='translate(-1073.000000, -33.000000)'
-                            fillRule='nonzero'
-                            fill='inherit'
-                        >
-                            <g transform='translate(-1.000000, 0.000000)'>
-                                <g transform='translate(1064.000000, 22.000000)'>
-                                    <g transform='translate(10.000000, 11.000000)'>
-                                        <path d='M8,1 L2,1 C2,0.447 1.553,0 1,0 C0.447,0 0,0.447 0,1 L0,15.5 C0,15.776 0.224,16 0.5,16 L1.5,16 C1.776,16 2,15.776 2,15.5 L2,11 L7,11 L7,12 C7,12.553 7.447,13 8,13 L15,13 C15.553,13 16,12.553 16,12 L16,4 C16,3.447 15.553,3 15,3 L9,3 L9,2 C9,1.447 8.553,1 8,1 Z'/>
-                                    </g>
-                                </g>
-                            </g>
-                        </g>
-                    </g>
-                </svg>
+                <svg version="1.1" width="36" height="36"  viewBox="0 0 36 36" preserveAspectRatio="xMidYMid meet" xlinkHref="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink"><title>flag-solid</title><path class="clr-i-solid clr-i-solid-path-1" d="M5.92,2a1,1,0,0,0-1,1V33a1,1,0,0,0,2,0V3A1,1,0,0,0,5.92,2Z"></path><path class="clr-i-solid clr-i-solid-path-2" d="M30.5,3.82a1,1,0,0,0-1,0,14.9,14.9,0,0,1-6.13,1.16,13.11,13.11,0,0,1-5.18-1.49A12.78,12.78,0,0,0,13.2,2,10.86,10.86,0,0,0,9,2.85V20a8.8,8.8,0,0,1,4.25-1.08,11.22,11.22,0,0,1,4.2,1.28,14.84,14.84,0,0,0,6,1.66,16.79,16.79,0,0,0,7-1.37,1,1,0,0,0,.55-.89V4.67A1,1,0,0,0,30.5,3.82Z"></path><rect x="0" y="0" width="36" height="36" fill-opacity="0"/></svg>
             </span>
         );
     }

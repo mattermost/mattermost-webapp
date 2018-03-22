@@ -1,0 +1,923 @@
+/*
+----
+VARIABLES
+----
+*/
+$light-border      : #F1F1F1;
+$blue              : rgb(35, 137, 215);
+/*
+----
+OVERRIDES
+----
+*/
+
+//TYPOGRAPHY
+
+body {
+    font-size: 16px;
+    font-family: 'Fira Sans', 'sans-serif' !important;
+
+    .app__body.font--open_sans {
+        font-family: 'Fira Sans', 'sans-serif' !important;
+    }
+    
+    .form-control {
+        font-size: 16px;
+    }
+}
+
+blockquote {
+    padding: 8px 8px 8px 32px;
+
+    &:before {
+        opacity: 0.2;
+        left: 0px;
+        top: 8px;
+        font-size: 28px;
+    }
+}
+
+b, strong {
+    font-weight: 700;
+}
+
+//CHANNEL HEADER
+.channel-header, .search-bar__container.channel-header.alt {
+    height: 68px;
+	padding: 8px 16px;
+	flex-basis: initial;
+
+	.icon, .search__icon {
+		display: flex;
+	    justify-content: center;
+	    align-items: center;
+
+		svg {
+            width: 24px;
+            height: 24px;
+		}
+	}
+
+    .search__icon {
+        top: 8px;
+        left: 8px;
+    }
+
+    .search__form {
+        padding: 0 40px;
+
+        .search-bar {
+            height: 40px;
+            font-size: 16px;
+        }
+    }
+
+    .member-popover__trigger {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    button.channel-header__icon, .sidebar-right__table {
+        padding: 0 12px;
+    }
+
+    .channel-header__icon, .channel-header__icon.wide {
+        display: flex;
+        height: auto;
+        line-height: 24px;
+        margin: 0;
+        min-width: 32px;
+        position: static;
+        text-align: center;
+        width: auto;
+        z-index: 5;
+        top: 0;
+
+        > div  {
+            padding: 0 12px;
+        }
+
+        .icon__members, .icon__mentions, .icon__flag, .icon__pin {
+            top: 0;
+        }
+    }
+
+    .heading {
+        font-size: 16px;
+    }
+
+    .channel-header__favorites {
+        padding-top: 0;
+    }
+
+    .header-dropdown__icon {
+        top: 0;
+    }
+}
+
+.channel-header .channel-header__icon {
+	border: none;
+	border-radius: 4px;
+}
+
+#channelMemberCountText {
+    display: none;
+}
+
+.search-bar__container .search__form {
+	border-radius: 4px;
+	margin: 0;
+}
+
+#channelMember, .channel-header .channel-header__icon {
+	margin: 0;
+}
+
+.channel-header__info {
+	width: 100%;
+	margin-top: 0;
+}
+
+.channel-header__title dropdown {
+	display: inline-block;
+	width: 100%;
+}
+
+.flex-child {
+	display: flex;
+	align-items: center;
+}
+
+.channel-header .flex-child:first-child {
+	padding: 0;
+}
+// CHANNEL HEADER END
+
+//SIDEBAR
+.sidebar--left {
+	.team__header {
+		height: 68px;
+		padding: 8px 16px;
+		align-items: center;
+
+        .user__picture {
+            border-radius: 4px;
+        }
+
+        .sidebar-header-dropdown .sidebar-header-dropdown__icon {
+            width: 24px;
+            height: 24px;
+            right: 0;
+            top: -4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+	}
+
+	.nav li > .sidebar-item .icon.icon__globe, .nav li > .sidebar-item .icon.icon__lock {
+		opacity: 0.2;
+	}
+
+    .nav li > .sidebar-item {
+        display: flex;
+        padding: 4px 0 4px 16px;
+
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 16px;
+            margin: 0;
+            margin-right: 8px;
+        }
+
+        .icon__lock {
+            top: 0;
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+
+    .status {
+        margin: 0 8px 0 0;
+        width: 16px;
+        top: 0;
+
+        &.status-edit {
+            .fa {
+                &:before {
+                    position: relative;
+                    top: -2px;
+                }
+            }
+        }
+
+        &.status--group {
+            width: 16px;
+            height: 16px;
+            margin: 0 8px 0 0;
+            left: 0;
+            top: 4px;
+            line-height: 16px;
+            border-radius: 4px;
+        }
+
+        svg {
+            max-height: 16px;
+        }
+    }
+
+    .status-wrapper .status {
+        top: 26px;
+        height: 12px;
+        right: -12px;
+        width: 12px;
+
+        svg {
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+        }
+    }
+
+    .nav li > .sidebar-item .icon.icon__globe {
+        top: 0;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+	.nav.nav-pills.nav-stacked {
+		margin-bottom: 16px;
+	}
+
+	.nav li > h4 {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 12px;
+        line-height: 20px;
+		font-weight: 800;
+
+        margin: 16px 0 8px;
+        padding: 0 12px 0 16px;
+	}
+
+	.nav li {
+		> .sidebar-item.unread-title {
+			font-weight: 800;
+
+            .icon.icon__globe {
+                border: 1px solid red;
+            }
+		}
+	}
+
+	.nav li.active {
+		a, a:hover {
+			font-weight: normal;
+		}
+		> .sidebar-item span.icon {
+			opacity: 1;
+		}
+	}
+
+    .nav-more.cursor--pointer.style--none.btn--block {
+        padding: 4px 0 4px 16px;
+
+        span {
+            padding-left: 24px;
+        }
+    }
+
+    #publicChannel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .add-channel-btn.cursor--pointer.style--none {
+            font-size: 20px;
+            line-height: 20px;
+            float: none;
+            margin: 0;
+            padding: 0 4px;
+        }
+    }
+}
+
+//TEAM SIDEBAR
+.multi-teams .team-sidebar .team-wrapper .team-container {
+    display: block;
+    width: 32px;
+    height: 32px;
+    font-weight: 300;
+    text-transform: capitalize;
+    margin: 0 auto;
+    margin-bottom: 16px;
+
+    &:before {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+
+    a {
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        margin-left: 0;
+    }
+
+    &.unread:before {
+        width: 4px;
+        height: 4px;
+        top: 16px;
+    }
+
+    &.active {
+
+        &:before {
+            display: none;
+        }        
+
+        a {
+            opacity: 1;
+        }
+
+        .team-btn {
+            background: #db4942;
+            border: none;
+        }
+    }
+
+    .team-btn {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        border-radius: 4px;
+
+        .team-btn__content {
+            display: none;
+        }
+    }
+
+    .team-btn.team-btn__add {
+        height: inherit;
+        width: inherit;
+    }
+}
+
+//POSTS
+.post {
+	padding: 16px;
+    padding-bottom: 4px;
+
+    p,a,li,span,h1,h2,h3,h4,h5,h6 {
+        line-height: 1.44em;
+    }
+
+	&.same--root.same--user {
+		padding: 0 16px;
+	}
+
+    .post__permalink {
+        line-height: 16px;
+    }
+
+	.post__img {
+		text-align: initial;
+		width: 44px;
+
+		img {
+			height: 36px;
+			width: 36px;
+			border-radius: 4px;
+		}
+	}
+
+    &.post--comment {
+        .post__body {
+            padding-left: 8px;
+            margin-left: 4px;
+        }
+    }
+
+    .post__link {
+        font-size: 14px;
+        margin: 2px 0 4px 4px;
+    }
+
+	.post__body {
+		padding: 0 0 0 4px;
+
+        ul, ol {
+            margin-bottom: 8px;
+            margin-top: 4px;
+            padding-left: 17px; // the list style bullet or square or asterix require this to be 17px
+        }
+
+        p, ul, li {
+            font-size: 16px;
+        }
+
+        hr {
+            opacity: 0.1;
+            margin: 16px 0 12px;
+        }
+
+        .post-reaction-list {
+            display: flex;
+            align-items: center;
+
+            .post-reaction {
+                margin: 0;
+                margin-right: 4px;
+                padding: 0 4px;
+
+                .post-reaction__add {
+                    font-size: 24px;
+                    margin: 0;
+                    top: 0;
+                    vertical-align: sub;
+                }
+            }
+        }
+	}
+
+	.post__header {
+        display: flex;
+        align-items: center;
+		padding-left: 4px;
+        margin-bottom: 4px;
+
+        > .col {
+            max-height: 16px;
+        }
+
+        .col.col__reply {
+            display: flex;
+            justify-content: flex-end;
+            padding: 4px;
+            border-radius: 4px;
+
+            .comment-icon__container .comment-icon, .icon.icon--emoji, .reacticon__container.color--link.style--none {
+                margin: 0;
+                top: 0;
+                display: flex;
+                flex: 1;
+            }
+
+            .comment-icon__container {
+                flex: 0;
+                padding: 0 4px;
+                justify-content: flex-end;
+
+                .comment-icon {
+                    flex: 0;
+                }
+
+                .comment-count {
+                    font-size: 12px;
+                }
+            }
+
+            > div, > span, > button {
+                top: 0;
+                display: flex;
+                flex: 1;
+
+                width: 24px;
+                height: 24px;
+
+                &:hover {
+                    background: #f1f1f1;
+                    border-radius: 4px
+                }
+
+                > .open, > div {
+                    display: flex;
+                    justify-content: center;
+                    flex: 1;
+                }
+
+                span svg, svg {
+                    width: 16px;
+                    height: 16px;
+                    top: 0;
+
+                    flex: 1;
+                }
+            }
+
+            > button {
+                width: 32px;
+            }
+        }
+
+        .col__name .user-popover {
+            font-weight: 800;
+            line-height: 16px;
+        }
+
+        .post__header--info {
+            line-height: 16px;
+
+            span.icon {
+                display: flex;
+                height: 16px;
+            }
+
+            .flag-icon__container {
+                margin: 0;
+                top: 2px;
+                left: 8px;
+
+                svg {
+                    height: 12px;
+                }
+            }
+        }
+	}
+
+	.post__time {
+		font-size: 12px;
+	}
+
+    .post__content {
+        padding-left: 0;
+    }
+
+    .status-wrapper .status {
+        border-radius: 50%;
+        bottom: -8px;
+        right: -4px;
+        height: 12px;
+        width: 12px;
+
+        svg {
+            max-height: 8px;
+        }
+    }
+    
+    //Compact mode fixes
+    &.post--compact {
+
+        &:not(.post--thread) {
+            .post__link {
+                margin: 5px 0 4px;
+            }
+        }
+
+        .post--content {
+            display: flex;
+
+            > div {
+                display: flex;
+                align-items: flex-start;
+                align-self: flex-start;
+
+                .status-wrapper {
+                    height: auto;
+                }
+            }
+        }
+
+        .post__header--info {
+            .flag-icon__container {
+                top: 8px;
+                left: -16px;
+                line-height: 16px;
+            }
+        }
+
+        .col__name {
+            margin-top: 4px;
+            
+            strong.colon {
+                line-height: 16px;
+                vertical-align: top;
+            }
+        }
+
+        .status-wrapper {
+            .status {
+                svg {
+                    max-height: 10px;
+                    top: 2px;
+                }
+            }
+        }
+    }
+}
+
+//Fixing flag icon and time alignment in compact mode
+.channel__wrap {
+    .post.post--compact {
+        .post__time {
+            font-size: 12px;
+            left: -80px;
+            top: 7px;
+            width: 56px;
+        }
+    }
+}
+
+.post .post__dropdown:after {
+    content: '...';
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    line-height: 16px;
+}
+
+.post.same--root.same--user:not(.post--compact) .post__time {
+	font-size: 10px;
+	line-height: 24px;
+	left: -24px;
+	top: 2px;
+	width: 56px;
+}
+
+.post.same--root.same--user .flag-icon__container {
+	left: 28px;
+	margin-left: 8px;
+	top: 4px;
+
+    svg {
+        height: 12px;
+    }
+}
+
+.post.other--root.current--user .post__body {
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.post-create__container {
+
+    .textarea-wrapper {
+        textarea {
+            min-height: 48px !important;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    .post-body__actions {
+
+        > span {
+            width: 48px;
+
+            div, > span {
+                height: 48px;
+                line-height: 48px;
+                display: flex;
+
+                > span {
+                    display: flex;
+                    flex: 1;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+
+            > span {
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .icon--attachment, .icon--emoji {
+
+            svg {
+                width: 24px;
+                height: 24px;
+                top: 0;
+            }
+        }
+    }
+}
+
+.col__controls {
+    .dropdown {
+        left: -24px;
+
+        .dropdown-menu {
+            right: -24px;
+        }
+    }
+}
+
+.channel-intro {
+    margin: 0 auto 16px;
+    padding: 0 16px;
+
+    .channel-intro__title {
+        margin: 8px 0;
+    }
+
+    .channel-intro__content {
+        padding: 8px;
+        margin: 0 0 8px;
+    }
+
+    .intro-links {
+        margin-right: 16px;
+    }
+}
+
+.new-separator, .date-separator {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    margin: 16px 0;
+    margin-bottom: 8px;
+    padding: 0 16px;
+
+    hr.separator__hr {
+        flex: 1;
+        order: 2;
+        position: static;
+        width: 100%;
+    }
+
+    .separator__text {
+        font-size: 14px;
+        font-weight: 300;
+        padding: 0;
+        padding-right: 8px;
+        border-radius: 4px;
+        text-align: left;
+        color: #aaa;
+    }
+
+    &.hovered--after:before, &.hovered--before:after  {
+        display: none;
+    }
+}
+
+.date-separator + .new-separator {
+    margin-top: -16px;
+}
+
+.new-separator {
+    &.hovered--after:before, &.hovered--before:after {
+        display: none;
+    }
+}
+
+.suggestion-list {
+
+    .suggestion-list__divider {
+        line-height: 20px;
+        margin: 4px 0 4px 4px;
+
+        &:first-child {
+            margin-top: 4px;
+        }
+
+        > span {
+            font-size: 12px;
+            line-height: 20px;
+        }
+    }
+
+    .mentions__name {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        padding: 8px;
+
+        .icon, .icon.icon--globe {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.2;
+            margin: 0 8px 0 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+}
+
+//RIGHT SIDEBAR
+.sidebar--right {
+    .search-bar__container.channel-header.alt {
+        display: flex;
+        align-items: center;
+
+        .sidebar-right__table {
+            padding: 0;
+        }
+
+        #searchFormContainer {
+            padding: 0;
+        }
+    }
+
+    .sidebar-right__table {
+        display: flex;
+        flex: 1;
+
+        > div:not(.sidebar-collapse__container) {
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+
+            .channel-header__icon {
+                display: flex;
+                justify-content: center;
+            }
+            
+            &:last-child .channel-header__icon {
+                margin: 0;
+            }
+        }
+    }
+}
+
+// MEMBER POPOVER
+
+.member-list__popover {
+    .more-modal__header {
+        padding: 16px;
+    }
+
+    .more-modal__list {
+        .more-modal__row {
+            padding: 4px 16px;
+            padding-right: 24px;
+            border-left: 3px solid;
+            margin: 0;
+
+            &:hover {
+                padding-left: 16px;
+            }
+        }
+
+        .more-modal__details {
+            padding-left: 16px;
+        }
+
+        .more-modal__actions {
+            display: flex;
+            padding-left: 16px;
+
+            .icon {
+                display: flex;
+                align-items: center;
+                top: 0;
+            }
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+}
+
+// MARKDOWN CSS
+
+.mardown_heading {
+    margin: 8px 0;
+
+    &:first-child {
+        margin: 4px 0 8px;
+    }
+}
+
+h1.markdown_heading {font-size: 32px;}
+h2.markdown_heading {font-size: 28px;}
+h3.markdown_heading {font-size: 24px;}
+h4.markdown_heading {font-size: 20px;}
+h5.markdown_heading {font-size: 16px;}
+h6.markdown_heading {font-size: 16px;}
+
+.post-code code {
+    font-size: 14px;
+    line-height: 1.6em;
+    padding: 8px;
+    border-radius: 4px;
+}
