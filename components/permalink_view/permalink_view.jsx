@@ -44,17 +44,16 @@ export default class PermalinkView extends React.PureComponent {
     }
 
     isStateValid = () => {
-        return this.state.valid && this.props.channelId !== '' && this.props.teamName;
+        return this.state.valid && this.props.channelId && this.props.teamName;
     }
 
     render() {
         const {
             channelId,
             channelName,
+            match,
             teamName,
         } = this.props;
-
-        const postId = this.props.match.params.postid;
 
         if (!this.isStateValid()) {
             return null;
@@ -70,7 +69,7 @@ export default class PermalinkView extends React.PureComponent {
                 />
                 <PostView
                     channelId={channelId}
-                    focusedPostId={postId}
+                    focusedPostId={match.params.postid}
                 />
                 <div id='archive-link-home'>
                     <Link
