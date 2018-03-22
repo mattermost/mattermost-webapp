@@ -19,7 +19,7 @@ function mapStateToProps(state) {
         currentChannelId: getCurrentChannelId(state),
         uploadFile,
         maxFileSize,
-        canUploadFiles: canUploadFiles(state),
+        canUploadFiles: canUploadFiles(config),
     };
 }
 
