@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Switch, Route} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Messaging from './components/messaging';
 import Composing from './components/composing';
@@ -52,3 +53,13 @@ export default class HelpController extends React.Component {
         );
     }
 }
+
+HelpController.propTypes = {
+
+    /*
+     * Object from react-router
+     */
+    match: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+    }).isRequired,
+};

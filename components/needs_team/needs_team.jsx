@@ -42,6 +42,15 @@ export default class NeedsTeam extends React.Component {
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
+
+        /*
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                team: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
     };
 
     constructor(params) {
