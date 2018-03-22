@@ -44,7 +44,9 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
       />
       <span
         className="name"
-      />
+      >
+        channel_display_name
+      </span>
     </ModalTitle>
   </ModalHeader>
   <ModalBody
@@ -64,62 +66,35 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
           <div
             className="divider-dark first"
           />
-          <SettingItemMin
-            describe={
-              <FormattedMessage
-                id="channel_notifications.never"
-                values={Object {}}
-              />
-            }
-            title={
-              <FormattedMessage
-                defaultMessage="Send desktop notifications"
-                id="channel_notifications.sendDesktop"
-                values={Object {}}
-              />
-            }
-            updateSection={[Function]}
+          <NotificationSection
+            expand={false}
+            globalNotificationLevel="all"
+            memberNotificationLevel="all"
+            onChange={[Function]}
+            onSubmit={[Function]}
+            onUpdateSection={[Function]}
+            section="desktop"
           />
-          <div>
-            <div
-              className="divider-light"
-            />
-            <SettingItemMin
-              describe={
-                <FormattedMessage
-                  id="channel_notifications.never"
-                  values={Object {}}
-                />
-              }
-              title={
-                <FormattedMessage
-                  defaultMessage="Send mobile push notifications"
-                  id="channel_notifications.push"
-                  values={Object {}}
-                />
-              }
-              updateSection={[Function]}
-            />
-          </div>
           <div
             className="divider-light"
           />
-          <SettingItemMin
-            describe={
-              <FormattedMessage
-                defaultMessage="For all unread messages"
-                id="channel_notifications.allUnread"
-                values={Object {}}
-              />
-            }
-            title={
-              <FormattedMessage
-                defaultMessage="Mark Channel Unread"
-                id="channel_notifications.markUnread"
-                values={Object {}}
-              />
-            }
-            updateSection={[Function]}
+          <NotificationSection
+            expand={false}
+            memberNotificationLevel="default"
+            onChange={[Function]}
+            onSubmit={[Function]}
+            onUpdateSection={[Function]}
+            section="push"
+          />
+          <div
+            className="divider-light"
+          />
+          <NotificationSection
+            expand={false}
+            onChange={[Function]}
+            onSubmit={[Function]}
+            onUpdateSection={[Function]}
+            section="markUnread"
           />
           <div
             className="divider-dark"
