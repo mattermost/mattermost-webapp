@@ -14,7 +14,7 @@ export default class DeletePostModal extends React.PureComponent {
 
         channelName: PropTypes.string,
         focusedPostId: PropTypes.string,
-        currentTeamDetails: PropTypes.object,
+        teamName: PropTypes.string,
         post: PropTypes.object.isRequired,
         commentCount: PropTypes.number.isRequired,
 
@@ -52,13 +52,13 @@ export default class DeletePostModal extends React.PureComponent {
             channelName,
             focusedPostId,
             post,
-            currentTeamDetails,
+            teamName,
         } = this.props;
 
         const {data} = await actions.deletePost(post);
 
         if (post.id === focusedPostId && channelName) {
-            browserHistory.push('/' + currentTeamDetails.name + '/channels/' + channelName);
+            browserHistory.push('/' + teamName + '/channels/' + channelName);
         }
 
         if (data) {

@@ -21,7 +21,7 @@ function mapStateToProps(state, ownProps) {
     return {
         channelName,
         focusedPostId,
-        currentTeamDetails: getCurrentTeam(state),
+        teamName: getCurrentTeam(state).name,
     };
 }
 

@@ -18,7 +18,8 @@ describe('components/delete_post_modal', () => {
         channel_id: '5',
     };
 
-    const nonPostProps = {
+    const baseProps = {
+        post,
         commentCount: 0,
         isRHS: false,
         actions: {
@@ -26,8 +27,6 @@ describe('components/delete_post_modal', () => {
         },
         onHide: emptyFunction,
     };
-
-    const baseProps = {...nonPostProps, post};
 
     test('should match snapshot for delete_post_modal with 0 comments', () => {
         const wrapper = shallow(
@@ -54,6 +53,7 @@ describe('components/delete_post_modal', () => {
         wrapper.instance().onHide();
         expect(wrapper.state('show')).toEqual(false);
     });
+    
 
     test('should have called actions.deletePost when handleDelete is called', async () => {
         browserHistory.push = jest.fn();
@@ -70,6 +70,20 @@ describe('components/delete_post_modal', () => {
         await expect(actions.deletePost).toHaveBeenCalledTimes(1);
         expect(actions.deletePost).toHaveBeenCalledWith(props.post);
         expect(wrapper.state('show')).toEqual(false);
+    });
+
+    test('should call browserHistory.push on handleDelete with post.id === focusedPostId && channelName', async () => {
+        browserHistory.push = jest.fn();
+        const actions = {deletePost: jest.fn()};
+        actions.deletePost.mockReturnValueOnce({data: true});
+        const props = {...baseProps, actions, focusedPostId: '123', channelName: 'channel_name', teamName: 'team_name'};
+        const wrapper = shallow(
+            <DeletePostModal {...props}/>
+        );
+
+        await wrapper.instance().handleDelete();
+        expect(browserHistory.push).toHaveBeenCalledTimes(1);
+        expect(browserHistory.push).toHaveBeenCalledWith('/team_name/channels/channel_name');
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
