@@ -10,7 +10,7 @@ import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isChannelMuted} from "utils/channel_utils";
+import {isChannelMuted} from 'utils/channel_utils.jsx';
 import store from 'stores/redux_store.jsx';
 
 export function sendDesktopNotification(post, msgProps) {

@@ -16,6 +16,7 @@ import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
+import {isChannelMuted} from 'utils/channel_utils';
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
 
 import {open as openLhs} from 'actions/views/lhs.js';
@@ -89,6 +90,7 @@ function makeMapStateToProps() {
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
+            channelMuted: isChannelMuted(member),
             channelStringified: channel.fake && JSON.stringify(channel),
             channelTeammateId,
             channelTeammateUsername,

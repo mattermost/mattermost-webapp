@@ -159,7 +159,7 @@ export default class ChannelHeader extends React.Component {
         const options = {mark_unread: NotificationLevels.ALL};
         const data = {
             channel_id: this.props.channel.id,
-            user_id: this.props.currentUser.id
+            user_id: this.props.currentUser.id,
         };
 
         ChannelActions.updateChannelNotifyProps(data, options);
