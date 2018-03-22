@@ -14,6 +14,11 @@ export default class PermalinkView extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string,
         channelName: PropTypes.string,
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                postid: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
         returnTo: PropTypes.string.isRequired,
         teamName: PropTypes.string,
     };
