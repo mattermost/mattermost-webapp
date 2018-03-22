@@ -202,46 +202,6 @@ export function emitEmojiPosted(emoji) {
     });
 }
 
-export async function deletePost(channelId, post, success) {
-    const {currentUserId} = getState().entities.users;
-
-    let hardDelete = false;
-    if (post.user_id === currentUserId) {
-        hardDelete = true;
-    }
-
-    await PostActions.deletePost(post, hardDelete)(dispatch, getState);
-
-    if (post.id === getSelectedPostId(getState())) {
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: '',
-            channelId: '',
-        });
-    }
-
-    dispatch({
-        type: PostTypes.REMOVE_POST,
-        data: post,
-    });
-
-    // Needed for search store
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.REMOVE_POST,
-        post,
-    });
-
-    const {focusedPostId} = getState().views.channel;
-    const channel = getState().entities.channels.channels[post.channel_id];
-    if (post.id === focusedPostId && channel) {
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-    }
-
-    if (success) {
-        success();
-    }
-}
-
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 // Returns true if there are more posts to load

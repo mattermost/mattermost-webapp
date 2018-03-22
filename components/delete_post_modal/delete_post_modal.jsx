@@ -6,11 +6,15 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 export default class DeletePostModal extends React.PureComponent {
     static propTypes = {
 
+        channelName: PropTypes.string,
+        focusedPostId: PropTypes.string,
+        currentTeamDetails: PropTypes.object,
         post: PropTypes.object.isRequired,
         commentCount: PropTypes.number.isRequired,
 
@@ -42,9 +46,24 @@ export default class DeletePostModal extends React.PureComponent {
         };
     }
 
-    handleDelete() {
-        this.props.actions.deletePost(this.props.post);
-        this.onHide();
+    handleDelete = async () => {
+        const {
+            actions,
+            channelName,
+            focusedPostId,
+            post,
+            currentTeamDetails,
+        } = this.props;
+
+        const {data} = await actions.deletePost(post);
+
+        if (post.id === focusedPostId && channelName) {
+            browserHistory.push('/' + currentTeamDetails.name + '/channels/' + channelName);
+        }
+
+        if (data) {
+            this.onHide();
+        }
     }
 
     onHide() {

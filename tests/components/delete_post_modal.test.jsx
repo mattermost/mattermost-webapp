@@ -55,9 +55,10 @@ describe('components/delete_post_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called actions.deletePost when handleDelete is called', () => {
+    test('should have called actions.deletePost when handleDelete is called', async () => {
         browserHistory.push = jest.fn();
         const actions = {deletePost: jest.fn()};
+        actions.deletePost.mockReturnValueOnce({data: true});
         const props = {...baseProps, actions};
         const wrapper = shallow(
             <DeletePostModal {...props}/>
@@ -66,7 +67,7 @@ describe('components/delete_post_modal', () => {
         wrapper.setState({show: true});
         wrapper.instance().handleDelete();
 
-        expect(actions.deletePost).toHaveBeenCalledTimes(1);
+        await expect(actions.deletePost).toHaveBeenCalledTimes(1);
         expect(actions.deletePost).toHaveBeenCalledWith(props.post);
         expect(wrapper.state('show')).toEqual(false);
     });
