@@ -8,7 +8,6 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 import {comparePosts} from 'mattermost-redux/utils/post_utils';
 
-import {browserHistory} from 'utils/browser_history';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -16,8 +15,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import {getSelectedPostId, getRhsState} from 'selectors/rhs';
+import {getRhsState} from 'selectors/rhs';
 import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
