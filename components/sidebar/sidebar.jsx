@@ -560,9 +560,15 @@ export default class Sidebar extends React.PureComponent {
             />
         );
 
+        let tooltipTriggers = ['hover', 'focus'];
+
+        if (Utils.isMobile()) {
+            tooltipTriggers = [];
+        }
+
         let createPublicChannelIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
+                trigger={tooltipTriggers}
                 delayShow={500}
                 placement='top'
                 overlay={createChannelTootlip}
@@ -579,7 +585,7 @@ export default class Sidebar extends React.PureComponent {
 
         let createPrivateChannelIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
+                trigger={tooltipTriggers}
                 delayShow={500}
                 placement='top'
                 overlay={createGroupTootlip}
