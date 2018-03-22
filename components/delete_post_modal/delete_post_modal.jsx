@@ -11,14 +11,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 export default class DeletePostModal extends React.PureComponent {
     static propTypes = {
 
-        /**
-         * post data
-         */
         post: PropTypes.object.isRequired,
-
-        /**
-         * post comment count
-         */
         commentCount: PropTypes.number.isRequired,
 
         /**
@@ -34,9 +27,8 @@ export default class DeletePostModal extends React.PureComponent {
         actions: PropTypes.shape({
 
             /**
-            * Function called for deleting post,
+            * Function called for deleting post
             */
-
             deletePost: PropTypes.func.isRequired,
         }),
     }
@@ -72,10 +64,6 @@ export default class DeletePostModal extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.post) {
-            return null;
-        }
-
         var commentWarning = '';
         if (this.props.commentCount > 0) {
             commentWarning = (

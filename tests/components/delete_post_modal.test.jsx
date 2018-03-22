@@ -45,13 +45,6 @@ describe('components/delete_post_modal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot for delete_post_modal with no post', () => {
-        const wrapper = shallow(
-            <DeletePostModal {...nonPostProps}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
             <DeletePostModal {...baseProps}/>

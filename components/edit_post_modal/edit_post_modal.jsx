@@ -166,7 +166,7 @@ export default class EditPostModal extends React.PureComponent {
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide(false);
 
-            const modalData = {
+            const deletePostModalData = {
                 ModalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
@@ -176,7 +176,7 @@ export default class EditPostModal extends React.PureComponent {
                 },
             };
 
-            this.props.actions.openModal(modalData);
+            this.props.actions.openModal(deletePostModalData);
             return;
         }
 

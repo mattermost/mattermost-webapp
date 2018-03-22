@@ -210,5 +210,3 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   </ModalFooter>
 </Modal>
 `;
-
-exports[`components/delete_post_modal should match snapshot for delete_post_modal with no post 1`] = `""`;

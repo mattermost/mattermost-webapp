@@ -29,7 +29,7 @@ export default function DotMenuItem(props) {
     function handleDeletePost(e) {
         e.preventDefault();
 
-        const modalData = {
+        const deletePostModalData = {
             ModalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
@@ -39,7 +39,7 @@ export default function DotMenuItem(props) {
             },
         };
 
-        props.actions.openModal(modalData);
+        props.actions.openModal(deletePostModalData);
     }
 
     const attrib = {};

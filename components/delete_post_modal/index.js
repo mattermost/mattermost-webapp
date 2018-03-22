@@ -4,16 +4,8 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {deletePost} from 'mattermost-redux/actions/posts';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import DeletePostModal from './delete_post_modal.jsx';
-
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        currentTeamDetails: getCurrentTeam(state),
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -23,4 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeletePostModal);
+export default connect(null, mapDispatchToProps)(DeletePostModal);
