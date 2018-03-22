@@ -57,7 +57,7 @@ export default class SchemaAdminSettings extends AdminSettings {
 
             const settings = schema.settings || [];
             settings.forEach((setting) => {
-                configSettings[setting.key] = this.state[setting.key];
+                configSettings[setting.key] = this.getSettingValue(setting);
             });
         }
 
@@ -77,6 +77,27 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
 
         return state;
+    }
+
+    getSetting(key) {
+        for (const setting of this.props.schema.settings) {
+            if (setting.key === key) {
+                return setting;
+            }
+        }
+
+        return null;
+    }
+
+    getSettingValue(setting) {
+        // Force boolean values to false when disabled.
+        if (setting.type === SettingsTypes.TYPE_BOOL) {
+            if (this.isDisabled(setting)) {
+                return false;
+            }
+        }
+
+        return this.state[setting.key];
     }
 
     renderTitle = () => {
@@ -163,7 +184,14 @@ export default class SchemaAdminSettings extends AdminSettings {
     isDisabled = (setting) => {
         if (setting.needs) {
             for (const need of setting.needs) {
-                if (this.state[need[0]] !== need[1]) {
+                const actual = this.getSettingValue(this.getSetting(need[0]));
+                const expected = need[1];
+
+                if (expected instanceof RegExp) {
+                    if (!expected.test(actual)) {
+                        return true;
+                    }
+                } else if (actual !== expected) {
                     return true;
                 }
             }
@@ -221,7 +249,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 id={setting.key}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
-                value={this.state[setting.key] || false}
+                value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />

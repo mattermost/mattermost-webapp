@@ -129,6 +129,15 @@ export default {
                             help_text_default: 'The address and port to which to bind and listen. Specifying ":8065" will bind to all network interfaces. Specifying "127.0.0.1:8065" will only bind to the network interface having that IP address. If you choose a port of a lower level (called "system ports" or "well-known ports", in the range of 0-1023), you must have permissions to bind to that port. On Linux you can use: "sudo setcap cap_net_bind_service=+ep ./bin/platform" to allow Mattermost to bind to well-known ports.',
                         },
                         {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'Forward80To443',
+                            label: 'admin.service.forward80To443',
+                            label_default: 'Forward port 80 to 443:',
+                            help_text: 'admin.service.forward80To443Description',
+                            help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. This setting requires listening on port 443, and should not be used with a proxy server.',
+                            needs: [['ListenAddress', /:443$/]],
+                        },
+                        {
                             type: Constants.SettingsTypes.TYPE_DROPDOWN,
                             key: 'ConnectionSecurity',
                             label: 'admin.connectionSecurityTitle',
@@ -171,7 +180,8 @@ export default {
                             label: 'admin.service.useLetsEncrypt',
                             label_default: 'Use Let\'s Encrypt:',
                             help_text: 'admin.service.useLetsEncryptDescription',
-                            help_text_default: 'Enable the automatic retreval of certificates from the Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.',
+                            help_text_default: 'Enable the automatic retreval of certificates from the Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains. This setting requires forwarding port 80 to 443.',
+                            needs: [['Forward80To443', true]],
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -181,14 +191,6 @@ export default {
                             help_text: 'admin.service.letsEncryptCertificateCacheFileDescription',
                             help_text_default: 'Certificates retrieved and other data about the Let\'s Encrypt service will be stored in this file.',
                             needs: [['UseLetsEncrypt', true]],
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'Forward80To443',
-                            label: 'admin.service.forward80To443',
-                            label_default: 'Forward port 80 to 443:',
-                            help_text: 'admin.service.forward80To443Description',
-                            help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_NUMBER,
