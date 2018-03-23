@@ -1001,9 +1001,9 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a tema or a user 1`] = `<div />`;
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 1`] = `<div />`;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a tema or a user 2`] = `<div />`;
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 2`] = `<div />`;
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
 <div
@@ -1321,7 +1321,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 2`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
