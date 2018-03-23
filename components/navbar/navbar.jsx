@@ -840,12 +840,12 @@ export default class Navbar extends React.Component {
                             id='channel_header.directchannel.you'
                             defaultMessage='{displayname} (you) '
                             values={{
-                                displayname: Utils.displayUsername(teammateId),
+                                displayname: Utils.getDisplayNameByUserId(teammateId),
                             }}
                         />
                     );
                 } else {
-                    channelTitle = Utils.displayUsername(teammateId);
+                    channelTitle = Utils.getDisplayNameByUserId(teammateId);
                 }
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;

@@ -193,7 +193,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         id='search_item.direct'
                         defaultMessage='Direct Message (with {username})'
                         values={{
-                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id)),
+                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
                         }}
                     />
                 );

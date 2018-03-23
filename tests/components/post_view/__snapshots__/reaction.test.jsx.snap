@@ -173,7 +173,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
                 values={
                   Object {
                     "otherUsers": 2,
-                    "users": "",
+                    "users": "username_2",
                   }
                 }
               />
