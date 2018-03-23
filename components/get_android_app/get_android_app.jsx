@@ -65,7 +65,7 @@ export default function GetAndroidApp({androidAppDownloadLink}) {
                                     defaultMessage='continue with browser'
                                 />
                             </Link>
-                        )
+                        ),
                     }}
                 />
             </span>
@@ -74,5 +74,5 @@ export default function GetAndroidApp({androidAppDownloadLink}) {
 }
 
 GetAndroidApp.propTypes = {
-    androidAppDownloadLink: PropTypes.string
+    androidAppDownloadLink: PropTypes.string,
 };

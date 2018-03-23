@@ -46,7 +46,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         /**
         *  Data used for filtering of webhook based on filter prop
         */
-        channel: PropTypes.object
+        channel: PropTypes.object,
     }
 
     constructor(props) {
@@ -146,7 +146,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                                 id='installed_integrations.url'
                                 defaultMessage='URL: {url}'
                                 values={{
-                                    url: getSiteURL() + '/hooks/' + incomingWebhook.id
+                                    url: getSiteURL() + '/hooks/' + incomingWebhook.id,
                                 }}
                             />
                         </span>
@@ -158,7 +158,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
                                     creator: this.props.creator.username,
-                                    createAt: incomingWebhook.create_at
+                                    createAt: incomingWebhook.create_at,
                                 }}
                             />
                         </span>

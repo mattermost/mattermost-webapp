@@ -44,7 +44,7 @@ export default class InstalledCommand extends React.PureComponent {
         /**
         * Set to show edit link
         */
-        canChange: PropTypes.bool.isRequired
+        canChange: PropTypes.bool.isRequired,
     }
 
     handleRegenToken = (e) => {
@@ -151,7 +151,7 @@ export default class InstalledCommand extends React.PureComponent {
                                 id='installed_integrations.token'
                                 defaultMessage='Token: {token}'
                                 values={{
-                                    token: command.token
+                                    token: command.token,
                                 }}
                             />
                         </span>
@@ -163,7 +163,7 @@ export default class InstalledCommand extends React.PureComponent {
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
                                     creator: this.props.creator.username,
-                                    createAt: command.create_at
+                                    createAt: command.create_at,
                                 }}
                             />
                         </span>

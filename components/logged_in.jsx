@@ -31,7 +31,7 @@ export default class LoggedIn extends React.Component {
         this.onUserChanged = this.onUserChanged.bind(this);
 
         this.state = {
-            user: UserStore.getCurrentUser()
+            user: UserStore.getCurrentUser(),
         };
         document.getElementById('root').className += ' channel-view';
     }
@@ -45,7 +45,7 @@ export default class LoggedIn extends React.Component {
         const user = UserStore.getCurrentUser();
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
-                user
+                user,
             });
         }
     }
@@ -168,5 +168,5 @@ export default class LoggedIn extends React.Component {
 }
 
 LoggedIn.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };

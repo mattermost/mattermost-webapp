@@ -16,5 +16,5 @@ export default combineReducers({
     rhs,
     posts,
     modals,
-    emoji
+    emoji,
 });

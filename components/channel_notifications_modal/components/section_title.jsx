@@ -35,5 +35,5 @@ export default function SectionTitle({section}) {
 }
 
 SectionTitle.propTypes = {
-    section: PropTypes.string.isRequired
+    section: PropTypes.string.isRequired,
 };

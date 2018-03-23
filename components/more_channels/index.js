@@ -18,15 +18,15 @@ function mapStateToProps(state) {
     const showCreatePublicChannelOption = showCreateOption(state, Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin);
 
     return {
-        showCreatePublicChannelOption
+        showCreatePublicChannelOption,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getChannels
-        }, dispatch)
+            getChannels,
+        }, dispatch),
     };
 }
 

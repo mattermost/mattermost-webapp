@@ -52,12 +52,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         /**
          * If an image proxy is enabled.
          */
-        hasImageProxy: PropTypes.bool.isRequired
+        hasImageProxy: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
         previewCollapsed: '',
-        previewEnabled: false
+        previewEnabled: false,
     }
 
     constructor(props) {
@@ -73,7 +73,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.state = {
             link: Utils.extractFirstLink(props.post.message),
             linkLoadError: false,
-            linkLoaded: false
+            linkLoaded: false,
         };
     }
 
@@ -85,7 +85,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     componentWillReceiveProps(nextProps) {
         if (nextProps.post.message !== this.props.post.message) {
             this.setState({
-                link: Utils.extractFirstLink(nextProps.post.message)
+                link: Utils.extractFirstLink(nextProps.post.message),
             }, () => {
                 // check the availability of the image link
                 this.preCheckImageLink();
@@ -140,6 +140,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
+<<<<<<< HEAD
     isLinkImage(link) {
         const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
         const match = link.match(regex);
@@ -159,6 +160,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
+=======
+>>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
     isLinkImage(link) {
         const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
         const match = link.match(regex);
@@ -192,19 +195,19 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     handleLinkLoadError() {
         this.setState({
-            linkLoadError: true
+            linkLoadError: true,
         });
     }
 
     handleLinkLoaded() {
         this.setState({
-            linkLoaded: true
+            linkLoaded: true,
         });
     }
 
     handleImageClick = () => {
         this.setState({
-            showPreviewModal: true
+            showPreviewModal: true,
         });
     };
 
@@ -292,7 +295,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 fileInfos={[{
                     hasPreviewImage: false,
                     link,
-                    extension: ext
+                    extension: ext,
                 }]}
             />
         );

@@ -52,7 +52,7 @@ export default class AbstractIncomingWebhook extends React.Component {
         /**
         * The async function to run when the action button is pressed
         */
-        action: PropTypes.func.isRequired
+        action: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -70,7 +70,7 @@ export default class AbstractIncomingWebhook extends React.Component {
             iconURL: hook.icon_url || '',
             saving: false,
             serverError: '',
-            clientError: null
+            clientError: null,
         };
     }
 
@@ -84,7 +84,7 @@ export default class AbstractIncomingWebhook extends React.Component {
         this.setState({
             saving: true,
             serverError: '',
-            clientError: ''
+            clientError: '',
         });
 
         if (!this.state.channelId) {
@@ -95,7 +95,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                         id='add_incoming_webhook.channelRequired'
                         defaultMessage='A valid channel is required'
                     />
-                )
+                ),
             });
 
             return;
@@ -106,7 +106,7 @@ export default class AbstractIncomingWebhook extends React.Component {
             display_name: this.state.displayName,
             description: this.state.description,
             username: this.state.username,
-            icon_url: this.state.iconURL
+            icon_url: this.state.iconURL,
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -114,31 +114,31 @@ export default class AbstractIncomingWebhook extends React.Component {
 
     updateDisplayName = (e) => {
         this.setState({
-            displayName: e.target.value
+            displayName: e.target.value,
         });
     }
 
     updateDescription = (e) => {
         this.setState({
-            description: e.target.value
+            description: e.target.value,
         });
     }
 
     updateChannelId = (e) => {
         this.setState({
-            channelId: e.target.value
+            channelId: e.target.value,
         });
     }
 
     updateUsername = (e) => {
         this.setState({
-            username: e.target.value
+            username: e.target.value,
         });
     }
 
     updateIconURL = (e) => {
         this.setState({
-            iconURL: e.target.value
+            iconURL: e.target.value,
         });
     }
 

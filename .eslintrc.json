@@ -45,7 +45,7 @@
         "camelcase": [2, {"properties": "never"}],
         "capitalized-comments": 0,
         "class-methods-use-this": 0,
-        "comma-dangle": [2, "never"],
+        "comma-dangle": [2, "always-multiline"],
         "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": [2, "last"],
         "complexity": [1, 10],

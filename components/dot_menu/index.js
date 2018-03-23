@@ -20,8 +20,8 @@ function mapDispatchToProps(dispatch) {
             unflagPost,
             setEditingPost,
             pinPost,
-            unpinPost
-        }, dispatch)
+            unpinPost,
+        }, dispatch),
     };
 }
 

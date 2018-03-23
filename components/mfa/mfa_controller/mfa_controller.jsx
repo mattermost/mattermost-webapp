@@ -109,5 +109,5 @@ MFAController.propTypes = {
     children: PropTypes.node,
     mfa: PropTypes.bool.isRequired,
     enableMultifactorAuthentication: PropTypes.bool.isRequired,
-    enforceMultifactorAuthentication: PropTypes.bool.isRequired
+    enforceMultifactorAuthentication: PropTypes.bool.isRequired,
 };

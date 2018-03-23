@@ -8,8 +8,8 @@ export default class ModalController extends React.Component {
     static propTypes = {
         modals: PropTypes.object.isRequired,
         actions: PropTypes.shape({
-            closeModal: PropTypes.func.isRequired
-        }).isRequired
+            closeModal: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     render() {
@@ -28,7 +28,7 @@ export default class ModalController extends React.Component {
                 if (modal.open) {
                     const modalComponent = React.createElement(modal.dialogType, Object.assign({}, modal.dialogProps, {
                         onHide: props.actions.closeModal.bind(this, modalId),
-                        key: `${modalId}_modal`
+                        key: `${modalId}_modal`,
                     }));
 
                     modalOutput.push(modalComponent);

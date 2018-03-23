@@ -19,7 +19,7 @@ function makeMapStateToProps() {
 
         return {
             ...ownProps,
-            fileInfos
+            fileInfos,
         };
     };
 }
@@ -27,8 +27,8 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getFilesForPost
-        }, dispatch)
+            getFilesForPost,
+        }, dispatch),
     };
 }
 

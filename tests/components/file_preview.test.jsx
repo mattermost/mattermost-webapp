@@ -14,14 +14,14 @@ describe('component/FilePreview', () => {
             create_at: '1',
             width: 100,
             height: 100,
-            extension: 'jpg'
-        }
+            extension: 'jpg',
+        },
     ];
     const uploadsInProgress = ['clientID_1'];
     const baseProps = {
         fileInfos,
         uploadsInProgress,
-        onRemove
+        onRemove,
     };
 
     test('should match snapshot', () => {
@@ -41,12 +41,12 @@ describe('component/FilePreview', () => {
             create_at: '2',
             width: 100,
             height: 100,
-            extension: 'jpg'
+            extension: 'jpg',
         };
         const newFileInfos = [...fileInfos, fileInfo2];
         wrapper.setProps({
             fileInfos: newFileInfos,
-            uploadsInProgress: []
+            uploadsInProgress: [],
         });
         expect(wrapper).toMatchSnapshot();
     });

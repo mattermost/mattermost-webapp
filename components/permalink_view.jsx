@@ -15,7 +15,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {
-        returnTo: PropTypes.string.isRequired
+        returnTo: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -47,7 +47,7 @@ export default class PermalinkView extends React.PureComponent {
             channelId,
             channelName,
             teamName,
-            postId
+            postId,
         };
     }
 

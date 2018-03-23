@@ -10,8 +10,8 @@ import AddCommand from './add_command.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            addCommand
-        }, dispatch)
+            addCommand,
+        }, dispatch),
     };
 }
 

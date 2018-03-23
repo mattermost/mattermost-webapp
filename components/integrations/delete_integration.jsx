@@ -50,5 +50,5 @@ export default class DeleteIntegration extends DeleteModalTrigger {
 
 DeleteIntegration.propTypes = {
     messageId: PropTypes.string.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
 };

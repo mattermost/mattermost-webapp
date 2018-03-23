@@ -34,7 +34,7 @@ export default class WebrtcNotification extends React.Component {
 
         this.state = {
             userCalling: null,
-            rhsOpened: false
+            rhsOpened: false,
         };
     }
 
@@ -63,7 +63,7 @@ export default class WebrtcNotification extends React.Component {
 
     closeNotification() {
         this.setState({
-            userCalling: null
+            userCalling: null,
         });
     }
 
@@ -94,19 +94,19 @@ export default class WebrtcNotification extends React.Component {
                     WebSocketClient.sendMessage('webrtc', {
                         action: WebrtcActionTypes.BUSY,
                         from_user_id: UserStore.getCurrentId(),
-                        to_user_id: userId
+                        to_user_id: userId,
                     });
                     this.stopRinging();
                 } else if (userMedia) {
                     WebrtcStore.setVideoCallWith(userId);
                     this.setState({
-                        userCalling: UserStore.getProfile(userId)
+                        userCalling: UserStore.getProfile(userId),
                     });
                 } else {
                     WebSocketClient.sendMessage('webrtc', {
                         action: WebrtcActionTypes.UNSUPPORTED,
                         from_user_id: UserStore.getCurrentId(),
-                        to_user_id: userId
+                        to_user_id: userId,
                     });
                     this.stopRinging();
                 }
@@ -114,7 +114,7 @@ export default class WebrtcNotification extends React.Component {
                 WebSocketClient.sendMessage('webrtc', {
                     action: WebrtcActionTypes.DISABLED,
                     from_user_id: UserStore.getCurrentId(),
-                    to_user_id: userId
+                    to_user_id: userId,
                 });
                 this.stopRinging();
             }
@@ -148,7 +148,7 @@ export default class WebrtcNotification extends React.Component {
         WebSocketClient.sendMessage('webrtc', {
             action: WebrtcActionTypes.NO_ANSWER,
             from_user_id: UserStore.getCurrentId(),
-            to_user_id: this.state.userCalling.id
+            to_user_id: this.state.userCalling.id,
         });
 
         this.onCancelCall();
@@ -166,7 +166,7 @@ export default class WebrtcNotification extends React.Component {
             const message = {
                 action: WebrtcActionTypes.ANSWER,
                 from_user_id: currentUserId,
-                to_user_id: callerId
+                to_user_id: callerId,
             };
 
             GlobalActions.emitCloseRightHandSide();
@@ -185,7 +185,7 @@ export default class WebrtcNotification extends React.Component {
                     action: WebrtcActionTypes.CANCEL,
                     from_user_id: currentUserId,
                     to_user_id: currentUserId,
-                    calling_user_id: callerId
+                    calling_user_id: callerId,
                 });
             }, 0);
 
@@ -203,13 +203,13 @@ export default class WebrtcNotification extends React.Component {
                 action: WebrtcActionTypes.CANCEL,
                 from_user_id: UserStore.getCurrentId(),
                 to_user_id: UserStore.getCurrentId(),
-                calling_user_id: this.state.userCalling.id
+                calling_user_id: this.state.userCalling.id,
             });
 
             WebSocketClient.sendMessage('webrtc', {
                 action: WebrtcActionTypes.DECLINE,
                 from_user_id: UserStore.getCurrentId(),
-                to_user_id: this.state.userCalling.id
+                to_user_id: this.state.userCalling.id,
             });
         }
 
@@ -294,7 +294,7 @@ export default class WebrtcNotification extends React.Component {
                         id='webrtc.notification.incoming_call'
                         defaultMessage='{username} is calling you.'
                         values={{
-                            username
+                            username,
                         }}
                     />
                     <div
@@ -331,7 +331,7 @@ export default class WebrtcNotification extends React.Component {
                         id='webrtc.notification.returnToCall'
                         defaultMessage='Return to ongoing call with {username}'
                         values={{
-                            username: Utils.displayUsername(WebrtcStore.getVideoCallWith())
+                            username: Utils.displayUsername(WebrtcStore.getVideoCallWith()),
                         }}
                     />
                 </div>
@@ -343,5 +343,5 @@ export default class WebrtcNotification extends React.Component {
 }
 
 const style = {
-    buttons: {marginTop: 5}
+    buttons: {marginTop: 5},
 };

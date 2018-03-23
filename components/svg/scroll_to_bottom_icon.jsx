@@ -22,5 +22,5 @@ export default class ScrollToBottomIcon extends React.PureComponent {
 }
 
 const style = {
-    enableBackground: 'new -239 239 21 23'
+    enableBackground: 'new -239 239 21 23',
 };

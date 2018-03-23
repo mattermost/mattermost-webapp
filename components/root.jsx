@@ -47,7 +47,7 @@ import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
 import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app';
 import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
 import loadAuthorize from 'bundle-loader?lazy!components/authorize';
-import loadCreateTeam from 'bundle-loader?lazy!components/create_team/create_team_controller';
+import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 
@@ -137,7 +137,7 @@ export default class Root extends React.Component {
         this.state = {
             configLoaded: false,
             locale: LocalizationStore.getLocale(),
-            translations: LocalizationStore.getTranslations()
+            translations: LocalizationStore.getTranslations(),
         };
     }
 
@@ -347,5 +347,5 @@ Root.defaultProps = {
 };
 
 Root.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };

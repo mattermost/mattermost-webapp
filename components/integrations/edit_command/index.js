@@ -17,7 +17,7 @@ function mapStateToProps(state, ownProps) {
     return {
         commandId,
         commands: getCommands(state),
-        enableCommands
+        enableCommands,
     };
 }
 
@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getCustomTeamCommands,
-            editCommand
-        }, dispatch)
+            editCommand,
+        }, dispatch),
     };
 }
 

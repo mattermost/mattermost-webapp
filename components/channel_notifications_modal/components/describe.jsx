@@ -14,7 +14,7 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
                 id='channel_notifications.globalDefault'
                 defaultMessage='Global default ({notifyLevel})'
                 values={{
-                    notifyLevel: (globalNotifyLevel)
+                    notifyLevel: (globalNotifyLevel),
                 }}
             />
         );
@@ -58,5 +58,5 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
 Describe.propTypes = {
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
-    section: PropTypes.string.isRequired
+    section: PropTypes.string.isRequired,
 };

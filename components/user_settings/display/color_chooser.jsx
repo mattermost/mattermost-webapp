@@ -27,7 +27,7 @@ class ColorChooser extends React.Component {
         /*
          * Function called when color changed takes 2 arguments: Id of changing setting and new color
          */
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
     }
 
     handleChange = (newColor) => {

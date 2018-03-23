@@ -49,7 +49,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         /**
         *  Data used for filtering of webhooks based in filter prop
         */
-        channel: PropTypes.object
+        channel: PropTypes.object,
     }
 
     constructor(props) {
@@ -91,7 +91,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         const {
             display_name: displayName,
             description,
-            trigger_words: triggerWords
+            trigger_words: triggerWords,
         } = outgoingWebhook;
 
         if (
@@ -151,7 +151,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                             id='installed_integrations.triggerWords'
                             defaultMessage='Trigger Words: {triggerWords}'
                             values={{
-                                triggerWords: outgoingWebhook.trigger_words.join(', ')
+                                triggerWords: outgoingWebhook.trigger_words.join(', '),
                             }}
                         />
                     </span>
@@ -166,7 +166,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                         id='installed_integrations.callback_urls'
                         defaultMessage='Callback URLs: {urls}'
                         values={{
-                            urls: outgoingWebhook.callback_urls.join(', ')
+                            urls: outgoingWebhook.callback_urls.join(', '),
                         }}
                     />
                 </span>
@@ -234,7 +234,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                                 id='installed_integrations.content_type'
                                 defaultMessage='Content-Type: {contentType}'
                                 values={{
-                                    contentType: outgoingWebhook.content_type || 'application/x-www-form-urlencoded'
+                                    contentType: outgoingWebhook.content_type || 'application/x-www-form-urlencoded',
                                 }}
                             />
                         </span>
@@ -246,7 +246,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                                 id='installed_integrations.triggerWhen'
                                 defaultMessage='Trigger When: {triggerWhen}'
                                 values={{
-                                    triggerWhen
+                                    triggerWhen,
                                 }}
                             />
                         </span>
@@ -257,7 +257,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                                 id='installed_integrations.token'
                                 defaultMessage='Token: {token}'
                                 values={{
-                                    token: outgoingWebhook.token
+                                    token: outgoingWebhook.token,
                                 }}
                             />
                         </span>
@@ -269,7 +269,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
                                     creator: this.props.creator.username,
-                                    createAt: outgoingWebhook.create_at
+                                    createAt: outgoingWebhook.create_at,
                                 }}
                             />
                         </span>

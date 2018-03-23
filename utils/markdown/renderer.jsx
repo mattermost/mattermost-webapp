@@ -3,6 +3,7 @@
 
 import marked from 'marked';
 
+import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
@@ -140,6 +141,10 @@ export default class Renderer extends marked.Renderer {
             }
             out += '><source src="' + mp4Src + '" type="video/mp4"></video>';
         } else {
+<<<<<<< HEAD
+=======
+            src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+>>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
             out = '<img src="' + src + '" alt="' + text + '"';
             if (title) {
                 out += ' title="' + title + '"';
@@ -191,7 +196,7 @@ export default class Renderer extends marked.Renderer {
         // special case for team invite links, channel links, and permalinks that are inside the app
         let internalLink = false;
         if (this.formattingOptions.siteURL) {
-            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels))\\/');
+            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels|messages))\\/');
 
             internalLink = pattern.test(outHref);
         }

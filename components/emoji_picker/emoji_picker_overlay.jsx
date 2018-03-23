@@ -17,20 +17,20 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         rightOffset: PropTypes.number,
         topOffset: PropTypes.number,
         spaceRequiredAbove: PropTypes.number,
-        spaceRequiredBelow: PropTypes.number
+        spaceRequiredBelow: PropTypes.number,
     }
 
     // Reasonable defaults calculated from from the center channel
     static defaultProps = {
         spaceRequiredAbove: 422,
-        spaceRequiredBelow: 436
+        spaceRequiredBelow: 436,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            placement: 'top'
+            placement: 'top',
         };
     }
 

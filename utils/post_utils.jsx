@@ -191,7 +191,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callAtMention;
-            }
+            },
         });
     }
 
@@ -208,7 +208,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callPostEmoji;
-            }
+            },
         });
     }
 
@@ -227,7 +227,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callMarkdownImage;
-            }
+            },
         });
     }
 
@@ -238,13 +238,13 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return (
                     <LatexBlock content={node.attribs['data-latex']}/>
                 );
-            }
+            },
         });
     }
 
     processingInstructions.push({
         shouldProcessNode: () => true,
-        processNode: processNodeDefinitions.processDefaultNode
+        processNode: processNodeDefinitions.processDefaultNode,
     });
 
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);

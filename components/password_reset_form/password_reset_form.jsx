@@ -28,16 +28,16 @@ class PasswordResetForm extends React.Component {
                         id='password_form.error'
                         defaultMessage='Please enter at least {chars} characters.'
                         values={{
-                            chars: Constants.MIN_PASSWORD_LENGTH
+                            chars: Constants.MIN_PASSWORD_LENGTH,
                         }}
                     />
-                )
+                ),
             });
             return;
         }
 
         this.setState({
-            error: null
+            error: null,
         });
 
         resetPassword(
@@ -84,7 +84,7 @@ class PasswordResetForm extends React.Component {
                                 id='password_form.enter'
                                 defaultMessage='Enter a new password for your {siteName} account.'
                                 values={{
-                                    siteName: this.props.siteName
+                                    siteName: this.props.siteName,
                                 }}
                             />
                         </p>
@@ -120,7 +120,7 @@ class PasswordResetForm extends React.Component {
 
 PasswordResetForm.propTypes = {
     location: PropTypes.object.isRequired,
-    siteName: PropTypes.string
+    siteName: PropTypes.string,
 };
 
 export default PasswordResetForm;

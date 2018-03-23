@@ -8,7 +8,7 @@ import {ActionTypes} from 'utils/constants.jsx';
 const initialState = {
     blocked: false,
     onNavigationConfirmed: null,
-    showNavigationPrompt: false
+    showNavigationPrompt: false,
 };
 
 function navigationBlock(state = initialState, action) {
@@ -19,20 +19,20 @@ function navigationBlock(state = initialState, action) {
         return {
             ...state,
             onNavigationConfirmed: action.onNavigationConfirmed,
-            showNavigationPrompt: true
+            showNavigationPrompt: true,
         };
     case ActionTypes.CANCEL_NAVIGATION:
         return {
             ...state,
             onNavigationConfirmed: null,
-            showNavigationPrompt: false
+            showNavigationPrompt: false,
         };
     case ActionTypes.CONFIRM_NAVIGATION:
         return {
             ...state,
             blocked: false,
             onNavigationConfirmed: null,
-            showNavigationPrompt: false
+            showNavigationPrompt: false,
         };
     default:
         return state;
@@ -40,5 +40,5 @@ function navigationBlock(state = initialState, action) {
 }
 
 export default combineReducers({
-    navigationBlock
+    navigationBlock,
 });

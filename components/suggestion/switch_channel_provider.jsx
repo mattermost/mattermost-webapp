@@ -184,7 +184,7 @@ export default class SwitchChannelProvider extends Provider {
         } catch (err) {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_ERROR,
-                err
+                err,
             });
         }
 
@@ -281,10 +281,10 @@ export default class SwitchChannelProvider extends Provider {
                     id: user.id,
                     update_at: user.update_at,
                     type: Constants.DM_CHANNEL,
-                    last_picture_update: user.last_picture_update || 0
+                    last_picture_update: user.last_picture_update || 0,
                 },
                 name: user.username,
-                deactivated: user.delete_at
+                deactivated: user.delete_at,
             };
 
             if (isDMVisible) {
@@ -307,7 +307,7 @@ export default class SwitchChannelProvider extends Provider {
         if (skipNotInChannel) {
             channels.push({
                 type: Constants.MENTION_MORE_CHANNELS,
-                loading: true
+                loading: true,
             });
         }
 
@@ -318,7 +318,7 @@ export default class SwitchChannelProvider extends Provider {
                 matchedPretext: channelPrefix,
                 terms: channelNames,
                 items: channels,
-                component: SwitchChannelSuggestion
+                component: SwitchChannelSuggestion,
             });
         }, 0);
     }

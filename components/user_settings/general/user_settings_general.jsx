@@ -18,64 +18,64 @@ import SettingPicture from 'components/setting_picture.jsx';
 const holders = defineMessages({
     usernameReserved: {
         id: 'user.settings.general.usernameReserved',
-        defaultMessage: 'This username is reserved, please choose a new one.'
+        defaultMessage: 'This username is reserved, please choose a new one.',
     },
     usernameRestrictions: {
         id: 'user.settings.general.usernameRestrictions',
-        defaultMessage: "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'."
+        defaultMessage: "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'.",
     },
     validEmail: {
         id: 'user.settings.general.validEmail',
-        defaultMessage: 'Please enter a valid email address.'
+        defaultMessage: 'Please enter a valid email address.',
     },
     emailMatch: {
         id: 'user.settings.general.emailMatch',
-        defaultMessage: 'The new emails you entered do not match.'
+        defaultMessage: 'The new emails you entered do not match.',
     },
     checkEmail: {
         id: 'user.settings.general.checkEmail',
-        defaultMessage: 'Check your email at {email} to verify the address.'
+        defaultMessage: 'Check your email at {email} to verify the address.',
     },
     validImage: {
         id: 'user.settings.general.validImage',
-        defaultMessage: 'Only JPG or PNG images may be used for profile pictures'
+        defaultMessage: 'Only JPG or PNG images may be used for profile pictures',
     },
     imageTooLarge: {
         id: 'user.settings.general.imageTooLarge',
-        defaultMessage: 'Unable to upload profile image. File is too large.'
+        defaultMessage: 'Unable to upload profile image. File is too large.',
     },
     uploadImage: {
         id: 'user.settings.general.uploadImage',
-        defaultMessage: "Click 'Edit' to upload an image."
+        defaultMessage: "Click 'Edit' to upload an image.",
     },
     uploadImageMobile: {
         id: 'user.settings.general.mobile.uploadImage',
-        defaultMessage: 'Click to upload an image.'
+        defaultMessage: 'Click to upload an image.',
     },
     fullName: {
         id: 'user.settings.general.fullName',
-        defaultMessage: 'Full Name'
+        defaultMessage: 'Full Name',
     },
     nickname: {
         id: 'user.settings.general.nickname',
-        defaultMessage: 'Nickname'
+        defaultMessage: 'Nickname',
     },
     username: {
         id: 'user.settings.general.username',
-        defaultMessage: 'Username'
+        defaultMessage: 'Username',
     },
     profilePicture: {
         id: 'user.settings.general.profilePicture',
-        defaultMessage: 'Profile Picture'
+        defaultMessage: 'Profile Picture',
     },
     close: {
         id: 'user.settings.general.close',
-        defaultMessage: 'Close'
+        defaultMessage: 'Close',
     },
     position: {
         id: 'user.settings.general.position',
-        defaultMessage: 'Position'
-    }
+        defaultMessage: 'Position',
+    },
 });
 
 const prevSections = {
@@ -84,7 +84,7 @@ const prevSections = {
     nickname: 'username',
     position: 'nickname',
     email: 'position',
-    picture: 'email'
+    picture: 'email',
 };
 
 class UserSettingsGeneralTab extends React.Component {
@@ -98,7 +98,7 @@ class UserSettingsGeneralTab extends React.Component {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
-            getMe: PropTypes.func.isRequired
+            getMe: PropTypes.func.isRequired,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -109,7 +109,7 @@ class UserSettingsGeneralTab extends React.Component {
         samlLastNameAttributeSet: PropTypes.bool,
         ldapNicknameAttributeSet: PropTypes.bool,
         samlNicknameAttributeSet: PropTypes.bool,
-        positionAttributeSet: PropTypes.bool
+        positionAttributeSet: PropTypes.bool,
     }
 
     constructor(props) {
@@ -351,7 +351,7 @@ class UserSettingsGeneralTab extends React.Component {
             pictureFile: null,
             loadingPicture: false,
             emailChangeInProgress: false,
-            sectionIsSaving: false
+            sectionIsSaving: false,
         };
     }
 
@@ -394,7 +394,7 @@ class UserSettingsGeneralTab extends React.Component {
                             id='user.settings.general.emailHelp4'
                             defaultMessage='A verification email was sent to {email}.'
                             values={{
-                                email: newEmail
+                                email: newEmail,
                             }}
                         />
                     );
@@ -478,7 +478,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 id='user.settings.general.emailGitlabCantUpdate'
                                 defaultMessage='Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
-                                    email: this.state.originalEmail
+                                    email: this.state.originalEmail,
                                 }}
                             />
                         </div>
@@ -496,7 +496,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 id='user.settings.general.emailGoogleCantUpdate'
                                 defaultMessage='Login occurs through Google Apps. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
-                                    email: this.state.originalEmail
+                                    email: this.state.originalEmail,
                                 }}
                             />
                         </div>
@@ -514,7 +514,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 id='user.settings.general.emailOffice365CantUpdate'
                                 defaultMessage='Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
-                                    email: this.state.originalEmail
+                                    email: this.state.originalEmail,
                                 }}
                             />
                         </div>
@@ -532,7 +532,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 id='user.settings.general.emailLdapCantUpdate'
                                 defaultMessage='Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
-                                    email: this.state.originalEmail
+                                    email: this.state.originalEmail,
                                 }}
                             />
                         </div>
@@ -549,7 +549,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 id='user.settings.general.emailSamlCantUpdate'
                                 defaultMessage='Login occurs through SAML. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
-                                    email: this.state.originalEmail
+                                    email: this.state.originalEmail,
                                 }}
                             />
                         </div>
@@ -585,7 +585,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 id='user.settings.general.newAddress'
                                 defaultMessage='New Address: {email}<br />Check your email to verify the above address.'
                                 values={{
-                                    email: newEmail
+                                    email: newEmail,
                                 }}
                             />
                         );
@@ -606,7 +606,7 @@ class UserSettingsGeneralTab extends React.Component {
                         id='user.settings.general.loginGitlab'
                         defaultMessage='Login done through GitLab ({email})'
                         values={{
-                            email: this.state.originalEmail
+                            email: this.state.originalEmail,
                         }}
                     />
                 );
@@ -616,7 +616,7 @@ class UserSettingsGeneralTab extends React.Component {
                         id='user.settings.general.loginGoogle'
                         defaultMessage='Login done through Google Apps ({email})'
                         values={{
-                            email: this.state.originalEmail
+                            email: this.state.originalEmail,
                         }}
                     />
                 );
@@ -626,7 +626,7 @@ class UserSettingsGeneralTab extends React.Component {
                         id='user.settings.general.loginOffice365'
                         defaultMessage='Login done through Office 365 ({email})'
                         values={{
-                            email: this.state.originalEmail
+                            email: this.state.originalEmail,
                         }}
                     />
                 );
@@ -636,7 +636,7 @@ class UserSettingsGeneralTab extends React.Component {
                         id='user.settings.general.loginLdap'
                         defaultMessage='Login done through AD/LDAP ({email})'
                         values={{
-                            email: this.state.originalEmail
+                            email: this.state.originalEmail,
                         }}
                     />
                 );
@@ -646,7 +646,7 @@ class UserSettingsGeneralTab extends React.Component {
                         id='user.settings.general.loginSaml'
                         defaultMessage='Login done through SAML ({email})'
                         values={{
-                            email: this.state.originalEmail
+                            email: this.state.originalEmail,
                         }}
                     />
                 );
@@ -776,7 +776,7 @@ class UserSettingsGeneralTab extends React.Component {
                             id='user.settings.general.notificationsExtra'
                             defaultMessage='By default, you will receive mention notifications when someone types your first name. Go to {notify} settings to change this default.'
                             values={{
-                                notify: (notifLink)
+                                notify: (notifLink),
                             }}
                         />
                     </span>
@@ -1156,7 +1156,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     month='short'
                                     year='numeric'
                                 />
-                            )
+                            ),
                         }}
                     />
                 );

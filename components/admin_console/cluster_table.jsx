@@ -12,7 +12,7 @@ import statusYellow from 'images/status_yellow.png';
 export default class ClusterTable extends React.Component {
     static propTypes = {
         clusterInfos: PropTypes.array.isRequired,
-        reload: PropTypes.func.isRequired
+        reload: PropTypes.func.isRequired,
     }
 
     render() {
@@ -168,5 +168,5 @@ export default class ClusterTable extends React.Component {
 
 const style = {
     clusterTable: {margin: 10, marginBottom: 30},
-    clusterCell: {whiteSpace: 'nowrap'}
+    clusterCell: {whiteSpace: 'nowrap'},
 };

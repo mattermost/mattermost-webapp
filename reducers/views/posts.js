@@ -7,7 +7,7 @@ import {UserTypes} from 'mattermost-redux/action_types';
 import {ActionTypes} from 'utils/constants.jsx';
 
 const defaultState = {
-    show: false
+    show: false,
 };
 
 function editingPost(state = defaultState, action) {
@@ -15,11 +15,11 @@ function editingPost(state = defaultState, action) {
     case ActionTypes.SHOW_EDIT_POST_MODAL:
         return {
             ...action.data,
-            show: true
+            show: true,
         };
     case ActionTypes.HIDE_EDIT_POST_MODAL:
         return {
-            show: false
+            show: false,
         };
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -30,5 +30,5 @@ function editingPost(state = defaultState, action) {
 }
 
 export default combineReducers({
-    editingPost
+    editingPost,
 });

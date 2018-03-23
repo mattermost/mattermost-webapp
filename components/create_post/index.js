@@ -14,14 +14,14 @@ import {
     getMostRecentPostIdInChannel,
     getPost,
     makeGetCommentCountForPost,
-    makeGetMessageInHistoryItem
+    makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
     addReaction,
-    removeReaction
+    removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
@@ -42,7 +42,7 @@ function mapStateToProps() {
         const getDraft = makeGetGlobalItem(StoragePrefixes.DRAFT + currentChannel.id, {
             message: '',
             uploadsInProgress: [],
-            fileInfos: []
+            fileInfos: [],
         });
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
         const post = getPost(state, recentPostIdInChannel);
@@ -71,7 +71,7 @@ function mapStateToProps() {
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
             canUploadFiles: canUploadFiles(state),
             enableEmojiPicker,
-            enableConfirmNotificationsToChannel
+            enableConfirmNotificationsToChannel,
         };
     };
 }
@@ -96,8 +96,8 @@ function mapDispatchToProps(dispatch) {
             setDraft: setGlobalItem,
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
-            setEditingPost
-        }, dispatch)
+            setEditingPost,
+        }, dispatch),
     };
 }
 

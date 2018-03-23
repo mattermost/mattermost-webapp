@@ -41,13 +41,13 @@ export default class EditCommand extends React.PureComponent {
             /**
             * The function to call to edit command
             */
-            editCommand: PropTypes.func.isRequired
+            editCommand: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
         * Whether or not commands are enabled.
         */
-        enableCommands: PropTypes.bool
+        enableCommands: PropTypes.bool,
     }
 
     constructor(props) {
@@ -56,7 +56,7 @@ export default class EditCommand extends React.PureComponent {
         this.state = {
             originalCommand: null,
             showConfirmModal: false,
-            serverError: ''
+            serverError: '',
         };
     }
 
@@ -65,7 +65,7 @@ export default class EditCommand extends React.PureComponent {
             this.props.actions.getCustomTeamCommands(this.props.team.id).then(
                 () => {
                     this.setState({
-                        originalCommand: Object.values(this.props.commands).filter((command) => command.id === this.props.commandId)[0]
+                        originalCommand: Object.values(this.props.commands).filter((command) => command.id === this.props.commandId)[0],
                     });
                 }
             );

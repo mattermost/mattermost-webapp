@@ -12,7 +12,7 @@ import NeedsTeam from './needs_team.jsx';
 
 function mapStateToProps(state) {
     return {
-        theme: getTheme(state)
+        theme: getTheme(state),
     };
 }
 
@@ -23,8 +23,8 @@ function mapDispatchToProps(dispatch) {
             getMyTeamUnreads,
             viewChannel,
             markChannelAsRead,
-            getMyChannelMembers
-        }, dispatch)
+            getMyChannelMembers,
+        }, dispatch),
     };
 }
 

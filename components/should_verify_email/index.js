@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
 
     return {
-        siteName
+        siteName,
     };
 }
 

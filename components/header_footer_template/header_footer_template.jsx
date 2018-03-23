@@ -16,7 +16,7 @@ export default class NotLoggedIn extends React.PureComponent {
         /*
          * Mattermost configuration
          */
-        config: PropTypes.object
+        config: PropTypes.object,
     };
 
     componentDidMount() {

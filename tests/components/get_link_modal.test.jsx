@@ -14,7 +14,7 @@ describe('components/GetLinkModal', () => {
         show: true,
         onHide,
         title: 'title',
-        link: 'https://mattermost.com'
+        link: 'https://mattermost.com',
     };
 
     test('should match snapshot when all props is set', () => {

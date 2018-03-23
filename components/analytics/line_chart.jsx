@@ -30,14 +30,14 @@ export default class LineChart extends React.PureComponent {
         /*
          * Chart data
          */
-        data: PropTypes.object
+        data: PropTypes.object,
     };
 
     chart = null;
     chartOptions = {
         legend: {
-            display: false
-        }
+            display: false,
+        },
     };
 
     componentDidMount() {

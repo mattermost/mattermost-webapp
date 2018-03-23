@@ -32,15 +32,15 @@ function mapStateToProps(state) {
         samlLastNameAttributeSet,
         ldapNicknameAttributeSet,
         samlNicknameAttributeSet,
-        positionAttributeSet
+        positionAttributeSet,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getMe
-        }, dispatch)
+            getMe,
+        }, dispatch),
     };
 }
 

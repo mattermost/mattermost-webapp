@@ -32,7 +32,7 @@ export default class MessageExportSettings extends AdminSettings {
             enableComplianceExport: config.MessageExportSettings.EnableExport,
             exportFormat: config.MessageExportSettings.ExportFormat,
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
-            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress
+            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress,
         };
     }
 
@@ -48,7 +48,7 @@ export default class MessageExportSettings extends AdminSettings {
     renderSettings() {
         const exportFormatOptions = [
             {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
-            {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')}
+            // {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
 
         // if export format is globalrelay, user must set email address
@@ -94,11 +94,22 @@ export default class MessageExportSettings extends AdminSettings {
 
         return (
             <SettingsGroup>
+                {/*
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedHTMLMessage
                             id='admin.complianceExport.description'
                             defaultMessage='This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
+                        />
+                    </div>
+                </div>
+                */}
+
+                <div className='banner'>
+                    <div className='banner__content'>
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.description_without_globalrelay'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
                         />
                     </div>
                 </div>

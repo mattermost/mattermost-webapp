@@ -13,7 +13,7 @@ export default class ShouldVerifyEmail extends React.Component {
         super(props);
 
         this.state = {
-            resendStatus: 'none'
+            resendStatus: 'none',
         };
     }
 
@@ -71,7 +71,7 @@ export default class ShouldVerifyEmail extends React.Component {
                                 id='email_verify.almost'
                                 defaultMessage='{siteName}: You are almost done'
                                 values={{
-                                    siteName: this.props.siteName
+                                    siteName: this.props.siteName,
                                 }}
                             />
                         </h3>
@@ -102,5 +102,5 @@ export default class ShouldVerifyEmail extends React.Component {
 
 ShouldVerifyEmail.propTypes = {
     location: PropTypes.object.isRequired,
-    siteName: PropTypes.string
+    siteName: PropTypes.string,
 };

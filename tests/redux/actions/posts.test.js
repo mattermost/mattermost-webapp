@@ -22,7 +22,7 @@ describe('Actions.Posts', () => {
                 commentsCount: 0,
                 refocusId: 'test',
                 show: true,
-                title: 'title'
+                title: 'title',
             }
         );
 
@@ -35,7 +35,7 @@ describe('Actions.Posts', () => {
                 commentsCount: 3,
                 refocusId: 'test2',
                 show: true,
-                title: 'title2'
+                title: 'title2',
             }
         );
     });
@@ -48,7 +48,7 @@ describe('Actions.Posts', () => {
         assert.deepEqual(
             store.getState().views.posts.editingPost,
             {
-                show: false
+                show: false,
             }
         );
     });

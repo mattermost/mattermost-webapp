@@ -10,13 +10,13 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
     let state;
     let getPostsEmbedVisibleObj;
     const posts = [{
-        id: 'a'
+        id: 'a',
     }, {
         id: 'b',
-        root_id: 'a'
+        root_id: 'a',
     }, {
         id: 'c',
-        root_id: 'a'
+        root_id: 'a',
     }];
 
     beforeEach(() => {
@@ -27,32 +27,32 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                         [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`]: {
                             category: 'display_settings',
                             name: 'collapse_previews',
-                            value: 'true'
-                        }
-                    }
+                            value: 'true',
+                        },
+                    },
                 },
                 posts: {
                     posts: {
                         a: {
-                            id: 'a'
+                            id: 'a',
                         },
                         b: {
                             id: 'b',
-                            root_id: 's'
+                            root_id: 's',
                         },
                         c: {
                             id: 'c',
-                            root_id: 'a'
-                        }
-                    }
-                }
+                            root_id: 'a',
+                        },
+                    },
+                },
             },
             storage: {
                 storage: {
                     [`${StoragePrefixes.EMBED_VISIBLE}c`]: false,
-                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
-                }
-            }
+                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false,
+                },
+            },
         };
     });
 
@@ -62,7 +62,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
         const postsEmbedVisibleObj = {
             a: false,
             b: false,
-            c: false
+            c: false,
         };
 
         state = {
@@ -71,9 +71,9 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 ...state.storage,
                 storage: {
                     ...state.storage.storage,
-                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: null
-                }
-            }
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: null,
+                },
+            },
         };
 
         assert.deepEqual(getPostsEmbedVisibleObj(state, posts), postsEmbedVisibleObj);
@@ -84,7 +84,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
         const postsEmbedVisibleObj = {
             a: true,
             b: true,
-            c: true
+            c: true,
         };
 
         state = {
@@ -98,11 +98,11 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                         ...state.entities.preferences.myPreferences,
                         [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`]: {
                             ...state.entities.preferences.myPreferences[`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`],
-                            value: 'false'
-                        }
-                    }
-                }
-            }
+                            value: 'false',
+                        },
+                    },
+                },
+            },
         };
 
         assert.deepEqual(getPostsEmbedVisibleObj(state, posts), postsEmbedVisibleObj);
@@ -113,7 +113,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
         const postsEmbedVisibleObj = {
             a: false,
             b: false,
-            c: false
+            c: false,
         };
 
         assert.deepEqual(getPostsEmbedVisibleObj(state, posts), postsEmbedVisibleObj);
@@ -125,7 +125,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
 
         state = {
             ...state,
-            somethingUnrelated: {}
+            somethingUnrelated: {},
         };
 
         const postsEmbedVisibleObjNew = getPostsEmbedVisibleObj(state, posts);
@@ -147,9 +147,9 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 ...state.storage,
                 storage: {
                     ...state.storage.storage,
-                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: true
-                }
-            }
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: true,
+                },
+            },
         };
 
         let previous1 = now1;
@@ -160,7 +160,7 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
 
         state = {
             ...state,
-            somethingUnrelated: {}
+            somethingUnrelated: {},
         };
 
         let previous2 = now2;
@@ -176,9 +176,9 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 ...state.storage,
                 storage: {
                     ...state.storage.storage,
-                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
-                }
-            }
+                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false,
+                },
+            },
         };
 
         previous2 = now2;

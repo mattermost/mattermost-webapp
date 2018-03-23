@@ -161,7 +161,7 @@ export default class DesktopNotificationSettings extends React.Component {
                                 id='user.settings.notifications.desktop.seconds'
                                 defaultMessage='{seconds} seconds'
                                 values={{
-                                    seconds: '3'
+                                    seconds: '3',
                                 }}
                             />
                         </label>
@@ -182,7 +182,7 @@ export default class DesktopNotificationSettings extends React.Component {
                                 id='user.settings.notifications.desktop.seconds'
                                 defaultMessage='{seconds} seconds'
                                 values={{
-                                    seconds: '5'
+                                    seconds: '5',
                                 }}
                             />
                         </label>
@@ -203,7 +203,7 @@ export default class DesktopNotificationSettings extends React.Component {
                                 id='user.settings.notifications.desktop.seconds'
                                 defaultMessage='{seconds} seconds'
                                 values={{
-                                    seconds: '10'
+                                    seconds: '10',
                                 }}
                             />
                         </label>
@@ -342,7 +342,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             id='user.settings.notifications.desktop.mentionsSoundTimed'
                             defaultMessage='For mentions and direct messages, with sound, shown for {seconds} seconds'
                             values={{
-                                seconds: this.props.duration
+                                seconds: this.props.duration,
                             }}
                         />
                     );
@@ -361,7 +361,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             id='user.settings.notifications.desktop.mentionsNoSoundTimed'
                             defaultMessage='For mentions and direct messages, without sound, shown for {seconds} seconds'
                             values={{
-                                seconds: this.props.duration
+                                seconds: this.props.duration,
                             }}
                         />
                     );
@@ -380,7 +380,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             id='user.settings.notifications.desktop.mentionsSoundHiddenTimed'
                             defaultMessage='For mentions and direct messages, shown for {seconds} seconds'
                             values={{
-                                seconds: this.props.duration
+                                seconds: this.props.duration,
                             }}
                         />
                     );
@@ -408,7 +408,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             id='user.settings.notifications.desktop.allSoundTimed'
                             defaultMessage='For all activity, with sound, shown for {seconds} seconds'
                             values={{
-                                seconds: this.props.duration
+                                seconds: this.props.duration,
                             }}
                         />
                     );
@@ -427,7 +427,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             id='user.settings.notifications.desktop.allNoSoundTimed'
                             defaultMessage='For all activity, without sound, shown for {seconds} seconds'
                             values={{
-                                seconds: this.props.duration
+                                seconds: this.props.duration,
                             }}
                         />
                     );
@@ -446,7 +446,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             id='user.settings.notifications.desktop.allSoundHiddenTimed'
                             defaultMessage='For all activity, shown for {seconds} seconds'
                             values={{
-                                seconds: this.props.duration
+                                seconds: this.props.duration,
                             }}
                         />
                     );
@@ -485,5 +485,5 @@ DesktopNotificationSettings.propTypes = {
     error: PropTypes.string,
     active: PropTypes.bool,
     saving: PropTypes.bool,
-    focused: PropTypes.bool
+    focused: PropTypes.bool,
 };

@@ -34,12 +34,12 @@ export default class NewChannelFlow extends React.Component {
         /**
         * Function to call when modal is dimissed
         */
-        onModalDismissed: PropTypes.func.isRequired
+        onModalDismissed: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
         show: false,
-        channelType: Constants.OPEN_CHANNEL
+        channelType: Constants.OPEN_CHANNEL,
     };
 
     constructor(props) {
@@ -52,7 +52,7 @@ export default class NewChannelFlow extends React.Component {
             channelName: '',
             channelPurpose: '',
             channelHeader: '',
-            nameModified: false
+            nameModified: false,
         };
     }
 
@@ -67,7 +67,7 @@ export default class NewChannelFlow extends React.Component {
                 channelName: '',
                 channelPurpose: '',
                 channelHeader: '',
-                nameModified: false
+                nameModified: false,
             });
         }
     }
@@ -89,7 +89,7 @@ export default class NewChannelFlow extends React.Component {
             display_name: this.state.channelDisplayName,
             purpose: this.state.channelPurpose,
             header: this.state.channelHeader,
-            type: this.state.channelType
+            type: this.state.channelType,
         };
 
         createChannel(
@@ -110,7 +110,7 @@ export default class NewChannelFlow extends React.Component {
                                 id='channel_flow.handleTooShort'
                                 defaultMessage='Channel URL must be 2 or more lowercase alphanumeric characters'
                             />
-                        )
+                        ),
                     });
                 } else if (err.id === 'store.sql_channel.update.exists.app_error') {
                     this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
@@ -137,7 +137,7 @@ export default class NewChannelFlow extends React.Component {
 
         this.setState({
             channelType,
-            serverError: ''
+            serverError: '',
         });
     };
 
@@ -164,7 +164,7 @@ export default class NewChannelFlow extends React.Component {
         this.setState({
             channelDisplayName: data.displayName,
             channelPurpose: data.purpose,
-            channelHeader: data.header
+            channelHeader: data.header,
         });
         if (!this.state.nameModified) {
             this.setState({channelName: cleanUpUrlable(data.displayName.trim())});
@@ -176,7 +176,7 @@ export default class NewChannelFlow extends React.Component {
             name: this.state.channelName,
             displayName: this.state.channelDisplayName,
             purpose: this.state.channelPurpose,
-            header: this.state.channelHeader
+            header: this.state.channelHeader,
         };
 
         let showChannelModal = false;

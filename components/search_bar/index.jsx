@@ -9,7 +9,7 @@ import {
     showSearchResults,
     showMentions,
     showFlaggedPosts,
-    closeRightHandSide
+    closeRightHandSide,
 } from 'actions/views/rhs';
 import {getRhsState, getSearchTerms, getIsSearchingTerm} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants.jsx';
@@ -23,7 +23,7 @@ function mapStateToProps(state) {
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
-        isFlaggedPosts: rhsState === RHSStates.FLAG
+        isFlaggedPosts: rhsState === RHSStates.FLAG,
     };
 }
 
@@ -34,8 +34,8 @@ function mapDispatchToProps(dispatch) {
             showSearchResults,
             showMentions,
             showFlaggedPosts,
-            closeRightHandSide
-        }, dispatch)
+            closeRightHandSide,
+        }, dispatch),
     };
 }
 

@@ -23,11 +23,11 @@ export default function ErrorLink({url, messageId, defaultMessage}) {
 ErrorLink.propTypes = {
     url: PropTypes.string.isRequired,
     messageId: PropTypes.string.isRequired,
-    defaultMessage: PropTypes.string.isRequired
+    defaultMessage: PropTypes.string.isRequired,
 };
 
 ErrorLink.defaultProps = {
     url: '',
     messageId: '',
-    defaultMessage: ''
+    defaultMessage: '',
 };

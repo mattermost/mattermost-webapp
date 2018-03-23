@@ -10,14 +10,14 @@ export function initWebrtc(userId, isCalling) {
     AppDispatcher.handleServerAction({
         type: WebrtcActionTypes.INITIALIZE,
         user_id: userId,
-        is_calling: isCalling
+        is_calling: isCalling,
     });
 }
 
 export function handle(message) {
     AppDispatcher.handleServerAction({
         type: message.action,
-        message
+        message,
     });
 }
 

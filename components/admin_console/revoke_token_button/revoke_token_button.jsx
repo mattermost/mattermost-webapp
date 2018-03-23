@@ -25,8 +25,8 @@ export default class RevokeTokenButton extends React.PureComponent {
             /**
              * Function to revoke a user access token
              */
-            revokeUserAccessToken: PropTypes.func.isRequired
-        }).isRequired
+            revokeUserAccessToken: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     handleClick = async (e) => {

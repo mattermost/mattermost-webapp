@@ -23,15 +23,15 @@ export default class AddCommand extends React.PureComponent {
             /**
             * The function to call to add new command
             */
-            addCommand: PropTypes.func.isRequired
-        }).isRequired
+            addCommand: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            serverError: ''
+            serverError: '',
         };
     }
 

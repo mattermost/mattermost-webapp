@@ -11,7 +11,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
 export default class SidebarTutorialTip extends React.PureComponent {
     static propTypes = {
         townSquareDisplayName: PropTypes.string,
-        offTopicDisplayName: PropTypes.string
+        offTopicDisplayName: PropTypes.string,
     }
 
     render = () => {
@@ -46,7 +46,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                     <p><strong>{offtopic}</strong> is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create.</p>'
                     values={{
                         townsquare: townSquareDisplayName,
-                        offtopic: offTopicDisplayName
+                        offtopic: offTopicDisplayName,
                     }}
                 />
             </div>

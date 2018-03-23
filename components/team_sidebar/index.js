@@ -17,15 +17,15 @@ function mapStateToProps(state) {
 
     return {
         experimentalPrimaryTeam,
-        enableTeamCreation
+        enableTeamCreation,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeams
-        }, dispatch)
+            getTeams,
+        }, dispatch),
     };
 }
 

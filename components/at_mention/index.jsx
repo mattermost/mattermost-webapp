@@ -9,7 +9,7 @@ import AtMention from './at_mention.jsx';
 function mapStateToProps(state) {
     return {
         currentUserId: getCurrentUserId(state),
-        usersByUsername: getUsersByUsername(state)
+        usersByUsername: getUsersByUsername(state),
     };
 }
 

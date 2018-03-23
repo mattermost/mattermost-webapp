@@ -9,15 +9,15 @@ import AddUsersToTeam from './add_users_to_team.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getProfilesNotInTeam
-        }, dispatch)
+            getProfilesNotInTeam,
+        }, dispatch),
     };
 }
 

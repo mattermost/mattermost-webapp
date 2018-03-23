@@ -42,5 +42,5 @@ export default function ExtraInfo({section}) {
 }
 
 ExtraInfo.propTypes = {
-    section: PropTypes.string.isRequired
+    section: PropTypes.string.isRequired,
 };

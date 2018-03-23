@@ -29,13 +29,13 @@ export default class TeamMembersModal extends React.PureComponent {
         /**
          * Function called when modal is loaded
          */
-        onLoad: PropTypes.func
+        onLoad: PropTypes.func,
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            show: true
+            show: true,
         };
     }
 
@@ -68,7 +68,7 @@ export default class TeamMembersModal extends React.PureComponent {
                             id='team_member_modal.members'
                             defaultMessage='{team} Members'
                             values={{
-                                team: teamDisplayName
+                                team: teamDisplayName,
                             }}
                         />
                     </Modal.Title>

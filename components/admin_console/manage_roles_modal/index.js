@@ -10,15 +10,15 @@ import ManageRolesModal from './manage_roles_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        userAccessTokensEnabled: state.entities.admin.config.ServiceSettings.EnableUserAccessTokens
+        userAccessTokensEnabled: state.entities.admin.config.ServiceSettings.EnableUserAccessTokens,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            updateUserRoles
-        }, dispatch)
+            updateUserRoles,
+        }, dispatch),
     };
 }
 

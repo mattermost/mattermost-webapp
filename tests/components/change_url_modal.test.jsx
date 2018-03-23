@@ -26,7 +26,7 @@ describe('components/ChangeURLModal', () => {
         onDataChanged: jest.fn(),
         currentTeamURL: 'http://example.com/channel/',
         onModalSubmit: jest.fn(),
-        onModalDismissed: jest.fn()
+        onModalDismissed: jest.fn(),
     };
 
     test('should match snapshot, modal not showing', () => {

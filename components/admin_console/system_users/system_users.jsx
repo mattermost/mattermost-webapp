@@ -72,8 +72,8 @@ export default class SystemUsers extends React.Component {
             /*
              * Function to get a user access token
              */
-            getUserAccessToken: PropTypes.func.isRequired
-        }).isRequired
+            getUserAccessToken: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -102,7 +102,7 @@ export default class SystemUsers extends React.Component {
             teamId: ALL_USERS,
             term: '',
             loading: true,
-            searching: false
+            searching: false,
         };
     }
 
@@ -141,15 +141,15 @@ export default class SystemUsers extends React.Component {
     updateTotalUsersFromStore(teamId = this.state.teamId) {
         if (teamId === ALL_USERS) {
             this.setState({
-                totalUsers: AnalyticsStore.getAllSystem()[StatTypes.TOTAL_USERS]
+                totalUsers: AnalyticsStore.getAllSystem()[StatTypes.TOTAL_USERS],
             });
         } else if (teamId === NO_TEAM) {
             this.setState({
-                totalUsers: 0
+                totalUsers: 0,
             });
         } else {
             this.setState({
-                totalUsers: TeamStore.getStats(teamId).total_member_count
+                totalUsers: TeamStore.getStats(teamId).total_member_count,
             });
         }
     }
@@ -226,7 +226,7 @@ export default class SystemUsers extends React.Component {
             this.updateUsersFromStore(teamId, term);
 
             this.setState({
-                loading: false
+                loading: false,
             });
 
             this.searchTimeoutId = '';
@@ -243,7 +243,7 @@ export default class SystemUsers extends React.Component {
         this.setState({loading: true});
 
         const options = {
-            [UserSearchOptions.ALLOW_INACTIVE]: true
+            [UserSearchOptions.ALLOW_INACTIVE]: true,
         };
         if (teamId === NO_TEAM) {
             options[UserSearchOptions.WITHOUT_TEAM] = true;
@@ -281,7 +281,7 @@ export default class SystemUsers extends React.Component {
         this.props.actions.getUser(id).then(
             () => {
                 this.setState({
-                    loading: false
+                    loading: false,
                 });
             }
         );
@@ -360,7 +360,7 @@ export default class SystemUsers extends React.Component {
                         id='admin.system_users.title'
                         defaultMessage='{siteName} Users'
                         values={{
-                            siteName: this.props.siteName
+                            siteName: this.props.siteName,
                         }}
                     />
                 </h3>

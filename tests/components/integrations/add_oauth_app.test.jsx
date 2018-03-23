@@ -10,7 +10,7 @@ describe('components/integrations/AddOAuthApp', () => {
     const emptyFunction = jest.fn();
     const team = {
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
-        name: 'test'
+        name: 'test',
     };
 
     test('should match snapshot', () => {
@@ -19,7 +19,7 @@ describe('components/integrations/AddOAuthApp', () => {
                 team={team}
                 addOAuthAppRequest={{
                     status: 'not_started',
-                    error: null
+                    error: null,
                 }}
                 actions={{addOAuthApp: emptyFunction}}
             />

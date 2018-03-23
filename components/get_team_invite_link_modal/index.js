@@ -8,7 +8,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         currentTeam: getCurrentTeam(state),
-        config: getConfig(state)
+        config: getConfig(state),
     };
 }
 

@@ -80,7 +80,7 @@ class UserProvider extends Provider {
                     matchedPretext: normalizedPretext,
                     terms: users.map((user) => user.username),
                     items: users,
-                    component: UserSuggestion
+                    component: UserSuggestion,
                 });
             }
         );
@@ -98,7 +98,7 @@ export default class UserAutocompleteSetting extends React.Component {
             helpText: PropTypes.node,
             value: PropTypes.string,
             onChange: PropTypes.func,
-            disabled: PropTypes.bool
+            disabled: PropTypes.bool,
         };
     }
 

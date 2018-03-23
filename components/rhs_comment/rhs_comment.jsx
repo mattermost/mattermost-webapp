@@ -43,7 +43,7 @@ export default class RhsComment extends React.Component {
         previewEnabled: PropTypes.bool.isRequired,
         isEmbedVisible: PropTypes.bool,
         enableEmojiPicker: PropTypes.bool.isRequired,
-        enablePostUsernameOverride: PropTypes.bool.isRequired
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -52,7 +52,7 @@ export default class RhsComment extends React.Component {
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
-            dropdownOpened: false
+            dropdownOpened: false,
         };
     }
 
@@ -154,7 +154,7 @@ export default class RhsComment extends React.Component {
 
         this.setState({
             showEmojiPicker,
-            dropdownOpened: showEmojiPicker
+            dropdownOpened: showEmojiPicker,
         });
     };
 
@@ -194,7 +194,7 @@ export default class RhsComment extends React.Component {
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
-            dropdownOpened: isOpened
+            dropdownOpened: isOpened,
         });
     };
 

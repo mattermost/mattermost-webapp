@@ -12,23 +12,23 @@ export default class ChannelMembersModal extends React.PureComponent {
     static propTypes = {
         canManageChannelMembers: PropTypes.bool.isRequired,
         channel: PropTypes.shape({
-            display_name: PropTypes.string.isRequired
+            display_name: PropTypes.string.isRequired,
         }).isRequired,
         onModalDismissed: PropTypes.func.isRequired,
-        showInviteModal: PropTypes.func.isRequired
+        showInviteModal: PropTypes.func.isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            show: true
+            show: true,
         };
     }
 
     onHide = () => {
         this.setState({
-            show: false
+            show: false,
         });
     }
 

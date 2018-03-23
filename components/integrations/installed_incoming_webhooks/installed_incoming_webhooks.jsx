@@ -58,13 +58,13 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             /**
             * The function to call for incomingWebhook List and for the status of api
             */
-            getIncomingHooks: PropTypes.func
+            getIncomingHooks: PropTypes.func,
         }),
 
         /**
         * Whether or not incoming webhooks are enabled.
         */
-        enableIncomingWebhooks: PropTypes.bool
+        enableIncomingWebhooks: PropTypes.bool,
     }
 
     constructor(props) {
@@ -73,7 +73,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         this.deleteIncomingWebhook = this.deleteIncomingWebhook.bind(this);
         this.incomingWebhookCompare = this.incomingWebhookCompare.bind(this);
         this.state = {
-            loading: true
+            loading: true,
         };
     }
 
@@ -175,7 +175,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                                         defaultMessage='App Directory'
                                     />
                                 </a>
-                            )
+                            ),
                         }}
                     />
                 }

@@ -48,7 +48,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         /**
          * Function to call when click on "Get Public Link"
          */
-        onGetPublicLink: PropTypes.func
+        onGetPublicLink: PropTypes.func,
     };
 
     static defaultProps = {
@@ -57,7 +57,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         totalFiles: 0,
         filename: '',
         fileURL: '',
-        showPublicLink: true
+        showPublicLink: true,
     };
 
     render() {
@@ -118,7 +118,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
                         defaultMessage='File {count, number} of {total, number}'
                         values={{
                             count: (this.props.fileIndex + 1),
-                            total: this.props.totalFiles
+                            total: this.props.totalFiles,
                         }}
                     />
                 </span>

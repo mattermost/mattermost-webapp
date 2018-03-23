@@ -27,7 +27,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         imageUrl,
-        displayTextOnly
+        displayTextOnly,
     };
 }
 

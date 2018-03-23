@@ -14,7 +14,7 @@ describe('components/dot_menu/DotMenuEdit', () => {
         post: {id: 'post_id_1'},
         type: 'Post',
         commentsCount: 1,
-        actions: {setEditingPost: jest.fn()}
+        actions: {setEditingPost: jest.fn()},
     };
 
     test('should match snapshot, on Center', () => {

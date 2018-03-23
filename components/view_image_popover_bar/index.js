@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const enablePublicLink = config.EnablePublicLink === 'true';
 
     return {
-        enablePublicLink
+        enablePublicLink,
     };
 }
 

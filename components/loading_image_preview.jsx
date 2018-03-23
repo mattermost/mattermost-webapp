@@ -42,9 +42,9 @@ LoadingImagePreview.propTypes = {
     /**
      * Loading style
      */
-    containerClass: PropTypes.string
+    containerClass: PropTypes.string,
 };
 
 LoadingImagePreview.defaultProps = {
-    containerClass: 'view-image__loading'
+    containerClass: 'view-image__loading',
 };

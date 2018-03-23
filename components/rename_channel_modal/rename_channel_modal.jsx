@@ -14,32 +14,32 @@ import * as Utils from 'utils/utils.jsx';
 const holders = defineMessages({
     required: {
         id: 'rename_channel.required',
-        defaultMessage: 'This field is required'
+        defaultMessage: 'This field is required',
     },
     maxLength: {
         id: 'rename_channel.maxLength',
-        defaultMessage: 'This field must be less than {maxLength, number} characters'
+        defaultMessage: 'This field must be less than {maxLength, number} characters',
     },
     lowercase: {
         id: 'rename_channel.lowercase',
-        defaultMessage: 'Must be lowercase alphanumeric characters'
+        defaultMessage: 'Must be lowercase alphanumeric characters',
     },
     url: {
         id: 'rename_channel.url',
-        defaultMessage: 'URL'
+        defaultMessage: 'URL',
     },
     defaultError: {
         id: 'rename_channel.defaultError',
-        defaultMessage: ' - Cannot be changed for the default channel'
+        defaultMessage: ' - Cannot be changed for the default channel',
     },
     displayNameHolder: {
         id: 'rename_channel.displayNameHolder',
-        defaultMessage: 'Enter display name'
+        defaultMessage: 'Enter display name',
     },
     handleHolder: {
         id: 'rename_channel.handleHolder',
-        defaultMessage: 'lowercase alphanumeric characters'
-    }
+        defaultMessage: 'lowercase alphanumeric characters',
+    },
 });
 
 export class RenameChannelModal extends React.PureComponent {
@@ -83,8 +83,8 @@ export class RenameChannelModal extends React.PureComponent {
             /*
              * Action creator to update current channel
              */
-            updateChannel: PropTypes.func.isRequired
-        }).isRequired
+            updateChannel: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -96,7 +96,7 @@ export class RenameChannelModal extends React.PureComponent {
             serverError: '',
             nameError: '',
             displayNameError: '',
-            invalid: false
+            invalid: false,
         };
     }
 
@@ -104,7 +104,7 @@ export class RenameChannelModal extends React.PureComponent {
         if (!Utils.areObjectsEqual(nextProps.channel, this.props.channel)) {
             this.setState({
                 displayName: nextProps.channel.display_name,
-                channelName: nextProps.channel.name
+                channelName: nextProps.channel.name,
             });
         }
     }
@@ -132,7 +132,7 @@ export class RenameChannelModal extends React.PureComponent {
             serverError: '',
             nameError: '',
             displayNameError: '',
-            invalid: false
+            invalid: false,
         });
     }
 
@@ -161,7 +161,7 @@ export class RenameChannelModal extends React.PureComponent {
                     id='rename_channel.minLength'
                     defaultMessage='Channel name must be {minLength, number} or more characters'
                     values={{
-                        minLength: Constants.MIN_CHANNELNAME_LENGTH
+                        minLength: Constants.MIN_CHANNELNAME_LENGTH,
                     }}
                 />
             );
@@ -215,7 +215,7 @@ export class RenameChannelModal extends React.PureComponent {
     handleCancel = (e) => {
         this.setState({
             displayName: this.props.channel.display_name,
-            channelName: this.props.channel.name
+            channelName: this.props.channel.name,
         });
 
         this.handleHide(e);

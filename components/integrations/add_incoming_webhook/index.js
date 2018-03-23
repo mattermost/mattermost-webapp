@@ -16,15 +16,15 @@ function mapStateToProps(state) {
     return {
         createIncomingHookRequest: state.requests.integrations.createIncomingHook,
         enablePostUsernameOverride,
-        enablePostIconOverride
+        enablePostIconOverride,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            createIncomingHook
-        }, dispatch)
+            createIncomingHook,
+        }, dispatch),
     };
 }
 

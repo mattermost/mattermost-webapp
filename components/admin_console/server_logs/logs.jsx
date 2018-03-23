@@ -23,8 +23,8 @@ export default class Logs extends React.Component {
             /*
              * Function to fetch logs
              */
-            getLogs: PropTypes.func.isRequired
-        }).isRequired
+            getLogs: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -32,7 +32,7 @@ export default class Logs extends React.Component {
         this.state = {
             loadingLogs: true,
             page: 0,
-            perPage: 1000
+            perPage: 1000,
         };
     }
 

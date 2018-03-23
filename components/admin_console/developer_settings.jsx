@@ -32,7 +32,7 @@ export default class DeveloperSettings extends AdminSettings {
         return {
             enableTesting: config.ServiceSettings.EnableTesting,
             enableDeveloper: config.ServiceSettings.EnableDeveloper,
-            allowedUntrustedInternalConnections: config.ServiceSettings.AllowedUntrustedInternalConnections
+            allowedUntrustedInternalConnections: config.ServiceSettings.AllowedUntrustedInternalConnections,
         };
     }
 

@@ -47,7 +47,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             /**
             * The function to call when Delete link is clicked
             */
-            deleteOAuthApp: PropTypes.func.isRequired
+            deleteOAuthApp: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -58,13 +58,13 @@ export default class InstalledOAuthApps extends React.PureComponent {
         /**
         * Whether or not integration configuration is restricted to admins.
         */
-        enableOnlyAdminIntegrations: PropTypes.bool
+        enableOnlyAdminIntegrations: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
         };
     }
 
@@ -116,7 +116,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
         if (integrationsEnabled) {
             props = {
                 addLink: '/' + this.props.team.name + '/integrations/oauth2-apps/add',
-                addText: localizeMessage('installed_oauth_apps.add', 'Add OAuth 2.0 Application')
+                addText: localizeMessage('installed_oauth_apps.add', 'Add OAuth 2.0 Application'),
             };
         }
 
@@ -156,7 +156,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
                                         defaultMessage='App Directory'
                                     />
                                 </a>
-                            )
+                            ),
                         }}
                     />
                 }

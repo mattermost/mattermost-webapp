@@ -134,7 +134,7 @@ class TeamStoreClass extends EventEmitter {
     setCurrentId(id) {
         store.dispatch({
             type: TeamTypes.SELECT_TEAM,
-            data: id
+            data: id,
         });
     }
 
@@ -216,7 +216,7 @@ class TeamStoreClass extends EventEmitter {
     saveTeams(teams) {
         store.dispatch({
             type: TeamTypes.RECEIVED_TEAMS,
-            data: teams
+            data: teams,
         });
     }
 
@@ -236,14 +236,14 @@ class TeamStoreClass extends EventEmitter {
     saveStats(teamId, stats) {
         store.dispatch({
             type: TeamTypes.RECEIVED_TEAM_STATS,
-            data: stats
+            data: stats,
         });
     }
 
     saveMyTeamMembers(members) {
         store.dispatch({
             type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
-            data: members
+            data: members,
         });
     }
 
@@ -264,7 +264,7 @@ class TeamStoreClass extends EventEmitter {
                     team,
                     {
                         msg_count: member.msg_count,
-                        mention_count: member.mention_count
+                        mention_count: member.mention_count,
                     });
             }
         }
@@ -290,14 +290,14 @@ class TeamStoreClass extends EventEmitter {
     saveMembersInTeam(members) {
         store.dispatch({
             type: TeamTypes.RECEIVED_MEMBERS_IN_TEAM,
-            data: Object.values(members)
+            data: Object.values(members),
         });
     }
 
     removeMemberInTeam(teamId = this.getCurrentId(), userId) {
         store.dispatch({
             type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-            data: {team_id: teamId, user_id: userId}
+            data: {team_id: teamId, user_id: userId},
         });
     }
 
@@ -360,12 +360,12 @@ class TeamStoreClass extends EventEmitter {
 
         if (teamMember) {
             const newMember = Object.assign({}, teamMember, {
-                roles: member.roles
+                roles: member.roles,
             });
 
             store.dispatch({
                 type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-                data: newMember
+                data: newMember,
             });
         }
     }
@@ -381,7 +381,7 @@ class TeamStoreClass extends EventEmitter {
 
         store.dispatch({
             type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-            data: member
+            data: member,
         });
     }
 
@@ -397,7 +397,7 @@ class TeamStoreClass extends EventEmitter {
 
             store.dispatch({
                 type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-                data: member
+                data: member,
             });
         }
     }

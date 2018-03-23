@@ -19,7 +19,7 @@ function mapStateToProps(state) {
         enableWebrtc,
         enablePreviewFeatures,
         buildEnterpriseReady,
-        isLicensed
+        isLicensed,
     };
 }
 

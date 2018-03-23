@@ -20,7 +20,7 @@ function makeMapStateToProps() {
         return {
             reactions: getReactionsForPost(state, ownProps.post.id),
             emojis: getCustomEmojisByName(state),
-            enableEmojiPicker
+            enableEmojiPicker,
         };
     };
 }
@@ -29,8 +29,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getReactionsForPost: Actions.getReactionsForPost,
-            addReaction: Actions.addReaction
-        }, dispatch)
+            addReaction: Actions.addReaction,
+        }, dispatch),
     };
 }
 
