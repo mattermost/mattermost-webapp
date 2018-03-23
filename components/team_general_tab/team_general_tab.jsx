@@ -4,15 +4,29 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedDate} from 'react-intl';
 
-import {updateTeam} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingPicture from 'components/setting_picture.jsx';
 
-class GeneralTab extends React.Component {
+export default class GeneralTab extends React.Component {
+
+    static propTypes = {
+        updateSection: PropTypes.func.isRequired,
+        team: PropTypes.object.isRequired,
+        activeSection: PropTypes.string.isRequired,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired,
+        maxFileSize: PropTypes.number.isRequired,
+        actions: PropTypes.shape({
+            updateTeam: PropTypes.func.isRequired,
+            setTeamIcon: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -21,9 +35,12 @@ class GeneralTab extends React.Component {
         this.handleInviteIdSubmit = this.handleInviteIdSubmit.bind(this);
         this.handleOpenInviteSubmit = this.handleOpenInviteSubmit.bind(this);
         this.handleDescriptionSubmit = this.handleDescriptionSubmit.bind(this);
+        this.handleTeamIconSubmit = this.handleTeamIconSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
+
         this.updateName = this.updateName.bind(this);
         this.updateDescription = this.updateDescription.bind(this);
+        this.updateTeamIcon = this.updateTeamIcon.bind(this);
         this.updateInviteId = this.updateInviteId.bind(this);
         this.handleOpenInviteRadio = this.handleOpenInviteRadio.bind(this);
         this.handleGenerateInviteId = this.handleGenerateInviteId.bind(this);
@@ -49,6 +66,9 @@ class GeneralTab extends React.Component {
             description: team.description,
             serverError: '',
             clientError: '',
+            teamIconFile: null,
+            loadingIcon: false,
+            submitActive: false,
         };
     }
 
@@ -76,23 +96,23 @@ class GeneralTab extends React.Component {
         this.setState({allow_open_invite: openInvite});
     }
 
-    handleOpenInviteSubmit() {
+    handleOpenInviteSubmit = async () => {
         var state = {serverError: '', clientError: ''};
 
         var data = {...this.props.team};
         data.allow_open_invite = this.state.allow_open_invite;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
-    handleNameSubmit() {
+    handleNameSubmit = async () => {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -126,18 +146,18 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.display_name = this.state.name;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
-    handleInviteIdSubmit() {
+    handleInviteIdSubmit = async () => {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -157,22 +177,22 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.invite_id = this.state.invite_id;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
     handleClose() {
         this.updateSection('');
     }
 
-    handleDescriptionSubmit() {
+    handleDescriptionSubmit = async () => {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -192,15 +212,49 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.description = this.state.description;
-        updateTeam(data,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                state.serverError = err.message;
-                this.setState(state);
-            }
-        );
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
+    }
+
+    handleTeamIconSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!this.state.teamIconFile) {
+            return;
+        }
+
+        if (!this.state.submitActive) {
+            return;
+        }
+
+        this.setState({
+            clientError: '',
+            serverError: '',
+        });
+
+        this.setState({loadingIcon: true});
+
+        const {error} = await this.props.actions.setTeamIcon(this.props.team.id, this.state.teamIconFile);
+
+        if (error) {
+            this.setState({
+                loadingIcon: false,
+                serverError: error.message,
+            });
+        } else {
+            this.setState({
+                loadingIcon: false,
+                submitActive: false,
+            });
+            this.updateSection('');
+        }
     }
 
     componentDidMount() {
@@ -223,13 +277,43 @@ class GeneralTab extends React.Component {
         this.setState({description: e.target.value});
     }
 
+    updateTeamIcon(e) {
+        if (e && e.target && e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+
+            if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+                this.setState({
+                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons'),
+                });
+            } else if (file.size > this.props.maxFileSize) {
+                this.setState({
+                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons'),
+                });
+            } else {
+                this.setState({
+                    teamIconFile: e.target.files[0],
+                    clientError: '',
+                    submitActive: true,
+                });
+            }
+        } else {
+            this.setState({
+                teamIconFile: null,
+                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occured while selecting the image.'),
+            });
+        }
+    }
+
     updateInviteId(e) {
         this.setState({invite_id: e.target.value});
     }
 
     render() {
+        const team = this.props.team;
+
         let clientError = null;
         let serverError = null;
+
         if (this.state.clientError) {
             clientError = this.state.clientError;
         }
@@ -514,6 +598,62 @@ class GeneralTab extends React.Component {
             );
         }
 
+        let teamIconSection;
+        if (this.props.activeSection === 'team_icon') {
+            teamIconSection = (
+                <SettingPicture
+                    imageContext='team'
+                    title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
+                    src={Utils.imageURLForTeam(team)}
+                    file={this.state.teamIconFile}
+                    serverError={this.state.serverError}
+                    clientError={this.state.clientError}
+                    loadingPicture={this.state.loadingIcon}
+                    submitActive={this.state.submitActive}
+                    updateSection={(e) => {
+                        this.updateSection('');
+                        e.preventDefault();
+                    }}
+                    onFileChange={this.updateTeamIcon}
+                    submit={this.handleTeamIconSubmit}
+                />
+            );
+        } else {
+            let minMessage;
+
+            if (team.last_team_icon_update) {
+                minMessage = (
+                    <FormattedMessage
+                        id='general_tab.teamIconLastUpdated'
+                        defaultMessage='Image last updated {date}'
+                        values={{
+                            date: (
+                                <FormattedDate
+                                    value={new Date(team.last_team_icon_update)}
+                                    day='2-digit'
+                                    month='short'
+                                    year='numeric'
+                                />
+                            ),
+                        }}
+                    />
+                );
+            } else {
+                minMessage = Utils.isMobile() ?
+                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image.') :
+                    Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
+            }
+
+            teamIconSection = (
+                <SettingItemMin
+                    title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
+                    describe={minMessage}
+                    section={'team_icon'}
+                    updateSection={this.handleUpdateSection}
+                />
+            );
+        }
+
         return (
             <div>
                 <div className='modal-header'>
@@ -558,6 +698,8 @@ class GeneralTab extends React.Component {
                     <div className='divider-light'/>
                     {descriptionSection}
                     <div className='divider-light'/>
+                    {teamIconSection}
+                    <div className='divider-light'/>
                     {openInviteSection}
                     <div className='divider-light'/>
                     {inviteSection}
@@ -567,13 +709,3 @@ class GeneralTab extends React.Component {
         );
     }
 }
-
-GeneralTab.propTypes = {
-    updateSection: PropTypes.func.isRequired,
-    team: PropTypes.object.isRequired,
-    activeSection: PropTypes.string.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-};
-
-export default GeneralTab;

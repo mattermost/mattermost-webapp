@@ -4,6 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import * as UserAgent from 'utils/user_agent';
+import * as Utils from 'utils/utils';
+
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
 export default class QuickInput extends React.PureComponent {
@@ -33,34 +36,57 @@ export default class QuickInput extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (prevProps.value !== this.props.value) {
             if (this.props.delayInputUpdate) {
-                requestAnimationFrame(() => {
-                    this.refs.input.value = this.props.value;
-                });
+                requestAnimationFrame(this.updateInputFromProps);
             } else {
-                this.refs.input.value = this.props.value;
+                this.updateInputFromProps();
             }
         }
     }
 
+    updateInputFromProps = () => {
+        if (!this.input) {
+            return;
+        }
+
+        if (UserAgent.isWindows7() && UserAgent.isInternetExplorer()) {
+            // The textbox already knows where it's cursor is supposed to be because we've already
+            // typed in it, but it needs to be reminded of that
+            const caret = Utils.getCaretPosition(this.input);
+
+            this.input.value = this.props.value;
+
+            this.input.selectionStart = caret;
+            this.input.selectionEnd = this.input.selectionStart;
+
+            return;
+        }
+
+        this.input.value = this.props.value;
+    }
+
     get value() {
-        return this.refs.input.value;
+        return this.input.value;
     }
 
     set value(value) {
-        this.refs.input.value = value;
+        this.input.value = value;
     }
 
     focus() {
-        this.refs.input.focus();
+        this.input.focus();
     }
 
     blur() {
-        this.refs.input.blur();
+        this.input.blur();
     }
 
     getInput = () => {
-        return this.refs.input;
+        return this.input;
     };
+
+    setInput = (input) => {
+        this.input = input;
+    }
 
     render() {
         const {value, inputComponent, ...props} = this.props;
@@ -71,7 +97,7 @@ export default class QuickInput extends React.PureComponent {
             inputComponent || 'input',
             {
                 ...props,
-                ref: 'input',
+                ref: this.setInput,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );

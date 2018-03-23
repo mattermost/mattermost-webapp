@@ -135,9 +135,23 @@ export default class AboutBuildModal extends React.PureComponent {
             }
         }
 
-        let version = config.Version;
-        if (config.BuildNumber !== config.Version) {
-            version += ' (' + config.BuildNumber + ')';
+        // Only show build number if it's a number (so only builds from Jenkins)
+        let buildnumber = (
+            <div>
+                <FormattedMessage
+                    id='about.buildnumber'
+                    defaultMessage='Build Number:'
+                />
+                <span id='buildnumberString'>{'\u00a0' + config.BuildNumber}</span>
+            </div>
+        );
+        if (isNaN(config.BuildNumber)) {
+            buildnumber = null;
+        }
+
+        let mmversion = config.BuildNumber;
+        if (!isNaN(config.BuildNumber)) {
+            mmversion = 'ci';
         }
 
         return (
@@ -166,10 +180,18 @@ export default class AboutBuildModal extends React.PureComponent {
                                 <div>
                                     <FormattedMessage
                                         id='about.version'
-                                        defaultMessage='Version:'
+                                        defaultMessage='Mattermost Version:'
                                     />
-                                    <span id='versionString'>{'\u00a0' + version}</span>
+                                    <span id='versionString'>{'\u00a0' + mmversion}</span>
                                 </div>
+                                <div>
+                                    <FormattedMessage
+                                        id='about.dbversion'
+                                        defaultMessage='Database Schema Version:'
+                                    />
+                                    <span id='dbversionString'>{'\u00a0' + config.Version}</span>
+                                </div>
+                                {buildnumber}
                                 <div>
                                     <FormattedMessage
                                         id='about.database'

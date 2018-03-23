@@ -74,6 +74,10 @@ const holders = defineMessages({
         id: 'audit_table.attemptedLogin',
         defaultMessage: 'Attempted to login',
     },
+    authenticated: {
+        id: 'audit_table.authenticated',
+        defauleMessage: 'Successfully authenticated',
+    },
     successfullLogin: {
         id: 'audit_table.successfullLogin',
         defaultMessage: 'Successfully logged in',
@@ -442,6 +446,8 @@ export function formatAuditInfo(audit, formatMessage) {
                 auditDesc = formatMessage(holders.attemptedLogin);
             } else if (userInfo[0] === 'success') {
                 auditDesc = formatMessage(holders.successfullLogin);
+            } else if (userInfo[0] === 'authenticated') {
+                auditDesc = formatMessage(holders.authenticated);
             } else if (userInfo[0]) {
                 auditDesc = formatMessage(holders.failedLogin);
             }

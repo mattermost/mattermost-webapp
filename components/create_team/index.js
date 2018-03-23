@@ -16,8 +16,6 @@ function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
 
     const isLicensed = license.IsLicensed === 'true';
-    const customBrand = license.CustomBrand === 'true';
-    const enableCustomBrand = config.EnableCustomBrand === 'true';
     const customDescriptionText = config.CustomDescriptionText;
     const siteName = config.SiteName;
 
@@ -25,8 +23,6 @@ function mapStateToProps(state) {
         currentChannel,
         currentTeam,
         isLicensed,
-        customBrand,
-        enableCustomBrand,
         customDescriptionText,
         siteName,
     };

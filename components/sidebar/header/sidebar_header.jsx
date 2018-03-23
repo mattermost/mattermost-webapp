@@ -48,17 +48,31 @@ export default class SidebarHeader extends React.Component {
     getStateFromStores = () => {
         const preferences = this.getPreferences();
         const isMobile = Utils.isMobile();
-        return {...preferences, isMobile};
+        return {
+            ...preferences,
+            isMobile,
+            showDropdown: false,
+        };
     }
 
     onPreferenceChange = () => {
         this.setState(this.getPreferences());
     }
 
-    toggleDropdown = (e) => {
-        e.preventDefault();
+    toggleDropdown = (toggle) => {
+        if (typeof (toggle) === 'boolean') {
+            this.setState({
+                showDropdown: toggle,
+            });
+        } else {
+            this.setState({
+                showDropdown: !this.state.showDropdown,
+            });
+        }
+    }
 
-        this.refs.dropdown.toggleDropdown();
+    showDropdown = () => {
+        this.toggleDropdown(true);
     }
 
     renderStatusDropdown = () => {
@@ -75,7 +89,7 @@ export default class SidebarHeader extends React.Component {
 
         let tutorialTip = null;
         if (this.state.showTutorialTip) {
-            tutorialTip = createMenuTip(this.toggleDropdown);
+            tutorialTip = createMenuTip(this.showDropdown);
         }
 
         let teamNameWithToolTip = null;
@@ -127,12 +141,12 @@ export default class SidebarHeader extends React.Component {
                 </div>
                 <div id='sidebarDropdownMenuContainer'>
                     <SidebarHeaderDropdown
-                        ref='dropdown'
-                        teamId={this.props.teamId}
                         teamType={this.props.teamType}
                         teamDisplayName={this.props.teamDisplayName}
                         teamName={this.props.teamName}
                         currentUser={this.props.currentUser}
+                        showDropdown={this.state.showDropdown}
+                        onToggleDropdown={this.toggleDropdown}
                     />
                 </div>
                 {statusDropdown}

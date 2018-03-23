@@ -177,7 +177,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='AD/LDAP Server:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.serverEx', 'Ex "10.0.0.23"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.serverEx', 'E.g.: "10.0.0.23"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.serverDesc'
@@ -196,7 +196,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='AD/LDAP Port:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.portEx', 'Ex "389"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.portEx', 'E.g.: "389"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.portDesc'
@@ -237,7 +237,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='BaseDN:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.baseEx', 'Ex "ou=Unit Name,dc=corp,dc=example,dc=com"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.baseEx', 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.baseDesc'
@@ -308,10 +308,10 @@ export default class LdapSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.ldap.firstnameAttrTitle'
-                            defaultMessage='First Name Attribute'
+                            defaultMessage='First Name Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.firstnameAttrEx', 'Ex "givenName"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.firstnameAttrEx', 'E.g.: "givenName"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.firstnameAttrDesc'
@@ -330,7 +330,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Last Name Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.lastnameAttrEx', 'Ex "sn"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.lastnameAttrEx', 'E.g.: "sn"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.lastnameAttrDesc'
@@ -349,7 +349,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Nickname Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.nicknameAttrEx', 'Ex "nickname"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.nicknameAttrEx', 'E.g.: "nickname"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.nicknameAttrDesc'
@@ -387,7 +387,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Email Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.emailAttrEx', 'Ex "mail" or "userPrincipalName"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.emailAttrEx', 'E.g.: "mail" or "userPrincipalName"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.emailAttrDesc'
@@ -406,7 +406,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Username Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.usernameAttrEx', 'Ex "sAMAccountName"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.usernameAttrEx', 'E.g.: "sAMAccountName"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.uernameAttrDesc'
@@ -425,7 +425,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='ID Attribute: '
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.idAttrEx', 'Ex "sAMAccountName"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.idAttrEx', 'E.g.: "sAMAccountName"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.idAttrDesc'
@@ -444,7 +444,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Sign-in Field Default Text:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.loginNameEx', 'Ex "AD/LDAP Username"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.loginNameEx', 'E.g.: "AD/LDAP Username"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.loginNameDesc'
@@ -481,7 +481,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Maximum Page Size:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.maxPageSizeEx', 'Ex "2000"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.maxPageSizeEx', 'E.g.: "2000"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.maxPageSizeHelpText'
@@ -500,7 +500,7 @@ export default class LdapSettings extends AdminSettings {
                             defaultMessage='Query Timeout (seconds):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.ldap.queryEx', 'Ex "60"')}
+                    placeholder={Utils.localizeMessage('admin.ldap.queryEx', 'E.g.: "60"')}
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.queryDesc'

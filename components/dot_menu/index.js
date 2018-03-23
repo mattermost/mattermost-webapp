@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {flagPost, unflagPost} from 'mattermost-redux/actions/posts';
 
+import {openModal} from 'actions/views/modals';
 import {pinPost, unpinPost, setEditingPost} from 'actions/post_actions.jsx';
 
 import DotMenu from './dot_menu.jsx';
@@ -21,6 +22,7 @@ function mapDispatchToProps(dispatch) {
             setEditingPost,
             pinPost,
             unpinPost,
+            openModal,
         }, dispatch),
     };
 }

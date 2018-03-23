@@ -12,20 +12,22 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import logoImage from 'images/logo.png';
+
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
 export default class SelectTeam extends React.Component {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
-        customBrand: PropTypes.bool.isRequired,
-        enableCustomBrand: PropTypes.bool.isRequired,
         customDescriptionText: PropTypes.string,
         enableTeamCreation: PropTypes.bool.isRequired,
         siteName: PropTypes.string,
@@ -99,6 +101,15 @@ export default class SelectTeam extends React.Component {
     }
 
     render() {
+        const {
+            customDescriptionText,
+            enableTeamCreation,
+            isLicensed,
+            siteName,
+        } = this.props;
+
+        const isSystemAdmin = Utils.isSystemAdmin(UserStore.getCurrentUser().roles);
+
         let openContent;
 
         if (!this.state.loaded || this.state.loadingTeamId) {
@@ -136,7 +147,18 @@ export default class SelectTeam extends React.Component {
                 }
             }
 
-            if (openTeamContents.length === 0) {
+            if (openTeamContents.length === 0 && (enableTeamCreation || isSystemAdmin)) {
+                openTeamContents = (
+                    <div className='signup-team-dir-err'>
+                        <div>
+                            <FormattedMessage
+                                id='signup_team.no_open_teams_canCreate'
+                                defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
+                            />
+                        </div>
+                    </div>
+                );
+            } else if (openTeamContents.length === 0) {
                 openTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
@@ -214,18 +236,6 @@ export default class SelectTeam extends React.Component {
             );
         }
 
-        let description = null;
-        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
-            description = this.props.customDescriptionText;
-        } else {
-            description = (
-                <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
-                />
-            );
-        }
-
         let headerButton;
         if (this.state.error) {
             headerButton = <BackButton onClick={this.clearError}/>;
@@ -254,10 +264,11 @@ export default class SelectTeam extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{this.props.siteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
+                        <SiteNameAndDescription
+                            customDescriptionText={customDescriptionText}
+                            isLicensed={isLicensed}
+                            siteName={siteName}
+                        />
                         {openContent}
                         {teamSignUp}
                         {adminConsoleLink}

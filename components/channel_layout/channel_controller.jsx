@@ -7,7 +7,6 @@ import {Route} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
-import DeletePostModal from 'components/delete_post_modal.jsx';
 import EditPostModal from 'components/edit_post_modal';
 import GetPostLinkModal from 'components/get_post_link_modal';
 import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
@@ -64,7 +63,6 @@ export default class ChannelController extends React.Component {
                     <ImportThemeModal/>
                     <TeamSettingsModal/>
                     <EditPostModal/>
-                    <DeletePostModal/>
                     <RemovedFromChannelModal/>
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>

@@ -8,8 +8,8 @@ export default class SearchIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='19px'
-                    height='18px'
+                    width='15px'
+                    height='16px'
                     viewBox='0 0 19 18'
                 >
                     <g

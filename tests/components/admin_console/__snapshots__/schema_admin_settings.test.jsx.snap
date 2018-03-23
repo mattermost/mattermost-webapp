@@ -1,0 +1,487 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/SchemaAdminSettings should match snapshot with custom component 1`] = `
+<component
+  config={
+    Object {
+      "Config": Object {
+        "settinga": "fsdsdg",
+        "settingb": false,
+        "settingc": "option3",
+        "settingd": "option1",
+        "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
+        "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
+        "settingg": 7,
+      },
+    }
+  }
+  schema={
+    Object {
+      "component": [Function],
+    }
+  }
+/>
+`;
+
+exports[`components/admin_console/SchemaAdminSettings should match snapshot with settings and plugin 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    <FormattedMessage
+      id="config"
+      values={Object {}}
+    />
+  </h3>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <SettingsGroup
+      show={true}
+    >
+      <TextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the text field."
+            id="help-text-a"
+            values={Object {}}
+          />
+        }
+        id="settinga"
+        key="Config_text_settinga"
+        label="Setting One"
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="e.g. some setting"
+        type="input"
+        value="fsdsdg"
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the bool field."
+            id="help-text-b"
+            values={Object {}}
+          />
+        }
+        id="settingb"
+        key="Config_bool_settingb"
+        label="Setting Two"
+        onChange={[Function]}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <DropdownSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the dropdown field."
+            id="help-text-c"
+            values={Object {}}
+          />
+        }
+        id="settingc"
+        isDisabled={false}
+        key="Config_dropdown_settingc"
+        label="Setting Three"
+        onChange={[Function]}
+        value="option3"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
+      <RadioSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the radio field."
+            id="help-text-d"
+            values={Object {}}
+          />
+        }
+        id="settingd"
+        isDisabled={false}
+        key="Config_radio_settingd"
+        label="Setting Four"
+        onChange={[Function]}
+        value="option1"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
+      <GeneratedSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the generated field."
+            id="help-text-e"
+            values={Object {}}
+          />
+        }
+        id="settinge"
+        key="Config_generated_settinge"
+        label="Setting Five"
+        onChange={[Function]}
+        placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
+        regenerateHelpText="This is help text for the regenerate button."
+        regenerateText={
+          <FormattedMessage
+            defaultMessage="Regenerate"
+            id="admin.regenerate"
+            values={Object {}}
+          />
+        }
+        value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
+      />
+      <UserAutocompleteSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the user autocomplete field."
+            id="help-text-f"
+            values={Object {}}
+          />
+        }
+        id="settingf"
+        key="Config_userautocomplete_settingf"
+        label="Setting Six"
+        onChange={[Function]}
+        placeholder="Type a username here"
+        value="3xz3r6n7dtbbmgref3yw4zg7sr"
+      />
+      <TextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the number field."
+            id="help-text-g"
+            values={Object {}}
+          />
+        }
+        id="settingg"
+        key="Config_text_settingg"
+        label="Setting Seven"
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="e.g. some setting"
+        type="number"
+        value={7}
+      />
+      <div
+        className="banner undefined"
+        key="Config_bool_undefined"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <FormattedMessage
+              defaultMessage="Setting Eight"
+              id="label-h"
+              values={Object {}}
+            />
+          </span>
+        </div>
+      </div>
+      <DropdownSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the language field."
+            id="help-text-i"
+            values={Object {}}
+          />
+        }
+        id="settingi"
+        isDisabled={false}
+        key="Config_language_settingi"
+        label="Setting Nine"
+        onChange={[Function]}
+        value="de"
+        values={
+          Array [
+            Object {
+              "order": 0,
+              "text": "Deutsch",
+              "value": "de",
+            },
+            Object {
+              "order": 1,
+              "text": "English",
+              "value": "en",
+            },
+            Object {
+              "order": 2,
+              "text": "Español",
+              "value": "es",
+            },
+            Object {
+              "order": 3,
+              "text": "Français",
+              "value": "fr",
+            },
+            Object {
+              "order": 4,
+              "text": "Italiano",
+              "value": "it",
+            },
+            Object {
+              "order": 5,
+              "text": "Nederlands (Alpha)",
+              "value": "nl",
+            },
+            Object {
+              "order": 6,
+              "text": "Polski (Alpha)",
+              "value": "pl",
+            },
+            Object {
+              "order": 7,
+              "text": "Português (Brasil)",
+              "value": "pt-BR",
+            },
+            Object {
+              "order": 8,
+              "text": "Türkçe",
+              "value": "tr",
+            },
+            Object {
+              "order": 9,
+              "text": "Pусский (Alpha)",
+              "value": "ru",
+            },
+            Object {
+              "order": 10,
+              "text": "한국어 (Alpha)",
+              "value": "ko",
+            },
+            Object {
+              "order": 11,
+              "text": "中文 (简体)",
+              "value": "zh-CN",
+            },
+            Object {
+              "order": 12,
+              "text": "中文 (繁體)",
+              "value": "zh-TW",
+            },
+            Object {
+              "order": 13,
+              "text": "日本語",
+              "value": "ja",
+            },
+          ]
+        }
+      />
+      <MultiSelectSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the multiple-language field."
+            id="help-text-j"
+            values={Object {}}
+          />
+        }
+        id="settingj"
+        key="Config_language_settingj"
+        label="Setting Nine"
+        noResultText={
+          <FormattedMessage
+            defaultMessage="No result"
+            id="no-result-j"
+            values={Object {}}
+          />
+        }
+        notPresent={
+          <FormattedMessage
+            defaultMessage="No present"
+            id="no-present-j"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        selected={Array []}
+        values={
+          Array [
+            Object {
+              "order": 0,
+              "text": "Deutsch",
+              "value": "de",
+            },
+            Object {
+              "order": 1,
+              "text": "English",
+              "value": "en",
+            },
+            Object {
+              "order": 2,
+              "text": "Español",
+              "value": "es",
+            },
+            Object {
+              "order": 3,
+              "text": "Français",
+              "value": "fr",
+            },
+            Object {
+              "order": 4,
+              "text": "Italiano",
+              "value": "it",
+            },
+            Object {
+              "order": 5,
+              "text": "Nederlands (Alpha)",
+              "value": "nl",
+            },
+            Object {
+              "order": 6,
+              "text": "Polski (Alpha)",
+              "value": "pl",
+            },
+            Object {
+              "order": 7,
+              "text": "Português (Brasil)",
+              "value": "pt-BR",
+            },
+            Object {
+              "order": 8,
+              "text": "Türkçe",
+              "value": "tr",
+            },
+            Object {
+              "order": 9,
+              "text": "Pусский (Alpha)",
+              "value": "ru",
+            },
+            Object {
+              "order": 10,
+              "text": "한국어 (Alpha)",
+              "value": "ko",
+            },
+            Object {
+              "order": 11,
+              "text": "中文 (简体)",
+              "value": "zh-CN",
+            },
+            Object {
+              "order": 12,
+              "text": "中文 (繁體)",
+              "value": "zh-TW",
+            },
+            Object {
+              "order": 13,
+              "text": "日本語",
+              "value": "ja",
+            },
+          ]
+        }
+      />
+      <RequestButton
+        buttonText={
+          <span>
+            Setting Eleven
+          </span>
+        }
+        disabled={false}
+        errorMessage={
+          Object {
+            "defaultMessage": "admin.reload.reloadFail",
+            "id": "admin.reload.reloadFail",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the button field."
+            id="help-text-k"
+            values={Object {}}
+          />
+        }
+        includeDetailedError={true}
+        key="Config_text_settingk"
+        requestAction={[Function]}
+        saveNeeded={false}
+        showSuccessMessage={false}
+        successMessage={
+          Object {
+            "defaultMessage": "Test Successful",
+            "id": "admin.requestButton.requestSuccess",
+          }
+        }
+      />
+      <component
+        key="Config_userautocomplete_custom"
+      />
+    </SettingsGroup>
+    <div
+      className="form-group"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="col-sm-12"
+      >
+        <SaveButton
+          btnClass="btn-primary"
+          defaultMessage="Save"
+          disabled={true}
+          extraClasses=""
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving Config..."
+        />
+      </div>
+    </div>
+  </form>
+</div>
+`;

@@ -1321,7 +1321,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 2`] = `
+exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"

@@ -441,7 +441,21 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.callbackUrls.help'
-                                        defaultMessage='The URL that messages will be sent to.'
+                                        defaultMessage='The URL that messages will be sent to. If the URL is private, add it as a {link}.'
+                                        values={{
+                                            link: (
+                                                <a
+                                                    href='https://about.mattermost.com/default-allow-internal-connections-settings-documentation/'
+                                                    target='_blank'
+                                                    rel='noopener noreferrer'
+                                                >
+                                                    <FormattedMessage
+                                                        id='add_outgoing_webhook.callbackUrls.helpLinkText'
+                                                        defaultMessage='trusted internal connection'
+                                                    />
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </div>
                             </div>

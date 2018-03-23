@@ -143,21 +143,13 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, when render as an empty div because no have a tema or a user', () => {
-        let wrapper = shallow(
+    test('should match snapshot, on sidebar show without permissions to create', () => {
+        const wrapper = shallow(
             <Sidebar
                 {...{
                     ...defaultProps,
-                    currentTeam: null,
-                }}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-        wrapper = shallow(
-            <Sidebar
-                {...{
-                    ...defaultProps,
-                    currentUser: null,
+                    showCreatePublicChannelOption: false,
+                    showCreatePrivateChannelOption: false,
                 }}
             />
         );

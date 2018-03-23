@@ -36,7 +36,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -79,9 +79,9 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <MsgTyping
+      <Connect(MsgTyping)
         channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        parentId=""
+        postId=""
       />
     </div>
   </div>
@@ -175,9 +175,9 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <MsgTyping
+      <Connect(MsgTyping)
         channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        parentId=""
+        postId=""
       />
     </div>
   </div>
@@ -256,7 +256,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -299,9 +299,9 @@ exports[`components/create_post should match snapshot when file upload disabled 
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <MsgTyping
+      <Connect(MsgTyping)
         channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        parentId=""
+        postId=""
       />
     </div>
   </div>
@@ -380,7 +380,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -423,9 +423,9 @@ exports[`components/create_post should match snapshot, init 1`] = `
       className="post-create-footer"
       id="postCreateFooter"
     >
-      <MsgTyping
+      <Connect(MsgTyping)
         channelId="owsyt8n43jfxjpzh9np93mx1wa"
-        parentId=""
+        postId=""
       />
     </div>
   </div>

@@ -117,3 +117,13 @@ export function isWindowsApp() {
 export function isMacApp() {
     return isDesktopApp() && userAgent.indexOf('Macintosh') !== -1;
 }
+
+export function isWindows7() {
+    const appVersion = navigator.appVersion;
+
+    if (!appVersion) {
+        return false;
+    }
+
+    return (/\bWindows NT 6\.1\b/).test(appVersion);
+}

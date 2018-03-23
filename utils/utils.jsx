@@ -55,9 +55,9 @@ export function createSafeId(prop) {
 
 export function cmdOrCtrlPressed(e, allowAlt = false) {
     if (allowAlt) {
-        return (isMac() && e.metaKey) || e.ctrlKey;
+        return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
     }
-    return (isMac() && e.metaKey) || (e.ctrlKey && !e.altKey);
+    return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
 export function isKeyPressed(event, key) {
@@ -601,7 +601,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
-        changeCss('.app__body .navbar-right__icon:hover', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
+        changeCss('.app__body .navbar-right__icon:hover, .app__body .navbar-right__icon:focus', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('.app__body .navbar-right__icon svg', 'fill:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon svg', 'stroke:' + theme.sidebarHeaderTextColor);
     }
@@ -642,15 +642,15 @@ export function applyTheme(theme) {
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
         changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
-        changeCss('.app__body .sidebar--left .badge', 'background:' + mentionBg);
-        changeCss('.multi-teams .team-sidebar .badge', 'background:' + mentionBg);
+        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
+        changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
         changeCss('.sidebar--left .nav-pills__unread-indicator svg', 'fill:' + theme.mentionColor);
         changeCss('.app__body .sidebar--left .nav-pills__unread-indicator', 'color:' + theme.mentionColor);
-        changeCss('.app__body .sidebar--left .badge', 'color:' + theme.mentionColor);
-        changeCss('.app__body .multi-teams .team-sidebar .badge', 'color:' + theme.mentionColor);
+        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
+        changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
     }
 
     if (theme.centerChannelBg) {
@@ -686,6 +686,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
         changeCss('.app__body .channel-header__icon svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .channel-header__icon .icon--stroke svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .channel-header__icon .icon--stroke.icon__search svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.55));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -1201,6 +1202,19 @@ export function imageURLForUser(userIdOrObject) {
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
+// in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
+export function imageURLForTeam(teamIdOrObject) {
+    if (typeof teamIdOrObject == 'string') {
+        const team = TeamStore.get(teamIdOrObject);
+        if (team) {
+            return imageURLForTeam(team);
+        }
+        return null;
+    }
+
+    return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
+}
+
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
 export function fileSizeToString(bytes) {
     // it's unlikely that we'll have files bigger than this
@@ -1487,13 +1501,10 @@ export function handleFormattedTextClick(e) {
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
-        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || cmdOrCtrlPressed(e) || e.shiftKey)) {
+        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
 
-            const urlparse = document.createElement('a');
-            urlparse.href = linkAttribute.value;
-
-            browserHistory.push(urlparse.pathname);
+            browserHistory.push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();

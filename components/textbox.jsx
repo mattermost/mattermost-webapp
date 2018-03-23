@@ -273,7 +273,16 @@ export default class Textbox extends React.Component {
 
         let preview = null;
 
+        let textboxClassName = 'form-control custom-textarea';
+        if (this.props.emojiEnabled) {
+            textboxClassName += ' custom-textarea--emoji-picker';
+        }
+        if (this.state.connection) {
+            textboxClassName += ' ' + this.state.connection;
+        }
         if (this.state.preview) {
+            textboxClassName += ' custom-textarea--preview';
+
             preview = (
                 <div
                     ref='preview'
@@ -286,14 +295,6 @@ export default class Textbox extends React.Component {
                     />
                 </div>
             );
-        }
-
-        let textboxClassName = 'form-control custom-textarea';
-        if (this.props.emojiEnabled) {
-            textboxClassName += ' custom-textarea--emoji-picker';
-        }
-        if (this.state.connection) {
-            textboxClassName += ' ' + this.state.connection;
         }
 
         return (

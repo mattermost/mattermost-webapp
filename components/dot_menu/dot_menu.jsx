@@ -27,30 +27,35 @@ export default class DotMenu extends Component {
 
         actions: PropTypes.shape({
 
-            /*
+            /**
              * Function flag the post
              */
             flagPost: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Function to unflag the post
              */
             unflagPost: PropTypes.func.isRequired,
 
-            /*
-             * Function to set the edting post
+            /**
+             * Function to set the editing post
              */
             setEditingPost: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Function to pin the post
              */
             pinPost: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Function to unpin the post
              */
             unpinPost: PropTypes.func.isRequired,
+
+            /**
+             * Function to open a modal
+             */
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -126,7 +131,7 @@ export default class DotMenu extends Component {
         const idPrefix = this.props.idPrefix + 'DotMenu';
 
         let dotMenuFlag = null;
-        if (isMobile) {
+        if (isMobile && !isSystemMessage) {
             dotMenuFlag = (
                 <DotMenuFlag
                     idPrefix={idPrefix + 'Flag'}
@@ -185,6 +190,9 @@ export default class DotMenu extends Component {
                     idCount={this.props.idCount}
                     post={this.props.post}
                     commentCount={type === 'Post' ? this.props.commentCount : 0}
+                    actions={{
+                        openModal: this.props.actions.openModal,
+                    }}
                 />
             );
         }

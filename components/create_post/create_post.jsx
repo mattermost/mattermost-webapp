@@ -19,7 +19,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
-import MsgTyping from 'components/msg_typing.jsx';
+import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
@@ -418,7 +418,7 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
             if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
@@ -536,8 +536,8 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance().refs.FileUpload) {
-                    this.refs.fileUpload.getWrappedInstance().refs.FileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -558,7 +558,7 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -588,7 +588,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
         const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
@@ -892,7 +892,7 @@ export default class CreatePost extends React.Component {
                     >
                         <MsgTyping
                             channelId={currentChannel.id}
-                            parentId=''
+                            postId=''
                         />
                         {postError}
                         {preview}

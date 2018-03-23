@@ -36,13 +36,18 @@ import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!
 // eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
-export const PluginSettings = {
+export const SettingsTypes = {
     TYPE_TEXT: 'text',
+    TYPE_NUMBER: 'number',
     TYPE_BOOL: 'bool',
     TYPE_RADIO: 'radio',
+    TYPE_BANNER: 'banner',
     TYPE_DROPDOWN: 'dropdown',
     TYPE_GENERATED: 'generated',
     TYPE_USERNAME: 'username',
+    TYPE_BUTTON: 'button',
+    TYPE_LANGUAGE: 'language',
+    TYPE_CUSTOM: 'custom',
 };
 
 export const Preferences = {
@@ -196,8 +201,6 @@ export const ActionTypes = keyMirror({
 
     SHOW_SEARCH: null,
 
-    USER_TYPING: null,
-
     TOGGLE_ACCOUNT_SETTINGS_MODAL: null,
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
@@ -266,6 +269,7 @@ export const ModalIdentifiers = {
     CHANNEL_INVITE: 'channel_invite',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
+    DELETE_POST: 'delete_post',
 };
 
 export const UserStatuses = {
@@ -427,7 +431,6 @@ export const ErrorBarTypes = {
     LICENSE_PAST_GRACE: 'error_bar.past_grace',
     PREVIEW_MODE: 'error_bar.preview_mode',
     SITE_URL: 'error_bar.site_url',
-    APIV3_ENABLED: 'error_bar.apiv3_enabled',
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
 };
 
@@ -479,7 +482,7 @@ export const GroupUnreadChannels = {
 };
 
 export const Constants = {
-    PluginSettings,
+    SettingsTypes,
     Preferences,
     SocketEvents,
     ActionTypes,
@@ -554,8 +557,6 @@ export const Constants = {
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
-    PROFILE_WIDTH: 128,
-    PROFILE_HEIGHT: 128,
     WEB_VIDEO_WIDTH: 640,
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
@@ -1099,6 +1100,7 @@ export const Constants = {
     UNSET_POST_EDIT_TIME_LIMIT: -1,
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
+    MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
     MENTION_MEMBERS: 'mention.members',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_SPECIAL: 'mention.special',
