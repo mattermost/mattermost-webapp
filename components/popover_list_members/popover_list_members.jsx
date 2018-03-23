@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
@@ -14,25 +13,26 @@ import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ProfilePicture from 'components/profile_picture.jsx';
 import MemberIcon from 'components/svg/member_icon';
-import MessageIcon from 'components/svg/message_icon';
 import TeamMembersModal from 'components/team_members_modal';
+
+import PopoverListMembersItem from './popover_list_members_item';
 
 export default class PopoverListMembers extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
-        members: PropTypes.array.isRequired,
+        statuses: PropTypes.object.isRequired,
+        users: PropTypes.array.isRequired,
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getProfilesInChannel: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -47,11 +47,10 @@ export default class PopoverListMembers extends React.Component {
             showTeamMembersModal: false,
             showChannelMembersModal: false,
             showChannelInviteModal: false,
-            teamMembers: UserStore.getProfilesUsernameMap(),
             isSystemAdmin: UserStore.isSystemAdminForCurrentUser(),
             isTeamAdmin: TeamStore.isTeamAdminForCurrentTeam(),
             isChannelAdmin: ChannelStore.isChannelAdminForCurrentChannel(),
-            sortedMembers: [],
+            sortedUsers: this.sortUsers(props.users, props.statuses),
         };
     }
 
@@ -60,18 +59,17 @@ export default class PopoverListMembers extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!Utils.areObjectsEqual(this.props.members, nextProps.members)) {
-            const sortedMembers = this.sortMembers(nextProps.members);
-            const teamMembers = UserStore.getProfilesUsernameMap();
+        if (!Utils.areObjectsEqual(this.props.users, nextProps.users) || !Utils.areObjectsEqual(this.props.statuses, nextProps.statuses)) {
+            const sortedUsers = this.sortUsers(nextProps.users, nextProps.statuses);
 
-            this.setState({sortedMembers, teamMembers});
+            this.setState({sortedUsers});
         }
     }
 
-    sortMembers(members = []) {
-        return members.map((member) => {
-            const status = UserStore.getStatus(member.id);
-            return {...member, status};
+    sortUsers(users, statuses) {
+        return users.map((user) => {
+            const status = statuses[user.id] || UserStatuses.OFFLINE;
+            return {...user, status};
         }).sort(Utils.sortUsersByStatusAndDisplayName);
     }
 
