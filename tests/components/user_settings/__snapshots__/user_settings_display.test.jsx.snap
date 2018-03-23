@@ -88,7 +88,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -403,7 +404,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -624,7 +626,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -892,7 +895,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -1110,7 +1114,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -1307,7 +1312,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -1575,7 +1581,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -1863,7 +1870,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -1886,6 +1894,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1909,6 +1918,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -1932,6 +1942,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -1955,6 +1966,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1972,6 +1984,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -1991,7 +2004,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
 </div>
 `;
 
-exports[`components/user_settings/UserSettingsDisplay should match snapshot, teammate name display section 1`] = `
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, teammate name display section 1`] = `
 <div
   id="displaySettings"
 >
@@ -2003,7 +2016,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, tea
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -2020,7 +2033,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, tea
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -2055,6 +2068,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, tea
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -2070,82 +2084,16 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, tea
       />
     </div>
     <div>
-      <SettingItemMax
-        infoPosition="bottom"
-        inputs={
-          Array [
-            <div>
-              <div
-                className="radio"
-              >
-                <label>
-                  <input
-                    checked={false}
-                    id="teammate_name_displayFormatA"
-                    name="teammate_name_displayFormat"
-                    onChange={[Function]}
-                    type="radio"
-                  />
-                  <FormattedMessage
-                    defaultMessage="Show username"
-                    id="user.settings.display.teammateNameDisplayUsername"
-                    values={Object {}}
-                  />
-                </label>
-                <br />
-              </div>
-              <div
-                className="radio"
-              >
-                <label>
-                  <input
-                    checked={false}
-                    id="teammate_name_displayFormatB"
-                    name="teammate_name_displayFormat"
-                    onChange={[Function]}
-                    type="radio"
-                  />
-                  <FormattedMessage
-                    defaultMessage="Show nickname if one exists, otherwise show first and last name"
-                    id="user.settings.display.teammateNameDisplayNicknameFullname"
-                    values={Object {}}
-                  />
-                </label>
-                <br />
-              </div>
-              <div
-                className="radio"
-              >
-                <label>
-                  <input
-                    checked={true}
-                    id="teammate_name_displayFormatC"
-                    name="teammate_name_displayFormat"
-                    onChange={[Function]}
-                    type="radio"
-                  />
-                  <FormattedMessage
-                    defaultMessage="Show first and last name"
-                    id="user.settings.display.teammateNameDisplayFullname"
-                    values={Object {}}
-                  />
-                </label>
-                <br />
-              </div>
-              <div>
-                <br />
-                <FormattedMessage
-                  defaultMessage="Set how to display other user's names in posts and the Direct Messages list."
-                  id="user.settings.display.teammateNameDisplayDescription"
-                  values={Object {}}
-                />
-              </div>
-            </div>,
-          ]
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
         }
-        saving={false}
-        section=""
-        submit={[Function]}
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -2366,7 +2314,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"
@@ -2598,7 +2547,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
             values={Object {}}
           />
         }
-        section="teammate_name_display"
+        focused={true}
+        section="name_format"
         title={
           <FormattedMessage
             defaultMessage="Teammate Name Display"

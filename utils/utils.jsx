@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -1113,19 +1114,11 @@ export function displayUsername(userId) {
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
 export function displayUsernameForUser(user) {
-    const config = getConfig(store.getState());
+    const state = store.getState();
+    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
 
     if (user) {
-        const globalNameFormat = config.TeammateNameDisplay;
-        const userNameFormat = PreferenceStore.get(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.TEAMMATE_DISPLAY_NAME, global.window.mm_config.TeammateNameDisplay);
-        let name = user.username;
-        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname.trim().length > 0) {
-            name = user.nickname;
-        } else if (((user.first_name && user.first_name.trim().length > 0) || (user.last_name && user.last_name.trim().length > 0)) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
-            name = getFullName(user);
-        }
-
-        return name;
+        return displayUsername(user, teammateNameDisplay);
     }
 
     return '';

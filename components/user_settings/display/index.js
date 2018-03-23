@@ -13,9 +13,11 @@ function mapStateToProps(state) {
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const defaultClientLocale = config.DefaultClientLocale;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
+    const configTeammateNameDisplay = config.TeammateNameDisplay;
 
     return {
         allowCustomThemes,
+        configTeammateNameDisplay,
         enableLinkPreviews,
         defaultClientLocale,
         enableThemeSelection,

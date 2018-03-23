@@ -81,7 +81,7 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
-    TEAMMATE_NAME_DISPLAY: 'teammate_name_display'
+    NAME_NAME_FORMAT: 'name_format',
 };
 
 export const ActionTypes = keyMirror({

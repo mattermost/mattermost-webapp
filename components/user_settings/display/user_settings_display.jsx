@@ -8,9 +8,12 @@ import {FormattedMessage} from 'react-intl';
 import {deletePreferences, savePreferences} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import * as I18n from 'i18n/i18n.jsx';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
@@ -19,10 +22,10 @@ import ThemeSetting from './user_settings_theme';
 
 const Preferences = Constants.Preferences;
 
-function getDisplayStateFromStores() {
+function getDisplayStateFromStores(props) {
     return {
         militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
-        teammateNameDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.TEAMMATE_NAME_DISPLAY, global.window.mm_config.TeammateNameDisplay),
+        teammateNameDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.NAME_NAME_FORMAT, props.configTeammateNameDisplay),
         channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
@@ -35,7 +38,7 @@ export default class UserSettingsDisplay extends React.Component {
         super(props);
 
         this.state = {
-            ...getDisplayStateFromStores(),
+            ...getDisplayStateFromStores(props),
             isSaving: false,
         };
 
@@ -61,8 +64,8 @@ export default class UserSettingsDisplay extends React.Component {
         const teammateNameDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
-            name: Preferences.TEAMMATE_NAME_DISPLAY,
-            value: this.state.teammateNameDisplay
+            name: Preferences.NAME_NAME_FORMAT,
+            value: this.state.teammateNameDisplay,
         };
         const channelDisplayModePreference = {
             user_id: userId,
@@ -92,7 +95,7 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({isSaving: true});
 
         const preferences = [timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference];
-        if (this.state.teammateNameDisplay === global.window.mm_config.TeammateNameDisplay) {
+        if (this.state.teammateNameDisplay === this.props.configTeammateNameDisplay) {
             deletePreferences([teammateNameDisplayPreference]);
         } else {
             preferences.push(teammateNameDisplayPreference);
@@ -137,7 +140,7 @@ export default class UserSettingsDisplay extends React.Component {
     }
 
     updateState = () => {
-        const newState = getDisplayStateFromStores();
+        const newState = getDisplayStateFromStores(this.props);
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
         }
@@ -154,7 +157,7 @@ export default class UserSettingsDisplay extends React.Component {
             firstOption,
             secondOption,
             thirdOption,
-            description
+            description,
         } = props;
 
         const firstMessage = (
@@ -438,39 +441,39 @@ export default class UserSettingsDisplay extends React.Component {
         });
 
         const teammateNameDisplaySection = this.createSection({
-            section: Preferences.TEAMMATE_NAME_DISPLAY,
+            section: Preferences.NAME_NAME_FORMAT,
             display: 'teammateNameDisplay',
             value: this.state.teammateNameDisplay,
-            defaultDisplay: global.window.mm_config.TeammateNameDisplay,
+            defaultDisplay: this.props.configTeammateNameDisplay,
             title: {
                 id: 'user.settings.display.teammateNameDisplayTitle',
-                message: 'Teammate Name Display'
+                message: 'Teammate Name Display',
             },
             firstOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
                 radionButtonText: {
                     id: 'user.settings.display.teammateNameDisplayUsername',
-                    message: 'Show username'
-                }
+                    message: 'Show username',
+                },
             },
             secondOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
                 radionButtonText: {
                     id: 'user.settings.display.teammateNameDisplayNicknameFullname',
-                    message: 'Show nickname if one exists, otherwise show first and last name'
-                }
+                    message: 'Show nickname if one exists, otherwise show first and last name',
+                },
             },
             thirdOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME,
                 radionButtonText: {
                     id: 'user.settings.display.teammateNameDisplayFullname',
-                    message: 'Show first and last name'
-                }
+                    message: 'Show first and last name',
+                },
             },
             description: {
                 id: 'user.settings.display.teammateNameDisplayDescription',
-                message: 'Set how to display other user\'s names in posts and the Direct Messages list.'
-            }
+                message: 'Set how to display other user\'s names in posts and the Direct Messages list.',
+            },
         });
 
         const messageDisplaySection = this.createSection({
@@ -666,4 +669,5 @@ UserSettingsDisplay.propTypes = {
     enableLinkPreviews: PropTypes.bool,
     defaultClientLocale: PropTypes.string,
     enableThemeSelection: PropTypes.bool,
+    configTeammateNameDisplay: PropTypes.string,
 };
