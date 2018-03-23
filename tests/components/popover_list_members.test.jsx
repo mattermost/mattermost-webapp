@@ -56,12 +56,7 @@ describe('components/PopoverListMembers', () => {
         );
 
         wrapper.instance().handleShowDirectChannel({
-            preventDefault: jest.fn(),
-            currentTarget: {
-                getAttribute: () => {
-                    return {'data-member-id': 'teammateId'};
-                },
-            },
+            id: 'teammateId',
         });
 
         expect(openDirectChannelToUser).toHaveBeenCalledTimes(1);

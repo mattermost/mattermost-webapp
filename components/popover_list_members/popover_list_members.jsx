@@ -73,9 +73,8 @@ export default class PopoverListMembers extends React.Component {
         }).sort(Utils.sortUsersByStatusAndDisplayName);
     }
 
-    handleShowDirectChannel(e) {
-        e.preventDefault();
-        const teammateId = e.currentTarget.getAttribute('data-member-id');
+    handleShowDirectChannel(user) {
+        const teammateId = user.id;
 
         if (teammateId) {
             openDirectChannelToUser(
@@ -133,98 +132,58 @@ export default class PopoverListMembers extends React.Component {
 
     render() {
         let popoverButton;
-        const popoverHtml = [];
 
         const {
-            sortedMembers,
-            teamMembers,
             isSystemAdmin,
             isTeamAdmin,
             isChannelAdmin,
         } = this.state;
 
-        if (this.props.members && teamMembers) {
-            sortedMembers.forEach((m, i) => {
-                let messageIcon;
-                if (this.props.currentUserId !== m.id && this.props.channel.type !== Constants.DM_CHANNEl) {
-                    messageIcon = (
-                        <MessageIcon
-                            className='icon icon__message'
-                            aria-hidden='true'
-                        />
-                    );
-                }
+        const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-                let name = '';
-                if (teamMembers[m.username]) {
-                    name = Utils.displayUsernameForUser(teamMembers[m.username]);
-                }
+        const items = this.state.sortedUsers.map((user) => (
+            <PopoverListMembersItem
+                key={user.id}
+                onItemClick={this.handleShowDirectChannel}
+                showMessageIcon={this.props.currentUserId !== user.id && !isDirectChannel}
+                status={user.status}
+                user={user}
+            />
+        ));
 
-                if (name) {
-                    popoverHtml.push(
-                        <div
-                            data-member-id={m.id}
-                            className='more-modal__row'
-                            onClick={this.handleShowDirectChannel}
-                            key={'popover-member-' + i}
-                        >
-                            <ProfilePicture
-                                src={Client4.getProfilePictureUrl(m.id, m.last_picture_update)}
-                                status={m.status}
-                                width='32'
-                                height='32'
-                            />
-                            <div className='more-modal__details'>
-                                <div
-                                    className='more-modal__name'
-                                >
-                                    {name}
-                                </div>
-                            </div>
-                            <div
-                                className='more-modal__actions'
-                            >
-                                {messageIcon}
-                            </div>
-                        </div>
-                    );
-                }
-            });
+        if (this.props.channel.type !== Constants.GM_CHANNEL) {
+            let membersName = (
+                <FormattedMessage
+                    id='members_popover.manageMembers'
+                    defaultMessage='Manage Members'
+                />
+            );
 
-            if (this.props.channel.type !== Constants.GM_CHANNEL) {
-                let membersName = (
+            const manageMembers = canManageMembers(this.props.channel, isChannelAdmin, isTeamAdmin, isSystemAdmin);
+            const isDefaultChannel = ChannelStore.isDefault(this.props.channel);
+
+            if ((manageMembers === false && isDefaultChannel === false) || isDefaultChannel) {
+                membersName = (
                     <FormattedMessage
-                        id='members_popover.manageMembers'
-                        defaultMessage='Manage Members'
+                        id='members_popover.viewMembers'
+                        defaultMessage='View Members'
                     />
                 );
-
-                const manageMembers = canManageMembers(this.props.channel, isChannelAdmin, isTeamAdmin, isSystemAdmin);
-                const isDefaultChannel = ChannelStore.isDefault(this.props.channel);
-
-                if ((manageMembers === false && isDefaultChannel === false) || isDefaultChannel) {
-                    membersName = (
-                        <FormattedMessage
-                            id='members_popover.viewMembers'
-                            defaultMessage='View Members'
-                        />
-                    );
-                }
-
-                popoverButton = (
-                    <div
-                        className='more-modal__button'
-                        key={'popover-member-more'}
-                    >
-                        <button
-                            className='btn btn-link'
-                            onClick={this.showMembersModal}
-                        >
-                            {membersName}
-                        </button>
-                    </div>
-                );
             }
+
+            popoverButton = (
+                <div
+                    className='more-modal__button'
+                    key={'popover-member-more'}
+                >
+                    <button
+                        className='btn btn-link'
+                        onClick={this.showMembersModal}
+                    >
+                        {membersName}
+                    </button>
+                </div>
+            );
         }
 
         const count = this.props.memberCount;
@@ -326,7 +285,9 @@ export default class PopoverListMembers extends React.Component {
                             {title}
                         </div>
                         <div className='more-modal__body'>
-                            <div className='more-modal__list'>{popoverHtml}</div>
+                            <div className='more-modal__list'>
+                                {items}
+                            </div>
                         </div>
                         {popoverButton}
                     </Popover>
