@@ -134,7 +134,10 @@ export default {
                             label: 'admin.service.forward80To443',
                             label_default: 'Forward port 80 to 443:',
                             help_text: 'admin.service.forward80To443Description',
-                            help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. This setting requires listening on port 443, and should not be used with a proxy server.',
+                            help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. Not recommended when using a proxy server.',
+                            disabled_help_text: 'admin.service.forward80To443Description.disabled',
+                            disabled_help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. Not recommended when using a proxy server.<br /><br />This setting cannot be enabled until your server is <a href="#ListenAddress">listening</a> on port 443.',
+                            disabled_help_text_html: true,
                             needs: [['ListenAddress', /:443$/]],
                         },
                         {
@@ -180,7 +183,10 @@ export default {
                             label: 'admin.service.useLetsEncrypt',
                             label_default: 'Use Let\'s Encrypt:',
                             help_text: 'admin.service.useLetsEncryptDescription',
-                            help_text_default: 'Enable the automatic retreval of certificates from the Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains. This setting requires forwarding port 80 to 443.',
+                            help_text_default: 'Enable the automatic retrieval of certificates from Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.',
+                            disabled_help_text: 'admin.service.useLetsEncryptDescription.disabled',
+                            disabled_help_text_default: 'Enable the automatic retrieval of certificates from Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.<br /><br />This setting cannot be enabled unless the <a href="#Forward80To443">Forward port 80 to 443</a> setting is set to true.',
+                            disabled_help_text_html: true,
                             needs: [['Forward80To443', true]],
                         },
                         {

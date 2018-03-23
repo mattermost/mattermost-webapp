@@ -149,25 +149,42 @@ export default class SchemaAdminSettings extends AdminSettings {
             return <span>{setting.help_text}</span>;
         }
 
-        if (typeof setting.help_text === 'string') {
-            if (setting.help_text_html) {
+        let helpText;
+        let isHTML;
+        let helpTextValues;
+        let helpTextDefault;
+        if (setting.disabled_help_text && this.isDisabled(setting)) {
+            helpText = setting.disabled_help_text;
+            isHTML = setting.disabled_help_text_html;
+            helpTextValues = setting.disabled_help_text_values;
+            helpTextDefault = setting.disabled_help_text_default;
+        } else {
+            helpText = setting.help_text;
+            isHTML = setting.help_text_html;
+            helpTextValues = setting.help_text_values;
+            helpTextDefault = setting.help_text_default;
+        }
+
+        if (typeof helpText === 'string') {
+            if (isHTML) {
                 return (
                     <FormattedHTMLMessage
-                        id={setting.help_text}
-                        values={setting.help_text_values}
-                        defaultMessage={setting.help_text_default}
+                        id={helpText}
+                        values={helpTextValues}
+                        defaultMessage={helpTextDefault}
                     />
                 );
             }
             return (
                 <FormattedMessage
-                    id={setting.help_text}
-                    defaultMessage={setting.help_text_default}
-                    values={setting.help_text_values}
+                    id={helpText}
+                    defaultMessage={helpTextDefault}
+                    values={helpTextValues}
                 />
             );
         }
-        return setting.help_text;
+
+        return helpText;
     }
 
     renderLabel = (setting) => {
