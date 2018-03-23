@@ -110,4 +110,11 @@ MFAController.propTypes = {
     mfa: PropTypes.bool.isRequired,
     enableMultifactorAuthentication: PropTypes.bool.isRequired,
     enforceMultifactorAuthentication: PropTypes.bool.isRequired,
+
+    /*
+     * Object from react-router
+     */
+    match: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+    }).isRequired,
 };

@@ -2,6 +2,8 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {joinChannel} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 
@@ -203,6 +205,18 @@ function handleError(match, history) {
 }
 
 export default class ChannelIdentifierRouter extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                identifier: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 

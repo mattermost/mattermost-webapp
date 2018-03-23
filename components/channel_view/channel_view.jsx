@@ -29,6 +29,13 @@ export default class ChannelView extends React.PureComponent {
         deactivatedChannel: PropTypes.bool.isRequired,
 
         /**
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
+
+        /**
          * Set to show the tutorial
          */
         showTutorial: PropTypes.bool.isRequired,

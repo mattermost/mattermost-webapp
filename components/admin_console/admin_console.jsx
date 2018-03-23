@@ -64,14 +64,21 @@ export default class AdminConsole extends React.Component {
     static propTypes = {
 
         /*
+         * Object representing the config file
+         */
+        config: PropTypes.object.isRequired,
+
+        /*
          * Object representing the license
          */
         license: PropTypes.object.isRequired,
 
         /*
-         * Object representing the config file
+         * Object from react-router
          */
-        config: PropTypes.object.isRequired,
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
 
         /*
          * String whether to show prompt to navigate away

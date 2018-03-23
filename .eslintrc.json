@@ -250,7 +250,7 @@
         "react/no-unused-prop-types": [1, {"skipShapeProps": true}],
         "react/prefer-es6-class": 2,
         "react/prefer-stateless-function": 0,
-        "react/prop-types": [2, { "ignore": ["match", "location", "history", "component"] }],
+        "react/prop-types": [2, { "ignore": ["location", "history", "component"] }],
         "react/require-default-props": 0,
         "react/require-optimization": 1,
         "react/require-render-return": 2,
