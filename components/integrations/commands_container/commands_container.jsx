@@ -50,6 +50,13 @@ export default class CommandsContainer extends React.PureComponent {
         */
         commands: PropTypes.array,
 
+        /**
+        * Object from react-router
+        */
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
+
         actions: PropTypes.shape({
 
             /**

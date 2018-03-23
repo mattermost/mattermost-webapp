@@ -88,4 +88,11 @@ ClaimController.propTypes = {
     siteName: PropTypes.string,
     ldapLoginFieldName: PropTypes.string,
     passwordConfig: PropTypes.object,
+
+    /*
+     * Object from react-router
+     */
+    match: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+    }).isRequired,
 };
