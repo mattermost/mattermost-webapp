@@ -90,11 +90,7 @@ export default class PostImageEmbed extends React.PureComponent {
     handleLoadComplete() {
         this.setState({
             loaded: true,
-<<<<<<< HEAD
             errored: false
-=======
-            errored: false,
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
         });
 
         postListScrollChange();

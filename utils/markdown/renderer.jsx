@@ -141,10 +141,7 @@ export default class Renderer extends marked.Renderer {
             }
             out += '><source src="' + mp4Src + '" type="video/mp4"></video>';
         } else {
-<<<<<<< HEAD
-=======
             src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
             out = '<img src="' + src + '" alt="' + text + '"';
             if (title) {
                 out += ' title="' + title + '"';

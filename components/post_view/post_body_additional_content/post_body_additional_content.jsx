@@ -140,7 +140,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
-<<<<<<< HEAD
     isLinkImage(link) {
         const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
         const match = link.match(regex);
@@ -160,8 +159,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
-=======
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
     isLinkImage(link) {
         const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
         const match = link.match(regex);
