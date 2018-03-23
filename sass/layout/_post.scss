@@ -1714,3 +1714,59 @@
     margin-left: 50px !important;
     min-width: 320px;
 }
+
+.post-message--collapsed {
+    .post-message__text-container {
+        max-height: 100px;
+        overflow: hidden;
+    }
+
+    .post-collapse__gradient-container {
+        height: 0;
+        position: relative;
+        top: -50px;
+
+        .post-collapse__gradient {
+            height: 50px;
+            pointer-events: none;
+            position: relative;
+        }
+    }
+}
+
+.post-collapse__show-more-container {
+    align-items: center;
+    display: flex;
+    height: 0;
+    justify-content: center;
+    position: relative;
+    top: 4px;
+    z-index: 5;
+
+    .post-collapse__show-more {
+        border-style: solid;
+        border-radius: 4px;
+        border-width: 1px;
+        display: inline-block;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: bold;
+        height: 26px;
+        margin-left: 8px;
+        margin-right: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: relative;
+
+        .fa {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    }
+
+    .post-collapse__line {
+        display: inline-block;
+        height: 1px;
+        width: 189px;
+    }
+}
