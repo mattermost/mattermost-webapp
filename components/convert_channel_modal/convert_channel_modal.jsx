@@ -45,7 +45,7 @@ export default class ConvertChannelModal extends React.PureComponent {
         }
         const privateChannel = Object.assign({}, this.props.channel, {type: Constants.PRIVATE_CHANNEL});
         this.props.actions.updateChannel(privateChannel);
-        trackEvent('action', 'action_convert_channel_private', {channel_id: privateChannel.id});
+        trackEvent('actions', 'convert_to_private_channel', {channel_id: privateChannel.id});
         this.onHide();
     }
 
@@ -102,6 +102,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                         type='button'
                         className='btn btn-default'
                         onClick={this.onHide}
+                        tabIndex='2'
                     >
                         <FormattedMessage
                             id='convert_channel.cancel'
@@ -113,6 +114,8 @@ export default class ConvertChannelModal extends React.PureComponent {
                         className='btn btn-primary'
                         data-dismiss='modal'
                         onClick={this.handleConvert}
+                        autoFocus={true}
+                        tabIndex='1'
                     >
                         <FormattedMessage
                             id='convert_channel.confirm'
