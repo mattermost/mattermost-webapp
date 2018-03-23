@@ -9,6 +9,10 @@ import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    blendColors,
+    changeOpacity,
+} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
@@ -678,6 +682,16 @@ export function applyTheme(theme) {
         changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
+        changeCss('.app__body .post .post-image__columns, .app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
+
+        changeCss(
+            '.app__body .post-list__table .post:not(.current--user) .post__body .post-collapse__gradient, ' +
+            '.app__body .post-right-comments-container .post:not(.current--user) .post-collapse__gradient, ' +
+            '.app__body .post-list__table .post.post--compact .post__body .post-collapse__gradient, ' +
+            '.app__body .post-right-comments-container .post.post--compact .post-collapse__gradient',
+            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg}, ${theme.centerChannelBg})`,
+        );
+        changeCss('.app__body .post .post__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
     }
 
     if (theme.centerChannelColor) {
@@ -776,6 +790,55 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker-items__container .emoji-picker__item.selected', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
+
+        changeCss('.app__body .post .post__body .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.2)}`);
+        changeCss('.app__body .post .post__body .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.2)}`);
+
+        if (theme.centerChannelBg) {
+            const ownPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
+            const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.08);
+
+            // Apply a gradient to fade out the text in a collapsed post
+            changeCss(
+                '.app__body .post-list__table .post.current--user:not(.post--compact) .post-collapse__gradient, ' +
+                '.app__body .post-right-comments-container .post.current--user:not(.post--compact) .post-collapse__gradient, ' +
+                '.app__body #thread--root .post-collapse__gradient',
+                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg}, ${ownPostBg})`,
+            );
+
+            changeCss(
+                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post__body .post-collapse__gradient, ' +
+                '.app__body .post-right-comments-container .post:hover .post__body .post-collapse__gradient',
+                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg}, ${hoveredPostBg})`,
+            );
+            changeCss(
+                '.app__body .post-list__table .post.post--hovered .post__body .post-collapse__gradient, ' +
+                '.app__body .post-right-comments-container .post.post--hovered .post__body .post-collapse__gradient',
+                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg}, ${hoveredPostBg})`,
+            );
+
+            // Apply a background behind the file attachments to cover any overflowing text in a collapsed post
+            changeCss(
+                '.app__body .post.current--user .post-image__columns, ' +
+                '.app__body .post.current--user .file-view--single',
+                `background:${ownPostBg}`
+            );
+
+            changeCss(
+                '@media(min-width: 768px){.app__body .post-list__table .post.current--user:hover .post-image__columns, ' +
+                '.app__body .post-list__table .post.current--user:hover .file-view--single, ' +
+                '.app__body .post-right-comments-container .post.current--user:hover .post-image__columns, ' +
+                '.app__body .post-right-comments-container .post.current--user:hover .file-view--single',
+                `background:${hoveredPostBg}`
+            );
+            changeCss(
+                '.app__body .post-list__table .post.current--user.post--hovered .post-image__columns, ' +
+                '.app__body .post-list__table .post.current--user.post--hovered .file-view--single, ' +
+                '.app__body .post-right-comments-container .post.current--user.post--hovered .post-image__columns, ' +
+                '.app__body .post-right-comments-container .post.current--user.post--hovered .file-view--single',
+                `background:${hoveredPostBg}`
+            );
+        }
     }
 
     if (theme.newMessageSeparator) {
@@ -801,6 +864,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header .dropdown-toggle:hover .heading, .app__body .channel-header .dropdown-toggle:hover .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .heading', 'color:' + theme.linkColor);
         changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
         changeCss('.sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
+        changeCss('.app__body .post .post__body .post-collapse__show-more', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
@@ -1056,28 +1120,6 @@ export function changeColor(colourIn, amt) {
     }
 
     return rgb;
-}
-
-export function changeOpacity(oldColor, opacity) {
-    var color = oldColor;
-    if (color[0] === '#') {
-        color = color.slice(1);
-    }
-
-    if (color.length === 3) {
-        const tempColor = color;
-        color = '';
-
-        color += tempColor[0] + tempColor[0];
-        color += tempColor[1] + tempColor[1];
-        color += tempColor[2] + tempColor[2];
-    }
-
-    var r = parseInt(color.substring(0, 2), 16);
-    var g = parseInt(color.substring(2, 4), 16);
-    var b = parseInt(color.substring(4, 6), 16);
-
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
 }
 
 export function getFullName(user) {

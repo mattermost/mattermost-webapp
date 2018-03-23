@@ -234,11 +234,7 @@ export default class PostBody extends React.PureComponent {
         }
 
         const messageWrapper = (
-            <div
-                key={`${post.id}_message`}
-                id={`${post.id}_message`}
-                className={postClass}
-            >
+            <React.Fragment>
                 {failedOptions}
                 {sending}
                 <PostMessageView
@@ -247,7 +243,7 @@ export default class PostBody extends React.PureComponent {
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
                 />
-            </div>
+            </React.Fragment>
         );
 
         const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
@@ -281,7 +277,10 @@ export default class PostBody extends React.PureComponent {
         return (
             <div>
                 {comment}
-                <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass}`}>
+                <div
+                    id={`${post.id}_message`}
+                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
+                >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionListContainer

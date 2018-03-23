@@ -10,6 +10,9 @@ import PostMarkdown from 'components/post_markdown';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+// This must match the max-height defined in CSS for the collapsed content div
+const MAX_POST_HEIGHT = 200;
+
 export default class PostMessageView extends React.PureComponent {
     static propTypes = {
 
@@ -59,6 +62,54 @@ export default class PostMessageView extends React.PureComponent {
         isRHS: false,
         pluginPostTypes: {},
     };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            collapse: true,
+            hasOverflow: false,
+        };
+    }
+
+    componentDidMount() {
+        this.checkOverflow();
+    }
+
+    componentWillUpdate(nextProps) {
+        if (this.props.post.id !== nextProps.post.id) {
+            this.setState({
+                collapse: true,
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.post !== prevProps.post) {
+            this.checkOverflow();
+        }
+    }
+
+    checkOverflow = () => {
+        const content = this.refs.content;
+
+        let hasOverflow = false;
+        if (content && content.scrollHeight > MAX_POST_HEIGHT) {
+            hasOverflow = true;
+        }
+
+        if (hasOverflow !== this.state.hasOverflow) {
+            this.setState({
+                hasOverflow,
+            });
+        }
+    }
+
+    toggleCollapse = () => {
+        this.setState((state) => ({
+            collapse: !state.collapse,
+        }));
+    }
 
     renderDeletedPost() {
         return (
@@ -133,21 +184,61 @@ export default class PostMessageView extends React.PureComponent {
             message = message.concat(visibleMessage);
         }
 
+        let className = 'post-message';
+        if (this.state.collapse) {
+            className += ' post-message--collapsed';
+        } else {
+            className += ' post-message--expanded';
+        }
+
+        let overflow = null;
+        if (this.state.hasOverflow) {
+            let icon = 'fa fa-angle-up';
+            let text = 'Show Less';
+            if (this.state.collapse) {
+                icon = 'fa fa-angle-down';
+                text = 'Show More';
+            }
+
+            overflow = (
+                <div className='post-collapse'>
+                    <div className='post-collapse__gradient'/>
+                    <div className='post-collapse__show-more'>
+                        <div className='post-collapse__show-more-line'/>
+                        <button
+                            className='post-collapse__show-more-button'
+                            onClick={this.toggleCollapse}
+                        >
+                            <span className={icon}/>
+                            {text}
+                        </button>
+                        <div className='post-collapse__show-more-line'/>
+                    </div>
+                </div>
+            );
+        }
+
         return (
-            <div>
-                <span
-                    id={postId}
-                    className='post-message__text'
-                    onClick={Utils.handleFormattedTextClick}
+            <div className={className}>
+                <div
+                    className='post-message__text-container'
+                    ref='content'
                 >
-                    <PostMarkdown
-                        message={message}
-                        isRHS={isRHS}
-                        options={options}
-                        post={post}
-                    />
-                </span>
-                {this.renderEditedIndicator()}
+                    <div
+                        id={postId}
+                        className='post-message__text'
+                        onClick={Utils.handleFormattedTextClick}
+                    >
+                        <PostMarkdown
+                            message={message}
+                            isRHS={isRHS}
+                            options={options}
+                            post={post}
+                        />
+                    </div>
+                    {this.renderEditedIndicator()}
+                </div>
+                {overflow}
             </div>
         );
     }

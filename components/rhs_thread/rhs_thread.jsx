@@ -358,24 +358,23 @@ export default class RhsThread extends React.Component {
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
             const reverseCount = postsLength - i - 1;
             commentsLists.push(
-                <div key={keyPrefix + 'commentKey'}>
-                    <RhsComment
-                        ref={comPost.id}
-                        post={comPost}
-                        teamId={this.props.channel.team_id}
-                        lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
-                        user={p}
-                        currentUser={this.props.currentUser}
-                        compactDisplay={this.state.compactDisplay}
-                        isFlagged={isFlagged}
-                        status={status}
-                        isBusy={this.state.isBusy}
-                        removePost={this.props.actions.removePost}
-                        previewCollapsed={this.props.previewCollapsed}
-                        previewEnabled={this.props.previewEnabled}
-                        isEmbedVisible={this.props.postsEmbedVisibleObj[comPost.id]}
-                    />
-                </div>
+                <RhsComment
+                    key={keyPrefix + 'commentKey'}
+                    ref={comPost.id}
+                    post={comPost}
+                    teamId={this.props.channel.team_id}
+                    lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
+                    user={p}
+                    currentUser={this.props.currentUser}
+                    compactDisplay={this.state.compactDisplay}
+                    isFlagged={isFlagged}
+                    status={status}
+                    isBusy={this.state.isBusy}
+                    removePost={this.props.actions.removePost}
+                    previewCollapsed={this.props.previewCollapsed}
+                    previewEnabled={this.props.previewEnabled}
+                    isEmbedVisible={this.props.postsEmbedVisibleObj[comPost.id]}
+                />
             );
         }
 

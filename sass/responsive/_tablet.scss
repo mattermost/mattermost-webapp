@@ -104,6 +104,18 @@
     }
 }
 
+@media (min-width: 880px) {
+    .post-collapse__show-more {
+        margin-left: -30px;
+    }
+
+    .sidebar--right {
+        .post-collapse__show-more {
+            margin-left: 0;
+        }
+    }
+}
+
 // Tablet and desktop
 @media screen and (min-width: 768px) {
     .col-sm-auto {
