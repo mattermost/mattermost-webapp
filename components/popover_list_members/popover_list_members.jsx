@@ -37,11 +37,6 @@ export default class PopoverListMembers extends React.Component {
     constructor(props) {
         super(props);
 
-        this.showMembersModal = this.showMembersModal.bind(this);
-
-        this.handleShowDirectChannel = this.handleShowDirectChannel.bind(this);
-        this.closePopover = this.closePopover.bind(this);
-
         this.state = {
             showPopover: false,
             showTeamMembersModal: false,
@@ -66,14 +61,14 @@ export default class PopoverListMembers extends React.Component {
         }
     }
 
-    sortUsers(users, statuses) {
+    sortUsers = (users, statuses) => {
         return users.map((user) => {
             const status = statuses[user.id] || UserStatuses.OFFLINE;
             return {...user, status};
         }).sort(Utils.sortUsersByStatusAndDisplayName);
-    }
+    };
 
-    handleShowDirectChannel(user) {
+    handleShowDirectChannel = (user) => {
         const teammateId = user.id;
 
         if (teammateId) {
@@ -90,45 +85,45 @@ export default class PopoverListMembers extends React.Component {
                 }
             );
         }
-    }
+    };
 
-    closePopover() {
+    closePopover = () => {
         this.setState({showPopover: false});
-    }
+    };
 
-    showMembersModal(e) {
+    showMembersModal = (e) => {
         e.preventDefault();
 
         this.setState({
             showPopover: false,
             showChannelMembersModal: true,
         });
-    }
+    };
 
     hideChannelMembersModal = () => {
         this.setState({showChannelMembersModal: false});
-    }
+    };
 
     showChannelInviteModal = () => {
         this.setState({showChannelInviteModal: true});
-    }
+    };
 
     hideChannelInviteModal = () => {
         this.setState({showChannelInviteModal: false});
-    }
+    };
 
     hideTeamMembersModal = () => {
         this.setState({showTeamMembersModal: false});
-    }
+    };
 
     handleGetProfilesInChannel = (e) => {
         this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
         this.props.actions.getProfilesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
-    }
+    };
 
     getTargetPopover = () => {
         return this.state.popoverTarget;
-    }
+    };
 
     render() {
         let popoverButton;
