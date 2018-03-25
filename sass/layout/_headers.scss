@@ -64,6 +64,7 @@
 
         &.wide {
             @include border-radius(37px);
+            line-height: 28px;
             padding: 0;
             white-space: nowrap;
             width: auto;
@@ -91,6 +92,8 @@
         .icon__text {
             font-weight: 600;
             margin-right: 5px;
+            position: relative;
+            top: -1px;
         }
 
         a {
@@ -115,7 +118,7 @@
         }
 
         .icon__mentions {
-            top: 2px;
+            top: 1px;
         }
 
         .icon__flag {
@@ -123,7 +126,7 @@
         }
 
         .icon__search {
-            top: 2px;
+            top: 1px;
         }
     }
 
