@@ -24,87 +24,102 @@ export default function ExpandView({
     const inputs = [(
         <div key='channel-notification-level-radio'>
             {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
-            <div className='radio'>
-                <label className=''>
-                    <input
-                        id='channelNotificationGlobalDefault'
-                        type='radio'
-                        value={NotificationLevels.DEFAULT}
-                        checked={memberNotifyLevel === NotificationLevels.DEFAULT}
-                        onChange={onChange}
-                    />
-                    <Describe
-                        section={section}
-                        memberNotifyLevel={NotificationLevels.DEFAULT}
-                        globalNotifyLevel={globalNotifyLevel}
-                    />
-                </label>
-            </div>
-            }
-            {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
-            <div className='radio'>
-                <label className=''>
-                    <input
-                        id='channelNotificationAllActivity'
-                        type='radio'
-                        value={NotificationLevels.ALL}
-                        checked={memberNotifyLevel === NotificationLevels.ALL}
-                        onChange={onChange}
-                    />
-                    <Describe
-                        section={section}
-                        memberNotifyLevel={NotificationLevels.ALL}
-                    />
-                </label>
+            <div>
+                <div className='radio'>
+                    <label className=''>
+                        <input
+                            id='channelNotificationGlobalDefault'
+                            type='radio'
+                            value={NotificationLevels.DEFAULT}
+                            checked={memberNotifyLevel === NotificationLevels.DEFAULT}
+                            onChange={onChange}
+                        />
+                        <Describe
+                            section={section}
+                            memberNotifyLevel={NotificationLevels.DEFAULT}
+                            globalNotifyLevel={globalNotifyLevel}
+                        />
+                    </label>
+                </div>
+                <div className='radio'>
+                    <label className=''>
+                        <input
+                            id='channelNotificationAllActivity'
+                            type='radio'
+                            value={NotificationLevels.ALL}
+                            checked={memberNotifyLevel === NotificationLevels.ALL}
+                            onChange={onChange}
+                        />
+                        <Describe
+                            section={section}
+                            memberNotifyLevel={NotificationLevels.ALL}
+                        />
+                    </label>
+                </div>
+                <div className='radio'>
+                    <label className=''>
+                        <input
+                            id='channelNotificationMentions'
+                            type='radio'
+                            value={NotificationLevels.MENTION}
+                            checked={memberNotifyLevel === NotificationLevels.MENTION}
+                            onChange={onChange}
+                        />
+                        <Describe
+                            section={section}
+                            memberNotifyLevel={NotificationLevels.MENTION}
+                        />
+                    </label>
+                </div>
+                <div className='radio'>
+                    <label>
+                        <input
+                            id='channelNotificationNever'
+                            type='radio'
+                            value={NotificationLevels.NONE}
+                            checked={memberNotifyLevel === NotificationLevels.NONE}
+                            onChange={onChange}
+                        />
+                        <Describe
+                            section={section}
+                            memberNotifyLevel={NotificationLevels.NONE}
+                        />
+                    </label>
+                </div>
             </div>
             }
             {section === NotificationSections.MARK_UNREAD &&
-            <div className='radio'>
-                <label className=''>
-                    <input
-                        id='channelUnreadAll'
-                        type='radio'
-                        value={NotificationLevels.ALL}
-                        checked={memberNotifyLevel === NotificationLevels.ALL}
-                        onChange={onChange}
-                    />
-                    <Describe
-                        section={section}
-                        memberNotifyLevel={NotificationLevels.ALL}
-                    />
-                </label>
-            </div>
-            }
-            <div className='radio'>
-                <label className=''>
-                    <input
-                        id='channelNotificationMentions'
-                        type='radio'
-                        value={NotificationLevels.MENTION}
-                        checked={memberNotifyLevel === NotificationLevels.MENTION}
-                        onChange={onChange}
-                    />
-                    <Describe
-                        section={section}
-                        memberNotifyLevel={NotificationLevels.MENTION}
-                    />
-                </label>
-            </div>
-            {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
-            <div className='radio'>
-                <label>
-                    <input
-                        id='channelNotificationNever'
-                        type='radio'
-                        value={NotificationLevels.NONE}
-                        checked={memberNotifyLevel === NotificationLevels.NONE}
-                        onChange={onChange}
-                    />
-                    <Describe
-                        section={section}
-                        memberNotifyLevel={NotificationLevels.NONE}
-                    />
-                </label>
+            <div>
+                <div className='radio'>
+                    <label className=''>
+                        <input
+                            id='channelNotificationUnmute'
+                            type='radio'
+                            value={NotificationLevels.MENTION}
+                            checked={memberNotifyLevel === NotificationLevels.MENTION}
+                            onChange={onChange}
+                        />
+                        <Describe
+                            section={section}
+                            memberNotifyLevel={NotificationLevels.MENTION}
+                        />
+                    </label>
+                </div>
+                <div className='radio'>
+                    <label className=''>
+                        <input
+                            id='channelNotificationMute'
+                            type='radio'
+                            value={NotificationLevels.ALL}
+                            checked={memberNotifyLevel === NotificationLevels.ALL}
+                            onChange={onChange}
+                        />
+                        <Describe
+                            section={section}
+                            memberNotifyLevel={NotificationLevels.ALL}
+                        />
+                    </label>
+                </div>
             </div>
             }
         </div>

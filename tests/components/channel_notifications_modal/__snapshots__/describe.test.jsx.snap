@@ -10,8 +10,8 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 
 exports[`components/channel_notifications_modal/NotificationSection should match snapshot, on MARK_UNREAD & ALL 1`] = `
 <FormattedMessage
-  defaultMessage="For all unread messages"
-  id="channel_notifications.allUnread"
+  defaultMessage="Off"
+  id="channel_notifications.muteChannel.off.title"
   values={Object {}}
 />
 `;

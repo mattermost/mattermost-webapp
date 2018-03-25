@@ -25,8 +25,8 @@ export default function SectionTitle({section}) {
     } else if (section === NotificationSections.MARK_UNREAD) {
         return (
             <FormattedMessage
-                id='channel_notifications.markUnread'
-                defaultMessage='Mark Channel Unread'
+                id='channel_notifications.muteChannel.settings'
+                defaultMessage='Mute Channel'
             />
         );
     }

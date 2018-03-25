@@ -10,8 +10,8 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
 
 exports[`components/channel_notifications_modal/ExtraInfo should match snapshot, on MARK_UNREAD 1`] = `
 <FormattedMessage
-  defaultMessage="Mark Channel Unread"
-  id="channel_notifications.markUnread"
+  defaultMessage="Mute Channel"
+  id="channel_notifications.muteChannel.settings"
   values={Object {}}
 />
 `;
