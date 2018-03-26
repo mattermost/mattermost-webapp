@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class ChannelPermissionGate extends React.PureComponent {
+export default class ChannelPermissionGate extends React.Component {
     static defaultProps = {
         invert: false,
     }
