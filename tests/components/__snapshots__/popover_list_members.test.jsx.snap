@@ -84,7 +84,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
             user={
               Object {
                 "id": "member_id_1",
-                "status": "online",
               }
             }
           />
@@ -96,7 +95,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
             user={
               Object {
                 "id": "member_id_2",
-                "status": "offline",
               }
             }
           />
@@ -206,7 +204,6 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
             user={
               Object {
                 "id": "member_id_1",
-                "status": "online",
               }
             }
           />
@@ -218,7 +215,6 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
             user={
               Object {
                 "id": "member_id_2",
-                "status": "offline",
               }
             }
           />
@@ -328,7 +324,6 @@ exports[`components/PopoverListMembers should match state when showMembersModal 
             user={
               Object {
                 "id": "member_id_1",
-                "status": "online",
               }
             }
           />
@@ -340,7 +335,6 @@ exports[`components/PopoverListMembers should match state when showMembersModal 
             user={
               Object {
                 "id": "member_id_2",
-                "status": "offline",
               }
             }
           />
