@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
@@ -10,7 +11,6 @@ import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isChannelMuted} from 'utils/channel_utils.jsx';
 import store from 'stores/redux_store.jsx';
 
 export function sendDesktopNotification(post, msgProps) {
