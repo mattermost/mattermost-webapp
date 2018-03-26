@@ -8,8 +8,8 @@ export default class MemberIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='16px'
-                    height='16px'
+                    width='14px'
+                    height='14px'
                     viewBox='0 0 16 16'
                 >
                     <g

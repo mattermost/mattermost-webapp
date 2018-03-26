@@ -26,21 +26,11 @@ describe('FileUtils.canUploadFiles', function() {
     UserAgent.isMobileApp = jest.fn().mockImplementation(() => false);
 
     it('is false when file attachments are disabled', function() {
-        const state = {
-            entities: {
-                general: {
-                    license: {
-                        IsLicensed: 'true',
-                        Compliance: 'true',
-                    },
-                    config: {
-                        EnableFileAttachments: 'false',
-                        EnableMobileFileUpload: 'true',
-                    },
-                },
-            },
+        const config = {
+            EnableFileAttachments: 'false',
+            EnableMobileFileUpload: 'true',
         };
-        assert.equal(canUploadFiles(state), false);
+        assert.equal(canUploadFiles(config), false);
     });
 
     describe('is true when file attachments are enabled', () => {
@@ -49,81 +39,31 @@ describe('FileUtils.canUploadFiles', function() {
         it('and not on mobile', () => {
             UserAgent.isMobileApp.mockImplementation(() => false);
 
-            const state = {
-                entities: {
-                    general: {
-                        license: {
-                            IsLicensed: 'true',
-                            Compliance: 'true',
-                        },
-                        config: {
-                            EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'false',
-                        },
-                    },
-                },
+            const config = {
+                EnableFileAttachments: 'true',
+                EnableMobileFileUpload: 'false',
             };
-            assert.equal(canUploadFiles(state), true);
+            assert.equal(canUploadFiles(config), true);
         });
 
-        it('and on mobile but no compliance license enabled', function() {
+        it('and on mobile with mobile file upload enabled', () => {
             UserAgent.isMobileApp.mockImplementation(() => true);
 
-            const state = {
-                entities: {
-                    general: {
-                        license: {
-                            IsLicensed: 'false',
-                            Compliance: 'false',
-                        },
-                        config: {
-                            EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'false',
-                        },
-                    },
-                },
+            const config = {
+                EnableFileAttachments: 'true',
+                EnableMobileFileUpload: 'true',
             };
-            assert.equal(canUploadFiles(state), true);
+            assert.equal(canUploadFiles(config), true);
         });
 
-        it('and on mobile with compliance license enabled but mobile file upload enabled', () => {
+        it('unless on mobile with mobile file upload disabled', () => {
             UserAgent.isMobileApp.mockImplementation(() => true);
 
-            const state = {
-                entities: {
-                    general: {
-                        license: {
-                            IsLicensed: 'true',
-                            Compliance: 'true',
-                        },
-                        config: {
-                            EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'true',
-                        },
-                    },
-                },
+            const config = {
+                EnableFileAttachments: 'true',
+                EnableMobileFileUpload: 'false',
             };
-            assert.equal(canUploadFiles(state), true);
-        });
-
-        it('unless on mobile with compliance license enabled and mobile file upload disabled', () => {
-            UserAgent.isMobileApp.mockImplementation(() => true);
-
-            const state = {
-                entities: {
-                    general: {
-                        license: {
-                            IsLicensed: 'true',
-                            Compliance: 'true',
-                        },
-                        config: {
-                            EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'false',
-                        },
-                    },
-                },
-            };
-            assert.equal(canUploadFiles(state), false);
+            assert.equal(canUploadFiles(config), false);
         });
     });
 });

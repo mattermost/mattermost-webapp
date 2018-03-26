@@ -143,6 +143,11 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     error_message: 'admin.reload.reloadFail',
                     error_message_default: 'Reload unsuccessful: {error}',
                 },
+                {
+                    type: 'custom',
+                    key: 'custom',
+                    component: () => <p>{'Test'}</p>,
+                },
             ],
         };
 
@@ -164,6 +169,16 @@ describe('components/admin_console/SchemaAdminSettings', () => {
             <SchemaAdminSettings
                 config={config}
                 schema={{...schema}}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom component', () => {
+        const wrapper = shallow(
+            <SchemaAdminSettings
+                config={config}
+                schema={{component: () => <p>{'Test'}</p>}}
             />
         );
         expect(wrapper).toMatchSnapshot();

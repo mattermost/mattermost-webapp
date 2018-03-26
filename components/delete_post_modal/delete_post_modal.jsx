@@ -1,106 +1,102 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {deletePost} from 'actions/post_actions.jsx';
-import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent.jsx';
 
-var ActionTypes = Constants.ActionTypes;
+export default class DeletePostModal extends React.PureComponent {
+    static propTypes = {
 
-export default class DeletePostModal extends React.Component {
+        channelName: PropTypes.string,
+        focusedPostId: PropTypes.string,
+        teamName: PropTypes.string,
+        post: PropTypes.object.isRequired,
+        commentCount: PropTypes.number.isRequired,
+
+        /**
+         * Does the post come from RHS mode
+         */
+        isRHS: PropTypes.bool.isRequired,
+
+        /**
+        * Function called when modal is dismissed
+        */
+        onHide: PropTypes.func.isRequired,
+
+        actions: PropTypes.shape({
+
+            /**
+            * Function called for deleting post
+            */
+            deletePost: PropTypes.func.isRequired,
+        }),
+    }
+
     constructor(props) {
         super(props);
-
+        this.handleDelete = this.handleDelete.bind(this);
+        this.onHide = this.onHide.bind(this);
         this.state = {
-            show: false,
-            post: null,
-            commentCount: 0,
-            error: '',
+            show: true,
         };
     }
 
-    componentDidMount() {
-        ModalStore.addModalListener(ActionTypes.TOGGLE_DELETE_POST_MODAL, this.handleToggle);
-    }
+    handleDelete = async () => {
+        const {
+            actions,
+            channelName,
+            focusedPostId,
+            post,
+            teamName,
+        } = this.props;
 
-    componentWillUnmount() {
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_DELETE_POST_MODAL, this.handleToggle);
-    }
+        const {data} = await actions.deletePost(post);
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.show && !prevState.show) {
-            setTimeout(() => {
-                if (this.deletePostBtn) {
-                    this.deletePostBtn.focus();
-                }
-            }, 200);
+        if (post.id === focusedPostId && channelName) {
+            browserHistory.push('/' + teamName + '/channels/' + channelName);
+        }
+
+        if (data) {
+            this.onHide();
         }
     }
 
-    handleDelete = () => {
-        deletePost(
-            this.state.post.channel_id,
-            this.state.post,
-            () => {
-                this.handleHide();
-            },
-            (err) => {
-                this.setState({error: err.message});
-            }
-        );
-    }
-
-    handleToggle = (value, args) => {
-        this.setState({
-            show: value,
-            post: args.post,
-            isRHS: args.isRHS,
-            commentCount: args.commentCount,
-            error: '',
-        });
-    }
-
-    handleHide = () => {
+    onHide() {
         this.setState({show: false});
 
         if (!UserAgent.isMobile()) {
-            if (this.state.isRHS) {
-                document.getElementById('reply_textbox').focus();
+            var element;
+            if (this.props.isRHS) {
+                element = document.getElementById('reply_textbox');
             } else {
-                document.getElementById('post_textbox').focus();
+                element = document.getElementById('post_textbox');
+            }
+            if (element) {
+                element.focus();
             }
         }
     }
 
     render() {
-        if (!this.state.post) {
-            return null;
-        }
-
-        var error = null;
-        if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
-        }
-
         var commentWarning = '';
-        if (this.state.commentCount > 0) {
+        if (this.props.commentCount > 0) {
             commentWarning = (
                 <FormattedMessage
                     id='delete_post.warning'
                     defaultMessage='This post has {count, number} {count, plural, one {comment} other {comments}} on it.'
                     values={{
-                        count: this.state.commentCount,
+                        count: this.props.commentCount,
                     }}
                 />
             );
         }
 
-        const postTerm = this.state.post.root_id ? (
+        const postTerm = this.props.post.root_id ? (
             <FormattedMessage
                 id='delete_post.comment'
                 defaultMessage='Comment'
@@ -115,7 +111,8 @@ export default class DeletePostModal extends React.Component {
         return (
             <Modal
                 show={this.state.show}
-                onHide={this.handleHide}
+                onHide={this.onHide}
+                onExited={this.props.onHide}
                 enforceFocus={false}
             >
                 <Modal.Header closeButton={true}>
@@ -140,7 +137,6 @@ export default class DeletePostModal extends React.Component {
                     <br/>
                     <br/>
                     {commentWarning}
-                    {error}
                 </Modal.Body>
                 <Modal.Footer>
                     <button

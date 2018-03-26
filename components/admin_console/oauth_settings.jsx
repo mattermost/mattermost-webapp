@@ -148,7 +148,7 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Client ID:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.google.clientIdExample', 'Ex "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"')}
+                    placeholder={Utils.localizeMessage('admin.google.clientIdExample', 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"')}
                     helpText={
                         <FormattedMessage
                             id='admin.google.clientIdDescription'
@@ -166,7 +166,7 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Client Secret:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.google.clientSecretExample', 'Ex "H8sz0Az-dDs2p15-7QzD231"')}
+                    placeholder={Utils.localizeMessage('admin.google.clientSecretExample', 'E.g.: "H8sz0Az-dDs2p15-7QzD231"')}
                     helpText={
                         <FormattedMessage
                             id='admin.google.clientSecretDescription'
@@ -224,7 +224,7 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Application ID:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.office365.clientIdExample', 'Ex "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"')}
+                    placeholder={Utils.localizeMessage('admin.office365.clientIdExample', 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"')}
                     helpText={
                         <FormattedMessage
                             id='admin.office365.clientIdDescription'
@@ -242,7 +242,7 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Application Secret Password:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.office365.clientSecretExample', 'Ex "shAieM47sNBfgl20f8ci294"')}
+                    placeholder={Utils.localizeMessage('admin.office365.clientSecretExample', 'E.g.: "shAieM47sNBfgl20f8ci294"')}
                     helpText={
                         <FormattedMessage
                             id='admin.office365.clientSecretDescription'
@@ -300,7 +300,7 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Application ID:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.clientIdExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    placeholder={Utils.localizeMessage('admin.gitlab.clientIdExample', 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
                     helpText={
                         <FormattedMessage
                             id='admin.gitlab.clientIdDescription'
@@ -318,7 +318,7 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Application Secret Key:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.clientSecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    placeholder={Utils.localizeMessage('admin.gitlab.clientSecretExample', 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
                     helpText={
                         <FormattedMessage
                             id='admin.gitlab.clientSecretDescription'

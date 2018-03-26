@@ -327,6 +327,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                         completeOnTab={false}
                         renderDividers={renderDividers}
                         delayInputUpdate={true}
+                        openWhenEmpty={true}
                     />
                 </Modal.Body>
             </Modal>

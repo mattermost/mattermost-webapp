@@ -50,7 +50,7 @@ export default class ExternalServiceSettings extends AdminSettings {
                             defaultMessage='Google API Key:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.googleExample', 'Ex "7rAh6iwQCkV4cA1Gsg3fgGOXJAQ43QV"')}
+                    placeholder={Utils.localizeMessage('admin.service.googleExample', 'E.g.: "7rAh6iwQCkV4cA1Gsg3fgGOXJAQ43QV"')}
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.googleDescription'

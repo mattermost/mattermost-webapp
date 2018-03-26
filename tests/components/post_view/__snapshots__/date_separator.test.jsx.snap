@@ -2,7 +2,7 @@
 
 exports[`components/post_view/DateSeparator should match snapshot 1`] = `
 <DateSeparator
-  date="Fri Jan 12 2018 20:15:13 GMT+0800 (+08)"
+  date={2018-01-12T12:15:13.000Z}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -41,7 +41,7 @@ exports[`components/post_view/DateSeparator should match snapshot 1`] = `
       <FormattedDate
         day="2-digit"
         month="short"
-        value="Fri Jan 12 2018 20:15:13 GMT+0800 (+08)"
+        value={2018-01-12T12:15:13.000Z}
         weekday="short"
         year="numeric"
       >

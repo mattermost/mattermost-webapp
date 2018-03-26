@@ -65,7 +65,7 @@ function mapStateToProps() {
             latestReplyablePostId,
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
-            canUploadFiles: canUploadFiles(state),
+            canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableConfirmNotificationsToChannel,
         };

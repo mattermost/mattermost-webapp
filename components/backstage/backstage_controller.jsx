@@ -55,6 +55,13 @@ export default class BackstageController extends React.Component {
          */
         isAdmin: PropTypes.bool,
 
+        /**
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
+
         siteName: PropTypes.string,
         enableCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,

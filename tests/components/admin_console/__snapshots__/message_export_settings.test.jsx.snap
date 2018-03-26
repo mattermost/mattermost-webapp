@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/MessageExportSettings should match snapshot, disabled 1`] = `
+exports[`components/MessageExportSettings should match snapshot, disabled, actiance 1`] = `
 <div
   className="wrapper--fixed"
 >
@@ -28,8 +28,8 @@ exports[`components/MessageExportSettings should match snapshot, disabled 1`] = 
           className="banner__content"
         >
           <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description_without_globalrelay"
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
             values={Object {}}
           />
         </div>
@@ -95,8 +95,8 @@ exports[`components/MessageExportSettings should match snapshot, disabled 1`] = 
         disabled={true}
         helpText={
           <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>."
-            id="admin.complianceExport.exportFormat.actiance.description"
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
@@ -117,9 +117,292 @@ exports[`components/MessageExportSettings should match snapshot, disabled 1`] = 
               "text": "Actiance XML",
               "value": "actiance",
             },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
+            },
           ]
         }
       />
+      <Connect(InjectIntl(JobTable))
+        createJobButtonText={
+          <FormattedMessage
+            defaultMessage="Run Compliance Export Job Now"
+            id="admin.complianceExport.createJob.title"
+            values={Object {}}
+          />
+        }
+        createJobHelpText={
+          <FormattedMessage
+            defaultMessage="Initiates a Compliance Export job immediately."
+            id="admin.complianceExport.createJob.help"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        jobType="message_export"
+      />
+    </SettingsGroup>
+    <div
+      className="form-group"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="col-sm-12"
+      >
+        <SaveButton
+          btnClass="btn-primary"
+          defaultMessage="Save"
+          disabled={true}
+          extraClasses=""
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving Config..."
+        />
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/MessageExportSettings should match snapshot, disabled, globalrelay 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    <FormattedMessage
+      defaultMessage="Compliance Export (Beta)"
+      id="admin.complianceExport.title"
+      values={Object {}}
+    />
+  </h3>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <SettingsGroup
+      show={true}
+    >
+      <div
+        className="banner"
+      >
+        <div
+          className="banner__content"
+        >
+          <FormattedHTMLMessage
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
+            values={Object {}}
+          />
+        </div>
+      </div>
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedHTMLMessage
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\\\\\\"https://about.mattermost.com/default-compliance-export-documentation\\\\\\" target=\\\\\\"_blank\\\\\\">the documentation</a> to learn more."
+            id="admin.service.complianceExportDesc"
+            values={Object {}}
+          />
+        }
+        id="enableComplianceExport"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Compliance Export:"
+            id="admin.service.complianceExportTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <TextSetting
+        disabled={true}
+        helpText={
+          <FormattedHTMLMessage
+            defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
+            id="admin.complianceExport.exportJobStartTime.description"
+            values={Object {}}
+          />
+        }
+        id="exportJobStartTime"
+        label={
+          <FormattedMessage
+            defaultMessage="Compliance Export Time:"
+            id="admin.complianceExport.exportJobStartTime.title"
+            values={Object {}}
+          />
+        }
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="E.g.: \\"02:00\\""
+        type="input"
+        value="01:00"
+      />
+      <DropdownSetting
+        disabled={true}
+        helpText={
+          <FormattedHTMLMessage
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
+            values={Object {}}
+          />
+        }
+        id="exportFormat"
+        isDisabled={false}
+        label={
+          <FormattedMessage
+            defaultMessage="Export Format:"
+            id="admin.complianceExport.exportFormat.title"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        value="globalrelay"
+        values={
+          Array [
+            Object {
+              "text": "Actiance XML",
+              "value": "actiance",
+            },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
+            },
+          ]
+        }
+      />
+      <SettingsGroup
+        id="globalRelaySettings"
+        show={true}
+      >
+        <RadioSetting
+          disabled={true}
+          helpText={
+            <FormattedMessage
+              defaultMessage="The type of GlobalRelay customer account that your organization has."
+              id="admin.complianceExport.globalRelayCustomerType.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelayCustomerType"
+          isDisabled={false}
+          label={
+            <FormattedMessage
+              defaultMessage="Customer Type:"
+              id="admin.complianceExport.globalRelayCustomerType.title"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          value="A10"
+          values={
+            Array [
+              Object {
+                "text": "A9/Type 9",
+                "value": "A9",
+              },
+              Object {
+                "text": "A10/Type 10",
+                "value": "A10",
+              },
+            ]
+          }
+        />
+        <TextSetting
+          disabled={true}
+          helpText={
+            <FormattedMessage
+              defaultMessage="The username that is used to authenticate against the GlobalRelay SMTP server."
+              id="admin.complianceExport.globalRelaySmtpUsername.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelaySmtpUsername"
+          label={
+            <FormattedMessage
+              defaultMessage="SMTP Username:"
+              id="admin.complianceExport.globalRelaySmtpUsername.title"
+              values={Object {}}
+            />
+          }
+          maxLength={null}
+          onChange={[Function]}
+          placeholder="E.g.: \\"globalRelayUser\\""
+          type="input"
+          value="globalRelayUser"
+        />
+        <TextSetting
+          disabled={true}
+          helpText={
+            <FormattedMessage
+              defaultMessage="The password that is used to authenticate against the GlobalRelay SMTP server."
+              id="admin.complianceExport.globalRelaySmtpPassword.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelaySmtpPassword"
+          label={
+            <FormattedMessage
+              defaultMessage="SMTP Password:"
+              id="admin.complianceExport.globalRelaySmtpPassword.title"
+              values={Object {}}
+            />
+          }
+          maxLength={null}
+          onChange={[Function]}
+          placeholder="E.g.: \\"globalRelayPassword\\""
+          type="input"
+          value="globalRelayPassword"
+        />
+        <TextSetting
+          disabled={true}
+          helpText={
+            <FormattedHTMLMessage
+              defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
+              id="admin.complianceExport.globalRelayEmailAddress.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelayEmailAddress"
+          label={
+            <FormattedMessage
+              defaultMessage="Email Address:"
+              id="admin.complianceExport.globalRelayEmailAddress.title"
+              values={Object {}}
+            />
+          }
+          maxLength={null}
+          onChange={[Function]}
+          placeholder="E.g.: \\"globalrelay@mattermost.com\\""
+          type="input"
+          value="globalRelay@mattermost.com"
+        />
+      </SettingsGroup>
       <Connect(InjectIntl(JobTable))
         createJobButtonText={
           <FormattedMessage
@@ -196,8 +479,8 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           className="banner__content"
         >
           <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description_without_globalrelay"
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
             values={Object {}}
           />
         </div>
@@ -263,8 +546,8 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         disabled={false}
         helpText={
           <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>."
-            id="admin.complianceExport.exportFormat.actiance.description"
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
@@ -284,6 +567,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
             Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
             },
           ]
         }
@@ -364,8 +651,8 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           className="banner__content"
         >
           <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description_without_globalrelay"
+            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
+            id="admin.complianceExport.description"
             values={Object {}}
           />
         </div>
@@ -430,9 +717,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <DropdownSetting
         disabled={false}
         helpText={
-          <FormattedMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address."
-            id="admin.complianceExport.exportFormat.globalrelay.description"
+          <FormattedHTMLMessage
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+            id="admin.complianceExport.exportFormat.description"
             values={Object {}}
           />
         }
@@ -453,32 +740,120 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
               "text": "Actiance XML",
               "value": "actiance",
             },
+            Object {
+              "text": "GlobalRelay EML",
+              "value": "globalrelay",
+            },
           ]
         }
       />
-      <TextSetting
-        disabled={false}
-        helpText={
-          <FormattedHTMLMessage
-            defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
-            id="admin.complianceExport.globalRelayEmailAddress.description"
-            values={Object {}}
-          />
-        }
-        id="globalRelayEmailAddress"
-        label={
-          <FormattedMessage
-            defaultMessage="GlobalRelay Email Address:"
-            id="admin.complianceExport.globalRelayEmailAddress.title"
-            values={Object {}}
-          />
-        }
-        maxLength={null}
-        onChange={[Function]}
-        placeholder="E.g.: \\"globalrelay@mattermost.com\\""
-        type="input"
-        value="test@mattermost.com"
-      />
+      <SettingsGroup
+        id="globalRelaySettings"
+        show={true}
+      >
+        <RadioSetting
+          disabled={false}
+          helpText={
+            <FormattedMessage
+              defaultMessage="The type of GlobalRelay customer account that your organization has."
+              id="admin.complianceExport.globalRelayCustomerType.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelayCustomerType"
+          isDisabled={false}
+          label={
+            <FormattedMessage
+              defaultMessage="Customer Type:"
+              id="admin.complianceExport.globalRelayCustomerType.title"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          value="A10"
+          values={
+            Array [
+              Object {
+                "text": "A9/Type 9",
+                "value": "A9",
+              },
+              Object {
+                "text": "A10/Type 10",
+                "value": "A10",
+              },
+            ]
+          }
+        />
+        <TextSetting
+          disabled={false}
+          helpText={
+            <FormattedMessage
+              defaultMessage="The username that is used to authenticate against the GlobalRelay SMTP server."
+              id="admin.complianceExport.globalRelaySmtpUsername.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelaySmtpUsername"
+          label={
+            <FormattedMessage
+              defaultMessage="SMTP Username:"
+              id="admin.complianceExport.globalRelaySmtpUsername.title"
+              values={Object {}}
+            />
+          }
+          maxLength={null}
+          onChange={[Function]}
+          placeholder="E.g.: \\"globalRelayUser\\""
+          type="input"
+          value="globalRelayUser"
+        />
+        <TextSetting
+          disabled={false}
+          helpText={
+            <FormattedMessage
+              defaultMessage="The password that is used to authenticate against the GlobalRelay SMTP server."
+              id="admin.complianceExport.globalRelaySmtpPassword.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelaySmtpPassword"
+          label={
+            <FormattedMessage
+              defaultMessage="SMTP Password:"
+              id="admin.complianceExport.globalRelaySmtpPassword.title"
+              values={Object {}}
+            />
+          }
+          maxLength={null}
+          onChange={[Function]}
+          placeholder="E.g.: \\"globalRelayPassword\\""
+          type="input"
+          value="globalRelayPassword"
+        />
+        <TextSetting
+          disabled={false}
+          helpText={
+            <FormattedHTMLMessage
+              defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
+              id="admin.complianceExport.globalRelayEmailAddress.description"
+              values={Object {}}
+            />
+          }
+          id="globalRelayEmailAddress"
+          label={
+            <FormattedMessage
+              defaultMessage="Email Address:"
+              id="admin.complianceExport.globalRelayEmailAddress.title"
+              values={Object {}}
+            />
+          }
+          maxLength={null}
+          onChange={[Function]}
+          placeholder="E.g.: \\"globalrelay@mattermost.com\\""
+          type="input"
+          value="globalRelay@mattermost.com"
+        />
+      </SettingsGroup>
       <Connect(InjectIntl(JobTable))
         createJobButtonText={
           <FormattedMessage

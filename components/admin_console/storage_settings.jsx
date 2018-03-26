@@ -184,7 +184,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Local Storage Directory:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.localExample', 'Ex "./data/"')}
+                    placeholder={Utils.localizeMessage('admin.image.localExample', 'E.g.: "./data/"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.localDescription'
@@ -203,7 +203,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Bucket:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3BucketExample', 'Ex "mattermost-media"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3BucketExample', 'E.g.: "mattermost-media"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3BucketDescription'
@@ -222,7 +222,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Region:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3RegionExample', 'Ex "us-east-1"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3RegionExample', 'E.g.: "us-east-1"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3RegionDescription'
@@ -241,7 +241,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Endpoint:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3EndpointExample', 'Ex "s3.amazonaws.com"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3EndpointExample', 'E.g.: "s3.amazonaws.com"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3EndpointDescription'
@@ -260,7 +260,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Access Key ID:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'Ex "AKIADTOVBGERKLCBV"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'E.g.: "AKIADTOVBGERKLCBV"')}
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.image.amazonS3IdDescription'
@@ -279,7 +279,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Secret Access Key:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3SecretDescription'

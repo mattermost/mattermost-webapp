@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {showDeletePostModal, showGetPostLinkModal} from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {showGetPostLinkModal} from 'actions/global_actions.jsx';
+import DeletePostModal from 'components/delete_post_modal';
+import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default function DotMenuItem(props) {
@@ -27,7 +28,18 @@ export default function DotMenuItem(props) {
 
     function handleDeletePost(e) {
         e.preventDefault();
-        showDeletePostModal(props.post, props.commentCount, props.isRHS);
+
+        const deletePostModalData = {
+            ModalId: ModalIdentifiers.DELETE_POST,
+            dialogType: DeletePostModal,
+            dialogProps: {
+                post: props.post,
+                commentCount: props.commentCount,
+                isRHS: props.isRHS,
+            },
+        };
+
+        props.actions.openModal(deletePostModalData);
     }
 
     const attrib = {};
@@ -101,15 +113,20 @@ DotMenuItem.propTypes = {
 
     actions: PropTypes.shape({
 
-        /*
+        /**
          * Function to pin the post
          */
         pinPost: PropTypes.func,
 
-        /*
+        /**
          * Function to unpin the post
          */
         unpinPost: PropTypes.func,
+
+        /**
+         * Function to open a modal
+         */
+        openModal: PropTypes.func,
     }),
 };
 

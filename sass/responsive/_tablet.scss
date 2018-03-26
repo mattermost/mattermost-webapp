@@ -121,6 +121,16 @@
         display: none;
     }
 
+    .channel-header{
+        .search-bar__container {
+            .search__form {
+                &.focused {
+                    width: 300px;
+                }
+            }
+        }
+    }
+
     .sidebar--right {
         &.move--left,
         &.webrtc--show {

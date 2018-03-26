@@ -326,15 +326,6 @@ export async function autocompleteChannels(term, success, error) {
     }
 }
 
-export async function updateChannelNotifyProps(data, options, success, error) {
-    const {data: result, error: err} = await ChannelActions.updateChannelNotifyProps(data.user_id, data.channel_id, Object.assign({}, data, options))(dispatch, getState);
-    if (result && success) {
-        success(result);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function createChannel(channel, success, error) {
     const {data, error: err} = await ChannelActions.createChannel(channel)(dispatch, getState);
     if (data && success) {

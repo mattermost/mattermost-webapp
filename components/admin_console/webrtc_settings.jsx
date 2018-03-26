@@ -85,7 +85,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='Gateway WebSocket URL:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayWebsocketUrlExample', 'Ex "wss://webrtc.mattermost.com:8189"')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayWebsocketUrlExample', 'E.g.: "wss://webrtc.mattermost.com:8189"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.gatewayWebsocketUrlDescription'
@@ -105,7 +105,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='Gateway Admin URL:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayAdminUrlExample', 'Ex "https://webrtc.mattermost.com:7089/admin"')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayAdminUrlExample', 'E.g.: "https://webrtc.mattermost.com:7089/admin"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.gatewayAdminUrlDescription'
@@ -125,7 +125,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='Gateway Admin Secret:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayAdminSecretExample', 'Ex "PVRzWNN1Tg6szn7IQWvhpAvLByScWxdy"')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayAdminSecretExample', 'E.g.: "PVRzWNN1Tg6szn7IQWvhpAvLByScWxdy"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.gatewayAdminSecretDescription'
@@ -144,7 +144,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='STUN URI:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.stunUriExample', 'Ex "stun:webrtc.mattermost.com:5349"')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.stunUriExample', 'E.g.: "stun:webrtc.mattermost.com:5349"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.stunUriDescription'
@@ -163,7 +163,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='TURN URI:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.turnUriExample', 'Ex "turn:webrtc.mattermost.com:5349"')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.turnUriExample', 'E.g.: "turn:webrtc.mattermost.com:5349"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.turnUriDescription'
@@ -182,7 +182,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='TURN Username:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.turnUsernameExample', 'Ex "myusername"')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.turnUsernameExample', 'E.g.: "myusername"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.turnUsernameDescription'
@@ -201,7 +201,7 @@ export default class WebrtcSettings extends AdminSettings {
                             defaultMessage='TURN Shared Key:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.turnSharedKeyExample', 'Ex "bXdkOWQxc3d0Ynk3emY5ZmsxZ3NtazRjaWg="')}
+                    placeholder={Utils.localizeMessage('admin.webrtc.turnSharedKeyExample', 'E.g.: "bXdkOWQxc3d0Ynk3emY5ZmsxZ3NtazRjaWg="')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.turnSharedKeyDescription'

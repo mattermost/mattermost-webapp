@@ -24,7 +24,7 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 />
 `;
 
-exports[`components/channel_notifications_modal/NotificationSection should match snapshot, on NEVER 1`] = `
+exports[`components/channel_notifications_modal/NotificationSection should match snapshot, on NONE 1`] = `
 <FormattedMessage
   defaultMessage="Never"
   id="channel_notifications.never"

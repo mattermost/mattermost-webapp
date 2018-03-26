@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .channel-header {
-    @include flex(0 0 72px);
+    @include flex(0 0 71px);
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
@@ -13,8 +13,8 @@
         @include opacity(.5);
         float: left;
         height: 20px;
-        margin: 0 8px 0 0;
-        padding-top: 3px;
+        margin: 0 5px 0 0;
+        padding-top: 2px;
         position: relative;
         z-index: 1;
 
@@ -53,13 +53,13 @@
         @include border-radius(50%);
         border: 1px solid;
         cursor: pointer;
-        height: 37px;
-        line-height: 36px;
-        margin: 17px 10px 0 0;
+        height: 30px;
+        line-height: 30px;
+        margin: 20px 9px 0 0;
         min-width: 30px;
         position: relative;
         text-align: center;
-        width: 37px;
+        width: 30px;
         z-index: 5;
 
         &.wide {
@@ -69,7 +69,7 @@
             width: auto;
 
             > div {
-                padding: 0 13px 0 15px;
+                padding: 0 9px;
             }
         }
 
@@ -90,7 +90,7 @@
 
         .icon__text {
             font-weight: 600;
-            margin-right: 9px;
+            margin-right: 5px;
         }
 
         a {
@@ -111,19 +111,19 @@
 
         .icon__pin,
         .icon__members {
-            top: 2px;
+            top: 1px;
         }
 
         .icon__mentions {
-            top: 5px;
+            top: 2px;
         }
 
         .icon__flag {
-            top: 3px;
+            top: 1px;
         }
 
         .icon__search {
-            top: 4px;
+            top: 2px;
         }
     }
 
@@ -153,8 +153,8 @@
 
     .heading {
         display: inline-block;
-        font-size: 17px;
-        font-weight: 400;
+        font-size: 16px;
+        font-weight: 600;
         margin: 0 4px 0 0;
         max-width: 100%;
         overflow: hidden;
@@ -195,11 +195,11 @@
     font-size: 21px;
     margin-left: 1px;
     position: relative;
-    top: 2px;
+    top: 1px;
 }
 
 .channel-header__info {
-    margin-top: 12px;
+    margin-top: 14px;
     white-space: nowrap;
 
     .dropdown-toggle {
@@ -236,9 +236,9 @@
     }
 
     .channel-header__description {
+        font-size: 12px;
         height: 21px;
         margin-bottom: 3px;
-        margin-top: 3px;
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;

@@ -10,7 +10,6 @@ import {PropTypes} from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {initTeamChangeActions} from 'actions/views/lhs.js';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
@@ -127,18 +126,9 @@ export default class Sidebar extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (this.props.currentTeam && this.props.currentTeam.id) {
-            initTeamChangeActions(this.props.currentTeam.id);
-        }
         this.updateUnreadIndicators();
         document.addEventListener('keydown', this.navigateChannelShortcut);
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.currentTeam.id !== nextProps.currentTeam.id) {
-            initTeamChangeActions(nextProps.currentTeam.id);
-        }
     }
 
     componentWillUpdate() {
@@ -570,9 +560,15 @@ export default class Sidebar extends React.PureComponent {
             />
         );
 
+        let tooltipTriggers = ['hover', 'focus'];
+
+        if (Utils.isMobile()) {
+            tooltipTriggers = [];
+        }
+
         let createPublicChannelIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
+                trigger={tooltipTriggers}
                 delayShow={500}
                 placement='top'
                 overlay={createChannelTootlip}
@@ -589,7 +585,7 @@ export default class Sidebar extends React.PureComponent {
 
         let createPrivateChannelIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
+                trigger={tooltipTriggers}
                 delayShow={500}
                 placement='top'
                 overlay={createGroupTootlip}

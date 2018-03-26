@@ -30,7 +30,7 @@ function mapStateToProps(state, ownProps) {
     const enableLdap = config.EnableLdap === 'true';
     const enableSaml = config.EnableSaml === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
-    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer !== 'false';
+    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     return {
         userAccessTokens: state.entities.users.myUserAccessTokens,

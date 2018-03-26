@@ -9,9 +9,13 @@ describe('components/TeamSettings', () => {
         team: {},
         maxFileSize: 50,
         activeSection: 'team_icon',
-        updateSection: () => () => true,
-        closeModal: () => () => true,
-        collapseModal: () => () => true,
+        updateSection: () => {},    //eslint-disable-line no-empty-function
+        closeModal: () => {},       //eslint-disable-line no-empty-function
+        collapseModal: () => {},    //eslint-disable-line no-empty-function
+        actions: {
+            updateTeam: () => {},   //eslint-disable-line no-empty-function
+            setTeamIcon: () => {},  //eslint-disable-line no-empty-function
+        },
     };
 
     test('should handle bad updateTeamIcon function call', () => {
