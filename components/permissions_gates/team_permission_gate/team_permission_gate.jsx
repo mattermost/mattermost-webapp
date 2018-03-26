@@ -7,7 +7,8 @@ import React from 'react';
 export default class TeamPermissionGate extends React.Component {
     shouldComponentUpdate(nextProps) {
         return this.props.invert !== nextProps.invert ||
-               this.props.hasPermission !== nextProps.hasPermission;
+               this.props.hasPermission !== nextProps.hasPermission ||
+               this.props.teamId !== nextProps.teamId;
     }
 
     static defaultProps = {
