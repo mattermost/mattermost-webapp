@@ -7,6 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions} from 'mattermost-redux/constants';
 
 import AtMention from 'components/at_mention';
@@ -79,11 +80,12 @@ export function canDeletePost(post) {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
+    const channel = getChannel(store.getState(), post.channel_id);
 
     if (isPostOwner(post)) {
-        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.DELETE_POST});
+        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
     }
-    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
 export function canEditPost(post, editDisableAction) {
@@ -94,15 +96,16 @@ export function canEditPost(post, editDisableAction) {
     let canEdit = false;
     const license = getLicense(store.getState());
     const config = getConfig(store.getState());
+    const channel = getChannel(store.getState(), post.channel_id);
 
     const isOwner = isPostOwner(post);
-    canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.EDIT_POST});
+    canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
     if (!isOwner) {
-        canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+        canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
     }
 
     if (canEdit && license.IsLicensed === 'true') {
-        if (config.PostEditTimeLimit !== -1) {
+        if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
             const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
