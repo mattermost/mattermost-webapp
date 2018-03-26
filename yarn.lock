@@ -5950,7 +5950,7 @@ math-expression-evaluator@^1.2.14:
 
 mattermost-redux@mattermost/mattermost-redux#advanced-permissions-phase-1:
   version "1.2.0"
-  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/7efbcd68f79ad85b85c232fb835f705b10dd3aa8"
+  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/a994a1138e4678784cdfd3a75085b0b0067673c3"
   dependencies:
     deep-equal "1.0.1"
     flow-copy-source "^1.2.2"
