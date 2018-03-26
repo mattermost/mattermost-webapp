@@ -11,7 +11,7 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import Constants, {NotificationLevels, Preferences} from 'utils/constants.jsx';
+import Constants, {Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export function isFavoriteChannel(channel) {
@@ -99,11 +99,6 @@ export function getCountsStateFromStores(team = TeamStore.getCurrent(), teamMemb
     });
 
     return {mentionCount, messageCount};
-}
-
-export function isChannelMuted(member) {
-    const channelMuted = member && member.notify_props ? (member.notify_props.mark_unread === NotificationLevels.MENTION) : false;
-    return channelMuted;
 }
 
 export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, direction) {

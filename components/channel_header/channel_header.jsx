@@ -9,6 +9,8 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import 'bootstrap';
 
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -942,7 +944,7 @@ export default class ChannelHeader extends React.Component {
             </OverlayTrigger>
         );
 
-        const channelMuted = ChannelUtils.isChannelMuted(this.props.channelMember);
+        const channelMuted = isChannelMuted(this.props.channelMember);
         const channelMutedTooltip = (
             <Tooltip id='channelMutedTooltip'>
                 <FormattedMessage

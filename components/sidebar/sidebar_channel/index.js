@@ -12,11 +12,10 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import {isChannelMuted} from 'utils/channel_utils';
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
 
 import {open as openLhs} from 'actions/views/lhs.js';
