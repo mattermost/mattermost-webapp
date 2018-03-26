@@ -16,7 +16,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
 
-    const channel = getChannel(state, {id: ownProps.post.channel_id}) || {};
+    const channel = getChannel(state, ownProps.post.channel_id) || {};
     const teamId = channel.team_id;
 
     return {
