@@ -47,6 +47,12 @@ export default class PostTime extends React.PureComponent {
         };
     }
 
+    handleClick = () => {
+        if (isMobileView()) {
+            GlobalActions.emitCloseRightHandSide();
+        }
+    };
+
     renderTimeTag() {
         const date = new Date(this.props.eventTime);
         const militaryTime = this.props.useMilitaryTime;
@@ -80,11 +86,7 @@ export default class PostTime extends React.PureComponent {
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${this.props.postId}`}
                 className='post__permalink'
-                onClick={() => {
-                    if (isMobileView()) {
-                        GlobalActions.emitCloseRightHandSide();
-                    }
-                }}
+                onClick={this.handleClick}
             >
                 {this.renderTimeTag()}
             </Link>
