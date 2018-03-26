@@ -379,7 +379,10 @@ export default class SidebarHeaderDropdown extends React.Component {
             this.props.enableOAuthServiceProvider;
         if (integrationsEnabled) {
             integrationsLink = (
-                <SystemPermissionGate permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_WEBHOOKS]}>
+                <TeamPermissionGate
+                    teamId={this.props.teamId}
+                    permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_WEBHOOKS]}
+                >
                     <li>
                         <Link
                             id='Integrations'
@@ -392,7 +395,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                             />
                         </Link>
                     </li>
-                </SystemPermissionGate>
+                </TeamPermissionGate>
             );
         }
 

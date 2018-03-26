@@ -141,6 +141,7 @@ export default class SidebarHeader extends React.Component {
                 </div>
                 <div id='sidebarDropdownMenuContainer'>
                     <SidebarHeaderDropdown
+                        teamId={this.props.teamId}
                         teamType={this.props.teamType}
                         teamDisplayName={this.props.teamDisplayName}
                         teamName={this.props.teamName}
