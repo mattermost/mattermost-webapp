@@ -716,34 +716,34 @@ export default class ChannelHeader extends React.Component {
                 </ChannelPermissionGate>
             );
 
-            dropdownContents.push(
-                <ChannelPermissionGate
-                    channelId={channel.id}
-                    teamId={teamId}
-                    permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
-                    key='delete_channel_permission'
-                >
-                    <li
-                        key='delete_channel'
-                        role='presentation'
-                    >
-                        <ToggleModalButtonRedux
-                            id='channelDelete'
-                            role='menuitem'
-                            modalId={ModalIdentifiers.DELETE_CHANNEL}
-                            dialogType={DeleteChannelModal}
-                            dialogProps={{channel}}
-                        >
-                            <FormattedMessage
-                                id='channel_header.delete'
-                                defaultMessage='Delete Channel'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
-                </ChannelPermissionGate>
-            );
-
             if (!this.props.isDefault) {
+                dropdownContents.push(
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
+                        key='delete_channel_permission'
+                    >
+                        <li
+                            key='delete_channel'
+                            role='presentation'
+                        >
+                            <ToggleModalButtonRedux
+                                id='channelDelete'
+                                role='menuitem'
+                                modalId={ModalIdentifiers.DELETE_CHANNEL}
+                                dialogType={DeleteChannelModal}
+                                dialogProps={{channel}}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.delete'
+                                    defaultMessage='Delete Channel'
+                                />
+                            </ToggleModalButtonRedux>
+                        </li>
+                    </ChannelPermissionGate>
+                );
+
                 dropdownContents.push(
                     <li
                         key='divider-3'

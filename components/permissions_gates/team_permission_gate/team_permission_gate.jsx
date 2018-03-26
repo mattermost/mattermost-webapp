@@ -4,12 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class TeamPermissionGate extends React.Component {
-    shouldComponentUpdate(nextProps) {
-        return this.props.invert !== nextProps.invert ||
-               this.props.hasPermission !== nextProps.hasPermission;
-    }
-
+export default class TeamPermissionGate extends React.PureComponent {
     static defaultProps = {
         invert: false,
     }
