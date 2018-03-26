@@ -13,7 +13,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import Constants, {UserStatuses} from 'utils/constants.jsx';
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -54,7 +54,7 @@ export default class PopoverListMembers extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!Utils.areObjectsEqual(this.props.users, nextProps.users) || !Utils.areObjectsEqual(this.props.statuses, nextProps.statuses)) {
+        if (this.props.users !== nextProps.users || this.props.statuses !== nextProps.statuses) {
             const sortedUsers = this.sortUsers(nextProps.users, nextProps.statuses);
 
             this.setState({sortedUsers});
@@ -62,10 +62,7 @@ export default class PopoverListMembers extends React.Component {
     }
 
     sortUsers = (users, statuses) => {
-        return users.map((user) => {
-            const status = statuses[user.id] || UserStatuses.OFFLINE;
-            return {...user, status};
-        }).sort(Utils.sortUsersByStatusAndDisplayName);
+        return Utils.sortUsersByStatusAndDisplayName(users, statuses);
     };
 
     handleShowDirectChannel = (user) => {
@@ -141,7 +138,7 @@ export default class PopoverListMembers extends React.Component {
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
                 showMessageIcon={this.props.currentUserId !== user.id && !isDirectChannel}
-                status={user.status}
+                status={this.props.statuses[user.id]}
                 user={user}
             />
         ));

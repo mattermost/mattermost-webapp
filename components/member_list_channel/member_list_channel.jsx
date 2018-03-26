@@ -104,13 +104,14 @@ export default class MemberListChannel extends React.Component {
     setUsersDisplayAndActionProps(users, teamMembers, channelMembers) {
         const actionUserProps = {};
         const usersToDisplay = [];
+        const statusesByUserId = {};
 
         for (let i = 0; i < users.length; i++) {
             const user = users[i];
 
             if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
-                const status = UserStore.getStatus(user.id);
-                usersToDisplay.push({...user, status});
+                usersToDisplay.push(user);
+                statusesByUserId[user.id] = UserStore.getStatus(user.id);
 
                 actionUserProps[user.id] = {
                     channel: this.props.channel,
@@ -120,7 +121,7 @@ export default class MemberListChannel extends React.Component {
             }
         }
 
-        usersToDisplay.sort(Utils.sortUsersByStatusAndDisplayName);
+        Utils.sortUsersByStatusAndDisplayName(usersToDisplay, statusesByUserId);
 
         this.setState({
             usersToDisplay,

@@ -8,6 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/svg/message_icon';
+import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 export default class PopoverListMembersItem extends React.PureComponent {
@@ -16,6 +17,10 @@ export default class PopoverListMembersItem extends React.PureComponent {
         onItemClick: PropTypes.func.isRequired,
         status: PropTypes.string.isRequired,
         user: PropTypes.object.isRequired,
+    };
+
+    static defaultProps = {
+        status: UserStatuses.OFFLINE,
     };
 
     handleClick = () => {
