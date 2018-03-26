@@ -7,7 +7,9 @@ import React from 'react';
 export default class ChannelPermissionGate extends React.Component {
     shouldComponentUpdate(nextProps) {
         return this.props.invert !== nextProps.invert ||
-               this.props.hasPermission !== nextProps.hasPermission;
+               this.props.hasPermission !== nextProps.hasPermission ||
+               this.props.channelId !== nextProps.channelId ||
+               this.props.teamId !== nextProps.teamId;
     }
 
     static defaultProps = {
