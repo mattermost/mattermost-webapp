@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {Permissions} from 'mattermost-redux/constants';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
 
