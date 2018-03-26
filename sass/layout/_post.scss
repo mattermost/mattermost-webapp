@@ -1734,6 +1734,12 @@
     }
 }
 
+.post-message--expanded {
+    .post-collapse__show-more-container {
+        height: 26px;
+    }
+}
+
 .post-collapse__show-more-container {
     align-items: center;
     display: flex;
