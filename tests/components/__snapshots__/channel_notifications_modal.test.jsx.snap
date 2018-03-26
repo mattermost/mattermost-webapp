@@ -68,6 +68,16 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
           />
           <NotificationSection
             expand={false}
+            onChange={[Function]}
+            onSubmit={[Function]}
+            onUpdateSection={[Function]}
+            section="markUnread"
+          />
+          <div
+            className="divider-light"
+          />
+          <NotificationSection
+            expand={false}
             globalNotificationLevel="all"
             memberNotificationLevel="all"
             onChange={[Function]}
@@ -85,16 +95,6 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             onSubmit={[Function]}
             onUpdateSection={[Function]}
             section="push"
-          />
-          <div
-            className="divider-light"
-          />
-          <NotificationSection
-            expand={false}
-            onChange={[Function]}
-            onSubmit={[Function]}
-            onUpdateSection={[Function]}
-            section="markUnread"
           />
           <div
             className="divider-dark"
