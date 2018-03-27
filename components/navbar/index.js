@@ -5,7 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {closeRightHandSide, updateRhsState, showPinnedPosts} from 'actions/views/rhs';
+import {
+    closeRightHandSide as closeRhs,
+    updateRhsState,
+    showPinnedPosts,
+    toggleMenu as toggleRhsMenu,
+    closeMenu as closeRhsMenu,
+} from 'actions/views/rhs';
+import {toggle as toggleLhs, close as closeLhs} from 'actions/views/lhs';
 import {getRhsState} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants.jsx';
 
@@ -26,9 +33,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeRightHandSide,
             updateRhsState,
             showPinnedPosts,
+            toggleLhs,
+            closeLhs,
+            closeRhs,
+            toggleRhsMenu,
+            closeRhsMenu,
         }, dispatch),
     };
 }

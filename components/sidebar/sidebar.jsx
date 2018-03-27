@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
+import classNames from 'classnames';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -32,6 +33,8 @@ export default class Sidebar extends React.PureComponent {
          * Global config object
          */
         config: PropTypes.object.isRequired,
+
+        isOpen: PropTypes.bool.isRequired,
 
         /**
          * List of public channels (ids)
@@ -100,6 +103,7 @@ export default class Sidebar extends React.PureComponent {
 
         actions: PropTypes.shape({
             goToChannelById: PropTypes.func.isRequired,
+            close: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -162,9 +166,7 @@ export default class Sidebar extends React.PureComponent {
             if (this.closedDirectChannel) {
                 this.closedDirectChannel = false;
             } else {
-                $('.app__body .inner-wrap').removeClass('move--right');
-                $('.app__body .sidebar--left').removeClass('move--right');
-                $('.multi-teams .team-sidebar').removeClass('move--right');
+                this.props.actions.close();
             }
         }
 
@@ -657,7 +659,7 @@ export default class Sidebar extends React.PureComponent {
 
         return (
             <div
-                className='sidebar--left'
+                className={classNames('sidebar--left', {'move--right': this.props.isOpen && Utils.isMobile()})}
                 id='sidebar-left'
                 key='sidebar-left'
             >

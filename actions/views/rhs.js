@@ -261,3 +261,15 @@ export function closeRightHandSide() {
         ]));
     };
 }
+
+export const toggleMenu = () => (dispatch) => dispatch({
+    type: ActionTypes.TOGGLE_RHS_MENU,
+});
+
+export const openMenu = () => (dispatch) => dispatch({
+    type: ActionTypes.OPEN_RHS_MENU,
+});
+
+export const closeMenu = () => (dispatch) => dispatch({
+    type: ActionTypes.CLOSE_RHS_MENU,
+});

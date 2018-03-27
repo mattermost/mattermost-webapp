@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {Preferences} from 'mattermost-redux/constants/index';
 import {
@@ -25,6 +26,8 @@ import {getCurrentTeam, isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/se
 import {goToChannelById} from 'actions/channel_actions.jsx';
 import {showCreateOption} from 'utils/channel_utils.jsx';
 import {GroupUnreadChannels, Constants} from 'utils/constants.jsx';
+import {close} from 'actions/views/lhs';
+import {getIsLhsOpen} from 'selectors/lhs';
 
 import Sidebar from './sidebar.jsx';
 
@@ -65,6 +68,7 @@ function mapStateToProps(state) {
 
     return {
         config,
+        isOpen: getIsLhsOpen(state),
         showUnreadSection,
         publicChannelIds,
         privateChannelIds,
@@ -81,11 +85,12 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
     return {
-        actions: {
+        actions: bindActionCreators({
             goToChannelById,
-        },
+            close,
+        }, dispatch),
     };
 }
 

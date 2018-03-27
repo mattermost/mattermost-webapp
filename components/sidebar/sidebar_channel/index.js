@@ -12,6 +12,7 @@ import {leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
+import {open as openLhs} from 'actions/views/lhs.js';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -87,6 +88,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             savePreferences,
             leaveChannel,
+            openLhs,
         }, dispatch),
     };
 }

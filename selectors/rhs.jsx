@@ -97,3 +97,11 @@ export function makeGetPostsEmbedVisibleObj() {
         }
     );
 }
+
+export function getIsRhsOpen(state) {
+    return state.views.rhs.isSidebarOpen;
+}
+
+export function getIsRhsMenuOpen(state) {
+    return state.views.rhs.isMenuOpen;
+}
