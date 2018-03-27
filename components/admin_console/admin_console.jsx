@@ -33,6 +33,7 @@ import PluginSettings from 'components/admin_console/plugin_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 import PolicySettings from 'components/admin_console/policy_settings';
+import CustomIntegrationSettings from 'components/admin_console/custom_integrations_settings';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PublicLinkSettings from 'components/admin_console/public_link_settings.jsx';
@@ -322,11 +323,8 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/custom`}
-                                        component={SchemaAdminSettings}
-                                        extraProps={{
-                                            ...extraProps,
-                                            schema: AdminDefinition.settings.integrations.custom.schema,
-                                        }}
+                                        component={CustomIntegrationSettings}
+                                        extraProps={extraProps}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/external`}
