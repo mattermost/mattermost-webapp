@@ -64,7 +64,6 @@ exports[`components/integrations/EditOAuthApp should match snapshot 1`] = `
       "update_at": 1501365458934,
     }
   }
-  isSystemAdmin={false}
   renderExtra={
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
@@ -138,7 +137,6 @@ exports[`components/integrations/EditOAuthApp should match snapshot when EnableO
       "update_at": 1501365458934,
     }
   }
-  isSystemAdmin={false}
   renderExtra={
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
@@ -183,79 +181,5 @@ exports[`components/integrations/EditOAuthApp should match snapshot, loading 1`]
 <LoadingScreen
   position="relative"
   style={Object {}}
-/>
-`;
-
-exports[`components/integrations/EditOAuthApp should match snapshot, on system admin 1`] = `
-<AbstractOAuthApp
-  action={[Function]}
-  footer={
-    Object {
-      "defaultMessage": "Update",
-      "id": "update_incoming_webhook.update",
-    }
-  }
-  header={
-    Object {
-      "defaultMessage": "Edit",
-      "id": "integrations.edit",
-    }
-  }
-  initialApp={
-    Object {
-      "callback_urls": Array [
-        "https://test.com/callback",
-        "https://test.com/callback2",
-      ],
-      "client_secret": "88cxd9wpzpbpfp8pad78xj75pr",
-      "create_at": 1501365458934,
-      "creator_id": "88oybd1dwfdoxpkpw1h5kpbyco",
-      "description": "testing",
-      "homepage": "https://test.com",
-      "icon_url": "https://test.com/icon",
-      "id": "facxd9wpzpbpfp8pad78xj75pr",
-      "is_trusted": true,
-      "name": "testApp",
-      "update_at": 1501365458934,
-    }
-  }
-  isSystemAdmin={true}
-  renderExtra={
-    <ConfirmModal
-      confirmButtonClass="btn btn-primary"
-      confirmButtonText={
-        <FormattedMessage
-          defaultMessage="Update"
-          id="update_command.update"
-          values={Object {}}
-        />
-      }
-      message={
-        <FormattedMessage
-          defaultMessage="Your changes may break the existing OAuth 2.0 application. Are you sure you would like to update it?"
-          id="update_oauth_app.question"
-          values={Object {}}
-        />
-      }
-      modalClass=""
-      onCancel={[Function]}
-      onConfirm={[Function]}
-      show={false}
-      title={
-        <FormattedMessage
-          defaultMessage="Edit OAuth 2.0 application"
-          id="update_oauth_app.confirm"
-          values={Object {}}
-        />
-      }
-    />
-  }
-  serverError=""
-  team={
-    Object {
-      "id": "dbcxd9wpzpbpfp8pad78xj12pr",
-      "name": "test",
-    }
-  }
 />
 `;

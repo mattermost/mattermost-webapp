@@ -73,6 +73,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             type: Constants.OPEN_CHANNEL,
         },
         currentTeam: {
+            id: 'team_id',
             name: 'test-team',
             display_name: 'Test team display name',
             description: 'Test team description',
@@ -105,8 +106,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             messageCount: 0,
             mentions: 0,
         },
-        showCreatePublicChannelOption: true,
-        showCreatePrivateChannelOption: true,
         actions: {
             goToChannelById: jest.fn(),
         },
@@ -144,13 +143,21 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, on sidebar show without permissions to create', () => {
-        const wrapper = shallow(
+    test('should match snapshot, when render as an empty div because no have a team or a user', () => {
+        let wrapper = shallow(
             <Sidebar
                 {...{
                     ...defaultProps,
-                    showCreatePublicChannelOption: false,
-                    showCreatePrivateChannelOption: false,
+                    currentTeam: null,
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+        wrapper = shallow(
+            <Sidebar
+                {...{
+                    ...defaultProps,
+                    currentUser: null,
                 }}
             />
         );

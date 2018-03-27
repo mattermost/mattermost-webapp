@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {Permissions} from 'mattermost-redux/constants';
 
 import 'bootstrap';
 
@@ -13,7 +14,7 @@ import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
+
 import MessageWrapper from 'components/message_wrapper.jsx';
 import {Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
@@ -37,6 +38,8 @@ import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+
 import Pluggable from 'plugins/pluggable';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
@@ -310,11 +313,10 @@ export default class ChannelHeader extends React.Component {
         );
 
         let channelTitle = channel.display_name;
-        const isChannelAdmin = Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles);
-        const isTeamAdmin = !Utils.isEmptyObject(this.props.teamMember) && Utils.isAdmin(this.props.teamMember.roles);
-        const isSystemAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
         const isDirect = (this.props.channel.type === Constants.DM_CHANNEL);
         const isGroup = (this.props.channel.type === Constants.GM_CHANNEL);
+        const isPrivate = (this.props.channel.type === Constants.PRIVATE_CHANNEL);
+        const teamId = TeamStore.getCurrentId();
         let webrtc;
 
         if (isDirect) {
@@ -567,8 +569,13 @@ export default class ChannelHeader extends React.Component {
                     />
                 );
 
-                if (ChannelUtils.canManageMembers(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
-                    dropdownContents.push(
+                dropdownContents.push(
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                        key='add_members_permission'
+                    >
                         <li
                             key='add_members'
                             role='presentation'
@@ -587,9 +594,15 @@ export default class ChannelHeader extends React.Component {
                                 />
                             </ToggleModalButtonRedux>
                         </li>
-                    );
-
-                    dropdownContents.push(
+                    </ChannelPermissionGate>
+                );
+                dropdownContents.push(
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                        key='manage_members_permission'
+                    >
                         <li
                             key='manage_members'
                             role='presentation'
@@ -606,9 +619,17 @@ export default class ChannelHeader extends React.Component {
                                 />
                             </button>
                         </li>
-                    );
-                } else {
-                    dropdownContents.push(
+                    </ChannelPermissionGate>
+                );
+
+                dropdownContents.push(
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                        invert={true}
+                        key='view_members_permission'
+                    >
                         <li
                             key='view_members'
                             role='presentation'
@@ -625,19 +646,22 @@ export default class ChannelHeader extends React.Component {
                                 />
                             </button>
                         </li>
-                    );
-                }
+                    </ChannelPermissionGate>
+                );
             }
 
-            if (ChannelUtils.showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
-                dropdownContents.push(
+            dropdownContents.push(
+                <ChannelPermissionGate
+                    channelId={channel.id}
+                    teamId={teamId}
+                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                    key='set_channel_info_permission'
+                >
                     <li
                         key='divider-2'
                         className='divider'
                     />
-                );
 
-                dropdownContents.push(
                     <li
                         key='set_channel_header'
                         role='presentation'
@@ -655,9 +679,7 @@ export default class ChannelHeader extends React.Component {
                             />
                         </ToggleModalButtonRedux>
                     </li>
-                );
 
-                dropdownContents.push(
                     <li
                         key='set_channel_purpose'
                         role='presentation'
@@ -674,9 +696,7 @@ export default class ChannelHeader extends React.Component {
                             />
                         </button>
                     </li>
-                );
 
-                dropdownContents.push(
                     <li
                         key='rename_channel'
                         role='presentation'
@@ -693,32 +713,37 @@ export default class ChannelHeader extends React.Component {
                             />
                         </button>
                     </li>
-                );
-            }
-
-            if (ChannelUtils.showDeleteOptionForCurrentUser(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
-                dropdownContents.push(
-                    <li
-                        key='delete_channel'
-                        role='presentation'
-                    >
-                        <ToggleModalButtonRedux
-                            id='channelDelete'
-                            role='menuitem'
-                            modalId={ModalIdentifiers.DELETE_CHANNEL}
-                            dialogType={DeleteChannelModal}
-                            dialogProps={{channel}}
-                        >
-                            <FormattedMessage
-                                id='channel_header.delete'
-                                defaultMessage='Delete Channel'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
-                );
-            }
+                </ChannelPermissionGate>
+            );
 
             if (!this.props.isDefault) {
+                dropdownContents.push(
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
+                        key='delete_channel_permission'
+                    >
+                        <li
+                            key='delete_channel'
+                            role='presentation'
+                        >
+                            <ToggleModalButtonRedux
+                                id='channelDelete'
+                                role='menuitem'
+                                modalId={ModalIdentifiers.DELETE_CHANNEL}
+                                dialogType={DeleteChannelModal}
+                                dialogProps={{channel}}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.delete'
+                                    defaultMessage='Delete Channel'
+                                />
+                            </ToggleModalButtonRedux>
+                        </li>
+                    </ChannelPermissionGate>
+                );
+
                 dropdownContents.push(
                     <li
                         key='divider-3'
@@ -811,7 +836,7 @@ export default class ChannelHeader extends React.Component {
             );
         } else {
             let editMessage;
-            if (ChannelUtils.showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
+            if (isDirect || isGroup) {
                 editMessage = (
                     <button
                         className='style--none'
@@ -822,6 +847,24 @@ export default class ChannelHeader extends React.Component {
                             defaultMessage='Add a channel description'
                         />
                     </button>
+                );
+            } else {
+                editMessage = (
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                    >
+                        <button
+                            className='style--none'
+                            onClick={this.showEditChannelHeaderModal}
+                        >
+                            <FormattedMessage
+                                id='channel_header.addChannelHeader'
+                                defaultMessage='Add a channel description'
+                            />
+                        </button>
+                    </ChannelPermissionGate>
                 );
             }
             headerTextContainer = (

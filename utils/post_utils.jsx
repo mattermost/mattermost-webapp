@@ -6,13 +6,15 @@ import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {Permissions} from 'mattermost-redux/constants';
+
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import store from 'stores/redux_store.jsx';
 
@@ -75,39 +77,35 @@ export function getProfilePicSrcForPost(post, user) {
 }
 
 export function canDeletePost(post) {
-    const license = getLicense(store.getState());
-    const config = getConfig(store.getState());
-
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
+    const channel = getChannel(store.getState(), post.channel_id);
 
-    const isOwner = isPostOwner(post);
-    const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-    const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam() || isSystemAdmin;
-    const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel() || isTeamAdmin;
-    const isAdmin = isChannelAdmin || isTeamAdmin || isSystemAdmin;
-
-    if (license.IsLicensed === 'true') {
-        return (config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_ALL && (isOwner || isChannelAdmin)) ||
-            (config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN && isTeamAdmin) ||
-            (config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN && isSystemAdmin);
+    if (isPostOwner(post)) {
+        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
     }
-
-    return isOwner || isAdmin;
+    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
 export function canEditPost(post, editDisableAction) {
+    if (isSystemMessage(post)) {
+        return false;
+    }
+
+    let canEdit = false;
     const license = getLicense(store.getState());
     const config = getConfig(store.getState());
+    const channel = getChannel(store.getState(), post.channel_id);
 
     const isOwner = isPostOwner(post);
-    let canEdit = isOwner && !isSystemMessage(post);
+    canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
+    if (!isOwner) {
+        canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+    }
 
     if (canEdit && license.IsLicensed === 'true') {
-        if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-            canEdit = false;
-        } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
+        if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
             const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
@@ -116,6 +114,7 @@ export function canEditPost(post, editDisableAction) {
             }
         }
     }
+
     return canEdit;
 }
 

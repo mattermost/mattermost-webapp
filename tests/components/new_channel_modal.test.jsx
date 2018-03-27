@@ -4,19 +4,22 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
+import {Permissions} from 'mattermost-redux/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Constants from 'utils/constants.jsx';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal.jsx';
 
 describe('components/NewChannelModal', () => {
+    const mockStore = configureStore();
     const channelData = {name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''};
     const baseProps = {
         show: true,
         channelType: Constants.OPEN_CHANNEL,
+        currentTeamId: 'test_team_id',
         channelData,
-        showCreatePublicChannelOption: true,
-        showCreatePrivateChannelOption: true,
         onSubmitChannel: jest.fn(),
         onModalDismissed: jest.fn(),
         onTypeSwitched: jest.fn(),
@@ -67,51 +70,58 @@ describe('components/NewChannelModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, without option to create public channel', () => {
-        const props = {...baseProps, showCreatePublicChannelOption: false};
-        const wrapper = shallow(
-            <NewChannelModal {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, without option to create private channel', () => {
-        const props = {...baseProps, showCreatePrivateChannelOption: false};
-        const wrapper = shallow(
-            <NewChannelModal {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, without option to create public or private channels', () => {
-        const props = {
-            ...baseProps,
-            showCreatePublicChannelOption: false,
-            showCreatePrivateChannelOption: false,
-        };
-        const wrapper = shallow(
-            <NewChannelModal {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should match when handleChange is called', () => {
         const newOnDataChanged = jest.fn();
         const props = {...baseProps, onDataChanged: newOnDataChanged};
-        const wrapper = mountWithIntl(
-            <NewChannelModal {...props}/>
-        );
 
-        const refDisplayName = wrapper.ref('display_name');
+        const state = {
+            entities: {
+                channels: {
+                    myMembers: [],
+                },
+                teams: {
+                    myMembers: [],
+                },
+                users: {
+                    currentUserId: 'user_id',
+                    profiles: {
+                        user_id: {
+                            id: 'user_id',
+                            roles: 'system_admin',
+                        },
+                    },
+                },
+                roles: {
+                    roles: {
+                        system_admin: {
+                            permissions: [
+                                Permissions.CREATE_PUBLIC_CHANNEL,
+                                Permissions.CREATE_PRIVATE_CHANNEL,
+                            ],
+                        },
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <NewChannelModal {...props}/>
+            </Provider>
+        );
+        const modal = wrapper.find(NewChannelModal).instance();
+
+        const refDisplayName = modal.refs.display_name;
         refDisplayName.value = 'new display_name';
 
-        const refChannelHeader = wrapper.ref('channel_header');
+        const refChannelHeader = modal.refs.channel_header;
         refChannelHeader.value = 'new channel_header';
 
-        const refChannelPurpose = wrapper.ref('channel_purpose');
+        const refChannelPurpose = modal.refs.channel_purpose;
         refChannelPurpose.value = 'new channel_purpose';
 
-        wrapper.instance().handleChange();
+        modal.handleChange();
 
         expect(newOnDataChanged).toHaveBeenCalledTimes(1);
         expect(newOnDataChanged).toHaveBeenCalledWith({displayName: 'new display_name', header: 'new channel_header', purpose: 'new channel_purpose'});
@@ -120,13 +130,42 @@ describe('components/NewChannelModal', () => {
     test('should match when handleSubmit is called', () => {
         const newOnSubmitChannel = jest.fn();
         const props = {...baseProps, onSubmitChannel: newOnSubmitChannel};
+
+        const state = {
+            entities: {
+                channels: {
+                    myMembers: [],
+                },
+                teams: {
+                    myMembers: [],
+                },
+                users: {
+                    currentUserId: 'user_id',
+                    profiles: {
+                        user_id: {
+                            id: 'user_id',
+                            roles: '',
+                        },
+                    },
+                },
+                roles: {
+                    roles: {
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+
         const wrapper = mountWithIntl(
-            <NewChannelModal {...props}/>
+            <Provider store={store}>
+                <NewChannelModal {...props}/>
+            </Provider>
         );
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        const modal = wrapper.find(NewChannelModal).instance();
+        modal.handleSubmit({preventDefault: jest.fn()});
 
         expect(newOnSubmitChannel).toHaveBeenCalledTimes(1);
-        expect(wrapper.state('displayNameError')).toEqual('');
+        expect(modal.state.displayNameError).toEqual('');
     });
 
     test('should have called handleSubmit on onEnterKeyDown', () => {

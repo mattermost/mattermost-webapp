@@ -4,28 +4,27 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {Permissions} from 'mattermost-redux/constants';
 
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
 
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const canChangeMemberRoles = haveIChannelPermission(
+        state,
+        {
+            channel: ownProps.channel.id,
+            team: ownProps.channel.team_id,
+            permission: Permissions.MANAGE_CHANNEL_ROLES,
+        }
+    );
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
 
-    const canChangeMemberRoles = UserStore.isSystemAdminForCurrentUser() ||
-        TeamStore.isTeamAdminForCurrentTeam() ||
-        ChannelStore.isChannelAdminForCurrentChannel();
-    const canRemoveMember = canManageMembers(
-        ownProps.channel,
-        ChannelStore.isChannelAdminForCurrentChannel(),
-        TeamStore.isTeamAdminForCurrentTeam(),
-        UserStore.isSystemAdminForCurrentUser()
-    );
+    const canRemoveMember = canManageMembers(ownProps.channel);
 
     return {
         isLicensed,

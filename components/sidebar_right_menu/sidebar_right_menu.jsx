@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {Permissions} from 'mattermost-redux/constants';
 import classNames from 'classnames';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -25,23 +26,24 @@ import LeaveTeamIcon from 'components/svg/leave_team_icon';
 import TeamMembersModal from 'components/team_members_modal';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
 export default class SidebarRightMenu extends React.Component {
+
     static propTypes = {
+        teamId: PropTypes.string,
         isOpen: PropTypes.bool.isRequired,
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         showTutorialTip: PropTypes.bool.isRequired,
-        isLicensed: PropTypes.bool.isRequired,
         appDownloadLink: PropTypes.string,
-        enableTeamCreation: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
-        restrictTeamInvite: PropTypes.string,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
@@ -158,76 +160,83 @@ export default class SidebarRightMenu extends React.Component {
         let teamLink;
         let inviteLink;
         let addUserToTeamLink;
-        let teamSettingsLink;
         let manageLink;
         let consoleLink;
         let joinAnotherTeamLink;
-        let isAdmin = false;
-        let isSystemAdmin = false;
         let createTeam = null;
 
         if (currentUser != null) {
-            isAdmin = TeamStore.isTeamAdminForCurrentTeam() || UserStore.isSystemAdminForCurrentUser();
-            isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
             inviteLink = (
-                <li>
-                    <a
-                        href='#'
-                        onClick={GlobalActions.showInviteMemberModal}
+                <TeamPermissionGate
+                    teamId={this.props.teamId}
+                    permissions={[Permissions.INVITE_USER]}
+                >
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_USER_TO_TEAM]}
                     >
-                        <i className='icon fa fa-user-plus'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.inviteNew'
-                            defaultMessage='Send Email Invite'
-                        />
-                    </a>
-                </li>
+                        <li>
+                            <a
+                                href='#'
+                                onClick={GlobalActions.showInviteMemberModal}
+                            >
+                                <i className='icon fa fa-user-plus'/>
+                                <FormattedMessage
+                                    id='sidebar_right_menu.inviteNew'
+                                    defaultMessage='Send Email Invite'
+                                />
+                            </a>
+                        </li>
+                    </TeamPermissionGate>
+                </TeamPermissionGate>
             );
 
             addUserToTeamLink = (
-                <li>
-                    <a
-                        id='addUsersToTeam'
-                        href='#'
-                        onClick={this.showAddUsersToTeamModal}
-                    >
-                        <i className='icon fa fa-user-plus'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.addMemberToTeam'
-                            defaultMessage='Add Members to Team'
-                        />
-                    </a>
-                </li>
+                <TeamPermissionGate
+                    teamId={this.props.teamId}
+                    permissions={[Permissions.ADD_USER_TO_TEAM]}
+                >
+                    <li>
+                        <a
+                            id='addUsersToTeam'
+                            href='#'
+                            onClick={this.showAddUsersToTeamModal}
+                        >
+                            <i className='icon fa fa-user-plus'/>
+                            <FormattedMessage
+                                id='sidebar_right_menu.addMemberToTeam'
+                                defaultMessage='Add Members to Team'
+                            />
+                        </a>
+                    </li>
+                </TeamPermissionGate>
             );
 
             if (this.props.teamType === Constants.OPEN_TEAM && this.props.enableUserCreation) {
                 teamLink = (
-                    <li>
-                        <a
-                            href='#'
-                            onClick={GlobalActions.showGetTeamInviteLinkModal}
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.INVITE_USER]}
+                    >
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_USER_TO_TEAM]}
                         >
-                            <i className='icon fa fa-link'/>
-                            <FormattedMessage
-                                id='sidebar_right_menu.teamLink'
-                                defaultMessage='Get Team Invite Link'
-                            />
-                        </a>
-                    </li>
+                            <li>
+                                <a
+                                    href='#'
+                                    onClick={GlobalActions.showGetTeamInviteLinkModal}
+                                >
+                                    <i className='icon fa fa-link'/>
+                                    <FormattedMessage
+                                        id='sidebar_right_menu.teamLink'
+                                        defaultMessage='Get Team Invite Link'
+                                    />
+                                </a>
+                            </li>
+                        </TeamPermissionGate>
+                    </TeamPermissionGate>
                 );
-            }
-
-            if (this.props.isLicensed) {
-                if (this.props.restrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
-                    teamLink = null;
-                    inviteLink = null;
-                    addUserToTeamLink = null;
-                } else if (this.props.restrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
-                    teamLink = null;
-                    inviteLink = null;
-                    addUserToTeamLink = null;
-                }
             }
 
             let moreTeams = false;
@@ -257,8 +266,8 @@ export default class SidebarRightMenu extends React.Component {
                 );
             }
 
-            if (this.props.enableTeamCreation || isSystemAdmin) {
-                createTeam = (
+            createTeam = (
+                <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                     <li key='newTeam_li'>
                         <Link
                             id='createTeam'
@@ -273,8 +282,8 @@ export default class SidebarRightMenu extends React.Component {
                             />
                         </Link>
                     </li>
-                );
-            }
+                </SystemPermissionGate>
+            );
         }
 
         manageLink = (
@@ -308,8 +317,11 @@ export default class SidebarRightMenu extends React.Component {
             );
         }
 
-        if (isAdmin) {
-            teamSettingsLink = (
+        const teamSettingsLink = (
+            <TeamPermissionGate
+                teamId={this.props.teamId}
+                permissions={[Permissions.MANAGE_TEAM]}
+            >
                 <li>
                     <a
                         href='#'
@@ -322,12 +334,16 @@ export default class SidebarRightMenu extends React.Component {
                         />
                     </a>
                 </li>
-            );
-            manageLink = (
+            </TeamPermissionGate>
+        );
+        manageLink = (
+            <TeamPermissionGate
+                teamId={this.props.teamId}
+                permissions={[Permissions.MANAGE_TEAM]}
+            >
                 <li>
                     <ToggleModalButton
                         dialogType={TeamMembersModal}
-                        dialogProps={{isAdmin}}
                     >
                         <i className='icon fa fa-users'/>
                         <FormattedMessage
@@ -336,23 +352,25 @@ export default class SidebarRightMenu extends React.Component {
                         />
                     </ToggleModalButton>
                 </li>
-            );
-        }
+            </TeamPermissionGate>
+        );
 
-        if (isSystemAdmin && !Utils.isMobile()) {
+        if (!Utils.isMobile()) {
             consoleLink = (
-                <li>
-                    <Link
-                        to={'/admin_console'}
-                        onClick={this.handleClick}
-                    >
-                        <i className='icon fa fa-wrench'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.console'
-                            defaultMessage='System Console'
-                        />
-                    </Link>
-                </li>
+                <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
+                    <li>
+                        <Link
+                            to={'/admin_console'}
+                            onClick={this.handleClick}
+                        >
+                            <i className='icon fa fa-wrench'/>
+                            <FormattedMessage
+                                id='sidebar_right_menu.console'
+                                defaultMessage='System Console'
+                            />
+                        </Link>
+                    </li>
+                </SystemPermissionGate>
             );
         }
 
