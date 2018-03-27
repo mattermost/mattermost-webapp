@@ -269,6 +269,7 @@
     }
 
     .post {
+        // TODO center this properly with full width and centered post mode so that it looks good with post expand/collapse
         &.post--overflow {
             + .date-separator,
             + .new-separator {
