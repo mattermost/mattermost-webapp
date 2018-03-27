@@ -10,6 +10,9 @@ import PostMarkdown from 'components/post_markdown';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+// This must match the max-height defined in CSS for the content div
+const MAX_POST_HEIGHT = 100;
+
 export default class PostMessageView extends React.PureComponent {
     static propTypes = {
 
@@ -91,7 +94,7 @@ export default class PostMessageView extends React.PureComponent {
         const content = this.refs.content;
 
         let hasOverflow = false;
-        if (content && content.scrollHeight > content.clientHeight) {
+        if (content && content.scrollHeight > MAX_POST_HEIGHT) {
             hasOverflow = true;
         }
 
