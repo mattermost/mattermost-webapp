@@ -117,7 +117,7 @@ export default class FileAttachmentList extends React.Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
                 <div className='post-image__columns clearfix'>
                     {postFiles}
                 </div>
@@ -127,7 +127,7 @@ export default class FileAttachmentList extends React.Component {
                     startIndex={this.state.startImgIndex}
                     fileInfos={sortedFileInfos}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }
