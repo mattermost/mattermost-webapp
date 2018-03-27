@@ -2,7 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import {invalidateAllCaches, reloadConfig} from 'actions/admin_actions';
@@ -405,7 +405,7 @@ export default {
                             label: 'admin.team.restrictDirectMessage',
                             label_default: 'Enable users to open Direct Message channels with:',
                             help_text: 'admin.team.restrictDirectMessageDesc',
-                            help_text_default: '"Any user on the Mattermost server" enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. "Any member of the team" limits the ability to open Direct Message channels to only users who are in the same team.',
+                            help_text_default: '"Any user on the Mattermost server" enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. "Any member of the team" limits the ability in the Direct Messages "More" menu to only open Direct Message channels with users who are in the same team.<br /><br />Note: This setting only affects the UI, not permissions on the server.',
                             options: [
                                 {
                                     value: 'any',
