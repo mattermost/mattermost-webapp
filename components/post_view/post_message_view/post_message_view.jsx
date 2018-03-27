@@ -55,6 +55,11 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
+
+        /*
+         * Callback function called when the post is large enough to be collapsed
+         */
+        onPostOverflow: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -102,6 +107,8 @@ export default class PostMessageView extends React.PureComponent {
             this.setState({
                 hasOverflow,
             });
+
+            this.props.onPostOverflow(hasOverflow);
         }
     }
 
@@ -223,6 +230,8 @@ export default class PostMessageView extends React.PureComponent {
                     <div className='post-collapse__line'/>
                 </div>
             );
+
+            className += ' post-message--overflow';
         }
 
         return (

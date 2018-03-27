@@ -87,6 +87,11 @@ export default class PostBody extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /*
+         * Callback function called when the post is large enough to be collapsed
+         */
+        onPostOverflow: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -233,6 +238,7 @@ export default class PostBody extends React.PureComponent {
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
+                    onPostOverflow={this.props.onPostOverflow}
                 />
             </React.Fragment>
         );

@@ -100,6 +100,7 @@ export default class Post extends React.PureComponent {
             dropdownOpened: false,
             hover: false,
             sameRoot: this.hasSameRoot(props),
+            hasOverflow: false,
         };
     }
 
@@ -199,6 +200,10 @@ export default class Post extends React.PureComponent {
             className += ' post--pinned';
         }
 
+        if (this.state.hasOverflow) {
+            className += ' post--overflow';
+        }
+
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
@@ -213,6 +218,12 @@ export default class Post extends React.PureComponent {
     unsetHover = () => {
         this.setState({hover: false});
     }
+
+    handlePostOverflow = (hasOverflow) => {
+        this.setState({
+            hasOverflow,
+        });
+    };
 
     render() {
         const post = this.props.post || {};
@@ -312,6 +323,7 @@ export default class Post extends React.PureComponent {
                             lastPostCount={this.props.lastPostCount}
                             isCommentMention={this.props.isCommentMention}
                             isFirstReply={this.props.isFirstReply}
+                            onPostOverflow={this.handlePostOverflow}
                         />
                     </div>
                 </div>
