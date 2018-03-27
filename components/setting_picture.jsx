@@ -189,7 +189,7 @@ export default class SettingPicture extends Component {
                         <li className='setting-list-item padding-top x2'>
                             <FormattedMessage
                                 id={`setting_picture.help.${imageContext}`}
-                                defaultMessage='Upload a picture in BMP, JPG, JPEG or PNG format.'
+                                defaultMessage='Upload a picture in BMP, JPG or PNG format.'
                             />
                         </li>
                         <li className='setting-list-item'>

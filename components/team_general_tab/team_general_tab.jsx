@@ -12,6 +12,8 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 
+const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
+
 export default class GeneralTab extends React.Component {
 
     static propTypes = {
@@ -281,13 +283,13 @@ export default class GeneralTab extends React.Component {
         if (e && e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
 
-            if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+            if (!ACCEPTED_TEAM_IMAGE_TYPES.includes(file.type)) {
                 this.setState({
-                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons'),
+                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only BMP, JPG or PNG images may be used for team icons'),
                 });
             } else if (file.size > this.props.maxFileSize) {
                 this.setState({
-                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons'),
+                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Unable to upload team icon. File is too large.'),
                 });
             } else {
                 this.setState({
