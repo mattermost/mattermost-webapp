@@ -513,11 +513,13 @@ export default class PostList extends React.PureComponent {
                         <hr
                             className='separator__hr'
                         />
-                        <div className='separator__text'>
-                            <FormattedMessage
-                                id='posts_view.newMsg'
-                                defaultMessage='New Messages'
-                            />
+                        <div>
+                            <div className='separator__text'>
+                                <FormattedMessage
+                                    id='posts_view.newMsg'
+                                    defaultMessage='New Messages'
+                                />
+                            </div>
                         </div>
                     </div>
                 );

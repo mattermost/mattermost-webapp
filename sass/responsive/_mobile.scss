@@ -269,6 +269,15 @@
     }
 
     .post {
+        &.post--overflow {
+            + .date-separator,
+            + .new-separator {
+                > div {
+                    margin: 0 20px 0 55px;
+                }
+            }
+        }
+
         &:not(.post--compact) {
             .bot-indicator {
                 left: 6px;
