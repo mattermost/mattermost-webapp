@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
+import classNames from 'classnames';
 
 import TeamStore from 'stores/team_store.jsx';
 
@@ -19,6 +20,7 @@ import TeamButton from './components/team_button.jsx';
 
 export default class TeamSidebar extends React.Component {
     static propTypes = {
+        isOpen: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         enableTeamCreation: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -182,7 +184,7 @@ export default class TeamSidebar extends React.Component {
         }
 
         return (
-            <div className='team-sidebar'>
+            <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>
                 <div className='team-wrapper'>
                     {teams}
                 </div>

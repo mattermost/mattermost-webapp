@@ -3,18 +3,15 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {closeRightHandSide as closeRhs} from 'actions/views/rhs';
+import {getIsRhsOpen} from 'selectors/rhs';
 
-import WebrtcController from './webrtc_controller.jsx';
+import WebrtcNotification from './webrtc_notification';
 
 function mapStateToProps(state) {
-    const config = getConfig(state);
-    const enableDeveloper = config.EnableDeveloper === 'true';
-
     return {
-        enableDeveloper,
+        isRhsOpen: getIsRhsOpen(state),
     };
 }
 
@@ -26,4 +23,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WebrtcController);
+export default connect(mapStateToProps, mapDispatchToProps)(WebrtcNotification);

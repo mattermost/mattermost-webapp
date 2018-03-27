@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
+import classNames from 'classnames';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -25,30 +26,31 @@ import LeaveTeamIcon from 'components/svg/leave_team_icon';
 import TeamMembersModal from 'components/team_members_modal';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
-import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
 export default class SidebarRightMenu extends React.Component {
+
     static propTypes = {
         teamId: PropTypes.string,
+        isOpen: PropTypes.bool.isRequired,
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         showTutorialTip: PropTypes.bool.isRequired,
-        isLicensed: PropTypes.bool.isRequired,
         appDownloadLink: PropTypes.string,
-        enableTeamCreation: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
-        restrictTeamInvite: PropTypes.string,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func,
+            closeRightHandSide: PropTypes.func.isRequired,
+            openRhsMenu: PropTypes.func.isRequired,
+            closeRhsMenu: PropTypes.func.isRequired,
         }),
     };
 
@@ -119,7 +121,7 @@ export default class SidebarRightMenu extends React.Component {
     getFlagged = (e) => {
         e.preventDefault();
         this.props.actions.showFlaggedPosts();
-        this.closeRightSidebar();
+        this.props.actions.closeRhsMenu();
     }
 
     getStateFromStores = () => {
@@ -140,35 +142,8 @@ export default class SidebarRightMenu extends React.Component {
         if (this.props.isMentionSearch) {
             this.props.actions.closeRightHandSide();
         } else {
-            this.closeRightSidebar();
+            this.props.actions.closeRhsMenu();
             this.props.actions.showMentions();
-        }
-    }
-
-    closeLeftSidebar = () => {
-        if (Utils.isMobile()) {
-            setTimeout(() => {
-                document.querySelector('.app__body .inner-wrap').classList.remove('move--right');
-                document.querySelector('.app__body .sidebar--left').classList.remove('move--right');
-            });
-        }
-    }
-
-    openRightSidebar = () => {
-        if (Utils.isMobile()) {
-            setTimeout(() => {
-                document.querySelector('.app__body .inner-wrap').classList.add('move--left-small');
-                document.querySelector('.app__body .sidebar--menu').classList.add('move--left');
-            });
-        }
-    }
-
-    closeRightSidebar = () => {
-        if (Utils.isMobile()) {
-            setTimeout(() => {
-                document.querySelector('.app__body .inner-wrap').classList.remove('move--left-small');
-                document.querySelector('.app__body .sidebar--menu').classList.remove('move--left');
-            });
         }
     }
 
@@ -448,9 +423,8 @@ export default class SidebarRightMenu extends React.Component {
 
         let tutorialTip = null;
         if (this.props.showTutorialTip) {
-            tutorialTip = createMenuTip((e) => e.preventDefault(), true);
-            this.closeLeftSidebar();
-            this.openRightSidebar();
+            tutorialTip = <MenuTutorialTip onBottom={true}/>;
+            this.props.actions.openRhsMenu();
         }
 
         let nativeAppLink = null;
@@ -493,7 +467,7 @@ export default class SidebarRightMenu extends React.Component {
 
         return (
             <div
-                className='sidebar--menu'
+                className={classNames('sidebar--menu', {'move--left': this.props.isOpen && Utils.isMobile()})}
                 id='sidebar-menu'
             >
                 <div className='team__header theme'>

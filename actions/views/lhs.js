@@ -1,15 +1,16 @@
+// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
 
-import {fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
+import {ActionTypes} from 'utils/constants.jsx';
 
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {loadStatusesForChannelAndSidebar} from 'actions/status_actions.jsx';
-import store from 'stores/redux_store.jsx';
+export const toggle = () => (dispatch) => dispatch({
+    type: ActionTypes.TOGGLE_LHS,
+});
 
-const dispatch = store.dispatch;
-const getState = store.getState;
+export const open = () => (dispatch) => dispatch({
+    type: ActionTypes.OPEN_LHS,
+});
 
-export async function initTeamChangeActions(teamId) {
-    await fetchMyChannelsAndMembers(teamId)(dispatch, getState);
-    loadStatusesForChannelAndSidebar();
-    loadProfilesForSidebar();
-}
+export const close = () => (dispatch) => dispatch({
+    type: ActionTypes.CLOSE_LHS,
+});

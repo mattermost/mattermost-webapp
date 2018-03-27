@@ -48,9 +48,13 @@ export default class Navbar extends React.Component {
         isPinnedPosts: PropTypes.bool,
         enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func,
             updateRhsState: PropTypes.func,
             showPinnedPosts: PropTypes.func,
+            toggleLhs: PropTypes.func.isRequired,
+            closeLhs: PropTypes.func.isRequired,
+            closeRhs: PropTypes.func.isRequired,
+            toggleRhsMenu: PropTypes.func.isRequired,
+            closeRhsMenu: PropTypes.func.isRequired,
         }),
     };
 
@@ -140,27 +144,22 @@ export default class Navbar extends React.Component {
     hideSidebars = (e) => {
         var windowWidth = $(window).outerWidth();
         if (windowWidth <= 768) {
-            this.props.actions.closeRightHandSide();
+            this.props.actions.closeRhs();
 
             if (e.target.className !== 'navbar-toggle' && e.target.className !== 'icon-bar') {
-                $('.app__body .inner-wrap').removeClass('move--right move--left move--left-small');
-                $('.app__body .sidebar--left').removeClass('move--right');
-                $('.multi-teams .team-sidebar').removeClass('move--right');
-                $('.app__body .sidebar--right').removeClass('move--left');
-                $('.app__body .sidebar--menu').removeClass('move--left');
+                this.props.actions.closeLhs();
+                this.props.actions.closeRhs();
+                this.props.actions.closeRhsMenu();
             }
         }
     }
 
     toggleLeftSidebar = () => {
-        $('.app__body .inner-wrap').toggleClass('move--right');
-        $('.app__body .sidebar--left').toggleClass('move--right');
-        $('.multi-teams .team-sidebar').toggleClass('move--right');
+        this.props.actions.toggleLhs();
     }
 
     toggleRightSidebar = () => {
-        $('.app__body .inner-wrap').toggleClass('move--left-small');
-        $('.app__body .sidebar--menu').toggleClass('move--left');
+        this.props.actions.toggleRhsMenu();
     }
 
     showSearch = () => {
