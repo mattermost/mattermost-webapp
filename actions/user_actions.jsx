@@ -691,7 +691,7 @@ export async function savePreference(category, name, value) {
     return savePreferencesRedux(currentUserId, [{user_id: currentUserId, category, name, value}])(dispatch, getState);
 }
 
-export async function deletePreferences(prefs) {
+export function deletePreferences(prefs) {
     const currentUserId = UserStore.getCurrentId();
     return deletePreferencesRedux(currentUserId, prefs)(dispatch, getState);
 }
