@@ -727,17 +727,9 @@
     }
 
     &.post--overflow {
-        + .same--user {
-            &.same--root {
-                .post__body {
-                    padding-top: 1.5em;
-                }
-            }
-        }
-
         &:last-child {
             .post__body {
-                padding-bottom: 2em;
+                padding-bottom: 22px;
             }
         }
 
@@ -1122,10 +1114,6 @@
                 .col__reply {
                     top: -1px;
                 }
-            }
-
-            .post-message--overflow {
-                padding-top: 1em;
             }
         }
 
@@ -1773,9 +1761,16 @@
     }
 }
 
+.post--overflow + .post--overflow.same--root.same--user {
+    .post-message--overflow {
+        padding-top: 1em;
+    }
+}
+
 .post-message--expanded {
     .post-collapse__show-more-container {
-        height: 26px;
+        height: 8px;
+        top: 8px;
     }
 }
 
@@ -1797,7 +1792,7 @@
         font-weight: bold;
         line-height: 24px;
         margin: 0 8px;
-        padding: 0 9px;
+        padding: 0 10px;
         position: relative;
 
         .fa {
