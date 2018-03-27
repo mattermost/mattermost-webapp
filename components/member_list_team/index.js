@@ -10,7 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import MemberListTeam from './member_list_team.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_MEMBERS});
+    const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_ROLES});
     return {
         canManageTeamMembers,
         ...ownProps,
