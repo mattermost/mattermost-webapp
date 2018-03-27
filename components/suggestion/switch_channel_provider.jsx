@@ -7,10 +7,10 @@ import {Preferences} from 'mattermost-redux/constants';
 import {
     getChannelsInCurrentTeam,
     getGroupChannels,
-    getMyChannelMemberships,
     getSortedUnreadChannelIds,
     makeGetChannel,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
