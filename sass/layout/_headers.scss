@@ -31,6 +31,28 @@
         }
     }
 
+    .channel-header__mute {
+        @include opacity(.5);
+        float: left;
+        height: 20px;
+        margin: 0 8px 0 8px;
+        padding-top: 3px;
+        position: relative;
+        z-index: 1;
+
+        &.inactive {
+            color: inherit;
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        i {
+            font-size: 17px;
+        }
+    }
+
     .flex-parent {
         display: flex;
     }
@@ -203,14 +225,10 @@
     white-space: nowrap;
 
     .dropdown-toggle {
+        float: left;
         overflow: hidden;
         text-align: left;
         text-overflow: ellipsis;
-        width: 100%;
-
-        strong {
-            max-width: calc(100% - 65px);
-        }
     }
 
     .header-dropdown__icon {

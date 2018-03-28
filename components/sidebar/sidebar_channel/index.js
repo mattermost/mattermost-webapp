@@ -12,7 +12,7 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -89,6 +89,7 @@ function makeMapStateToProps() {
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
+            channelMuted: isChannelMuted(member),
             channelStringified: channel.fake && JSON.stringify(channel),
             channelTeammateId,
             channelTeammateUsername,

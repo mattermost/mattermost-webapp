@@ -193,6 +193,16 @@ export default class ChannelNotificationsModal extends React.Component {
                                 <br/>
                                 <div className='divider-dark first'/>
                                 <NotificationSection
+                                    section={NotificationSections.MARK_UNREAD}
+                                    expand={activeSection === NotificationSections.MARK_UNREAD}
+                                    memberNotificationLevel={markUnreadNotifyLevel}
+                                    onChange={this.handleUpdateMarkUnreadLevel}
+                                    onSubmit={this.handleSubmitMarkUnreadLevel}
+                                    onUpdateSection={this.handleUpdateMarkUnreadSection}
+                                    serverError={serverError}
+                                />
+                                <div className='divider-light'/>
+                                <NotificationSection
                                     section={NotificationSections.DESKTOP}
                                     expand={activeSection === NotificationSections.DESKTOP}
                                     memberNotificationLevel={desktopNotifyLevel}
@@ -215,16 +225,6 @@ export default class ChannelNotificationsModal extends React.Component {
                                     serverError={serverError}
                                 />
                                 }
-                                <div className='divider-light'/>
-                                <NotificationSection
-                                    section={NotificationSections.MARK_UNREAD}
-                                    expand={activeSection === NotificationSections.MARK_UNREAD}
-                                    memberNotificationLevel={markUnreadNotifyLevel}
-                                    onChange={this.handleUpdateMarkUnreadLevel}
-                                    onSubmit={this.handleSubmitMarkUnreadLevel}
-                                    onUpdateSection={this.handleUpdateMarkUnreadSection}
-                                    serverError={serverError}
-                                />
                                 <div className='divider-dark'/>
                             </div>
                         </div>

@@ -311,6 +311,7 @@ export const SocketEvents = {
     CHANNEL_DELETED: 'channel_deleted',
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
+    CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',

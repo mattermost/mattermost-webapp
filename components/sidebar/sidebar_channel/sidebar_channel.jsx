@@ -36,6 +36,11 @@ export default class SidebarChannel extends React.PureComponent {
         channelDisplayName: PropTypes.string.isRequired,
 
         /**
+         * Channel is muted
+         */
+        channelMuted: PropTypes.bool,
+
+        /**
          * Channel type
          */
         channelType: PropTypes.string.isRequired,
@@ -207,12 +212,16 @@ export default class SidebarChannel extends React.PureComponent {
         let badge = false;
         if (this.showChannelAsUnread()) {
             rowClass += ' unread-title';
+        }
 
-            if (this.props.unreadMentions > 0) {
-                rowClass += ' has-badge';
+        if (this.props.unreadMentions > 0) {
+            rowClass += ' has-badge';
 
-                badge = true;
-            }
+            badge = true;
+        }
+
+        if (this.props.channelMuted) {
+            rowClass += ' muted';
         }
 
         if (closeHandler && !badge) {

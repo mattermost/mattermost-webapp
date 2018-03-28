@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {favoriteChannel, leaveChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {favoriteChannel, leaveChannel, unfavoriteChannel, updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General, Preferences} from 'mattermost-redux/constants';
 import {getChannel, getMyChannelMember, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
@@ -73,6 +73,7 @@ function mapDispatchToProps(dispatch) {
             updateRhsState,
             openModal,
             getCustomEmojisInText,
+            updateChannelNotifyProps,
         }, dispatch),
     };
 }

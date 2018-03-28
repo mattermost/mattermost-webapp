@@ -9,6 +9,8 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import 'bootstrap';
 
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -16,7 +18,7 @@ import TeamStore from 'stores/team_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 
 import MessageWrapper from 'components/message_wrapper.jsx';
-import {Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, NotificationLevels, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -49,6 +51,19 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 export default class ChannelHeader extends React.Component {
     static propTypes = {
+        actions: PropTypes.shape({
+            leaveChannel: PropTypes.func.isRequired,
+            favoriteChannel: PropTypes.func.isRequired,
+            unfavoriteChannel: PropTypes.func.isRequired,
+            showFlaggedPosts: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func.isRequired,
+            showMentions: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired,
+            getCustomEmojisInText: PropTypes.func.isRequired,
+            updateChannelNotifyProps: PropTypes.func.isRequired,
+        }).isRequired,
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
         isFavorite: PropTypes.bool,
@@ -63,24 +78,12 @@ export default class ChannelHeader extends React.Component {
             Object.values(RHSStates)
         ),
         enableWebrtc: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            leaveChannel: PropTypes.func.isRequired,
-            favoriteChannel: PropTypes.func.isRequired,
-            unfavoriteChannel: PropTypes.func.isRequired,
-            showFlaggedPosts: PropTypes.func.isRequired,
-            showPinnedPosts: PropTypes.func.isRequired,
-            showMentions: PropTypes.func.isRequired,
-            closeRightHandSide: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired,
-            getCustomEmojisInText: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+    };
 
     static defaultProps = {
         dmUser: {},
         dmUserStatus: {status: UserStatuses.OFFLINE},
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -122,15 +125,15 @@ export default class ChannelHeader extends React.Component {
         const windowWidth = Utils.windowWidth();
 
         this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
-    }
+    };
 
     onWebrtcChange = () => {
         this.setState({isBusy: WebrtcStore.isBusy()});
-    }
+    };
 
     onBusy = (isBusy) => {
         this.setState({isBusy});
-    }
+    };
 
     handleLeave = () => {
         if (this.props.channel.type === Constants.PRIVATE_CHANNEL) {
@@ -138,7 +141,7 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.leaveChannel(this.props.channel.id);
         }
-    }
+    };
 
     toggleFavorite = () => {
         if (this.props.isFavorite) {
@@ -148,6 +151,17 @@ export default class ChannelHeader extends React.Component {
         }
     };
 
+    unmute = () => {
+        const {actions, channel, channelMember, currentUser} = this.props;
+
+        if (!channelMember || !currentUser || !channel) {
+            return;
+        }
+
+        const options = {mark_unread: NotificationLevels.ALL};
+        actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
+    };
+
     searchMentions = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.MENTION) {
@@ -155,7 +169,7 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.showMentions();
         }
-    }
+    };
 
     getPinnedPosts = (e) => {
         e.preventDefault();
@@ -164,7 +178,7 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.showPinnedPosts();
         }
-    }
+    };
 
     getFlagged = (e) => {
         e.preventDefault();
@@ -173,12 +187,12 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.showFlaggedPosts();
         }
-    }
+    };
 
     searchButtonClick = (e) => {
         e.preventDefault();
         this.props.actions.updateRhsState(RHSStates.SEARCH);
-    }
+    };
 
     handleShortcut = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
@@ -187,7 +201,7 @@ export default class ChannelHeader extends React.Component {
                 this.searchMentions(e);
             }
         }
-    }
+    };
 
     showRenameChannelModal = (e) => {
         e.preventDefault();
@@ -195,13 +209,13 @@ export default class ChannelHeader extends React.Component {
         this.setState({
             showRenameChannelModal: true,
         });
-    }
+    };
 
     hideRenameChannelModal = () => {
         this.setState({
             showRenameChannelModal: false,
         });
-    }
+    };
 
     showChannelNotificationsModal = (e) => {
         e.preventDefault();
@@ -209,56 +223,56 @@ export default class ChannelHeader extends React.Component {
         this.setState({
             showChannelNotificationsModal: true,
         });
-    }
+    };
 
     hideChannelNotificationsModal = () => {
         this.setState({
             showChannelNotificationsModal: false,
         });
-    }
+    };
 
     initWebrtc = (contactId, isOnline) => {
         if (isOnline && !this.state.isBusy) {
             this.props.actions.closeRightHandSide();
             WebrtcActions.initWebrtc(contactId, true);
         }
-    }
+    };
 
     handleOnMouseOver = () => {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.show();
         }
-    }
+    };
 
     handleOnMouseOut = () => {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.hide();
         }
-    }
+    };
 
     showMembersModal = () => {
         this.setState({showMembersModal: true});
-    }
+    };
 
     hideMembersModal = () => {
         this.setState({showMembersModal: false});
-    }
+    };
 
     showEditChannelPurposeModal = () => {
         this.setState({showEditChannelPurposeModal: true});
-    }
+    };
 
     hideEditChannelPurposeModal = () => {
         this.setState({showEditChannelPurposeModal: false});
-    }
+    };
 
     hideEditChannelHeaderModal = () => {
         this.setState({showEditChannelHeaderModal: false});
-    }
+    };
 
     showEditChannelHeaderModal = () => {
         this.setState({showEditChannelHeaderModal: true});
-    }
+    };
 
     handleWebRTCOnClick = (e) => {
         e.preventDefault();
@@ -268,7 +282,7 @@ export default class ChannelHeader extends React.Component {
         const isDoNotDisturb = dmUserStatus === UserStatuses.DND;
 
         this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb);
-    }
+    };
 
     showInviteModal = () => {
         const {channel, currentUser, actions} = this.props;
@@ -279,7 +293,7 @@ export default class ChannelHeader extends React.Component {
         };
 
         actions.openModal(inviteModalData);
-    }
+    };
 
     render() {
         if (Utils.isEmptyObject(this.props.channel) ||
@@ -930,6 +944,36 @@ export default class ChannelHeader extends React.Component {
             </OverlayTrigger>
         );
 
+        const channelMuted = isChannelMuted(this.props.channelMember);
+        const channelMutedTooltip = (
+            <Tooltip id='channelMutedTooltip'>
+                <FormattedMessage
+                    id='channelHeader.unmute'
+                    defaultMessage='Unmute'
+                />
+            </Tooltip>
+        );
+
+        let muteTrigger;
+        if (channelMuted) {
+            muteTrigger = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={channelMutedTooltip}
+                >
+                    <button
+                        id='toggleMute'
+                        onClick={this.unmute}
+                        className={'style--none color--link channel-header__mute inactive'}
+                    >
+                        <i className={'icon fa fa-bell-slash-o'}/>
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         let channelMembersModal;
         if (this.state.showMembersModal) {
             channelMembersModal = (
@@ -1000,8 +1044,9 @@ export default class ChannelHeader extends React.Component {
                                         {dropdownContents}
                                     </ul>
                                 </h2>
+                                {muteTrigger}
+                                {headerTextContainer}
                             </div>
-                            {headerTextContainer}
                         </div>
                     </div>
                     <div className='flex-child'>

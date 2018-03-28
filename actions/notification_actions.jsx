@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
@@ -32,7 +33,7 @@ export function sendDesktopNotification(post, msgProps) {
     const userStatus = UserStore.getStatus(user.id);
     const member = ChannelStore.getMyMember(post.channel_id);
 
-    if (userStatus === UserStatuses.DND) {
+    if (isChannelMuted(member) || userStatus === UserStatuses.DND) {
         return;
     }
 

@@ -31,8 +31,8 @@ export default function ExtraInfo({section}) {
         return (
             <span>
                 <FormattedMessage
-                    id='channel_notifications.unreadInfo'
-                    defaultMessage='The channel name is bolded in the sidebar when there are unread messages. Selecting "Only for mentions" will bold the channel only when you are mentioned.'
+                    id='channel_notifications.muteChannel.help'
+                    defaultMessage='Muting turns off desktop, email and push notifications for this channel. The channel will not be marked as unread unless you are mentioned.'
                 />
             </span>
         );
