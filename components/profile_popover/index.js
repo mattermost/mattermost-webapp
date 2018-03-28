@@ -10,11 +10,13 @@ function mapStateToProps(state, ownProps) {
 
     const showEmailAddress = config.ShowEmailAddress === 'true';
     const enableWebrtc = config.EnableWebrtc === 'true';
+    const enableTimezone = config.ExperimentalTimezone === 'true';
 
     return {
         ...ownProps,
         showEmailAddress,
         enableWebrtc,
+        enableTimezone,
     };
 }
 

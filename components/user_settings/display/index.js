@@ -22,6 +22,7 @@ function mapStateToProps(state) {
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const defaultClientLocale = config.DefaultClientLocale;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
+    const enableTimezone = config.ExperimentalTimezone === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay;
 
     return {
@@ -30,6 +31,7 @@ function mapStateToProps(state) {
         enableLinkPreviews,
         defaultClientLocale,
         enableThemeSelection,
+        enableTimezone,
         timezones,
         userTimezone,
         currentUserTimezone: getUserCurrentTimezone(userTimezone),

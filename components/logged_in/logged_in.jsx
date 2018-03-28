@@ -44,7 +44,9 @@ export default class LoggedIn extends React.Component {
         // Grab the current user
         const user = UserStore.getCurrentUser();
 
-        this.props.actions.autoUpdateTimezone(getBrowserTimezone());
+        if (this.props.enableTimezone) {
+            this.props.actions.autoUpdateTimezone(getBrowserTimezone());
+        }
 
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
