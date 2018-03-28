@@ -475,7 +475,6 @@ export function toggleSideBarRightMenuAction() {
     dispatch(closeRightHandSide());
     dispatch(closeLhs());
     dispatch(closeRhsMenu());
-    document.querySelector('.app__body .sidebar--menu').classList.remove('move--left');
 }
 
 export function emitBrowserFocus(focus) {

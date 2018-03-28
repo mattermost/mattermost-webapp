@@ -215,7 +215,7 @@ export default class WebrtcNotification extends React.Component {
     render() {
         const user = this.state.userCalling;
         if (user) {
-            const username = Utils.displayUsername(user.id);
+            const username = Utils.getDisplayNameByUserId(user.id);
             const profileImgSrc = Utils.imageURLForUser(user);
             const profileImg = (
                 <img
@@ -327,7 +327,7 @@ export default class WebrtcNotification extends React.Component {
                         id='webrtc.notification.returnToCall'
                         defaultMessage='Return to ongoing call with {username}'
                         values={{
-                            username: Utils.displayUsername(WebrtcStore.getVideoCallWith()),
+                            username: Utils.getDisplayNameByUserId(WebrtcStore.getVideoCallWith()),
                         }}
                     />
                 </div>

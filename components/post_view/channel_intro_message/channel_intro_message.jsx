@@ -72,11 +72,11 @@ function createGMIntroMessage(channel, centeredIntro) {
             );
 
             if (i === profiles.length - 1) {
-                names += Utils.displayUsernameForUser(profile);
+                names += Utils.getDisplayNameByUser(profile);
             } else if (i === profiles.length - 2) {
-                names += Utils.displayUsernameForUser(profile) + ' and ';
+                names += Utils.getDisplayNameByUser(profile) + ' and ';
             } else {
-                names += Utils.displayUsernameForUser(profile) + ', ';
+                names += Utils.getDisplayNameByUser(profile) + ', ';
             }
         }
 
@@ -276,7 +276,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
 
 function createStandardIntroMessage(channel, centeredIntro) {
     var uiName = channel.display_name;
-    var creatorName = Utils.displayUsername(channel.creator_id);
+    var creatorName = Utils.getDisplayNameByUserId(channel.creator_id);
     var uiType;
     var memberMessage;
 

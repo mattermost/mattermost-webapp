@@ -17,7 +17,7 @@ function renderUsername(value, options) {
 }
 
 function renderUsernameForUserIdAndUsername(userId, username, options) {
-    const displayUsername = Utils.displayUsername(userId, options);
+    const displayUsername = Utils.getDisplayNameByUserId(userId, options);
     if (displayUsername && displayUsername.trim() !== '') {
         return renderUsername(displayUsername);
     }
