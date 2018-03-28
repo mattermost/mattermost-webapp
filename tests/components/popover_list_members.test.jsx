@@ -20,10 +20,14 @@ describe('components/PopoverListMembers', () => {
         display_name: 'Channel Name',
         type: Constants.DM_CHANNEl,
     };
-    const members = [
+    const users = [
         {id: 'member_id_1'},
         {id: 'member_id_2'},
     ];
+    const statuses = {
+        member_id_1: 'online',
+        member_id_2: 'offline',
+    };
 
     const actions = {
         getProfilesInChannel: () => {}, // eslint-disable-line no-empty-function
@@ -31,7 +35,8 @@ describe('components/PopoverListMembers', () => {
 
     const baseProps = {
         channel,
-        members,
+        statuses,
+        users,
         memberCount: 2,
         currentUserId: 'current_user_id',
         actions,
@@ -51,12 +56,7 @@ describe('components/PopoverListMembers', () => {
         );
 
         wrapper.instance().handleShowDirectChannel({
-            preventDefault: jest.fn(),
-            currentTarget: {
-                getAttribute: () => {
-                    return {'data-member-id': 'teammateId'};
-                },
-            },
+            id: 'teammateId',
         });
 
         expect(openDirectChannelToUser).toHaveBeenCalledTimes(1);

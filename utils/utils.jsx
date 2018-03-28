@@ -18,7 +18,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import Constants, {UserStatusesWeight, FileTypes} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
@@ -1125,18 +1125,32 @@ export function getDisplayNameByUser(user) {
     return '';
 }
 
+const UserStatusesWeight = {
+    online: 0,
+    away: 1,
+    dnd: 2,
+    offline: 3,
+};
+
 /**
  * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
  */
-export function sortUsersByStatusAndDisplayName(userA, userB) {
-    function sortByDisplayName(a, b) {
+export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
+    function compareUsers(a, b) {
+        const aStatus = statusesByUserId[a.id] || UserStatuses.OFFLINE;
+        const bStatus = statusesByUserId[b.id] || UserStatuses.OFFLINE;
+
+        if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
+            return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
+        }
+
         const aName = getDisplayNameByUser(a);
         const bName = getDisplayNameByUser(b);
 
         return aName.localeCompare(bName);
     }
 
-    return UserStatusesWeight[userA.status] - UserStatusesWeight[userB.status] || sortByDisplayName(userA, userB);
+    return users.sort(compareUsers);
 }
 
 /**
