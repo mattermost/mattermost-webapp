@@ -242,8 +242,16 @@
 #post-list {
     @include flex(1 1 auto);
     height: 100%;
-    overflow-y: hidden;
+    overflow: hidden;
     position: relative;
+
+    &.post-list--popover {
+        overflow: visible;
+
+        .post-list-holder-by-time {
+            overflow: visible;
+        }
+    }
 
     .inactive {
         display: none;
