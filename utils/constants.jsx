@@ -71,6 +71,7 @@ export const Preferences = {
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
     USE_MILITARY_TIME: 'use_military_time',
+    USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
@@ -80,11 +81,11 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    NAME_NAME_FORMAT: 'name_format',
 };
 
 export const ActionTypes = keyMirror({
     RECEIVED_ERROR: null,
-
     CLICK_CHANNEL: null,
     CREATE_CHANNEL: null,
     CREATE_POST: null,
@@ -243,6 +244,17 @@ export const ActionTypes = keyMirror({
     SELECT_CHANNEL_WITH_MEMBER: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
+
+    TOGGLE_LHS: null,
+    OPEN_LHS: null,
+    CLOSE_LHS: null,
+
+    TOGGLE_RHS_MENU: null,
+    OPEN_RHS_MENU: null,
+    CLOSE_RHS_MENU: null,
+
+    INIT_WEBRTC: null,
+    CLOSE_WEBRTC: null,
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -259,7 +271,6 @@ export const WebrtcActionTypes = keyMirror({
     MUTED: null,
     IN_PROGRESS: null,
     DISABLED: null,
-    RHS: null,
 });
 
 export const ModalIdentifiers = {
@@ -305,6 +316,9 @@ export const SocketEvents = {
     USER_UPDATED: 'user_updated',
     USER_ROLE_UPDATED: 'user_role_updated',
     MEMBERROLE_UPDATED: 'memberrole_updated',
+    ROLE_ADDED: 'role_added',
+    ROLE_REMOVED: 'role_removed',
+    ROLE_UPDATED: 'role_updated',
     TYPING: 'typing',
     PREFERENCE_CHANGED: 'preference_changed',
     PREFERENCES_CHANGED: 'preferences_changed',
@@ -1087,7 +1101,7 @@ export const Constants = {
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
-    DEFAULT_POST_EDIT_TIME_LIMIT: 300,
+    UNSET_POST_EDIT_TIME_LIMIT: -1,
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
     MENTION_UNREAD_CHANNELS: 'mention.unread.channels',

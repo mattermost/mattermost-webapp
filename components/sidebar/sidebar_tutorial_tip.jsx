@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedHTMLMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
-import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip';
 
 export default class SidebarTutorialTip extends React.PureComponent {
     static propTypes = {

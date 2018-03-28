@@ -190,4 +190,28 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
         assert.notEqual(now2, previous2);
         assert.deepEqual(now2, previous2);
     });
+
+    describe('should return the open state of the sidebar', () => {
+        [true, false].forEach((expected) => {
+            it(`when open is ${expected}`, () => {
+                state = {views: {rhs: {
+                    isSidebarOpen: expected,
+                }}};
+
+                assert.deepEqual(expected, Selectors.getIsRhsOpen(state));
+            });
+        });
+    });
+
+    describe('should return the open state of the sidebar menu', () => {
+        [true, false].forEach((expected) => {
+            it(`when open is ${expected}`, () => {
+                state = {views: {rhs: {
+                    isMenuOpen: expected,
+                }}};
+
+                assert.deepEqual(expected, Selectors.getIsRhsMenuOpen(state));
+            });
+        });
+    });
 });

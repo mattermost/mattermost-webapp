@@ -69,6 +69,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
           bsClass="popover"
           id="user-profile-popover"
           placement="right"
+          showEmailAddress={true}
           theme={Object {}}
           title="@undefined"
         >
@@ -76,6 +77,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
             className="popover right"
             id="user-profile-popover"
             role="tooltip"
+            showEmailAddress={true}
             style={
               Object {
                 "display": "block",
@@ -110,15 +112,6 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 src="src"
                 width="128"
               />
-              <div
-                data-toggle="tooltip"
-                key="user-popover-email"
-              >
-                <a
-                  className="text-nowrap text-lowercase user-popover__email"
-                  href="mailto:undefined"
-                />
-              </div>
               <div
                 className="popover__row first"
                 data-toggle="tooltip"

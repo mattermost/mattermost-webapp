@@ -4,9 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
+
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants, PostTypes} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
@@ -18,7 +17,7 @@ function renderUsername(value, options) {
 }
 
 function renderUsernameForUserIdAndUsername(userId, username, options) {
-    const displayUsername = Utils.displayUsername(userId, options);
+    const displayUsername = Utils.getDisplayNameByUserId(userId, options);
     if (displayUsername && displayUsername.trim() !== '') {
         return renderUsername(displayUsername);
     }
@@ -298,10 +297,7 @@ const systemMessageRenderers = {
 export function renderSystemMessage(post, options) {
     if (post.props && post.props.add_channel_member) {
         const channel = ChannelStore.getCurrent();
-        const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-        const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-        const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-        const isUserCanManageMembers = canManageMembers(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin);
+        const isUserCanManageMembers = canManageMembers(channel);
         const isEphemeral = Utils.isPostEphemeral(post);
 
         if ((channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.OPEN_CHANNEL) &&

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 //
@@ -7,7 +6,7 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
 
-describe('Utils.displayUsernameForUser', function() {
+describe('Utils.getDisplayNameByUser', function() {
     afterEach(() => {
         store.dispatch({
             type: GeneralTypes.CLIENT_CONFIG_RESET,
@@ -35,7 +34,7 @@ describe('Utils.displayUsernameForUser', function() {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.displayUsernameForUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
         });
     });
 
@@ -59,7 +58,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 
@@ -83,7 +82,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 });

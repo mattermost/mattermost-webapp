@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import {Posts} from 'mattermost-redux/constants';
 
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -366,6 +367,7 @@ export default class RhsThread extends React.Component {
                     <Comment
                         ref={comPost.id}
                         post={comPost}
+                        teamId={this.props.channel.team_id}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         user={p}
                         currentUser={this.props.currentUser}
@@ -390,6 +392,7 @@ export default class RhsThread extends React.Component {
                     <CreateComment
                         channelId={selected.channel_id}
                         rootId={selected.id}
+                        rootDeleted={selected.state === Posts.POST_DELETED}
                         latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
                         getSidebarBody={this.getSidebarBody}
                     />

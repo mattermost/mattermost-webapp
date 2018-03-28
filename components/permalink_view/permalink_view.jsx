@@ -14,6 +14,10 @@ export default class PermalinkView extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string,
         channelName: PropTypes.string,
+
+        /*
+         * Object from react-router
+         */
         match: PropTypes.shape({
             params: PropTypes.shape({
                 postid: PropTypes.string.isRequired,
@@ -38,7 +42,9 @@ export default class PermalinkView extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.doPermalinkEvent(nextProps);
+        if (this.props.match.params.postid !== nextProps.match.params.postid) {
+            this.doPermalinkEvent(nextProps);
+        }
     }
 
     doPermalinkEvent = async (props) => {

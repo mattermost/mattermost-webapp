@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {Permissions} from 'mattermost-redux/constants';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
 import {updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
@@ -14,6 +15,7 @@ import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {clientLogout} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 export default class SystemUsersDropdown extends React.Component {
     static propTypes = {
@@ -341,7 +343,7 @@ export default class SystemUsersDropdown extends React.Component {
         let showMakeActive = false;
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;
-        let showRevokeSessions = UserStore.isSystemAdminForCurrentUser();
+        let showRevokeSessions = true;
         const showMfaReset = this.props.mfaEnabled && user.mfa_active;
 
         if (user.delete_at > 0) {
@@ -489,19 +491,21 @@ export default class SystemUsersDropdown extends React.Component {
         let revokeSessions;
         if (showRevokeSessions) {
             revokeSessions = (
-                <li role='presentation'>
-                    <a
-                        id='revokeSessions'
-                        role='menuItem'
-                        href='#'
-                        onClick={this.handleShowRevokeSessionsModal}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.revokeSessions'
-                            defaultMessage='Revoke Sessions'
-                        />
-                    </a>
-                </li>
+                <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
+                    <li role='presentation'>
+                        <a
+                            id='revokeSessions'
+                            role='menuItem'
+                            href='#'
+                            onClick={this.handleShowRevokeSessionsModal}
+                        >
+                            <FormattedMessage
+                                id='admin.user_item.revokeSessions'
+                                defaultMessage='Revoke Sessions'
+                            />
+                        </a>
+                    </li>
+                </SystemPermissionGate>
             );
         }
 

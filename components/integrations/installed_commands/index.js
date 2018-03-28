@@ -4,8 +4,18 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteCommand, regenCommandToken} from 'mattermost-redux/actions/integrations';
+import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
 
 import InstalledCommands from './installed_commands.jsx';
+
+function mapStateToProps(state, ownProps) {
+    const canManageOthersSlashCommands = haveITeamPermission(state, {team: ownProps.team.id, permission: Permissions.MANAGE_OTHERS_SLASH_COMMANDS});
+
+    return {
+        canManageOthersSlashCommands,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +26,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(InstalledCommands);
+export default connect(mapStateToProps, mapDispatchToProps)(InstalledCommands);

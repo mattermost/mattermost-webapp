@@ -32,7 +32,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
             return null;
         }
 
-        const name = Utils.displayUsernameForUser(this.props.user);
+        const name = Utils.getDisplayNameByUser(this.props.user);
         if (!name) {
             return null;
         }

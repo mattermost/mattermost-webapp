@@ -20,18 +20,20 @@ function makeMapStateToProps() {
     const getPostsAroundPost = makeGetPostsAroundPost();
 
     return function mapStateToProps(state, ownProps) {
+        const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
+
         let posts;
         if (ownProps.focusedPostId) {
             posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
         } else {
-            posts = getPostsInChannel(state, ownProps.channelId);
+            posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
         }
 
         return {
             channel: getChannel(state, ownProps.channelId) || {},
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,
-            postVisibility: state.views.channel.postVisibility[ownProps.channelId],
+            postVisibility,
             loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
             focusedPostId: ownProps.focusedPostId,
             currentUserId: getCurrentUserId(state),

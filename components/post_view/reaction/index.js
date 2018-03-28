@@ -6,7 +6,10 @@ import {bindActionCreators} from 'redux';
 import {addReaction, removeReaction} from 'mattermost-redux/actions/posts';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import * as Emoji from 'utils/emoji.jsx';
 
@@ -28,13 +31,18 @@ function makeMapStateToProps() {
         if (emoji) {
             emojiImageUrl = getEmojiImageUrl(emoji);
         }
+        const channel = getChannel(state, {id: ownProps.post.channel_id}) || {};
+        const teamId = channel.team_id;
+        const canAddReaction = haveIChannelPermission(state, {team: teamId, channel: ownProps.post.channel_id, permission: Permissions.ADD_REACTION});
+        const canRemoveReaction = haveIChannelPermission(state, {team: teamId, channel: ownProps.post.channel_id, permission: Permissions.REMOVE_REACTION});
 
         return {
-            ...ownProps,
             profiles,
             otherUsersCount: ownProps.reactions.length - profiles.length,
             currentUserId: getCurrentUserId(state),
             reactionCount: ownProps.reactions.length,
+            canAddReaction,
+            canRemoveReaction,
             emojiImageUrl,
         };
     };

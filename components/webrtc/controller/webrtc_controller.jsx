@@ -445,7 +445,7 @@ export default class WebrtcController extends React.Component {
                     id='webrtc.offline'
                     defaultMessage='{username} is offline'
                     values={{
-                        username: Utils.displayUsername(this.props.userId),
+                        username: Utils.getDisplayNameByUserId(this.props.userId),
                     }}
                 />
             );
@@ -479,7 +479,7 @@ export default class WebrtcController extends React.Component {
                     id='webrtc.declined'
                     defaultMessage='Your call has been declined by {username}'
                     values={{
-                        username: Utils.displayUsername(this.props.userId),
+                        username: Utils.getDisplayNameByUserId(this.props.userId),
                     }}
                 />
             );
@@ -507,7 +507,7 @@ export default class WebrtcController extends React.Component {
                         id='webrtc.unsupported'
                         defaultMessage='Call to {username} not successful. Their client does not support video calls.'
                         values={{
-                            username: Utils.displayUsername(this.props.userId),
+                            username: Utils.getDisplayNameByUserId(this.props.userId),
                         }}
                     />
                 ),
@@ -529,7 +529,7 @@ export default class WebrtcController extends React.Component {
                     id='webrtc.noAnswer'
                     defaultMessage='{username} is not answering the call'
                     values={{
-                        username: Utils.displayUsername(this.props.userId),
+                        username: Utils.getDisplayNameByUserId(this.props.userId),
                     }}
                 />
             );
@@ -555,7 +555,7 @@ export default class WebrtcController extends React.Component {
                     id='webrtc.busy'
                     defaultMessage='{username} is busy'
                     values={{
-                        username: Utils.displayUsername(this.props.userId),
+                        username: Utils.getDisplayNameByUserId(this.props.userId),
                     }}
                 />
             );
@@ -581,7 +581,7 @@ export default class WebrtcController extends React.Component {
                     id='webrtc.disabled'
                     defaultMessage='{username} has WebRTC disabled, and cannot receive calls. To enable the feature, they must go to Account Settings > Advanced > Preview pre-release features and turn on WebRTC.'
                     values={{
-                        username: Utils.displayUsername(this.props.userId),
+                        username: Utils.getDisplayNameByUserId(this.props.userId),
                     }}
                 />
             );
@@ -635,7 +635,7 @@ export default class WebrtcController extends React.Component {
                         id='webrtc.cancelled'
                         defaultMessage='{username} cancelled the call'
                         values={{
-                            username: Utils.displayUsername(this.props.userId),
+                            username: Utils.getDisplayNameByUserId(this.props.userId),
                         }}
                     />
                 ),
@@ -768,7 +768,7 @@ export default class WebrtcController extends React.Component {
         }
 
         WebrtcStore.setVideoCallWith(null);
-        WebrtcStore.emitRhsChanged(false);
+        this.props.actions.closeRhs();
 
         if (manual) {
             return this.close();
@@ -788,7 +788,7 @@ export default class WebrtcController extends React.Component {
                     id='webrtc.callEnded'
                     defaultMessage='Call with {username} ended.'
                     values={{
-                        username: Utils.displayUsername(this.props.userId),
+                        username: Utils.getDisplayNameByUserId(this.props.userId),
                     }}
                 />
             ),
@@ -1187,7 +1187,7 @@ export default class WebrtcController extends React.Component {
                 <div className='search-bar__container channel-header alt'>{searchForm}</div>
                 <div className='sidebar-right__body'>
                     <WebrtcHeader
-                        username={Utils.displayUsername(this.props.userId)}
+                        username={Utils.getDisplayNameByUserId(this.props.userId)}
                         onClose={this.handleClose}
                         toggleSize={this.props.toggleSize}
                     />
@@ -1240,4 +1240,7 @@ WebrtcController.propTypes = {
     expanded: PropTypes.bool.isRequired,
     toggleSize: PropTypes.func,
     enableDeveloper: PropTypes.bool.isRequired,
+    actions: PropTypes.shape({
+        closeRhs: PropTypes.func.isRequired,
+    }).isRequired,
 };

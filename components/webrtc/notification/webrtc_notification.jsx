@@ -1,8 +1,8 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -17,6 +17,13 @@ import ring from 'images/ring.mp3';
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class WebrtcNotification extends React.Component {
+    static propTypes = {
+        isRhsOpen: PropTypes.bool.isRequired,
+        actions: PropTypes.shape({
+            closeRhs: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor() {
         super();
 
@@ -25,30 +32,25 @@ export default class WebrtcNotification extends React.Component {
         this.closeNotification = this.closeNotification.bind(this);
         this.onIncomingCall = this.onIncomingCall.bind(this);
         this.onCancelCall = this.onCancelCall.bind(this);
-        this.onRhs = this.onRhs.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleAnswer = this.handleAnswer.bind(this);
         this.handleTimeout = this.handleTimeout.bind(this);
         this.stopRinging = this.stopRinging.bind(this);
-        this.closeRightHandSide = this.closeRightHandSide.bind(this);
 
         this.state = {
             userCalling: null,
-            rhsOpened: false,
         };
     }
 
     componentDidMount() {
         WebrtcStore.addNotifyListener(this.onIncomingCall);
         WebrtcStore.addChangedListener(this.onCancelCall);
-        WebrtcStore.addRhsChangedListener(this.onRhs);
         this.mounted = true;
     }
 
     componentWillUnmount() {
         WebrtcStore.removeNotifyListener(this.onIncomingCall);
         WebrtcStore.removeChangedListener(this.onCancelCall);
-        WebrtcStore.removeRhsChangedListener(this.onRhs);
         if (this.refs.ring) {
             this.refs.ring.removeListener('ended', this.handleTimeout);
         }
@@ -75,12 +77,10 @@ export default class WebrtcNotification extends React.Component {
         this.setState({userCalling: null});
     }
 
-    closeRightHandSide(e) {
+    closeRightHandSide = (e) => {
         e.preventDefault();
         GlobalActions.emitCloseRightHandSide();
-        setTimeout(() => {
-            $('.app__body .inner-wrap').addClass('move--left');
-        }, 0);
+        this.props.actions.closeRhs();
     }
 
     onIncomingCall(incoming) {
@@ -138,10 +138,6 @@ export default class WebrtcNotification extends React.Component {
 
         WebrtcStore.setVideoCallWith(null);
         this.closeNotification();
-    }
-
-    onRhs(rhsOpened) {
-        this.setState({rhsOpened});
     }
 
     handleTimeout() {
@@ -219,7 +215,7 @@ export default class WebrtcNotification extends React.Component {
     render() {
         const user = this.state.userCalling;
         if (user) {
-            const username = Utils.displayUsername(user.id);
+            const username = Utils.getDisplayNameByUserId(user.id);
             const profileImgSrc = Utils.imageURLForUser(user);
             const profileImg = (
                 <img
@@ -320,7 +316,7 @@ export default class WebrtcNotification extends React.Component {
                     {msg}
                 </div>
             );
-        } else if (this.state.rhsOpened && WebrtcStore.isBusy()) {
+        } else if (this.props.isRhsOpen && WebrtcStore.isBusy()) {
             return (
                 <div
                     className='webrtc__notification--rhs'
@@ -331,7 +327,7 @@ export default class WebrtcNotification extends React.Component {
                         id='webrtc.notification.returnToCall'
                         defaultMessage='Return to ongoing call with {username}'
                         values={{
-                            username: Utils.displayUsername(WebrtcStore.getVideoCallWith()),
+                            username: Utils.getDisplayNameByUserId(WebrtcStore.getVideoCallWith()),
                         }}
                     />
                 </div>

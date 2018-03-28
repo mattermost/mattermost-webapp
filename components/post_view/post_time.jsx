@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
+import {isMobile as isMobileView} from 'utils/utils.jsx';
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
@@ -45,6 +47,12 @@ export default class PostTime extends React.PureComponent {
         };
     }
 
+    handleClick = () => {
+        if (isMobileView()) {
+            GlobalActions.emitCloseRightHandSide();
+        }
+    };
+
     renderTimeTag() {
         const date = new Date(this.props.eventTime);
         const militaryTime = this.props.useMilitaryTime;
@@ -78,6 +86,7 @@ export default class PostTime extends React.PureComponent {
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${this.props.postId}`}
                 className='post__permalink'
+                onClick={this.handleClick}
             >
                 {this.renderTimeTag()}
             </Link>

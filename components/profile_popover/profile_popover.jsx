@@ -67,11 +67,6 @@ class ProfilePopover extends React.Component {
         hasMention: PropTypes.bool,
 
         /**
-         * Whether or not to reveal the email address associated with the user.
-         */
-        showEmailAddress: PropTypes.bool.isRequired,
-
-        /**
          * Whether or not WebRtc is enabled.
          */
         enableWebrtc: PropTypes.bool.isRequired,
@@ -204,7 +199,6 @@ class ProfilePopover extends React.Component {
         delete popoverProps.isRHS;
         delete popoverProps.hasMention;
         delete popoverProps.dispatch;
-        delete popoverProps.showEmailAddress;
         delete popoverProps.enableWebrtc;
 
         let webrtc;
@@ -306,7 +300,7 @@ class ProfilePopover extends React.Component {
         }
 
         const email = this.props.user.email;
-        if (this.props.showEmailAddress || UserStore.isSystemAdminForCurrentUser() || this.props.user === UserStore.getCurrentUser()) {
+        if (email) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'
