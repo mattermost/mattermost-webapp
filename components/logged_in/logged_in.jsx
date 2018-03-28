@@ -175,6 +175,7 @@ export default class LoggedIn extends React.Component {
 LoggedIn.propTypes = {
     children: PropTypes.object,
     mfaRequired: PropTypes.bool.isRequired,
+    enableTimezone: PropTypes.bool.isRequired,
     actions: PropTypes.shape({
         autoUpdateTimezone: PropTypes.func.isRequired,
     }).isRequired,
