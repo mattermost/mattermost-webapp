@@ -182,11 +182,17 @@
 
         li {
             > h4 {
+                align-items: end;
+                display: flex;
                 font-size: 1em;
                 font-weight: 600;
                 margin: 1.5em 0 .7em;
-                padding: 0 12px 0 17px;
+                padding: 0 12px 0 15px;
                 text-transform: uppercase;
+
+                span {
+                    flex: 1;
+                }
             }
 
             .divider {
@@ -201,7 +207,7 @@
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
-                padding: 5px 0 5px 17px;
+                padding: 5px 0 5px 15px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
@@ -212,7 +218,7 @@
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
-                padding: 5px 0 5px 17px;
+                padding: 5px 0 5px 15px;
                 text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
