@@ -7,11 +7,12 @@ import {bindActionCreators} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {leaveChannel} from 'mattermost-redux/actions/channels';
 
-import {getChannelsNameMapInCurrentTeam, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsNameMapInCurrentTeam, makeGetChannel, isChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -77,6 +78,9 @@ function makeMapStateToProps() {
             channelDisplayName = displayUsername(teammate, teammateNameDisplay);
         }
 
+        const shouldHideChannel = isChannelReadOnly(state, channel) && !ownProps.active &&
+            !isFavoriteChannel(state.entities.preferences.myPreferences, channel.id);
+
         return {
             config,
             channelId,
@@ -96,6 +100,7 @@ function makeMapStateToProps() {
             unreadMsgs,
             unreadMentions,
             membersCount,
+            shouldHideChannel,
         };
     };
 }

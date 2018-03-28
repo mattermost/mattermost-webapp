@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {favoriteChannel, leaveChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General, Preferences} from 'mattermost-redux/constants';
-import {getChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getMyChannelMember, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -56,6 +56,7 @@ function mapStateToProps(state, ownProps) {
         rhsState: getRhsState(state),
         isLicensed: license.IsLicensed === 'true',
         enableWebrtc: config.EnableWebrtc === 'true',
+        isReadOnly: isCurrentChannelReadOnly(state),
     };
 }
 

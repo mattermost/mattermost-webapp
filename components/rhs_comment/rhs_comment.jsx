@@ -47,6 +47,7 @@ export default class RhsComment extends React.Component {
         isEmbedVisible: PropTypes.bool,
         enableEmojiPicker: PropTypes.bool.isRequired,
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+        isReadOnly: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -221,7 +222,7 @@ export default class RhsComment extends React.Component {
     };
 
     render() {
-        const post = this.props.post;
+        const {post, isReadOnly} = this.props;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
@@ -366,7 +367,7 @@ export default class RhsComment extends React.Component {
 
         let react;
 
-        if (!isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
             react = (
                 <span>
                     <EmojiPickerOverlay
@@ -411,6 +412,7 @@ export default class RhsComment extends React.Component {
                     post={this.props.post}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
+                    isReadOnly={isReadOnly}
                 />
             );
 
@@ -495,7 +497,10 @@ export default class RhsComment extends React.Component {
                                 {messageWithAdditionalContent}
                             </div>
                             {fileAttachment}
-                            <ReactionListContainer post={post}/>
+                            <ReactionListContainer
+                                post={post}
+                                isReadOnly={isReadOnly}
+                            />
                         </div>
                     </div>
                 </div>

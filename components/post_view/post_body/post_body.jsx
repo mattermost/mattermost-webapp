@@ -88,10 +88,19 @@ export default class PostBody extends React.PureComponent {
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
 
+        /**
+         * Set not to allow edits on post
+         */
+        isReadOnly: PropTypes.bool,
+
         /*
          * Callback function called when the post is large enough to be collapsed
          */
         onPostOverflow: PropTypes.func.isRequired,
+    }
+
+    static defaultProps = {
+        isReadOnly: false,
     }
 
     constructor(props) {
@@ -280,7 +289,10 @@ export default class PostBody extends React.PureComponent {
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionListContainer post={post}/>
+                    <ReactionListContainer
+                        post={post}
+                        isReadOnly={this.props.isReadOnly}
+                    />
                 </div>
             </div>
         );

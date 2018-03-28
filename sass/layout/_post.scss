@@ -1217,6 +1217,10 @@
             top: -4px;
             white-space: normal;
             z-index: 6;
+
+            &.dot_small {
+                min-width: auto !important;
+            }
         }
 
         .col__remove {
