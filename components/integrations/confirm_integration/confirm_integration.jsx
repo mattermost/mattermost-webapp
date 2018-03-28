@@ -7,8 +7,6 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
-import IntegrationStore from 'stores/integration_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 
@@ -18,43 +16,26 @@ export default class ConfirmIntegration extends React.Component {
             team: PropTypes.object,
             location: PropTypes.object,
             commands: PropTypes.object,
-            loading: PropTypes.bool,
+            oauthApps: PropTypes.object,
+            outgoingHooks: PropTypes.object,
         };
     }
 
     constructor(props) {
         super(props);
-
-        this.handleIntegrationChange = this.handleIntegrationChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
-
-        const userId = UserStore.getCurrentId();
-
         this.state = {
             type: (new URLSearchParams(this.props.location.search)).get('type'),
             id: (new URLSearchParams(this.props.location.search)).get('id'),
-            oauthApps: IntegrationStore.getOAuthApps(userId),
-            loading: !IntegrationStore.hasReceivedOAuthApps(userId),
         };
     }
 
     componentDidMount() {
-        IntegrationStore.addChangeListener(this.handleIntegrationChange);
         window.addEventListener('keypress', this.handleKeyPress);
     }
 
     componentWillUnmount() {
-        IntegrationStore.removeChangeListener(this.handleIntegrationChange);
         window.removeEventListener('keypress', this.handleKeyPress);
-    }
-
-    handleIntegrationChange() {
-        const userId = UserStore.getCurrentId();
-
-        this.setState({
-            oauthApps: IntegrationStore.getOAuthApps(userId),
-            loading: !IntegrationStore.hasReceivedOAuthApps(userId),
-        });
     }
 
     handleKeyPress(e) {
@@ -67,10 +48,6 @@ export default class ConfirmIntegration extends React.Component {
         let headerText = null;
         let helpText = null;
         let tokenText = null;
-
-        if (this.props.loading === true) {
-            return (<div/>);
-        }
 
         if (this.state.type === Constants.Integrations.COMMAND) {
             headerText = (
@@ -145,20 +122,13 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_outgoing_webhook.token'
                         defaultMessage='<b>Token</b>: {token}'
                         values={{
-                            token: IntegrationStore.getOutgoingWebhook(this.props.team.id, this.state.id).token,
+                            token: this.props.outgoingHooks[this.state.id].token,
                         }}
                     />
                 </p>
             );
         } else if (this.state.type === Constants.Integrations.OAUTH_APP) {
-            let oauthApp = {};
-            for (var i = 0; i < this.state.oauthApps.length; i++) {
-                if (this.state.oauthApps[i].id === this.state.id) {
-                    oauthApp = this.state.oauthApps[i];
-                    break;
-                }
-            }
-
+            const oauthApp = this.props.oauthApps[this.state.id];
             if (oauthApp) {
                 headerText = (
                     <FormattedMessage
