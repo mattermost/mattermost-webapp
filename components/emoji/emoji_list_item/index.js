@@ -8,7 +8,7 @@ import {getUser, getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-re
 
 import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
-import {displayUsernameForUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         emoji,
-        creatorDisplayName: displayUsernameForUser(creator),
+        creatorDisplayName: getDisplayNameByUser(creator),
         creatorUsername: creator.username,
         currentUserId: getCurrentUserId(state),
         isSystemAdmin: isCurrentUserSystemAdmin(state),

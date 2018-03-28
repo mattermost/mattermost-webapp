@@ -3,7 +3,7 @@
 
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-import {deletePreferences, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
+import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -385,7 +385,7 @@ function onThemeSaved(teamId, theme, onSuccess) {
     if (toDelete.length > 0) {
         // we're saving a new global theme so delete any team-specific ones
         const currentUserId = UserStore.getCurrentId();
-        deletePreferences(currentUserId, toDelete)(dispatch, getState);
+        deletePreferencesRedux(currentUserId, toDelete)(dispatch, getState);
     }
 
     onSuccess();
@@ -689,6 +689,11 @@ export async function savePreferences(prefs, callback) {
 export async function savePreference(category, name, value) {
     const currentUserId = UserStore.getCurrentId();
     return savePreferencesRedux(currentUserId, [{user_id: currentUserId, category, name, value}])(dispatch, getState);
+}
+
+export function deletePreferences(prefs) {
+    const currentUserId = UserStore.getCurrentId();
+    return deletePreferencesRedux(currentUserId, prefs)(dispatch, getState);
 }
 
 export function autoResetStatus() {

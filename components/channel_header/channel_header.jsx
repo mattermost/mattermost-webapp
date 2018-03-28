@@ -330,12 +330,12 @@ export default class ChannelHeader extends React.Component {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: Utils.displayUsername(teammateId),
+                            displayname: Utils.getDisplayNameByUserId(teammateId),
                         }}
                     />
                 );
             } else {
-                channelTitle = Utils.displayUsername(teammateId) + ' ';
+                channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
             }
 
             const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);

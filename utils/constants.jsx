@@ -71,6 +71,7 @@ export const Preferences = {
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
     USE_MILITARY_TIME: 'use_military_time',
+    USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
@@ -80,11 +81,11 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    NAME_NAME_FORMAT: 'name_format',
 };
 
 export const ActionTypes = keyMirror({
     RECEIVED_ERROR: null,
-
     CLICK_CHANNEL: null,
     CREATE_CHANNEL: null,
     CREATE_POST: null,

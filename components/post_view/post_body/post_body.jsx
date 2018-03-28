@@ -136,7 +136,7 @@ export default class PostBody extends React.PureComponent {
             let apostrophe = '';
             let name = '...';
             if (profile != null) {
-                let username = Utils.displayUsernameForUser(profile);
+                let username = Utils.getDisplayNameByUser(profile);
                 if (parentPost.props &&
                         parentPost.props.from_webhook &&
                         parentPost.props.override_username &&

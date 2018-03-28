@@ -117,7 +117,7 @@ export default class Reaction extends React.PureComponent {
             if (user.id === this.props.currentUserId) {
                 currentUserReacted = true;
             } else {
-                users.push(Utils.displayUsernameForUser(user));
+                users.push(Utils.getDisplayNameByUser(user));
             }
         }
 

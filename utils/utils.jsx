@@ -4,9 +4,12 @@
 import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -1105,26 +1108,18 @@ export function getDisplayName(user) {
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
-export function displayUsername(userId) {
-    return displayUsernameForUser(UserStore.getProfile(userId));
+export function getDisplayNameByUserId(userId) {
+    return getDisplayNameByUser(UserStore.getProfile(userId));
 }
 
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function displayUsernameForUser(user) {
-    const config = getConfig(store.getState());
-
+export function getDisplayNameByUser(user) {
+    const state = store.getState();
+    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
-        const nameFormat = config.TeammateNameDisplay;
-        let name = user.username;
-        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname.trim().length > 0) {
-            name = user.nickname;
-        } else if (((user.first_name && user.first_name.trim().length > 0) || (user.last_name && user.last_name.trim().length > 0)) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
-            name = getFullName(user);
-        }
-
-        return name;
+        return displayUsername(user, teammateNameDisplay);
     }
 
     return '';
@@ -1135,8 +1130,8 @@ export function displayUsernameForUser(user) {
  */
 export function sortUsersByStatusAndDisplayName(userA, userB) {
     function sortByDisplayName(a, b) {
-        const aName = displayUsernameForUser(a);
-        const bName = displayUsernameForUser(b);
+        const aName = getDisplayNameByUser(a);
+        const bName = getDisplayNameByUser(b);
 
         return aName.localeCompare(bName);
     }

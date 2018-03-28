@@ -256,7 +256,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 id='installed_integrations.creation'
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
-                                    creator: Utils.displayUsername(oauthApp.creator_id),
+                                    creator: Utils.getDisplayNameByUserId(oauthApp.creator_id),
                                     createAt: oauthApp.create_at,
                                 }}
                             />

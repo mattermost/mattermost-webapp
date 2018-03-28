@@ -99,7 +99,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className={className}>{'@' + Utils.displayUsernameForUser(user)}</a>
+                    <a className={className}>{'@' + Utils.getDisplayNameByUser(user)}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>
