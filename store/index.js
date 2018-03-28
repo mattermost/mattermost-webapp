@@ -73,7 +73,7 @@ export default function configureStore(initialState) {
             const storage = localforage;
             const KEY_PREFIX = 'reduxPersist:';
 
-            localforage.ready(() => {
+            localforage.ready().then(() => {
                 const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
                     store.dispatch({
                         type: General.STORE_REHYDRATION_COMPLETE,
@@ -134,6 +134,11 @@ export default function configureStore(initialState) {
                             }, 500);
                         });
                     }
+                });
+            }).catch((error) => {
+                store.dispatch({
+                    type: General.STORE_REHYDRATION_FAILED,
+                    error,
                 });
             });
         },
