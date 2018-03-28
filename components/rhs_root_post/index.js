@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
@@ -14,6 +15,7 @@ function mapStateToProps(state) {
     return {
         enableEmojiPicker,
         enablePostUsernameOverride,
+        isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
     };
 }
 

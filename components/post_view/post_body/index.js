@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -33,6 +34,7 @@ function mapStateToProps(state, ownProps) {
         previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
         isEmbedVisible,
         enablePostUsernameOverride,
+        isReadOnly: isCurrentChannelReadOnly(state),
     };
 }
 

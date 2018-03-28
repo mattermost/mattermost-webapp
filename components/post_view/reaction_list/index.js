@@ -16,7 +16,7 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state, ownProps) {
         const config = getConfig(state);
-        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !ownProps.isReadOnly;
 
         const channel = getChannel(state, ownProps.post.channel_id) || {};
         const teamId = channel.team_id;
