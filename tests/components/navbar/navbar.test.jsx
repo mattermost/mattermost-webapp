@@ -12,6 +12,11 @@ describe('components/navbar/Navbar', () => {
         isPinnedPosts: true,
         actions: {
             showEditChannelHeaderModal: jest.fn(),
+            toggleLhs: jest.fn(),
+            closeLhs: jest.fn(),
+            closeRhs: jest.fn(),
+            toggleRhsMenu: jest.fn(),
+            closeRhsMenu: jest.fn(),
         },
         isLicensed: true,
         enableWebrtc: true,

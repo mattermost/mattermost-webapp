@@ -10,8 +10,18 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         show: true,
         onHide: () => {}, //eslint-disable-line no-empty-function
         channel: {id: 'channel_id', display_name: 'channel_display_name'},
-        channelMember: {notify_props: {desktop: NotificationLevels.ALL}},
-        currentUser: {id: 'current_user_id', notify_props: {desktop: NotificationLevels.ALL}},
+        channelMember: {
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+                mark_unread: NotificationLevels.ALL,
+            },
+        },
+        currentUser: {
+            id: 'current_user_id',
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+            },
+        },
         sendPushNotifications: true,
         actions: {
             updateChannelNotifyProps: () => {}, //eslint-disable-line no-empty-function
@@ -99,7 +109,12 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleSubmitMarkUnreadLevel', () => {
-        const channelMember = {notify_props: {mark_unread: NotificationLevels.ALL}};
+        const channelMember = {
+            notify_props: {
+                desktop: NotificationLevels.NONE,
+                mark_unread: NotificationLevels.ALL,
+            },
+        };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>
@@ -120,7 +135,12 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleUpdateMarkUnreadLevel', () => {
-        const channelMember = {notify_props: {mark_unread: NotificationLevels.ALL}};
+        const channelMember = {
+            notify_props: {
+                desktop: NotificationLevels.NONE,
+                mark_unread: NotificationLevels.ALL,
+            },
+        };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>
@@ -132,7 +152,12 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleUpdateMarkUnreadSection', () => {
-        const channelMember = {notify_props: {mark_unread: NotificationLevels.ALL}};
+        const channelMember = {
+            notify_props: {
+                desktop: NotificationLevels.NONE,
+                mark_unread: NotificationLevels.ALL,
+            },
+        };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>
@@ -154,7 +179,13 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleSubmitPushNotificationLevel', () => {
-        const channelMember = {notify_props: {push: NotificationLevels.ALL}};
+        const channelMember = {
+            notify_props: {
+                desktop: NotificationLevels.NONE,
+                mark_unread: NotificationLevels.NONE,
+                push: NotificationLevels.ALL,
+            },
+        };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>
@@ -175,7 +206,13 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleUpdatePushNotificationLevel', () => {
-        const channelMember = {notify_props: {push: NotificationLevels.ALL}};
+        const channelMember = {
+            notify_props: {
+                desktop: NotificationLevels.NONE,
+                mark_unread: NotificationLevels.NONE,
+                push: NotificationLevels.ALL,
+            },
+        };
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>
@@ -187,7 +224,14 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleUpdatePushSection', () => {
-        const channelMember = {notify_props: {push: NotificationLevels.ALL}};
+        const channelMember = {
+            notify_props: {
+                desktop: NotificationLevels.NONE,
+                mark_unread: NotificationLevels.NONE,
+                push: NotificationLevels.ALL,
+            },
+        };
+
         const props = {...baseProps, channelMember};
         const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>

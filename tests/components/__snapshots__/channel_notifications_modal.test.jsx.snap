@@ -68,6 +68,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
           />
           <NotificationSection
             expand={false}
+            memberNotificationLevel="all"
             onChange={[Function]}
             onSubmit={[Function]}
             onUpdateSection={[Function]}

@@ -60,6 +60,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             EnableXToLeaveChannelsFromLHS: 'false',
             SiteName: 'Test site',
         },
+        isOpen: false,
         showUnreadSection: false,
         publicChannelIds: ['c1', 'c2'],
         privateChannelIds: ['c3', 'c4'],
@@ -108,6 +109,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         },
         actions: {
             goToChannelById: jest.fn(),
+            close: jest.fn(),
         },
     };
 
