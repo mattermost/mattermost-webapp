@@ -84,13 +84,14 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-<<<<<<< HEAD
     test('should match snapshot, teammate name display section', () => {
         const props = {...requiredProps, activeSection: 'teammate_name_display'};
-=======
+        const wrapper = shallow(<UserSettingsDisplay {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, timezone section', () => {
         const props = {...requiredProps, activeSection: 'timezone'};
->>>>>>> Add timezone support
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
