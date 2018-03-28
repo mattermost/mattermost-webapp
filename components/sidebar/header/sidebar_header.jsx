@@ -9,7 +9,7 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import {Constants, Preferences, TutorialSteps} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import StatusDropdown from 'components/status_dropdown/index.jsx';
-import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
+import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
 import SidebarHeaderDropdown from './dropdown';
 
@@ -89,7 +89,12 @@ export default class SidebarHeader extends React.Component {
 
         let tutorialTip = null;
         if (this.state.showTutorialTip) {
-            tutorialTip = createMenuTip(this.showDropdown);
+            tutorialTip = (
+                <MenuTutorialTip
+                    toggleFunc={this.showDropdown}
+                    onBottom={false}
+                />
+            );
         }
 
         let teamNameWithToolTip = null;
@@ -141,6 +146,7 @@ export default class SidebarHeader extends React.Component {
                 </div>
                 <div id='sidebarDropdownMenuContainer'>
                     <SidebarHeaderDropdown
+                        teamId={this.props.teamId}
                         teamType={this.props.teamType}
                         teamDisplayName={this.props.teamDisplayName}
                         teamName={this.props.teamName}
@@ -156,6 +162,7 @@ export default class SidebarHeader extends React.Component {
 }
 
 SidebarHeader.propTypes = {
+    teamId: PropTypes.string,
     teamDisplayName: PropTypes.string,
     teamDescription: PropTypes.string,
     teamName: PropTypes.string,

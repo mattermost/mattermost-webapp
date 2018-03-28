@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
+import {Permissions} from 'mattermost-redux/constants';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -15,15 +17,14 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile.jsx';
-import {showManagementOptions} from 'utils/channel_utils.jsx';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+
 import * as Utils from 'utils/utils.jsx';
 
 const CreateChannelIntroMessage = ({
     channel,
     fullWidth,
-    isLicensed,
-    restrictPrivateChannelManageMembers,
-    restrictTeamInvite,
 }) => {
     let centeredIntro = '';
     if (!fullWidth) {
@@ -35,19 +36,17 @@ const CreateChannelIntroMessage = ({
     } else if (channel.type === Constants.GM_CHANNEL) {
         return createGMIntroMessage(channel, centeredIntro);
     } else if (ChannelStore.isDefault(channel)) {
-        return createDefaultIntroMessage(channel, centeredIntro, isLicensed, restrictTeamInvite);
+        return createDefaultIntroMessage(channel, centeredIntro);
     } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-        return createOffTopicIntroMessage(channel, centeredIntro, isLicensed, restrictPrivateChannelManageMembers);
+        return createOffTopicIntroMessage(channel, centeredIntro);
     } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-        return createStandardIntroMessage(channel, centeredIntro, isLicensed, restrictPrivateChannelManageMembers);
+        return createStandardIntroMessage(channel, centeredIntro);
     }
     return null;
 };
 
 CreateChannelIntroMessage.propTypes = {
     isLicensed: PropTypes.bool.isRequired,
-    restrictPrivateChannelManageMembers: PropTypes.string,
-    restrictTeamInvite: PropTypes.string,
 };
 
 export default CreateChannelIntroMessage;
@@ -180,7 +179,7 @@ function createDMIntroMessage(channel, centeredIntro) {
     );
 }
 
-function createOffTopicIntroMessage(channel, centeredIntro, restrictPrivateChannelManageMembers) {
+function createOffTopicIntroMessage(channel, centeredIntro) {
     var uiType = (
         <FormattedMessage
             id='intro_messages.channel'
@@ -188,15 +187,19 @@ function createOffTopicIntroMessage(channel, centeredIntro, restrictPrivateChann
         />
     );
 
-    let setHeaderButton = createSetHeaderButton(channel);
-    if (!showManagementOption(channel)) {
-        setHeaderButton = null;
-    }
+    const teamId = TeamStore.getCurrentId();
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const setHeaderButton = (
+        <ChannelPermissionGate
+            teamId={teamId}
+            channelId={channel.id}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        >
+            {createSetHeaderButton(channel)}
+        </ChannelPermissionGate>
+    );
 
-    let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
-    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(restrictPrivateChannelManageMembers)) {
-        channelInviteButton = null;
-    }
+    const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
 
     return (
         <div
@@ -216,27 +219,41 @@ function createOffTopicIntroMessage(channel, centeredIntro, restrictPrivateChann
     );
 }
 
-function createDefaultIntroMessage(channel, centeredIntro, isLicensed, restrictTeamInvite) {
-    let teamInviteLink = null;
-    if (isCurrentUserPermitted(isLicensed, restrictTeamInvite)) {
-        teamInviteLink = (
-            <span
-                className='intro-links color--link cursor--pointer'
-                onClick={GlobalActions.showGetTeamInviteLinkModal}
+export function createDefaultIntroMessage(channel, centeredIntro) {
+    const teamInviteLink = (
+        <TeamPermissionGate
+            teamId={channel.team_id}
+            permissions={[Permissions.INVITE_USER]}
+        >
+            <TeamPermissionGate
+                teamId={channel.team_id}
+                permissions={[Permissions.ADD_USER_TO_TEAM]}
             >
-                <i className='fa fa-user-plus'/>
-                <FormattedMessage
-                    id='intro_messages.inviteOthers'
-                    defaultMessage='Invite others to this team'
-                />
-            </span>
-        );
-    }
+                <span
+                    className='intro-links color--link cursor--pointer'
+                    onClick={GlobalActions.showGetTeamInviteLinkModal}
+                >
+                    <i className='fa fa-user-plus'/>
+                    <FormattedMessage
+                        id='intro_messages.inviteOthers'
+                        defaultMessage='Invite others to this team'
+                    />
+                </span>
+            </TeamPermissionGate>
+        </TeamPermissionGate>
+    );
 
-    let setHeaderButton = createSetHeaderButton(channel);
-    if (!showManagementOption(channel)) {
-        setHeaderButton = null;
-    }
+    const teamId = TeamStore.getCurrentId();
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const setHeaderButton = (
+        <ChannelPermissionGate
+            teamId={teamId}
+            channelId={channel.id}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        >
+            {createSetHeaderButton(channel)}
+        </ChannelPermissionGate>
+    );
 
     return (
         <div
@@ -257,7 +274,7 @@ function createDefaultIntroMessage(channel, centeredIntro, isLicensed, restrictT
     );
 }
 
-function createStandardIntroMessage(channel, centeredIntro, isLicensed, restrictPrivateChannelManageMembers) {
+function createStandardIntroMessage(channel, centeredIntro) {
     var uiName = channel.display_name;
     var creatorName = Utils.displayUsername(channel.creator_id);
     var uiType;
@@ -346,15 +363,19 @@ function createStandardIntroMessage(channel, centeredIntro, isLicensed, restrict
         );
     }
 
-    let setHeaderButton = createSetHeaderButton(channel);
-    if (!showManagementOption(channel)) {
-        setHeaderButton = null;
-    }
+    const teamId = TeamStore.getCurrentId();
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const setHeaderButton = (
+        <ChannelPermissionGate
+            teamId={teamId}
+            channelId={channel.id}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        >
+            {createSetHeaderButton(channel)}
+        </ChannelPermissionGate>
+    );
 
-    let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
-    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(isLicensed, restrictPrivateChannelManageMembers)) {
-        channelInviteButton = null;
-    }
+    const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
 
     return (
         <div
@@ -383,21 +404,28 @@ function createStandardIntroMessage(channel, centeredIntro, isLicensed, restrict
 }
 
 function createInviteChannelMemberButton(channel, uiType) {
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     return (
-        <ToggleModalButton
-            className='intro-links color--link'
-            dialogType={ChannelInviteModal}
-            dialogProps={{channel}}
+        <ChannelPermissionGate
+            channelId={channel.id}
+            teamId={channel.team_id}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
         >
-            <i className='fa fa-user-plus'/>
-            <FormattedMessage
-                id='intro_messages.invite'
-                defaultMessage='Invite others to this {type}'
-                values={{
-                    type: (uiType),
-                }}
-            />
-        </ToggleModalButton>
+            <ToggleModalButton
+                className='intro-links color--link'
+                dialogType={ChannelInviteModal}
+                dialogProps={{channel}}
+            >
+                <i className='fa fa-user-plus'/>
+                <FormattedMessage
+                    id='intro_messages.invite'
+                    defaultMessage='Invite others to this {type}'
+                    values={{
+                        type: (uiType),
+                    }}
+                />
+            </ToggleModalButton>
+        </ChannelPermissionGate>
     );
 }
 
@@ -415,36 +443,4 @@ function createSetHeaderButton(channel) {
             />
         </ToggleModalButton>
     );
-}
-
-function showManagementOption(channel) {
-    const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-    const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-    const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
-    if (!showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
-        return false;
-    }
-
-    return true;
-}
-
-function isCurrentUserPermitted(isLicensed, permission) {
-    if (!isLicensed) {
-        return true;
-    }
-
-    const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-    const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-    const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
-    if (
-        (permission === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) ||
-        (permission === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) ||
-        (permission === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin))
-    ) {
-        return false;
-    }
-
-    return true;
 }

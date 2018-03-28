@@ -86,6 +86,7 @@ describe('rhs view actions', () => {
                 postsInChannel: {
                     [channelId]: [latestPostId],
                 },
+                postsInThread: {},
                 messagesHistory: {
                     index: {
                         [Posts.MESSAGE_TYPES.COMMENT]: 0,

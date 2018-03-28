@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -22,6 +24,11 @@ export default class ReactionListView extends React.PureComponent {
          * The post to render reactions for
          */
         post: PropTypes.object.isRequired,
+
+        /*
+         * The id of the team which belongs the post
+         */
+        teamId: PropTypes.string,
 
         /**
          * The reactions to render
@@ -161,17 +168,23 @@ export default class ReactionListView extends React.PureComponent {
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         overlay={addReactionTooltip}
                     >
-                        <div
-                            className='post-reaction'
-                            onClick={this.toggleEmojiPicker}
+                        <ChannelPermissionGate
+                            channelId={this.props.post.channel_id}
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_REACTION]}
                         >
-                            <span
-                                className='post-reaction__add'
-                                ref='addReactionButton'
+                            <div
+                                className='post-reaction'
+                                onClick={this.toggleEmojiPicker}
                             >
-                                {'+'}
-                            </span>
-                        </div>
+                                <span
+                                    className='post-reaction__add'
+                                    ref='addReactionButton'
+                                >
+                                    {'+'}
+                                </span>
+                            </div>
+                        </ChannelPermissionGate>
                     </OverlayTrigger>
                 </span>
             );

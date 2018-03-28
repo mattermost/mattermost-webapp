@@ -5,6 +5,10 @@ import EventEmitter from 'events';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {WebrtcActionTypes} from 'utils/constants.jsx';
+import {initWebrtc} from 'actions/views/webrtc';
+import store from 'stores/redux_store.jsx';
+
+const dispatch = store.dispatch;
 
 class WebrtcStoreClass extends EventEmitter {
     constructor() {
@@ -28,6 +32,7 @@ class WebrtcStoreClass extends EventEmitter {
 
     emitInit(userId, isCaller) {
         this.emit(WebrtcActionTypes.INITIALIZE, userId, isCaller);
+        dispatch(initWebrtc(userId, isCaller));
     }
 
     addInitListener(callback) {
@@ -72,18 +77,6 @@ class WebrtcStoreClass extends EventEmitter {
 
     removeChangedListener(callback) {
         this.removeListener(WebrtcActionTypes.CHANGED, callback);
-    }
-
-    emitRhsChanged(isOpen) {
-        this.emit(WebrtcActionTypes.RHS, isOpen);
-    }
-
-    addRhsChangedListener(callback) {
-        this.on(WebrtcActionTypes.RHS, callback);
-    }
-
-    removeRhsChangedListener(callback) {
-        this.removeListener(WebrtcActionTypes.RHS, callback);
     }
 }
 

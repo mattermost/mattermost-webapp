@@ -1,5 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/create_post Show tutorial 1`] = `
+<form
+  className=""
+  id="create_post"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="post-create"
+  >
+    <div
+      className="post-create-body"
+    >
+      <div
+        className="post-body__cell"
+      >
+        <Textbox
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          characterLimit={4000}
+          createMessage="Write a message..."
+          disabled={false}
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="post_textbox"
+          isRHS={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          popoverMentionKeyClick={true}
+          supportsCommands={true}
+          value=""
+        />
+        <span
+          className="post-body__actions"
+        >
+          <Connect(FileUpload)
+            fileCount={0}
+            getTarget={[Function]}
+            onFileUpload={[Function]}
+            onFileUploadChange={[Function]}
+            onUploadError={[Function]}
+            onUploadStart={[Function]}
+            postType="post"
+          />
+          <span
+            className="emoji-picker__container"
+          >
+            <EmojiPickerOverlay
+              onEmojiClick={[Function]}
+              onHide={[Function]}
+              rightOffset={15}
+              show={false}
+              spaceRequiredAbove={422}
+              spaceRequiredBelow={436}
+              target={[Function]}
+              topOffset={-7}
+            />
+            <EmojiIcon
+              className="icon icon--emoji "
+              id="emojiPickerButton"
+              onClick={[Function]}
+            />
+          </span>
+          <a
+            className="send-button theme disabled"
+            onClick={[Function]}
+          >
+            <i
+              className="fa fa-paper-plane"
+            />
+          </a>
+        </span>
+      </div>
+      <Connect(TutorialTip)
+        diagnosticsTag="tutorial_tip_1_sending_messages"
+        id="postTextboxTipMessage"
+        overlayClass="tip-overlay--chat"
+        placement="top"
+        screens={
+          Array [
+            <div>
+              <FormattedHTMLMessage
+                defaultMessage="<h4>Sending Messages</h4><p>Type here to write a message and press <strong>Enter</strong> to post it.</p><p>Click the <strong>Attachment</strong> button to upload an image or a file.</p>"
+                id="create_post.tutorialTip"
+                values={Object {}}
+              />
+            </div>,
+          ]
+        }
+      />
+    </div>
+    <div
+      className="post-create-footer"
+      id="postCreateFooter"
+    >
+      <Connect(MsgTyping)
+        channelId="owsyt8n43jfxjpzh9np93mx1wa"
+        postId=""
+      />
+    </div>
+  </div>
+  <PostDeletedModal
+    onHide={[Function]}
+    show={false}
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Confirm"
+        id="notify_all.confirm"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
+        id="notify_all.question"
+        values={
+          Object {
+            "totalMembers": 8,
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Confirm sending notifications to entire channel"
+        id="notify_all.title.confirm"
+        values={Object {}}
+      />
+    }
+  />
+</form>
+`;
+
 exports[`components/create_post should match snapshot for center textbox 1`] = `
 <form
   className="center"

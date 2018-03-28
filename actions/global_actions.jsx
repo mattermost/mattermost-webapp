@@ -24,7 +24,8 @@ import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {closeRightHandSide} from 'actions/views/rhs';
+import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
+import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
@@ -472,10 +473,8 @@ export function clientLogout(redirectTo = '/') {
 
 export function toggleSideBarRightMenuAction() {
     dispatch(closeRightHandSide());
-
-    document.querySelector('.app__body .inner-wrap').classList.remove('move--right', 'move--left', 'move--left-small');
-    document.querySelector('.app__body .sidebar--left').classList.remove('move--right');
-    document.querySelector('.app__body .sidebar--right').classList.remove('move--left');
+    dispatch(closeLhs());
+    dispatch(closeRhsMenu());
     document.querySelector('.app__body .sidebar--menu').classList.remove('move--left');
 }
 

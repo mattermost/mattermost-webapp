@@ -4,7 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getChannelsNameMapInCurrentTeam, getMyChannelMemberships, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsNameMapInCurrentTeam, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -12,6 +13,7 @@ import {leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
+import {open as openLhs} from 'actions/views/lhs.js';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -87,6 +89,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             savePreferences,
             leaveChannel,
+            openLhs,
         }, dispatch),
     };
 }

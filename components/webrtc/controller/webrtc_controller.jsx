@@ -768,7 +768,7 @@ export default class WebrtcController extends React.Component {
         }
 
         WebrtcStore.setVideoCallWith(null);
-        WebrtcStore.emitRhsChanged(false);
+        this.props.actions.closeRhs();
 
         if (manual) {
             return this.close();
@@ -1240,4 +1240,7 @@ WebrtcController.propTypes = {
     expanded: PropTypes.bool.isRequired,
     toggleSize: PropTypes.func,
     enableDeveloper: PropTypes.bool.isRequired,
+    actions: PropTypes.shape({
+        closeRhs: PropTypes.func.isRequired,
+    }).isRequired,
 };
