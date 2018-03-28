@@ -115,6 +115,15 @@ function keepChannelIdAsUnread(state = null, action) {
     }
 }
 
+function centerChannelDropdownOpen(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.TOGGLE_CENTER_CHANNEL_DROPDOWN:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -122,4 +131,5 @@ export default combineReducers({
     focusedPostId,
     mobileView,
     keepChannelIdAsUnread,
+    centerChannelDropdownOpen,
 });

@@ -258,6 +258,8 @@ export const ActionTypes = keyMirror({
     CLOSE_WEBRTC: null,
 
     STORE_REHYDRATION_FAILED: null,
+
+    TOGGLE_CENTER_CHANNEL_DROPDOWN: null,
 });
 
 export const WebrtcActionTypes = keyMirror({

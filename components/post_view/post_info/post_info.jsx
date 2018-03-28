@@ -109,6 +109,8 @@ export default class PostInfo extends React.PureComponent {
              * Function to add a reaction to the post
              */
             addReaction: PropTypes.func.isRequired,
+
+            setCenterChannelDropdown: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -161,6 +163,7 @@ export default class PostInfo extends React.PureComponent {
     handleDotMenuOpened = (open) => {
         this.setState({showDotMenu: open});
         this.props.handleDropdownOpened(open);
+        this.props.actions.setCenterChannelDropdown(open);
     };
 
     getDotMenu = () => {
