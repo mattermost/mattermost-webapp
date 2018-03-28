@@ -9,8 +9,6 @@ export function getPrefix(state) {
         }
     }
 
-    console.warn('Storage tried to operate without user present'); //eslint-disable-line no-console
-
     return 'unknown_';
 }
 
