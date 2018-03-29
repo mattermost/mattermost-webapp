@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
+import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getConfig, getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
@@ -17,6 +18,8 @@ function mapStateToProps(state) {
     const timezones = getTimezones(state);
     const currentUserId = getCurrentUserId(state);
     const userTimezone = getUserTimezone(state, currentUserId);
+    const automaticTimezoneNotSet = userTimezone && !userTimezone.automaticTimezone;
+    const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
 
     const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
@@ -34,6 +37,7 @@ function mapStateToProps(state) {
         enableTimezone,
         timezones,
         userTimezone,
+        shouldAutoUpdateTimezone,
         currentUserTimezone: getUserCurrentTimezone(userTimezone),
     };
 }
@@ -42,6 +46,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getSupportedTimezones,
+            autoUpdateTimezone,
         }, dispatch),
     };
 }

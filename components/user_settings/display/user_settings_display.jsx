@@ -12,6 +12,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {getBrowserTimezone} from 'utils/timezone.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
 
@@ -56,6 +57,14 @@ export default class UserSettingsDisplay extends React.Component {
             channel_display_mode: 'message_display',
             languages: 'channel_display_mode',
         };
+    }
+
+    componentDidMount() {
+        const {actions, enableTimezone, shouldAutoUpdateTimezone} = this.props;
+
+        if (enableTimezone && shouldAutoUpdateTimezone) {
+            actions.autoUpdateTimezone(getBrowserTimezone());
+        }
     }
 
     handleSubmit = () => {
@@ -483,7 +492,7 @@ export default class UserSettingsDisplay extends React.Component {
         });
 
         let timezoneSelection;
-        if (this.props.enableTimezone) {
+        if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
             const userTimezone = this.props.userTimezone;
             if (this.props.activeSection === 'timezone') {
                 timezoneSelection = (
@@ -719,7 +728,9 @@ UserSettingsDisplay.propTypes = {
     configTeammateNameDisplay: PropTypes.string,
     currentUserTimezone: PropTypes.string,
     enableTimezone: PropTypes.bool,
+    shouldAutoUpdateTimezone: PropTypes.bool,
     actions: PropTypes.shape({
         getSupportedTimezones: PropTypes.func.isRequired,
+        autoUpdateTimezone: PropTypes.func.isRequired,
     }).isRequired,
 };

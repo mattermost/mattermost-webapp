@@ -44,10 +44,6 @@ export default class LoggedIn extends React.Component {
         // Grab the current user
         const user = UserStore.getCurrentUser();
 
-        if (this.props.enableTimezone) {
-            this.props.actions.autoUpdateTimezone(getBrowserTimezone());
-        }
-
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
                 user,
@@ -62,6 +58,10 @@ export default class LoggedIn extends React.Component {
     componentDidMount() {
         // Initialize websocket
         WebSocketActions.initialize();
+
+        if (this.props.enableTimezone) {
+            this.props.actions.autoUpdateTimezone(getBrowserTimezone());
+        }
 
         // Make sure the websockets close and reset version
         $(window).on('beforeunload',
