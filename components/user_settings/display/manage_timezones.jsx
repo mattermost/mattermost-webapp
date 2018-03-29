@@ -140,7 +140,7 @@ export default class ManageTimezones extends React.PureComponent {
 
         const timezoneRegion = (
             <div
-                className='section-describe'
+                className='section-describe padding-top'
             >
                 {useAutomaticTimezone && getTimezoneRegion(automaticTimezone)}
             </div>

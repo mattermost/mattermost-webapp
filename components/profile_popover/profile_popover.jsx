@@ -274,13 +274,18 @@ class ProfilePopover extends React.Component {
                     key='user-popover-fullname'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
+                        className='overflow--ellipsis text-nowrap padding-top'
                     >
-                        {fullname}
+                        <strong>{fullname}</strong>
                     </div>
                 </OverlayTrigger>
             );
         }
+
+        dataContent.push(
+            <hr className='divider divider--expanded'/>
+        );
+
 
         if (this.props.user.position) {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
@@ -292,7 +297,7 @@ class ProfilePopover extends React.Component {
                     key='user-popover-position'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
+                        className='overflow--ellipsis text-nowrap padding-bottom half'
                     >
                         {position}
                     </div>
@@ -310,7 +315,7 @@ class ProfilePopover extends React.Component {
                 >
                     <a
                         href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email'
+                        className='text-nowrap text-lowercase user-popover__email padding-bottom half'
                     >
                         {email}
                     </a>
@@ -320,9 +325,12 @@ class ProfilePopover extends React.Component {
 
         if (this.props.enableTimezone && this.props.user.timezone) {
             dataContent.push(
-                <span key='user-popover-local-time'>
+                <div
+                    key='user-popover-local-time'
+                    className='padding-bottom half'
+                >
                     <LocalDateTime userTimezone={this.props.user.timezone}/>
-                </span>
+                </div>
             );
         }
 
