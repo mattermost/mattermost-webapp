@@ -15,7 +15,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
-import {getRhsState} from 'selectors/rhs';
+import {getSelectedPostId, getRhsState} from 'selectors/rhs';
 import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
@@ -314,5 +314,42 @@ export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', t
 export function hideEditPostModal() {
     return {
         type: ActionTypes.HIDE_EDIT_POST_MODAL,
+    };
+}
+
+export function deleteAndRemovePost(post) {
+    return async (doDispatch, doGetState) => {
+        const {currentUserId} = doGetState().entities.users;
+
+        let hardDelete = false;
+        if (post.user_id === currentUserId) {
+            hardDelete = true;
+        }
+
+        const {error} = await doDispatch(PostActions.deletePost(post, hardDelete));
+        if (error) {
+            return {error};
+        }
+
+        if (post.id === getSelectedPostId(doGetState())) {
+            dispatch({
+                type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: '',
+            });
+        }
+
+        doDispatch({
+            type: PostTypes.REMOVE_POST,
+            data: post,
+        });
+
+        // Needed for search store
+        AppDispatcher.handleViewAction({
+            type: Constants.ActionTypes.REMOVE_POST,
+            post,
+        });
+
+        return {data: true};
     };
 }

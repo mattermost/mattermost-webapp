@@ -54,10 +54,10 @@ describe('components/delete_post_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called actions.deletePost when handleDelete is called', async () => {
+    test('should have called actions.deleteAndRemovePost when handleDelete is called', async () => {
         browserHistory.push = jest.fn();
-        const actions = {deletePost: jest.fn()};
-        actions.deletePost.mockReturnValueOnce({data: true});
+        const actions = {deleteAndRemovePost: jest.fn()};
+        actions.deleteAndRemovePost.mockReturnValueOnce({data: true});
         const props = {...baseProps, actions};
         const wrapper = shallow(
             <DeletePostModal {...props}/>
@@ -66,15 +66,15 @@ describe('components/delete_post_modal', () => {
         wrapper.setState({show: true});
         wrapper.instance().handleDelete();
 
-        await expect(actions.deletePost).toHaveBeenCalledTimes(1);
-        expect(actions.deletePost).toHaveBeenCalledWith(props.post);
+        await expect(actions.deleteAndRemovePost).toHaveBeenCalledTimes(1);
+        expect(actions.deleteAndRemovePost).toHaveBeenCalledWith(props.post);
         expect(wrapper.state('show')).toEqual(false);
     });
 
     test('should call browserHistory.push on handleDelete with post.id === focusedPostId && channelName', async () => {
         browserHistory.push = jest.fn();
-        const actions = {deletePost: jest.fn()};
-        actions.deletePost.mockReturnValueOnce({data: true});
+        const actions = {deleteAndRemovePost: jest.fn()};
+        actions.deleteAndRemovePost.mockReturnValueOnce({data: true});
         const props = {...baseProps, actions, focusedPostId: '123', channelName: 'channel_name', teamName: 'team_name'};
         const wrapper = shallow(
             <DeletePostModal {...props}/>
