@@ -286,7 +286,6 @@ class ProfilePopover extends React.Component {
             <hr className='divider divider--expanded'/>
         );
 
-
         if (this.props.user.position) {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
             dataContent.push(
@@ -329,6 +328,10 @@ class ProfilePopover extends React.Component {
                     key='user-popover-local-time'
                     className='padding-bottom half'
                 >
+                    <FormattedMessage
+                        id='user_profile.account.localTime'
+                        defaultMessage='Local Time: '
+                    />
                     <LocalDateTime userTimezone={this.props.user.timezone}/>
                 </div>
             );

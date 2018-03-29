@@ -115,6 +115,9 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 src="src"
                 width="128"
               />
+              <hr
+                className="divider divider--expanded"
+              />
               <div
                 className="popover__row first"
                 data-toggle="tooltip"

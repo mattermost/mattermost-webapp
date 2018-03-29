@@ -3069,6 +3069,7 @@
   "user.settings.tokens.userAccessTokensNone": "No personal access tokens.",
   "user_list.notFound": "No users found",
   "user_profile.account.editSettings": "Edit Account Settings",
+  "user_profile.account.localTime": "Local Time: ",
   "user_profile.send.dm": "Send Message",
   "user_profile.webrtc.call": "Start Video Call",
   "user_profile.webrtc.offline": "The user is offline",

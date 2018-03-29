@@ -169,7 +169,6 @@ export default class ManageTimezones extends React.PureComponent {
         const providers = [new TimezoneProvider()];
         const manualTimezoneInput = (
             <div key='changeTimezone'>
-                <br/>
                 <label className='control-label'>
                     <FormattedMessage
                         id='user.settings.timezones.change'
@@ -196,13 +195,6 @@ export default class ManageTimezones extends React.PureComponent {
                     />
                     {serverError}
                 </div>
-                <div>
-                    <br/>
-                    <FormattedHTMLMessage
-                        id='user.settings.timezones.promote'
-                        defaultMessage='Select the time zone used for timestamps in the user interface and email notifications.'
-                    />
-                </div>
             </div>
         );
 
@@ -211,6 +203,16 @@ export default class ManageTimezones extends React.PureComponent {
         if (!useAutomaticTimezone) {
             inputs.push(manualTimezoneInput);
         }
+
+        inputs.push(
+            <div>
+                <br/>
+                <FormattedHTMLMessage
+                    id='user.settings.timezones.promote'
+                    defaultMessage='Select the time zone used for timestamps in the user interface and email notifications.'
+                />
+            </div>
+        );
 
         return (
             <SettingItemMax
