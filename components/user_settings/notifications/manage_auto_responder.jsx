@@ -94,7 +94,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 <br/>
                 <FormattedHTMLMessage
                     id='user.settings.notifications.autoResponderHint'
-                    defaultMessage='When enabled, sets your status to Out Of Office and answers direct messages with a custom response. Mentions in channels will not trigger a response. All notifications will be silenced.'
+                    defaultMessage='Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies disables email and push notifications.'
                 />
             </div>
         ));
@@ -104,7 +104,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 title={
                     <FormattedMessage
                         id='user.settings.notifications.autoResponder'
-                        defaultMessage='Out Of Office: Auto Responder'
+                        defaultMessage='Automatic Direct Message Replies'
                     />
                 }
                 width='medium'

@@ -846,53 +846,51 @@ export default class NotificationsTab extends React.Component {
         }
 
         let autoResponderSection;
-        if (isMinimumServerVersion(Client4.getServerVersion(), 4, 9)) {
-            if (this.props.activeSection === 'auto-responder') {
-                autoResponderSection = (
-                    <div>
-                        <ManageAutoResponder
-                            autoResponderActive={this.state.autoResponderActive}
-                            autoResponderMessage={this.state.autoResponderMessage}
-                            updateSection={this.updateSection}
-                            setParentState={this.setStateValue}
-                            submit={this.handleSubmit}
-                            error={this.state.serverError}
-                            saving={this.state.isSaving}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
-                );
-            } else {
-                const describe = this.state.autoResponderActive ? (
-                    <FormattedMessage
-                        id='user.settings.notifications.autoResponderEnabled'
-                        defaultMessage='Enabled'
+        if (this.props.activeSection === 'auto-responder') {
+            autoResponderSection = (
+                <div>
+                    <ManageAutoResponder
+                        autoResponderActive={this.state.autoResponderActive}
+                        autoResponderMessage={this.state.autoResponderMessage}
+                        updateSection={this.updateSection}
+                        setParentState={this.setStateValue}
+                        submit={this.handleSubmit}
+                        error={this.state.serverError}
+                        saving={this.state.isSaving}
                     />
-                ) : (
-                    <FormattedMessage
-                        id='user.settings.notifications.autoResponderDisabled'
-                        defaultMessage='Disabled'
-                    />
-                );
+                    <div className='divider-dark'/>
+                </div>
+            );
+        } else {
+            const describe = this.state.autoResponderActive ? (
+                <FormattedMessage
+                    id='user.settings.notifications.autoResponderEnabled'
+                    defaultMessage='Enabled'
+                />
+            ) : (
+                <FormattedMessage
+                    id='user.settings.notifications.autoResponderDisabled'
+                    defaultMessage='Disabled'
+                />
+            );
 
-                autoResponderSection = (
-                    <div>
-                        <SettingItemMin
-                            title={
-                                <FormattedMessage
-                                    id='user.settings.notifications.autoResponder'
-                                    defaultMessage='Out Of Office: Auto Responder'
-                                />
-                            }
-                            width='medium'
-                            describe={describe}
-                            section={'auto-responder'}
-                            updateSection={this.updateSection}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
-                );
-            }
+            autoResponderSection = (
+                <div>
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.notifications.autoResponder'
+                                defaultMessage='Out Of Office: Auto Responder'
+                            />
+                        }
+                        width='medium'
+                        describe={describe}
+                        section={'auto-responder'}
+                        updateSection={this.updateSection}
+                    />
+                    <div className='divider-dark'/>
+                </div>
+            );
         }
 
         const pushNotificationSection = this.createPushNotificationSection();
