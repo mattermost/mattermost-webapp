@@ -86,12 +86,13 @@
 
         &.wide {
             @include border-radius(37px);
+            line-height: 28px;
             padding: 0;
             white-space: nowrap;
             width: auto;
 
             > div {
-                padding: 0 9px;
+                padding: 0 8px;
             }
         }
 
@@ -112,7 +113,8 @@
 
         .icon__text {
             font-weight: 600;
-            margin-right: 5px;
+            margin-right: 4px;
+            position: relative;
         }
 
         a {
@@ -131,13 +133,16 @@
             position: relative;
         }
 
-        .icon__pin,
-        .icon__members {
+        .icon__pin {
             top: 1px;
         }
 
-        .icon__mentions {
+        .icon__members {
             top: 2px;
+        }
+
+        .icon__mentions {
+            top: 1px;
         }
 
         .icon__flag {
@@ -145,7 +150,7 @@
         }
 
         .icon__search {
-            top: 2px;
+            top: 1px;
         }
     }
 
@@ -177,7 +182,7 @@
         display: inline-block;
         font-size: 16px;
         font-weight: 600;
-        margin: 0 4px 0 0;
+        margin: 0 7px 0 0;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -221,7 +226,7 @@
 }
 
 .channel-header__info {
-    margin-top: 14px;
+    margin-top: 16px;
     white-space: nowrap;
 
     .dropdown-toggle {
