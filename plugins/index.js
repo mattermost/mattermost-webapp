@@ -21,7 +21,7 @@ window['react-redux'] = require('react-redux');
 window['react-bootstrap'] = require('react-bootstrap');
 window['post-utils'] = {formatText, messageHtmlToComponent};
 
-export function registerComponents(id, components = {}, postTypes = {}) {
+export function registerComponents(id, components = {}, postTypes = {}, mainMenuActions = []) {
     const wrappedComponents = {};
     Object.keys(components).forEach((name) => {
         wrappedComponents[name] = {component: components[name], id};
@@ -40,6 +40,16 @@ export function registerComponents(id, components = {}, postTypes = {}) {
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_POST_TYPES,
         data: wrappedPostTypes,
+    });
+
+    const wrappedMainMenuActions = [];
+    mainMenuActions.forEach((action) => {
+        wrappedMainMenuActions.push({id, ...action});
+    });
+
+    store.dispatch({
+        type: ActionTypes.RECEIVED_PLUGIN_MENU_ACTIONS,
+        data: wrappedMainMenuActions,
     });
 }
 
