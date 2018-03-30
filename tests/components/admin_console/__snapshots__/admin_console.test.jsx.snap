@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AdminConsole should redirect to / when not system admin 1`] = `
+<Redirect
+  push={false}
+  to="/"
+/>
+`;

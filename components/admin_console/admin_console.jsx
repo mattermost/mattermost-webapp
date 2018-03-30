@@ -88,6 +88,8 @@ export default class AdminConsole extends React.Component {
          */
         showNavigationPrompt: PropTypes.bool.isRequired,
 
+        isCurrentUserSystemAdmin: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -121,6 +123,12 @@ export default class AdminConsole extends React.Component {
         const {license, config, showNavigationPrompt} = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation} = this.props.actions;
 
+        if (!this.props.isCurrentUserSystemAdmin) {
+            return (
+                <Redirect to='/'/>
+            );
+        }
+
         if (Object.keys(config).length === 0) {
             return <div/>;
         }
@@ -149,6 +157,7 @@ export default class AdminConsole extends React.Component {
                 <div className='admin-console'>
                     <AdminSidebar/>
                     <Switch>
+
                         <SCRoute
                             path={`${this.props.match.url}/system_analytics`}
                             component={SchemaAdminSettings}
