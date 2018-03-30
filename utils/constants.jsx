@@ -1105,7 +1105,7 @@ export const Constants = {
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'http://push-test.mattermost.com',
     BOT_NAME: 'BOT',
-    AUTO_RESPONDER_NAME: 'AUTO RESPONDER',
+    AUTO_RESPONDER_NAME: 'AUTOMATIC REPLY',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     PERMISSIONS_ALL: 'all',

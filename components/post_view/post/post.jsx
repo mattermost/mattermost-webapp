@@ -239,7 +239,13 @@ export default class Post extends React.PureComponent {
                 />
             );
 
-            if (fromAutoResponder) {
+            if (fromWebhook) {
+                profilePic = (
+                    <ProfilePicture
+                        src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
+                    />
+                );
+            } else if (fromAutoResponder) {
                 profilePic = (
                     <span className='auto-responder'>
                         <ProfilePicture
@@ -249,15 +255,7 @@ export default class Post extends React.PureComponent {
                         />
                     </span>
                 );
-            }
-
-            if (fromWebhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    />
-                );
-            } else if (isSystemMessage && !fromAutoResponder) {
+            } else if (isSystemMessage) {
                 profilePic = (
                     <MattermostLogo className='icon'/>
                 );

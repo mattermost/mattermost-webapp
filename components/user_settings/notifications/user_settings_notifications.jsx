@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-import {Client4} from 'mattermost-redux/client';
-
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';

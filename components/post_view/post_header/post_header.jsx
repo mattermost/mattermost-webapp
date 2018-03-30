@@ -95,52 +95,64 @@ export default class PostHeader extends React.PureComponent {
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
+        let userProfile = (
+            <UserProfile
+                user={this.props.user}
+                displayNameType={this.props.displayNameType}
+                status={this.props.status}
+                isBusy={this.props.isBusy}
+                hasMention={true}
+            />
+        );
         let indicator;
         let colon;
-        let userProfileProps = {};
 
-        if (fromWebhook || fromAutoResponder) {
+        if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
-                userProfileProps = {
-                    user: this.props.user,
-                    overwriteName: post.props.override_username,
-                    disablePopover: true,
-                };
+                userProfile = (
+                    <UserProfile
+                        user={this.props.user}
+                        overwriteName={post.props.override_username}
+                        disablePopover={true}
+                    />
+                );
             } else {
-                userProfileProps = {
-                    user: this.props.user,
-                    displayNameType: this.props.displayNameType,
-                    disablePopover: true,
-                };
+                userProfile = (
+                    <UserProfile
+                        user={this.props.user}
+                        displayNameType={this.props.displayNameType}
+                        disablePopover={true}
+                    />
+                );
             }
 
             indicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
-        } else if (isSystemMessage && !fromAutoResponder) {
-            userProfileProps = {
-                user: {},
-                overwriteName: (
-                    <FormattedMessage
-                        id='post_info.system'
-                        defaultMessage='System'
-                    />
-                ),
-                overwriteImage: Constants.SYSTEM_MESSAGE_PROFILE_IMAGE,
-                disablePopover: true,
-            };
-        } else {
-            userProfileProps = {
-                user: this.props.user,
-                displayNameType: this.props.displayNameType,
-                status: this.props.status,
-                isBusy: this.props.isBusy,
-                hasMention: true,
-            };
-        }
+        } else if (fromAutoResponder) {
+            userProfile = (
+                <UserProfile
+                    user={this.props.user}
+                    displayNameType={this.props.displayNameType}
+                    status={this.props.status}
+                    isBusy={this.props.isBusy}
+                    hasMention={true}
+                />
+            );
 
-        const userProfile = <UserProfile {...userProfileProps}/>;
-
-        if (fromAutoResponder) {
-            indicator = <div className='auto-responder-indicator'>{Constants.AUTO_RESPONDER_NAME}</div>;
+            indicator = <div className='bot-indicator'>{Constants.AUTO_RESPONDER_NAME}</div>;
+        } else if (isSystemMessage) {
+            userProfile = (
+                <UserProfile
+                    user={{}}
+                    overwriteName={
+                        <FormattedMessage
+                            id='post_info.system'
+                            defaultMessage='System'
+                        />
+                    }
+                    overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
+                    disablePopover={true}
+                />
+            );
         }
 
         if (this.props.compactDisplay) {
