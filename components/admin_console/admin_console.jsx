@@ -157,7 +157,6 @@ export default class AdminConsole extends React.Component {
                 <div className='admin-console'>
                     <AdminSidebar/>
                     <Switch>
-
                         <SCRoute
                             path={`${this.props.match.url}/system_analytics`}
                             component={SchemaAdminSettings}
