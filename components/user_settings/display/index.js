@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     const timezones = getTimezones(state);
     const currentUserId = getCurrentUserId(state);
     const userTimezone = getUserTimezone(state, currentUserId);
-    const automaticTimezoneNotSet = userTimezone && !userTimezone.automaticTimezone;
+    const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
 
     const allowCustomThemes = config.AllowCustomThemes === 'true';
