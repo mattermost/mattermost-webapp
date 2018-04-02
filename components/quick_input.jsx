@@ -48,7 +48,7 @@ export default class QuickInput extends React.PureComponent {
             return;
         }
 
-        if (UserAgent.isWindows7() && UserAgent.isInternetExplorer()) {
+        if ((UserAgent.isWindows7() && UserAgent.isInternetExplorer()) || UserAgent.isDesktopApp()) {
             // The textbox already knows where it's cursor is supposed to be because we've already
             // typed in it, but it needs to be reminded of that
             const caret = Utils.getCaretPosition(this.input);
