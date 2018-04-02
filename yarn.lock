@@ -5592,7 +5592,7 @@ math-expression-evaluator@^1.2.14:
 
 mattermost-redux@mattermost/mattermost-redux:
   version "1.2.0"
-  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/91cd41ec58433034390d8dc16d3ef4b6eae6ce17"
+  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/c2c2c619e4297794300bf14b886e49d514e558aa"
   dependencies:
     deep-equal "1.0.1"
     form-data "2.3.1"
@@ -9026,9 +9026,13 @@ whatwg-encoding@^1.0.3:
   dependencies:
     iconv-lite "0.4.19"
 
-whatwg-fetch@2.0.3, whatwg-fetch@>=0.10.0:
+whatwg-fetch@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
+
+whatwg-fetch@>=0.10.0:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
 
 whatwg-url@^6.4.0:
   version "6.4.0"
