@@ -730,25 +730,32 @@ export default class ChannelHeader extends React.Component {
                 );
             }
 
-            if (ChannelUtils.showConvertOption(channel, isTeamAdmin, isSystemAdmin)) {
+            if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
                 dropdownContents.push(
-                    <li
-                        key='convert_channel'
-                        role='presentation'
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={teamId}
+                        permissions={[Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        key='convert_channel_permission'
                     >
-                        <ToggleModalButtonRedux
-                            id='channelConvert'
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CONVERT_CHANNEL}
-                            dialogType={ConvertChannelModal}
-                            dialogProps={{channel}}
+                        <li
+                            key='convert_channel'
+                            role='presentation'
                         >
-                            <FormattedMessage
-                                id='channel_header.convert'
-                                defaultMessage='Convert to Private Channel'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
+                            <ToggleModalButtonRedux
+                                id='channelConvert'
+                                role='menuitem'
+                                modalId={ModalIdentifiers.CONVERT_CHANNEL}
+                                dialogType={ConvertChannelModal}
+                                dialogProps={{channel}}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.convert'
+                                    defaultMessage='Convert to Private Channel'
+                                />
+                            </ToggleModalButtonRedux>
+                        </li>
+                    </ChannelPermissionGate>
                 );
             }
 
