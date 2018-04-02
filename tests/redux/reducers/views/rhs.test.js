@@ -13,6 +13,7 @@ describe('Reducers.RHS', () => {
         previousRhsState: null,
         rhsState: null,
         searchTerms: '',
+        searchResultsTerms: '',
         isSearchingTerm: false,
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
