@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
 import {searchProfiles, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
@@ -15,9 +14,8 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -53,7 +51,7 @@ export default class MoreDirectChannels extends React.Component {
         /**
          * Function to call on modal hide
          */
-        onHide: PropTypes.func.isRequired,
+        onHide: PropTypes.func,
 
         actions: PropTypes.shape({
 
@@ -275,72 +273,6 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({values});
     }
 
-    renderOption(option, isSelected, onAdd) {
-        const currentUser = UserStore.getCurrentUser();
-        const displayName = displayEntireNameForUser(option);
-
-        let modalName = displayName;
-        if (option.id === currentUser.id) {
-            modalName = (
-                <FormattedMessage
-                    id='more_direct_channels.directchannel.you'
-                    defaultMessage='{displayname} (you)'
-                    values={{
-                        displayname: displayName,
-                    }}
-                />
-            );
-        } else if (option.delete_at) {
-            modalName = (
-                <FormattedMessage
-                    id='more_direct_channels.directchannel.deactivated'
-                    defaultMessage='{displayname} - Deactivated'
-                    values={{
-                        displayname: displayName,
-                    }}
-                />
-            );
-        }
-
-        var rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
-
-        const status = option.delete_at ? null : UserStore.getStatus(option.id);
-
-        return (
-            <div
-                key={option.id}
-                ref={isSelected ? 'selected' : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
-                onClick={() => onAdd(option)}
-            >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={status}
-                    width='32'
-                    height='32'
-                />
-                <div
-                    className='more-modal__details'
-                >
-                    <div className='more-modal__name'>
-                        {modalName}
-                    </div>
-                    <div className='more-modal__description'>
-                        {option.email}
-                    </div>
-                </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <i className='fa fa-plus'/>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     renderValue(user) {
         return user.username;
     }
@@ -414,7 +346,6 @@ export default class MoreDirectChannels extends React.Component {
                         key='moreDirectChannelsList'
                         ref='multiselect'
                         options={users}
-                        optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
                         perPage={USERS_PER_PAGE}
@@ -430,6 +361,7 @@ export default class MoreDirectChannels extends React.Component {
                         submitImmediatelyOn={this.handleSubmitImmediatelyOn}
                         saving={this.state.saving}
                         loading={this.state.loadingUsers}
+                        showEmail={true}
                     />
                 </Modal.Body>
             </Modal>

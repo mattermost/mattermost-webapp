@@ -183,21 +183,6 @@ describe('components/AddUsersToTeam', () => {
         expect(wrapper.state('values')).toEqual(newValues);
     });
 
-    test('should match when renderOption is called', () => {
-        const wrapper = shallow(
-            <AddUsersToTeam {...baseProps}/>
-        );
-
-        const option = {id: 'id', last_picture_update: '12345', email: 'test@test.com'};
-        let isSelected = false;
-        function onAdd() {} //eslint-disable-line no-empty-function
-
-        expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
-
-        isSelected = true;
-        expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
-    });
-
     test('should match when renderValue is called', () => {
         const wrapper = shallow(
             <AddUsersToTeam {...baseProps}/>
