@@ -9,7 +9,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 import {
-    getSearchTerms,
+    getSearchResultsTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
     getIsSearchingPinnedPost,
@@ -70,7 +70,7 @@ function makeMapStateToProps() {
         return {
             results: posts,
             channels,
-            searchTerms: getSearchTerms(state),
+            searchTerms: getSearchResultsTerms(state),
             isFlaggedByPostId,
             isSearchingTerm: getIsSearchingTerm(state),
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
