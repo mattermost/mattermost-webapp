@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['components/view_image/ImagePreview should match snapshot, with preview 1'] = `
+exports[`components/view_image/ImagePreview should match snapshot, with preview 1`] = `
 <a
   download={true}
-  href="/api/v4/files/file_id_1"
+  href="/api/v4/files/file_id_1?download=1"
   rel="noopener noreferrer"
   target="_blank"
 >
@@ -13,27 +13,27 @@ exports['components/view_image/ImagePreview should match snapshot, with preview 
 </a>
 `;
 
-exports['components/view_image/ImagePreview should match snapshot, with preview, cannot download 1'] = `
+exports[`components/view_image/ImagePreview should match snapshot, with preview, cannot download 1`] = `
 <img
   src="/api/v4/files/file_id_1/preview"
 />
 `;
 
-exports['components/view_image/ImagePreview should match snapshot, without preview 1'] = `
+exports[`components/view_image/ImagePreview should match snapshot, without preview 1`] = `
 <a
   download={true}
-  href="/api/v4/files/file_id"
+  href="/api/v4/files/file_id?download=1"
   rel="noopener noreferrer"
   target="_blank"
 >
   <img
-    src="/api/v4/files/file_id"
+    src="/api/v4/files/file_id?download=1"
   />
 </a>
 `;
 
-exports['components/view_image/ImagePreview should match snapshot, without preview, cannot download 1'] = `
+exports[`components/view_image/ImagePreview should match snapshot, without preview, cannot download 1`] = `
 <img
-  src="/api/v4/files/file_id"
+  src="/api/v4/files/file_id?download=1"
 />
 `;
