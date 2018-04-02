@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {addReaction, removePost} from 'mattermost-redux/actions/posts';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Preferences} from 'utils/constants.jsx';
@@ -20,7 +20,6 @@ function mapStateToProps(state, ownProps) {
 
     return {
         teamId,
-        useMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         isMobile: state.views.channel.mobileView,
         enableEmojiPicker,

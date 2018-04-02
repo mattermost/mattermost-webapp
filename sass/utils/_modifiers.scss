@@ -3,6 +3,10 @@
 .padding-top {
     padding-top: 7px;
 
+    &.half {
+        padding-top: 3px;
+    }
+
     &.x2 {
         padding-top: 14px;
     }
@@ -14,6 +18,10 @@
 
 .padding-bottom {
     padding-bottom: 7px;
+
+    &.half {
+        padding-bottom: 3px;
+    }
 
     &.x1 {
         padding-bottom: 4px;

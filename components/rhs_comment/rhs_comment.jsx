@@ -37,7 +37,6 @@ export default class RhsComment extends React.Component {
         user: PropTypes.object,
         currentUser: PropTypes.object.isRequired,
         compactDisplay: PropTypes.bool,
-        useMilitaryTime: PropTypes.bool.isRequired,
         isFlagged: PropTypes.bool,
         status: PropTypes.string,
         isBusy: PropTypes.bool,
@@ -70,10 +69,6 @@ export default class RhsComment extends React.Component {
         }
 
         if (nextProps.compactDisplay !== this.props.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.useMilitaryTime !== this.props.useMilitaryTime) {
             return true;
         }
 
@@ -147,7 +142,6 @@ export default class RhsComment extends React.Component {
             <PostTime
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
-                useMilitaryTime={this.props.useMilitaryTime}
                 postId={post.id}
             />
         );

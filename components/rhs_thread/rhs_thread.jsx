@@ -56,7 +56,6 @@ export default class RhsThread extends React.Component {
         previousRhsState: PropTypes.string,
         isWebrtc: PropTypes.bool,
         currentUser: PropTypes.object.isRequired,
-        useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         previewCollapsed: PropTypes.string.isRequired,
@@ -149,10 +148,6 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextState.compactDisplay !== this.state.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.useMilitaryTime !== this.props.useMilitaryTime) {
             return true;
         }
 
@@ -372,7 +367,6 @@ export default class RhsThread extends React.Component {
                         user={p}
                         currentUser={this.props.currentUser}
                         compactDisplay={this.state.compactDisplay}
-                        useMilitaryTime={this.props.useMilitaryTime}
                         isFlagged={isFlagged}
                         status={status}
                         isBusy={this.state.isBusy}
@@ -451,7 +445,6 @@ export default class RhsThread extends React.Component {
                             user={profile}
                             currentUser={this.props.currentUser}
                             compactDisplay={this.state.compactDisplay}
-                            useMilitaryTime={this.props.useMilitaryTime}
                             isFlagged={isRootFlagged}
                             status={rootStatus}
                             previewCollapsed={this.props.previewCollapsed}
