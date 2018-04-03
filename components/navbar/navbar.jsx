@@ -483,19 +483,26 @@ export default class Navbar extends React.Component {
                     );
                 } else {
                     addMembersOption = (
-                        <li role='presentation'>
-                            <ToggleModalButton
-                                ref='channelInviteModalButton'
-                                role='menuitem'
-                                dialogType={ChannelInviteModal}
-                                dialogProps={{channel, currentUser: this.state.currentUser}}
-                            >
-                                <FormattedMessage
-                                    id='navbar.addMembers'
-                                    defaultMessage='Add Members'
-                                />
-                            </ToggleModalButton>
-                        </li>
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                            key='add_members_permission'
+                        >
+                            <li role='presentation'>
+                                <ToggleModalButton
+                                    ref='channelInviteModalButton'
+                                    role='menuitem'
+                                    dialogType={ChannelInviteModal}
+                                    dialogProps={{channel, currentUser: this.state.currentUser}}
+                                >
+                                    <FormattedMessage
+                                        id='navbar.addMembers'
+                                        defaultMessage='Add Members'
+                                    />
+                                </ToggleModalButton>
+                            </li>
+                        </ChannelPermissionGate>
                     );
 
                     manageMembersOption = (
