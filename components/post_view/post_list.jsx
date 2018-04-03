@@ -597,7 +597,7 @@ export default class PostList extends React.PureComponent {
         let postListClass = '';
 
         if (this.props.centerChannelDropdownOpen) {
-            postListClass = ' post-list--popover'
+            postListClass = ' post-list--popover';
         }
 
         return (
