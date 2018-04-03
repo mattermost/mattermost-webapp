@@ -88,6 +88,8 @@ export default class AdminConsole extends React.Component {
          */
         showNavigationPrompt: PropTypes.bool.isRequired,
 
+        isCurrentUserSystemAdmin: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -120,6 +122,12 @@ export default class AdminConsole extends React.Component {
     render() {
         const {license, config, showNavigationPrompt} = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation} = this.props.actions;
+
+        if (!this.props.isCurrentUserSystemAdmin) {
+            return (
+                <Redirect to='/'/>
+            );
+        }
 
         if (Object.keys(config).length === 0) {
             return <div/>;

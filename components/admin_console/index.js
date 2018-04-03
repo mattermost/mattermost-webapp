@@ -7,6 +7,7 @@ import {getConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
@@ -19,6 +20,7 @@ function mapStateToProps(state) {
         license: getLicense(state),
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state),
+        isCurrentUserSystemAdmin: isCurrentUserSystemAdmin(state),
     };
 }
 
