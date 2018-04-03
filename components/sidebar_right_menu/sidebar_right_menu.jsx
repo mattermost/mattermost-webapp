@@ -45,6 +45,7 @@ export default class SidebarRightMenu extends React.Component {
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
         siteName: PropTypes.string,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
@@ -53,6 +54,10 @@ export default class SidebarRightMenu extends React.Component {
             closeRhsMenu: PropTypes.func.isRequired,
         }),
     };
+
+    static defaultProps = {
+        pluginMenuItems: [],
+    }
 
     constructor(props) {
         super(props);
@@ -298,6 +303,27 @@ export default class SidebarRightMenu extends React.Component {
             </li>
         );
 
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            const MenuIcon = item.mobile_icon;
+            return (
+                <li key={item.id + '_pluginrightmenuitem'}>
+                    <a
+                        id={item.id + '_pluginrightmenuitem'}
+                        href='#'
+                        onClick={item.action}
+                    >
+                        {MenuIcon ? <MenuIcon/> : <i className='icon fa fa-plus-square'/>}
+                        {item.text}
+                    </a>
+                </li>
+            );
+        });
+
+        let pluginDivider = null;
+        if (pluginItems.length > 0) {
+            pluginDivider = <li className='divider'/>;
+        }
+
         let leaveTeam = '';
         if (!this.props.experimentalPrimaryTeam) {
             leaveTeam = (
@@ -529,6 +555,8 @@ export default class SidebarRightMenu extends React.Component {
                         {createTeam}
                         {joinAnotherTeamLink}
                         {leaveTeam}
+                        {pluginDivider}
+                        {pluginItems}
                         {consoleDivider}
                         {consoleLink}
                         <li className='divider'/>

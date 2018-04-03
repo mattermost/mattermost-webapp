@@ -49,10 +49,12 @@ export default class SidebarHeaderDropdown extends React.Component {
         restrictTeamInvite: PropTypes.string,
         showDropdown: PropTypes.bool.isRequired,
         onToggleDropdown: PropTypes.func.isRequired,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
         teamType: '',
+        pluginMenuItems: [],
     };
 
     constructor(props) {
@@ -486,6 +488,30 @@ export default class SidebarHeaderDropdown extends React.Component {
             );
         }
 
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <li key={item.id + '_pluginmenuitem'}>
+                    <a
+                        id={item.id + '_pluginmenuitem'}
+                        href='#'
+                        onClick={() => {
+                            if (item.action) {
+                                item.action();
+                            }
+                            this.toggleDropdown(false);
+                        }}
+                    >
+                        {item.text}
+                    </a>
+                </li>
+            );
+        });
+
+        let pluginDivider = null;
+        if (pluginItems.length > 0) {
+            pluginDivider = <li className='divider'/>;
+        }
+
         let helpLink = null;
         if (this.props.helpLink) {
             helpLink = (
@@ -677,6 +703,8 @@ export default class SidebarHeaderDropdown extends React.Component {
                     {teamSettings}
                     {manageLink}
                     {teams}
+                    {pluginDivider}
+                    {pluginItems}
                     {backstageDivider}
                     {integrationsLink}
                     {customEmoji}
