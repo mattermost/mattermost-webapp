@@ -201,6 +201,7 @@ class ProfilePopover extends React.Component {
         delete popoverProps.hasMention;
         delete popoverProps.dispatch;
         delete popoverProps.enableWebrtc;
+        delete popoverProps.enableTimezone;
 
         let webrtc;
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -283,7 +284,10 @@ class ProfilePopover extends React.Component {
         }
 
         dataContent.push(
-            <hr className='divider divider--expanded'/>
+            <hr
+                key='user-popover-hr'
+                className='divider divider--expanded'
+            />
         );
 
         if (this.props.user.position) {
