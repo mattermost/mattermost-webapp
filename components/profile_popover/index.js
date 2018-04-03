@@ -8,12 +8,10 @@ import ProfilePopover from './profile_popover.jsx';
 function mapStateToProps(state, ownProps) {
     const config = state.entities.general.config;
 
-    const showEmailAddress = config.ShowEmailAddress === 'true';
     const enableWebrtc = config.EnableWebrtc === 'true';
 
     return {
         ...ownProps,
-        showEmailAddress,
         enableWebrtc,
     };
 }
