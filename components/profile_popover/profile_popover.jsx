@@ -6,6 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import LocalDateTime from 'components/local_date_time';
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -273,13 +274,17 @@ class ProfilePopover extends React.Component {
                     key='user-popover-fullname'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
+                        className='overflow--ellipsis text-nowrap padding-top'
                     >
-                        {fullname}
+                        <strong>{fullname}</strong>
                     </div>
                 </OverlayTrigger>
             );
         }
+
+        dataContent.push(
+            <hr className='divider divider--expanded'/>
+        );
 
         if (this.props.user.position) {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
@@ -291,7 +296,7 @@ class ProfilePopover extends React.Component {
                     key='user-popover-position'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
+                        className='overflow--ellipsis text-nowrap padding-bottom half'
                     >
                         {position}
                     </div>
@@ -309,10 +314,25 @@ class ProfilePopover extends React.Component {
                 >
                     <a
                         href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email'
+                        className='text-nowrap text-lowercase user-popover__email padding-bottom half'
                     >
                         {email}
                     </a>
+                </div>
+            );
+        }
+
+        if (this.props.enableTimezone && this.props.user.timezone) {
+            dataContent.push(
+                <div
+                    key='user-popover-local-time'
+                    className='padding-bottom half'
+                >
+                    <FormattedMessage
+                        id='user_profile.account.localTime'
+                        defaultMessage='Local Time: '
+                    />
+                    <LocalDateTime userTimezone={this.props.user.timezone}/>
                 </div>
             );
         }

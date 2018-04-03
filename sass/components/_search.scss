@@ -69,14 +69,14 @@
 
     .fa-spin {
         @include opacity(0.5);
-        font-size: 1.2em;
+        font-size: 1em;
         position: absolute;
         right: 27px;
         top: 27px;
 
         .search-bar__container & {
-            right: 12px;
-            top: 10px;
+            right: 7px;
+            top: 7px;
         }
     }
 }

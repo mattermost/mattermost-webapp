@@ -3,9 +3,10 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {deletePost} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {deleteAndRemovePost} from 'actions/post_actions.jsx';
 
 import DeletePostModal from './delete_post_modal.jsx';
 
@@ -28,7 +29,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            deletePost,
+            deleteAndRemovePost,
         }, dispatch),
     };
 }

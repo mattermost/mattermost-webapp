@@ -241,6 +241,7 @@ export default class MultiSelect extends React.Component {
                             onCloseResetsInput={false}
                             onChange={this.onChange}
                             value={this.props.values}
+                            valueKey={this.props.valueKey}
                             valueRenderer={this.props.valueRenderer}
                             menuRenderer={this.handleRender}
                             arrowRenderer={this.handleRender}
@@ -283,6 +284,7 @@ MultiSelect.propTypes = {
     options: PropTypes.arrayOf(PropTypes.object),
     optionRenderer: PropTypes.func,
     values: PropTypes.arrayOf(PropTypes.object),
+    valueKey: PropTypes.string,
     valueRenderer: PropTypes.func,
     handleInput: PropTypes.func,
     handleDelete: PropTypes.func,

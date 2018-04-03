@@ -9,10 +9,12 @@ function mapStateToProps(state, ownProps) {
     const config = state.entities.general.config;
 
     const enableWebrtc = config.EnableWebrtc === 'true';
+    const enableTimezone = config.ExperimentalTimezone === 'true';
 
     return {
         ...ownProps,
         enableWebrtc,
+        enableTimezone,
     };
 }
 

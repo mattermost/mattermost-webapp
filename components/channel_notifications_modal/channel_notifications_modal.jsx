@@ -7,6 +7,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+
 import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -24,6 +26,7 @@ export default class ChannelNotificationsModal extends React.Component {
             updateChannelNotifyProps: PropTypes.func.isRequired,
         }),
     };
+
     constructor(props) {
         super(props);
 
@@ -157,6 +160,7 @@ export default class ChannelNotificationsModal extends React.Component {
 
         const {
             channel,
+            channelMember,
             currentUser,
             sendPushNotifications,
             show,
@@ -201,29 +205,33 @@ export default class ChannelNotificationsModal extends React.Component {
                                     onUpdateSection={this.handleUpdateMarkUnreadSection}
                                     serverError={serverError}
                                 />
-                                <div className='divider-light'/>
-                                <NotificationSection
-                                    section={NotificationSections.DESKTOP}
-                                    expand={activeSection === NotificationSections.DESKTOP}
-                                    memberNotificationLevel={desktopNotifyLevel}
-                                    globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
-                                    onChange={this.handleUpdateDesktopNotifyLevel}
-                                    onSubmit={this.handleSubmitDesktopNotifyLevel}
-                                    onUpdateSection={this.handleUpdateDesktopSection}
-                                    serverError={serverError}
-                                />
-                                <div className='divider-light'/>
-                                {sendPushNotifications &&
-                                <NotificationSection
-                                    section={NotificationSections.PUSH}
-                                    expand={activeSection === NotificationSections.PUSH}
-                                    memberNotificationLevel={pushNotifyLevel}
-                                    globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.push : NotificationLevels.ALL}
-                                    onChange={this.handleUpdatePushNotificationLevel}
-                                    onSubmit={this.handleSubmitPushNotificationLevel}
-                                    onUpdateSection={this.handleUpdatePushSection}
-                                    serverError={serverError}
-                                />
+                                {!isChannelMuted(channelMember) &&
+                                <div>
+                                    <div className='divider-light'/>
+                                    <NotificationSection
+                                        section={NotificationSections.DESKTOP}
+                                        expand={activeSection === NotificationSections.DESKTOP}
+                                        memberNotificationLevel={desktopNotifyLevel}
+                                        globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
+                                        onChange={this.handleUpdateDesktopNotifyLevel}
+                                        onSubmit={this.handleSubmitDesktopNotifyLevel}
+                                        onUpdateSection={this.handleUpdateDesktopSection}
+                                        serverError={serverError}
+                                    />
+                                    <div className='divider-light'/>
+                                    {sendPushNotifications &&
+                                    <NotificationSection
+                                        section={NotificationSections.PUSH}
+                                        expand={activeSection === NotificationSections.PUSH}
+                                        memberNotificationLevel={pushNotifyLevel}
+                                        globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.push : NotificationLevels.ALL}
+                                        onChange={this.handleUpdatePushNotificationLevel}
+                                        onSubmit={this.handleSubmitPushNotificationLevel}
+                                        onUpdateSection={this.handleUpdatePushSection}
+                                        serverError={serverError}
+                                    />
+                                    }
+                                </div>
                                 }
                                 <div className='divider-dark'/>
                             </div>
