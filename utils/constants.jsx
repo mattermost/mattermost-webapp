@@ -255,6 +255,8 @@ export const ActionTypes = keyMirror({
 
     INIT_WEBRTC: null,
     CLOSE_WEBRTC: null,
+
+    STORE_REHYDRATION_FAILED: null,
 });
 
 export const WebrtcActionTypes = keyMirror({

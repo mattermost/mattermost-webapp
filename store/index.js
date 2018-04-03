@@ -14,6 +14,7 @@ import {storageRehydrate} from 'actions/storage';
 import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
 import {detect} from 'utils/network.js';
+import {ActionTypes} from 'utils/constants.jsx';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
@@ -137,7 +138,7 @@ export default function configureStore(initialState) {
                 });
             }).catch((error) => {
                 store.dispatch({
-                    type: General.STORE_REHYDRATION_FAILED,
+                    type: ActionTypes.STORE_REHYDRATION_FAILED,
                     error,
                 });
             });
