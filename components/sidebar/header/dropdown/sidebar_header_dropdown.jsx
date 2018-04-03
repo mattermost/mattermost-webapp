@@ -488,29 +488,27 @@ export default class SidebarHeaderDropdown extends React.Component {
             );
         }
 
-        let pluginDivider = null;
-        const pluginMenuItems = this.props.pluginMenuItems;
-        const pluginItems = [];
-        if (pluginMenuItems.length > 0) {
-            pluginMenuItems.forEach((item) => {
-                pluginItems.push(
-                    <li key={item.id + '_pluginmenuitem'}>
-                        <a
-                            id={item.id + '_pluginmenuitem'}
-                            href='#'
-                            onClick={() => {
-                                if (item.action) {
-                                    item.action();
-                                }
-                                this.toggleDropdown(false);
-                            }}
-                        >
-                            {item.text}
-                        </a>
-                    </li>
-                );
-            });
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <li key={item.id + '_pluginmenuitem'}>
+                    <a
+                        id={item.id + '_pluginmenuitem'}
+                        href='#'
+                        onClick={() => {
+                            if (item.action) {
+                                item.action();
+                            }
+                            this.toggleDropdown(false);
+                        }}
+                    >
+                        {item.text}
+                    </a>
+                </li>
+            );
+        });
 
+        let pluginDivider = null;
+        if (pluginItems.length > 0) {
             pluginDivider = <li className='divider'/>;
         }
 

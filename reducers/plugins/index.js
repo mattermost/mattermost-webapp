@@ -32,10 +32,7 @@ function removeMainMenuAction(state, action) {
         return state;
     }
 
-    let nextState = [...state];
-    nextState = nextState.filter((item) => item.id !== action.data.id);
-
-    return nextState;
+    return state.filter((item) => item.id !== action.data.id);
 }
 
 function plugins(state = {}, action) {

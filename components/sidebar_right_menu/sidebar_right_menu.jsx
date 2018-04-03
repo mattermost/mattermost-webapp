@@ -303,26 +303,24 @@ export default class SidebarRightMenu extends React.Component {
             </li>
         );
 
-        let pluginDivider = null;
-        const pluginMenuItems = this.props.pluginMenuItems;
-        const pluginItems = [];
-        if (pluginMenuItems.length > 0) {
-            pluginMenuItems.forEach((item) => {
-                const MenuIcon = item.mobile_icon;
-                pluginItems.push(
-                    <li key={item.id + '_pluginrightmenuitem'}>
-                        <a
-                            id={item.id + '_pluginrightmenuitem'}
-                            href='#'
-                            onClick={item.action}
-                        >
-                            {MenuIcon ? <MenuIcon/> : <i className='icon fa fa-plus-square'/>}
-                            {item.text}
-                        </a>
-                    </li>
-                );
-            });
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            const MenuIcon = item.mobile_icon;
+            return (
+                <li key={item.id + '_pluginrightmenuitem'}>
+                    <a
+                        id={item.id + '_pluginrightmenuitem'}
+                        href='#'
+                        onClick={item.action}
+                    >
+                        {MenuIcon ? <MenuIcon/> : <i className='icon fa fa-plus-square'/>}
+                        {item.text}
+                    </a>
+                </li>
+            );
+        });
 
+        let pluginDivider = null;
+        if (pluginItems.length > 0) {
             pluginDivider = <li className='divider'/>;
         }
 

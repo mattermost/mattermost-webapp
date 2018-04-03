@@ -42,10 +42,7 @@ export function registerComponents(id, components = {}, postTypes = {}, mainMenu
         data: wrappedPostTypes,
     });
 
-    const wrappedMainMenuActions = [];
-    mainMenuActions.forEach((action) => {
-        wrappedMainMenuActions.push({id, ...action});
-    });
+    const wrappedMainMenuActions = mainMenuActions.map((action) => ({id, ...action}));
 
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_MENU_ACTIONS,
