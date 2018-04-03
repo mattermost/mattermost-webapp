@@ -37,7 +37,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
       <Connect(SystemPermissionGate)
         permissions={
           Array [
-            "manage_oauth",
+            "manage_system",
           ]
         }
       >
@@ -357,7 +357,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
       <Connect(SystemPermissionGate)
         permissions={
           Array [
-            "manage_oauth",
+            "manage_system",
           ]
         }
       >
