@@ -84,7 +84,11 @@ export default class SearchBar extends React.Component {
     }
 
     handleUserBlur = () => {
-        this.setState({focused: false});
+        // add time out so that the pinned and member buttons are clickable
+        // when focus is released from the search box.
+        setTimeout(() => {
+            this.setState({focused: false});
+        }, 100);
     }
 
     handleClear = () => {
