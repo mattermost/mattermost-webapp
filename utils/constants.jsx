@@ -232,6 +232,7 @@ export const ActionTypes = keyMirror({
 
     RECEIVED_PLUGIN_COMPONENTS: null,
     RECEIVED_PLUGIN_POST_TYPES: null,
+    RECEIVED_PLUGIN_MENU_ACTIONS: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
@@ -255,6 +256,8 @@ export const ActionTypes = keyMirror({
 
     INIT_WEBRTC: null,
     CLOSE_WEBRTC: null,
+
+    STORE_REHYDRATION_FAILED: null,
 });
 
 export const WebrtcActionTypes = keyMirror({

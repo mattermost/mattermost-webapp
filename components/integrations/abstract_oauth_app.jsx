@@ -222,7 +222,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
         }
 
         const trusted = (
-            <SystemPermissionGate permissions={[Permissions.MANAGE_OAUTH]}>
+            <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
                 <div className='form-group'>
                     <label
                         className='control-label col-sm-4'

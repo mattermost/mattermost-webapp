@@ -44,11 +44,6 @@ export default class PostInfo extends React.PureComponent {
         handleDropdownOpened: PropTypes.func.isRequired,
 
         /*
-         * Set to display in 24 hour format
-         */
-        useMilitaryTime: PropTypes.bool.isRequired,
-
-        /*
          * Set to mark the post as flagged
          */
         isFlagged: PropTypes.bool,
@@ -324,7 +319,6 @@ export default class PostInfo extends React.PureComponent {
                 <PostTime
                     isPermalink={isPermalink}
                     eventTime={post.create_at}
-                    useMilitaryTime={this.props.useMilitaryTime}
                     postId={post.id}
                 />
             );

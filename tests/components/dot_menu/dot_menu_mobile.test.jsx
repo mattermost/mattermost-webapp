@@ -32,6 +32,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 

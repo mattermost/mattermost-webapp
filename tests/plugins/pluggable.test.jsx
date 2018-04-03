@@ -23,7 +23,6 @@ describe('plugins/Pluggable', () => {
             general: {
                 config: {
                     EnableWebrtc: 'true',
-                    ShowEmailAddress: 'true',
                 },
             },
         },

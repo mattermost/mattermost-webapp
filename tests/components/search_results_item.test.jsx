@@ -77,7 +77,6 @@ describe('components/SearchResultsItem', () => {
             currentTeamName: 'test',
             term: 'test',
             isMentionSearch: false,
-            useMilitaryTime: true,
             shrink: mockFunc,
             isFlagged: true,
             isBusy: false,

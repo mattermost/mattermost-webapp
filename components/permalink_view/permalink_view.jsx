@@ -67,7 +67,12 @@ export default class PermalinkView extends React.PureComponent {
         } = this.props;
 
         if (!this.isStateValid()) {
-            return null;
+            return (
+                <div
+                    id='app-content'
+                    className='app__content'
+                />
+            );
         }
 
         return (

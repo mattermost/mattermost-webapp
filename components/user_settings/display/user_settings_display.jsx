@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 
 import {deletePreferences, savePreferences} from 'actions/user_actions.jsx';
@@ -11,12 +12,14 @@ import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {getBrowserTimezone} from 'utils/timezone.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
+import ManageTimezones from './manage_timezones.jsx';
 import ManageLanguages from './manage_languages.jsx';
 import ThemeSetting from './user_settings_theme';
 
@@ -42,6 +45,10 @@ export default class UserSettingsDisplay extends React.Component {
             isSaving: false,
         };
 
+        if (props.timezones.length === 0) {
+            props.actions.getSupportedTimezones();
+        }
+
         this.prevSections = {
             theme: 'dummySectionName', // dummy value that should never match any section name
             clock: 'theme',
@@ -52,13 +59,21 @@ export default class UserSettingsDisplay extends React.Component {
         };
     }
 
+    componentDidMount() {
+        const {actions, enableTimezone, shouldAutoUpdateTimezone} = this.props;
+
+        if (enableTimezone && shouldAutoUpdateTimezone) {
+            actions.autoUpdateTimezone(getBrowserTimezone());
+        }
+    }
+
     handleSubmit = () => {
         const userId = UserStore.getCurrentId();
 
         const timePreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
-            name: 'use_military_time',
+            name: Preferences.USE_MILITARY_TIME,
             value: this.state.militaryTime,
         };
         const teammateNameDisplayPreference = {
@@ -476,6 +491,44 @@ export default class UserSettingsDisplay extends React.Component {
             },
         });
 
+        let timezoneSelection;
+        if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
+            const userTimezone = this.props.userTimezone;
+            if (this.props.activeSection === 'timezone') {
+                timezoneSelection = (
+                    <div>
+                        <ManageTimezones
+                            user={this.props.user}
+                            timezones={this.props.timezones}
+                            useAutomaticTimezone={userTimezone.useAutomaticTimezone}
+                            automaticTimezone={userTimezone.automaticTimezone}
+                            manualTimezone={userTimezone.manualTimezone}
+                            updateSection={this.updateSection}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            } else {
+                timezoneSelection = (
+                    <div>
+                        <SettingItemMin
+                            title={
+                                <FormattedMessage
+                                    id='user.settings.display.timezone'
+                                    defaultMessage='Timezone'
+                                />
+                            }
+                            width='medium'
+                            describe={getTimezoneRegion(this.props.currentUserTimezone)}
+                            section={'timezone'}
+                            updateSection={this.updateSection}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            }
+        }
+
         const messageDisplaySection = this.createSection({
             section: Preferences.MESSAGE_DISPLAY,
             display: 'messageDisplay',
@@ -645,6 +698,7 @@ export default class UserSettingsDisplay extends React.Component {
                     {themeSection}
                     {clockSection}
                     {teammateNameDisplaySection}
+                    {timezoneSelection}
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
@@ -665,9 +719,18 @@ UserSettingsDisplay.propTypes = {
     collapseModal: PropTypes.func.isRequired,
     setRequireConfirm: PropTypes.func.isRequired,
     setEnforceFocus: PropTypes.func.isRequired,
+    timezones: PropTypes.array.isRequired,
+    userTimezone: PropTypes.object.isRequired,
     allowCustomThemes: PropTypes.bool,
     enableLinkPreviews: PropTypes.bool,
     defaultClientLocale: PropTypes.string,
     enableThemeSelection: PropTypes.bool,
     configTeammateNameDisplay: PropTypes.string,
+    currentUserTimezone: PropTypes.string,
+    enableTimezone: PropTypes.bool,
+    shouldAutoUpdateTimezone: PropTypes.bool,
+    actions: PropTypes.shape({
+        getSupportedTimezones: PropTypes.func.isRequired,
+        autoUpdateTimezone: PropTypes.func.isRequired,
+    }).isRequired,
 };

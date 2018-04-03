@@ -174,7 +174,6 @@ describe('Reducers.RHS', () => {
 
         const nextState2 = rhsReducer(
             {
-                state: RHSStates.PIN,
             },
             {
                 type: ActionTypes.SELECT_POST,
@@ -194,7 +193,6 @@ describe('Reducers.RHS', () => {
 
         const nextState3 = rhsReducer(
             {
-                state: RHSStates.FLAG,
                 previousRhsState: RHSStates.SEARCH,
             },
             {

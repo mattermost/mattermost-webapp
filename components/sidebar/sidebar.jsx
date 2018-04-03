@@ -76,12 +76,12 @@ export default class Sidebar extends React.PureComponent {
         /**
          * Current team object
          */
-        currentTeam: PropTypes.object.isRequired,
+        currentTeam: PropTypes.object,
 
         /**
          * Current user object
          */
-        currentUser: PropTypes.object.isRequired,
+        currentUser: PropTypes.object,
 
         /**
          * Number of unread mentions/messages

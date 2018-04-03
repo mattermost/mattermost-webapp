@@ -10,8 +10,6 @@ import {browserHistory} from 'utils/browser_history';
 import DeletePostModal from 'components/delete_post_modal/delete_post_modal.jsx';
 
 describe('components/delete_post_modal', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-
     const post = {
         id: '123',
         message: 'test',
@@ -23,9 +21,10 @@ describe('components/delete_post_modal', () => {
         commentCount: 0,
         isRHS: false,
         actions: {
-            deletePost: emptyFunction,
+            deletePost: jest.fn(),
+            deleteAndRemovePost: jest.fn(),
         },
-        onHide: emptyFunction,
+        onHide: jest.fn(),
     };
 
     test('should match snapshot for delete_post_modal with 0 comments', () => {
@@ -56,9 +55,13 @@ describe('components/delete_post_modal', () => {
 
     test('should have called actions.deleteAndRemovePost when handleDelete is called', async () => {
         browserHistory.push = jest.fn();
-        const actions = {deleteAndRemovePost: jest.fn()};
-        actions.deleteAndRemovePost.mockReturnValueOnce({data: true});
-        const props = {...baseProps, actions};
+        const deleteAndRemovePost = jest.fn().mockReturnValueOnce({data: true});
+        const props = {
+            ...baseProps,
+            actions: {
+                deleteAndRemovePost,
+            },
+        };
         const wrapper = shallow(
             <DeletePostModal {...props}/>
         );
@@ -66,16 +69,22 @@ describe('components/delete_post_modal', () => {
         wrapper.setState({show: true});
         wrapper.instance().handleDelete();
 
-        await expect(actions.deleteAndRemovePost).toHaveBeenCalledTimes(1);
-        expect(actions.deleteAndRemovePost).toHaveBeenCalledWith(props.post);
+        await expect(deleteAndRemovePost).toHaveBeenCalledTimes(1);
+        expect(deleteAndRemovePost).toHaveBeenCalledWith(props.post);
         expect(wrapper.state('show')).toEqual(false);
     });
 
     test('should call browserHistory.push on handleDelete with post.id === focusedPostId && channelName', async () => {
         browserHistory.push = jest.fn();
-        const actions = {deleteAndRemovePost: jest.fn()};
-        actions.deleteAndRemovePost.mockReturnValueOnce({data: true});
-        const props = {...baseProps, actions, focusedPostId: '123', channelName: 'channel_name', teamName: 'team_name'};
+        const props = {
+            ...baseProps,
+            focusedPostId: '123',
+            channelName: 'channel_name',
+            teamName: 'team_name',
+            actions: {
+                deleteAndRemovePost: jest.fn().mockReturnValueOnce({data: true}),
+            },
+        };
         const wrapper = shallow(
             <DeletePostModal {...props}/>
         );

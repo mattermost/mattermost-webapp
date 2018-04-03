@@ -16,6 +16,7 @@ import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 
 const dispatch = store.dispatch;
@@ -42,6 +43,7 @@ export default class LoggedIn extends React.Component {
     onUserChanged() {
         // Grab the current user
         const user = UserStore.getCurrentUser();
+
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
                 user,
@@ -56,6 +58,10 @@ export default class LoggedIn extends React.Component {
     componentDidMount() {
         // Initialize websocket
         WebSocketActions.initialize();
+
+        if (this.props.enableTimezone) {
+            this.props.actions.autoUpdateTimezone(getBrowserTimezone());
+        }
 
         // Make sure the websockets close and reset version
         $(window).on('beforeunload',
@@ -169,4 +175,8 @@ export default class LoggedIn extends React.Component {
 LoggedIn.propTypes = {
     children: PropTypes.object,
     mfaRequired: PropTypes.bool.isRequired,
+    enableTimezone: PropTypes.bool.isRequired,
+    actions: PropTypes.shape({
+        autoUpdateTimezone: PropTypes.func.isRequired,
+    }).isRequired,
 };

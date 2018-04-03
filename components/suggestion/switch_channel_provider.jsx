@@ -14,7 +14,7 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
+import {searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -165,7 +165,7 @@ export default class SwitchChannelProvider extends Provider {
 
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getGroupChannels(getState()));
-            const users = Object.assign([], searchProfiles(getState(), channelPrefix, true));
+            const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
             this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users, true);
 
             // Fetch data from the server and dispatch
@@ -210,7 +210,7 @@ export default class SwitchChannelProvider extends Provider {
             return;
         }
 
-        const users = Object.assign([], searchProfiles(state, channelPrefix, true)).concat(usersFromServer.users);
+        const users = Object.assign([], searchProfiles(state, channelPrefix, false)).concat(usersFromServer.users);
         const channels = getChannelsInCurrentTeam(state).concat(getGroupChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
     }
@@ -252,8 +252,6 @@ export default class SwitchChannelProvider extends Provider {
         if (this.shouldCancelDispatch(channelPrefix)) {
             return;
         }
-
-        const currentId = getCurrentUserId(getState());
 
         const completedChannels = {};
 
@@ -303,10 +301,6 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
-
-            if (user.id === currentId) {
-                continue;
-            }
 
             const wrappedChannel = this.userWrappedChannel(user);
 

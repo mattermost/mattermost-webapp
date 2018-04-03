@@ -31,7 +31,7 @@ describe('components/analytics/doughnut_chart.jsx', () => {
             />
         );
 
-        expect(Chart).toBeCalledWith(null, {data, options: {}, type: 'doughnut'});
+        expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -51,7 +51,7 @@ describe('components/analytics/doughnut_chart.jsx', () => {
                 data={data}
             />
         );
-        expect(Chart).toBeCalledWith(null, {data, options: {}, type: 'doughnut'});
+        expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
         expect(wrapper).toMatchSnapshot();
     });
 

@@ -18,6 +18,7 @@ describe('components/CreateComment', () => {
     const baseProps = {
         channelId,
         rootId,
+        rootDeleted: false,
         channelMembersCount: 3,
         draft: {
             message: 'Test message',

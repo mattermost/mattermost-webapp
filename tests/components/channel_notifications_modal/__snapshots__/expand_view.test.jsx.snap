@@ -2,6 +2,7 @@
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, DESKTOP on expanded view 1`] = `
 <SettingItemMax
+  containerStyle=""
   extraInfo={
     <ExtraInfo
       section="desktop"
@@ -106,6 +107,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, MARK_UNREAD on expanded view 1`] = `
 <SettingItemMax
+  containerStyle=""
   extraInfo={
     <ExtraInfo
       section="markUnread"
@@ -173,6 +175,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, PUSH on expanded view 1`] = `
 <SettingItemMax
+  containerStyle=""
   extraInfo={
     <ExtraInfo
       section="push"

@@ -32,6 +32,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 
@@ -52,6 +53,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 
@@ -72,6 +74,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 

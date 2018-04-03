@@ -21,7 +21,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -122,7 +122,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

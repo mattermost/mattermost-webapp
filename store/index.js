@@ -14,6 +14,7 @@ import {storageRehydrate} from 'actions/storage';
 import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
 import {detect} from 'utils/network.js';
+import {ActionTypes} from 'utils/constants.jsx';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
@@ -73,7 +74,7 @@ export default function configureStore(initialState) {
             const storage = localforage;
             const KEY_PREFIX = 'reduxPersist:';
 
-            localforage.ready(() => {
+            localforage.ready().then(() => {
                 const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
                     store.dispatch({
                         type: General.STORE_REHYDRATION_COMPLETE,
@@ -134,6 +135,11 @@ export default function configureStore(initialState) {
                             }, 500);
                         });
                     }
+                });
+            }).catch((error) => {
+                store.dispatch({
+                    type: ActionTypes.STORE_REHYDRATION_FAILED,
+                    error,
                 });
             });
         },

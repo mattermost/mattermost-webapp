@@ -61,6 +61,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         offTopicDisplayName: 'Off-Topic',
         membersCount: 8,
         showUnreadForMsgs: true,
+        shouldHideChannel: false,
         actions: {
             savePreferences: jest.fn(),
             leaveChannel: jest.fn(),
