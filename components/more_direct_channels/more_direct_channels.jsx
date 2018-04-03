@@ -95,8 +95,6 @@ export default class MoreDirectChannels extends React.Component {
                     continue;
                 }
 
-                user.value = user.id;
-                user.label = '@' + user.username;
                 values.push(user);
             }
         }
@@ -207,8 +205,6 @@ export default class MoreDirectChannels extends React.Component {
 
         for (let i = 0; i < users.length; i++) {
             const user = Object.assign({}, users[i]);
-            user.value = user.id;
-            user.label = '@' + user.username;
             users[i] = user;
         }
 
@@ -416,6 +412,7 @@ export default class MoreDirectChannels extends React.Component {
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
+                        valueKey='id'
                         valueRenderer={this.renderValue}
                         perPage={USERS_PER_PAGE}
                         handlePageChange={this.handlePageChange}

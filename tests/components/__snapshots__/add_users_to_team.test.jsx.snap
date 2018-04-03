@@ -79,6 +79,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       options={Array []}
       perPage={50}
       saving={false}
+      valueKey="id"
       valueRenderer={[Function]}
       values={Array []}
     />
