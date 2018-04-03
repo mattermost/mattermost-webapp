@@ -234,6 +234,7 @@
         overflow: hidden;
         text-align: left;
         text-overflow: ellipsis;
+        width: calc(100% - 40px);
     }
 
     .header-dropdown__icon {

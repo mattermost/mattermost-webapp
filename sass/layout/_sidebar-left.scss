@@ -271,12 +271,16 @@
                 }
 
                 &.muted {
-                    opacity: 0.3;
+                    opacity: 0.5;
                 }
 
             }
 
             &.active {
+                .muted {
+                    opacity: 1;
+                }
+
                 button,a {
                     &:before {
                         background: $black;
