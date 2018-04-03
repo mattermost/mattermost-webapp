@@ -57,7 +57,6 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
         enableWebrtc={true}
         hasMention={false}
         isRHS={false}
-        showEmailAddress={true}
         src="src"
         theme={Object {}}
         user={
@@ -68,19 +67,15 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
       >
         <Popover
           bsClass="popover"
-          enableTimezone={false}
           id="user-profile-popover"
           placement="right"
-          showEmailAddress={true}
           theme={Object {}}
           title="@undefined"
         >
           <div
             className="popover right"
-            enableTimezone={false}
             id="user-profile-popover"
             role="tooltip"
-            showEmailAddress={true}
             style={
               Object {
                 "display": "block",
@@ -117,6 +112,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
               />
               <hr
                 className="divider divider--expanded"
+                key="user-popover-hr"
               />
               <div
                 className="popover__row first"

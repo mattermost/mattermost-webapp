@@ -45,6 +45,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             automaticTimezone: 'America/New_York',
             manualTimezone: '',
         },
+        actions: {
+            getSupportedTimezones: jest.fn(),
+            autoUpdateTimezone: jest.fn(),
+        },
     };
 
     test('should match snapshot, no active section', () => {

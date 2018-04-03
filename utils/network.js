@@ -8,7 +8,6 @@ const MIN_NETWORK_RETRY_TIME = 3000; // 3 sec
 const MAX_NETWORK_RETRY_TIME = 300000; // 5 mins
 
 function handle(callback, online) {
-    console.log('Network status set to ' + online); //eslint-disable-line no-console
     if (window.requestAnimationFrame) {
         window.requestAnimationFrame(() => callback(online));
     } else {
