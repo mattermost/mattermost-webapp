@@ -327,7 +327,7 @@ export default {
                             label_default: 'Available Languages:',
                             help_text: 'admin.general.localization.availableLocalesDescription',
                             help_text_html: true,
-                            help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you’re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.',
+                            help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.',
                             multiple: true,
                             no_result: 'admin.general.localization.availableLocalesNoResults',
                             no_result_default: 'No results found',
@@ -730,7 +730,7 @@ export default {
                             placeholder: 'admin.ldap.idAttrEx',
                             placeholder_default: 'E.g.: "sAMAccountName"',
                             help_text: 'admin.ldap.idAttrDesc',
-                            help_text_default: 'The attribute in the AD/LDAP server that will be used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change, such as username or uid. If a user’s ID Attribute changes, it will create a new Mattermost account unassociated with their old one. This is the value used to log in to Mattermost in the "AD/LDAP Username" field on the sign in page. Normally this attribute is the same as the "Username Attribute" field above. If your team typically uses domain\\username to sign in to other services with AD/LDAP, you may choose to put domain\\username in this field to maintain consistency between sites.',
+                            help_text_default: 'The attribute in the AD/LDAP server that will be used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change, such as username or uid. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one. This is the value used to log in to Mattermost in the "AD/LDAP Username" field on the sign in page. Normally this attribute is the same as the "Username Attribute" field above. If your team typically uses domain\\username to sign in to other services with AD/LDAP, you may choose to put domain\\username in this field to maintain consistency between sites.',
                             needs_or: [['Enable', true], ['EnableSync', true]],
                         },
                         {
@@ -750,7 +750,7 @@ export default {
                             label: 'admin.ldap.syncIntervalTitle',
                             label_default: 'Synchronization Interval (minutes):',
                             help_text: 'admin.ldap.syncIntervalHelpText',
-                            help_text_default: 'AD/LDAP Synchronization updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user’s name changes on the AD/LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to "Inactive" and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.',
+                            help_text_default: 'AD/LDAP Synchronization updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user\'s name changes on the AD/LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to "Inactive" and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.',
                             needs_or: [['Enable', true], ['EnableSync', true]],
                         },
                         {
