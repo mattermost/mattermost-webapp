@@ -10,6 +10,7 @@ function mapStateToProps(state) {
     return {
         commands: getCommands(state),
         oauthApps: getOAuthApps(state),
+        incomingHooks: getIncomingHooks(state),
         outgoingHooks: getOutgoingHooks(state),
     };
 }
