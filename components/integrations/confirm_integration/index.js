@@ -2,7 +2,7 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-import {getCommands, getOAuthApps, getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
+import {getCommands, getOAuthApps, getIncomingHooks, getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
 
 import ConfirmIntegration from './confirm_integration.jsx';
 
