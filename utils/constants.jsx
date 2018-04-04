@@ -39,6 +39,7 @@ import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
     TYPE_NUMBER: 'number',
+    TYPE_COLOR: 'color',
     TYPE_BOOL: 'bool',
     TYPE_RADIO: 'radio',
     TYPE_BANNER: 'banner',

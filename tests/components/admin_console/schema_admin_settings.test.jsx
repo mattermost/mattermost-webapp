@@ -144,6 +144,14 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     error_message_default: 'Reload unsuccessful: {error}',
                 },
                 {
+                    key: 'settingl',
+                    label: 'label-l',
+                    label_default: 'Setting Twelve',
+                    type: 'color',
+                    help_text: 'help-text-l',
+                    help_text_default: 'This is some help text for the color field.',
+                },
+                {
                     type: 'custom',
                     key: 'custom',
                     component: () => <p>{'Test'}</p>,
