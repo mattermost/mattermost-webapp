@@ -33,7 +33,7 @@ import * as DefinitionConstants from './admin_definition_constants';
 //   - type: which define the widget type.
 //   - label (and label_default): which define the main text of the setting.
 //   - needs: a list of pairs of [field, value] to enable/disable the field.
-//   - needs_or: a list of pairs of [field, value] to enable/disable the field (one is enogth to enable).
+//   - needs_or: a list of pairs of [field, value] to enable/disable the field (one is enough to enable).
 //   - needs_license: True if need to have license to be shown.
 //   - needs_no_license: True if need to have not license to be shown.
 //
