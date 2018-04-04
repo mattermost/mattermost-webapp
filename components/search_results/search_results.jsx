@@ -77,7 +77,7 @@ export default class SearchResults extends React.PureComponent {
         UserStore.addStatusesChangeListener(this.onStatusChange);
         WebrtcStore.addBusyListener(this.onBusy);
 
-        this.resize();
+        this.scrollToTop();
         window.addEventListener('resize', this.handleResize);
     }
 
@@ -91,7 +91,7 @@ export default class SearchResults extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.searchTerms !== prevProps.searchTerms) {
-            this.resize();
+            this.scrollToTop();
         }
     }
 
@@ -114,7 +114,7 @@ export default class SearchResults extends React.PureComponent {
         this.setState({statuses: Object.assign({}, UserStore.getStatuses())});
     }
 
-    resize = () => {
+    scrollToTop = () => {
         $('#search-items-container').scrollTop(0);
     }
 

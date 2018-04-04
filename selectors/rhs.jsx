@@ -55,6 +55,10 @@ export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }
 
+export function getSearchResultsTerms(state) {
+    return state.views.rhs.searchResultsTerms;
+}
+
 export function getIsSearchingTerm(state) {
     return state.views.rhs.isSearchingTerm;
 }
