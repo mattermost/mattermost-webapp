@@ -26,6 +26,7 @@ export default class UserAccessTokenSection extends React.Component {
         active: PropTypes.bool,
         updateSection: PropTypes.func,
         userAccessTokens: PropTypes.object,
+        setRequireConfirm: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getUserAccessTokensForUser: PropTypes.func.isRequired,
             createUserAccessToken: PropTypes.func.isRequired,
@@ -60,6 +61,19 @@ export default class UserAccessTokenSection extends React.Component {
         this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.active && this.props.active) {
+            this.setState({
+                showConfirmModal: false,
+                newToken: null,
+                tokenCreationState: TOKEN_NOT_CREATING,
+                tokenError: '',
+                serverError: null,
+                saving: false,
+            });
+        }
+    }
+
     startCreatingToken = () => {
         this.setState({tokenCreationState: TOKEN_CREATING});
     }
@@ -79,6 +93,7 @@ export default class UserAccessTokenSection extends React.Component {
         }
 
         this.setState({tokenError: '', saving: true});
+        this.props.setRequireConfirm(true, this.confirmCopyToken);
 
         const userId = this.props.user ? this.props.user.id : '';
         const {data, error} = await this.props.actions.createUserAccessToken(userId, description);
@@ -90,6 +105,51 @@ export default class UserAccessTokenSection extends React.Component {
         }
     }
 
+    confirmCopyToken = (confirmAction) => {
+        this.setState({
+            showConfirmModal: true,
+            confirmTitle: (
+                <FormattedMessage
+                    id='user.settings.tokens.confirmCopyTitle'
+                    defaultMessage='Have you copied your token?'
+                />
+            ),
+            confirmMessage: (state) => (
+                <div className='alert alert-warning'>
+                    <i className='fa fa-warning margin-right'/>
+                    <FormattedHTMLMessage
+                        id='user.settings.tokens.confirmCopyMessage'
+                        defaultMessage="Make sure you have copied and saved the access token below. You won't be able to see it again!"
+                    />
+                    <br/>
+                    <br/>
+                    {state.tokenCreationState === TOKEN_CREATING ? (
+                        'Loading...'
+                    ) : (
+                        <strong className='word-break--all'>
+                            <FormattedMessage
+                                id='user.settings.tokens.token'
+                                defaultMessage='Access Token: '
+                            />
+                            {state.newToken.token}
+                        </strong>
+                    )}
+                </div>
+            ),
+            confirmButton: (
+                <FormattedMessage
+                    id='user.settings.tokens.confirmCopyButton'
+                    defaultMessage='Yes, I have copied the token'
+                />
+            ),
+            confirmComplete: () => {
+                this.handleCancelConfirm();
+                confirmAction();
+            },
+            confirmHideCancel: true,
+        });
+    }
+
     handleCancelConfirm = () => {
         this.setState({
             showConfirmModal: false,
@@ -97,6 +157,7 @@ export default class UserAccessTokenSection extends React.Component {
             confirmMessage: null,
             confirmButton: null,
             confirmComplete: null,
+            confirmHideCancel: false,
         });
     }
 
@@ -114,7 +175,7 @@ export default class UserAccessTokenSection extends React.Component {
                     defaultMessage='Create System Admin Personal Access Token'
                 />
             ),
-            confirmMessage: (
+            confirmMessage: () => (
                 <div className='alert alert-danger'>
                     <FormattedHTMLMessage
                         id='user.settings.tokens.confirmCreateMessage'
@@ -152,7 +213,7 @@ export default class UserAccessTokenSection extends React.Component {
                     defaultMessage='Delete Token?'
                 />
             ),
-            confirmMessage: (
+            confirmMessage: () => (
                 <div className='alert alert-danger'>
                     <FormattedHTMLMessage
                         id='user.settings.tokens.confirmDeleteMessage'
@@ -492,11 +553,12 @@ export default class UserAccessTokenSection extends React.Component {
                 />
                 <ConfirmModal
                     title={this.state.confirmTitle}
-                    message={this.state.confirmMessage}
+                    message={this.state.confirmMessage ? this.state.confirmMessage(this.state) : null}
                     confirmButtonText={this.state.confirmButton}
                     show={this.state.showConfirmModal}
                     onConfirm={this.state.confirmComplete || (() => {})} //eslint-disable-line no-empty-function
                     onCancel={this.handleCancelConfirm}
+                    hideCancel={this.state.confirmHideCancel}
                 />
             </div>
         );

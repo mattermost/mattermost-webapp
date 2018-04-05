@@ -35,6 +35,7 @@ export default class SecurityTab extends React.Component {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         setEnforceFocus: PropTypes.func.isRequired,
+        setRequireConfirm: PropTypes.func.isRequired,
 
         /*
          * Set if access tokens are enabled and this user can use them
@@ -998,6 +999,7 @@ export default class SecurityTab extends React.Component {
                     user={this.props.user}
                     active={this.props.activeSection === SECTION_TOKENS}
                     updateSection={this.handleUpdateSection}
+                    setRequireConfirm={this.props.setRequireConfirm}
                 />
             );
         }
