@@ -1429,6 +1429,27 @@
 }
 
 @media screen and (max-width: 640px) {
+    .app__body {
+        &.ios {
+            &.post-list--popover {
+                .post-create__container {
+                    position: relative;
+
+                    &:before {
+                        background: alpha-color($black, .3);
+                        content: '';
+                        height: 100%;
+                        left: 0;
+                        position: absolute;
+                        top: 0;
+                        width: 100%;
+                        z-index: 5;
+                    }
+                }
+            }
+        }
+    }
+
     .col__reply {
         .dropdown-menu {
             > li {
@@ -1548,7 +1569,7 @@
                     content: '';
                     height: 100%;
                     left: 0;
-                    position: fixed;
+                    position: absolute;
                     top: 0;
                     width: 100%;
                 }

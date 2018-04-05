@@ -245,14 +245,6 @@
     overflow: hidden;
     position: relative;
 
-    &.post-list--popover {
-        overflow: visible;
-
-        .post-list-holder-by-time {
-            overflow: visible;
-        }
-    }
-
     .inactive {
         display: none;
     }

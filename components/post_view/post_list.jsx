@@ -594,17 +594,15 @@ export default class PostList extends React.PureComponent {
             postVisibility += Constants.POST_CHUNK_SIZE / 2;
         }
 
-        let postListClass = '';
 
         if (this.props.centerChannelDropdownOpen) {
-            postListClass = ' post-list--popover';
+            document.body.classList.add('post-list--popover');
+        } else {
+            document.body.classList.remove('post-list--popover');
         }
 
         return (
-            <div
-                id='post-list'
-                className={postListClass}
-            >
+            <div id='post-list'>
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
