@@ -345,8 +345,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
     handleNewPost(post);
 }
 
-export function sendAddToChannelEphemeralPost(user, addedUsername, channelId, postRootId = '') {
-    const timestamp = Utils.getTimestamp();
+export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, channelId, postRootId = '', timestamp) {
     const post = {
         id: Utils.generateId(),
         user_id: user.id,
@@ -360,6 +359,7 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, channelId, po
         props: {
             username: user.username,
             addedUsername,
+            addedUserId,
         },
     };
 
