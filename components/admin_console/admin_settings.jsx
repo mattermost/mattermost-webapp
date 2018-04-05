@@ -176,7 +176,7 @@ export default class AdminSettings extends React.Component {
                     <div className='form-group'>
                         <FormError error={this.state.serverError}/>
                     </div>
-                    <div className='form-group'>
+                    <div className='admin-console-save'>
                         <div className='col-sm-12'>
                             <SaveButton
                                 saving={this.state.saving}

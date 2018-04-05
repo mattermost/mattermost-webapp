@@ -495,6 +495,26 @@ export default class AdminSidebar extends React.Component {
                                 />
                             </AdminSidebarSection>
                             <AdminSidebarSection
+                                name='permissions'
+                                type='text'
+                                title={
+                                    <FormattedMessage
+                                        id='admin.sidebar.permissions'
+                                        defaultMessage='Permissions'
+                                    />
+                                }
+                            >
+                                <AdminSidebarSection
+                                    name='schemes'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.schemes'
+                                            defaultMessage='Permission Schemes'
+                                        />
+                                    }
+                                />
+                            </AdminSidebarSection>
+                            <AdminSidebarSection
                                 name='authentication'
                                 type='text'
                                 title={

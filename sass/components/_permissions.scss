@@ -1,0 +1,160 @@
+.permissions-block {
+    border: $border-gray;
+    font-size: .95em;
+    margin: 2em 0;
+    padding: 0;
+    &.simple {
+    }
+    .header {
+        background: $white;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em 1.5rem;
+        cursor: pointer;
+        h3 {
+            margin: 0;
+            padding: 0;
+        }
+        .button {
+            self-align: end;
+            padding: 0em 1rem;
+            font-size: 2em;
+            transform: rotate(0deg);
+            transition: transform 500ms;
+        }
+    }
+    &.closed {
+        .header{
+            .button {
+                transform: rotate(90deg);
+                transition: transform 500ms;
+            }
+        }
+        .permissions-tree {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow-y: hidden;
+            transition: max-height 500ms, padding 500ms;
+        }
+    }
+}
+.permissions-tree {
+    padding: .8em 1.5rem;
+    max-height: 2000px;
+    transition: max-height 500ms, padding 500ms;
+
+    .permissions-tree--header {
+        display: flex;
+        flex-direction: row;
+        font-weight: bold;
+        font-size: 1.1em;
+        border-bottom: 1px solid #cccccc;
+        padding: .5em 0;
+
+        .permission-name {
+            width: 310px;
+            margin-left: 16px
+        }
+        .permission-description {
+            color: #333;
+        }
+    }
+    .permissions-tree--body {
+        background-color: $bg--gray;
+        background-image: linear-gradient(transparent 50%, rgba(255,255,255,.5) 50%);
+        background-size: 60px 60px;
+        cursor: pointer;
+    }
+    .permission-arrow {
+        display: flex;
+        margin: 3px;
+        height: 10px;
+        width: 10px;
+        align-items: center;
+        justify-content: space-around;
+        transition: transform 500ms;
+        &.open {
+            transform: rotate(90deg);
+            transform-origin: 60% 50%;
+            transition: transform 500ms;
+        }
+    }
+    .permission-check {
+        display: flex;
+        margin: 5px 5px 5px 0;
+        height: 18px;
+        width: 18px;
+        border: 2px solid $dark-gray;
+        border-radius: 3px;
+        color: $white;
+        align-items: center;
+        justify-content: space-around;
+        font-size: .8em;
+        &.checked, &.intermediate {
+            background-color: $primary-color;
+            border: 2px solid $primary-color;
+        }
+        svg {
+            stroke: $white;
+        }
+    }
+    .permission-name {
+        width: 286px;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .permission-description {
+        color: $gray;
+    }
+
+    .permission-group {
+        .permission-group-permissions {
+            overflow-y: hidden;
+            max-height: 0;
+            &.open {
+                transition: max-height .5s cubic-bezier(0, 1, 0.5, 1);
+                max-height: 300px;
+            }
+            .permission-check {
+                margin-left: 46px;
+            }
+            .permission-name {
+                width: 258px
+            }
+        }
+    }
+
+    .permission-row {
+        .permission-check {
+            margin-left: 16px;
+        }
+    }
+    .permission-row, .permission-group-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-left: 2px solid $transparent;
+        height: 30px;
+        &:hover {
+            background-color: lighten($primary-color, 40%);
+            border-left: 2px solid $primary-color;
+            .permission-description {
+                color: #333;
+            }
+        }
+        &.read-only {
+            .permission-check {
+                border: 0;
+                background-color: $gray;
+                &.checked, &.intermediate {
+                    border: 0;
+                    background-color: $gray;
+                }
+            }
+        }
+    }
+}

@@ -155,7 +155,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"
@@ -440,7 +440,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"
@@ -615,7 +615,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"
@@ -900,7 +900,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"
