@@ -32,7 +32,7 @@ import UserProfile from 'components/user_profile.jsx';
 export default class RhsComment extends React.Component {
     static propTypes = {
         post: PropTypes.object,
-        teamId: PropTypes.object.isRequired,
+        teamId: PropTypes.string.isRequired,
         lastPostCount: PropTypes.number,
         user: PropTypes.object,
         currentUser: PropTypes.object.isRequired,
