@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
-import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {
+    isPostEphemeral,
+    isPostPendingOrFailed,
+} from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
@@ -136,7 +139,7 @@ export default class RhsComment extends React.Component {
 
         const isPermalink = !(isEphemeral ||
             Posts.POST_DELETED === post.state ||
-            ReduxPostUtils.isPostPendingOrFailed(post));
+            isPostPendingOrFailed(post));
 
         return (
             <PostTime
@@ -208,7 +211,7 @@ export default class RhsComment extends React.Component {
             idCount = this.props.lastPostCount;
         }
 
-        const isEphemeral = Utils.isPostEphemeral(post);
+        const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
 
         let status = this.props.status;
