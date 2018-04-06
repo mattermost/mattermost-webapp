@@ -81,7 +81,7 @@ export default class AdminSidebar extends React.Component {
 
         let license = null;
         let audits = null;
-        let policy = null;
+        let announcement = null;
 
         if (this.props.buildEnterpriseReady) {
             license = (
@@ -207,14 +207,13 @@ export default class AdminSidebar extends React.Component {
                     }
                 />
             );
-
-            policy = (
+            announcement = (
                 <AdminSidebarSection
-                    name='policy'
+                    name='announcement'
                     title={
                         <FormattedMessage
-                            id='admin.sidebar.policy'
-                            defaultMessage='Policy'
+                            id='admin.sidebar.announcement'
+                            defaultMessage='Announcement Banner'
                         />
                     }
                 />
@@ -475,7 +474,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {policy}
                                 <AdminSidebarSection
                                     name='privacy'
                                     title={
@@ -698,6 +696,7 @@ export default class AdminSidebar extends React.Component {
                                 }
                             >
                                 {customBranding}
+                                {announcement}
                                 <AdminSidebarSection
                                     name='emoji'
                                     title={

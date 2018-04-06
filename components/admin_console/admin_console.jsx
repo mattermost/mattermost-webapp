@@ -32,7 +32,6 @@ import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginSettings from 'components/admin_console/plugin_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
-import PolicySettings from 'components/admin_console/policy_settings';
 import CustomIntegrationSettings from 'components/admin_console/custom_integrations_settings';
 import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings';
 
@@ -197,11 +196,6 @@ export default class AdminConsole extends React.Component {
                                             ...extraProps,
                                             schema: AdminDefinition.settings.general.privacy.schema,
                                         }}
-                                    />
-                                    <SCRoute
-                                        path={`${props.match.url}/policy`}
-                                        component={PolicySettings}
-                                        extraProps={extraProps}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/compliance`}
@@ -390,6 +384,14 @@ export default class AdminConsole extends React.Component {
                                         path={`${props.match.url}/custom_brand`}
                                         component={CustomBrandSettings}
                                         extraProps={extraProps}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/announcement`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.customization.announcement.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/emoji`}

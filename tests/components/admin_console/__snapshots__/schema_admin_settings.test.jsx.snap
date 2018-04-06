@@ -453,6 +453,21 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           }
         }
       />
+      <ColorSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the color field."
+            id="help-text-l"
+            values={Object {}}
+          />
+        }
+        id="settingl"
+        key="Config_text_settingl"
+        label="Setting Twelve"
+        onChange={[Function]}
+        value=""
+      />
       <component
         key="Config_userautocomplete_custom"
       />
