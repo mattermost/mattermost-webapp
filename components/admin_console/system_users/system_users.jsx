@@ -213,7 +213,7 @@ export default class SystemUsers extends React.Component {
         // Paging isn't supported while searching
 
         if (this.state.teamId === ALL_USERS) {
-            loadProfiles(page, USERS_PER_PAGE, this.loadComplete);
+            loadProfiles(page + 1, USERS_PER_PAGE, this.loadComplete);
         } else if (this.state.teamId === NO_TEAM) {
             loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, this.loadComplete);
         } else {
