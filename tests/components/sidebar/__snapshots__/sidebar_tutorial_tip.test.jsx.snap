@@ -9,7 +9,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
     Array [
       <div>
         <FormattedHTMLMessage
-          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They're open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
           id="sidebar.tutorialScreen1"
           values={Object {}}
         />
@@ -47,7 +47,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
     Array [
       <div>
         <FormattedHTMLMessage
-          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They're open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
           id="sidebar.tutorialScreen1"
           values={Object {}}
         />
@@ -85,7 +85,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
     Array [
       <div>
         <FormattedHTMLMessage
-          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They're open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
           id="sidebar.tutorialScreen1"
           values={Object {}}
         />
@@ -123,7 +123,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
     Array [
       <div>
         <FormattedHTMLMessage
-          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They're open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
           id="sidebar.tutorialScreen1"
           values={Object {}}
         />

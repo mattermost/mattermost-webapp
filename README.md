@@ -47,4 +47,4 @@ Get the Latest News:
 - **Email** - Subscribe to our [newsletter](http://mattermost.us11.list-manage.com/subscribe?u=6cdba22349ae374e188e7ab8e&id=2add1c8034) (1 or 2 per month)
 - **IRC** - Join us on #matterbridge (thanks to [matterircd](https://github.com/42wim/matterircd))
 
-Any other questions, mail us at info@mattermost.com. We’d love to meet you!
+Any other questions, mail us at info@mattermost.com. We'd love to meet you!
