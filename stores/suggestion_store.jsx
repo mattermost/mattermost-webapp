@@ -117,6 +117,10 @@ class SuggestionStore extends EventEmitter {
         suggestion.selection = '';
     }
 
+    suggestionBoxExists(id) {
+        return this.suggestions.has(id);
+    }
+
     hasSuggestions(id) {
         return this.getSuggestions(id).terms.length > 0;
     }
@@ -249,6 +253,10 @@ class SuggestionStore extends EventEmitter {
 
     handleEventPayload(payload) {
         const {type, id, ...other} = payload.action;
+
+        if (id && !this.suggestionBoxExists(id)) {
+            return;
+        }
 
         switch (type) {
         case ActionTypes.SUGGESTION_PRETEXT_CHANGED:
