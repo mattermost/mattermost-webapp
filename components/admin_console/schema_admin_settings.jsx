@@ -20,6 +20,7 @@ import RadioSetting from 'components/admin_console/radio_setting.jsx';
 import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
 import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
+import JobsTable from 'components/admin_console/jobs';
 
 export default class SchemaAdminSettings extends AdminSettings {
     constructor(props) {
@@ -35,6 +36,7 @@ export default class SchemaAdminSettings extends AdminSettings {
             [SettingsTypes.TYPE_USERNAME]: this.buildUsernameSetting,
             [SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
             [SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
+            [SettingsTypes.TYPE_JOBSTABLE]: this.buildJobsTableSetting,
             [SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
         };
     }
@@ -213,6 +215,17 @@ export default class SchemaAdminSettings extends AdminSettings {
                 }
             }
         }
+        if (setting.needs_or) {
+            let disabled = true;
+            for (const need of setting.needs_or) {
+                if (this.state[need[0]] === need[1]) {
+                    disabled = false;
+                }
+            }
+            if (disabled) {
+                return true;
+            }
+        }
         if (setting.needs_license && !this.props.license.IsLicensed) {
             return true;
         }
@@ -229,11 +242,15 @@ export default class SchemaAdminSettings extends AdminSettings {
                 requestAction={setting.action}
                 helpText={this.renderHelpText(setting)}
                 buttonText={<span>{this.renderLabel(setting)}</span>}
-                showSuccessMessage={false}
+                showSuccessMessage={Boolean(setting.success_message)}
                 includeDetailedError={true}
                 errorMessage={{
                     id: setting.error_message,
-                    defaultMessage: setting.error_message,
+                    defaultMessage: setting.error_message_default,
+                }}
+                successMessage={setting.success_message && {
+                    id: setting.success_message,
+                    defaultMessage: setting.success_message_default,
                 }}
             />
         );
@@ -404,6 +421,29 @@ export default class SchemaAdminSettings extends AdminSettings {
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
+            />
+        );
+    }
+
+    buildJobsTableSetting = (setting) => {
+        return (
+            <JobsTable
+                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                jobType={setting.job_type}
+                getExtraInfoText={setting.render_job}
+                disabled={this.isDisabled(setting)}
+                createJobButtonText={
+                    <FormattedMessage
+                        id={setting.label}
+                        defaultMessage={setting.label_default}
+                    />
+                }
+                createJobHelpText={
+                    <FormattedMessage
+                        id={setting.help_text}
+                        defaultMessage={setting.help_text_default}
+                    />
+                }
             />
         );
     }

@@ -47,6 +47,7 @@ export const SettingsTypes = {
     TYPE_USERNAME: 'username',
     TYPE_BUTTON: 'button',
     TYPE_LANGUAGE: 'language',
+    TYPE_JOBSTABLE: 'jobstable',
     TYPE_CUSTOM: 'custom',
 };
 
@@ -492,6 +493,7 @@ export const GroupUnreadChannels = {
 
 export const Constants = {
     SettingsTypes,
+    JobTypes,
     Preferences,
     SocketEvents,
     ActionTypes,
