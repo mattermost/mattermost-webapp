@@ -147,6 +147,12 @@
     .file__image {
         @include legacy-pie-clearfix;
 
+        .image-name {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold; 
+        }
+
         .image-container {
             position: relative;
             width: 100%;
