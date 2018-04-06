@@ -443,6 +443,7 @@ export default class RhsThread extends React.Component {
                             post={selected}
                             commentCount={postsLength}
                             user={profile}
+                            teamId={this.props.channel.team_id}
                             currentUser={this.props.currentUser}
                             compactDisplay={this.state.compactDisplay}
                             isFlagged={isRootFlagged}
