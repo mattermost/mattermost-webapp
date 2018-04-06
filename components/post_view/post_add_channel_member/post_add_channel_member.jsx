@@ -60,7 +60,7 @@ export default class PostAddChannelMember extends React.PureComponent {
         const {currentUser, post, userIds, usernames} = this.props;
 
         if (post && post.channel_id) {
-            let createAt = parseInt(post.create_at, 10);
+            let createAt = post.create_at;
             userIds.forEach((userId, index) => {
                 createAt++;
                 this.props.actions.addChannelMember(post.channel_id, userId);
