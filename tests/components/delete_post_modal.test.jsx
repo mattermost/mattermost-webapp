@@ -53,6 +53,16 @@ describe('components/delete_post_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
+    test('should match state when the cancel button is clicked', () => {
+        const wrapper = shallow(
+            <DeletePostModal {...baseProps}/>
+        );
+
+        wrapper.setState({show: true});
+        wrapper.find('button').at(0).simulate('click');
+        expect(wrapper.state('show')).toEqual(false);
+    });
+
     test('should have called actions.deleteAndRemovePost when handleDelete is called', async () => {
         browserHistory.push = jest.fn();
         const deleteAndRemovePost = jest.fn().mockReturnValueOnce({data: true});
