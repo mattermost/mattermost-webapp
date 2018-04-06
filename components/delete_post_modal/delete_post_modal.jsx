@@ -142,7 +142,7 @@ export default class DeletePostModal extends React.PureComponent {
                     <button
                         type='button'
                         className='btn btn-default'
-                        onClick={this.handleHide}
+                        onClick={this.onHide}
                     >
                         <FormattedMessage
                             id='delete_post.cancel'
