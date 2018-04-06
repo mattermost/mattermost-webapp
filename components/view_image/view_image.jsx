@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {FileTypes} from 'utils/constants';
@@ -205,6 +205,7 @@ export default class ViewImageModal extends React.PureComponent {
         const showPublicLink = !fileInfo.link;
         const fileName = fileInfo.link || fileInfo.name;
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
+        const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -326,7 +327,7 @@ export default class ViewImageModal extends React.PureComponent {
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}
                                 filename={fileName}
-                                fileURL={fileUrl}
+                                fileURL={fileDownloadUrl}
                                 enablePublicLink={this.props.enablePublicLink}
                                 canDownloadFiles={this.props.canDownloadFiles}
                                 onGetPublicLink={this.handleGetPublicLink}
