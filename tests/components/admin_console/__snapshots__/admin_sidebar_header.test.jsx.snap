@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AdminSidebarHeader should match snapshot 1`] = `
+<div
+  className="team__header theme"
+>
+  <a
+    href="#"
+    onClick={[Function]}
+  >
+    <div
+      className="header__info"
+    >
+      <div
+        className="team__name"
+      >
+        <FormattedMessage
+          defaultMessage="System Console"
+          id="admin.sidebarHeader.systemConsole"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="user__name"
+      >
+        @undefined
+      </div>
+    </div>
+  </a>
+  <Connect(AdminNavbarDropdown) />
+</div>
+`;

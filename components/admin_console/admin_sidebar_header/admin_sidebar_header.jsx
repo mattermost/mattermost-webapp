@@ -3,14 +3,17 @@
 
 import $ from 'jquery';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-import UserStore from 'stores/user_store.jsx';
-
-import AdminNavbarDropdown from './admin_navbar_dropdown';
+import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
 export default class SidebarHeader extends React.Component {
+    static propTypes = {
+        user: PropTypes.object.isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -29,13 +32,13 @@ export default class SidebarHeader extends React.Component {
     }
 
     render() {
-        var me = UserStore.getCurrentUser();
-        var profilePicture = null;
+        const me = this.props.user;
 
         if (!me) {
             return null;
         }
 
+        let profilePicture = null;
         if (me.last_picture_update) {
             profilePicture = (
                 <img
