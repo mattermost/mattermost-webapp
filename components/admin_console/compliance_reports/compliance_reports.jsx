@@ -1,14 +1,14 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
+import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
 
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+
+import ReportItem from './report_item';
 
 export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
@@ -99,26 +99,6 @@ export default class ComplianceReports extends React.PureComponent {
         );
     }
 
-    getDateTime(millis) {
-        const date = new Date(millis);
-        return (
-            <span style={style.date}>
-                <FormattedDate
-                    value={date}
-                    day='2-digit'
-                    month='short'
-                    year='numeric'
-                />
-                {' - '}
-                <FormattedTime
-                    value={date}
-                    hour='2-digit'
-                    minute='2-digit'
-                />
-            </span>
-        );
-    }
-
     render() {
         if (!this.props.isLicensed || !this.props.enabled) {
             return <div/>;
@@ -128,75 +108,15 @@ export default class ComplianceReports extends React.PureComponent {
         if (this.state.loadingReports) {
             content = <LoadingScreen/>;
         } else {
-            var list = [];
+            const list = [];
 
             for (var i = 0; i < this.props.reports.length; i++) {
                 const report = this.props.reports[i];
-
-                let params = '';
-                if (report.type === 'adhoc') {
-                    params = (
-                        <span>
-                            <FormattedMessage
-                                id='admin.compliance_reports.from'
-                                defaultMessage='From:'
-                            />{' '}{this.getDateTime(report.start_at)}
-                            <br/>
-                            <FormattedMessage
-                                id='admin.compliance_reports.to'
-                                defaultMessage='To:'
-                            />{' '}{this.getDateTime(report.end_at)}
-                            <br/>
-                            <FormattedMessage
-                                id='admin.compliance_reports.emails'
-                                defaultMessage='Emails:'
-                            />{' '}{report.emails}
-                            <br/>
-                            <FormattedMessage
-                                id='admin.compliance_reports.keywords'
-                                defaultMessage='Keywords:'
-                            />{' '}{report.keywords}
-                        </span>);
-                }
-
-                let download = '';
-                let status = '';
-                if (report.status === 'finished') {
-                    download = (
-                        <a href={`${Client4.getBaseRoute()}/compliance/reports/${report.id}/download`}>
-                            <FormattedMessage
-                                id='admin.compliance_table.download'
-                                defaultMessage='Download'
-                            />
-                        </a>
-                    );
-
-                    status = (
-                        <span style={style.greenStatus}>{report.status}</span>
-                    );
-                } else if (report.status === 'failed') {
-                    status = (
-                        <span style={style.redStatus}>{report.status}</span>
-                    );
-                }
-
-                let user = report.user_id;
-                const profile = UserStore.getProfile(report.user_id);
-                if (profile) {
-                    user = profile.email;
-                }
-
-                list[i] = (
-                    <tr key={report.id}>
-                        <td style={style.dataCell}>{download}</td>
-                        <td>{this.getDateTime(report.create_at)}</td>
-                        <td>{status}</td>
-                        <td>{report.count}</td>
-                        <td>{report.type}</td>
-                        <td style={style.dataCell}>{report.desc}</td>
-                        <td>{user}</td>
-                        <td style={style.dataCell}>{params}</td>
-                    </tr>
+                list.push(
+                    <ReportItem
+                        key={report.id}
+                        report={report}
+                    />
                 );
             }
 

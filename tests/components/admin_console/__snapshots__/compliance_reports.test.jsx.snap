@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ComplianceReports should match snapshot and call actions 1`] = `
+<div
+  className="panel compliance-panel"
+>
+  <h3>
+    <FormattedMessage
+      defaultMessage="Compliance Reports"
+      id="admin.compliance_reports.title"
+      values={Object {}}
+    />
+  </h3>
+  <div
+    className="row"
+  >
+    <div
+      className="col-sm-6 col-md-4 form-group"
+    >
+      <label>
+        <FormattedMessage
+          defaultMessage="Job Name:"
+          id="admin.compliance_reports.desc"
+          values={Object {}}
+        />
+      </label>
+      <input
+        className="form-control"
+        id="desc"
+        placeholder="E.g. \\"Audit 445 for HR\\""
+        type="text"
+      />
+    </div>
+    <div
+      className="col-sm-3 col-md-2 form-group"
+    >
+      <label>
+        <FormattedMessage
+          defaultMessage="From:"
+          id="admin.compliance_reports.from"
+          values={Object {}}
+        />
+      </label>
+      <input
+        className="form-control"
+        id="from"
+        placeholder="E.g. \\"2016-03-11\\""
+        type="text"
+      />
+    </div>
+    <div
+      className="col-sm-3 col-md-2 form-group"
+    >
+      <label>
+        <FormattedMessage
+          defaultMessage="To:"
+          id="admin.compliance_reports.to"
+          values={Object {}}
+        />
+      </label>
+      <input
+        className="form-control"
+        id="to"
+        placeholder="E.g. \\"2016-03-15\\""
+        type="text"
+      />
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-sm-6 col-md-4 form-group"
+    >
+      <label>
+        <FormattedMessage
+          defaultMessage="Emails:"
+          id="admin.compliance_reports.emails"
+          values={Object {}}
+        />
+      </label>
+      <input
+        className="form-control"
+        id="emails"
+        placeholder="E.g. \\"bill@example.com, bob@example.com\\""
+        type="text"
+      />
+    </div>
+    <div
+      className="col-sm-6 col-md-4 form-group"
+    >
+      <label>
+        <FormattedMessage
+          defaultMessage="Keywords:"
+          id="admin.compliance_reports.keywords"
+          values={Object {}}
+        />
+      </label>
+      <input
+        className="form-control"
+        id="keywords"
+        placeholder="E.g. \\"shorting stock\\""
+        type="text"
+      />
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <button
+      className="btn btn-primary"
+      id="run-button"
+      onClick={[Function]}
+      type="submit"
+    >
+      <FormattedMessage
+        defaultMessage="Run Compliance Report"
+        id="admin.compliance_reports.run"
+        values={Object {}}
+      />
+    </button>
+  </div>
+  <div
+    className="text-right"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+      type="submit"
+    >
+      <i
+        className="fa fa-refresh"
+      />
+      <FormattedMessage
+        defaultMessage="Reload Completed Compliance Reports"
+        id="admin.compliance_reports.reload"
+        values={Object {}}
+      />
+    </button>
+  </div>
+  <div
+    className="compliance-panel__table"
+  >
+    <LoadingScreen
+      position="relative"
+      style={Object {}}
+    />
+  </div>
+</div>
+`;

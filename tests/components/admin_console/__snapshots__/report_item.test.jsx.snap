@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ReportItem should match snapshot with email 1`] = `<div />`;
+
+exports[`components/ReportItem should match snapshot with null email 1`] = `<div />`;
