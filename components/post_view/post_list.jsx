@@ -14,6 +14,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
+import InvertedScroll from 'components/inverted_scroll.jsx';
 
 import FloatingTimestamp from './floating_timestamp.jsx';
 import NewMessageIndicator from './new_message_indicator.jsx';
@@ -123,16 +124,6 @@ export default class PostList extends React.PureComponent {
     componentDidMount() {
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         this.props.actions.checkAndSetMobileView();
-        GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-
-        window.addEventListener('resize', this.handleWindowResize);
-
-        this.initialScroll();
-    }
-
-    componentWillUnmount() {
-        GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-        window.removeEventListener('resize', this.handleWindowResize);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -209,14 +200,8 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        const didInitialScroll = this.initialScroll();
-
         if (posts.length >= POSTS_PER_PAGE) {
             this.hasScrolledToNewMessageSeparator = true;
-        }
-
-        if (didInitialScroll) {
-            return;
         }
 
         if (postList && prevPosts && posts && posts[0] && prevPosts[0]) {
@@ -251,37 +236,6 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    // Scroll to new message indicator or bottom on first load. Returns true
-    // if we just scrolled for the initial load.
-    initialScroll = () => {
-        if (this.hasScrolledToNewMessageSeparator) {
-            // Already scrolled to new messages indicator
-            return false;
-        }
-
-        const postList = this.refs.postlist;
-        const posts = this.props.posts;
-        if (!postList || !posts) {
-            // Not able to do initial scroll yet
-            return false;
-        }
-
-        const messageSeparator = this.refs.newMessageSeparator;
-        if (messageSeparator) {
-            // Scroll to new message indicator since we have unread posts
-            messageSeparator.scrollIntoView();
-            if (!this.checkBottom()) {
-                this.setUnreadsBelow(posts, this.props.currentUserId);
-            }
-            return true;
-        }
-
-        // Scroll to bottom since we don't have unread posts
-        postList.scrollTop = postList.scrollHeight;
-        this.atBottom = true;
-        return true;
-    }
-
     setUnreadsBelow = (posts, currentUserId) => {
         const unViewedCount = posts.reduce((count, post) => {
             if (post.create_at > this.state.lastViewed &&
@@ -311,33 +265,6 @@ export default class PostList extends React.PureComponent {
         }
 
         return this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >= this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN;
-    }
-
-    handleWindowResize = () => {
-        this.handleResize();
-    }
-
-    handleResize = (forceScrollToBottom) => {
-        const postList = this.refs.postlist;
-        const messageSeparator = this.refs.newMessageSeparator;
-        const doScrollToBottom = this.atBottom || forceScrollToBottom;
-
-        if (postList) {
-            if (doScrollToBottom) {
-                postList.scrollTop = postList.scrollHeight;
-            } else if (!this.hasScrolled && messageSeparator) {
-                const element = ReactDOM.findDOMNode(messageSeparator);
-                element.scrollIntoView();
-            }
-
-            this.previousScrollHeight = postList.scrollHeight;
-            this.previousScrollTop = postList.scrollTop;
-            this.previousClientHeight = postList.clientHeight;
-
-            this.atBottom = this.checkBottom();
-        }
-
-        this.props.actions.checkAndSetMobileView();
     }
 
     loadPosts = async (channelId, focusedPostId) => {
@@ -381,38 +308,6 @@ export default class PostList extends React.PureComponent {
         });
     }
 
-    handleScroll = () => {
-        // Only count as user scroll if we've already performed our first load scroll
-        this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
-        if (!this.refs.postlist) {
-            return;
-        }
-
-        this.previousScrollTop = this.refs.postlist.scrollTop;
-
-        if (this.refs.postlist.scrollHeight === this.previousScrollHeight) {
-            this.atBottom = this.checkBottom();
-        }
-
-        this.updateFloatingTimestamp();
-
-        if (!this.state.isScrolling) {
-            this.setState({
-                isScrolling: true,
-            });
-        }
-
-        if (this.checkBottom()) {
-            this.setState({
-                lastViewed: new Date().getTime(),
-                unViewedCount: 0,
-                isScrolling: false,
-            });
-        }
-
-        this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
-    }
-
     updateFloatingTimestamp = () => {
         // skip this in non-mobile view since that's when the timestamp is visible
         if (!Utils.isMobile()) {
@@ -445,12 +340,6 @@ export default class PostList extends React.PureComponent {
                     break;
                 }
             }
-        }
-    }
-
-    scrollToBottom = () => {
-        if (this.refs.postlist) {
-            this.refs.postlist.scrollTop = this.refs.postlist.scrollHeight;
         }
     }
 
@@ -535,6 +424,10 @@ export default class PostList extends React.PureComponent {
         return this.refs.postlist;
     }
 
+    scrollToBottom = (event) => {
+        this.refs.container.scrollTop = 0;
+    }
+
     render() {
         const posts = this.props.posts || [];
         const channel = this.props.channel;
@@ -594,7 +487,8 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <InvertedScroll id='post-list' ref="container">
+                // TODO: Place this elements correctly
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
@@ -609,24 +503,17 @@ export default class PostList extends React.PureComponent {
                     newMessages={this.state.unViewedCount}
                     onClick={this.scrollToBottom}
                 />
-                <div
-                    ref='postlist'
-                    className='post-list-holder-by-time'
-                    key={'postlist-' + channel.id}
-                    onScroll={this.handleScroll}
-                >
-                    <div className='post-list__table'>
-                        <div
-                            id='postListContent'
-                            ref='postlistcontent'
-                            className='post-list__content'
-                        >
-                            {topRow}
-                            {this.createPosts(posts.slice(0, postVisibility))}
-                        </div>
+                <div className='post-list__table'>
+                    <div
+                        id='postListContent'
+                        ref='postlistcontent'
+                        className='post-list__content'
+                    >
+                        {topRow}
+                        {this.createPosts(posts.slice(0, postVisibility))}
                     </div>
                 </div>
-            </div>
+            </InvertedScroll>
         );
     }
 }
