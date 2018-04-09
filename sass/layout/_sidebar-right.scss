@@ -44,7 +44,7 @@
 
         > div:not(.sidebar-collapse__container) {
             display: table-cell;
-            vertical-align: bottom;
+            vertical-align: top;
 
             &:last-child {
                 .channel-header__icon {
