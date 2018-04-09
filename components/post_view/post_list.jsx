@@ -255,16 +255,7 @@ export default class PostList extends React.PureComponent {
     }
 
     checkBottom = () => {
-        if (!this.refs.postlist) {
-            return true;
-        }
-
-        // No scroll bar so we're at the bottom
-        if (this.refs.postlist.scrollHeight <= this.refs.postlist.clientHeight) {
-            return true;
-        }
-
-        return this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >= this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN;
+        return this.refs.container.scrollTop === 0
     }
 
     loadPosts = async (channelId, focusedPostId) => {
@@ -306,6 +297,32 @@ export default class PostList extends React.PureComponent {
         this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
             this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
         });
+    }
+
+    handleScroll = () => {
+        // // Only count as user scroll if we've already performed our first load scroll
+        // this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
+        // if (!this.refs.postlist) {
+        //     return;
+        // }
+        //
+        this.updateFloatingTimestamp();
+
+        if (!this.state.isScrolling) {
+            this.setState({
+                isScrolling: true,
+            });
+        }
+
+        if (this.checkBottom()) {
+            this.setState({
+                lastViewed: new Date().getTime(),
+                unViewedCount: 0,
+                isScrolling: false,
+            });
+        }
+
+        this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
     }
 
     updateFloatingTimestamp = () => {
@@ -487,7 +504,7 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <InvertedScroll id='post-list' ref="container">
+            <InvertedScroll id='post-list' ref="container" onScroll={this.handleScroll}>
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
