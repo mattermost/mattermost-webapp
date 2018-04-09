@@ -98,11 +98,11 @@ export default class LoggedIn extends React.Component {
 
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--after');
-                $(this).parent('div').next('.date-separator, .new-separator').addClass('hovered--before');
+                $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
+                $(this).next('.date-separator, .new-separator').addClass('hovered--before');
             } else {
-                $(this).parent('div').prev('.date-separator, .new-separator').removeClass('hovered--after');
-                $(this).parent('div').next('.date-separator, .new-separator').removeClass('hovered--before');
+                $(this).prev('.date-separator, .new-separator').removeClass('hovered--after');
+                $(this).next('.date-separator, .new-separator').removeClass('hovered--before');
             }
         });
 
@@ -118,11 +118,11 @@ export default class LoggedIn extends React.Component {
 
         $('body').on('mouseenter mouseleave', '.post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--comment');
-                $(this).parent('div').next('.date-separator, .new-separator').addClass('hovered--comment');
+                $(this).prev('.date-separator, .new-separator').addClass('hovered--comment');
+                $(this).next('.date-separator, .new-separator').addClass('hovered--comment');
             } else {
-                $(this).parent('div').prev('.date-separator, .new-separator').removeClass('hovered--comment');
-                $(this).parent('div').next('.date-separator, .new-separator').removeClass('hovered--comment');
+                $(this).prev('.date-separator, .new-separator').removeClass('hovered--comment');
+                $(this).next('.date-separator, .new-separator').removeClass('hovered--comment');
             }
         });
 

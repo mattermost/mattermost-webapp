@@ -92,6 +92,11 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+
+        /*
+         * Callback function called when the post is large enough to be collapsed
+         */
+        onPostOverflow: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -234,11 +239,7 @@ export default class PostBody extends React.PureComponent {
         }
 
         const messageWrapper = (
-            <div
-                key={`${post.id}_message`}
-                id={`${post.id}_message`}
-                className={postClass}
-            >
+            <React.Fragment>
                 {failedOptions}
                 {sending}
                 <PostMessageView
@@ -246,8 +247,9 @@ export default class PostBody extends React.PureComponent {
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
+                    onPostOverflow={this.props.onPostOverflow}
                 />
-            </div>
+            </React.Fragment>
         );
 
         const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
@@ -281,7 +283,10 @@ export default class PostBody extends React.PureComponent {
         return (
             <div>
                 {comment}
-                <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass}`}>
+                <div
+                    id={`${post.id}_message`}
+                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
+                >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionListContainer

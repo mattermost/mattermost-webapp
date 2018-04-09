@@ -19,7 +19,7 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import PostMessageContainer from 'components/post_view/post_message_view';
+import PostMessageView from 'components/post_view/post_message_view';
 import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -56,6 +56,7 @@ export default class RhsComment extends React.Component {
             currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
             dropdownOpened: false,
+            hasOverflow: false,
         };
     }
 
@@ -109,6 +110,10 @@ export default class RhsComment extends React.Component {
         }
 
         if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
+        if (this.state.hasOverflow !== nextState.hasOverflow) {
             return true;
         }
 
@@ -187,12 +192,22 @@ export default class RhsComment extends React.Component {
             className += ' post--hovered';
         }
 
+        if (this.state.hasOverflow) {
+            className += ' post--overflow';
+        }
+
         return className;
     };
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handlePostOverflow = (hasOverflow) => {
+        this.setState({
+            hasOverflow,
         });
     };
 
@@ -419,10 +434,11 @@ export default class RhsComment extends React.Component {
         }
 
         const messageWrapper = (
-            <PostMessageContainer
+            <PostMessageView
                 post={post}
                 isRHS={true}
                 hasMention={true}
+                onPostOverflow={this.handlePostOverflow}
             />
         );
 

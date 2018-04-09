@@ -726,6 +726,33 @@
         }
     }
 
+    &.post--overflow {
+        &:last-child {
+            .post__body {
+                padding-bottom: 22px;
+            }
+        }
+
+        .file-view--single,
+        .post-image__columns {
+            margin-top: 1.5em;
+        }
+
+        + .date-separator,
+        + .new-separator {
+            height: auto;
+            padding-top: 2em;
+
+            > div {
+                margin: 0 12px 0 72px;
+            }
+
+            &:after {
+                height: 3em;
+            }
+        }
+    }
+
     &.post--hovered {
         .dropdown,
         .comment-icon__container,
@@ -1717,4 +1744,77 @@
 .permalink-popover {
     margin-left: 50px !important;
     min-width: 320px;
+}
+
+.post-message--collapsed {
+    .post-message__text-container {
+        max-height: 100px;
+        overflow: hidden;
+    }
+
+    .post-collapse__gradient-container {
+        height: 0;
+        position: relative;
+        top: -50px;
+
+        .post-collapse__gradient {
+            height: 50px;
+            pointer-events: none;
+            position: relative;
+        }
+    }
+}
+
+.post--overflow + .post--overflow.same--root.same--user {
+    .post-message--overflow {
+        padding-top: 1em;
+    }
+}
+
+.post-message--expanded {
+    .post-collapse__show-more-container {
+        height: 8px;
+        top: 8px;
+    }
+}
+
+.post-collapse__show-more-container {
+    align-items: center;
+    display: flex;
+    height: 0;
+    justify-content: center;
+    position: relative;
+    top: 4px;
+    z-index: 5;
+
+    .post-collapse__show-more {
+        @include border-radius(2px);
+        border: 1px solid transparent;
+        display: inline-block;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 24px;
+        margin: 0 8px;
+        padding: 0 10px;
+        position: relative;
+
+        .fa {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-right: 5px;
+            position: relative;
+            top: 2px;
+
+            &.fa-angle-up {
+                top: 1px;
+            }
+        }
+    }
+
+    .post-collapse__line {
+        display: inline-block;
+        height: 1px;
+        width: 189px;
+    }
 }

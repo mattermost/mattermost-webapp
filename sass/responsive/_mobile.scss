@@ -269,6 +269,16 @@
     }
 
     .post {
+        // TODO center this properly with full width and centered post mode so that it looks good with post expand/collapse
+        &.post--overflow {
+            + .date-separator,
+            + .new-separator {
+                > div {
+                    margin: 0 20px 0 55px;
+                }
+            }
+        }
+
         &:not(.post--compact) {
             .bot-indicator {
                 left: 6px;

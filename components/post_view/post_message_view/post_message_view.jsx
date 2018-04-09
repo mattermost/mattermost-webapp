@@ -10,6 +10,9 @@ import PostMarkdown from 'components/post_markdown';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+// This must match the max-height defined in CSS for the content div
+const MAX_POST_HEIGHT = 100;
+
 export default class PostMessageView extends React.PureComponent {
     static propTypes = {
 
@@ -52,6 +55,11 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
+
+        /*
+         * Callback function called when the post is large enough to be collapsed
+         */
+        onPostOverflow: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -59,6 +67,56 @@ export default class PostMessageView extends React.PureComponent {
         isRHS: false,
         pluginPostTypes: {},
     };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            collapse: true,
+            hasOverflow: false,
+        };
+    }
+
+    componentDidMount() {
+        this.checkOverflow();
+    }
+
+    componentWillUpdate(nextProps) {
+        if (this.props.post.id !== nextProps.post.id) {
+            this.setState({
+                collapse: true,
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.post !== prevProps.post) {
+            this.checkOverflow();
+        }
+    }
+
+    checkOverflow = () => {
+        const content = this.refs.content;
+
+        let hasOverflow = false;
+        if (content && content.scrollHeight > MAX_POST_HEIGHT) {
+            hasOverflow = true;
+        }
+
+        if (hasOverflow !== this.state.hasOverflow) {
+            this.setState({
+                hasOverflow,
+            });
+
+            this.props.onPostOverflow(hasOverflow);
+        }
+    }
+
+    toggleCollapse = () => {
+        this.setState((state) => ({
+            collapse: !state.collapse,
+        }));
+    }
 
     renderDeletedPost() {
         return (
@@ -133,21 +191,71 @@ export default class PostMessageView extends React.PureComponent {
             message = message.concat(visibleMessage);
         }
 
+        let className = 'post-message';
+        if (this.state.collapse) {
+            className += ' post-message--collapsed';
+        } else {
+            className += ' post-message--expanded';
+        }
+
+        let blur = null;
+        let showMore = null;
+        if (this.state.hasOverflow) {
+            blur = (
+                <div className='post-collapse__gradient-container'>
+                    <div className='post-collapse__gradient'/>
+                </div>
+            );
+
+            // TODO move showMore below text when expanded
+            // TODO position showMore properly around date lines and such
+
+            let icon = 'fa fa-angle-up';
+            let text = 'Show Less';
+            if (this.state.collapse) {
+                icon = 'fa fa-angle-down';
+                text = 'Show More';
+            }
+
+            showMore = (
+                <div className='post-collapse__show-more-container'>
+                    <div className='post-collapse__line'/>
+                    <button
+                        className='post-collapse__show-more'
+                        onClick={this.toggleCollapse}
+                    >
+                        <span className={icon}/>
+                        {text}
+                    </button>
+                    <div className='post-collapse__line'/>
+                </div>
+            );
+
+            className += ' post-message--overflow';
+        }
+
         return (
-            <div>
-                <span
-                    id={postId}
-                    className='post-message__text'
-                    onClick={Utils.handleFormattedTextClick}
+            <div className={className}>
+                <div
+                    className='post-message__text-container'
+                    ref='content'
                 >
-                    <PostMarkdown
-                        message={message}
-                        isRHS={isRHS}
-                        options={options}
-                        post={post}
-                    />
-                </span>
-                {this.renderEditedIndicator()}
+                    <div
+                        id={postId}
+                        className='post-message__text'
+                        onClick={Utils.handleFormattedTextClick}
+                    >
+                        <PostMarkdown
+                            message={message}
+                            isRHS={isRHS}
+                            options={options}
+                            post={post}
+                        />
+                    </div>
+                    {this.renderEditedIndicator()}
+                </div>
+                {blur}
+                {showMore}
             </div>
         );
     }

@@ -19,7 +19,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import PostMessageContainer from 'components/post_view/post_message_view';
+import PostMessageView from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -58,6 +58,7 @@ export default class RhsRootPost extends React.Component {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
+            hasOverflow: false,
         };
     }
 
@@ -111,6 +112,10 @@ export default class RhsRootPost extends React.Component {
         }
 
         if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
+        if (this.state.hasOverflow !== nextState.hasOverflow) {
             return true;
         }
 
@@ -176,12 +181,22 @@ export default class RhsRootPost extends React.Component {
             className += ' post--hovered';
         }
 
+        if (this.state.hasOverflow) {
+            className += ' post--overflow';
+        }
+
         return className;
     };
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handlePostOverflow = (hasOverflow) => {
+        this.setState({
+            hasOverflow,
         });
     };
 
@@ -428,10 +443,11 @@ export default class RhsRootPost extends React.Component {
                                     previewEnabled={this.props.previewEnabled}
                                     isEmbedVisible={this.props.isEmbedVisible}
                                 >
-                                    <PostMessageContainer
+                                    <PostMessageView
                                         post={post}
                                         isRHS={true}
                                         hasMention={true}
+                                        onPostOverflow={this.handlePostOverflow}
                                     />
                                 </PostBodyAdditionalContent>
                             </div>
