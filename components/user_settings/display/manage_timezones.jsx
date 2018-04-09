@@ -219,7 +219,7 @@ export default class ManageTimezones extends React.PureComponent {
                 title={
                     <FormattedMessage
                         id='user.settings.display.timezone'
-                        defaultMessage='Timezone'
+                        defaultMessage='Time zone'
                     />
                 }
                 containerStyle='timezone-container'
