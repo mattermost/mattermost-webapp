@@ -515,7 +515,7 @@ export default class UserSettingsDisplay extends React.Component {
                             title={
                                 <FormattedMessage
                                     id='user.settings.display.timezone'
-                                    defaultMessage='Timezone'
+                                    defaultMessage='Time zone'
                                 />
                             }
                             width='medium'
