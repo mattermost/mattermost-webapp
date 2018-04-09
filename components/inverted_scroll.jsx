@@ -10,6 +10,8 @@ export default class InvertedScroll extends React.Component {
          * Content protected by the permissions gate
          */
         children: PropTypes.node.isRequired,
+
+        id: PropTypes.string,
     };
 
     componentDidMount() {
@@ -31,10 +33,14 @@ export default class InvertedScroll extends React.Component {
 
     render() {
         return (
-            <div ref="container" style={{
-                transform: "rotate(180deg) scaleX(-1)",
-                overflowY: "scroll",
-            }}>
+            <div
+                ref="container"
+                style={{
+                    transform: "rotate(180deg) scaleX(-1)",
+                    overflowY: "scroll",
+                }}
+                id={this.props.id}
+            >
                 <div style={{transform: "rotate(180deg) scaleX(-1)"}}>
                     {this.props.children}
                 </div>

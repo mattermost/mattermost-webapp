@@ -488,7 +488,6 @@ export default class PostList extends React.PureComponent {
 
         return (
             <InvertedScroll id='post-list' ref="container">
-                // TODO: Place this elements correctly
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
