@@ -18,6 +18,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         id: 'post_id_1',
         root_id: 'root_id',
         channel_id: 'channel_id',
+        create_at: 1,
     };
     const requiredProps = {
         currentUser: {id: 'current_user_id', username: 'current_username'},
@@ -81,7 +82,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0]);
         expect(sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
-        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], post.channel_id, post.root_id);
+        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], props.userIds[0], post.channel_id, post.root_id, 2);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
     });
