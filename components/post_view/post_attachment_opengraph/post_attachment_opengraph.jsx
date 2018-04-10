@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import {updatePost} from 'actions/post_actions.jsx';
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
@@ -104,10 +103,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 imageVisible: nextProps.previewCollapsed.startsWith('false'),
             });
         }
-    }
-
-    componentDidUpdate() {
-        setTimeout(postListScrollChange, 0);
     }
 
     fetchData(url) {
