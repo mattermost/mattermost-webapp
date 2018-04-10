@@ -219,6 +219,12 @@ export default class SelectTeam extends React.Component {
                         />
                     </Link>
                 </div>
+                {!enableTeamCreation &&
+                    <FormattedMessage
+                        id='login.createTeamAdminOnly'
+                        defaultMessage='This option is only available for System Administrators, and does not show up for other users.'
+                    />
+                }
             </SystemPermissionGate>
         );
 
