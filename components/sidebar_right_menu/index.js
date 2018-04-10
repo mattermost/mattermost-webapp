@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {showMentions, showFlaggedPosts, closeRightHandSide, openMenu as openRhsMenu, closeMenu as closeRhsMenu} from 'actions/views/rhs';
@@ -33,6 +34,7 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
 
     return {
+        teamId: getCurrentTeamId(state),
         isOpen: getIsRhsMenuOpen(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         showTutorialTip: enableTutorial && isMobile() && tutorialStep === TutorialSteps.MENU_POPOVER,
