@@ -115,8 +115,7 @@ export default class UserAccessTokenSection extends React.Component {
                 />
             ),
             confirmMessage: (state) => (
-                <div className='alert alert-warning'>
-                    <i className='fa fa-warning margin-right'/>
+                <div>
                     <FormattedHTMLMessage
                         id='user.settings.tokens.confirmCopyMessage'
                         defaultMessage="Make sure you have copied and saved the access token below. You won't be able to see it again!"
@@ -124,7 +123,18 @@ export default class UserAccessTokenSection extends React.Component {
                     <br/>
                     <br/>
                     {state.tokenCreationState === TOKEN_CREATING ? (
-                        'Loading...'
+                        <div>
+                            <strong className='word-break--all'>
+                                <FormattedMessage
+                                    id='user.settings.tokens.token'
+                                    defaultMessage='Access Token: '
+                                />
+                            </strong>
+                            <FormattedMessage
+                                id='user.settings.tokens.tokenLoading'
+                                defaultMessage='Loading...'
+                            />
+                        </div>
                     ) : (
                         <strong className='word-break--all'>
                             <FormattedMessage

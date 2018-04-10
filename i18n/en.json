@@ -3067,6 +3067,7 @@
   "user.settings.tokens.save": "Save",
   "user.settings.tokens.title": "Personal Access Tokens",
   "user.settings.tokens.token": "Access Token: ",
+  "user.settings.tokens.tokenLoading": "Loading...",
   "user.settings.tokens.tokenDesc": "Token Description: ",
   "user.settings.tokens.tokenId": "Token ID: ",
   "user.settings.tokens.userAccessTokensNone": "No personal access tokens.",
