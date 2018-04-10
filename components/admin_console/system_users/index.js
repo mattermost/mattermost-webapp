@@ -5,8 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
 import {getUser, getUserAccessToken} from 'mattermost-redux/actions/users';
-import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {getTeamsList, getTeamStats as selectTeamStats} from 'mattermost-redux/selectors/entities/teams';
+import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+
+import {StatTypes} from 'utils/constants.jsx';
 
 import SystemUsers from './system_users.jsx';
 
@@ -21,7 +24,10 @@ function mapStateToProps(state) {
     const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     return {
+        users: getUsers(state),
         teams: getTeamsList(state),
+        totalUsersOnSystem: state.entities.admin.analytics[StatTypes.TOTAL_USERS],
+        teamStats: selectTeamStats(state),
         siteName,
         mfaEnabled,
         enableUserAccessTokens,

@@ -4,16 +4,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
+import {
+    searchProfiles,
+    searchProfilesInTeam,
+    getProfilesWithoutTeam,
+    getProfilesInTeam,
+} from 'mattermost-redux/selectors/entities/users';
+import {sortByUsername} from 'mattermost-redux/utils/user_utils';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import {loadProfiles, loadProfilesAndTeamMembers, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
-import AnalyticsStore from 'stores/analytics_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {Constants, StatTypes, UserSearchOptions} from 'utils/constants.jsx';
+import {Constants, UserSearchOptions} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemUsersList from './system_users_list.jsx';
@@ -26,6 +29,9 @@ const USERS_PER_PAGE = 50;
 
 export default class SystemUsers extends React.Component {
     static propTypes = {
+        users: PropTypes.object.isRequired,
+        totalUsersOnSystem: PropTypes.number,
+        teamStats: PropTypes.object,
 
         /*
          * Array of team objects
@@ -79,26 +85,12 @@ export default class SystemUsers extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateTotalUsersFromStore = this.updateTotalUsersFromStore.bind(this);
-        this.updateUsersFromStore = this.updateUsersFromStore.bind(this);
-
-        this.loadDataForTeam = this.loadDataForTeam.bind(this);
-        this.loadComplete = this.loadComplete.bind(this);
-
-        this.handleTeamChange = this.handleTeamChange.bind(this);
-        this.handleTermChange = this.handleTermChange.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-
-        this.doSearch = this.doSearch.bind(this);
-        this.search = this.search.bind(this);
-        this.getUserById = this.getUserById.bind(this);
-
-        this.renderFilterRow = this.renderFilterRow.bind(this);
+        const users = Object.values(props.users);
+        users.sort(sortByUsername);
 
         this.state = {
-            totalUsers: AnalyticsStore.getAllSystem()[StatTypes.TOTAL_USERS],
-            users: UserStore.getProfileList(),
-
+            totalUsers: props.totalUsersOnSystem,
+            users,
             teamId: ALL_USERS,
             term: '',
             loading: true,
@@ -107,13 +99,6 @@ export default class SystemUsers extends React.Component {
     }
 
     componentDidMount() {
-        AnalyticsStore.addChangeListener(this.updateTotalUsersFromStore);
-        TeamStore.addStatsChangeListener(this.updateTotalUsersFromStore);
-
-        UserStore.addChangeListener(this.updateUsersFromStore);
-        UserStore.addInTeamChangeListener(this.updateUsersFromStore);
-        UserStore.addWithoutTeamChangeListener(this.updateUsersFromStore);
-
         this.loadDataForTeam(this.state.teamId);
         this.props.actions.getTeams(0, 1000).then(reloadIfServerVersionChanged);
     }
@@ -129,32 +114,35 @@ export default class SystemUsers extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        AnalyticsStore.removeChangeListener(this.updateTotalUsersFromStore);
-        TeamStore.removeStatsChangeListener(this.updateTotalUsersFromStore);
+    componentWillReceiveProps(nextProps) {
+        if (this.props.users !== nextProps.users) {
+            this.updateUsersFromStore(this.state.teamId, this.state.term, nextProps);
+        }
 
-        UserStore.removeChangeListener(this.updateUsersFromStore);
-        UserStore.removeInTeamChangeListener(this.updateUsersFromStore);
-        UserStore.removeWithoutTeamChangeListener(this.updateUsersFromStore);
+        if (this.props.totalUsersOnSystem !== nextProps.totalUsersOnSystem ||
+                this.props.teamStats !== nextProps.teamStats) {
+            this.updateTotalUsersFromStore(this.state.teamId, nextProps);
+        }
     }
 
-    updateTotalUsersFromStore(teamId = this.state.teamId) {
+    updateTotalUsersFromStore = (teamId = this.state.teamId, props = this.props) => {
         if (teamId === ALL_USERS) {
             this.setState({
-                totalUsers: AnalyticsStore.getAllSystem()[StatTypes.TOTAL_USERS],
+                totalUsers: props.totalUsersOnSystem,
             });
         } else if (teamId === NO_TEAM) {
             this.setState({
                 totalUsers: 0,
             });
         } else {
+            const stats = props.teamStats[teamId] || {total_member_count: 0};
             this.setState({
-                totalUsers: TeamStore.getStats(teamId).total_member_count,
+                totalUsers: stats.total_member_count,
             });
         }
     }
 
-    updateUsersFromStore(teamId = this.state.teamId, term = this.state.term) {
+    updateUsersFromStore = (teamId = this.state.teamId, term = this.state.term, props = this.props) => {
         if (term) {
             let users;
             if (teamId) {
@@ -163,8 +151,8 @@ export default class SystemUsers extends React.Component {
                 users = searchProfiles(store.getState(), term);
             }
 
-            if (users.length === 0 && UserStore.hasProfile(term)) {
-                users = [UserStore.getProfile(term)];
+            if (users.length === 0 && props.users[term]) {
+                users = [props.users[term]];
             }
 
             this.setState({users});
@@ -172,15 +160,17 @@ export default class SystemUsers extends React.Component {
         }
 
         if (teamId === ALL_USERS) {
-            this.setState({users: UserStore.getProfileList(false, true)});
+            const users = Object.values(props.users);
+            users.sort(sortByUsername);
+            this.setState({users});
         } else if (teamId === NO_TEAM) {
-            this.setState({users: UserStore.getProfileListWithoutTeam()});
+            this.setState({users: getProfilesWithoutTeam(store.getState())});
         } else {
-            this.setState({users: UserStore.getProfileListInTeam(this.state.teamId)});
+            this.setState({users: getProfilesInTeam(store.getState(), this.state.teamId)});
         }
     }
 
-    loadDataForTeam(teamId) {
+    loadDataForTeam = (teamId) => {
         if (this.state.term) {
             this.search(this.state.term, teamId);
             return;
@@ -197,23 +187,23 @@ export default class SystemUsers extends React.Component {
         }
     }
 
-    loadComplete() {
+    loadComplete = () => {
         this.setState({loading: false});
     }
 
-    handleTeamChange(e) {
+    handleTeamChange = (e) => {
         this.setState({teamId: e.target.value});
     }
 
-    handleTermChange(term) {
+    handleTermChange = (term) => {
         this.setState({term});
     }
 
-    nextPage(page) {
+    nextPage = (page) => {
         // Paging isn't supported while searching
 
         if (this.state.teamId === ALL_USERS) {
-            loadProfiles(page + 1, USERS_PER_PAGE, this.loadComplete);
+            loadProfiles(page, USERS_PER_PAGE, this.loadComplete);
         } else if (this.state.teamId === NO_TEAM) {
             loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, this.loadComplete);
         } else {
@@ -221,7 +211,7 @@ export default class SystemUsers extends React.Component {
         }
     }
 
-    search(term, teamId = this.state.teamId) {
+    search = (term, teamId = this.state.teamId) => {
         if (term === '') {
             this.updateUsersFromStore(teamId, term);
 
@@ -236,7 +226,7 @@ export default class SystemUsers extends React.Component {
         this.doSearch(teamId, term);
     }
 
-    doSearch(teamId, term, now = false) {
+    doSearch = (teamId, term, now = false) => {
         clearTimeout(this.searchTimeoutId);
         this.term = term;
 
@@ -272,8 +262,8 @@ export default class SystemUsers extends React.Component {
         );
     }
 
-    getUserById(id) {
-        if (UserStore.hasProfile(id)) {
+    getUserById = (id) => {
+        if (this.props.users[id]) {
             this.setState({loading: false});
             return;
         }
@@ -303,7 +293,7 @@ export default class SystemUsers extends React.Component {
         this.getUserById(id);
     }
 
-    renderFilterRow(doSearch) {
+    renderFilterRow = (doSearch) => {
         const teams = this.props.teams.map((team) => {
             return (
                 <option
