@@ -3,10 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {withRouter} from 'react-router-dom';
+
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {withRouter} from 'react-router-dom';
+import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
 import SelectTeam from './select_team.jsx';
 
@@ -17,7 +19,8 @@ function mapStateToProps(state) {
     return {
         isLicensed: license.IsLicensed === 'true',
         customDescriptionText: config.CustomDescriptionText,
-        enableTeamCreation: config.EnableTeamCreation === 'true',
+        roles: getRoles(state),
+        rolesRequest: state.requests.roles.getRolesByNames,
         siteName: config.SiteName,
     };
 }
@@ -27,6 +30,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             loadRolesIfNeeded,
             getTeams,
+            loadRolesIfNeeded,
         }, dispatch),
     };
 }

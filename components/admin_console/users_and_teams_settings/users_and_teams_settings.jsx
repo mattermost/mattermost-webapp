@@ -90,7 +90,6 @@ export default class UsersAndTeamsSettings extends AdminSettings {
 
     getConfigFromState = (config) => {
         config.TeamSettings.EnableUserCreation = this.state.enableUserCreation;
-        config.TeamSettings.EnableTeamCreation = this.state.enableTeamCreation;
         config.TeamSettings.MaxUsersPerTeam = this.parseIntNonZero(this.state.maxUsersPerTeam, Constants.DEFAULT_MAX_USERS_PER_TEAM);
         config.TeamSettings.RestrictCreationToDomains = this.state.restrictCreationToDomains;
         config.TeamSettings.RestrictDirectMessage = this.state.restrictDirectMessage;
