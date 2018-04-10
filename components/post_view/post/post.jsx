@@ -142,7 +142,7 @@ export default class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, fromWebhook) => {
+    getClassName = (post, isSystemMessage, fromWebhook, fromAutoResponder) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -185,6 +185,10 @@ export default class Post extends React.PureComponent {
             currentUserCss = '';
             postType = '';
             rootUser = '';
+        }
+
+        if (fromAutoResponder) {
+            postType = 'post--comment';
         }
 
         if (this.props.compactDisplay) {
@@ -297,7 +301,7 @@ export default class Post extends React.PureComponent {
             >
                 <div
                     id={'post_' + post.id}
-                    className={this.getClassName(post, isSystemMessage, fromWebhook)}
+                    className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 >
                     <div className={'post__content ' + centerClass}>
                         {profilePicContainer}
