@@ -1,6 +1,12 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .textarea-wrapper {
+        .help__text {
+            display: none;
+        }
+    }
+
     .webrtc__option {
         display: none;
     }
@@ -1254,6 +1260,7 @@
             }
 
             .post-create-footer {
+                padding-right: 0;
                 padding-top: 10px;
 
                 .control-label {
