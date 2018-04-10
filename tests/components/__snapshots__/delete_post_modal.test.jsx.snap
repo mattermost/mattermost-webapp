@@ -77,6 +77,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   >
     <button
       className="btn btn-default"
+      onClick={[Function]}
       type="button"
     >
       <FormattedMessage
@@ -187,6 +188,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   >
     <button
       className="btn btn-default"
+      onClick={[Function]}
       type="button"
     >
       <FormattedMessage
