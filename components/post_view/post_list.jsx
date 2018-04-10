@@ -67,6 +67,8 @@ export default class PostList extends React.PureComponent {
          */
         fullWidth: PropTypes.bool,
 
+        centerChannelDropdownOpen: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /**
@@ -591,6 +593,13 @@ export default class PostList extends React.PureComponent {
         // In focus mode there's an extra (Constants.POST_CHUNK_SIZE / 2) posts to show
         if (this.props.focusedPostId) {
             postVisibility += Constants.POST_CHUNK_SIZE / 2;
+        }
+
+
+        if (this.props.centerChannelDropdownOpen) {
+            document.body.classList.add('post-list--popover');
+        } else {
+            document.body.classList.remove('post-list--popover');
         }
 
         return (

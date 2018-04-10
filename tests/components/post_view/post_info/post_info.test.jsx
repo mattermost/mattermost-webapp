@@ -44,6 +44,7 @@ describe('components/post_view/PostInfo', () => {
         actions: {
             removePost: jest.fn(),
             addReaction: jest.fn(),
+            setCenterChannelDropdown: jest.fn(),
         },
     };
 
@@ -133,6 +134,7 @@ describe('components/post_view/PostInfo', () => {
         const actions = {
             removePost,
             addReaction: jest.fn(),
+            setCenterChannelDropdown: jest.fn(),
         };
         const requiredPropsWithRemovePost = {...requiredProps, actions, enableEmojiPicker: true};
 
@@ -149,6 +151,7 @@ describe('components/post_view/PostInfo', () => {
         const actions = {
             removePost: jest.fn(),
             addReaction,
+            setCenterChannelDropdown: jest.fn(),
         };
 
         const handleDropdownOpened = jest.fn();

@@ -12,3 +12,12 @@ export function checkAndSetMobileView() {
         });
     };
 }
+
+export function setCenterChannelDropdown(open = false) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.TOGGLE_CENTER_CHANNEL_DROPDOWN,
+            data: open,
+        });
+    };
+}

@@ -9,6 +9,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {setCenterChannelDropdown} from 'actions/views/channel';
+
 import {Preferences} from 'utils/constants.jsx';
 
 import PostInfo from './post_info.jsx';
@@ -32,6 +34,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             removePost,
             addReaction,
+            setCenterChannelDropdown,
         }, dispatch),
     };
 }
