@@ -114,6 +114,7 @@ function createPost({
             enableConfirmNotificationsToChannel={true}
             enableEmojiPicker={true}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
+            userIsOutOfOffice={false}
         />
     );
 }
