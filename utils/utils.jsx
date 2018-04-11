@@ -304,10 +304,10 @@ export function areObjectsEqual(x, y) {
     // Comparing dates is a common scenario. Another built-ins?
     // We can even handle functions passed across iframes
     if ((typeof x === 'function' && typeof y === 'function') ||
-       (x instanceof Date && y instanceof Date) ||
-       (x instanceof RegExp && y instanceof RegExp) ||
-       (x instanceof String && y instanceof String) ||
-       (x instanceof Number && y instanceof Number)) {
+        (x instanceof Date && y instanceof Date) ||
+        (x instanceof RegExp && y instanceof RegExp) ||
+        (x instanceof String && y instanceof String) ||
+        (x instanceof Number && y instanceof Number)) {
         return x.toString() === y.toString();
     }
 
@@ -1603,4 +1603,12 @@ export function copyToClipboard(e, data) {
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
+}
+
+export function moveCursorToEnd(e) {
+    const val = e.target.value;
+    if (val.length) {
+        e.target.value = '';
+        e.target.value = val;
+    }
 }

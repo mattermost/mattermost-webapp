@@ -726,6 +726,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 type='text'
                                 onChange={this.updateFirstName}
                                 value={this.state.firstName}
+                                onFocus={Utils.moveCursorToEnd}
                             />
                         </div>
                     </div>
@@ -968,6 +969,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 onChange={this.updateUsername}
                                 value={this.state.username}
                                 autoCapitalize='off'
+                                onFocus={Utils.moveCursorToEnd}
                             />
                         </div>
                     </div>
@@ -1058,6 +1060,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 value={this.state.position}
                                 maxLength={Constants.MAX_POSITION_LENGTH}
                                 autoCapitalize='off'
+                                onFocus={Utils.moveCursorToEnd}
                             />
                         </div>
                     </div>

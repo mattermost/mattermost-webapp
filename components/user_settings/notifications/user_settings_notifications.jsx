@@ -621,6 +621,7 @@ export default class NotificationsTab extends React.Component {
                         type='text'
                         defaultValue={this.state.customKeys}
                         onChange={this.onCustomChange}
+                        onFocus={Utils.moveCursorToEnd}
                     />
                 </div>
             );
