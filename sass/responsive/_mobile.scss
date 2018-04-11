@@ -1812,6 +1812,22 @@
 }
 
 @media screen and (max-width: 320px) {
+    .filter-row {
+        .Select--multi {
+            .Select-multi-value-wrapper {
+                display: block;
+                max-height: 50px;
+                overflow: auto;
+            }
+        }
+
+        .Select-input {
+            > input {
+                padding: 8px 0;
+            }
+        }
+    }
+
     .post {
         &.post--system {
              .post__header {
