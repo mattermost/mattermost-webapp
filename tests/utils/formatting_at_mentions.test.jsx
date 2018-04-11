@@ -55,4 +55,32 @@ describe('TextFormatting.AtMentions', function() {
             'user@email.com'
         );
     });
+
+    it('Highlighted at mentions', function() {
+        assert.equal(
+            TextFormatting.formatText('@user', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="user">@user</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@channel', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="channel">@channel</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@all', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="all">@all</span></span></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('@USER', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="user">@USER</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@CHanNEL', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="channel">@CHanNEL</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@ALL', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="all">@ALL</span></span></p>',
+        );
+    });
 });
