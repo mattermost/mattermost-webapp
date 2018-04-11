@@ -21,8 +21,8 @@ describe('components/delete_post_modal', () => {
         commentCount: 0,
         isRHS: false,
         actions: {
-            deletePost: jest.fn(),
             deleteAndRemovePost: jest.fn(),
+            deleteCombinedPost: jest.fn(),
         },
         onHide: jest.fn(),
     };
@@ -70,6 +70,7 @@ describe('components/delete_post_modal', () => {
             ...baseProps,
             actions: {
                 deleteAndRemovePost,
+                deleteCombinedPost: jest.fn(),
             },
         };
         const wrapper = shallow(
@@ -93,6 +94,7 @@ describe('components/delete_post_modal', () => {
             teamName: 'team_name',
             actions: {
                 deleteAndRemovePost: jest.fn().mockReturnValueOnce({data: true}),
+                deleteCombinedPost: jest.fn(),
             },
         };
         const wrapper = shallow(

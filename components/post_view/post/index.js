@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -14,7 +13,6 @@ function mapStateToProps(state, ownProps) {
     const detailedPost = ownProps.post || {};
 
     return {
-        post: getPost(state, detailedPost.id),
         lastPostCount: ownProps.lastPostCount,
         user: getUser(state, detailedPost.user_id),
         status: getStatusForUserId(state, detailedPost.user_id),

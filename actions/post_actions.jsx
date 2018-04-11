@@ -317,6 +317,37 @@ export function hideEditPostModal() {
     };
 }
 
+export function deleteCombinedPost(combinedPost) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+
+        combinedPost.system_post_ids.forEach((systemPostId) => {
+            const systemPost = Selectors.getPost(state, systemPostId);
+            doDispatch(PostActions.deletePost(systemPost, false));
+        });
+
+        if (combinedPost.id === getSelectedPostId(state)) {
+            dispatch({
+                type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: '',
+            });
+        }
+
+        doDispatch({
+            type: PostTypes.REMOVE_POST,
+            data: combinedPost,
+        });
+
+        AppDispatcher.handleViewAction({
+            type: Constants.ActionTypes.REMOVE_POST,
+            combinedPost,
+        });
+
+        return {data: true};
+    };
+}
+
 export function deleteAndRemovePost(post) {
     return async (doDispatch, doGetState) => {
         const {currentUserId} = doGetState().entities.users;

@@ -3,12 +3,12 @@
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions, Posts} from 'mattermost-redux/constants';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
@@ -254,4 +254,42 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     });
 
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);
+}
+
+export function combineUserActivitySystemPost(systemPosts = []) {
+    if (systemPosts.length === 0) {
+        return null;
+    }
+
+    return systemPosts.reduce((acc, post) => {
+        const postType = post.type;
+        let userActivityProps = acc;
+        const combinedPostType = userActivityProps[postType];
+
+        if (
+            postType === Posts.POST_TYPES.ADD_TO_TEAM ||
+            postType === Posts.POST_TYPES.ADD_TO_CHANNEL
+        ) {
+            if (combinedPostType) {
+                const addedUserIds = combinedPostType[post.user_id] || [];
+                addedUserIds.push(post.props.addedUserId);
+                combinedPostType[post.user_id] = addedUserIds;
+            } else {
+                userActivityProps[postType] = {[post.user_id]: [post.props.addedUserId]};
+            }
+        } else {
+            let propsUserId = post.user_id;
+            if (postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
+                propsUserId = post.props.removedUserId;
+            }
+
+            if (combinedPostType) {
+                userActivityProps[postType] = [...combinedPostType, propsUserId];
+            } else {
+                userActivityProps = {...userActivityProps, [postType]: [propsUserId]};
+            }
+        }
+
+        return userActivityProps;
+    }, {});
 }

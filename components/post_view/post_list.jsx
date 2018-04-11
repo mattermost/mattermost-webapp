@@ -6,12 +6,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
+
 import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 
@@ -466,7 +469,8 @@ export default class PostList extends React.PureComponent {
 
             if (
                 post == null ||
-                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
+                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL ||
+                isUserActivityPost(post.type)
             ) {
                 continue;
             }
