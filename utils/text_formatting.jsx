@@ -162,7 +162,7 @@ export function autolinkAtMentions(text, tokens) {
         const alias = `$MM_ATMENTION${index}`;
 
         tokens.set(alias, {
-            value: `<span data-mention="${username}">@${username}</span>`,
+            value: `<span data-mention="${username.toLowerCase()}">@${username}</span>`,
             originalText: fullMatch,
         });
 
@@ -253,7 +253,9 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     // look for any existing tokens which are self mentions and should be highlighted
     var newTokens = new Map();
     for (const [alias, token] of tokens) {
-        if (mentionKeys.findIndex((key) => key.key === token.originalText) !== -1) {
+        const tokenTextLower = token.originalText.toLowerCase();
+
+        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}`;
 
@@ -293,7 +295,9 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             flags += 'i';
         }
 
-        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags), replaceCurrentMentionWithToken);
+        const pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags);
+
+        output = output.replace(pattern, replaceCurrentMentionWithToken);
     }
 
     return output;
