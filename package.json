@@ -143,7 +143,9 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
     ],
-    "setupFiles": ["jest-canvas-mock"],
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
     "testURL": "http://localhost:8065"
   },
