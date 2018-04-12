@@ -240,7 +240,7 @@ export default class PostInfo extends React.PureComponent {
         return (
             <div
                 ref='dotMenu'
-                className={'col col__reply' + (isReadOnly ? ' dot_small' : '')}
+                className={'col col__reply'}
             >
                 {dotMenu}
                 {react}

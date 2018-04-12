@@ -75,63 +75,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 </div>
 `;
 
-exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
-<div
-  className="dropdown"
-  id={null}
->
-  <div
-    id="center_dropdownpost_id_1"
-  >
-    <button
-      aria-expanded="false"
-      className="dropdown-toggle post__dropdown color--link style--none"
-      data-toggle="dropdown"
-      type="button"
-    />
-    <div
-      className="dropdown-menu__content"
-    >
-      <ul
-        className="dropdown-menu"
-        role="menu"
-      >
-        <DotMenuItem
-          handleOnClick={[MockFunction]}
-          idCount={-1}
-          idPrefix="centerDotMenuReply"
-        />
-        <DotMenuItem
-          idCount={-1}
-          idPrefix="centerDotMenuPermalink"
-          post={
-            Object {
-              "id": "post_id_1",
-              "is_pinned": false,
-            }
-          }
-        />
-        <DotMenuItem
-          actions={
-            Object {
-              "pinPost": [MockFunction],
-              "unpinPost": [MockFunction],
-            }
-          }
-          idCount={-1}
-          idPrefix="centerDotMenuPin"
-          post={
-            Object {
-              "id": "post_id_1",
-              "is_pinned": false,
-            }
-          }
-        />
-      </ul>
-    </div>
-  </div>
-</div>
-`;
+exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `""`;
 
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 2`] = `
 <div

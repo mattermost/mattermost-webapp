@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 
 import {
     closeRightHandSide as closeRhs,
@@ -27,6 +28,7 @@ function mapStateToProps(state) {
     return {
         isPinnedPosts: rhsState === RHSStates.PIN,
         enableWebrtc,
+        isReadOnly: isCurrentChannelReadOnly(state),
     };
 }
 

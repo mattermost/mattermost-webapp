@@ -47,6 +47,7 @@ export default class Navbar extends React.Component {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
         enableWebrtc: PropTypes.bool.isRequired,
+        isReadOnly: PropTypes.bool,
         actions: PropTypes.shape({
             updateRhsState: PropTypes.func,
             showPinnedPosts: PropTypes.func,
@@ -556,89 +557,91 @@ export default class Navbar extends React.Component {
                     </li>
                 );
 
-                setChannelHeaderOption = (
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                    >
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showEditChannelHeaderModal}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.setHeader'
-                                    defaultMessage='Edit Channel Header'
-                                />
-                            </a>
-                        </li>
-                    </ChannelPermissionGate>
-                );
+                if (!this.props.isReadOnly) {
+                    setChannelHeaderOption = (
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        >
+                            <li role='presentation'>
+                                <a
+                                    role='menuitem'
+                                    href='#'
+                                    onClick={this.showEditChannelHeaderModal}
+                                >
+                                    <FormattedMessage
+                                        id='channel_header.setHeader'
+                                        defaultMessage='Edit Channel Header'
+                                    />
+                                </a>
+                            </li>
+                        </ChannelPermissionGate>
+                    );
 
-                setChannelPurposeOption = (
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                    >
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showChannelPurposeModal}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.setPurpose'
-                                    defaultMessage='Edit Channel Purpose'
-                                />
-                            </a>
-                        </li>
-                    </ChannelPermissionGate>
-                );
+                    setChannelPurposeOption = (
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        >
+                            <li role='presentation'>
+                                <a
+                                    role='menuitem'
+                                    href='#'
+                                    onClick={this.showChannelPurposeModal}
+                                >
+                                    <FormattedMessage
+                                        id='channel_header.setPurpose'
+                                        defaultMessage='Edit Channel Purpose'
+                                    />
+                                </a>
+                            </li>
+                        </ChannelPermissionGate>
+                    );
 
-                renameChannelOption = (
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                    >
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showRenameChannelModal}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.rename'
-                                    defaultMessage='Rename Channel'
-                                />
-                            </a>
-                        </li>
-                    </ChannelPermissionGate>
-                );
+                    renameChannelOption = (
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        >
+                            <li role='presentation'>
+                                <a
+                                    role='menuitem'
+                                    href='#'
+                                    onClick={this.showRenameChannelModal}
+                                >
+                                    <FormattedMessage
+                                        id='channel_header.rename'
+                                        defaultMessage='Rename Channel'
+                                    />
+                                </a>
+                            </li>
+                        </ChannelPermissionGate>
+                    );
 
-                deleteChannelOption = (
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
-                    >
-                        <li role='presentation'>
-                            <ToggleModalButton
-                                role='menuitem'
-                                dialogType={DeleteChannelModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.delete'
-                                    defaultMessage='Delete Channel'
-                                />
-                            </ToggleModalButton>
-                        </li>
-                    </ChannelPermissionGate>
-                );
+                    deleteChannelOption = (
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
+                        >
+                            <li role='presentation'>
+                                <ToggleModalButton
+                                    role='menuitem'
+                                    dialogType={DeleteChannelModal}
+                                    dialogProps={{channel}}
+                                >
+                                    <FormattedMessage
+                                        id='channel_header.delete'
+                                        defaultMessage='Delete Channel'
+                                    />
+                                </ToggleModalButton>
+                            </li>
+                        </ChannelPermissionGate>
+                    );
+                }
 
                 if (!ChannelStore.isDefault(channel)) {
                     leaveChannelOption = (
@@ -944,6 +947,7 @@ export default class Navbar extends React.Component {
                                 ref='headerOverlay'
                                 channel={channel}
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
+                                isReadOnly={this.props.isReadOnly}
                             />
                             <Pluggable pluggableName='MobileChannelHeaderButton'/>
                             {channelMenuDropdown}
