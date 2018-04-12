@@ -78,13 +78,7 @@ export default class EmailConnectionTestButton extends React.Component {
             testMessage = (
                 <div className='alert alert-warning'>
                     <i className='fa fa-warning'/>
-                    <FormattedMessage
-                        id='admin.email.emailFail'
-                        defaultMessage='Connection unsuccessful: {error}'
-                        values={{
-                            error: this.state.fail,
-                        }}
-                    />
+                    {this.state.fail}
                 </div>
             );
         }

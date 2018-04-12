@@ -63,6 +63,7 @@ export default class UserSettings extends React.Component {
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
                         setEnforceFocus={this.props.setEnforceFocus}
+                        setRequireConfirm={this.props.setRequireConfirm}
                     />
                 </div>
             );

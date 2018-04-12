@@ -68,6 +68,7 @@ function mapStateToProps() {
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableConfirmNotificationsToChannel,
+            maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         };
     };
 }

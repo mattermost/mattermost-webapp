@@ -34,6 +34,11 @@ export default class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
 
         /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
+
+        /**
          * Editing post information
          */
         editingPost: PropTypes.shape({
@@ -311,6 +316,7 @@ export default class EditPostModal extends React.PureComponent {
                         suggestionListStyle='bottom'
                         id='edit_textbox'
                         ref='editbox'
+                        characterLimit={this.props.maxPostSize}
                     />
                     <span
                         ref='editPostEmoji'
