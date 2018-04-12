@@ -77,6 +77,14 @@ class TeamSettingsModal extends React.Component {
         this.props.onModalDismissed();
     }
 
+    // called after the dialog is fully hidden and faded out
+    handleHidden = () => {
+        this.setState({
+            activeTab: 'general',
+            activeSection: '',
+        });
+    }
+
     render() {
         const {formatMessage} = this.props.intl;
         const tabs = [];
@@ -88,7 +96,7 @@ class TeamSettingsModal extends React.Component {
                 dialogClassName='settings-modal settings-modal--action'
                 show={this.props.show}
                 onHide={this.handleHide}
-                onExited={this.handleHide}
+                onExited={this.handleHidden}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
