@@ -32,6 +32,7 @@ export default class SelectTeam extends React.Component {
         enableTeamCreation: PropTypes.bool.isRequired,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
+            loadRolesIfNeeded: PropTypes.func.isRequired,
             getTeams: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -43,6 +44,10 @@ export default class SelectTeam extends React.Component {
         state.loadingTeamId = '';
         state.error = null;
         this.state = state;
+    }
+
+    componentWillMount() {
+        this.props.actions.loadRolesIfNeeded(['system_user', 'system_admin']);
     }
 
     componentDidMount() {
