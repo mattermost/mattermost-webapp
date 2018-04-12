@@ -124,6 +124,11 @@ export default class CreatePost extends React.Component {
          */
         enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
 
+        /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -869,6 +874,7 @@ export default class CreatePost extends React.Component {
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
+                                characterLimit={this.props.maxPostSize}
                             />
                             <span
                                 ref='createPostControls'

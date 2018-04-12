@@ -49,6 +49,7 @@ function mapStateToProps(state, ownProps) {
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         enableConfirmNotificationsToChannel,
         enableEmojiPicker,
+        maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
     };
 }
 

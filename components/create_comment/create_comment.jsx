@@ -138,6 +138,11 @@ export default class CreateComment extends React.PureComponent {
          * Set if the emoji picker is enabled.
          */
         enableEmojiPicker: PropTypes.bool.isRequired,
+
+        /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
     }
 
     constructor(props) {
@@ -644,6 +649,7 @@ export default class CreateComment extends React.PureComponent {
                                 id='reply_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
+                                characterLimit={this.props.maxPostSize}
                             />
                             <span
                                 ref='createCommentControls'
