@@ -371,7 +371,6 @@
   "admin.email.allowUsernameSignInTitle": "Enable sign-in with username: ",
   "admin.email.connectionSecurityTest": "Test Connection",
   "admin.email.easHelp": "Learn more about compiling and deploying your own mobile apps from an <a href=\"https://about.mattermost.com/default-enterprise-app-store\" target='_blank'>Enterprise App Store</a>.",
-  "admin.email.emailFail": "Connection unsuccessful: {error}",
   "admin.email.emailSuccess": "No errors were reported while sending an email.  Please check your inbox to make sure.",
   "admin.email.enableEmailBatching.clusterEnabled": "Email batching cannot be enabled when High Availability mode is enabled.",
   "admin.email.enableEmailBatching.siteURL": "Email batching cannot be enabled unless the SiteURL is configured in <b>Configuration > SiteURL</b>.",
