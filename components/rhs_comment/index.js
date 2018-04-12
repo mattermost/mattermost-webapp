@@ -19,6 +19,7 @@ function mapStateToProps(state, ownProps) {
         enablePostUsernameOverride,
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
+        pluginPostTypes: state.plugins.postTypes,
     };
 }
 

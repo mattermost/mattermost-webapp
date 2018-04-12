@@ -49,6 +49,7 @@ export default class RhsComment extends React.Component {
         enableEmojiPicker: PropTypes.bool.isRequired,
         enablePostUsernameOverride: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
+        pluginPostTypes: PropTypes.object,
     };
 
     constructor(props) {
@@ -455,6 +456,7 @@ export default class RhsComment extends React.Component {
                                     previewCollapsed={this.props.previewCollapsed}
                                     previewEnabled={this.props.previewEnabled}
                                     isEmbedVisible={this.props.isEmbedVisible}
+                                    pluginPostTypes={this.props.pluginPostTypes}
                                 />
                             </div>
                             {fileAttachment}
