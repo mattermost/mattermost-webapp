@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -25,6 +26,7 @@ import PostTime from 'components/post_view/post_time.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import MattermostLogo from 'components/svg/mattermost_logo';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import UserProfile from 'components/user_profile.jsx';
 
@@ -32,6 +34,7 @@ export default class RhsRootPost extends React.Component {
     static propTypes = {
         post: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
+        teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
@@ -190,7 +193,7 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const {post, user, isReadOnly} = this.props;
+        const {post, user, isReadOnly, teamId} = this.props;
         var channel = ChannelStore.get(post.channel_id);
 
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -224,13 +227,19 @@ export default class RhsRootPost extends React.Component {
                         spaceRequiredAbove={342}
                         spaceRequiredBelow={342}
                     />
-                    <button
-                        className='reacticon__container reaction color--link style--none'
-                        onClick={this.toggleEmojiPicker}
-                        ref='rhs_root_reacticon'
+                    <ChannelPermissionGate
+                        channelId={post.channel_id}
+                        teamId={teamId}
+                        permissions={[Permissions.ADD_REACTION]}
                     >
-                        <EmojiIcon className='icon icon--emoji'/>
-                    </button>
+                        <button
+                            className='reacticon__container reaction color--link style--none'
+                            onClick={this.toggleEmojiPicker}
+                            ref='rhs_root_reacticon'
+                        >
+                            <EmojiIcon className='icon icon--emoji'/>
+                        </button>
+                    </ChannelPermissionGate>
                 </span>
 
             );
