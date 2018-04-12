@@ -70,8 +70,13 @@ class UserSettingsModal extends React.Component {
             show: false,
         };
 
-        this.requireConfirm = false;
         this.mounted = false;
+        this.requireConfirm = false;
+
+        // Used when settings want to override the default confirm modal with their own
+        // If set by a child, it will be called in place of showing the regular confirm
+        // modal. It will be passed a function to call on modal confirm
+        this.customConfirmAction = null;
     }
 
     onUserChanged = () => {
@@ -117,9 +122,7 @@ class UserSettingsModal extends React.Component {
     // Called when the close button is pressed on the main modal
     handleHide = () => {
         if (this.requireConfirm) {
-            this.afterConfirm = () => this.handleHide();
-            this.showConfirmModal();
-
+            this.showConfirmModal(() => this.handleHide());
             return;
         }
 
@@ -155,6 +158,7 @@ class UserSettingsModal extends React.Component {
         });
 
         this.requireConfirm = false;
+        this.customConfirmAction = null;
 
         if (this.afterConfirm) {
             this.afterConfirm();
@@ -171,15 +175,20 @@ class UserSettingsModal extends React.Component {
         this.afterConfirm = null;
     }
 
-    showConfirmModal(afterConfirm) {
+    showConfirmModal = (afterConfirm) => {
+        if (afterConfirm) {
+            this.afterConfirm = afterConfirm;
+        }
+
+        if (this.customConfirmAction) {
+            this.customConfirmAction(this.handleConfirm);
+            return;
+        }
+
         this.setState({
             showConfirmModal: true,
             enforceFocus: false,
         });
-
-        if (afterConfirm) {
-            this.afterConfirm = afterConfirm;
-        }
     }
 
     // Called by settings tabs when their close button is pressed
@@ -283,8 +292,9 @@ class UserSettingsModal extends React.Component {
                                 collapseModal={this.collapseModal}
                                 setEnforceFocus={(enforceFocus) => this.setState({enforceFocus})}
                                 setRequireConfirm={
-                                    (requireConfirm) => {
+                                    (requireConfirm, customConfirmAction) => {
                                         this.requireConfirm = requireConfirm;
+                                        this.customConfirmAction = customConfirmAction;
                                     }
                                 }
                             />
