@@ -692,6 +692,7 @@ export function applyTheme(theme) {
             `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg}, ${theme.centerChannelBg})`,
         );
         changeCss('.app__body .post .post__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
+        changeCss('.app__body .post .post__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
     }
 
     if (theme.centerChannelColor) {
@@ -791,8 +792,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
 
-        changeCss('.app__body .post .post__body .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.2)}`);
-        changeCss('.app__body .post .post__body .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.2)}`);
+        changeCss('.app__body .post .post__body .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
+        changeCss('.app__body .post .post__body .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
 
         if (theme.centerChannelBg) {
             const ownPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
@@ -865,6 +866,7 @@ export function applyTheme(theme) {
         changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
         changeCss('.sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
         changeCss('.app__body .post .post__body .post-collapse__show-more', `color:${theme.linkColor}`);
+        changeCss('.app__body .post .post__body .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {

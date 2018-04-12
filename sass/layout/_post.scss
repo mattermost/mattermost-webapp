@@ -1750,7 +1750,7 @@
     display: flex;
     justify-content: center;
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     width: 100%;
     z-index: 5;
 
@@ -1763,7 +1763,7 @@
         font-weight: bold;
         line-height: 24px;
         margin: 0 8px;
-        padding: 0 10px;
+        padding: 0 8px;
         position: relative;
 
         .fa {
@@ -1777,6 +1777,10 @@
                 top: 1px;
             }
         }
+
+        &:focus {
+            outline: none;
+        }
     }
 
     .post-collapse__show-more-line {
@@ -1787,16 +1791,20 @@
     }
 }
 
+.post-message--overflow {
+    padding-bottom: 10px
+}
+
 .post-message--collapsed {
     .post-message__text-container {
         // If this max-height is changed, the MAX_POST_HEIGHT constant in
         // components/post/post_message_view/post_message_view.jsx must
         // be changed to match it
-        max-height: 200px;
+        max-height: 600px;
     }
 
     .post-collapse__gradient {
-        height: 50px;
+        height: 60px;
     }
 }
 
