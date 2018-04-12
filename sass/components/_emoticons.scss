@@ -169,6 +169,11 @@
                     position: relative;
                     top: -21px;
 
+                    &.emoji-shipit {
+                        left: -26px;
+                        top: -28px;
+                    }
+
                     &.emoji-category--custom {
                         @include transform(scale(1));
                         height: auto;
