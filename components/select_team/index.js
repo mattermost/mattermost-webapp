@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTeams} from 'mattermost-redux/actions/teams';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
 
@@ -24,6 +25,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            loadRolesIfNeeded,
             getTeams,
         }, dispatch),
     };

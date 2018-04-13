@@ -101,7 +101,9 @@ export function canEditPost(post, editDisableAction) {
     const isOwner = isPostOwner(post);
     canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
     if (!isOwner) {
-        canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+        // I only can edit my posts, at least until phase-2
+        //canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+        canEdit = false;
     }
 
     if (canEdit && license.IsLicensed === 'true') {
