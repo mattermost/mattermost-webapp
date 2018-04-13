@@ -53,7 +53,7 @@ export default class MoreDirectChannels extends React.Component {
         /**
          * Function to call on modal hide
          */
-        onHide: PropTypes.func.isRequired,
+        onHide: PropTypes.func,
 
         actions: PropTypes.shape({
 
