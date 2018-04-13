@@ -1,0 +1,365 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/system_users/list should match default snapshot 1`] = `
+<div>
+  <SearchableUserList
+    actionProps={
+      Object {
+        "doManageRoles": [Function],
+        "doManageTeams": [Function],
+        "doManageTokens": [Function],
+        "doPasswordReset": [Function],
+        "enableUserAccessTokens": false,
+        "experimentalEnableAuthenticationTransfer": false,
+        "mfaEnabled": false,
+      }
+    }
+    actionUserProps={Object {}}
+    actions={
+      Array [
+        [Function],
+      ]
+    }
+    enableUserAccessTokens={false}
+    experimentalEnableAuthenticationTransfer={false}
+    extraInfo={Object {}}
+    focusOnMount={false}
+    mfaEnabled={false}
+    nextPage={[Function]}
+    onTermChange={[MockFunction]}
+    page={0}
+    previousPage={[Function]}
+    renderCount={[Function]}
+    renderFilterRow={[MockFunction]}
+    rowComponentType={[Function]}
+    search={[Function]}
+    showTeamToggle={false}
+    teamId=""
+    term=""
+    total={0}
+    users={Array []}
+    usersPerPage={0}
+  />
+  <ManageTeamsModal
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ManageRolesModal)
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ManageTokensModal)
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={null}
+  />
+</div>
+`;
+
+exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa disabled 1`] = `
+<div>
+  <SearchableUserList
+    actionProps={
+      Object {
+        "doManageRoles": [Function],
+        "doManageTeams": [Function],
+        "doManageTokens": [Function],
+        "doPasswordReset": [Function],
+        "enableUserAccessTokens": false,
+        "experimentalEnableAuthenticationTransfer": false,
+        "mfaEnabled": false,
+      }
+    }
+    actionUserProps={Object {}}
+    actions={
+      Array [
+        [Function],
+      ]
+    }
+    enableUserAccessTokens={false}
+    experimentalEnableAuthenticationTransfer={false}
+    extraInfo={
+      Object {
+        "id1": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> Email"
+            id="admin.user_item.authServiceEmail"
+            values={Object {}}
+          />,
+        ],
+        "id2": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> Email"
+            id="admin.user_item.authServiceEmail"
+            values={Object {}}
+          />,
+        ],
+        "id3": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+            id="admin.user_item.authServiceNotEmail"
+            values={
+              Object {
+                "service": "LDAP",
+              }
+            }
+          />,
+        ],
+        "id4": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+            id="admin.user_item.authServiceNotEmail"
+            values={
+              Object {
+                "service": "SAML",
+              }
+            }
+          />,
+        ],
+        "id5": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+            id="admin.user_item.authServiceNotEmail"
+            values={
+              Object {
+                "service": "Other Service",
+              }
+            }
+          />,
+        ],
+      }
+    }
+    focusOnMount={false}
+    mfaEnabled={false}
+    nextPage={[Function]}
+    onTermChange={[MockFunction]}
+    page={0}
+    previousPage={[Function]}
+    renderCount={[Function]}
+    renderFilterRow={[MockFunction]}
+    rowComponentType={[Function]}
+    search={[Function]}
+    showTeamToggle={false}
+    teamId=""
+    term=""
+    total={0}
+    users={
+      Array [
+        Object {
+          "id": "id1",
+        },
+        Object {
+          "id": "id2",
+        },
+        Object {
+          "auth_service": "ldap",
+          "id": "id3",
+        },
+        Object {
+          "auth_service": "saml",
+          "id": "id4",
+        },
+        Object {
+          "auth_service": "other service",
+          "id": "id5",
+        },
+      ]
+    }
+    usersPerPage={0}
+  />
+  <ManageTeamsModal
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ManageRolesModal)
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ManageTokensModal)
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={null}
+  />
+</div>
+`;
+
+exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa enabled 1`] = `
+<div>
+  <SearchableUserList
+    actionProps={
+      Object {
+        "doManageRoles": [Function],
+        "doManageTeams": [Function],
+        "doManageTokens": [Function],
+        "doPasswordReset": [Function],
+        "enableUserAccessTokens": false,
+        "experimentalEnableAuthenticationTransfer": false,
+        "mfaEnabled": true,
+      }
+    }
+    actionUserProps={Object {}}
+    actions={
+      Array [
+        [Function],
+      ]
+    }
+    enableUserAccessTokens={false}
+    experimentalEnableAuthenticationTransfer={false}
+    extraInfo={
+      Object {
+        "id1": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> Email"
+            id="admin.user_item.authServiceEmail"
+            values={Object {}}
+          />,
+          ", ",
+          <FormattedHTMLMessage
+            defaultMessage="<strong>MFA</strong>: No"
+            id="admin.user_item.mfaNo"
+            values={Object {}}
+          />,
+        ],
+        "id2": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> Email"
+            id="admin.user_item.authServiceEmail"
+            values={Object {}}
+          />,
+          ", ",
+          <FormattedHTMLMessage
+            defaultMessage="<strong>MFA</strong>: No"
+            id="admin.user_item.mfaNo"
+            values={Object {}}
+          />,
+        ],
+        "id3": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+            id="admin.user_item.authServiceNotEmail"
+            values={
+              Object {
+                "service": "LDAP",
+              }
+            }
+          />,
+          ", ",
+          <FormattedHTMLMessage
+            defaultMessage="<strong>MFA</strong>: No"
+            id="admin.user_item.mfaNo"
+            values={Object {}}
+          />,
+        ],
+        "id4": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+            id="admin.user_item.authServiceNotEmail"
+            values={
+              Object {
+                "service": "SAML",
+              }
+            }
+          />,
+          ", ",
+          <FormattedHTMLMessage
+            defaultMessage="<strong>MFA</strong>: No"
+            id="admin.user_item.mfaNo"
+            values={Object {}}
+          />,
+        ],
+        "id5": Array [
+          <FormattedHTMLMessage
+            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+            id="admin.user_item.authServiceNotEmail"
+            values={
+              Object {
+                "service": "Other Service",
+              }
+            }
+          />,
+          ", ",
+          <FormattedHTMLMessage
+            defaultMessage="<strong>MFA</strong>: No"
+            id="admin.user_item.mfaNo"
+            values={Object {}}
+          />,
+        ],
+      }
+    }
+    focusOnMount={false}
+    mfaEnabled={true}
+    nextPage={[Function]}
+    onTermChange={[MockFunction]}
+    page={0}
+    previousPage={[Function]}
+    renderCount={[Function]}
+    renderFilterRow={[MockFunction]}
+    rowComponentType={[Function]}
+    search={[Function]}
+    showTeamToggle={false}
+    teamId=""
+    term=""
+    total={0}
+    users={
+      Array [
+        Object {
+          "id": "id1",
+        },
+        Object {
+          "id": "id2",
+        },
+        Object {
+          "auth_service": "ldap",
+          "id": "id3",
+        },
+        Object {
+          "auth_service": "saml",
+          "id": "id4",
+        },
+        Object {
+          "auth_service": "other service",
+          "id": "id5",
+        },
+      ]
+    }
+    usersPerPage={0}
+  />
+  <ManageTeamsModal
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ManageRolesModal)
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ManageTokensModal)
+    onModalDismissed={[Function]}
+    show={false}
+    user={null}
+  />
+  <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={null}
+  />
+</div>
+`;

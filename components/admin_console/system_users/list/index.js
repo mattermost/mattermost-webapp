@@ -3,45 +3,15 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getUser, getProfiles, getProfilesInTeam, getProfilesWithoutTeam, searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
+
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import SystemUsersList from './system_users_list.jsx';
-
-const ALL_USERS = '';
-const NO_TEAM = 'no_team';
-const USER_ID_LENGTH = 26;
+import {getUsers} from './selectors.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const teamId = ownProps.teamId;
-    const term = ownProps.term;
-
-    let users = [];
-    if (ownProps.loading) {
-        // Show no users while loading.
-        users = [];
-    } else if (term) {
-        if (teamId) {
-            users = searchProfilesInTeam(state, teamId, term);
-        } else {
-            users = searchProfiles(state, term);
-        }
-
-        if (users.length === 0 && term.length === USER_ID_LENGTH) {
-            const user = getUser(state, term);
-            if (user) {
-                users = [user];
-            }
-        }
-    } else if (teamId === ALL_USERS) {
-        users = getProfiles(state);
-    } else if (teamId === NO_TEAM) {
-        users = getProfilesWithoutTeam(state);
-    } else {
-        users = getProfilesInTeam(state, teamId);
-    }
-
     return {
-        users,
+        users: getUsers(state, ownProps.loading, ownProps.teamId, ownProps.term),
     };
 }
 
