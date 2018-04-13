@@ -23,7 +23,6 @@ import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
 import LegalAndSupportSettings from 'components/admin_console/legal_and_support_settings.jsx';
 import LinkPreviewsSettings from 'components/admin_console/link_previews_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
-import MetricsSettings from 'components/admin_console/metrics_settings.jsx';
 import NativeAppLinkSettings from 'components/admin_console/native_app_link_settings.jsx';
 import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
@@ -468,8 +467,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/metrics`}
-                                        component={MetricsSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.advanced.metrics.schema,
+                                        }}
                                     />
                                     <Redirect to={`${props.match.url}/rate`}/>
                                 </Switch>

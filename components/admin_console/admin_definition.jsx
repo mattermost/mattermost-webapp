@@ -1007,6 +1007,34 @@ export default {
                     ],
                 },
             },
+            metrics: {
+                schema: {
+                    id: 'MetricsSettings',
+                    name: 'admin.advance.metrics',
+                    name_default: 'Performance Monitoring',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'Enable',
+                            label: 'admin.metrics.enableTitle',
+                            label_default: 'Enable Performance Monitoring:',
+                            help_text: 'admin.metrics.enableDescription',
+                            help_text_default: 'When true, Mattermost will enable performance monitoring collection and profiling. Please see <a href="http://docs.mattermost.com/deployment/metrics.html" target="_blank">documentation</a> to learn more about configuring performance monitoring for Mattermost.',
+                            help_text_html: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'ListenAddress',
+                            label: 'admin.metrics.listenAddressTitle',
+                            label_default: 'Listen Address:',
+                            placeholder: 'admin.metrics.listenAddressEx',
+                            placeholder_default: 'E.g.: ":8067"',
+                            help_text: 'admin.metrics.listenAddressDesc',
+                            help_text_default: 'The address the server will listen on to expose performance metrics.',
+                        },
+                    ],
+                },
+            },
         },
     },
     other: {
