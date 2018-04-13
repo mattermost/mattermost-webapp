@@ -33,6 +33,7 @@
 
     .channel-header__mute {
         @include opacity(.5);
+        flex: 0;
         float: left;
         height: 20px;
         margin: 0 8px 0 8px;
@@ -61,7 +62,7 @@
         &:first-child {
             flex: 1;
             min-width: 0;
-            padding-left: 20px;
+            padding: 0 8px 0 20px;
         }
 
         .markdown__paragraph-inline {
@@ -230,11 +231,10 @@
     white-space: nowrap;
 
     .dropdown-toggle {
-        float: left;
+        display: flex;
         overflow: hidden;
         text-align: left;
         text-overflow: ellipsis;
-        width: calc(100% - 40px);
     }
 
     .header-dropdown__icon {
@@ -242,6 +242,18 @@
     }
 
     .channel-header__title {
+        display: flex;
+
+        .channel-header__favorites {
+            flex: 0;
+        }
+
+        h2 {
+            display: flex;
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+
         > a {
             display: inline-block;
             text-decoration: none;

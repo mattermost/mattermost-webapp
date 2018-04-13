@@ -20,15 +20,14 @@ import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import PostMessageContainer from 'components/post_view/post_message_view';
 import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import MattermostLogo from 'components/svg/mattermost_logo';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
 import UserProfile from 'components/user_profile.jsx';
 
@@ -50,6 +49,7 @@ export default class RhsComment extends React.Component {
         enableEmojiPicker: PropTypes.bool.isRequired,
         enablePostUsernameOverride: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
+        pluginPostTypes: PropTypes.object,
     };
 
     constructor(props) {
@@ -421,30 +421,6 @@ export default class RhsComment extends React.Component {
             );
         }
 
-        const messageWrapper = (
-            <PostMessageContainer
-                post={post}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
-        let messageWithAdditionalContent;
-        if (this.props.post.state === Posts.POST_DELETED) {
-            messageWithAdditionalContent = messageWrapper;
-        } else {
-            messageWithAdditionalContent = (
-                <PostBodyAdditionalContent
-                    post={post}
-                    previewCollapsed={this.props.previewCollapsed}
-                    previewEnabled={this.props.previewEnabled}
-                    isEmbedVisible={this.props.isEmbedVisible}
-                >
-                    {messageWrapper}
-                </PostBodyAdditionalContent>
-            );
-        }
-
         return (
             <div
                 ref={'post_body_' + post.id}
@@ -475,7 +451,13 @@ export default class RhsComment extends React.Component {
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                {messageWithAdditionalContent}
+                                <MessageWithAdditionalContent
+                                    post={post}
+                                    previewCollapsed={this.props.previewCollapsed}
+                                    previewEnabled={this.props.previewEnabled}
+                                    isEmbedVisible={this.props.isEmbedVisible}
+                                    pluginPostTypes={this.props.pluginPostTypes}
+                                />
                             </div>
                             {fileAttachment}
                             <ReactionListContainer

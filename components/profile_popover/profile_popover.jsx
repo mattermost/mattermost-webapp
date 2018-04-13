@@ -283,13 +283,6 @@ class ProfilePopover extends React.Component {
             );
         }
 
-        dataContent.push(
-            <hr
-                key='user-popover-hr'
-                className='divider divider--expanded'
-            />
-        );
-
         if (this.props.user.position) {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
             dataContent.push(
@@ -310,6 +303,13 @@ class ProfilePopover extends React.Component {
 
         const email = this.props.user.email;
         if (email) {
+            dataContent.push(
+                <hr
+                    key='user-popover-hr'
+                    className='divider divider--expanded'
+                />
+            );
+
             dataContent.push(
                 <div
                     data-toggle='tooltip'
