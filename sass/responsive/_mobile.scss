@@ -1037,6 +1037,7 @@
 
     .footer-pane {
         .footer-link {
+            display: block;
             line-height: 1.7;
             padding: 0;
             text-align: right;
@@ -1436,7 +1437,7 @@
 }
 
 @media screen and (max-width: 640px) {
-    .col__reply {
+    .post__header {
         .dropdown-menu {
             > li {
                 > button {
