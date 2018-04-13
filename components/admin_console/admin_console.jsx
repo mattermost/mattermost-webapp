@@ -16,7 +16,6 @@ import CustomBrandSettings from 'components/admin_console/custom_brand_settings.
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
 import DataRetentionSettings from 'components/admin_console/data_retention_settings.jsx';
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
-import DeveloperSettings from 'components/admin_console/developer_settings.jsx';
 import ElasticsearchSettings from 'components/admin_console/elasticsearch_settings.jsx';
 import EmailSettings from 'components/admin_console/email_settings.jsx';
 import ExternalServiceSettings from 'components/admin_console/external_service_settings.jsx';
@@ -456,8 +455,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/developer`}
-                                        component={DeveloperSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.advanced.developer.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/cluster`}
