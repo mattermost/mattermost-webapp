@@ -188,7 +188,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"
@@ -234,7 +234,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"
@@ -442,7 +442,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"

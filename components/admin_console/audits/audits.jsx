@@ -71,7 +71,7 @@ export default class Audits extends React.PureComponent {
         }
 
         return (
-            <div>
+            <div className='wrapper--admin'>
                 <ComplianceReports/>
 
                 <div className='panel audit-panel'>

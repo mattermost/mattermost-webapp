@@ -533,7 +533,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       />
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
       <div
         className="col-sm-12"

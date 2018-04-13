@@ -1,8 +1,9 @@
 @charset 'UTF-8';
 
 .admin-console__wrapper {
-    height: 100%;
+    height: calc(100% - 55px);
     overflow: auto;
+    margin-top: 55px;
 }
 
 .admin-console {
@@ -111,6 +112,11 @@
 
     .wrapper--fixed {
         max-width: 800px;
+        margin-bottom: 70px;
+    }
+
+    .wrapper--admin {
+        margin-bottom: 70px;
     }
 
     .form-horizontal {
@@ -346,6 +352,28 @@
 
     .admin-console-header {
         border-bottom: 1px solid alpha-color($black, .1);
+        background: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 55px;
+        width: calc(100% - 220px);
+        margin: 0 0 0 220px;
+        padding: 10px 20px;
+        font-size: 2em;
+        z-index: 100;
+    }
+
+    .admin-console-save {
+        border-top: 1px solid alpha-color($black, .1);
+        background: white;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: calc(100% - 220px);
+        margin: 0 0 0 220px;
+        padding: 10px 10px;
+        z-index: 100;
     }
 
     .status-icon-unknown {
