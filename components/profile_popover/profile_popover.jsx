@@ -304,24 +304,24 @@ class ProfilePopover extends React.Component {
         const email = this.props.user.email;
         if (email) {
             dataContent.push(
-                <div>
-                    <hr
-                        key='user-popover-hr'
-                        className='divider divider--expanded'
-                    />
+                <hr
+                    key='user-popover-hr'
+                    className='divider divider--expanded'
+                />
+            );
 
-                    <div
-                        data-toggle='tooltip'
-                        title={email}
-                        key='user-popover-email'
+            dataContent.push(
+                <div
+                    data-toggle='tooltip'
+                    title={email}
+                    key='user-popover-email'
+                >
+                    <a
+                        href={'mailto:' + email}
+                        className='text-nowrap text-lowercase user-popover__email padding-bottom half'
                     >
-                        <a
-                            href={'mailto:' + email}
-                            className='text-nowrap text-lowercase user-popover__email padding-bottom half'
-                        >
-                            {email}
-                        </a>
-                    </div>
+                        {email}
+                    </a>
                 </div>
             );
         }
