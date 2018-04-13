@@ -17,7 +17,8 @@ function mapStateToProps(state, ownProps) {
 
     let users = [];
     if (ownProps.loading) {
-        // Clear the users while loading.
+        // Show no users while loading.
+        users = [];
     } else if (term) {
         if (teamId) {
             users = searchProfilesInTeam(state, teamId, term);
