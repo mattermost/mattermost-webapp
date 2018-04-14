@@ -665,6 +665,7 @@
   "admin.license.upload": "Upload",
   "admin.license.uploadDesc": "Upload a license key for Mattermost Enterprise Edition to upgrade this server. <a href=\"http://mattermost.com\" target='_blank'>Visit us online</a> to learn more about the benefits of Enterprise Edition or to purchase a key.",
   "admin.license.uploading": "Uploading License...",
+  "admin.log.noteDescription": "Changing properties other than <a href=\"#EnableWebhookDebugging\">Enable Webhook Debugging</a> and <a href=\"#EnableDiagnostics\">Enable Diagnostics and Error Reporting</a> in this section will require a server restart before taking effect.",
   "admin.log.consoleDescription": "Typically set to false in production. Developers may set this field to true to output log messages to console based on the console level option.  If true, server writes messages to the standard output stream (stdout).",
   "admin.log.consoleLogLevel": "Console Log Level",
   "admin.log.consoleTitle": "Output logs to console: ",

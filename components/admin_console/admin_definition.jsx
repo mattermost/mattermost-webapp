@@ -411,6 +411,13 @@ export default {
                     name_default: 'Logging',
                     settings: [
                         {
+                            type: Constants.SettingsTypes.TYPE_BANNER,
+                            label: 'admin.log.noteDescription',
+                            label_default: 'Changing properties other than <a href="#EnableWebhookDebugging">Enable Webhook Debugging</a> and <a href="#EnableDiagnostics">Enable Diagnostics and Error Reporting</a> in this section will require a server restart before taking effect.',
+                            label_html: true,
+                            banner_type: 'info',
+                        },
+                        {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'EnableConsole',
                             label: 'admin.log.consoleTitle',
