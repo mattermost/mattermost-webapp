@@ -558,7 +558,7 @@ export default {
                             label: 'admin.ldap.enableSyncTitle',
                             label_default: 'Enable Synchronization with AD/LDAP:',
                             help_text: 'admin.ldap.enableSyncDesc',
-                            help_text_default: 'When true, Mattermost periodically synchronizes users from AD/LDAP. When false, user attributes are updated in Mattermost during user login.',
+                            help_text_default: 'When true, Mattermost periodically synchronizes users from AD/LDAP. When false, user attributes are updated from AD/LDAP during user login only.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
