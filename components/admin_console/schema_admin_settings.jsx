@@ -201,38 +201,19 @@ export default class SchemaAdminSettings extends AdminSettings {
     }
 
     isDisabled = (setting) => {
-        if (setting.needs) {
-            for (const need of setting.needs) {
-                const actual = this.getSettingValue(this.getSetting(need[0]));
-                const expected = need[1];
+        if (!setting.isDisabled || typeof setting.isDisabled !== 'function') {
+            return false;
+        }
 
-                if (expected instanceof RegExp) {
-                    if (!expected.test(actual)) {
-                        return true;
-                    }
-                } else if (actual !== expected) {
-                    return true;
-                }
-            }
+        return setting.isDisabled(this.props.config, this.state, this.props.license);
+    }
+
+    isHidden = (setting) => {
+        if (!setting.isHidden || typeof setting.isHidden !== 'function') {
+            return false;
         }
-        if (setting.needs_or) {
-            let disabled = true;
-            for (const need of setting.needs_or) {
-                if (this.state[need[0]] === need[1]) {
-                    disabled = false;
-                }
-            }
-            if (disabled) {
-                return true;
-            }
-        }
-        if (setting.needs_license && !this.props.license.IsLicensed) {
-            return true;
-        }
-        if (setting.needs_no_license && this.props.license.IsLicensed) {
-            return true;
-        }
-        return false;
+
+        return setting.isHidden(this.props.config, this.state, this.props.license);
     }
 
     buildButtonSetting = (setting) => {
@@ -467,7 +448,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         const settingsList = [];
         if (schema.settings) {
             schema.settings.forEach((setting) => {
-                if (this.buildSettingFunctions[setting.type]) {
+                if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
                     settingsList.push(this.buildSettingFunctions[setting.type](setting));
                 }
             });
