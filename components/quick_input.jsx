@@ -4,9 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils';
-
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
 export default class QuickInput extends React.PureComponent {
@@ -44,20 +41,7 @@ export default class QuickInput extends React.PureComponent {
     }
 
     updateInputFromProps = () => {
-        if (!this.input) {
-            return;
-        }
-
-        if ((UserAgent.isWindows7() && UserAgent.isInternetExplorer()) || UserAgent.isDesktopApp()) {
-            // The textbox already knows where it's cursor is supposed to be because we've already
-            // typed in it, but it needs to be reminded of that
-            const caret = Utils.getCaretPosition(this.input);
-
-            this.input.value = this.props.value;
-
-            this.input.selectionStart = caret;
-            this.input.selectionEnd = this.input.selectionStart;
-
+        if (!this.input || this.input.value === this.props.value) {
             return;
         }
 
