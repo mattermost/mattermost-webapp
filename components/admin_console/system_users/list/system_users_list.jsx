@@ -4,9 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {getUser} from 'mattermost-redux/actions/users';
 
-import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
@@ -16,10 +14,7 @@ import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
 import UserListRowWithError from 'components/user_list_row_with_error.jsx';
 
-import SystemUsersDropdown from './system_users_dropdown.jsx';
-
-const dispatch = store.dispatch;
-const getState = store.getState;
+import SystemUsersDropdown from '../system_users_dropdown.jsx';
 
 export default class SystemUsersList extends React.Component {
     static propTypes = {
@@ -49,6 +44,10 @@ export default class SystemUsersList extends React.Component {
          * Whether or not the experimental authentication transfer is enabled.
          */
         experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
+
+        actions: PropTypes.shape({
+            getUser: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -146,7 +145,7 @@ export default class SystemUsersList extends React.Component {
     }
 
     doPasswordResetSubmit = (user) => {
-        getUser(user.id)(dispatch, getState);
+        this.props.actions.getUser(user.id);
 
         this.setState({
             showPasswordModal: false,
