@@ -12,3 +12,13 @@ export function setAddUsersToTeamSearchTerm(term) {
         return {data: true};
     };
 }
+
+export function setMoreDirectChannelsSearchTerm(term) {
+    return async (dispatch) => {
+        dispatch({
+            type: SearchTypes.SET_MORE_DIRECT_CHANNELS_SEARCH,
+            data: term,
+        });
+        return {data: true};
+    };
+}

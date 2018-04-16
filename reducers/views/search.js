@@ -15,6 +15,17 @@ function addUsersToTeam(state = '', action) {
     }
 }
 
+function moreDirectChannels(state = '', action) {
+    switch (action.type) {
+    case SearchTypes.SET_MORE_DIRECT_CHANNELS_SEARCH: {
+        return action.data;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     addUsersToTeam,
+    moreDirectChannels,
 });

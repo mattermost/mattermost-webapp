@@ -8,7 +8,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {searchProfilesNotInCurrentTeam, getProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {addUsersToTeam} from 'actions/team_actions.jsx';
-import {setAddUsersToTeamSearchTerm} from 'actions/search.js';
+import {setAddUsersToTeamSearchTerm} from 'actions/views/search';
 
 import AddUsersToTeam from './add_users_to_team.jsx';
 
