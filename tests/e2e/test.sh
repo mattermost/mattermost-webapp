@@ -18,13 +18,13 @@ function selenium_install {
       message "Installing selenium..."
       fi
 
-      yarn run selenium-install
+      npm run selenium-install
       mkdir -p tests/reports/
     fi
 }
 
 function selenium_start {
-    nohup yarn run selenium-start > ./tests/reports/selenium.log 2>&1&
+    nohup npm run selenium-start > ./tests/reports/selenium.log 2>&1&
 }
 
 function local_cleanup {
