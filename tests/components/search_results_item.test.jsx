@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {browserHistory} from 'utils/browser_history';
-import {displayUsernameForUser, getDirectTeammate} from 'utils/utils.jsx';
+import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
 import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
 
 jest.useFakeTimers();
@@ -17,7 +17,7 @@ jest.mock('utils/browser_history', () => ({
 }));
 
 jest.mock('utils/utils.jsx', () => ({
-    displayUsernameForUser: jest.fn().mockReturnValue('Other guy'),
+    getDisplayNameByUser: jest.fn().mockReturnValue('Other guy'),
     getDirectTeammate: jest.fn().mockReturnValue({}),
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true),
     getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
@@ -77,7 +77,6 @@ describe('components/SearchResultsItem', () => {
             currentTeamName: 'test',
             term: 'test',
             isMentionSearch: false,
-            useMilitaryTime: true,
             shrink: mockFunc,
             isFlagged: true,
             isBusy: false,
@@ -138,7 +137,7 @@ describe('components/SearchResultsItem', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
-        expect(displayUsernameForUser).toHaveBeenCalledWith({});
+        expect(getDisplayNameByUser).toHaveBeenCalledWith({});
     });
 
     test('Check for dotmenu dropdownOpened state', () => {

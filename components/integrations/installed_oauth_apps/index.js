@@ -5,7 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import InstalledOAuthApps from './installed_oauth_apps.jsx';
@@ -16,8 +17,8 @@ function mapStateToProps(state) {
     const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
 
     return {
+        canManageOauth: haveISystemPermission(state, {permission: Permissions.MANAGE_OAUTH}),
         oauthApps: getOAuthApps(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
         regenOAuthAppSecretRequest: state.requests.integrations.updateOAuthApp,
         enableOAuthServiceProvider,
         enableOnlyAdminIntegrations,

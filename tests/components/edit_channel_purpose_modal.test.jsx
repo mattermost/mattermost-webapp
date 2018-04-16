@@ -117,7 +117,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{patchCHannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -146,7 +146,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{patchCHannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -258,7 +258,8 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         wrapper.find('textarea').simulate('keydown', {
             preventDefault: jest.fn(),
-            keyCode: Constants.KeyCodes.ENTER,
+            key: Constants.KeyCodes.ENTER[0],
+            keyCode: Constants.KeyCodes.ENTER[1],
             ctrlKey: true,
         });
 
@@ -281,7 +282,8 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         wrapper.find('textarea').simulate('keydown', {
             preventDefault: jest.fn(),
-            keyCode: Constants.KeyCodes.ENTER,
+            key: Constants.KeyCodes.ENTER[0],
+            keyCode: Constants.KeyCodes.ENTER[1],
             ctrlKey: false,
         });
 

@@ -24,21 +24,12 @@ jest.mock('utils/post_utils', () => {
 });
 
 describe('components/dot_menu/DotMenu', () => {
-    global.window.mm_license = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'false';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-    });
-
     const baseProps = {
         idPrefix: Constants.CENTER,
         idCount: -1,
         post: {id: 'post_id_1', is_pinned: false},
         isFlagged: false,
+        isRHS: false,
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         actions: {
@@ -47,6 +38,7 @@ describe('components/dot_menu/DotMenu', () => {
             setEditingPost: jest.fn(),
             pinPost: jest.fn(),
             unpinPost: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 

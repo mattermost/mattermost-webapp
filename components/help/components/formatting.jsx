@@ -62,11 +62,11 @@ export default function HelpFormatting() {
     message.push('```\n' + localizeMessage('help.formatting.checklistExample', '- [ ] Item one\n- [ ] Item two\n- [x] Completed item') + '\n```');
     message.push(localizeMessage('help.formatting.renders', 'Renders as:'));
     message.push(localizeMessage('help.formatting.checklistExample', '- [ ] Item one\n- [ ] Item two\n- [x] Completed item'));
-    message.push(localizeMessage('help.formatting.tables', '## Tables\n\nCreate a table by placing a dashed line under the header row and separating the columns with a pipe `|`. (The columns don’t need to line up exactly for it to work). Choose how to align table columns by including colons `:` within the header row.'));
+    message.push(localizeMessage('help.formatting.tables', '## Tables\n\nCreate a table by placing a dashed line under the header row and separating the columns with a pipe `|`. (The columns don\'t need to line up exactly for it to work). Choose how to align table columns by including colons `:` within the header row.'));
     message.push('```\n' + localizeMessage('help.formatting.tableExample', '| Left-Aligned  | Center Aligned  | Right Aligned |\n| :------------ |:---------------:| -----:|\n| Left column 1 | this text       |  $100 |\n| Left column 2 | is              |   $10 |\n| Left column 3 | centered        |    $1 |') + '\n```');
     message.push(localizeMessage('help.formatting.renders', 'Renders as:'));
     message.push(localizeMessage('help.formatting.tableExample', '| Left-Aligned  | Center Aligned  | Right Aligned |\n| :------------ |:---------------:| -----:|\n| Left column 1 | this text       |  $100 |\n| Left column 2 | is              |   $10 |\n| Left column 3 | centered        |    $1 |'));
-    message.push(localizeMessage('help.formatting.headings', '## Headings\n\nMake a heading by typing # and a space before your title. For smaller headings, use more #’s.'));
+    message.push(localizeMessage('help.formatting.headings', '## Headings\n\nMake a heading by typing # and a space before your title. For smaller headings, use more #\'s.'));
     message.push('```\n' + localizeMessage('help.formatting.headingsExample', '## Large Heading\n### Smaller Heading\n#### Even Smaller Heading') + '\n```');
     message.push(localizeMessage('help.formatting.renders', 'Renders as:'));
     message.push(localizeMessage('help.formatting.headingsExample', '## Large Heading\n### Smaller Heading\n#### Even Smaller Heading'));

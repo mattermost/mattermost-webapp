@@ -17,6 +17,11 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         id: 'user_id',
         username: 'username',
         locale: 'en',
+        timezone: {
+            useAutomaticTimezone: 'true',
+            automaticTimezone: 'America/New_York',
+            manualTimezone: '',
+        },
     };
 
     const requiredProps = {
@@ -31,6 +36,19 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableLinkPreviews: true,
         enableThemeSelection: false,
         defaultClientLocale: 'en',
+        timezones: [
+            'America/New_York',
+            'America/Los_Angeles',
+        ],
+        userTimezone: {
+            useAutomaticTimezone: 'true',
+            automaticTimezone: 'America/New_York',
+            manualTimezone: '',
+        },
+        actions: {
+            getSupportedTimezones: jest.fn(),
+            autoUpdateTimezone: jest.fn(),
+        },
     };
 
     test('should match snapshot, no active section', () => {
@@ -66,6 +84,18 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should match snapshot, clock section', () => {
         const props = {...requiredProps, activeSection: 'clock'};
+        const wrapper = shallow(<UserSettingsDisplay {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, teammate name display section', () => {
+        const props = {...requiredProps, activeSection: 'teammate_name_display'};
+        const wrapper = shallow(<UserSettingsDisplay {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, timezone section', () => {
+        const props = {...requiredProps, activeSection: 'timezone'};
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
@@ -160,6 +190,19 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         wrapper.instance().handleClockRadio('true');
         expect(wrapper.state('militaryTime')).toBe('true');
+    });
+
+    test('should update teammateNameDisplay state', () => {
+        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+
+        wrapper.instance().handleTeammateNameDisplayRadio('username');
+        expect(wrapper.state('teammateNameDisplay')).toBe('username');
+
+        wrapper.instance().handleTeammateNameDisplayRadio('nickname_full_name');
+        expect(wrapper.state('teammateNameDisplay')).toBe('nickname_full_name');
+
+        wrapper.instance().handleTeammateNameDisplayRadio('full_name');
+        expect(wrapper.state('teammateNameDisplay')).toBe('full_name');
     });
 
     test('should update channelDisplayMode state', () => {

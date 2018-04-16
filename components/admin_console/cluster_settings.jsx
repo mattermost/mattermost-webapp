@@ -150,7 +150,7 @@ export default class ClusterSettings extends AdminSettings {
                             defaultMessage='Cluster Name:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.cluster.ClusterNameEx', 'Ex "Production" or "Staging"')}
+                    placeholder={Utils.localizeMessage('admin.cluster.ClusterNameEx', 'E.g.: "Production" or "Staging"')}
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.ClusterNameDesc'
@@ -168,7 +168,7 @@ export default class ClusterSettings extends AdminSettings {
                             defaultMessage='Override Hostname:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.cluster.OverrideHostnameEx', 'Ex "app-server-01"')}
+                    placeholder={Utils.localizeMessage('admin.cluster.OverrideHostnameEx', 'E.g.: "app-server-01"')}
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.OverrideHostnameDesc'
@@ -237,11 +237,11 @@ export default class ClusterSettings extends AdminSettings {
                             defaultMessage='Gossip Port:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.cluster.GossipPortEx', 'Ex "8074"')}
+                    placeholder={Utils.localizeMessage('admin.cluster.GossipPortEx', 'E.g.: "8074"')}
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.GossipPortDesc'
-                            defaultMessage='The port used for the gossip protocol.  Both UDP and TCP should abe allowed on this port.'
+                            defaultMessage='The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port.'
                         />
                     }
                     value={this.state.GossipPort}
@@ -255,7 +255,7 @@ export default class ClusterSettings extends AdminSettings {
                             defaultMessage='Streaming Port:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.cluster.StreamingPortEx', 'Ex "8075"')}
+                    placeholder={Utils.localizeMessage('admin.cluster.StreamingPortEx', 'E.g.: "8075"')}
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.StreamingPortDesc'

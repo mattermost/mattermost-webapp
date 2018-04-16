@@ -20,3 +20,15 @@ Object.defineProperty(document, 'queryCommandSupported', {
 Object.defineProperty(document, 'execCommand', {
     value: (cmd) => supportedCommands.includes(cmd),
 });
+
+beforeEach(() => {
+    console.log = jest.fn((error) => {
+        throw new Error('Unexpected console log: ' + error);
+    });
+    console.warn = jest.fn((error) => {
+        throw new Error('Unexpected console warning: ' + error);
+    });
+    console.error = jest.fn((error) => {
+        throw new Error('Unexpected console error: ' + error);
+    });
+});

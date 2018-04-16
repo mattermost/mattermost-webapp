@@ -22,11 +22,6 @@ export default class TeamMembersModal extends React.PureComponent {
         onHide: PropTypes.func.isRequired,
 
         /**
-        * Set if user is admin
-        */
-        isAdmin: PropTypes.bool.isRequired,
-
-        /**
          * Function called when modal is loaded
          */
         onLoad: PropTypes.func,
@@ -75,7 +70,7 @@ export default class TeamMembersModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <MemberListTeam
-                        isAdmin={this.props.isAdmin}
+                        teamId={this.props.currentTeam.id}
                     />
                 </Modal.Body>
             </Modal>

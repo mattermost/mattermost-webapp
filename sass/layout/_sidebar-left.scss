@@ -6,7 +6,7 @@
     left: 0;
     position: fixed;
     width: 220px;
-    z-index: 5;
+    z-index: 10;
 
     .error-bar--fixed & {
         height: calc(100% - 22px);
@@ -182,11 +182,17 @@
 
         li {
             > h4 {
+                align-items: end;
+                display: flex;
                 font-size: 1em;
                 font-weight: 600;
                 margin: 1.5em 0 .7em;
-                padding: 0 12px 0 17px;
+                padding: 0 12px 0 15px;
                 text-transform: uppercase;
+
+                span {
+                    flex: 1;
+                }
             }
 
             .divider {
@@ -201,7 +207,7 @@
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
-                padding: 5px 0 5px 17px;
+                padding: 5px 0 5px 15px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
@@ -212,7 +218,7 @@
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
-                padding: 5px 0 5px 17px;
+                padding: 5px 0 5px 15px;
                 text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -264,9 +270,17 @@
                     font-weight: 600;
                 }
 
+                &.muted {
+                    opacity: 0.5;
+                }
+
             }
 
             &.active {
+                .muted {
+                    opacity: 1;
+                }
+
                 button,a {
                     &:before {
                         background: $black;

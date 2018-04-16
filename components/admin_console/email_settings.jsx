@@ -149,6 +149,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.emailNotificationContentsType}
                     onChange={this.handleChange}
                     helpText={emailNotificationContentsHelpText}
+                    disabled={!this.state.sendEmailNotifications}
                 />
             );
         }
@@ -371,6 +372,7 @@ export default class EmailSettings extends AdminSettings {
                     }
                     value={this.state.skipServerCertificateVerification}
                     onChange={this.handleChange}
+                    disabled={!this.state.sendEmailNotifications || this.state.connectionSecurity === ''}
                 />
                 <BooleanSetting
                     id='enableSecurityFixAlert'
@@ -388,6 +390,7 @@ export default class EmailSettings extends AdminSettings {
                     }
                     value={this.state.enableSecurityFixAlert}
                     onChange={this.handleChange}
+                    disabled={!this.state.sendEmailNotifications}
                 />
             </SettingsGroup>
         );

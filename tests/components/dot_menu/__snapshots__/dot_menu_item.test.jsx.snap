@@ -82,15 +82,18 @@ exports[`components/dot_menu/DotMenuItem should match snapshot, on Pin - unpinne
 
 exports[`components/dot_menu/DotMenuItem should match snapshot, on RHS_ROOT 1`] = `
 <li
-  id="rhsroot"
-  key="rhsroot"
+  id="rhsrootDotMenuDelete"
+  key="rhsrootDotMenuDelete"
   role="presentation"
 >
   <button
     className="style--none"
+    onClick={[Function]}
     role="menuitem"
   >
     <FormattedMessage
+      defaultMessage="Delete"
+      id="post_info.del"
       values={Object {}}
     />
   </button>

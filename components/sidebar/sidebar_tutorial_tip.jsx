@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedHTMLMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
-import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip';
 
 export default class SidebarTutorialTip extends React.PureComponent {
     static propTypes = {
@@ -31,7 +31,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
             <div>
                 <FormattedHTMLMessage
                     id='sidebar.tutorialScreen1'
-                    defaultMessage='<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>'
+                    defaultMessage={'<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They\'re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>'}
                 />
             </div>
         );

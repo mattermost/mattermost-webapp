@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
+import Constants from 'utils/constants.jsx';
 
 jest.mock('stores/post_store.jsx', () => ({
     clearCommentDraftUploads: jest.fn(),
@@ -18,6 +19,7 @@ describe('components/CreateComment', () => {
     const baseProps = {
         channelId,
         rootId,
+        rootDeleted: false,
         channelMembersCount: 3,
         draft: {
             message: 'Test message',
@@ -39,6 +41,7 @@ describe('components/CreateComment', () => {
         readOnlyChannel: false,
         enableEmojiPicker: true,
         enableConfirmNotificationsToChannel: true,
+        maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
     };
 
     test('should match snapshot, empty comment', () => {

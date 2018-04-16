@@ -41,7 +41,7 @@ exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
   defaultOverlayShown={false}
   overlay={
     <Connect(Pluggable)>
-      <ProfilePopover
+      <Connect(ProfilePopover)
         hasMention={false}
         hide={[Function]}
         isBusy={true}
@@ -83,7 +83,7 @@ exports[`components/ProfilePicture should match snapshot, user specified, overri
   defaultOverlayShown={false}
   overlay={
     <Connect(Pluggable)>
-      <ProfilePopover
+      <Connect(ProfilePopover)
         hasMention={true}
         hide={[Function]}
         isBusy={true}

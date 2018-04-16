@@ -1,7 +1,7 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {SearchTypes} from 'mattermost-redux/action_types';
+import {SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
@@ -13,9 +13,12 @@ describe('Reducers.RHS', () => {
         previousRhsState: null,
         rhsState: null,
         searchTerms: '',
+        searchResultsTerms: '',
         isSearchingTerm: false,
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
+        isMenuOpen: false,
+        isSidebarOpen: false,
     };
 
     test('Initial state', () => {
@@ -41,6 +44,7 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedChannelId: '123',
             rhsState: RHSStates.PIN,
+            isSidebarOpen: true,
         });
     });
 
@@ -59,6 +63,7 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostId: '',
             rhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
         });
     });
 
@@ -165,11 +170,11 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostId: '123',
             selectedChannelId: '321',
+            isSidebarOpen: true,
         });
 
         const nextState2 = rhsReducer(
             {
-                state: RHSStates.PIN,
             },
             {
                 type: ActionTypes.SELECT_POST,
@@ -184,11 +189,11 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedChannelId: '321',
             previousRhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
         });
 
         const nextState3 = rhsReducer(
             {
-                state: RHSStates.FLAG,
                 previousRhsState: RHSStates.SEARCH,
             },
             {
@@ -204,6 +209,7 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedChannelId: '321',
             previousRhsState: RHSStates.FLAG,
+            isSidebarOpen: true,
         });
     });
 
@@ -226,6 +232,105 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedChannelId: '321',
             previousRhsState: RHSStates.PIN,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should open menu, closing sidebar on ${ActionTypes.TOGGLE_RHS_MENU}`, () => {
+        const nextState = rhsReducer(
+            {
+                isSidebarOpen: true,
+                isMenuOpen: false,
+            },
+            {
+                type: ActionTypes.TOGGLE_RHS_MENU,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            isSidebarOpen: false,
+            isMenuOpen: true,
+        });
+    });
+
+    test(`should close menu on ${ActionTypes.TOGGLE_RHS_MENU}`, () => {
+        const nextState = rhsReducer(
+            {
+                isSidebarOpen: false,
+                isMenuOpen: true,
+            },
+            {
+                type: ActionTypes.TOGGLE_RHS_MENU,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            isSidebarOpen: false,
+            isMenuOpen: false,
+        });
+    });
+
+    test(`should open menu, closing sidebar on ${ActionTypes.OPEN_RHS_MENU}`, () => {
+        const nextState = rhsReducer(
+            {
+                isSidebarOpen: true,
+                isMenuOpen: false,
+            },
+            {
+                type: ActionTypes.OPEN_RHS_MENU,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            isSidebarOpen: false,
+            isMenuOpen: true,
+        });
+    });
+
+    test(`should close menu on ${ActionTypes.CLOSE_RHS_MENU}`, () => {
+        const nextState = rhsReducer(
+            {
+                isSidebarOpen: false,
+                isMenuOpen: true,
+            },
+            {
+                type: ActionTypes.CLOSE_RHS_MENU,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            isSidebarOpen: false,
+            isMenuOpen: false,
+        });
+    });
+
+    describe('should close menu and sidebar', () => {
+        [
+            ActionTypes.TOGGLE_LHS,
+            ActionTypes.OPEN_LHS,
+            TeamTypes.SELECT_TEAM,
+        ].forEach((action) => {
+            it(`on ${action}`, () => {
+                const nextState = rhsReducer(
+                    {
+                        isSidebarOpen: true,
+                        isMenuOpen: true,
+                    },
+                    {
+                        type: action,
+                    }
+                );
+
+                expect(nextState).toEqual({
+                    ...initialState,
+                    isSidebarOpen: false,
+                    isMenuOpen: false,
+                });
+            });
         });
     });
 });

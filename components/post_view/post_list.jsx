@@ -6,7 +6,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {createChannelIntroMessage} from 'utils/channel_intro_messages.jsx';
 import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
@@ -20,6 +19,7 @@ import FloatingTimestamp from './floating_timestamp.jsx';
 import NewMessageIndicator from './new_message_indicator.jsx';
 import Post from './post';
 import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
+import CreateChannelIntroMessage from './channel_intro_message';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
@@ -194,8 +194,6 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        this.initialScroll();
-
         // Scroll to focused post on first load
         const focusedPost = this.refs[this.props.focusedPostId];
         if (focusedPost && this.props.posts) {
@@ -204,9 +202,20 @@ export default class PostList extends React.PureComponent {
                 const rect = element.getBoundingClientRect();
                 const listHeight = postList.clientHeight / 2;
                 postList.scrollTop += rect.top - listHeight;
+                this.atBottom = this.checkBottom();
             } else if (this.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
             }
+            return;
+        }
+
+        const didInitialScroll = this.initialScroll();
+
+        if (posts.length >= POSTS_PER_PAGE) {
+            this.hasScrolledToNewMessageSeparator = true;
+        }
+
+        if (didInitialScroll) {
             return;
         }
 
@@ -242,28 +251,35 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    // Scroll to new message indicator or bottom on first load
+    // Scroll to new message indicator or bottom on first load. Returns true
+    // if we just scrolled for the initial load.
     initialScroll = () => {
+        if (this.hasScrolledToNewMessageSeparator) {
+            // Already scrolled to new messages indicator
+            return false;
+        }
+
         const postList = this.refs.postlist;
         const posts = this.props.posts;
-        if (this.hasScrolledToNewMessageSeparator || !postList || !posts) {
-            return;
+        if (!postList || !posts) {
+            // Not able to do initial scroll yet
+            return false;
         }
 
         const messageSeparator = this.refs.newMessageSeparator;
         if (messageSeparator) {
+            // Scroll to new message indicator since we have unread posts
             messageSeparator.scrollIntoView();
             if (!this.checkBottom()) {
                 this.setUnreadsBelow(posts, this.props.currentUserId);
             }
-        } else {
-            postList.scrollTop = postList.scrollHeight;
-            this.atBottom = true;
+            return true;
         }
 
-        if (posts.length >= POSTS_PER_PAGE) {
-            this.hasScrolledToNewMessageSeparator = true;
-        }
+        // Scroll to bottom since we don't have unread posts
+        postList.scrollTop = postList.scrollHeight;
+        this.atBottom = true;
+        return true;
     }
 
     setUnreadsBelow = (posts, currentUserId) => {
@@ -536,7 +552,12 @@ export default class PostList extends React.PureComponent {
 
         let topRow;
         if (this.state.atEnd) {
-            topRow = createChannelIntroMessage(channel, this.props.fullWidth);
+            topRow = (
+                <CreateChannelIntroMessage
+                    channel={channel}
+                    fullWidth={this.props.fullWidth}
+                />
+            );
         } else if (this.props.postVisibility >= Constants.MAX_POST_VISIBILITY) {
             topRow = (
                 <div className='post-list__loading post-list__loading-search'>

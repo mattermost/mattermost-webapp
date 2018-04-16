@@ -335,10 +335,6 @@ class TeamStoreClass extends EventEmitter {
         return false;
     }
 
-    isTeamAdminForCurrentTeam() {
-        return this.isTeamAdmin(UserStore.getCurrentId(), this.getCurrentId());
-    }
-
     isTeamAdmin(userId, teamId) {
         if (!Utils) {
             Utils = require('utils/utils.jsx'); //eslint-disable-line global-require

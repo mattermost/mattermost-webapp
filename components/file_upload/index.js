@@ -19,8 +19,8 @@ function mapStateToProps(state) {
         currentChannelId: getCurrentChannelId(state),
         uploadFile,
         maxFileSize,
-        canUploadFiles: canUploadFiles(state),
+        canUploadFiles: canUploadFiles(config),
     };
 }
 
-export default connect(mapStateToProps)(FileUpload);
+export default connect(mapStateToProps, null, null, {withRef: true})(FileUpload);

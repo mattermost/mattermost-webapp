@@ -37,6 +37,7 @@ export default class ClaimController extends React.Component {
                                             currentType={currentType}
                                             email={email}
                                             siteName={this.props.siteName}
+                                            passwordConfig={this.props.passwordConfig}
                                         />
                                 )}
                                 />
@@ -58,6 +59,7 @@ export default class ClaimController extends React.Component {
                                             {...props}
                                             siteName={this.props.siteName}
                                             email={email}
+                                            passwordConfig={this.props.passwordConfig}
                                         />
                                 )}
                                 />
@@ -85,4 +87,12 @@ ClaimController.propTypes = {
     location: PropTypes.object.isRequired,
     siteName: PropTypes.string,
     ldapLoginFieldName: PropTypes.string,
+    passwordConfig: PropTypes.object,
+
+    /*
+     * Object from react-router
+     */
+    match: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+    }).isRequired,
 };

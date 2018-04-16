@@ -40,6 +40,7 @@ export default class BooleanSetting extends React.Component {
                 label={this.props.label}
                 helpText={helpText}
             >
+                <a name={this.props.id}/>
                 <label className='radio-inline'>
                     <input
                         type='radio'

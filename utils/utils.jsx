@@ -4,8 +4,12 @@
 import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -14,12 +18,13 @@ import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import Constants, {UserStatusesWeight, FileTypes} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 import {getSiteURL} from 'utils/url';
+import store from 'stores/redux_store.jsx';
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
@@ -58,6 +63,13 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
     return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
+export function isKeyPressed(event, key) {
+    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
+        return event.key === key[0] || event.key === key[0].toUpperCase();
+    }
+    return event.keyCode === key[1];
+}
+
 export function isInRole(roles, inRole) {
     if (roles) {
         var parts = roles.split(' ');
@@ -71,8 +83,8 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(roles) {
-    if (global.mm_license.IsLicensed !== 'true') {
+export function isChannelAdmin(isLicensed, roles) {
+    if (!isLicensed) {
         return false;
     }
 
@@ -233,7 +245,20 @@ export function getTimestamp() {
     return Date.now();
 }
 
-// extracts links not styled by Markdown
+// Replaces all occurrences of a pattern
+export function loopReplacePattern(text, pattern, replacement) {
+    let result = text;
+
+    let match = pattern.exec(result);
+    while (match) {
+        result = result.replace(pattern, replacement);
+        match = pattern.exec(result);
+    }
+
+    return result;
+}
+
+// extracts the first link from the text
 export function extractFirstLink(text) {
     const pattern = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[-A-Z0-9+\u0026\u2019@#/%?=()~_|!:,.;]*[-A-Z0-9+\u0026@#/%=~()_|])/i;
     let inText = text;
@@ -243,6 +268,10 @@ export function extractFirstLink(text) {
 
     // strip out inline markdown images
     inText = inText.replace(/!\[[^\]]*]\([^)]*\)/g, '');
+
+    // remove markdown *, ~~ and _ characters
+    inText = loopReplacePattern(inText, /(\*|~~)(.*?)\1/, '$2');
+    inText = loopReplacePattern(inText, /([\s\n]|^)_(.*?)_([\s\n]|$)/, '$1$2$3');
 
     const match = pattern.exec(inText);
     if (match) {
@@ -275,10 +304,10 @@ export function areObjectsEqual(x, y) {
     // Comparing dates is a common scenario. Another built-ins?
     // We can even handle functions passed across iframes
     if ((typeof x === 'function' && typeof y === 'function') ||
-       (x instanceof Date && y instanceof Date) ||
-       (x instanceof RegExp && y instanceof RegExp) ||
-       (x instanceof String && y instanceof String) ||
-       (x instanceof Number && y instanceof Number)) {
+        (x instanceof Date && y instanceof Date) ||
+        (x instanceof RegExp && y instanceof RegExp) ||
+        (x instanceof String && y instanceof String) ||
+        (x instanceof Number && y instanceof Number)) {
         return x.toString() === y.toString();
     }
 
@@ -308,7 +337,7 @@ export function areObjectsEqual(x, y) {
         return false;
     }
 
-    // Quick checking of one object beeing a subset of another.
+    // Quick checking of one object being a subset of another.
     for (p in y) {
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
             return false;
@@ -575,7 +604,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
-        changeCss('.app__body .navbar-right__icon:hover', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
+        changeCss('.app__body .navbar-right__icon:hover, .app__body .navbar-right__icon:focus', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('.app__body .navbar-right__icon svg', 'fill:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon svg', 'stroke:' + theme.sidebarHeaderTextColor);
     }
@@ -616,15 +645,15 @@ export function applyTheme(theme) {
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
         changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
-        changeCss('.app__body .sidebar--left .badge', 'background:' + mentionBg);
-        changeCss('.multi-teams .team-sidebar .badge', 'background:' + mentionBg);
+        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
+        changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
         changeCss('.sidebar--left .nav-pills__unread-indicator svg', 'fill:' + theme.mentionColor);
         changeCss('.app__body .sidebar--left .nav-pills__unread-indicator', 'color:' + theme.mentionColor);
-        changeCss('.app__body .sidebar--left .badge', 'color:' + theme.mentionColor);
-        changeCss('.app__body .multi-teams .team-sidebar .badge', 'color:' + theme.mentionColor);
+        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
+        changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
     }
 
     if (theme.centerChannelBg) {
@@ -660,6 +689,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
         changeCss('.app__body .channel-header__icon svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .channel-header__icon .icon--stroke svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .channel-header__icon .icon--stroke.icon__search svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.55));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -786,7 +816,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.errorTextColor) {
-        changeCss('.app__body .color--error, .app__body .has-error .help-block, .app__body .has-error .control-label, .app__body .has-error .radio, .app__body .has-error .checkbox, .app__body .has-error .radio-inline, .app__body .has-error .checkbox-inline, .app__body .has-error.radio label, .app__body .has-error.checkbox label, .app__body .has-error.radio-inline label, .app__body .has-error.checkbox-inline label', 'color:' + theme.errorTextColor);
+        changeCss('.app__body .modal .settings-modal .settings-table .settings-content .has-error, .app__body .modal .form-horizontal .input__help.error, .app__body .color--error, .app__body .has-error .help-block, .app__body .has-error .control-label, .app__body .has-error .radio, .app__body .has-error .checkbox, .app__body .has-error .radio-inline, .app__body .has-error .checkbox-inline, .app__body .has-error.radio label, .app__body .has-error.checkbox label, .app__body .has-error.radio-inline label, .app__body .has-error.checkbox-inline label', 'color:' + theme.errorTextColor);
     }
 
     if (theme.mentionHighlightBg) {
@@ -1078,41 +1108,49 @@ export function getDisplayName(user) {
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
-export function displayUsername(userId) {
-    return displayUsernameForUser(UserStore.getProfile(userId));
+export function getDisplayNameByUserId(userId) {
+    return getDisplayNameByUser(UserStore.getProfile(userId));
 }
 
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function displayUsernameForUser(user) {
+export function getDisplayNameByUser(user) {
+    const state = store.getState();
+    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
-        const nameFormat = global.window.mm_config.TeammateNameDisplay;
-        let name = user.username;
-        if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname !== '') {
-            name = user.nickname;
-        } else if ((user.first_name || user.last_name) && (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME || nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME)) {
-            name = getFullName(user);
-        }
-
-        return name;
+        return displayUsername(user, teammateNameDisplay);
     }
 
     return '';
 }
 
+const UserStatusesWeight = {
+    online: 0,
+    away: 1,
+    dnd: 2,
+    offline: 3,
+};
+
 /**
  * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
  */
-export function sortUsersByStatusAndDisplayName(userA, userB) {
-    function sortByDisplayName(a, b) {
-        const aName = displayUsernameForUser(a);
-        const bName = displayUsernameForUser(b);
+export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
+    function compareUsers(a, b) {
+        const aStatus = statusesByUserId[a.id] || UserStatuses.OFFLINE;
+        const bStatus = statusesByUserId[b.id] || UserStatuses.OFFLINE;
+
+        if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
+            return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
+        }
+
+        const aName = getDisplayNameByUser(a);
+        const bName = getDisplayNameByUser(b);
 
         return aName.localeCompare(bName);
     }
 
-    return UserStatusesWeight[userA.status] - UserStatusesWeight[userB.status] || sortByDisplayName(userA, userB);
+    return users.sort(compareUsers);
 }
 
 /**
@@ -1173,6 +1211,19 @@ export function imageURLForUser(userIdOrObject) {
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
+// in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
+export function imageURLForTeam(teamIdOrObject) {
+    if (typeof teamIdOrObject == 'string') {
+        const team = TeamStore.get(teamIdOrObject);
+        if (team) {
+            return imageURLForTeam(team);
+        }
+        return null;
+    }
+
+    return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
+}
+
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
 export function fileSizeToString(bytes) {
     // it's unlikely that we'll have files bigger than this
@@ -1187,17 +1238,6 @@ export function fileSizeToString(bytes) {
     }
 
     return bytes + 'B';
-}
-
-// Gets the websocket port to use. Configurable on the server.
-export function getWebsocketPort(protocol) {
-    if ((/^wss:/).test(protocol)) { // wss://
-        return ':' + global.window.mm_config.WebsocketSecurePort;
-    }
-    if ((/^ws:/).test(protocol)) {
-        return ':' + global.window.mm_config.WebsocketPort;
-    }
-    return '';
 }
 
 // Generates a RFC-4122 version 4 compliant globally unique identifier.
@@ -1354,7 +1394,11 @@ export function mod(a, b) {
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
 export function canCreateCustomEmoji(user) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const state = store.getState();
+    const license = getLicense(state);
+    const config = getConfig(state);
+
+    if (license.IsLicensed !== 'true') {
         return true;
     }
 
@@ -1363,9 +1407,9 @@ export function canCreateCustomEmoji(user) {
     }
 
     // already checked for system admin for both these cases
-    if (window.mm_config.RestrictCustomEmojiCreation === 'system_admin') {
+    if (config.RestrictCustomEmojiCreation === 'system_admin') {
         return false;
-    } else if (window.mm_config.RestrictCustomEmojiCreation === 'admin') {
+    } else if (config.RestrictCustomEmojiCreation === 'admin') {
         // check whether the user is an admin on any of their teams
         if (TeamStore.isTeamAdminForAnyTeam()) {
             return true;
@@ -1377,16 +1421,16 @@ export function canCreateCustomEmoji(user) {
     return true;
 }
 
-export function getPasswordConfig() {
+export function getPasswordConfig(license, config) {
     return {
-        isEnterprise: global.window.mm_config.BuildEnterpriseReady === 'true',
-        isLicensed: global.window.mm_license.IsLicensed === 'true',
-        isPasswordRequirements: global.window.mm_license.PasswordRequirements === 'true',
-        minimumLength: parseInt(global.window.mm_config.PasswordMinimumLength, 10),
-        requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
-        requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
-        requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
-        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true',
+        isEnterprise: config.BuildEnterpriseReady === 'true',
+        isLicensed: license.IsLicensed === 'true',
+        isPasswordRequirements: license.PasswordRequirements === 'true',
+        minimumLength: parseInt(config.PasswordMinimumLength, 10),
+        requireLowercase: config.PasswordRequireLowercase === 'true',
+        requireUppercase: config.PasswordRequireUppercase === 'true',
+        requireNumber: config.PasswordRequireNumber === 'true',
+        requireSymbol: config.PasswordRequireSymbol === 'true',
     };
 }
 
@@ -1466,13 +1510,10 @@ export function handleFormattedTextClick(e) {
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
-        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || cmdOrCtrlPressed(e) || e.shiftKey)) {
+        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
 
-            const urlparse = document.createElement('a');
-            urlparse.href = linkAttribute.value;
-
-            browserHistory.push(urlparse.pathname);
+            browserHistory.push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
@@ -1505,7 +1546,7 @@ export function removePrefixFromLocalStorage(prefix) {
     }
 }
 
-export function getEmailInterval(isEmailEnabled) {
+export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     const {
         INTERVAL_NEVER,
         INTERVAL_IMMEDIATE,
@@ -1524,7 +1565,7 @@ export function getEmailInterval(isEmailEnabled) {
 
     let emailInterval;
 
-    if (global.mm_config.EnableEmailBatching === 'true') {
+    if (enableEmailBatching) {
         // when email batching is enabled, the default interval is 15 minutes
         emailInterval = PreferenceStore.getInt(CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
 
@@ -1562,4 +1603,12 @@ export function copyToClipboard(e, data) {
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
+}
+
+export function moveCursorToEnd(e) {
+    const val = e.target.value;
+    if (val.length) {
+        e.target.value = '';
+        e.target.value = val;
+    }
 }

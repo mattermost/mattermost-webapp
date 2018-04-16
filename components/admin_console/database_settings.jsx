@@ -150,7 +150,7 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Maximum Idle Connections:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.sql.maxConnectionsExample', 'Ex "10"')}
+                    placeholder={Utils.localizeMessage('admin.sql.maxConnectionsExample', 'E.g.: "10"')}
                     helpText={
                         <FormattedMessage
                             id='admin.sql.maxConnectionsDescription'
@@ -168,7 +168,7 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Maximum Open Connections:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.sql.maxOpenExample', 'Ex "10"')}
+                    placeholder={Utils.localizeMessage('admin.sql.maxOpenExample', 'E.g.: "10"')}
                     helpText={
                         <FormattedMessage
                             id='admin.sql.maxOpenDescription'
@@ -186,7 +186,7 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Query Timeout:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.sql.queryTimeoutExample', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.sql.queryTimeoutExample', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.sql.queryTimeoutDescription'
@@ -204,7 +204,7 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='At Rest Encrypt Key:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.sql.keyExample', 'Ex "gxHVDcKUyP2y1eiyW8S8na1UYQAfq6J6"')}
+                    placeholder={Utils.localizeMessage('admin.sql.keyExample', 'E.g.: "gxHVDcKUyP2y1eiyW8S8na1UYQAfq6J6"')}
                     helpText={
                         <FormattedMessage
                             id='admin.sql.keyDescription'

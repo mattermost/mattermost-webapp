@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
@@ -35,6 +34,11 @@ export default class SidebarChannel extends React.PureComponent {
          * Channel display name
          */
         channelDisplayName: PropTypes.string.isRequired,
+
+        /**
+         * Channel is muted
+         */
+        channelMuted: PropTypes.bool,
 
         /**
          * Channel type
@@ -121,22 +125,19 @@ export default class SidebarChannel extends React.PureComponent {
          */
         membersCount: PropTypes.number.isRequired,
 
+        /**
+         * Flag if channel should be hidden in sidebar
+         */
+        shouldHideChannel: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
+            openLhs: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     isLeaving = false;
-
-    openLeftSidebar = () => {
-        if (Utils.isMobile()) {
-            setTimeout(() => {
-                document.querySelector('.app__body .inner-wrap').classList.add('move--right');
-                document.querySelector('.app__body .sidebar--left').classList.add('move--right');
-            });
-        }
-    }
 
     handleLeavePublicChannel = () => {
         this.props.actions.leaveChannel(this.props.channelId);
@@ -188,6 +189,9 @@ export default class SidebarChannel extends React.PureComponent {
 
         let closeHandler = null;
         if (!this.showChannelAsUnread()) {
+            if (this.props.shouldHideChannel) {
+                return '';
+            }
             if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
                 closeHandler = this.handleLeaveDirectChannel;
             } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
@@ -208,12 +212,16 @@ export default class SidebarChannel extends React.PureComponent {
         let badge = false;
         if (this.showChannelAsUnread()) {
             rowClass += ' unread-title';
+        }
 
-            if (this.props.unreadMentions > 0) {
-                rowClass += ' has-badge';
+        if (this.props.unreadMentions > 0) {
+            rowClass += ' has-badge';
 
-                badge = true;
-            }
+            badge = true;
+        }
+
+        if (this.props.channelMuted) {
+            rowClass += ' muted';
         }
 
         if (closeHandler && !badge) {
@@ -228,7 +236,7 @@ export default class SidebarChannel extends React.PureComponent {
                     offTopicDisplayName={this.props.offTopicDisplayName}
                 />
             );
-            this.openLeftSidebar();
+            this.props.actions.openLhs();
         }
 
         let link = '';

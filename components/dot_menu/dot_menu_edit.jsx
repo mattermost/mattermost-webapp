@@ -23,7 +23,8 @@ export default function DotMenuEdit(props) {
             props.post.id,
             props.commentsCount,
             props.idPrefix.indexOf(Constants.CENTER) === 0 ? 'post_textbox' : 'reply_textbox',
-            props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')
+            props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment'),
+            props.isRHS
         );
     }
 
@@ -48,6 +49,7 @@ export default function DotMenuEdit(props) {
 
 DotMenuEdit.propTypes = {
     idPrefix: PropTypes.string.isRequired,
+    isRHS: PropTypes.bool,
     idCount: PropTypes.number,
     post: PropTypes.object,
     type: PropTypes.string,

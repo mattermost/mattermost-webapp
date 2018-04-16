@@ -23,8 +23,6 @@ const CHANGE_EVENT_SESSIONS = 'change_sessions';
 const CHANGE_EVENT_AUDITS = 'change_audits';
 const CHANGE_EVENT_STATUSES = 'change_statuses';
 
-var Utils;
-
 class UserStoreClass extends EventEmitter {
     constructor() {
         super();
@@ -459,18 +457,12 @@ class UserStoreClass extends EventEmitter {
         return this.getStatuses()[id] || UserStatuses.OFFLINE;
     }
 
-    isSystemAdminForCurrentUser() {
-        if (!Utils) {
-            Utils = require('utils/utils.jsx'); //eslint-disable-line global-require
-        }
+    getNoAccounts() {
+        return global.window.mm_config.NoAccounts === 'true';
+    }
 
-        var current = this.getCurrentUser();
-
-        if (current) {
-            return Utils.isSystemAdmin(current.roles);
-        }
-
-        return false;
+    setNoAccounts(noAccounts) {
+        this.noAccounts = noAccounts;
     }
 }
 

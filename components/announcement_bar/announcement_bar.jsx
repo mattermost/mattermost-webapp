@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+
 import {ErrorBarTypes, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
@@ -29,6 +29,11 @@ export default class AnnouncementBar extends React.PureComponent {
          */
         isLoggedIn: PropTypes.bool.isRequired,
 
+        /*
+         * Set if the user can view system errors
+         */
+        canViewSystemErrors: PropTypes.bool.isRequired,
+        canViewAPIv3Banner: PropTypes.bool.isRequired,
         licenseId: PropTypes.string,
         siteURL: PropTypes.string,
         sendEmailNotifications: PropTypes.bool.isRequired,
@@ -38,7 +43,6 @@ export default class AnnouncementBar extends React.PureComponent {
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
-        enableAPIv3: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -55,37 +59,28 @@ export default class AnnouncementBar extends React.PureComponent {
         this.state = this.getState();
     }
 
-    setInitialError() {
-        let isSystemAdmin = false;
-        const user = UserStore.getCurrentUser();
-        if (user) {
-            isSystemAdmin = Utils.isSystemAdmin(user.roles);
-        }
-
+    setInitialError = () => {
         const errorIgnored = ErrorStore.getIgnoreNotification();
 
         if (!errorIgnored) {
-            if (isSystemAdmin && this.props.siteURL === '') {
+            if (this.props.canViewSystemErrors && this.props.siteURL === '') {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.SITE_URL});
                 return;
             } else if (!this.props.sendEmailNotifications) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.PREVIEW_MODE});
                 return;
-            } else if (isSystemAdmin && this.props.enableAPIv3) {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.APIV3_ENABLED});
-                return;
             }
         }
 
         if (isLicensePastGracePeriod()) {
-            if (isSystemAdmin) {
+            if (this.props.canViewSystemErrors) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
             } else {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_PAST_GRACE, type: BAR_CRITICAL_TYPE});
             }
-        } else if (isLicenseExpired() && isSystemAdmin) {
+        } else if (isLicenseExpired() && this.props.canViewSystemErrors) {
             ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
-        } else if (isLicenseExpiring() && isSystemAdmin) {
+        } else if (isLicenseExpiring() && this.props.canViewSystemErrors) {
             ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRING, type: BAR_CRITICAL_TYPE});
         }
     }
@@ -244,13 +239,6 @@ export default class AnnouncementBar extends React.PureComponent {
                 <FormattedMessage
                     id={ErrorBarTypes.PREVIEW_MODE}
                     defaultMessage='Preview Mode: Email notifications have not been configured'
-                />
-            );
-        } else if (message === ErrorBarTypes.APIV3_ENABLED) {
-            message = (
-                <FormattedHTMLMessage
-                    id={ErrorBarTypes.APIV3_ENABLED}
-                    defaultMessage='API version 3 is deprecated and scheduled for removal. <a href="https://api.mattermost.com/#tag/APIv3-Deprecation" target="_blank">Learn how to migrate to APIv4</a>.'
                 />
             );
         } else if (message === ErrorBarTypes.LICENSE_EXPIRING) {

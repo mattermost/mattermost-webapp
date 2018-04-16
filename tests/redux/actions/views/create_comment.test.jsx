@@ -86,6 +86,7 @@ describe('rhs view actions', () => {
                 postsInChannel: {
                     [channelId]: [latestPostId],
                 },
+                postsInThread: {},
                 messagesHistory: {
                     index: {
                         [Posts.MESSAGE_TYPES.COMMENT]: 0,
@@ -105,9 +106,12 @@ describe('rhs view actions', () => {
         },
         storage: {
             [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                message: '',
-                fileInfos: [],
-                uploadsInProgress: [],
+                value: {
+                    message: '',
+                    fileInfos: [],
+                    uploadsInProgress: [],
+                },
+                timestamp: new Date(),
             },
         },
     };
@@ -315,9 +319,12 @@ describe('rhs view actions', () => {
                 storage: {
                     storage: {
                         [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                            message: '+:smile:',
-                            fileInfos: [],
-                            uploadsInProgress: [],
+                            value: {
+                                message: '+:smile:',
+                                fileInfos: [],
+                                uploadsInProgress: [],
+                            },
+                            timestamp: new Date(),
                         },
                     },
                 },
@@ -338,9 +345,12 @@ describe('rhs view actions', () => {
                 ...initialState,
                 storage: {
                     [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        message: '/away',
-                        fileInfos: [],
-                        uploadsInProgress: [],
+                        value: {
+                            message: '/away',
+                            fileInfos: [],
+                            uploadsInProgress: [],
+                        },
+                        timestamp: new Date(),
                     },
                 },
             });
@@ -360,9 +370,12 @@ describe('rhs view actions', () => {
                 ...initialState,
                 storage: {
                     [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        message: 'test msg',
-                        fileInfos: [],
-                        uploadsInProgress: [],
+                        value: {
+                            message: 'test msg',
+                            fileInfos: [],
+                            uploadsInProgress: [],
+                        },
+                        timestamp: new Date(),
                     },
                 },
             });
@@ -388,8 +401,9 @@ describe('rhs view actions', () => {
             testStore.dispatch(PostActions.setEditingPost(
                 latestPostId,
                 0,
-                '#reply_textbox',
-                'Comment'
+                'reply_textbox',
+                'Comment',
+                true
             ));
 
             expect(store.getActions()).toEqual(testStore.getActions());

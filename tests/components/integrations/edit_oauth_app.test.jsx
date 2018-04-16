@@ -34,7 +34,6 @@ describe('components/integrations/EditOAuthApp', () => {
         team,
         oauthAppId: oauthApp.id,
         editOAuthAppRequest,
-        isSystemAdmin: false,
         actions: {
             getOAuthApp: jest.fn(),
             editOAuthApp: jest.fn(),
@@ -52,16 +51,6 @@ describe('components/integrations/EditOAuthApp', () => {
 
     test('should match snapshot', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
-            <EditOAuthApp {...props}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-        expect(props.actions.getOAuthApp).toHaveBeenCalledWith(oauthApp.id);
-    });
-
-    test('should match snapshot, on system admin', () => {
-        const props = {...baseProps, oauthApp, isSystemAdmin: true};
         const wrapper = shallow(
             <EditOAuthApp {...props}/>
         );

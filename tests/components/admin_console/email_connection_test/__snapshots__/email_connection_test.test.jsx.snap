@@ -21,6 +21,7 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
           values={Object {}}
         />
       </button>
+      <div />
     </div>
   </div>
 </div>
@@ -47,6 +48,7 @@ exports[`components/admin_console/email_connection_test/email_connection_test sh
           values={Object {}}
         />
       </button>
+      <div />
     </div>
   </div>
 </div>

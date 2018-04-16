@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .channel-header {
-    @include flex(0 0 72px);
+    @include flex(0 0 71px);
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
@@ -13,7 +13,30 @@
         @include opacity(.5);
         float: left;
         height: 20px;
-        margin: 0 8px 0 0;
+        margin: 0 5px 0 0;
+        padding-top: 2px;
+        position: relative;
+        z-index: 1;
+
+        &.inactive {
+            color: inherit;
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        i {
+            font-size: 17px;
+        }
+    }
+
+    .channel-header__mute {
+        @include opacity(.5);
+        flex: 0;
+        float: left;
+        height: 20px;
+        margin: 0 8px 0 8px;
         padding-top: 3px;
         position: relative;
         z-index: 1;
@@ -39,7 +62,7 @@
         &:first-child {
             flex: 1;
             min-width: 0;
-            padding-left: 20px;
+            padding: 0 8px 0 20px;
         }
 
         .markdown__paragraph-inline {
@@ -53,23 +76,24 @@
         @include border-radius(50%);
         border: 1px solid;
         cursor: pointer;
-        height: 37px;
-        line-height: 36px;
-        margin: 17px 10px 0 0;
+        height: 30px;
+        line-height: 30px;
+        margin: 20px 9px 0 0;
         min-width: 30px;
         position: relative;
         text-align: center;
-        width: 37px;
+        width: 30px;
         z-index: 5;
 
         &.wide {
             @include border-radius(37px);
+            line-height: 28px;
             padding: 0;
             white-space: nowrap;
             width: auto;
 
             > div {
-                padding: 0 13px 0 15px;
+                padding: 0 8px;
             }
         }
 
@@ -90,7 +114,8 @@
 
         .icon__text {
             font-weight: 600;
-            margin-right: 9px;
+            margin-right: 4px;
+            position: relative;
         }
 
         a {
@@ -109,21 +134,24 @@
             position: relative;
         }
 
-        .icon__pin,
+        .icon__pin {
+            top: 1px;
+        }
+
         .icon__members {
             top: 2px;
         }
 
         .icon__mentions {
-            top: 5px;
+            top: 1px;
         }
 
         .icon__flag {
-            top: 3px;
+            top: 1px;
         }
 
         .icon__search {
-            top: 4px;
+            top: 1px;
         }
     }
 
@@ -153,9 +181,9 @@
 
     .heading {
         display: inline-block;
-        font-size: 17px;
-        font-weight: 400;
-        margin: 0 4px 0 0;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 7px 0 0;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -195,22 +223,18 @@
     font-size: 21px;
     margin-left: 1px;
     position: relative;
-    top: 2px;
+    top: 1px;
 }
 
 .channel-header__info {
-    margin-top: 12px;
+    margin-top: 16px;
     white-space: nowrap;
 
     .dropdown-toggle {
+        display: flex;
         overflow: hidden;
         text-align: left;
         text-overflow: ellipsis;
-        width: 100%;
-
-        strong {
-            max-width: calc(100% - 65px);
-        }
     }
 
     .header-dropdown__icon {
@@ -218,6 +242,18 @@
     }
 
     .channel-header__title {
+        display: flex;
+
+        .channel-header__favorites {
+            flex: 0;
+        }
+
+        h2 {
+            display: flex;
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+
         > a {
             display: inline-block;
             text-decoration: none;
@@ -236,9 +272,9 @@
     }
 
     .channel-header__description {
-        height: 21px;
+        font-size: 12px;
+        height: 18px;
         margin-bottom: 3px;
-        margin-top: 3px;
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;

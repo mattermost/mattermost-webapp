@@ -23,11 +23,6 @@ export default class AddOAuthApp extends React.PureComponent {
         */
         addOAuthAppRequest: PropTypes.object.isRequired,
 
-        /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool,
-
         actions: PropTypes.shape({
 
             /**
@@ -63,7 +58,6 @@ export default class AddOAuthApp extends React.PureComponent {
         return (
             <AbstractOAuthApp
                 team={this.props.team}
-                isSystemAdmin={this.props.isSystemAdmin}
                 header={HEADER}
                 footer={FOOTER}
                 renderExtra={''}

@@ -49,7 +49,6 @@ export default class SearchResults extends React.PureComponent {
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
-        useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         isMentionSearch: PropTypes.bool,
@@ -78,7 +77,7 @@ export default class SearchResults extends React.PureComponent {
         UserStore.addStatusesChangeListener(this.onStatusChange);
         WebrtcStore.addBusyListener(this.onBusy);
 
-        this.resize();
+        this.scrollToTop();
         window.addEventListener('resize', this.handleResize);
     }
 
@@ -92,7 +91,7 @@ export default class SearchResults extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.searchTerms !== prevProps.searchTerms) {
-            this.resize();
+            this.scrollToTop();
         }
     }
 
@@ -115,7 +114,7 @@ export default class SearchResults extends React.PureComponent {
         this.setState({statuses: Object.assign({}, UserStore.getStatuses())});
     }
 
-    resize = () => {
+    scrollToTop = () => {
         $('#search-items-container').scrollTop(0);
     }
 
@@ -361,7 +360,6 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        useMilitaryTime={this.props.useMilitaryTime}
                         shrink={this.props.shrink}
                         isFlagged={isFlagged}
                         isBusy={this.state.isBusy}

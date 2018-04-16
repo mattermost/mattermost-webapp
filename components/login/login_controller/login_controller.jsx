@@ -5,25 +5,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {Client4} from 'mattermost-redux/client';
 
-import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {checkMfa, webLogin} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
+
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {messageHtmlToComponent} from 'utils/post_utils.jsx';
+
 import logoImage from 'images/logo.png';
+
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
-
 export default class LoginController extends React.Component {
     static get propTypes() {
         return {
@@ -429,6 +433,7 @@ export default class LoginController extends React.Component {
                                 placeholder={this.createLoginPlaceholder()}
                                 spellCheck='false'
                                 autoCapitalize='off'
+                                autoFocus='true'
                             />
                         </div>
                         <div className={'form-group' + errorClass}>
@@ -623,6 +628,12 @@ export default class LoginController extends React.Component {
     }
 
     render() {
+        const {
+            customDescriptionText,
+            isLicensed,
+            siteName,
+        } = this.props;
+
         let content;
         let customContent;
         let customClass;
@@ -642,18 +653,6 @@ export default class LoginController extends React.Component {
             }
         }
 
-        let description = null;
-        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
-            description = this.props.customDescriptionText;
-        } else {
-            description = (
-                <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
-                />
-            );
-        }
-
         return (
             <div>
                 <AnnouncementBar/>
@@ -667,10 +666,11 @@ export default class LoginController extends React.Component {
                             src={logoImage}
                         />
                         <div className='signup__content'>
-                            <h1>{this.props.siteName}</h1>
-                            <h4 className='color--light'>
-                                {description}
-                            </h4>
+                            <SiteNameAndDescription
+                                customDescriptionText={customDescriptionText}
+                                isLicensed={isLicensed}
+                                siteName={siteName}
+                            />
                             {content}
                         </div>
                     </div>

@@ -6,15 +6,19 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {loadMe, webLoginByLdap} from 'actions/user_actions.jsx';
+
 import * as Utils from 'utils/utils.jsx';
+import {browserHistory} from 'utils/browser_history';
+
 import logoImage from 'images/logo.png';
+
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 export default class SignupLdap extends React.Component {
     static get propTypes() {
@@ -27,8 +31,6 @@ export default class SignupLdap extends React.Component {
             siteName: PropTypes.string,
             termsOfServiceLink: PropTypes.string,
             privacyPolicyLink: PropTypes.string,
-            customBrand: PropTypes.bool.isRequired,
-            enableCustomBrand: PropTypes.bool.isRequired,
             customDescriptionText: PropTypes.string.isRequired,
         };
     }
@@ -84,9 +86,10 @@ export default class SignupLdap extends React.Component {
     }
 
     handleLdapSignupSuccess() {
-        const hash = (new URLSearchParams(this.props.location.search)).get('h');
-        const data = (new URLSearchParams(this.props.location.search)).get('d');
-        const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
+        const params = new URLSearchParams(this.props.location.search);
+        const hash = params.get('h') || '';
+        const data = params.get('d') || '';
+        const inviteId = params.get('id') || '';
 
         if (inviteId || hash) {
             addUserToTeamFromInvite(
@@ -121,6 +124,12 @@ export default class SignupLdap extends React.Component {
     }
 
     render() {
+        const {
+            customDescriptionText,
+            isLicensed,
+            siteName,
+        } = this.props;
+
         let ldapIdPlaceholder;
         if (this.props.ldapLoginFieldName) {
             ldapIdPlaceholder = this.props.ldapLoginFieldName;
@@ -212,18 +221,6 @@ export default class SignupLdap extends React.Component {
             );
         }
 
-        let description = null;
-        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
-            description = this.props.customDescriptionText;
-        } else {
-            description = (
-                <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
-                />
-            );
-        }
-
         return (
             <div>
                 <BackButton/>
@@ -233,10 +230,11 @@ export default class SignupLdap extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{this.props.siteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
+                        <SiteNameAndDescription
+                            customDescriptionText={customDescriptionText}
+                            isLicensed={isLicensed}
+                            siteName={siteName}
+                        />
                         <h4 className='color--light'>
                             <FormattedMessage
                                 id='signup_user_completed.lets'

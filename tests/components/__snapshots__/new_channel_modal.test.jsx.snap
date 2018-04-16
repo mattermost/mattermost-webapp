@@ -79,17 +79,26 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
-              tabIndex="6"
+            <Connect(TeamPermissionGate)
+              permissions={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+                tabIndex="6"
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -351,17 +360,26 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
-              tabIndex="6"
+            <Connect(TeamPermissionGate)
+              permissions={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+                tabIndex="6"
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -623,17 +641,26 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
-              tabIndex="6"
+            <Connect(TeamPermissionGate)
+              permissions={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+                tabIndex="6"
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -904,17 +931,26 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
-              tabIndex="6"
+            <Connect(TeamPermissionGate)
+              permissions={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+                tabIndex="6"
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -1189,16 +1225,25 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               id="channel_modal.privateGroup1"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
+            <Connect(TeamPermissionGate)
+              permissions={
+                Array [
+                  "create_public_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a public channel"
-                id="channel_modal.publicChannel1"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+              >
+                <FormattedMessage
+                  defaultMessage="Create a public channel"
+                  id="channel_modal.publicChannel1"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -1333,800 +1378,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               rows="4"
               tabIndex="3"
               value="some header"
-            />
-            <p
-              className="input__help"
-            >
-              <FormattedMessage
-                defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
-                id="channel_modal.headerHelp"
-                values={Object {}}
-              />
-            </p>
-          </div>
-        </div>
-      </ModalBody>
-      <ModalFooter
-        bsClass="modal-footer"
-        componentClass="div"
-      >
-        <button
-          className="btn btn-default"
-          onBlur={[Function]}
-          onClick={[MockFunction]}
-          tabIndex="8"
-          type="button"
-        >
-          <FormattedMessage
-            defaultMessage="Cancel"
-            id="channel_modal.cancel"
-            values={Object {}}
-          />
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
-          tabIndex="4"
-          type="submit"
-        >
-          <FormattedMessage
-            defaultMessage="Create New Channel"
-            id="channel_modal.createNew"
-            values={Object {}}
-          />
-        </button>
-      </ModalFooter>
-    </form>
-  </Modal>
-</span>
-`;
-
-exports[`components/NewChannelModal should match snapshot, without option to create private channel 1`] = `
-<span>
-  <Modal
-    animation={true}
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    bsSize="large"
-    dialogClassName="new-channel__modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
-      }
-    }
-    onHide={[MockFunction]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    show={true}
-  >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={false}
-      closeLabel="Close"
-    >
-      <button
-        className="close"
-        onClick={[MockFunction]}
-        tabIndex="5"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
-        </span>
-      </button>
-      <ModalTitle
-        bsClass="modal-title"
-        componentClass="h4"
-      >
-        <FormattedMessage
-          defaultMessage="New Channel"
-          id="channel_modal.modalTitle"
-          values={Object {}}
-        />
-      </ModalTitle>
-    </ModalHeader>
-    <form
-      className="form-horizontal"
-      role="form"
-    >
-      <ModalBody
-        bsClass="modal-body"
-        componentClass="div"
-      >
-        <div>
-          <div
-            className="modal-intro"
-          >
-            <FormattedMessage
-              defaultMessage="Create a new public channel anyone can join. "
-              id="channel_modal.publicChannel2"
-              values={Object {}}
-            />
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="col-sm-3 form__label control-label"
-          >
-            <FormattedMessage
-              defaultMessage="Name"
-              id="channel_modal.name"
-              values={Object {}}
-            />
-          </label>
-          <div
-            className="col-sm-9"
-          >
-            <input
-              autoFocus={true}
-              className="form-control"
-              id="newPublicChannelName"
-              maxLength={22}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
-              tabIndex="1"
-              type="text"
-              value="testchannel"
-            />
-            <p
-              className="input__help dark"
-            >
-              URL: /testchannel (
-              <button
-                className="color--link style--none"
-                onClick={[Function]}
-                tabIndex="7"
-              >
-                <FormattedMessage
-                  defaultMessage="Edit"
-                  id="channel_modal.edit"
-                  values={Object {}}
-                />
-              </button>
-              )
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <div
-            className="col-sm-3"
-          >
-            <label
-              className="form__label control-label"
-            >
-              <FormattedMessage
-                defaultMessage="Purpose"
-                id="channel_modal.purpose"
-                values={Object {}}
-              />
-            </label>
-            <label
-              className="form__label light"
-            >
-              <FormattedMessage
-                defaultMessage="(optional)"
-                id="channel_modal.optional"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="col-sm-9"
-          >
-            <textarea
-              className="form-control no-resize"
-              id="newPublicChannelPurpose"
-              maxLength="250"
-              onChange={[Function]}
-              placeholder="E.g.: \\"A channel to file bugs and improvements\\""
-              rows="4"
-              tabIndex="2"
-              value=""
-            />
-            <p
-              className="input__help"
-            >
-              <FormattedMessage
-                defaultMessage="Describe how this channel should be used."
-                id="channel_modal.descriptionHelp"
-                values={Object {}}
-              />
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group less"
-        >
-          <div
-            className="col-sm-3"
-          >
-            <label
-              className="form__label control-label"
-            >
-              <FormattedMessage
-                defaultMessage="Header"
-                id="channel_modal.header"
-                values={Object {}}
-              />
-            </label>
-            <label
-              className="form__label light"
-            >
-              <FormattedMessage
-                defaultMessage="(optional)"
-                id="channel_modal.optional"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="col-sm-9"
-          >
-            <textarea
-              className="form-control no-resize"
-              id="newPublicChannelHeader"
-              maxLength="1024"
-              onChange={[Function]}
-              placeholder="E.g.: \\"[Link Title](http://example.com)\\""
-              rows="4"
-              tabIndex="3"
-              value=""
-            />
-            <p
-              className="input__help"
-            >
-              <FormattedMessage
-                defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
-                id="channel_modal.headerHelp"
-                values={Object {}}
-              />
-            </p>
-          </div>
-        </div>
-      </ModalBody>
-      <ModalFooter
-        bsClass="modal-footer"
-        componentClass="div"
-      >
-        <button
-          className="btn btn-default"
-          onBlur={[Function]}
-          onClick={[MockFunction]}
-          tabIndex="8"
-          type="button"
-        >
-          <FormattedMessage
-            defaultMessage="Cancel"
-            id="channel_modal.cancel"
-            values={Object {}}
-          />
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
-          tabIndex="4"
-          type="submit"
-        >
-          <FormattedMessage
-            defaultMessage="Create New Channel"
-            id="channel_modal.createNew"
-            values={Object {}}
-          />
-        </button>
-      </ModalFooter>
-    </form>
-  </Modal>
-</span>
-`;
-
-exports[`components/NewChannelModal should match snapshot, without option to create public channel 1`] = `
-<span>
-  <Modal
-    animation={true}
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    bsSize="large"
-    dialogClassName="new-channel__modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
-      }
-    }
-    onHide={[MockFunction]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    show={true}
-  >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={false}
-      closeLabel="Close"
-    >
-      <button
-        className="close"
-        onClick={[MockFunction]}
-        tabIndex="5"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
-        </span>
-      </button>
-      <ModalTitle
-        bsClass="modal-title"
-        componentClass="h4"
-      >
-        <FormattedMessage
-          defaultMessage="New Channel"
-          id="channel_modal.modalTitle"
-          values={Object {}}
-        />
-      </ModalTitle>
-    </ModalHeader>
-    <form
-      className="form-horizontal"
-      role="form"
-    >
-      <ModalBody
-        bsClass="modal-body"
-        componentClass="div"
-      >
-        <div>
-          <div
-            className="modal-intro"
-          >
-            <FormattedMessage
-              defaultMessage="Create a new public channel anyone can join. "
-              id="channel_modal.publicChannel2"
-              values={Object {}}
-            />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
-              tabIndex="6"
-            >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="col-sm-3 form__label control-label"
-          >
-            <FormattedMessage
-              defaultMessage="Name"
-              id="channel_modal.name"
-              values={Object {}}
-            />
-          </label>
-          <div
-            className="col-sm-9"
-          >
-            <input
-              autoFocus={true}
-              className="form-control"
-              id="newPublicChannelName"
-              maxLength={22}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
-              tabIndex="1"
-              type="text"
-              value="testchannel"
-            />
-            <p
-              className="input__help dark"
-            >
-              URL: /testchannel (
-              <button
-                className="color--link style--none"
-                onClick={[Function]}
-                tabIndex="7"
-              >
-                <FormattedMessage
-                  defaultMessage="Edit"
-                  id="channel_modal.edit"
-                  values={Object {}}
-                />
-              </button>
-              )
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <div
-            className="col-sm-3"
-          >
-            <label
-              className="form__label control-label"
-            >
-              <FormattedMessage
-                defaultMessage="Purpose"
-                id="channel_modal.purpose"
-                values={Object {}}
-              />
-            </label>
-            <label
-              className="form__label light"
-            >
-              <FormattedMessage
-                defaultMessage="(optional)"
-                id="channel_modal.optional"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="col-sm-9"
-          >
-            <textarea
-              className="form-control no-resize"
-              id="newPublicChannelPurpose"
-              maxLength="250"
-              onChange={[Function]}
-              placeholder="E.g.: \\"A channel to file bugs and improvements\\""
-              rows="4"
-              tabIndex="2"
-              value=""
-            />
-            <p
-              className="input__help"
-            >
-              <FormattedMessage
-                defaultMessage="Describe how this channel should be used."
-                id="channel_modal.descriptionHelp"
-                values={Object {}}
-              />
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group less"
-        >
-          <div
-            className="col-sm-3"
-          >
-            <label
-              className="form__label control-label"
-            >
-              <FormattedMessage
-                defaultMessage="Header"
-                id="channel_modal.header"
-                values={Object {}}
-              />
-            </label>
-            <label
-              className="form__label light"
-            >
-              <FormattedMessage
-                defaultMessage="(optional)"
-                id="channel_modal.optional"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="col-sm-9"
-          >
-            <textarea
-              className="form-control no-resize"
-              id="newPublicChannelHeader"
-              maxLength="1024"
-              onChange={[Function]}
-              placeholder="E.g.: \\"[Link Title](http://example.com)\\""
-              rows="4"
-              tabIndex="3"
-              value=""
-            />
-            <p
-              className="input__help"
-            >
-              <FormattedMessage
-                defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
-                id="channel_modal.headerHelp"
-                values={Object {}}
-              />
-            </p>
-          </div>
-        </div>
-      </ModalBody>
-      <ModalFooter
-        bsClass="modal-footer"
-        componentClass="div"
-      >
-        <button
-          className="btn btn-default"
-          onBlur={[Function]}
-          onClick={[MockFunction]}
-          tabIndex="8"
-          type="button"
-        >
-          <FormattedMessage
-            defaultMessage="Cancel"
-            id="channel_modal.cancel"
-            values={Object {}}
-          />
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={[Function]}
-          tabIndex="4"
-          type="submit"
-        >
-          <FormattedMessage
-            defaultMessage="Create New Channel"
-            id="channel_modal.createNew"
-            values={Object {}}
-          />
-        </button>
-      </ModalFooter>
-    </form>
-  </Modal>
-</span>
-`;
-
-exports[`components/NewChannelModal should match snapshot, without option to create public or private channels 1`] = `
-<span>
-  <Modal
-    animation={true}
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    bsSize="large"
-    dialogClassName="new-channel__modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
-      }
-    }
-    onHide={[MockFunction]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    show={true}
-  >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={false}
-      closeLabel="Close"
-    >
-      <button
-        className="close"
-        onClick={[MockFunction]}
-        tabIndex="5"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
-        </span>
-      </button>
-      <ModalTitle
-        bsClass="modal-title"
-        componentClass="h4"
-      >
-        <FormattedMessage
-          defaultMessage="New Channel"
-          id="channel_modal.modalTitle"
-          values={Object {}}
-        />
-      </ModalTitle>
-    </ModalHeader>
-    <form
-      className="form-horizontal"
-      role="form"
-    >
-      <ModalBody
-        bsClass="modal-body"
-        componentClass="div"
-      >
-        <div>
-          <div
-            className="modal-intro"
-          >
-            <FormattedMessage
-              defaultMessage="Create a new public channel anyone can join. "
-              id="channel_modal.publicChannel2"
-              values={Object {}}
-            />
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="col-sm-3 form__label control-label"
-          >
-            <FormattedMessage
-              defaultMessage="Name"
-              id="channel_modal.name"
-              values={Object {}}
-            />
-          </label>
-          <div
-            className="col-sm-9"
-          >
-            <input
-              autoFocus={true}
-              className="form-control"
-              id="newPublicChannelName"
-              maxLength={22}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              placeholder="E.g.: \\"Bugs\\", \\"Marketing\\", \\"客户支持\\""
-              tabIndex="1"
-              type="text"
-              value="testchannel"
-            />
-            <p
-              className="input__help dark"
-            >
-              URL: /testchannel (
-              <button
-                className="color--link style--none"
-                onClick={[Function]}
-                tabIndex="7"
-              >
-                <FormattedMessage
-                  defaultMessage="Edit"
-                  id="channel_modal.edit"
-                  values={Object {}}
-                />
-              </button>
-              )
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <div
-            className="col-sm-3"
-          >
-            <label
-              className="form__label control-label"
-            >
-              <FormattedMessage
-                defaultMessage="Purpose"
-                id="channel_modal.purpose"
-                values={Object {}}
-              />
-            </label>
-            <label
-              className="form__label light"
-            >
-              <FormattedMessage
-                defaultMessage="(optional)"
-                id="channel_modal.optional"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="col-sm-9"
-          >
-            <textarea
-              className="form-control no-resize"
-              id="newPublicChannelPurpose"
-              maxLength="250"
-              onChange={[Function]}
-              placeholder="E.g.: \\"A channel to file bugs and improvements\\""
-              rows="4"
-              tabIndex="2"
-              value=""
-            />
-            <p
-              className="input__help"
-            >
-              <FormattedMessage
-                defaultMessage="Describe how this channel should be used."
-                id="channel_modal.descriptionHelp"
-                values={Object {}}
-              />
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group less"
-        >
-          <div
-            className="col-sm-3"
-          >
-            <label
-              className="form__label control-label"
-            >
-              <FormattedMessage
-                defaultMessage="Header"
-                id="channel_modal.header"
-                values={Object {}}
-              />
-            </label>
-            <label
-              className="form__label light"
-            >
-              <FormattedMessage
-                defaultMessage="(optional)"
-                id="channel_modal.optional"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="col-sm-9"
-          >
-            <textarea
-              className="form-control no-resize"
-              id="newPublicChannelHeader"
-              maxLength="1024"
-              onChange={[Function]}
-              placeholder="E.g.: \\"[Link Title](http://example.com)\\""
-              rows="4"
-              tabIndex="3"
-              value=""
             />
             <p
               className="input__help"

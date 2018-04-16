@@ -8,10 +8,9 @@ import PDFJS from 'pdfjs-dist';
 
 import loadingGif from 'images/load.gif';
 
-import FileInfoPreview from './file_info_preview.jsx';
+import FileInfoPreview from 'components/file_info_preview';
 
 const MAX_PDF_PAGES = 5;
-PDFJS.disableWorker = true;
 
 export default class PDFPreview extends React.PureComponent {
     static propTypes = {

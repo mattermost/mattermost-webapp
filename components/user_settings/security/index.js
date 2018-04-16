@@ -3,9 +3,11 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {clearUserAccessTokens, createUserAccessToken, getMe, getUserAccessTokensForUser, revokeUserAccessToken, enableUserAccessToken, disableUserAccessToken} from 'mattermost-redux/actions/users';
+import {getMe} from 'mattermost-redux/actions/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+
+import {getPasswordConfig} from 'utils/utils.jsx';
 
 import SecurityTab from './user_settings_security.jsx';
 
@@ -31,7 +33,6 @@ function mapStateToProps(state, ownProps) {
     const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     return {
-        userAccessTokens: state.entities.users.myUserAccessTokens,
         canUseAccessTokens: tokensEnabled && userHasTokenRole,
         isLicensed,
         mfaLicensed,
@@ -45,6 +46,7 @@ function mapStateToProps(state, ownProps) {
         enableSaml,
         enableSignUpWithOffice365,
         experimentalEnableAuthenticationTransfer,
+        passwordConfig: getPasswordConfig(license, config),
     };
 }
 
@@ -52,12 +54,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getMe,
-            getUserAccessTokensForUser,
-            createUserAccessToken,
-            revokeUserAccessToken,
-            enableUserAccessToken,
-            disableUserAccessToken,
-            clearUserAccessTokens,
         }, dispatch),
     };
 }

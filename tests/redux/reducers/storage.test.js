@@ -7,6 +7,8 @@ import storageReducer from 'reducers/storage';
 import {StorageTypes} from 'utils/constants';
 
 describe('Reducers.Storage', () => {
+    const now = new Date();
+
     it('Storage.SET_ITEM', async () => {
         const nextState = storageReducer(
             {
@@ -18,13 +20,14 @@ describe('Reducers.Storage', () => {
                     name: 'key',
                     prefix: 'user_id_',
                     value: 'value',
+                    timestamp: now,
                 },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                user_id_key: 'value',
+                user_id_key: {value: 'value', timestamp: now},
             }
         );
     });
@@ -39,13 +42,14 @@ describe('Reducers.Storage', () => {
                 data: {
                     name: 'key',
                     value: 'value',
+                    timestamp: now,
                 },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                key: 'value',
+                key: {value: 'value', timestamp: now},
             }
         );
     });
@@ -126,8 +130,8 @@ describe('Reducers.Storage', () => {
         const nextState = storageReducer(
             {
                 storage: {
-                    key: 'value',
-                    excluded: 'not-cleared',
+                    key: {value: 'value', timestamp: now},
+                    excluded: {value: 'not-cleared', timestamp: now},
                 },
             },
             {
@@ -140,7 +144,7 @@ describe('Reducers.Storage', () => {
         assert.deepEqual(
             nextState.storage,
             {
-                excluded: 'not-cleared',
+                excluded: {value: 'not-cleared', timestamp: now},
             }
         );
     });
@@ -150,9 +154,9 @@ describe('Reducers.Storage', () => {
         storageReducer(
             {
                 storage: {
-                    user_id_prefix_key1: 1,
-                    user_id_prefix_key2: 2,
-                    user_id_not_prefix_key: 3,
+                    user_id_prefix_key1: {value: 1, timestamp: now},
+                    user_id_prefix_key2: {value: 2, timestamp: now},
+                    user_id_not_prefix_key: {value: 3, timestamp: now},
                 },
             },
             {
@@ -175,9 +179,9 @@ describe('Reducers.Storage', () => {
         storageReducer(
             {
                 storage: {
-                    prefix_key1: 1,
-                    prefix_key2: 2,
-                    not_prefix_key: 3,
+                    prefix_key1: {value: 1, timestamp: now},
+                    prefix_key2: {value: 2, timestamp: now},
+                    not_prefix_key: {value: 3, timestamp: now},
                 },
             },
             {

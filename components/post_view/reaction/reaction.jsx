@@ -48,6 +48,16 @@ export default class Reaction extends React.PureComponent {
         reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /*
+         * True if the user has the permission to add a reaction in this channel
+         */
+        canAddReaction: PropTypes.bool.isRequired,
+
+        /*
+         * True if user has the permission to remove his own reactions in this channel
+         */
+        canRemoveReaction: PropTypes.bool.isRequired,
+
+        /*
          * The URL of the emoji image
          */
         emojiImageUrl: PropTypes.string.isRequired,
@@ -107,7 +117,7 @@ export default class Reaction extends React.PureComponent {
             if (user.id === this.props.currentUserId) {
                 currentUserReacted = true;
             } else {
-                users.push(Utils.displayUsernameForUser(user));
+                users.push(Utils.getDisplayNameByUser(user));
             }
         }
 
@@ -205,16 +215,18 @@ export default class Reaction extends React.PureComponent {
         let clickTooltip;
         let className = 'post-reaction';
         if (currentUserReacted) {
-            handleClick = this.removeReaction;
-            clickTooltip = (
-                <FormattedMessage
-                    id='reaction.clickToRemove'
-                    defaultMessage='(click to remove)'
-                />
-            );
+            if (this.props.canRemoveReaction) {
+                handleClick = this.removeReaction;
+                clickTooltip = (
+                    <FormattedMessage
+                        id='reaction.clickToRemove'
+                        defaultMessage='(click to remove)'
+                    />
+                );
+            }
 
             className += ' post-reaction--current-user';
-        } else {
+        } else if (!currentUserReacted && this.props.canAddReaction) {
             handleClick = this.addReaction;
             clickTooltip = (
                 <FormattedMessage

@@ -83,6 +83,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         describe={
           <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
             defaultMessage="On"
             id="user.settings.display.linkPreviewOn"
             values={Object {}}
@@ -153,6 +177,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMax
+        containerStyle=""
         infoPosition="bottom"
         inputs={
           Array [
@@ -302,6 +327,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMax
+        containerStyle=""
         infoPosition="bottom"
         inputs={
           Array [
@@ -362,6 +388,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
             values={Object {}}
           />
         }
@@ -573,6 +623,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         describe={
           <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
             defaultMessage="On"
             id="user.settings.display.linkPreviewOn"
             values={Object {}}
@@ -595,6 +669,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMax
+        containerStyle=""
         infoPosition="bottom"
         inputs={
           Array [
@@ -818,6 +893,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         describe={
           <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
             defaultMessage="On"
             id="user.settings.display.linkPreviewOn"
             values={Object {}}
@@ -918,6 +1017,11 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           Object {
             "id": "user_id",
             "locale": "en",
+            "timezone": Object {
+              "automaticTimezone": "America/New_York",
+              "manualTimezone": "",
+              "useAutomaticTimezone": "true",
+            },
             "username": "username",
           }
         }
@@ -1000,6 +1104,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
             values={Object {}}
           />
         }
@@ -1184,7 +1312,32 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
       <SettingItemMax
+        containerStyle=""
         infoPosition="bottom"
         inputs={
           Array [
@@ -1432,6 +1585,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         describe={
           <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
             defaultMessage="On"
             id="user.settings.display.linkPreviewOn"
             values={Object {}}
@@ -1478,6 +1655,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMax
+        containerStyle=""
         infoPosition="bottom"
         inputs={
           Array [
@@ -1697,6 +1875,252 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         describe={
           <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="linkpreview"
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="collapse"
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="message_display"
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="channel_display_mode"
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        focused={false}
+        section="languages"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, teammate name display section 1`] = `
+<div
+  id="displaySettings"
+>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <i
+          className="fa fa-angle-left"
+          onClick={[MockFunction]}
+        />
+      </div>
+      <FormattedMessage
+        defaultMessage="Display Settings"
+        id="user.settings.display.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+      id="displaySettingsTitle"
+    >
+      <FormattedMessage
+        defaultMessage="Display Settings"
+        id="user.settings.display.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="clock"
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
             defaultMessage="On"
             id="user.settings.display.linkPreviewOn"
             values={Object {}}
@@ -1882,6 +2306,30 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
             values={Object {}}
           />
         }
@@ -2091,6 +2539,252 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="linkpreview"
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="collapse"
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="message_display"
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="channel_display_mode"
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        focused={false}
+        section="languages"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, timezone section 1`] = `
+<div
+  id="displaySettings"
+>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <i
+          className="fa fa-angle-left"
+          onClick={[MockFunction]}
+        />
+      </div>
+      <FormattedMessage
+        defaultMessage="Display Settings"
+        id="user.settings.display.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+      id="displaySettingsTitle"
+    >
+      <FormattedMessage
+        defaultMessage="Display Settings"
+        id="user.settings.display.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        focused={false}
+        section="clock"
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+            values={Object {}}
+          />
+        }
+        focused={true}
+        section="name_format"
+        title={
+          <FormattedMessage
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
             values={Object {}}
           />
         }

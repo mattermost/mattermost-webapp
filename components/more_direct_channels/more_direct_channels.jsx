@@ -53,7 +53,7 @@ export default class MoreDirectChannels extends React.Component {
         /**
          * Function to call on modal hide
          */
-        onHide: PropTypes.func.isRequired,
+        onHide: PropTypes.func,
 
         actions: PropTypes.shape({
 
@@ -90,8 +90,11 @@ export default class MoreDirectChannels extends React.Component {
         if (props.currentChannelMembers) {
             for (let i = 0; i < props.currentChannelMembers.length; i++) {
                 const user = Object.assign({}, props.currentChannelMembers[i]);
-                user.value = user.id;
-                user.label = '@' + user.username;
+
+                if (user.id === props.currentUserId) {
+                    continue;
+                }
+
                 values.push(user);
             }
         }
@@ -202,8 +205,6 @@ export default class MoreDirectChannels extends React.Component {
 
         for (let i = 0; i < users.length; i++) {
             const user = Object.assign({}, users[i]);
-            user.value = user.id;
-            user.label = '@' + user.username;
             users[i] = user;
         }
 
@@ -351,14 +352,14 @@ export default class MoreDirectChannels extends React.Component {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note.full'
-                        defaultMessage='You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'
+                        defaultMessage={'You\'ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'}
                     />
                 );
             } else if (this.props.isExistingChannel) {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note'
-                        defaultMessage='This will start a new conversation. If you’re adding a lot of people, consider creating a private channel instead.'
+                        defaultMessage={'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.'}
                     />
                 );
             }
@@ -411,6 +412,7 @@ export default class MoreDirectChannels extends React.Component {
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
+                        valueKey='id'
                         valueRenderer={this.renderValue}
                         perPage={USERS_PER_PAGE}
                         handlePageChange={this.handlePageChange}

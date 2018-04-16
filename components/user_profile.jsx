@@ -8,7 +8,7 @@ import {OverlayTrigger} from 'react-bootstrap';
 import Pluggable from 'plugins/pluggable';
 import * as Utils from 'utils/utils.jsx';
 
-import ProfilePopover from './profile_popover.jsx';
+import ProfilePopover from './profile_popover';
 
 export default class UserProfile extends React.Component {
     constructor(props) {
@@ -56,8 +56,8 @@ export default class UserProfile extends React.Component {
         let name = '...';
         let profileImg = '';
 
-        if (this.props.user) {
-            name = Utils.displayUsername(this.props.user.id);
+        if (this.props.user && this.props.user.id) {
+            name = Utils.getDisplayNameByUserId(this.props.user.id);
             profileImg = Utils.imageURLForUser(this.props.user);
         }
 

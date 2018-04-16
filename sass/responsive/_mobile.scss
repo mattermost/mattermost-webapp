@@ -1,6 +1,12 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .textarea-wrapper {
+        .help__text {
+            display: none;
+        }
+    }
+
     .webrtc__option {
         display: none;
     }
@@ -44,6 +50,8 @@
     }
 
     .post-create__container {
+        z-index: 2;
+
         .post-create-footer {
             padding: 0 10px;
         }
@@ -949,7 +957,7 @@
                 height: calc(100% - 48px);
                 left: 0;
                 overflow: auto;
-                padding: 1.4em 0 0;
+                padding: 2.5em 0 0;
                 position: fixed;
                 top: 48px;
                 visibility: hidden;
@@ -963,21 +971,21 @@
                 .close {
                     @include border-radius(50%);
                     border: 1px solid $white;
-                    bottom: 25px;
                     color: $white;
                     display: block;
                     font-family: 'Open Sans', sans-serif;
                     font-size: 23px;
                     font-weight: 200;
                     height: 30px;
-                    left: 50%;
                     line-height: 0;
                     margin-left: -15px;
                     opacity: 1;
                     padding-top: 13px;
                     position: fixed;
+                    right: 20px;
                     text-align: center;
                     text-shadow: none;
+                    top: 20px;
                     width: 30px;
                 }
 
@@ -990,7 +998,7 @@
                         line-height: 35px;
                         margin: 0 auto;
                         text-align: center;
-                        width: 90%;
+                        width: 70%;
 
                         &:hover {
                             background: transparent;
@@ -1029,6 +1037,7 @@
 
     .footer-pane {
         .footer-link {
+            display: block;
             line-height: 1.7;
             padding: 0;
             text-align: right;
@@ -1057,6 +1066,7 @@
             background: $white;
             border: none;
             margin-top: 9px;
+            padding-left: 40px;
             width: 100%;
 
             .fa-spin {
@@ -1071,7 +1081,7 @@
 
             .search__icon {
                 left: 15px;
-                top: 7px;
+                top: 8px;
 
                 svg {
                     stroke: $black;
@@ -1251,6 +1261,7 @@
             }
 
             .post-create-footer {
+                padding-right: 0;
                 padding-top: 10px;
 
                 .control-label {
@@ -1426,7 +1437,7 @@
 }
 
 @media screen and (max-width: 640px) {
-    .col__reply {
+    .post__header {
         .dropdown-menu {
             > li {
                 > button {
@@ -1802,6 +1813,22 @@
 }
 
 @media screen and (max-width: 320px) {
+    .filter-row {
+        .Select--multi {
+            .Select-multi-value-wrapper {
+                display: block;
+                max-height: 50px;
+                overflow: auto;
+            }
+        }
+
+        .Select-input {
+            > input {
+                padding: 8px 0;
+            }
+        }
+    }
+
     .post {
         &.post--system {
              .post__header {

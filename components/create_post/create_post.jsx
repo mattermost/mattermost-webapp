@@ -19,11 +19,11 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
-import MsgTyping from 'components/msg_typing.jsx';
+import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
-import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -123,6 +123,11 @@ export default class CreatePost extends React.Component {
          * Whether to check with the user before notifying the whole channel.
          */
         enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
+
+        /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
 
         actions: PropTypes.shape({
 
@@ -418,9 +423,9 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
-            if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
+            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.textbox).blur();
                 this.handleSubmit(e);
@@ -536,8 +541,9 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                // draft.uploadsInProgress.splice(index, 1);
-                this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                }
             }
         } else {
             const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
@@ -557,7 +563,7 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        if ((Utils.cmdOrCtrlPressed(e)) && e.keyCode === KeyCodes.FORWARD_SLASH) {
+        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -587,12 +593,12 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && ctrlOrMetaKeyPressed;
-        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
-        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
+        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
         if (ctrlEnterKeyCombo) {
@@ -601,9 +607,9 @@ export default class CreatePost extends React.Component {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
             this.replyToLastPost(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.UP) {
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
             this.loadPrevMessage(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.DOWN) {
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
         }
     }
@@ -868,6 +874,7 @@ export default class CreatePost extends React.Component {
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
+                                characterLimit={this.props.maxPostSize}
                             />
                             <span
                                 ref='createPostControls'
@@ -891,7 +898,7 @@ export default class CreatePost extends React.Component {
                     >
                         <MsgTyping
                             channelId={currentChannel.id}
-                            parentId=''
+                            postId=''
                         />
                         {postError}
                         {preview}

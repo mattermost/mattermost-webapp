@@ -7,8 +7,6 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
-import IntegrationStore from 'stores/integration_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 
@@ -18,46 +16,29 @@ export default class ConfirmIntegration extends React.Component {
             team: PropTypes.object,
             location: PropTypes.object,
             commands: PropTypes.object,
-            loading: PropTypes.bool,
+            oauthApps: PropTypes.object,
+            incomingHooks: PropTypes.object,
+            outgoingHooks: PropTypes.object,
         };
     }
 
     constructor(props) {
         super(props);
-
-        this.handleIntegrationChange = this.handleIntegrationChange.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-
-        const userId = UserStore.getCurrentId();
-
         this.state = {
             type: (new URLSearchParams(this.props.location.search)).get('type'),
             id: (new URLSearchParams(this.props.location.search)).get('id'),
-            oauthApps: IntegrationStore.getOAuthApps(userId),
-            loading: !IntegrationStore.hasReceivedOAuthApps(userId),
         };
     }
 
     componentDidMount() {
-        IntegrationStore.addChangeListener(this.handleIntegrationChange);
         window.addEventListener('keypress', this.handleKeyPress);
     }
 
     componentWillUnmount() {
-        IntegrationStore.removeChangeListener(this.handleIntegrationChange);
         window.removeEventListener('keypress', this.handleKeyPress);
     }
 
-    handleIntegrationChange() {
-        const userId = UserStore.getCurrentId();
-
-        this.setState({
-            oauthApps: IntegrationStore.getOAuthApps(userId),
-            loading: !IntegrationStore.hasReceivedOAuthApps(userId),
-        });
-    }
-
-    handleKeyPress(e) {
+    handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             browserHistory.push('/' + this.props.team.name + '/integrations/' + this.state.type);
         }
@@ -68,97 +49,95 @@ export default class ConfirmIntegration extends React.Component {
         let helpText = null;
         let tokenText = null;
 
-        if (this.props.loading === true) {
-            return (<div/>);
-        }
-
         if (this.state.type === Constants.Integrations.COMMAND) {
-            headerText = (
-                <FormattedMessage
-                    id={'installed_commands.header'}
-                    defaultMessage='Slash Commands'
-                />
-            );
-            helpText = (
-                <p>
-                    <FormattedHTMLMessage
-                        id='add_command.doneHelp'
-                        defaultMessage='Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href="https://docs.mattermost.com/developer/slash-commands.html">documentation</a> for further details).'
+            const command = this.props.commands[this.state.id];
+            if (command) {
+                headerText = (
+                    <FormattedMessage
+                        id={'installed_commands.header'}
+                        defaultMessage='Slash Commands'
                     />
-                </p>
-            );
-            tokenText = (
-                <p className='word-break--all'>
-                    <FormattedHTMLMessage
-                        id='add_command.token'
-                        defaultMessage='<b>Token</b>: {token}'
-                        values={{
-                            token: this.props.commands[this.state.id].token,
-                        }}
-                    />
-                </p>
-            );
-        } else if (this.state.type === Constants.Integrations.INCOMING_WEBHOOK) {
-            headerText = (
-                <FormattedMessage
-                    id={'installed_incoming_webhooks.header'}
-                    defaultMessage='Incoming Webhooks'
-                />
-            );
-            helpText = (
-                <p>
-                    <FormattedHTMLMessage
-                        id='add_incoming_webhook.doneHelp'
-                        defaultMessage='Your incoming webhook has been set up. Please send data to the following URL (see <a href=\"https://docs.mattermost.com/developer/webhooks-incoming.html\">documentation</a> for further details).'
-                    />
-                </p>
-            );
-            tokenText = (
-                <p className='word-break--all'>
-                    <FormattedHTMLMessage
-                        id='add_incoming_webhook.url'
-                        defaultMessage='<b>URL</b>: {url}'
-                        values={{
-                            url: window.location.origin + '/hooks/' + this.state.id,
-                        }}
-                    />
-                </p>
-            );
-        } else if (this.state.type === Constants.Integrations.OUTGOING_WEBHOOK) {
-            headerText = (
-                <FormattedMessage
-                    id={'installed_outgoing_webhooks.header'}
-                    defaultMessage='Outgoing Webhooks'
-                />
-            );
-            helpText = (
-                <p>
-                    <FormattedHTMLMessage
-                        id='add_outgoing_webhook.doneHelp'
-                        defaultMessage='Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href=\"https://docs.mattermost.com/developer/webhooks-outgoing.html\">documentation</a> for further details).'
-                    />
-                </p>
-            );
-            tokenText = (
-                <p className='word-break--all'>
-                    <FormattedHTMLMessage
-                        id='add_outgoing_webhook.token'
-                        defaultMessage='<b>Token</b>: {token}'
-                        values={{
-                            token: IntegrationStore.getOutgoingWebhook(this.props.team.id, this.state.id).token,
-                        }}
-                    />
-                </p>
-            );
-        } else if (this.state.type === Constants.Integrations.OAUTH_APP) {
-            let oauthApp = {};
-            for (var i = 0; i < this.state.oauthApps.length; i++) {
-                if (this.state.oauthApps[i].id === this.state.id) {
-                    oauthApp = this.state.oauthApps[i];
-                    break;
-                }
+                );
+                helpText = (
+                    <p>
+                        <FormattedHTMLMessage
+                            id='add_command.doneHelp'
+                            defaultMessage='Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href="https://docs.mattermost.com/developer/slash-commands.html">documentation</a> for further details).'
+                        />
+                    </p>
+                );
+                tokenText = (
+                    <p className='word-break--all'>
+                        <FormattedHTMLMessage
+                            id='add_command.token'
+                            defaultMessage='<b>Token</b>: {token}'
+                            values={{
+                                token: command.token,
+                            }}
+                        />
+                    </p>
+                );
             }
-
+        } else if (this.state.type === Constants.Integrations.INCOMING_WEBHOOK) {
+            const incomingHook = this.props.incomingHooks[this.state.id];
+            if (incomingHook) {
+                headerText = (
+                    <FormattedMessage
+                        id={'installed_incoming_webhooks.header'}
+                        defaultMessage='Incoming Webhooks'
+                    />
+                );
+                helpText = (
+                    <p>
+                        <FormattedHTMLMessage
+                            id='add_incoming_webhook.doneHelp'
+                            defaultMessage='Your incoming webhook has been set up. Please send data to the following URL (see <a href=\"https://docs.mattermost.com/developer/webhooks-incoming.html\">documentation</a> for further details).'
+                        />
+                    </p>
+                );
+                tokenText = (
+                    <p className='word-break--all'>
+                        <FormattedHTMLMessage
+                            id='add_incoming_webhook.url'
+                            defaultMessage='<b>URL</b>: {url}'
+                            values={{
+                                url: window.location.origin + '/hooks/' + incomingHook.id,
+                            }}
+                        />
+                    </p>
+                );
+            }
+        } else if (this.state.type === Constants.Integrations.OUTGOING_WEBHOOK) {
+            const outgoingHook = this.props.outgoingHooks[this.state.id];
+            if (outgoingHook) {
+                headerText = (
+                    <FormattedMessage
+                        id={'installed_outgoing_webhooks.header'}
+                        defaultMessage='Outgoing Webhooks'
+                    />
+                );
+                helpText = (
+                    <p>
+                        <FormattedHTMLMessage
+                            id='add_outgoing_webhook.doneHelp'
+                            defaultMessage='Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href=\"https://docs.mattermost.com/developer/webhooks-outgoing.html\">documentation</a> for further details).'
+                        />
+                    </p>
+                );
+                tokenText = (
+                    <p className='word-break--all'>
+                        <FormattedHTMLMessage
+                            id='add_outgoing_webhook.token'
+                            defaultMessage='<b>Token</b>: {token}'
+                            values={{
+                                token: outgoingHook.token,
+                            }}
+                        />
+                    </p>
+                );
+            }
+        } else if (this.state.type === Constants.Integrations.OAUTH_APP) {
+            const oauthApp = this.props.oauthApps[this.state.id];
             if (oauthApp) {
                 headerText = (
                     <FormattedMessage
@@ -182,7 +161,7 @@ export default class ConfirmIntegration extends React.Component {
                             id='add_oauth_app.clientId'
                             defaultMessage='<b>Client ID:</b> {id}'
                             values={{
-                                id: this.state.id,
+                                id: oauthApp.id,
                             }}
                         /> <br/>
                         <FormattedHTMLMessage

@@ -3,16 +3,20 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import {searchProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
+import {sortByUsername} from 'mattermost-redux/utils/user_utils';
 
 import {loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 
@@ -52,7 +56,6 @@ export default class MemberListChannel extends React.Component {
 
     componentDidMount() {
         UserStore.addInChannelChangeListener(this.onChange);
-        UserStore.addStatusesChangeListener(this.onChange);
         TeamStore.addChangeListener(this.onChange);
         ChannelStore.addChangeListener(this.onChange);
         ChannelStore.addStatsChangeListener(this.onStatsChange);
@@ -63,7 +66,6 @@ export default class MemberListChannel extends React.Component {
 
     componentWillUnmount() {
         UserStore.removeInTeamChangeListener(this.onChange);
-        UserStore.removeStatusesChangeListener(this.onChange);
         TeamStore.removeChangeListener(this.onChange);
         ChannelStore.removeChangeListener(this.onChange);
         ChannelStore.removeStatsChangeListener(this.onStatsChange);
@@ -109,8 +111,7 @@ export default class MemberListChannel extends React.Component {
             const user = users[i];
 
             if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
-                const status = UserStore.getStatus(user.id);
-                usersToDisplay.push({...user, status});
+                usersToDisplay.push(user);
 
                 actionUserProps[user.id] = {
                     channel: this.props.channel,
@@ -120,10 +121,8 @@ export default class MemberListChannel extends React.Component {
             }
         }
 
-        usersToDisplay.sort(Utils.sortUsersByStatusAndDisplayName);
-
         this.setState({
-            usersToDisplay,
+            usersToDisplay: usersToDisplay.sort(sortByUsername),
             actionUserProps,
         });
     }

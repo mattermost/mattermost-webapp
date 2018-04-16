@@ -4,13 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {showDeletePostModal, showGetPostLinkModal} from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import DotMenuItem from 'components/dot_menu/dot_menu_item.jsx';
 
 jest.mock('actions/global_actions.jsx', () => {
     return {
-        showDeletePostModal: jest.fn(),
         showGetPostLinkModal: jest.fn(),
     };
 });
@@ -21,6 +19,11 @@ describe('components/dot_menu/DotMenuItem', () => {
             idPrefix: 'idPrefixDotMenuReply',
             idCount: -1,
             handleOnClick: jest.fn(),
+            actions: {
+                pinPost: jest.fn(),
+                unpinPost: jest.fn(),
+                openModal: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -42,6 +45,11 @@ describe('components/dot_menu/DotMenuItem', () => {
             idPrefix: 'idPrefixDotMenuPermalink',
             idCount: -1,
             post: {id: 'post_id_1'},
+            actions: {
+                pinPost: jest.fn(),
+                unpinPost: jest.fn(),
+                openModal: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -66,6 +74,7 @@ describe('components/dot_menu/DotMenuItem', () => {
             actions: {
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 
@@ -93,6 +102,7 @@ describe('components/dot_menu/DotMenuItem', () => {
             actions: {
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 
@@ -114,6 +124,11 @@ describe('components/dot_menu/DotMenuItem', () => {
             idCount: -1,
             post: {id: 'post_id_1'},
             commentCount: 0,
+            actions: {
+                pinPost: jest.fn(),
+                unpinPost: jest.fn(),
+                openModal: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -123,7 +138,7 @@ describe('components/dot_menu/DotMenuItem', () => {
         expect(wrapper).toMatchSnapshot();
 
         wrapper.find('button').first().simulate('click', {preventDefault: jest.fn()});
-        expect(showDeletePostModal).toHaveBeenCalledTimes(1);
+        expect(props.actions.openModal).toHaveBeenCalledTimes(1);
 
         expect(wrapper.find('#idPrefixDotMenuDelete5').exists()).toBe(false);
         wrapper.setProps({idCount: 5});
@@ -132,7 +147,7 @@ describe('components/dot_menu/DotMenuItem', () => {
 
     test('should match snapshot, on RHS_ROOT', () => {
         const props = {
-            idPrefix: Constants.RHS_ROOT,
+            idPrefix: 'rhsrootDotMenuDelete',
             idCount: -1,
             post: {id: 'post_id_1'},
             commentCount: 0,
@@ -142,6 +157,6 @@ describe('components/dot_menu/DotMenuItem', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#rhsroot').exists()).toBe(true);
+        expect(wrapper.find('#rhsrootDotMenuDelete').exists()).toBe(true);
     });
 });

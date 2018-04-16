@@ -2,12 +2,21 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
-import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannelsInCurrentTeam,
+    getGroupChannels,
+    getSortedUnreadChannelIds,
+    makeGetChannel,
+} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
+import {searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -23,9 +32,24 @@ import Suggestion from './suggestion.jsx';
 const getState = store.getState;
 
 class SwitchChannelSuggestion extends Suggestion {
+    static get propTypes() {
+        return {
+            ...super.propTypes,
+            channelMember: PropTypes.object,
+        };
+    }
+
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
+
+        const member = this.props.channelMember;
+        let badge = null;
+        if (member) {
+            if (member.notify_props && member.mention_count > 0) {
+                badge = <span className='badge'>{member.mention_count}</span>;
+            }
+        }
 
         let className = 'mentions__name';
         if (isSelection) {
@@ -63,10 +87,20 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 {displayName}
+                {badge}
             </div>
         );
     }
 }
+
+function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
+    const channelId = ownProps.item && ownProps.item.channel ? ownProps.item.channel.id : '';
+    return {
+        channelMember: getMyChannelMemberships(state)[channelId],
+    };
+}
+
+const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannelSuggestion)(SwitchChannelSuggestion);
 
 let prefix = '';
 
@@ -149,26 +183,28 @@ export default class SwitchChannelProvider extends Provider {
 
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getGroupChannels(getState()));
-            const users = Object.assign([], searchProfiles(getState(), channelPrefix, true));
+            const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
             this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users, true);
 
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, suggestionId);
-
-            return true;
+        } else {
+            this.formatUnreadChannelsAndDispatch(suggestionId);
         }
 
-        return false;
+        return true;
     }
 
     async fetchUsersAndChannels(channelPrefix, suggestionId) {
-        const teamId = getCurrentTeamId(getState());
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
         if (!teamId) {
             return;
         }
 
+        const config = getConfig(state);
         let usersAsync;
-        if (global.window.mm_config.RestrictDirectMessage === 'team') {
+        if (config.RestrictDirectMessage === 'team') {
             usersAsync = Client4.autocompleteUsers(channelPrefix, teamId, '');
         } else {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
@@ -192,9 +228,38 @@ export default class SwitchChannelProvider extends Provider {
             return;
         }
 
-        const users = Object.assign([], searchProfiles(getState(), channelPrefix, true)).concat(usersFromServer.users);
-        const channels = getChannelsInCurrentTeam(getState()).concat(getGroupChannels(getState())).concat(channelsFromServer);
+        const users = Object.assign([], searchProfiles(state, channelPrefix, false)).concat(usersFromServer.users);
+        const channels = getChannelsInCurrentTeam(state).concat(getGroupChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
+    }
+
+    userWrappedChannel(user) {
+        let displayName = `@${user.username}`;
+
+        if ((user.first_name || user.last_name) && user.nickname) {
+            displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
+        } else if (user.nickname) {
+            displayName += ` - (${user.nickname})`;
+        } else if (user.first_name || user.last_name) {
+            displayName += ` - ${Utils.getFullName(user)}`;
+        }
+
+        if (user.delete_at) {
+            displayName += ' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated');
+        }
+
+        return {
+            channel: {
+                display_name: displayName,
+                name: user.username,
+                id: user.id,
+                update_at: user.update_at,
+                type: Constants.DM_CHANNEL,
+                last_picture_update: user.last_picture_update || 0,
+            },
+            name: user.username,
+            deactivated: user.delete_at,
+        };
     }
 
     formatChannelsAndDispatch(channelPrefix, suggestionId, allChannels, users, skipNotInChannel = false) {
@@ -205,8 +270,6 @@ export default class SwitchChannelProvider extends Provider {
         if (this.shouldCancelDispatch(channelPrefix)) {
             return;
         }
-
-        const currentId = getCurrentUserId(getState());
 
         const completedChannels = {};
 
@@ -256,36 +319,8 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
-            let displayName = `@${user.username}`;
 
-            if (user.id === currentId) {
-                continue;
-            }
-
-            if ((user.first_name || user.last_name) && user.nickname) {
-                displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                displayName += ` - (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                displayName += ` - ${Utils.getFullName(user)}`;
-            }
-
-            if (user.delete_at) {
-                displayName += ' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated');
-            }
-
-            const wrappedChannel = {
-                channel: {
-                    display_name: displayName,
-                    name: user.username,
-                    id: user.id,
-                    update_at: user.update_at,
-                    type: Constants.DM_CHANNEL,
-                    last_picture_update: user.last_picture_update || 0,
-                },
-                name: user.username,
-                deactivated: user.delete_at,
-            };
+            const wrappedChannel = this.userWrappedChannel(user);
 
             if (isDMVisible) {
                 wrappedChannel.type = Constants.MENTION_CHANNELS;
@@ -318,7 +353,42 @@ export default class SwitchChannelProvider extends Provider {
                 matchedPretext: channelPrefix,
                 terms: channelNames,
                 items: channels,
-                component: SwitchChannelSuggestion,
+                component: ConnectedSwitchChannelSuggestion,
+            });
+        }, 0);
+    }
+
+    formatUnreadChannelsAndDispatch(suggestionId) {
+        const getChannel = makeGetChannel();
+
+        const unreadChannelIds = getSortedUnreadChannelIds(getState(), false);
+
+        const channels = [];
+        for (let i = 0; i < unreadChannelIds.length; i++) {
+            const channel = getChannel(getState(), {id: unreadChannelIds[i]}) || {};
+
+            let wrappedChannel = {channel, name: channel.name, deactivated: false};
+            if (channel.type === Constants.GM_CHANNEL) {
+                wrappedChannel.name = getChannelDisplayName(channel);
+            } else if (channel.type === Constants.DM_CHANNEL) {
+                wrappedChannel = this.userWrappedChannel(
+                    getUser(getState(), Utils.getUserIdFromChannelId(channel.name))
+                );
+            }
+            wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
+            channels.push(wrappedChannel);
+        }
+
+        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.name);
+
+        setTimeout(() => {
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                id: suggestionId,
+                matchedPretext: '',
+                terms: channelNames,
+                items: channels,
+                component: ConnectedSwitchChannelSuggestion,
             });
         }, 0);
     }

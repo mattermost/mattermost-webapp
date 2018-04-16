@@ -2,9 +2,16 @@
 
 .post {
     .video-div {
+        @include border-radius(4px);
         margin-bottom: 8px;
         max-width: 480px;
+        overflow: hidden;
         position: relative;
+
+        iframe,
+        video {
+            display: block;
+        }
 
         .video-thumbnail {
             height: auto;
