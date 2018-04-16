@@ -38,7 +38,7 @@ const holders = defineMessages({
     },
     validImage: {
         id: 'user.settings.general.validImage',
-        defaultMessage: 'Only JPG or PNG images may be used for profile pictures',
+        defaultMessage: 'Only BMP, JPG or PNG images may be used for profile pictures',
     },
     imageTooLarge: {
         id: 'user.settings.general.imageTooLarge',
@@ -86,6 +86,8 @@ const prevSections = {
     email: 'position',
     picture: 'email',
 };
+
+const ACCEPTED_PROFILE_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
@@ -250,7 +252,7 @@ class UserSettingsGeneralTab extends React.Component {
         const {formatMessage} = this.props.intl;
         const file = this.state.pictureFile;
 
-        if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+        if (!ACCEPTED_PROFILE_IMAGE_TYPES.includes(file.type)) {
             this.setState({clientError: formatMessage(holders.validImage), serverError: ''});
             return;
         } else if (file.size > this.props.maxFileSize) {
@@ -724,6 +726,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 type='text'
                                 onChange={this.updateFirstName}
                                 value={this.state.firstName}
+                                onFocus={Utils.moveCursorToEnd}
                             />
                         </div>
                     </div>
@@ -966,6 +969,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 onChange={this.updateUsername}
                                 value={this.state.username}
                                 autoCapitalize='off'
+                                onFocus={Utils.moveCursorToEnd}
                             />
                         </div>
                     </div>
@@ -1056,6 +1060,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 value={this.state.position}
                                 maxLength={Constants.MAX_POSITION_LENGTH}
                                 autoCapitalize='off'
+                                onFocus={Utils.moveCursorToEnd}
                             />
                         </div>
                     </div>

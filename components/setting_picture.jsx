@@ -6,11 +6,15 @@ import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import exif2css from 'exif2css';
 
-import Constants from 'utils/constants.jsx';
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
+
+    static defaultProps = {
+        imageContext: 'profile',
+    };
+
     static propTypes = {
         clientError: PropTypes.string,
         serverError: PropTypes.string,
@@ -22,6 +26,7 @@ export default class SettingPicture extends Component {
         title: PropTypes.string,
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
+        imageContext: PropTypes.string,
     };
 
     constructor(props) {
@@ -112,7 +117,10 @@ export default class SettingPicture extends Component {
     }
 
     render() {
+        const imageContext = this.props.imageContext;
+
         let img;
+
         if (this.props.file) {
             const imageStyles = {
                 backgroundImage: 'url(' + this.state.image + ')',
@@ -121,17 +129,17 @@ export default class SettingPicture extends Component {
 
             img = (
                 <div
-                    className='profile-img-preview'
-                    alt='profile image preview'
+                    className={`${imageContext}-img-preview`}
+                    alt={`${imageContext} image preview`}
                     style={imageStyles}
                 />
             );
-        } else {
+        } else if (this.props.src) {
             img = (
                 <img
                     ref='image'
-                    className='profile-img rounded'
-                    alt='profile image'
+                    className={`${imageContext}-img`}
+                    alt={`${imageContext} image`}
                     src={this.props.src}
                 />
             );
@@ -177,17 +185,11 @@ export default class SettingPicture extends Component {
                 <li className='col-xs-12 section-title'>{this.props.title}</li>
                 <li className='col-xs-offset-3 col-xs-8'>
                     <ul className='setting-list'>
-                        <li className='setting-list-item'>
-                            {img}
-                        </li>
+                        {img ? <li className='setting-list-item'> {img} </li> : ''}
                         <li className='setting-list-item padding-top x2'>
                             <FormattedMessage
-                                id='setting_picture.help'
-                                defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format.'
-                                values={{
-                                    width: Constants.PROFILE_WIDTH,
-                                    height: Constants.PROFILE_WIDTH,
-                                }}
+                                id={`setting_picture.help.${imageContext}`}
+                                defaultMessage='Upload a picture in BMP, JPG or PNG format.'
                             />
                         </li>
                         <li className='setting-list-item'>

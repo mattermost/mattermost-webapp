@@ -14,18 +14,14 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class CustomBrandSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
-    }
-
     getConfigFromState(config) {
         config.TeamSettings.SiteName = this.state.siteName;
+
+        if (this.props.license.IsLicensed === 'true') {
+            config.TeamSettings.CustomDescriptionText = this.state.customDescriptionText;
+        }
+
         if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
-            config.TeamSettings.customDescriptionText = this.state.customDescriptionText;
             config.TeamSettings.EnableCustomBrand = this.state.enableCustomBrand;
             config.TeamSettings.CustomBrandText = this.state.customBrandText;
         }
@@ -139,7 +135,7 @@ export default class CustomBrandSettings extends AdminSettings {
                         />
                     }
                     maxLength={Constants.MAX_SITENAME_LENGTH}
-                    placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'Ex "Mattermost"')}
+                    placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'E.g.: "Mattermost"')}
                     helpText={
                         <FormattedMessage
                             id='admin.team.siteNameDescription'

@@ -2,7 +2,7 @@
 
 exports[`components/SettingItemMin should match snapshot 1`] = `
 <ul
-  className="section-max form-horizontal"
+  className="section-max form-horizontal "
 >
   <li
     className="col-sm-12 section-title"
@@ -35,7 +35,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
         />
         <button
           className="btn btn-sm cursor--pointer style--none"
-          id="titleCancel"
+          id="cancelSetting"
           onClick={[Function]}
         >
           <FormattedMessage
@@ -52,7 +52,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
 
 exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
 <ul
-  className="section-max form-horizontal"
+  className="section-max form-horizontal "
 >
   <li
     className="col-sm-12 section-title"
@@ -95,7 +95,7 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
         />
         <button
           className="btn btn-sm cursor--pointer style--none"
-          id="titleCancel"
+          id="cancelSetting"
           onClick={[Function]}
         >
           <FormattedMessage
@@ -112,7 +112,7 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
 
 exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
 <ul
-  className="section-max form-horizontal"
+  className="section-max form-horizontal "
 >
   <li
     className="col-sm-12 section-title"
@@ -155,7 +155,7 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
         />
         <button
           className="btn btn-sm cursor--pointer style--none"
-          id="titleCancel"
+          id="cancelSetting"
           onClick={[Function]}
         >
           <FormattedMessage
@@ -172,7 +172,7 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
 
 exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
 <ul
-  className="section-max form-horizontal"
+  className="section-max form-horizontal "
 >
   <li
     className="col-sm-12 section-title"
@@ -196,7 +196,7 @@ exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
         <hr />
         <button
           className="btn btn-sm cursor--pointer style--none"
-          id="titleCancel"
+          id="cancelSetting"
           onClick={[Function]}
         >
           <FormattedMessage

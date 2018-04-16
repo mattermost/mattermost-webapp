@@ -11,8 +11,7 @@ function mapStateToProps(state, ownProps) {
     const userId = ownProps.user ? ownProps.user.id : '';
 
     return {
-        ...ownProps,
-        userAccessTokens: state.entities.admin.userAccessTokens[userId],
+        userAccessTokens: state.entities.admin.userAccessTokensByUser[userId],
     };
 }
 

@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_notifications_modal/ChannelNotificationsModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="settings-modal settings-modal--tabless"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Notification Preferences for "
+        id="channel_notifications.preferences"
+        values={Object {}}
+      />
+      <span
+        className="name"
+      >
+        channel_display_name
+      </span>
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="settings-table"
+    >
+      <div
+        className="settings-content"
+      >
+        <div
+          className="user-settings"
+        >
+          <br />
+          <div
+            className="divider-dark first"
+          />
+          <NotificationSection
+            expand={false}
+            memberNotificationLevel="all"
+            onChange={[Function]}
+            onSubmit={[Function]}
+            onUpdateSection={[Function]}
+            section="markUnread"
+          />
+          <div>
+            <div
+              className="divider-light"
+            />
+            <NotificationSection
+              expand={false}
+              globalNotificationLevel="all"
+              memberNotificationLevel="all"
+              onChange={[Function]}
+              onSubmit={[Function]}
+              onUpdateSection={[Function]}
+              section="desktop"
+            />
+            <div
+              className="divider-light"
+            />
+            <NotificationSection
+              expand={false}
+              memberNotificationLevel="default"
+              onChange={[Function]}
+              onSubmit={[Function]}
+              onUpdateSection={[Function]}
+              section="push"
+            />
+          </div>
+          <div
+            className="divider-dark"
+          />
+        </div>
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;

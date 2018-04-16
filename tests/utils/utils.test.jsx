@@ -1,18 +1,17 @@
-
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+//
+import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
-describe('Utils.displayUsernameForUser', function() {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.TeammateNameDisplay = 'username';
-    });
-
+describe('Utils.getDisplayNameByUser', function() {
     afterEach(() => {
-        global.window.mm_config = {};
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RESET,
+            data: {},
+        });
     });
 
     const userA = {username: 'a_user', nickname: 'a_nickname', first_name: 'a_first_name', last_name: ''};
@@ -27,13 +26,26 @@ describe('Utils.displayUsernameForUser', function() {
     const userJ = {username: 'j_user', nickname: '', first_name: 'j_first_name', last_name: ''};
 
     test('Show display name of user with TeammateNameDisplay set to username', function() {
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'username',
+            },
+        });
+
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.displayUsernameForUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
         });
     });
 
-    test('Show display name of user with TeammateNameDisplay set to username', function() {
-        global.window.mm_config.TeammateNameDisplay = 'nickname_full_name';
+    test('Show display name of user with TeammateNameDisplay set to nickname_full_name', function() {
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'nickname_full_name',
+            },
+        });
+
         for (const data of [
             {user: userA, result: userA.nickname},
             {user: userB, result: userB.nickname},
@@ -46,12 +58,18 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 
     test('Show display name of user with TeammateNameDisplay set to username', function() {
-        global.window.mm_config.TeammateNameDisplay = 'full_name';
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'full_name',
+            },
+        });
+
         for (const data of [
             {user: userA, result: userA.first_name},
             {user: userB, result: userB.last_name},
@@ -64,49 +82,65 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 });
 
 describe('Utils.sortUsersByStatusAndDisplayName', function() {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.TeammateNameDisplay = 'username';
-    });
-
     afterEach(() => {
-        global.window.mm_config = {};
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RESET,
+            data: {},
+        });
     });
 
-    const userA = {status: 'dnd', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
-    const userB = {status: 'away', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
-    const userC = {status: 'offline', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
-    const userD = {status: 'online', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
-    const userE = {status: 'online', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
-    const userF = {status: 'online', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
-    const userG = {status: 'dnd', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
-    const userH = {status: 'away', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
-    const userI = {status: 'offline', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
-    const userJ = {status: 'online', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const userA = {id: 'a', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
+    const userB = {id: 'b', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
+    const userC = {id: 'c', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
+    const userD = {id: 'd', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
+    const userE = {id: 'e', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
+    const userF = {id: 'f', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
+    const userG = {id: 'g', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
+    const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
+    const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
+    const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const statusesByUserId = {
+        a: 'dnd',
+        b: 'away',
+        c: 'offline',
+        d: 'online',
+        e: 'online',
+        f: 'online',
+        g: 'dnd',
+        h: 'away',
+        i: 'offline',
+        j: 'online',
+    };
 
     test('Users sort by status and displayname, TeammateNameDisplay set to username', function() {
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'username',
+            },
+        });
+
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userC, userA],
+                result: [userD, userE, userF, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userI, userG],
+                result: [userE, userF, userJ, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
                 result: [userD, userE, userF, userJ],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -114,22 +148,28 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
     });
 
     test('Users sort by status and displayname, TeammateNameDisplay set to nickname_full_name', function() {
-        global.window.mm_config.TeammateNameDisplay = 'nickname_full_name';
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'nickname_full_name',
+            },
+        });
+
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userC, userA],
+                result: [userF, userE, userD, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userI, userG],
+                result: [userJ, userF, userE, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
                 result: [userJ, userF, userE, userD],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -137,22 +177,28 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
     });
 
     test('Users sort by status and displayname, TeammateNameDisplay set to full_name', function() {
-        global.window.mm_config.TeammateNameDisplay = 'full_name';
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'full_name',
+            },
+        });
+
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userC, userA],
+                result: [userD, userF, userE, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userI, userG],
+                result: [userF, userE, userJ, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
                 result: [userD, userF, userE, userJ],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -528,6 +574,123 @@ describe('Utils.isEmail', function() {
             },
         ]) {
             expect(Utils.isEmail(data.email)).toEqual(data.valid);
+        }
+    });
+});
+
+describe('Utils.isKeyPressed', function() {
+    test('Key match is used over keyCode if it exists', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55}),
+                key: ['/', 191],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191}),
+                key: ['/', 191],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('Key match works for uppercase letters, but it does not ignore case', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65}),
+                key: ['a', 65],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65}),
+                key: ['A', 65],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('KeyCode is used for dead letter keys', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: ['', 222],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: ['not-used-field', 222],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: [null, 222],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: [null, 223],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('KeyCode is used for unidentified keys', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                key: ['', 2220],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                key: ['not-used-field', 2220],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                key: [null, 2220],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                key: [null, 2221],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('KeyCode is used for undefined keys', function() {
+        for (const data of [
+            {
+                event: {keyCode: 2221},
+                key: ['', 2221],
+                valid: true,
+            },
+            {
+                event: {keyCode: 2221},
+                key: ['not-used-field', 2221],
+                valid: true,
+            },
+            {
+                event: {keyCode: 2221},
+                key: [null, 2221],
+                valid: true,
+            },
+            {
+                event: {keyCode: 2221},
+                key: [null, 2222],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
         }
     });
 });

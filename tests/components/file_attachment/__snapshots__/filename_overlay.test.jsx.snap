@@ -47,7 +47,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, stand
 <a
   className="post-image__name"
   download="test_filename"
-  href="/api/v4/files/thumbnail_id"
+  href="/api/v4/files/thumbnail_id?download=1"
   rel="noopener noreferrer"
   target="_blank"
 >
@@ -80,7 +80,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, with 
 <a
   className="post-image__name"
   download="test_filename"
-  href="/api/v4/files/thumbnail_id"
+  href="/api/v4/files/thumbnail_id?download=1"
   rel="noopener noreferrer"
   target="_blank"
 >

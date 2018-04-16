@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/PermalinkView should match snapshot 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <withRouter(Connect(ChannelHeader))
+    channelId="channel_id"
+  />
+  <Connect(PostList)
+    channelId="channel_id"
+    focusedPostId="post_id"
+  />
+  <div
+    id="archive-link-home"
+  >
+    <Link
+      replace={false}
+      to="/team_name/channels/channel_name"
+    >
+      <FormattedMessage
+        defaultMessage="Click here to jump to recent messages. "
+        id="center_panel.recent"
+        values={Object {}}
+      />
+      <i
+        className="fa fa-arrow-down"
+      />
+    </Link>
+  </div>
+</div>
+`;

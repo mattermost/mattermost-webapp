@@ -7,13 +7,21 @@ import React from 'react';
 import Setting from './setting.jsx';
 
 export default class DropdownSetting extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleChange = this.handleChange.bind(this);
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        values: PropTypes.array.isRequired,
+        label: PropTypes.node.isRequired,
+        value: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        disabled: PropTypes.bool,
+        helpText: PropTypes.node,
     }
 
-    handleChange(e) {
+    static defaultProps = {
+        isDisabled: false,
+    }
+
+    handleChange = (e) => {
         this.props.onChange(this.props.id, e.target.value);
     }
 
@@ -49,17 +57,3 @@ export default class DropdownSetting extends React.Component {
         );
     }
 }
-
-DropdownSetting.defaultProps = {
-    isDisabled: false,
-};
-
-DropdownSetting.propTypes = {
-    id: PropTypes.string.isRequired,
-    values: PropTypes.array.isRequired,
-    label: PropTypes.node.isRequired,
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    helpText: PropTypes.node,
-};

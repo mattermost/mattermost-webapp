@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {shallow} from 'enzyme';
 
 import {clearFileInput} from 'utils/utils';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -49,7 +50,7 @@ describe('components/FileUpload', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <FileUpload {...baseProps}/>
         );
 
@@ -60,11 +61,11 @@ describe('components/FileUpload', () => {
         const onClick = jest.fn();
         const props = {...baseProps, onClick};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
-        wrapper.props().onClick();
+        wrapper.find('input').simulate('click');
         expect(onClick).toHaveBeenCalledTimes(1);
     });
 
@@ -76,12 +77,11 @@ describe('components/FileUpload', () => {
             client_ids: {id1: 'id1'},
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
-        const instance = wrapper.dive().instance();
-        instance.fileUploadSuccess(data);
+        wrapper.instance().fileUploadSuccess(data);
 
         expect(onFileUpload).toHaveBeenCalledTimes(1);
         expect(onFileUpload).toHaveBeenCalledWith(data.file_infos, data.client_ids, props.currentChannelId);
@@ -95,12 +95,11 @@ describe('components/FileUpload', () => {
             clientId: 'client_id',
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
-        const instance = wrapper.dive().instance();
-        instance.fileUploadFail(params.err, params.clientId);
+        wrapper.instance().fileUploadFail(params.err, params.clientId);
 
         expect(onUploadError).toHaveBeenCalledTimes(1);
         expect(onUploadError).toHaveBeenCalledWith(params.err, params.clientId, props.currentChannelId);
@@ -117,8 +116,7 @@ describe('components/FileUpload', () => {
             <FileUpload {...props}/>
         );
 
-        const instance = wrapper.dive().instance();
-        instance.uploadFiles(files);
+        wrapper.instance().uploadFiles(files);
 
         expect(uploadFile).toHaveBeenCalledTimes(2);
 
@@ -141,8 +139,7 @@ describe('components/FileUpload', () => {
             <FileUpload {...props}/>
         );
 
-        const instance = wrapper.dive().instance();
-        instance.uploadFiles(files);
+        wrapper.instance().uploadFiles(files);
 
         expect(uploadFile).not.toBeCalled();
 
@@ -164,8 +161,7 @@ describe('components/FileUpload', () => {
             <FileUpload {...props}/>
         );
 
-        const instance = wrapper.dive().instance();
-        instance.uploadFiles(files);
+        wrapper.instance().uploadFiles(files);
 
         expect(uploadFile).not.toBeCalled();
 
@@ -186,8 +182,7 @@ describe('components/FileUpload', () => {
             <FileUpload {...props}/>
         );
 
-        const instance = wrapper.dive().instance();
-        instance.uploadFiles(files);
+        wrapper.instance().uploadFiles(files);
 
         expect(uploadFile).not.toBeCalled();
 
@@ -201,12 +196,12 @@ describe('components/FileUpload', () => {
         const onFileUploadChange = jest.fn();
         const props = {...baseProps, onFileUploadChange};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
         const e = {target: {files: [{name: 'file1.pdf'}]}};
-        const instance = wrapper.dive().instance();
+        const instance = wrapper.instance();
         instance.uploadFiles = jest.fn();
         instance.handleChange(e);
 
@@ -225,12 +220,12 @@ describe('components/FileUpload', () => {
         const onFileUploadChange = jest.fn();
         const props = {...baseProps, onUploadError, onFileUploadChange};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
         const e = {originalEvent: {dataTransfer: {files: [{name: 'file1.pdf'}]}}};
-        const instance = wrapper.dive().instance();
+        const instance = wrapper.instance();
         instance.uploadFiles = jest.fn();
         instance.handleDrop(e);
 

@@ -1,43 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/FileUpload should match snapshot 1`] = `
-<FileUpload
-  canUploadFiles={true}
-  currentChannelId="channel_id"
-  fileCount={1}
-  getTarget={[Function]}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "textComponent": "span",
-    }
-  }
-  maxFileSize={10}
-  onClick={[Function]}
-  onFileUpload={[Function]}
-  onFileUploadChange={[Function]}
-  onUploadError={[Function]}
-  onUploadStart={[Function]}
-  postType="post"
-  uploadFile={[Function]}
-/>
+<span
+  className=""
+>
+  <div
+    className="icon icon--attachment"
+    id="fileUploadButton"
+  >
+    <AttachmentIcon />
+    <input
+      accept=""
+      multiple={true}
+      onChange={[Function]}
+      onClick={[Function]}
+      type="file"
+    />
+  </div>
+</span>
 `;

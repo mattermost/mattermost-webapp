@@ -5,10 +5,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {Permissions} from 'mattermost-redux/constants';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 export default class AbstractOAuthApp extends React.PureComponent {
     static propTypes = {
@@ -17,11 +19,6 @@ export default class AbstractOAuthApp extends React.PureComponent {
         * The current team
         */
         team: PropTypes.object.isRequired,
-
-        /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool,
 
         /**
         * The header text to render, has id and defaultMessage
@@ -224,9 +221,8 @@ export default class AbstractOAuthApp extends React.PureComponent {
             );
         }
 
-        let trusted;
-        if (this.props.isSystemAdmin) {
-            trusted = (
+        const trusted = (
+            <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
                 <div className='form-group'>
                     <label
                         className='control-label col-sm-4'
@@ -272,8 +268,8 @@ export default class AbstractOAuthApp extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            );
-        }
+            </SystemPermissionGate>
+        );
 
         return (
             <div className='backstage-content'>

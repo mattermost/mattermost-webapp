@@ -51,9 +51,11 @@ export default class BackstageController extends React.Component {
         team: PropTypes.object,
 
         /**
-         * Set to indicate user is system admin or a team admin for current team.
+         * Object from react-router
          */
-        isAdmin: PropTypes.bool,
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
 
         siteName: PropTypes.string,
         enableCustomEmoji: PropTypes.bool.isRequired,
@@ -61,7 +63,6 @@ export default class BackstageController extends React.Component {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableCommands: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
     }
 
     scrollToTop = () => {
@@ -81,7 +82,6 @@ export default class BackstageController extends React.Component {
         const extraProps = {
             team: this.props.team,
             user: this.props.user,
-            isAdmin: this.props.isAdmin,
             scrollToTop: this.scrollToTop,
         };
         return (
@@ -104,7 +104,6 @@ export default class BackstageController extends React.Component {
                         enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
                         enableCommands={this.props.enableCommands}
                         enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
-                        enableOnlyAdminIntegrations={this.props.enableOnlyAdminIntegrations}
                     />
                     <Switch>
                         <BackstageRoute

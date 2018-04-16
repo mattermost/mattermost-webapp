@@ -3,29 +3,30 @@
 
 import {connect} from 'react-redux';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import Constants from 'utils/constants';
 import {getGlobalItem} from 'selectors/storage';
+import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
+import {getIsLhsOpen} from 'selectors/lhs';
+import {getIsWebrtcOpen} from 'selectors/webrtc';
 
 import CenterChannel from './center_channel';
 
 const getLastChannelPath = (state, teamName) => {
-    let channelName = Constants.DEFAULT_CHANNEL;
     const team = getTeamByName(state, teamName);
 
     if (team) {
-        const channelId = getGlobalItem(state, team.id, null);
-        const channel = getChannel(state, channelId);
-        if (channel) {
-            channelName = channel.name;
-        }
+        return getGlobalItem(state, Constants.PREV_CHANNEL_KEY + team.id, Constants.DEFAULT_CHANNEL);
     }
-    return channelName;
+    return Constants.DEFAULT_CHANNEL;
 };
 
 const mapStateToProps = (state, ownProps) => ({
     lastChannelPath: `${ownProps.match.url}/channels/${getLastChannelPath(state, ownProps.match.params.team)}`,
+    lhsOpen: getIsLhsOpen(state),
+    rhsOpen: getIsRhsOpen(state),
+    rhsMenuOpen: getIsRhsMenuOpen(state),
+    webRtcOpen: getIsWebrtcOpen(state),
 });
 
 export default connect(mapStateToProps)(CenterChannel);

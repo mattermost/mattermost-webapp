@@ -1,0 +1,567 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugins/MainMenuActions should match snapshot and click plugin item for LHS dropdown 1`] = `
+<Uncontrolled(Dropdown)
+  className="sidebar-header-dropdown"
+  id="sidebar-header-dropdown"
+  onToggle={[Function]}
+  open={true}
+  pullRight={true}
+>
+  <SidebarHeaderDropdownButton
+    bsRole="toggle"
+    onClick={[Function]}
+  />
+  <DropdownMenu
+    bsClass="dropdown-menu"
+    bsRole="menu"
+    id="sidebarDropdownMenu"
+    pullRight={false}
+  >
+    <li>
+      <button
+        className="style--none"
+        id="accountSettings"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      </button>
+    </li>
+    <li
+      className="divider"
+    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "invite_user",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "add_user_to_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <li>
+          <button
+            className="style--none"
+            id="sendEmailInvite"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="Send Email Invite"
+              id="navbar_dropdown.inviteMember"
+              values={Object {}}
+            />
+          </button>
+        </li>
+      </Connect(TeamPermissionGate)>
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <li>
+        <button
+          className="style--none"
+          id="addUsersToTeam"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Add Members to Team"
+            id="navbar_dropdown.addMemberToTeam"
+            values={Object {}}
+          />
+        </button>
+      </li>
+    </Connect(TeamPermissionGate)>
+    <li
+      className="divider"
+    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <li>
+        <button
+          className="style--none"
+          id="teamSettings"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        </button>
+      </li>
+    </Connect(TeamPermissionGate)>
+    <li>
+      <button
+        className="style--none"
+        id="manageMembers"
+        onClick={[Function]}
+      >
+        <Connect(TeamPermissionGate)
+          permissions={
+            Array [
+              "manage_team",
+            ]
+          }
+          teamId="someteamid"
+        >
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        </Connect(TeamPermissionGate)>
+        <Connect(TeamPermissionGate)
+          invert={true}
+          permissions={
+            Array [
+              "manage_team",
+            ]
+          }
+          teamId="someteamid"
+        >
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        </Connect(TeamPermissionGate)>
+      </button>
+    </li>
+    <Connect(SystemPermissionGate)
+      key="newTeam_permission"
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <li
+        key="newTeam_li"
+      >
+        <Link
+          id="createTeam"
+          key="newTeam_a"
+          onClick={[Function]}
+          replace={false}
+          to="/create_team"
+        >
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        </Link>
+      </li>
+    </Connect(SystemPermissionGate)>
+    <li
+      key="leaveTeam_li"
+    >
+      <button
+        className="style--none"
+        id="leaveTeam"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      </button>
+    </li>
+    <li
+      className="divider"
+    />
+    <li
+      key="someplugin_pluginmenuitem"
+    >
+      <a
+        href="#"
+        id="someplugin_pluginmenuitem"
+        onClick={[Function]}
+      >
+        some plugin text
+      </a>
+    </li>
+    <li
+      className="divider"
+    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_webhooks",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <li>
+        <Link
+          id="Integrations"
+          onClick={[Function]}
+          replace={false}
+          to="/somename/integrations"
+        >
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        </Link>
+      </li>
+    </Connect(TeamPermissionGate)>
+    <li>
+      <Link
+        id="customEmoji"
+        onClick={[Function]}
+        replace={false}
+        to="/somename/emoji"
+      >
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      </Link>
+    </li>
+    <li
+      className="divider"
+    />
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <li>
+        <Link
+          id="systemConsole"
+          onClick={[Function]}
+          replace={false}
+          to="/admin_console"
+        >
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        </Link>
+      </li>
+    </Connect(SystemPermissionGate)>
+    <li
+      className="divider"
+    />
+    <li>
+      <button
+        className="style--none"
+        id="keyboardShortcuts"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      </button>
+    </li>
+    <li>
+      <button
+        className="style--none"
+        id="about"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="About Mattermost"
+          id="navbar_dropdown.about"
+          values={Object {}}
+        />
+      </button>
+    </li>
+    <li
+      className="divider"
+    />
+    <li>
+      <button
+        className="style--none"
+        id="logout"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      </button>
+    </li>
+    <InjectIntl(TeamSettingsModal)
+      onModalDismissed={[Function]}
+      show={false}
+    />
+    <Connect(AboutBuildModal)
+      onModalDismissed={[Function]}
+      show={false}
+    />
+  </DropdownMenu>
+</Uncontrolled(Dropdown)>
+`;
+
+exports[`plugins/MainMenuActions should match snapshot and click plugin item for mobile menu 1`] = `
+<div
+  className="sidebar--menu"
+  id="sidebar-menu"
+>
+  <div
+    className="team__header theme"
+  >
+    <Link
+      className="team__name"
+      replace={false}
+      to="/channels/town-square"
+    >
+      some name
+    </Link>
+  </div>
+  <div
+    className="nav-pills__container"
+  >
+    <ul
+      className="nav nav-pills nav-stacked"
+    >
+      <li>
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon mentions"
+          >
+            @
+          </i>
+          <FormattedMessage
+            defaultMessage="Recent Mentions"
+            id="sidebar_right_menu.recentMentions"
+            values={Object {}}
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-flag"
+          />
+          <FormattedMessage
+            defaultMessage="Flagged Posts"
+            id="sidebar_right_menu.flagged"
+            values={Object {}}
+          />
+        </a>
+      </li>
+      <li
+        className="divider"
+      />
+      <li>
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-cog"
+          />
+          <FormattedMessage
+            defaultMessage="Account Settings"
+            id="sidebar_right_menu.accountSettings"
+            values={Object {}}
+          />
+        </a>
+      </li>
+      <li
+        className="divider"
+      />
+      <li
+        className="divider"
+      />
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <li>
+          <a
+            href="#"
+            onClick={[Function]}
+          >
+            <i
+              className="icon fa fa-globe"
+            />
+            <FormattedMessage
+              defaultMessage="Team Settings"
+              id="sidebar_right_menu.teamSettings"
+              values={Object {}}
+            />
+          </a>
+        </li>
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <li>
+          <ModalToggleButton
+            className=""
+            dialogProps={Object {}}
+            dialogType={[Function]}
+          >
+            <i
+              className="icon fa fa-users"
+            />
+            <FormattedMessage
+              defaultMessage="Manage Members"
+              id="sidebar_right_menu.manageMembers"
+              values={Object {}}
+            />
+          </ModalToggleButton>
+        </li>
+      </Connect(TeamPermissionGate)>
+      <li
+        key="leaveTeam_li"
+      >
+        <a
+          href="#"
+          id="leaveTeam"
+          onClick={[Function]}
+        >
+          <LeaveTeamIcon
+            className="icon"
+          />
+          <FormattedMessage
+            defaultMessage="Leave Team"
+            id="navbar_dropdown.leave"
+            values={Object {}}
+          />
+        </a>
+      </li>
+      <li
+        className="divider"
+      />
+      <li
+        key="someplugin_pluginrightmenuitem"
+      >
+        <a
+          href="#"
+          id="someplugin_pluginrightmenuitem"
+          onClick={[MockFunction]}
+        >
+          <i
+            className="icon fa fa-plus-square"
+          />
+          some plugin text
+        </a>
+      </li>
+      <li
+        className="divider"
+      />
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "manage_system",
+          ]
+        }
+      >
+        <li>
+          <Link
+            onClick={[Function]}
+            replace={false}
+            to="/admin_console"
+          >
+            <i
+              className="icon fa fa-wrench"
+            />
+            <FormattedMessage
+              defaultMessage="System Console"
+              id="sidebar_right_menu.console"
+              values={Object {}}
+            />
+          </Link>
+        </li>
+      </Connect(SystemPermissionGate)>
+      <li
+        className="divider"
+      />
+      <li>
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-info"
+          />
+          <FormattedMessage
+            defaultMessage="About Mattermost"
+            id="navbar_dropdown.about"
+            values={Object {}}
+          />
+        </a>
+      </li>
+      <li
+        className="divider"
+      />
+      <li>
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-sign-out"
+          />
+          <FormattedMessage
+            defaultMessage="Logout"
+            id="sidebar_right_menu.logout"
+            values={Object {}}
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+  <Connect(AboutBuildModal)
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <InjectIntl(TeamSettingsModal)
+    onModalDismissed={[Function]}
+    show={false}
+  />
+</div>
+`;

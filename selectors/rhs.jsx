@@ -55,6 +55,10 @@ export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }
 
+export function getSearchResultsTerms(state) {
+    return state.views.rhs.searchResultsTerms;
+}
+
 export function getIsSearchingTerm(state) {
     return state.views.rhs.isSearchingTerm;
 }
@@ -67,9 +71,19 @@ export function getIsSearchingPinnedPost(state) {
     return state.views.rhs.isSearchingPinnedPost;
 }
 
-export function makeGetCommentDraft(rootId) {
-    const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
-    return makeGetGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, defaultValue);
+export function getPostDraft(state, prefixId, suffixId) {
+    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: []};
+    const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
+
+    if (
+        typeof draft.message !== 'undefined' &&
+        typeof draft.uploadsInProgress !== 'undefined' &&
+        typeof draft.fileInfos !== 'undefined'
+    ) {
+        return draft;
+    }
+
+    return defaultDraft;
 }
 
 export function makeGetPostsEmbedVisibleObj() {
@@ -86,4 +100,12 @@ export function makeGetPostsEmbedVisibleObj() {
             return postsEmbedVisibleObj;
         }
     );
+}
+
+export function getIsRhsOpen(state) {
+    return state.views.rhs.isSidebarOpen;
+}
+
+export function getIsRhsMenuOpen(state) {
+    return state.views.rhs.isMenuOpen;
 }

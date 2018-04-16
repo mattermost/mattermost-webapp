@@ -7,6 +7,8 @@ import {getTeams} from 'mattermost-redux/actions/teams';
 import {withRouter} from 'react-router-dom';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getIsLhsOpen} from 'selectors/lhs';
+
 import TeamSidebar from './team_sidebar_controller.jsx';
 
 function mapStateToProps(state) {
@@ -16,6 +18,7 @@ function mapStateToProps(state) {
     const enableTeamCreation = config.EnableTeamCreation === 'true';
 
     return {
+        isOpen: getIsLhsOpen(state),
         experimentalPrimaryTeam,
         enableTeamCreation,
     };

@@ -18,6 +18,13 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
                 }}
             />
         );
+    } else if (memberNotifyLevel === NotificationLevels.MENTION && section === NotificationSections.MARK_UNREAD) {
+        return (
+            <FormattedMessage
+                id='channel_notifications.muteChannel.on.title'
+                defaultMessage='On'
+            />
+        );
     } else if (memberNotifyLevel === NotificationLevels.MENTION) {
         return (
             <FormattedMessage
@@ -41,8 +48,8 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
     ) {
         return (
             <FormattedMessage
-                id='channel_notifications.allUnread'
-                defaultMessage='For all unread messages'
+                id='channel_notifications.muteChannel.off.title'
+                defaultMessage='Off'
             />
         );
     }

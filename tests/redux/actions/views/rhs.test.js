@@ -21,6 +21,9 @@ import {
     showPinnedPosts,
     showMentions,
     closeRightHandSide,
+    toggleMenu,
+    openMenu,
+    closeMenu,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
@@ -197,6 +200,10 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(testInitialState);
             compareStore.dispatch(updateRhsState(RHSStates.SEARCH));
+            compareStore.dispatch({
+                type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+                terms,
+            });
             compareStore.dispatch(performSearch(terms));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
@@ -410,5 +417,38 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
+    });
+
+    it('toggleMenu dispatches the right action', () => {
+        store.dispatch(toggleMenu());
+
+        const compareStore = mockStore(initialState);
+        compareStore.dispatch({
+            type: ActionTypes.TOGGLE_RHS_MENU,
+        });
+
+        expect(store.getActions()).toEqual(compareStore.getActions());
+    });
+
+    it('openMenu dispatches the right action', () => {
+        store.dispatch(openMenu());
+
+        const compareStore = mockStore(initialState);
+        compareStore.dispatch({
+            type: ActionTypes.OPEN_RHS_MENU,
+        });
+
+        expect(store.getActions()).toEqual(compareStore.getActions());
+    });
+
+    it('closeMenu dispatches the right action', () => {
+        store.dispatch(closeMenu());
+
+        const compareStore = mockStore(initialState);
+        compareStore.dispatch({
+            type: ActionTypes.CLOSE_RHS_MENU,
+        });
+
+        expect(store.getActions()).toEqual(compareStore.getActions());
     });
 });

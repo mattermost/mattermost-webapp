@@ -36,11 +36,6 @@ export default class CommandsContainer extends React.PureComponent {
         user: PropTypes.object,
 
         /**
-        * Set if user is admin
-        */
-        isAdmin: PropTypes.bool,
-
-        /**
         * The users collection
         */
         users: PropTypes.object,
@@ -49,6 +44,13 @@ export default class CommandsContainer extends React.PureComponent {
         * Installed slash commands to display
         */
         commands: PropTypes.array,
+
+        /**
+        * Object from react-router
+        */
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
 
         actions: PropTypes.shape({
 
@@ -86,7 +88,6 @@ export default class CommandsContainer extends React.PureComponent {
             users: this.props.users,
             team: this.props.team,
             user: this.props.user,
-            isAdmin: this.props.isAdmin,
         };
         return (
             <div>

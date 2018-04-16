@@ -19,7 +19,7 @@
     }
 
     &.sidebar--right--expanded {
-        z-index: 10;
+        z-index: 11;
     }
 
     .sidebar--right__bg {
@@ -44,6 +44,7 @@
 
         > div:not(.sidebar-collapse__container) {
             display: table-cell;
+            vertical-align: top;
 
             &:last-child {
                 .channel-header__icon {

@@ -62,7 +62,7 @@ class TeamImportTab extends React.Component {
             <strong>
                 <FormattedMessage
                     id='team_import_tab.importHelpExportInstructions'
-                    defaultMessage='Slack > Team Settings > Import/Export Data > Export > Start Export'
+                    defaultMessage='Slack > Administration > Workspace settings > Import/Export Data > Export > Start Export'
                 />
             </strong>
         );

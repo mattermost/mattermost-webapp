@@ -21,6 +21,7 @@ export default class TextSetting extends React.Component {
             onChange: PropTypes.func,
             disabled: PropTypes.bool,
             type: PropTypes.oneOf([
+                'number',
                 'input',
                 'textarea',
             ]),
@@ -34,14 +35,12 @@ export default class TextSetting extends React.Component {
         };
     }
 
-    constructor(props) {
-        super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(e) {
-        this.props.onChange(this.props.id, e.target.value);
+    handleChange = (e) => {
+        if (this.props.type === 'number') {
+            this.props.onChange(this.props.id, parseInt(e.target.value, 10));
+        } else {
+            this.props.onChange(this.props.id, e.target.value);
+        }
     }
 
     render() {
@@ -52,6 +51,19 @@ export default class TextSetting extends React.Component {
                     id={this.props.id}
                     className='form-control'
                     type='text'
+                    placeholder={this.props.placeholder}
+                    value={this.props.value}
+                    maxLength={this.props.maxLength}
+                    onChange={this.handleChange}
+                    disabled={this.props.disabled}
+                />
+            );
+        } else if (this.props.type === 'number') {
+            input = (
+                <input
+                    id={this.props.id}
+                    className='form-control'
+                    type='number'
                     placeholder={this.props.placeholder}
                     value={this.props.value}
                     maxLength={this.props.maxLength}

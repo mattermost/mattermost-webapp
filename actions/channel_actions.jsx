@@ -4,7 +4,8 @@
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {deletePreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {Client4} from 'mattermost-redux/client';
-import {getMyChannelMemberships, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -321,15 +322,6 @@ export async function autocompleteChannels(term, success, error) {
     const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateChannelNotifyProps(data, options, success, error) {
-    const {data: result, error: err} = await ChannelActions.updateChannelNotifyProps(data.user_id, data.channel_id, Object.assign({}, data, options))(dispatch, getState);
-    if (result && success) {
-        success(result);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }

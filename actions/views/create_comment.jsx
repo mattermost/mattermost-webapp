@@ -20,7 +20,8 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {EmojiMap} from 'stores/emoji_store.jsx';
-import {makeGetCommentDraft} from 'selectors/rhs';
+import {getPostDraft} from 'selectors/rhs';
+
 import * as Utils from 'utils/utils.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 
@@ -39,11 +40,9 @@ export function updateCommentDraft(rootId, draft) {
 
 export function makeOnMoveHistoryIndex(rootId, direction) {
     const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
-    const getCommentDraft = makeGetCommentDraft(rootId);
 
     return () => (dispatch, getState) => {
-        const draft = getCommentDraft(getState());
-
+        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
         if (draft.message !== '' && draft.message !== getMessageInHistory(getState())) {
             return;
         }
@@ -124,10 +123,8 @@ export function submitCommand(channelId, rootId, draft) {
 }
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
-    const getCommentDraft = makeGetCommentDraft(rootId);
-
     return () => async (dispatch, getState) => {
-        const draft = getCommentDraft(getState());
+        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -204,8 +201,9 @@ export function makeOnEditLatestPost(channelId, rootId) {
         dispatch(PostActions.setEditingPost(
             lastPost.id,
             getCommentCount(state, {post: lastPost}),
-            '#reply_textbox',
-            Utils.localizeMessage('create_comment.commentTitle', 'Comment')
+            'reply_textbox',
+            Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
+            true
         ));
     };
 }

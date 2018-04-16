@@ -48,13 +48,6 @@
 }
 
 @media screen and (max-width: 960px) {
-    .textarea-wrapper {
-        .textbox-preview-link,
-        .textbox-help-link {
-            display: none;
-        }
-    }
-
     .help__format-text {
         display: none;
     }
@@ -119,6 +112,16 @@
 
     .second-bar {
         display: none;
+    }
+
+    .channel-header{
+        .search-bar__container {
+            .search__form {
+                &.focused {
+                    width: 313px;
+                }
+            }
+        }
     }
 
     .sidebar--right {

@@ -68,7 +68,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Idle Timeout (minutes):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'Ex "60"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'E.g.: "60"')}
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.sessionIdleTimeoutDesc'
@@ -91,7 +91,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Length AD/LDAP and Email (days):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.webSessionDaysDesc'
@@ -109,7 +109,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Length Mobile (days):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.mobileSessionDaysDesc'
@@ -127,7 +127,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Length SSO (days):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.ssoSessionDaysDesc'
@@ -145,7 +145,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Cache (minutes):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.sessionCacheDesc'

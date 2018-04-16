@@ -5,6 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import PDFJS from 'pdfjs-dist';
 
 // Import our styles
 import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
@@ -14,9 +16,11 @@ import 'katex/dist/katex.min.css';
 import {browserHistory} from 'utils/browser_history';
 import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
-import loadRoot from 'bundle-loader?lazy!components/root.jsx';
+import loadRoot from 'bundle-loader?lazy!components/root';
 
 const Root = makeAsyncComponent(loadRoot);
+
+PDFJS.disableWorker = true;
 
 // This is for anything that needs to be done for ALL react components.
 // This runs before we start to render anything.
@@ -31,7 +35,9 @@ function preRenderSetup(callwhendone) {
         req.setRequestHeader('Content-Type', 'application/json');
         req.send(JSON.stringify(l));
 
-        if (window.mm_config && window.mm_config.EnableDeveloper === 'true') {
+        const state = store.getState();
+        const config = getConfig(state);
+        if (config.EnableDeveloper === 'true') {
             window.ErrorStore.storeLastError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'});
             window.ErrorStore.emitChange();
         }

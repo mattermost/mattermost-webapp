@@ -93,12 +93,25 @@
         .profile-img {
             height: 128px;
             width: 128px;
+            border-radius: 100%;
+        }
+
+        .team-img {
+            height: 128px;
+            width: 128px;
         }
 
         .profile-img-preview {
             background-position: 50% 50%;
             background-size: cover;
             border-radius: 100%;
+            height: 128px;
+            width: 128px;
+        }
+
+        .team-img-preview {
+            background-position: 50% 50%;
+            background-size: cover;
             height: 128px;
             width: 128px;
         }
@@ -172,6 +185,12 @@
                     .section-title {
                         margin-bottom: 10px;
                     }
+                }
+
+                .timezone-container {
+                    overflow: visible;
+                    display: table;
+                    width: 100%;
                 }
 
                 .appearance-section {

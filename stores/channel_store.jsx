@@ -7,7 +7,9 @@ import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {markChannelAsRead, markChannelAsUnread, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import * as Selectors from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {isFromWebhook, isSystemMessage, shouldIgnorePost} from 'mattermost-redux/utils/post_utils';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import UserStore from 'stores/user_store.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -300,7 +302,7 @@ class ChannelStoreClass extends EventEmitter {
     }
 
     getMyMembers() {
-        return Selectors.getMyChannelMemberships(store.getState());
+        return getMyChannelMemberships(store.getState());
     }
 
     saveMembersInChannel(channelId, members) {
@@ -433,7 +435,9 @@ class ChannelStoreClass extends EventEmitter {
             return false;
         }
 
-        return Utils.isChannelAdmin(member.roles);
+        const isLicensed = getLicense(store.getState()).IsLicensed === 'true';
+
+        return Utils.isChannelAdmin(isLicensed, member.roles);
     }
 
     isChannelAdmin(userId, channelId) {
@@ -445,7 +449,8 @@ class ChannelStoreClass extends EventEmitter {
         const channelMember = channelMembers[userId];
 
         if (channelMember) {
-            return Utils.isChannelAdmin(channelMember.roles);
+            const isLicensed = getLicense(store.getState()).IsLicensed === 'true';
+            return Utils.isChannelAdmin(isLicensed, channelMember.roles);
         }
 
         return false;

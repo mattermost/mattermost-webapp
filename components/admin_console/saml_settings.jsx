@@ -374,7 +374,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='SAML SSO URL:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.idpUrlEx', 'Ex "https://idp.example.org/SAML2/SSO/Login"')}
+                    placeholder={Utils.localizeMessage('admin.saml.idpUrlEx', 'E.g.: "https://idp.example.org/SAML2/SSO/Login"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.idpUrlDesc'
@@ -393,7 +393,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Identity Provider Issuer URL:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.idpDescriptorUrlEx', 'Ex "https://idp.example.org/SAML2/issuer"')}
+                    placeholder={Utils.localizeMessage('admin.saml.idpDescriptorUrlEx', 'E.g.: "https://idp.example.org/SAML2/issuer"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.idpDescriptorUrlDesc'
@@ -431,7 +431,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Service Provider Login URL:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.assertionConsumerServiceURLEx', 'Ex "https://<your-mattermost-url>/login/sso/saml"')}
+                    placeholder={Utils.localizeMessage('admin.saml.assertionConsumerServiceURLEx', 'E.g.: "https://<your-mattermost-url>/login/sso/saml"')}
                     helpText={consumerServiceUrlHelp}
                     value={this.state.assertionConsumerServiceURL}
                     onChange={this.handleChange}
@@ -465,7 +465,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Email Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.emailAttrEx', 'Ex "Email" or "PrimaryEmail"')}
+                    placeholder={Utils.localizeMessage('admin.saml.emailAttrEx', 'E.g.: "Email" or "PrimaryEmail"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.emailAttrDesc'
@@ -484,7 +484,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Username Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.usernameAttrEx', 'Ex "Username"')}
+                    placeholder={Utils.localizeMessage('admin.saml.usernameAttrEx', 'E.g.: "Username"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.usernameAttrDesc'
@@ -503,7 +503,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='First Name Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.firstnameAttrEx', 'Ex "FirstName"')}
+                    placeholder={Utils.localizeMessage('admin.saml.firstnameAttrEx', 'E.g.: "FirstName"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.firstnameAttrDesc'
@@ -522,7 +522,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Last Name Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.lastnameAttrEx', 'Ex "LastName"')}
+                    placeholder={Utils.localizeMessage('admin.saml.lastnameAttrEx', 'E.g.: "LastName"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.lastnameAttrDesc'
@@ -541,7 +541,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Nickname Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.nicknameAttrEx', 'Ex "Nickname"')}
+                    placeholder={Utils.localizeMessage('admin.saml.nicknameAttrEx', 'E.g.: "Nickname"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.nicknameAttrDesc'
@@ -579,7 +579,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Preferred Language Attribute:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.localeAttrEx', 'Ex "Locale" or "PrimaryLanguage"')}
+                    placeholder={Utils.localizeMessage('admin.saml.localeAttrEx', 'E.g.: "Locale" or "PrimaryLanguage"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.localeAttrDesc'
@@ -598,7 +598,7 @@ export default class SamlSettings extends AdminSettings {
                             defaultMessage='Login Button Text:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.loginButtonTextEx', 'Ex "With OKTA"')}
+                    placeholder={Utils.localizeMessage('admin.saml.loginButtonTextEx', 'E.g.: "With OKTA"')}
                     helpText={
                         <FormattedMessage
                             id='admin.saml.loginButtonTextDesc'

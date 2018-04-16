@@ -117,15 +117,15 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
-        if (ctrlSend && e.keyCode === KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
+        if (ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
     }
 
     handleKeyPress = (e) => {
         const {ctrlSend} = this.props;
-        if (!UserAgent.isMobile() && ((ctrlSend && Utils.cmdOrCtrlPressed(e)) || !ctrlSend)) {
-            if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
+        if (!UserAgent.isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
+            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.editChannelHeaderTextbox).blur();
                 this.handleSave(e);

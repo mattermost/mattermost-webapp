@@ -7,7 +7,7 @@ import React from 'react';
 import TeamStore from 'stores/team_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import GeneralTab from './team_general_tab.jsx';
+import GeneralTab from './team_general_tab';
 import ImportTab from './team_import_tab.jsx';
 
 export default class TeamSettings extends React.Component {

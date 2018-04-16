@@ -62,11 +62,6 @@ export default class SearchResultsItem extends React.PureComponent {
         term: PropTypes.string,
 
         /**
-        *  Flag for determining time format
-        */
-        useMilitaryTime: PropTypes.bool.isRequired,
-
-        /**
         *  Flag for determining result flag state
         */
         isFlagged: PropTypes.bool,
@@ -159,7 +154,6 @@ export default class SearchResultsItem extends React.PureComponent {
             <PostTime
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
-                useMilitaryTime={this.props.useMilitaryTime}
                 postId={post.id}
             />
         );
@@ -193,7 +187,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         id='search_item.direct'
                         defaultMessage='Direct Message (with {username})'
                         values={{
-                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id)),
+                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
                         }}
                     />
                 );

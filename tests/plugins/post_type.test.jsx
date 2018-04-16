@@ -2,10 +2,8 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {Provider} from 'react-redux';
+import {shallow, mount} from 'enzyme';
 
-import store from 'stores/redux_store.jsx';
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';
 
 class PostTypePlugin extends React.PureComponent {
@@ -31,10 +29,8 @@ describe('plugins/PostMessageView', () => {
     };
 
     test('should match snapshot with extended post type', () => {
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <PostMessageView {...requiredProps}/>
-            </Provider>
+        const wrapper = mount(
+            <PostMessageView {...requiredProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -43,10 +39,8 @@ describe('plugins/PostMessageView', () => {
 
     test('should match snapshot with no extended post type', () => {
         const props = {...requiredProps, pluginPostTypes: {}};
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <PostMessageView {...props}/>
-            </Provider>
+        const wrapper = shallow(
+            <PostMessageView {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();

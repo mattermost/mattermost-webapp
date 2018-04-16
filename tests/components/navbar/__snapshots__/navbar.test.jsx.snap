@@ -59,6 +59,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
             Object {
               "display_name": "display_name",
               "id": "channel_id",
+              "team_id": "team_id",
               "type": "P",
             }
           }
@@ -107,6 +108,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                       "channel": Object {
                         "display_name": "display_name",
                         "id": "channel_id",
+                        "team_id": "team_id",
                         "type": "P",
                       },
                     }
@@ -152,33 +154,45 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                   />
                 </a>
               </li>
-              <li
-                role="presentation"
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                key="add_members_permission"
+                permissions={
+                  Array [
+                    "manage_private_channel_members",
+                  ]
+                }
+                teamId="team_id"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "P",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
+                <li
+                  role="presentation"
                 >
-                  <FormattedMessage
-                    defaultMessage="Add Members"
-                    id="navbar.addMembers"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
-              </li>
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "P",
+                        },
+                        "currentUser": Object {
+                          "id": "current_user_id",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Add Members"
+                      id="navbar.addMembers"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 key="manage_members"
                 role="presentation"
@@ -188,82 +202,149 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                   onClick={[Function]}
                   role="menuitem"
                 >
-                  <FormattedMessage
-                    defaultMessage="Manage Members"
-                    id="channel_header.manageMembers"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Header"
-                    id="channel_header.setHeader"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Purpose"
-                    id="channel_header.setPurpose"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Rename Channel"
-                    id="channel_header.rename"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "P",
-                      },
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    permissions={
+                      Array [
+                        "manage_private_channel_members",
+                      ]
                     }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Delete Channel"
-                    id="channel_header.delete"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Manage Members"
+                      id="channel_header.manageMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    invert={true}
+                    permissions={
+                      Array [
+                        "manage_private_channel_members",
+                      ]
+                    }
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="View Members"
+                      id="channel_header.viewMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                </a>
               </li>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_private_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Header"
+                      id="channel_header.setHeader"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_private_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Purpose"
+                      id="channel_header.setPurpose"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_private_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Rename Channel"
+                      id="channel_header.rename"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "delete_private_channel",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "P",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Delete Channel"
+                      id="channel_header.delete"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 role="presentation"
               >
@@ -312,6 +393,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "P",
       }
     }
@@ -323,6 +405,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "P",
       }
     }
@@ -406,6 +489,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
             Object {
               "display_name": "display_name",
               "id": "channel_id",
+              "team_id": "team_id",
               "type": "O",
             }
           }
@@ -454,6 +538,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                       "channel": Object {
                         "display_name": "display_name",
                         "id": "channel_id",
+                        "team_id": "team_id",
                         "type": "O",
                       },
                     }
@@ -499,33 +584,45 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   />
                 </a>
               </li>
-              <li
-                role="presentation"
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                key="add_members_permission"
+                permissions={
+                  Array [
+                    "manage_public_channel_members",
+                  ]
+                }
+                teamId="team_id"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
+                <li
+                  role="presentation"
                 >
-                  <FormattedMessage
-                    defaultMessage="Add Members"
-                    id="navbar.addMembers"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
-              </li>
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                        "currentUser": Object {
+                          "id": "current_user_id",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Add Members"
+                      id="navbar.addMembers"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 key="manage_members"
                 role="presentation"
@@ -535,82 +632,149 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   onClick={[Function]}
                   role="menuitem"
                 >
-                  <FormattedMessage
-                    defaultMessage="Manage Members"
-                    id="channel_header.manageMembers"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Header"
-                    id="channel_header.setHeader"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Purpose"
-                    id="channel_header.setPurpose"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Rename Channel"
-                    id="channel_header.rename"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    permissions={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
                     }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Delete Channel"
-                    id="channel_header.delete"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Manage Members"
+                      id="channel_header.manageMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    invert={true}
+                    permissions={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="View Members"
+                      id="channel_header.viewMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                </a>
               </li>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Header"
+                      id="channel_header.setHeader"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Purpose"
+                      id="channel_header.setPurpose"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Rename Channel"
+                      id="channel_header.rename"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "delete_public_channel",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Delete Channel"
+                      id="channel_header.delete"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 role="presentation"
               >
@@ -659,6 +823,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "O",
       }
     }
@@ -670,6 +835,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "O",
       }
     }
@@ -754,6 +920,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
               "display_name": "display_name",
               "id": "channel_id",
               "name": "user_id_1__user_id_2",
+              "team_id": "team_id",
               "type": "D",
             }
           }
@@ -841,6 +1008,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
         "display_name": "display_name",
         "id": "channel_id",
         "name": "user_id_1__user_id_2",
+        "team_id": "team_id",
         "type": "D",
       }
     }
@@ -853,6 +1021,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
         "display_name": "display_name",
         "id": "channel_id",
         "name": "user_id_1__user_id_2",
+        "team_id": "team_id",
         "type": "D",
       }
     }
@@ -936,6 +1105,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
             Object {
               "display_name": "display_name",
               "id": "channel_id",
+              "team_id": "team_id",
               "type": "O",
             }
           }
@@ -984,6 +1154,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                       "channel": Object {
                         "display_name": "display_name",
                         "id": "channel_id",
+                        "team_id": "team_id",
                         "type": "O",
                       },
                     }
@@ -1029,33 +1200,45 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   />
                 </a>
               </li>
-              <li
-                role="presentation"
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                key="add_members_permission"
+                permissions={
+                  Array [
+                    "manage_public_channel_members",
+                  ]
+                }
+                teamId="team_id"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
+                <li
+                  role="presentation"
                 >
-                  <FormattedMessage
-                    defaultMessage="Add Members"
-                    id="navbar.addMembers"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
-              </li>
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                        "currentUser": Object {
+                          "id": "current_user_id",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Add Members"
+                      id="navbar.addMembers"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 key="manage_members"
                 role="presentation"
@@ -1065,82 +1248,149 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   onClick={[Function]}
                   role="menuitem"
                 >
-                  <FormattedMessage
-                    defaultMessage="Manage Members"
-                    id="channel_header.manageMembers"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Header"
-                    id="channel_header.setHeader"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Purpose"
-                    id="channel_header.setPurpose"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Rename Channel"
-                    id="channel_header.rename"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    permissions={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
                     }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Delete Channel"
-                    id="channel_header.delete"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Manage Members"
+                      id="channel_header.manageMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    invert={true}
+                    permissions={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="View Members"
+                      id="channel_header.viewMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                </a>
               </li>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Header"
+                      id="channel_header.setHeader"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Purpose"
+                      id="channel_header.setPurpose"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Rename Channel"
+                      id="channel_header.rename"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "delete_public_channel",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Delete Channel"
+                      id="channel_header.delete"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 role="presentation"
               >
@@ -1189,6 +1439,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "O",
       }
     }
@@ -1200,6 +1451,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "O",
       }
     }
@@ -1285,6 +1537,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
             Object {
               "display_name": "display_name",
               "id": "channel_id",
+              "team_id": "team_id",
               "type": "O",
             }
           }
@@ -1333,6 +1586,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                       "channel": Object {
                         "display_name": "display_name",
                         "id": "channel_id",
+                        "team_id": "team_id",
                         "type": "O",
                       },
                     }
@@ -1378,33 +1632,45 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   />
                 </a>
               </li>
-              <li
-                role="presentation"
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                key="add_members_permission"
+                permissions={
+                  Array [
+                    "manage_public_channel_members",
+                  ]
+                }
+                teamId="team_id"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
+                <li
+                  role="presentation"
                 >
-                  <FormattedMessage
-                    defaultMessage="Add Members"
-                    id="navbar.addMembers"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
-              </li>
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                        "currentUser": Object {
+                          "id": "current_user_id",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Add Members"
+                      id="navbar.addMembers"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 key="manage_members"
                 role="presentation"
@@ -1414,82 +1680,149 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   onClick={[Function]}
                   role="menuitem"
                 >
-                  <FormattedMessage
-                    defaultMessage="Manage Members"
-                    id="channel_header.manageMembers"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Header"
-                    id="channel_header.setHeader"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Edit Channel Purpose"
-                    id="channel_header.setPurpose"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  onClick={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Rename Channel"
-                    id="channel_header.rename"
-                    values={Object {}}
-                  />
-                </a>
-              </li>
-              <li
-                role="presentation"
-              >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    permissions={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
                     }
-                  }
-                  dialogType={[Function]}
-                  role="menuitem"
-                >
-                  <FormattedMessage
-                    defaultMessage="Delete Channel"
-                    id="channel_header.delete"
-                    values={Object {}}
-                  />
-                </ModalToggleButton>
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Manage Members"
+                      id="channel_header.manageMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                  <Connect(ChannelPermissionGate)
+                    channelId="channel_id"
+                    invert={true}
+                    permissions={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
+                    teamId="team_id"
+                  >
+                    <FormattedMessage
+                      defaultMessage="View Members"
+                      id="channel_header.viewMembers"
+                      values={Object {}}
+                    />
+                  </Connect(ChannelPermissionGate)>
+                </a>
               </li>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Header"
+                      id="channel_header.setHeader"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Purpose"
+                      id="channel_header.setPurpose"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Rename Channel"
+                      id="channel_header.rename"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="channel_id"
+                permissions={
+                  Array [
+                    "delete_public_channel",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Delete Channel"
+                      id="channel_header.delete"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(ChannelPermissionGate)>
               <li
                 role="presentation"
               >
@@ -1538,6 +1871,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "O",
       }
     }
@@ -1549,6 +1883,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
       Object {
         "display_name": "display_name",
         "id": "channel_id",
+        "team_id": "team_id",
         "type": "O",
       }
     }

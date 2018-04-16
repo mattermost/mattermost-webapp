@@ -21,6 +21,7 @@ export default function CollapseView({onExpandSection, globalNotifyLevel, member
                 />
             }
             updateSection={onExpandSection}
+            section={section}
         />
     );
 }

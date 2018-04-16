@@ -1,14 +1,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ViewImagePopoverBar from 'components/view_image_popover_bar/view_image_popover_bar.jsx';
+import PopoverBar from 'components/view_image/popover_bar.jsx';
 
-describe('components/ViewImagePopoverBar', () => {
+describe('components/view_image/PopoverBar', () => {
     test('should match snapshot with public links disabled', () => {
         const wrapper = shallow(
-            <ViewImagePopoverBar
+            <PopoverBar
                 show={true}
                 enablePublicLink={false}
+                canDownloadFiles={true}
             />
         );
 
@@ -17,9 +18,10 @@ describe('components/ViewImagePopoverBar', () => {
 
     test('should match snapshot with public links enabled', () => {
         const wrapper = shallow(
-            <ViewImagePopoverBar
+            <PopoverBar
                 show={true}
                 enablePublicLink={true}
+                canDownloadFiles={true}
             />
         );
 
@@ -30,9 +32,10 @@ describe('components/ViewImagePopoverBar', () => {
         const mockOnClick = jest.fn();
 
         const wrapper = shallow(
-            <ViewImagePopoverBar
+            <PopoverBar
                 show={true}
                 enablePublicLink={true}
+                canDownloadFiles={true}
                 onGetPublicLink={mockOnClick}
             />
         );

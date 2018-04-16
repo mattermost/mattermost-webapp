@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {Preferences} from 'mattermost-redux/constants/index';
 import {
@@ -19,12 +20,12 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeam, isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {goToChannelById} from 'actions/channel_actions.jsx';
-import {showCreateOption} from 'utils/channel_utils.jsx';
-import {GroupUnreadChannels, Constants} from 'utils/constants.jsx';
+import {GroupUnreadChannels} from 'utils/constants.jsx';
+import {close} from 'actions/views/lhs';
+import {getIsLhsOpen} from 'selectors/lhs';
 
 import Sidebar from './sidebar.jsx';
 
@@ -58,13 +59,9 @@ function mapStateToProps(state) {
         directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
     }
 
-    const isSystemAdmin = isCurrentUserSystemAdmin(state);
-    const isTeamAdmin = isCurrentUserCurrentTeamAdmin(state);
-    const showCreatePublicChannelOption = showCreateOption(state, Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin);
-    const showCreatePrivateChannelOption = showCreateOption(state, Constants.PRIVATE_CHANNEL, isTeamAdmin, isSystemAdmin);
-
     return {
         config,
+        isOpen: getIsLhsOpen(state),
         showUnreadSection,
         publicChannelIds,
         privateChannelIds,
@@ -76,16 +73,14 @@ function mapStateToProps(state) {
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
         unreads: getUnreads(state),
-        showCreatePublicChannelOption,
-        showCreatePrivateChannelOption,
     };
 }
 
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
     return {
-        actions: {
-            goToChannelById,
-        },
+        actions: bindActionCreators({
+            close,
+        }, dispatch),
     };
 }
 

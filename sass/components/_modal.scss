@@ -20,8 +20,17 @@
         overflow: visible;
 
         .custom-textarea {
+            height: auto;
             max-height: 60vh;
             min-height: 8em;
+
+            &.custom-textarea--preview {
+                display: none;
+            }
+
+            &.textbox-preview-area {
+                position: relative;
+            }
         }
 
         .suggestion-list__content {

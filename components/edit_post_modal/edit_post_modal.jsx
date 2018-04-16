@@ -7,11 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import store from 'stores/redux_store.jsx';
-import Constants from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
@@ -32,6 +32,11 @@ export default class EditPostModal extends React.PureComponent {
          * Global config object
          */
         config: PropTypes.object.isRequired,
+
+        /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
 
         /**
          * Editing post information
@@ -62,6 +67,11 @@ export default class EditPostModal extends React.PureComponent {
              * What to show in the title of the modal as "Edit {title}"
              */
             title: PropTypes.string,
+
+            /**
+             * Whether or not the modal was open from RHS
+             */
+            isRHS: PropTypes.bool,
         }).isRequired,
 
         actions: PropTypes.shape({
@@ -160,7 +170,18 @@ export default class EditPostModal extends React.PureComponent {
         const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide(false);
-            GlobalActions.showDeletePostModal(Selectors.getPost(getState(), editingPost.postId), editingPost.commentsCount);
+
+            const deletePostModalData = {
+                ModalId: ModalIdentifiers.DELETE_POST,
+                dialogType: DeletePostModal,
+                dialogProps: {
+                    post: Selectors.getPost(getState(), editingPost.postId),
+                    commentCount: editingPost.commentsCount,
+                    isRHS: editingPost.isRHS,
+                },
+            };
+
+            this.props.actions.openModal(deletePostModalData);
             return;
         }
 
@@ -182,11 +203,11 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEditKeyPress = (e) => {
-        if (!UserAgent.isMobile() && !this.props.ctrlSend && e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
+        if (!UserAgent.isMobile() && !this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
             e.preventDefault();
             this.refs.editbox.blur();
             this.handleEdit();
-        } else if (this.props.ctrlSend && Utils.cmdOrCtrlPressed(e) && e.which === KeyCodes.ENTER) {
+        } else if (this.props.ctrlSend && e.ctrlKey && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             e.preventDefault();
             this.refs.editbox.blur();
             this.handleEdit();
@@ -194,7 +215,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
+        if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
         }
     }
@@ -295,6 +316,7 @@ export default class EditPostModal extends React.PureComponent {
                         suggestionListStyle='bottom'
                         id='edit_textbox'
                         ref='editbox'
+                        characterLimit={this.props.maxPostSize}
                     />
                     <span
                         ref='editPostEmoji'

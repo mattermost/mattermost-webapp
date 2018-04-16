@@ -4,28 +4,68 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ImagePreview from 'components/image_preview';
+import ImagePreview from 'components/view_image/image_preview';
 
-describe('components/ImagePreview', () => {
-    test('should match snapshot, with and without preview', () => {
+describe('components/view_image/ImagePreview', () => {
+    test('should match snapshot, without preview', () => {
         const fileInfo = {
             id: 'file_id',
         };
 
         const wrapper = shallow(
-            <ImagePreview fileInfo={fileInfo}/>
+            <ImagePreview
+                fileInfo={fileInfo}
+                canDownloadFiles={true}
+            />
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('a').prop('href')).toBe('/api/v4/files/file_id');
-        expect(wrapper.find('img').prop('src')).toBe('/api/v4/files/file_id');
+    });
 
-        fileInfo.id = 'file_id_1';
-        fileInfo.has_preview_image = true;
-        wrapper.setProps({fileInfo});
+    test('should match snapshot, with preview', () => {
+        const fileInfo = {
+            id: 'file_id_1',
+            has_preview_image: true,
+        };
+
+        const wrapper = shallow(
+            <ImagePreview
+                fileInfo={fileInfo}
+                canDownloadFiles={true}
+            />
+        );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('a').prop('href')).toBe('/api/v4/files/file_id_1');
-        expect(wrapper.find('img').prop('src')).toBe('/api/v4/files/file_id_1/preview');
+    });
+
+    test('should match snapshot, without preview, cannot download', () => {
+        const fileInfo = {
+            id: 'file_id',
+        };
+
+        const wrapper = shallow(
+            <ImagePreview
+                fileInfo={fileInfo}
+                canDownloadFiles={false}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with preview, cannot download', () => {
+        const fileInfo = {
+            id: 'file_id_1',
+            has_preview_image: true,
+        };
+
+        const wrapper = shallow(
+            <ImagePreview
+                fileInfo={fileInfo}
+                canDownloadFiles={false}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

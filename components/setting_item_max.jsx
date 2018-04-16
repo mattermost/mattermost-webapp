@@ -7,13 +7,14 @@ import {FormattedMessage} from 'react-intl';
 
 import SaveButton from 'components/save_button.jsx';
 import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
 
 export default class SettingItemMax extends React.PureComponent {
     static defaultProps = {
         infoPosition: 'bottom',
         saving: false,
         section: '',
+        containerStyle: '',
     };
 
     static propTypes = {
@@ -22,6 +23,11 @@ export default class SettingItemMax extends React.PureComponent {
          * Array of inputs selection
          */
         inputs: PropTypes.array,
+
+        /**
+         * Styles for main component
+         */
+        containerStyle: PropTypes.string,
 
         /**
          * Client error
@@ -98,7 +104,7 @@ export default class SettingItemMax extends React.PureComponent {
     }
 
     onKeyDown = (e) => {
-        if (e.keyCode === Constants.KeyCodes.ENTER && this.props.submit) {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit) {
             this.handleSubmit(e);
         }
     }
@@ -179,10 +185,8 @@ export default class SettingItemMax extends React.PureComponent {
         }
 
         let title;
-        let titleProp = 'unknownTitle';
         if (this.props.title) {
             title = <li className='col-sm-12 section-title'>{this.props.title}</li>;
-            titleProp = this.props.title;
         }
 
         let listContent = (
@@ -214,7 +218,9 @@ export default class SettingItemMax extends React.PureComponent {
         }
 
         return (
-            <ul className='section-max form-horizontal'>
+            <ul
+                className={`section-max form-horizontal ${this.props.containerStyle}`}
+            >
                 {title}
                 <li className={widthClass}>
                     <ul className='setting-list'>
@@ -226,7 +232,7 @@ export default class SettingItemMax extends React.PureComponent {
                             {clientError}
                             {submit}
                             <button
-                                id={Utils.createSafeId(titleProp) + 'Cancel'}
+                                id={'cancelSetting'}
                                 className='btn btn-sm cursor--pointer style--none'
                                 onClick={this.handleUpdateSection}
                             >

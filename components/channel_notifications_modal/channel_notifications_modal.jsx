@@ -7,7 +7,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {updateChannelNotifyProps} from 'actions/channel_actions.jsx';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -15,23 +15,35 @@ import * as Utils from 'utils/utils.jsx';
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
 export default class ChannelNotificationsModal extends React.Component {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+        onHide: PropTypes.func.isRequired,
+        channel: PropTypes.object.isRequired,
+        channelMember: PropTypes.object.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        sendPushNotifications: PropTypes.bool.isRequired,
+        actions: PropTypes.shape({
+            updateChannelNotifyProps: PropTypes.func.isRequired,
+        }),
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
             activeSection: NotificationSections.NONE,
-            notifyLevel: props.channelMember.notify_props.desktop,
-            unreadLevel: props.channelMember.notify_props.mark_unread,
-            pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT,
+            desktopNotifyLevel: props.channelMember.notify_props.desktop,
+            markUnreadNotifyLevel: props.channelMember.notify_props.mark_unread,
+            pushNotifyLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT,
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, nextProps.channelMember.notify_props)) {
             this.setState({
-                notifyLevel: nextProps.channelMember.notify_props.desktop,
-                unreadLevel: nextProps.channelMember.notify_props.mark_unread,
-                pushLevel: nextProps.channelMember.notify_props.push || NotificationLevels.DEFAULT,
+                desktopNotifyLevel: nextProps.channelMember.notify_props.desktop,
+                markUnreadNotifyLevel: nextProps.channelMember.notify_props.mark_unread,
+                pushNotifyLevel: nextProps.channelMember.notify_props.push || NotificationLevels.DEFAULT,
             });
         }
     }
@@ -51,125 +63,117 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({activeSection: section});
     }
 
-    handleSubmitDesktopNotifyLevel = () => {
-        const channelId = this.props.channel.id;
-        const notifyLevel = this.state.notifyLevel;
-        const currentUserId = this.props.currentUser.id;
+    handleUpdateChannelNotifyProps = async (props) => {
+        const {
+            actions,
+            channel,
+            currentUser,
+        } = this.props;
 
-        if (this.props.channelMember.notify_props.desktop === notifyLevel) {
+        const {error} = await actions.updateChannelNotifyProps(currentUser.id, channel.id, props);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.updateSection('');
+        }
+    }
+
+    handleSubmitDesktopNotifyLevel = () => {
+        const {channelMember} = this.props;
+        const {desktopNotifyLevel} = this.state;
+
+        if (channelMember.notify_props.desktop === desktopNotifyLevel) {
             this.updateSection('');
             return;
         }
 
-        const options = {desktop: notifyLevel};
-        const data = {
-            channel_id: channelId,
-            user_id: currentUserId,
-        };
-
-        updateChannelNotifyProps(data, options,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        const props = {desktop: desktopNotifyLevel};
+        this.handleUpdateChannelNotifyProps(props);
     }
 
-    handleUpdateDesktopNotifyLevel = (notifyLevel) => {
-        this.setState({notifyLevel});
+    handleUpdateDesktopNotifyLevel = (desktopNotifyLevel) => {
+        this.setState({desktopNotifyLevel});
     }
 
     handleUpdateDesktopSection = (section = NotificationSections.NONE) => {
         this.updateSection(section);
         this.setState({
-            notifyLevel: this.props.channelMember.notify_props.desktop,
+            desktopNotifyLevel: this.props.channelMember.notify_props.desktop,
         });
     }
 
     handleSubmitMarkUnreadLevel = () => {
-        const channelId = this.props.channel.id;
-        const markUnreadLevel = this.state.unreadLevel;
+        const {channelMember} = this.props;
+        const {markUnreadNotifyLevel} = this.state;
 
-        if (this.props.channelMember.notify_props.mark_unread === markUnreadLevel) {
+        if (channelMember.notify_props.mark_unread === markUnreadNotifyLevel) {
             this.updateSection('');
             return;
         }
 
-        const options = {mark_unread: markUnreadLevel};
-        const data = {
-            channel_id: channelId,
-            user_id: this.props.currentUser.id,
-        };
-
-        updateChannelNotifyProps(data, options,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        const props = {mark_unread: markUnreadNotifyLevel};
+        this.handleUpdateChannelNotifyProps(props);
     }
 
-    handleUpdateMarkUnreadLevel = (unreadLevel) => {
-        this.setState({unreadLevel});
+    handleUpdateMarkUnreadLevel = (markUnreadNotifyLevel) => {
+        this.setState({markUnreadNotifyLevel});
     }
 
     handleUpdateMarkUnreadSection = (section = NotificationSections.NONE) => {
         this.updateSection(section);
         this.setState({
-            unreadLevel: this.props.channelMember.notify_props.mark_unread,
+            markUnreadNotifyLevel: this.props.channelMember.notify_props.mark_unread,
         });
     }
 
     handleSubmitPushNotificationLevel = () => {
-        const channelId = this.props.channel.id;
-        const notifyLevel = this.state.pushLevel;
-        const currentUserId = this.props.currentUser.id;
+        const {pushNotifyLevel} = this.state;
 
-        if (this.props.channelMember.notify_props.push === notifyLevel) {
+        if (this.props.channelMember.notify_props.push === pushNotifyLevel) {
             this.updateSection('');
             return;
         }
 
-        const options = {push: notifyLevel};
-        const data = {
-            channel_id: channelId,
-            user_id: currentUserId,
-        };
-
-        updateChannelNotifyProps(data, options,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        const props = {push: pushNotifyLevel};
+        this.handleUpdateChannelNotifyProps(props);
     }
 
-    handleUpdatePushNotificationLevel = (pushLevel) => {
-        this.setState({pushLevel});
+    handleUpdatePushNotificationLevel = (pushNotifyLevel) => {
+        this.setState({pushNotifyLevel});
     }
 
     handleUpdatePushSection = (section = NotificationSections.NONE) => {
         this.updateSection(section);
         this.setState({
-            pushLevel: this.props.channelMember.notify_props.push,
+            pushNotifyLevel: this.props.channelMember.notify_props.push,
         });
     }
 
     render() {
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
+        const {
+            activeSection,
+            desktopNotifyLevel,
+            markUnreadNotifyLevel,
+            pushNotifyLevel,
+            serverError,
+        } = this.state;
+
+        const {
+            channel,
+            channelMember,
+            currentUser,
+            sendPushNotifications,
+            show,
+        } = this.props;
+
+        let serverErrorTag = null;
+        if (serverError) {
+            serverErrorTag = <div className='form-group has-error'><label className='control-label'>{serverError}</label></div>;
         }
 
         return (
             <Modal
-                show={this.props.show}
+                show={show}
                 dialogClassName='settings-modal settings-modal--tabless'
                 onHide={this.handleOnHide}
                 onExited={this.handleOnHide}
@@ -180,7 +184,7 @@ export default class ChannelNotificationsModal extends React.Component {
                             id='channel_notifications.preferences'
                             defaultMessage='Notification Preferences for '
                         />
-                        <span className='name'>{this.props.channel.display_name}</span>
+                        <span className='name'>{channel.display_name}</span>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -193,60 +197,49 @@ export default class ChannelNotificationsModal extends React.Component {
                                 <br/>
                                 <div className='divider-dark first'/>
                                 <NotificationSection
-                                    section={NotificationSections.DESKTOP}
-                                    expand={this.state.activeSection === NotificationSections.DESKTOP}
-                                    memberNotificationLevel={this.state.notifyLevel}
-                                    globalNotificationLevel={this.props.currentUser.notify_props ?
-                                        this.props.currentUser.notify_props.desktop :
-                                        NotificationLevels.ALL
-                                    }
-                                    onChange={this.handleUpdateDesktopNotifyLevel}
-                                    onSubmit={this.handleSubmitDesktopNotifyLevel}
-                                    onUpdateSection={this.handleUpdateDesktopSection}
-                                    serverError={this.state.serverError}
-                                />
-                                <div className='divider-light'/>
-                                {this.props.sendPushNotifications &&
-                                <NotificationSection
-                                    section={NotificationSections.PUSH}
-                                    expand={this.state.activeSection === NotificationSections.PUSH}
-                                    memberNotificationLevel={this.state.pushLevel}
-                                    globalNotificationLevel={this.props.currentUser.notify_props ?
-                                        this.props.currentUser.notify_props.push :
-                                        NotificationLevels.ALL
-                                    }
-                                    onChange={this.handleUpdatePushNotificationLevel}
-                                    onSubmit={this.handleSubmitPushNotificationLevel}
-                                    onUpdateSection={this.handleUpdatePushSection}
-                                    serverError={this.state.serverError}
-                                />
-                                }
-                                <div className='divider-light'/>
-                                <NotificationSection
                                     section={NotificationSections.MARK_UNREAD}
-                                    expand={this.state.activeSection === NotificationSections.MARK_UNREAD}
-                                    memberNotificationLevel={this.state.unreadLevel}
+                                    expand={activeSection === NotificationSections.MARK_UNREAD}
+                                    memberNotificationLevel={markUnreadNotifyLevel}
                                     onChange={this.handleUpdateMarkUnreadLevel}
                                     onSubmit={this.handleSubmitMarkUnreadLevel}
                                     onUpdateSection={this.handleUpdateMarkUnreadSection}
-                                    serverError={this.state.serverError}
+                                    serverError={serverError}
                                 />
+                                {!isChannelMuted(channelMember) &&
+                                <div>
+                                    <div className='divider-light'/>
+                                    <NotificationSection
+                                        section={NotificationSections.DESKTOP}
+                                        expand={activeSection === NotificationSections.DESKTOP}
+                                        memberNotificationLevel={desktopNotifyLevel}
+                                        globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
+                                        onChange={this.handleUpdateDesktopNotifyLevel}
+                                        onSubmit={this.handleSubmitDesktopNotifyLevel}
+                                        onUpdateSection={this.handleUpdateDesktopSection}
+                                        serverError={serverError}
+                                    />
+                                    <div className='divider-light'/>
+                                    {sendPushNotifications &&
+                                    <NotificationSection
+                                        section={NotificationSections.PUSH}
+                                        expand={activeSection === NotificationSections.PUSH}
+                                        memberNotificationLevel={pushNotifyLevel}
+                                        globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.push : NotificationLevels.ALL}
+                                        onChange={this.handleUpdatePushNotificationLevel}
+                                        onSubmit={this.handleSubmitPushNotificationLevel}
+                                        onUpdateSection={this.handleUpdatePushSection}
+                                        serverError={serverError}
+                                    />
+                                    }
+                                </div>
+                                }
                                 <div className='divider-dark'/>
                             </div>
                         </div>
                     </div>
-                    {serverError}
+                    {serverErrorTag}
                 </Modal.Body>
             </Modal>
         );
     }
 }
-
-ChannelNotificationsModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onHide: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired,
-    channelMember: PropTypes.object.isRequired,
-    currentUser: PropTypes.object.isRequired,
-    sendPushNotifications: PropTypes.bool.isRequired,
-};

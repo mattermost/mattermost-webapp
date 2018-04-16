@@ -248,7 +248,7 @@ export default class EmojiList extends React.Component {
                     <p>
                         <FormattedMessage
                             id='emoji_list.help'
-                            defaultMessage="Custom emoji are available to everyone on your server. Type ':' in a message box to bring up the emoji selection menu. Other users may need to refresh the page before new emojis appear."
+                            defaultMessage="Custom emoji are available to everyone on your server. Type ':' followed by two characters in a message box to bring up the emoji selection menu."
                         />
                     </p>
                     <p>

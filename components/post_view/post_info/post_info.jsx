@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -17,6 +18,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
@@ -27,6 +29,11 @@ export default class PostInfo extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
+         * The id of the team which belongs the post
+         */
+        teamId: PropTypes.string,
+
+        /*
          * Function called when the comment icon is clicked
          */
         handleCommentClick: PropTypes.func.isRequired,
@@ -35,11 +42,6 @@ export default class PostInfo extends React.PureComponent {
          * Funciton called when the post options dropdown is opened
          */
         handleDropdownOpened: PropTypes.func.isRequired,
-
-        /*
-         * Set to display in 24 hour format
-         */
-        useMilitaryTime: PropTypes.bool.isRequired,
 
         /*
          * Set to mark the post as flagged
@@ -90,6 +92,11 @@ export default class PostInfo extends React.PureComponent {
          * Whether to show the emoji picker.
          */
         enableEmojiPicker: PropTypes.bool.isRequired,
+
+        /**
+         * Set not to allow edits on post
+         */
+        isReadOnly: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -165,7 +172,7 @@ export default class PostInfo extends React.PureComponent {
             return null;
         }
 
-        const isMobile = this.props.isMobile;
+        const {isMobile, isReadOnly} = this.props;
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu;
 
         let comments;
@@ -186,7 +193,7 @@ export default class PostInfo extends React.PureComponent {
                 );
             }
 
-            if (hover && this.props.enableEmojiPicker) {
+            if (hover && !isReadOnly && this.props.enableEmojiPicker) {
                 react = (
                     <span>
                         <EmojiPickerOverlay
@@ -197,14 +204,19 @@ export default class PostInfo extends React.PureComponent {
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={7}
                         />
-                        <button
-                            className='reacticon__container color--link style--none'
-                            onClick={this.toggleEmojiPicker}
+                        <ChannelPermissionGate
+                            channelId={post.channel_id}
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_REACTION]}
                         >
-                            <EmojiIcon className='icon icon--emoji'/>
-                        </button>
+                            <button
+                                className='reacticon__container color--link style--none'
+                                onClick={this.toggleEmojiPicker}
+                            >
+                                <EmojiIcon className='icon icon--emoji'/>
+                            </button>
+                        </ChannelPermissionGate>
                     </span>
-
                 );
             }
         }
@@ -220,6 +232,7 @@ export default class PostInfo extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
+                    isReadOnly={isReadOnly}
                 />
             );
         }
@@ -227,7 +240,7 @@ export default class PostInfo extends React.PureComponent {
         return (
             <div
                 ref='dotMenu'
-                className='col col__reply'
+                className={'col col__reply' + (isReadOnly ? ' dot_small' : '')}
             >
                 {dotMenu}
                 {react}
@@ -306,7 +319,6 @@ export default class PostInfo extends React.PureComponent {
                 <PostTime
                     isPermalink={isPermalink}
                     eventTime={post.create_at}
-                    useMilitaryTime={this.props.useMilitaryTime}
                     postId={post.id}
                 />
             );

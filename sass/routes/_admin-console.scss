@@ -6,6 +6,7 @@
 }
 
 .admin-console {
+    -webkit-overflow-scrolling: touch;
     color: #333;
     height: 100%;
     margin-left: 220px;
@@ -575,6 +576,10 @@
 }
 
 .email-connection-test {
+    margin-top: -15px;
+}
+
+.s3-connection-test {
     margin-top: -15px;
 }
 

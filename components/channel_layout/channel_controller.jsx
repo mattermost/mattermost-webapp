@@ -7,7 +7,6 @@ import {Route} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
-import DeletePostModal from 'components/delete_post_modal.jsx';
 import EditPostModal from 'components/edit_post_modal';
 import GetPostLinkModal from 'components/get_post_link_modal';
 import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
@@ -23,8 +22,8 @@ import SidebarRightMenu from 'components/sidebar_right_menu';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
 import UserSettingsModal from 'components/user_settings/modal';
-import WebrtcNotification from 'components/webrtc/webrtc_notification.jsx';
-import WebrtcSidebar from 'components/webrtc/webrtc_sidebar.jsx';
+import WebrtcNotification from 'components/webrtc/notification';
+import WebrtcSidebar from 'components/webrtc/sidebar';
 import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
@@ -64,7 +63,6 @@ export default class ChannelController extends React.Component {
                     <ImportThemeModal/>
                     <TeamSettingsModal/>
                     <EditPostModal/>
-                    <DeletePostModal/>
                     <RemovedFromChannelModal/>
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>

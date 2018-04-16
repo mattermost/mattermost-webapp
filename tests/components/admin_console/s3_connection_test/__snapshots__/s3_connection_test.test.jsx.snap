@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/s3_connection_test/s3_connection_test should match snapshot, disabled 1`] = `
+<div
+  className="form-group s3-connection-test"
+>
+  <div
+    className="col-sm-offset-4 col-sm-8"
+  >
+    <div
+      className="help-text"
+    >
+      <button
+        className="btn btn-default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Test Connection"
+          id="admin.s3.connectionS3Test"
+          values={Object {}}
+        />
+      </button>
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/s3_connection_test/s3_connection_test should match snapshot, enable 1`] = `
+<div
+  className="form-group s3-connection-test"
+>
+  <div
+    className="col-sm-offset-4 col-sm-8"
+  >
+    <div
+      className="help-text"
+    >
+      <button
+        className="btn btn-default"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Test Connection"
+          id="admin.s3.connectionS3Test"
+          values={Object {}}
+        />
+      </button>
+      <div />
+    </div>
+  </div>
+</div>
+`;

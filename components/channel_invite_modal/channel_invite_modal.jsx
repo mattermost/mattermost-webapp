@@ -16,7 +16,6 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
@@ -249,30 +248,26 @@ export default class ChannelInviteModal extends React.Component {
             users = this.state.users.filter((user) => user.delete_at === 0);
         }
 
-        let content;
-        if (this.state.loading) {
-            content = (<LoadingScreen/>);
-        } else {
-            content = (
-                <MultiSelect
-                    key='addUsersToChannelKey'
-                    options={users}
-                    optionRenderer={this.renderOption}
-                    values={this.state.values}
-                    valueRenderer={this.renderValue}
-                    perPage={USERS_PER_PAGE}
-                    handlePageChange={this.handlePageChange}
-                    handleInput={this.search}
-                    handleDelete={this.handleDelete}
-                    handleAdd={this.addValue}
-                    handleSubmit={this.handleSubmit}
-                    maxValues={MAX_SELECTABLE_VALUES}
-                    numRemainingText={numRemainingText}
-                    buttonSubmitText={buttonSubmitText}
-                    saving={this.state.saving}
-                />
-            );
-        }
+        const content = (
+            <MultiSelect
+                key='addUsersToChannelKey'
+                options={users}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                handleDelete={this.handleDelete}
+                handleAdd={this.addValue}
+                handleSubmit={this.handleSubmit}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                buttonSubmitText={buttonSubmitText}
+                saving={this.state.saving}
+                loading={this.state.loadingUsers}
+            />
+        );
 
         return (
             <Modal

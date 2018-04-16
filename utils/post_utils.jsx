@@ -4,15 +4,19 @@
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 import {Client4} from 'mattermost-redux/client';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {Permissions} from 'mattermost-redux/constants';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import store from 'stores/redux_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import {formatWithRenderer} from 'utils/markdown';
@@ -66,6 +70,8 @@ export function changeToJPGSrc(src, hasImageProxy) {
 }
 
 export function getProfilePicSrcForPost(post, user) {
+    const config = getConfig(store.getState());
+
     let src = '';
     if (user && user.id === post.user_id) {
         src = Utils.imageURLForUser(user);
@@ -73,7 +79,7 @@ export function getProfilePicSrcForPost(post, user) {
         src = Utils.imageURLForUser(post.user_id);
     }
 
-    if (post.props && post.props.from_webhook && !post.props.use_user_icon && global.window.mm_config.EnablePostIconOverride === 'true') {
+    if (post.props && post.props.from_webhook && !post.props.use_user_icon && config.EnablePostIconOverride === 'true') {
         if (post.props.override_icon_url) {
             src = post.props.override_icon_url;
         } else {
@@ -90,31 +96,35 @@ export function canDeletePost(post) {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
+    const channel = getChannel(store.getState(), post.channel_id);
 
-    const isOwner = isPostOwner(post);
-    const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-    const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam() || isSystemAdmin;
-    const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel() || isTeamAdmin;
-    const isAdmin = isChannelAdmin || isTeamAdmin || isSystemAdmin;
-
-    if (global.window.mm_license.IsLicensed === 'true') {
-        return (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_ALL && (isOwner || isChannelAdmin)) ||
-            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN && isTeamAdmin) ||
-            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN && isSystemAdmin);
+    if (isPostOwner(post)) {
+        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
     }
-
-    return isOwner || isAdmin;
+    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
 export function canEditPost(post, editDisableAction) {
-    const isOwner = isPostOwner(post);
-    let canEdit = isOwner && !isSystemMessage(post);
+    if (isSystemMessage(post)) {
+        return false;
+    }
 
-    if (canEdit && global.window.mm_license.IsLicensed === 'true') {
-        if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-            canEdit = false;
-        } else if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-            const timeLeft = (post.create_at + (global.window.mm_config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
+    let canEdit = false;
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+    const channel = getChannel(store.getState(), post.channel_id);
+
+    const isOwner = isPostOwner(post);
+    canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
+    if (!isOwner) {
+        // I only can edit my posts, at least until phase-2
+        //canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+        canEdit = false;
+    }
+
+    if (canEdit && license.IsLicensed === 'true') {
+        if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
+            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
             } else {
@@ -122,6 +132,7 @@ export function canEditPost(post, editDisableAction) {
             }
         }
     }
+
     return canEdit;
 }
 

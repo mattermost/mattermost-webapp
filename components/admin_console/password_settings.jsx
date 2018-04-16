@@ -158,7 +158,7 @@ export default class PasswordSettings extends AdminSettings {
                                 defaultMessage='Minimum Password Length:'
                             />
                         }
-                        placeholder={Utils.localizeMessage('admin.password.minimumLengthExample', 'Ex "5"')}
+                        placeholder={Utils.localizeMessage('admin.password.minimumLengthExample', 'E.g.: "5"')}
                         helpText={
                             <FormattedMessage
                                 id='admin.password.minimumLengthDescription'
@@ -267,7 +267,7 @@ export default class PasswordSettings extends AdminSettings {
                             defaultMessage='Maximum Login Attempts:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.attemptExample', 'Ex "10"')}
+                    placeholder={Utils.localizeMessage('admin.service.attemptExample', 'E.g.: "10"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.attemptDescription'
