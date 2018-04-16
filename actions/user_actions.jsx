@@ -400,15 +400,6 @@ export async function searchUsers(term, teamId = TeamStore.getCurrentId(), optio
     }
 }
 
-export async function searchUsersNotInTeam(term, teamId = TeamStore.getCurrentId(), options = {}, success) {
-    const {data} = await UserActions.searchProfiles(term, {not_in_team_id: teamId, ...options})(dispatch, getState);
-    loadStatusesForProfilesList(data);
-
-    if (success) {
-        success(data);
-    }
-}
-
 export async function autocompleteUsersInChannel(username, channelId, success) {
     const channel = ChannelStore.get(channelId);
     const teamId = channel ? channel.team_id : TeamStore.getCurrentId();
