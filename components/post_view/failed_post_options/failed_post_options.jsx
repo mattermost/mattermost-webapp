@@ -5,20 +5,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {createPost} from 'actions/post_actions.jsx';
-
 export default class FailedPostOptions extends React.PureComponent {
     static propTypes = {
-
-        /*
-         * The failed post
-         */
         post: PropTypes.object.isRequired,
         actions: PropTypes.shape({
-
-            /**
-             * The function to delete the post
-             */
+            createPost: PropTypes.func.isRequired,
             removePost: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -43,7 +34,7 @@ export default class FailedPostOptions extends React.PureComponent {
 
         const post = {...this.props.post};
         Reflect.deleteProperty(post, 'id');
-        createPost(post,
+        this.props.actions.createPost(post,
             () => {
                 this.submitting = false;
             },
