@@ -21,14 +21,37 @@ Object.defineProperty(document, 'execCommand', {
     value: (cmd) => supportedCommands.includes(cmd),
 });
 
+let logs;
+let warns;
+let errors;
+beforeAll(() => {
+    console.originalLog = console.log;
+    console.log = jest.fn((...params) => {
+        console.originalLog(...params);
+        logs.push(params);
+    });
+
+    console.originalWarn = console.warn;
+    console.warn = jest.fn((...params) => {
+        console.originalWarn.call(...params);
+        warns.push(params);
+    });
+
+    console.originalError = console.error;
+    console.error = jest.fn((...params) => {
+        console.originalError.call(...params);
+        errors.push(params);
+    });
+});
+
 beforeEach(() => {
-    console.log = jest.fn((error) => {
-        throw new Error('Unexpected console log: ' + error);
-    });
-    console.warn = jest.fn((error) => {
-        throw new Error('Unexpected console warning: ' + error);
-    });
-    console.error = jest.fn((error) => {
-        throw new Error('Unexpected console error: ' + error);
-    });
+    logs = [];
+    warns = [];
+    errors = [];
+});
+
+afterEach(() => {
+    if (logs.length > 0 || warns.length > 0 || errors.length > 0) {
+        throw new Error('Unexpected console logs');
+    }
 });
