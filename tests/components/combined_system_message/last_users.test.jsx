@@ -4,15 +4,19 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Posts} from 'mattermost-redux/constants';
+
 import LastUsers from 'components/post_view/combined_system_message/last_users.jsx';
 
 describe('components/post_view/combined_system_message/LastUsers', () => {
     const baseProps = {
-        firstUserEl: 'user_2 and ',
-        lastUsersEl: '2 others',
-        allUsersEl: 'user_2, user_3 and user_4 ',
-        what: 'added to the channel by',
         actor: 'user_1',
+        expandedLocale: {
+            id: 'combined_system_message.added_to_channel.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>added to channel</b> by {actor}.',
+        },
+        postType: Posts.POST_TYPES.ADD_TO_CHANNEL,
+        userDisplayNames: ['user_2', 'user_3', 'user_4 '],
     };
 
     test('should match snapshot', () => {
@@ -32,13 +36,13 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state on click', () => {
+    test('should match state on handleOnClick', () => {
         const wrapper = shallow(
             <LastUsers {...baseProps}/>
         );
 
         wrapper.setState({expand: false});
-        wrapper.instance().handleClick({preventDefault: jest.fn()});
+        wrapper.instance().handleOnClick({preventDefault: jest.fn()});
         expect(wrapper.state('expand')).toBe(true);
     });
 });

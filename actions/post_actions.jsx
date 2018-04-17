@@ -321,28 +321,23 @@ export function deleteCombinedPost(combinedPost) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
 
+        // delete each of the system posts
         combinedPost.system_post_ids.forEach((systemPostId) => {
             const systemPost = Selectors.getPost(state, systemPostId);
-            doDispatch(PostActions.deletePost(systemPost, false));
+            doDispatch(PostActions.deletePost(systemPost, true));
         });
 
-        if (combinedPost.id === getSelectedPostId(state)) {
-            dispatch({
-                type: ActionTypes.SELECT_POST,
-                postId: '',
-                channelId: '',
-            });
-        }
-
-        doDispatch({
-            type: PostTypes.REMOVE_POST,
-            data: combinedPost,
-        });
-
-        AppDispatcher.handleViewAction({
-            type: Constants.ActionTypes.REMOVE_POST,
-            combinedPost,
-        });
+        // finally, delete the combined post
+        doDispatch(batchActions([
+            {
+                type: PostTypes.POST_DELETED,
+                data: combinedPost,
+            },
+            {
+                type: PostTypes.REMOVE_POST,
+                data: combinedPost,
+            },
+        ]));
 
         return {data: true};
     };

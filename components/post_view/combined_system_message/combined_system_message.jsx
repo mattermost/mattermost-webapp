@@ -3,98 +3,132 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, intlShape} from 'react-intl';
+import {FormattedHTMLMessage, intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {getDisplayNameByUserId, localizeMessage} from 'utils/utils.jsx';
+import {
+    areObjectsEqual,
+    getDisplayNameByUserId,
+    localizeMessage,
+} from 'utils/utils.jsx';
 
 import LastUsers from './last_users';
 
-const allTypes = defineMessages({
-    add: {
+const combinedSystemMessage = {
+    [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
         one: {
-            id: 'combined_system_message.system_add.one',
-            defaultMessage: '{firstUser} {what} {actor}.',
+            id: 'combined_system_message.added_to_channel.one',
+            defaultMessage: '{firstUser} <b>added to channel</b> by {actor}.',
         },
         two: {
-            id: 'combined_system_message.system_add.two',
-            defaultMessage: '{firstUser} and {secondUser} {what} {actor}.',
+            id: 'combined_system_message.added_to_channel.two',
+            defaultMessage: '{firstUser} and {secondUser} <b>added to channel</b> by {actor}.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.added_to_channel.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>added to channel</b> by {actor}.',
         },
     },
-    other: {
+    [Posts.POST_TYPES.JOIN_CHANNEL]: {
         one: {
-            id: 'combined_system_message.system_other.one',
-            defaultMessage: '{firstUser} {what}.',
+            id: 'combined_system_message.joined_channel.one',
+            defaultMessage: '{firstUser} <b>joined the channel</b>.',
         },
         two: {
-            id: 'combined_system_message.system_other.two',
-            defaultMessage: '{firstUser} and {secondUser} {what}.',
+            id: 'combined_system_message.joined_channel.two',
+            defaultMessage: '{firstUser} and {secondUser} <b>joined the channel</b>.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.joined_channel.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>joined the channel</b>.',
         },
     },
-    common: {
-        many: {
-            first: {
-                id: 'combined_system_message.system_common.many.first',
-                defaultMessage: '{firstUser} and ',
-            },
-            last: {
-                id: 'combined_system_message.system_common.many.last',
-                defaultMessage: '{lastUsersCount} others',
-            },
-            all: {
-                id: 'combined_system_message.system_common.many.all',
-                defaultMessage: '{firstUsers} and {lastUser} ',
-            },
+    [Posts.POST_TYPES.LEAVE_CHANNEL]: {
+        one: {
+            id: 'combined_system_message.left_channel.one',
+            defaultMessage: '{firstUser} <b>left the channel</b>.',
+        },
+        two: {
+            id: 'combined_system_message.left_channel.two',
+            defaultMessage: '{firstUser} and {secondUser} <b>left the channel</b>.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.left_channel.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>left the channel</b>.',
         },
     },
-    what: {
-        [Posts.POST_TYPES.ADD_TO_TEAM]: {
-            id: 'combined_system_message.added_to_team',
-            defaultMessage: 'added to the team by',
+    [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: {
+        one: {
+            id: 'combined_system_message.removed_from_channel.one',
+            defaultMessage: '{firstUser} was <b>removed from the channel</b>.',
         },
-        [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
-            id: 'combined_system_message.added_to_channel',
-            defaultMessage: 'added to the channel by',
+        two: {
+            id: 'combined_system_message.removed_from_channel.two',
+            defaultMessage: '{firstUser} and {secondUser} were <b>removed from the channel</b>.',
         },
-        [Posts.POST_TYPES.JOIN_CHANNEL]: {
-            id: 'combined_system_message.joined_channel',
-            defaultMessage: 'joined the channel',
-        },
-        [Posts.POST_TYPES.LEAVE_CHANNEL]: {
-            id: 'combined_system_message.left_channel',
-            defaultMessage: 'left the channel',
-        },
-        [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: {
-            one: {
-                id: 'combined_system_message.removed_from_channel.one',
-                defaultMessage: 'was removed from the channel',
-            },
-            many: {
-                id: 'combined_system_message.removed_from_channel.many',
-                defaultMessage: 'were removed from the channel',
-            },
-        },
-        [Posts.POST_TYPES.JOIN_TEAM]: {
-            id: 'combined_system_message.joined_team',
-            defaultMessage: 'joined the team',
-        },
-        [Posts.POST_TYPES.LEAVE_TEAM]: {
-            id: 'combined_system_message.left_team',
-            defaultMessage: 'left the team.',
-        },
-        [Posts.POST_TYPES.REMOVE_FROM_TEAM]: {
-            one: {
-                id: 'combined_system_message.removed_from_team.one',
-                defaultMessage: 'was removed from the team',
-            },
-            many: {
-                id: 'combined_system_message.removed_from_team.many',
-                defaultMessage: 'were removed from the team',
-            },
+        many_expanded: {
+            id: 'combined_system_message.removed_from_channel.many_expanded',
+            defaultMessage: '{users} and {lastUser} were <b>removed from the channel</b>.',
         },
     },
-});
+    [Posts.POST_TYPES.ADD_TO_TEAM]: {
+        one: {
+            id: 'combined_system_message.added_to_team.one',
+            defaultMessage: '{firstUser} <b>added to the team</b> by {actor}.',
+        },
+        two: {
+            id: 'combined_system_message.added_to_team.two',
+            defaultMessage: '{firstUser} and {secondUser} <b>added to the team</b> by {actor}.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.added_to_team.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>added to the team</b> by {actor}.',
+        },
+    },
+    [Posts.POST_TYPES.JOIN_TEAM]: {
+        one: {
+            id: 'combined_system_message.joined_team.one',
+            defaultMessage: '{firstUser} <b>joined the team</b>.',
+        },
+        two: {
+            id: 'combined_system_message.joined_team.two',
+            defaultMessage: '{firstUser} and {secondUser} <b>joined the team</b>.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.joined_team.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>joined the team</b>.',
+        },
+    },
+    [Posts.POST_TYPES.LEAVE_TEAM]: {
+        one: {
+            id: 'combined_system_message.left_team.one',
+            defaultMessage: '{firstUser} <b>left the team</b>.',
+        },
+        two: {
+            id: 'combined_system_message.left_team.two',
+            defaultMessage: '{firstUser} and {secondUser} <b>left the team</b>.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.left_team.many_expanded',
+            defaultMessage: '{users} and {lastUser} <b>left the team</b>.',
+        },
+    },
+    [Posts.POST_TYPES.REMOVE_FROM_TEAM]: {
+        one: {
+            id: 'combined_system_message.removed_from_team.one',
+            defaultMessage: '{firstUser} was <b>removed from the team</b>.',
+        },
+        two: {
+            id: 'combined_system_message.removed_from_team.two',
+            defaultMessage: '{firstUser} and {secondUser} were <b>removed from the team</b>.',
+        },
+        many_expanded: {
+            id: 'combined_system_message.removed_from_team.many_expanded',
+            defaultMessage: '{users} and {lastUser} were <b>removed from the team</b>.',
+        },
+    },
+};
 
 export default class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
@@ -117,6 +151,12 @@ export default class CombinedSystemMessage extends React.PureComponent {
         super(props);
 
         this.getMissingProfiles();
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if (areObjectsEqual(nextProps.userActivityProps, this.props.userActivityProps)) {
+            this.getMissingProfiles();
+        }
     }
 
     getMissingProfiles = async () => {
@@ -157,10 +197,52 @@ export default class CombinedSystemMessage extends React.PureComponent {
 
         const userInProp = userIds.includes(currentUserId);
         if (userInProp) {
-            displayNames.push(localizeMessage('combined_system_message.you', 'You'));
+            displayNames.unshift(localizeMessage('combined_system_message.you', 'You'));
         }
 
         return displayNames;
+    }
+
+    generateFormattedMessage(postType, userDisplayNames, actor) {
+        const firstUser = userDisplayNames[0];
+        const numOthers = userDisplayNames.length - 1;
+
+        let formattedMessage;
+        if (numOthers === 0) {
+            formattedMessage = (
+                <FormattedHTMLMessage
+                    id={combinedSystemMessage[postType].one.id}
+                    defaultMessage={combinedSystemMessage[postType].one.defaultMessage}
+                    values={{
+                        firstUser,
+                        actor,
+                    }}
+                />
+            );
+        } else if (numOthers === 1) {
+            formattedMessage = (
+                <FormattedHTMLMessage
+                    id={combinedSystemMessage[postType].two.id}
+                    defaultMessage={combinedSystemMessage[postType].two.defaultMessage}
+                    values={{
+                        firstUser,
+                        secondUser: userDisplayNames[1],
+                        actor,
+                    }}
+                />
+            );
+        } else {
+            formattedMessage = (
+                <LastUsers
+                    actor={actor}
+                    expandedLocale={combinedSystemMessage[postType].many_expanded}
+                    postType={postType}
+                    userDisplayNames={userDisplayNames}
+                />
+            );
+        }
+
+        return formattedMessage;
     }
 
     render() {
@@ -168,12 +250,9 @@ export default class CombinedSystemMessage extends React.PureComponent {
             currentUserId,
             userActivityProps,
         } = this.props;
-        const {formatMessage} = this.context.intl;
 
         const messages = [];
         Object.entries(userActivityProps).forEach(([postType, values]) => {
-            let formattedMessage;
-
             if (
                 postType === Posts.POST_TYPES.ADD_TO_TEAM ||
                 postType === Posts.POST_TYPES.ADD_TO_CHANNEL
@@ -185,96 +264,12 @@ export default class CombinedSystemMessage extends React.PureComponent {
                     }
                     const userDisplayNames = this.getDisplayNameById(userIds) || [];
 
-                    const firstUser = userDisplayNames[0];
-                    const lastUsersCount = userDisplayNames.length - 1;
-                    const what = formatMessage(allTypes.what[postType]);
-
-                    if (lastUsersCount === 0) {
-                        formattedMessage = formatMessage(allTypes.add.one, {
-                            firstUser,
-                            what,
-                            actor,
-                        });
-                    } else if (lastUsersCount === 1) {
-                        formattedMessage = formatMessage(allTypes.add.two, {
-                            firstUser,
-                            secondUser: userDisplayNames[1],
-                            what,
-                            actor,
-                        });
-                    } else {
-                        const lastIndex = userDisplayNames.length - 1;
-
-                        const firstUserEl = formatMessage(allTypes.common.many.first, {firstUser});
-                        const lastUsersEl = formatMessage(allTypes.common.many.last, {lastUsersCount});
-                        const allUsersEl = formatMessage(allTypes.common.many.all, {
-                            firstUsers: userDisplayNames.slice(0, lastIndex).join(', '),
-                            lastUser: userDisplayNames[lastIndex]},
-                        );
-
-                        formattedMessage = (
-                            <LastUsers
-                                firstUserEl={firstUserEl}
-                                lastUsersEl={lastUsersEl}
-                                allUsersEl={allUsersEl}
-                                what={what}
-                                actor={actor}
-                            />
-                        );
-                    }
+                    messages.push(this.generateFormattedMessage(postType, userDisplayNames, actor));
                 });
             } else {
                 const userDisplayNames = this.getDisplayNameById(values) || [];
-
-                const firstUser = userDisplayNames[0];
-                const lastUsersCount = userDisplayNames.length - 1;
-
-                let what;
-                if (postType === Posts.POST_TYPES.REMOVE_FROM_TEAM || postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
-                    what = formatMessage(allTypes.what[postType].many);
-                } else {
-                    what = formatMessage(allTypes.what[postType]);
-                }
-
-                if (lastUsersCount === 0) {
-                    if (postType === Posts.POST_TYPES.REMOVE_FROM_TEAM || postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
-                        what = formatMessage(allTypes.what[postType].one);
-                    } else {
-                        what = formatMessage(allTypes.what[postType]);
-                    }
-
-                    formattedMessage = formatMessage(allTypes.other.one, {
-                        firstUser,
-                        what,
-                    });
-                } else if (lastUsersCount === 1) {
-                    formattedMessage = formatMessage(allTypes.other.two, {
-                        firstUser,
-                        secondUser: userDisplayNames[1],
-                        what,
-                    });
-                } else {
-                    const lastIndex = userDisplayNames.length - 1;
-
-                    const firstUserEl = formatMessage(allTypes.common.many.first, {firstUser});
-                    const lastUsersEl = formatMessage(allTypes.common.many.last, {lastUsersCount});
-                    const allUsersEl = formatMessage(allTypes.common.many.all, {
-                        firstUsers: userDisplayNames.slice(0, lastIndex).join(', '),
-                        lastUser: userDisplayNames[lastIndex]},
-                    );
-
-                    formattedMessage = (
-                        <LastUsers
-                            firstUserEl={firstUserEl}
-                            lastUsersEl={lastUsersEl}
-                            allUsersEl={allUsersEl}
-                            what={what}
-                        />
-                    );
-                }
+                messages.push(this.generateFormattedMessage(postType, userDisplayNames));
             }
-
-            messages.push(formattedMessage);
         });
 
         return messages.map((m, i) => (<React.Fragment key={m + i}><span>{m}</span><br/></React.Fragment>));

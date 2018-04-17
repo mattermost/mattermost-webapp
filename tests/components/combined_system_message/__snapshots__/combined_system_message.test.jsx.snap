@@ -3,7 +3,10 @@
 exports[`components/post_view/CombinedSystemMessage should match snapshot 1`] = `
 Array [
   <React.Fragment
-    key=" added to the channel by .0"
+    key="[object Object]0"
+  />,
+  <React.Fragment
+    key="[object Object]1"
   />,
 ]
 `;
