@@ -26,7 +26,7 @@ describe('components/AddUsersToTeam', () => {
                     process.nextTick(() => resolve());
                 });
             }),
-            setAddUsersToTeamSearchTerm: jest.fn(() => {
+            setModalSearchTerm: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
@@ -169,7 +169,7 @@ describe('components/AddUsersToTeam', () => {
     test('should match state when search is called', () => {
         const actions = {
             ...baseProps.actions,
-            setAddUsersToTeamSearchTerm: jest.fn(() => {
+            setModalSearchTerm: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
@@ -182,13 +182,13 @@ describe('components/AddUsersToTeam', () => {
 
         wrapper.instance().search('');
         jest.runAllTimers();
-        expect(actions.setAddUsersToTeamSearchTerm).toBeCalled();
+        expect(actions.setModalSearchTerm).toBeCalled();
 
         const searchTerm = 'term';
         wrapper.instance().search(searchTerm);
         expect(wrapper.state('loadingUsers')).toEqual(true);
         jest.runAllTimers();
-        expect(actions.setAddUsersToTeamSearchTerm).toHaveBeenCalledTimes(2);
+        expect(actions.setModalSearchTerm).toHaveBeenCalledTimes(2);
     });
 
     test('should match state when handleDelete is called', () => {

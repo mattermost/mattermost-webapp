@@ -3,20 +3,10 @@
 
 import {SearchTypes} from 'utils/constants';
 
-export function setAddUsersToTeamSearchTerm(term) {
+export function setModalSearchTerm(term) {
     return async (dispatch) => {
         dispatch({
-            type: SearchTypes.SET_ADD_USERS_TO_TEAM_SEARCH,
-            data: term,
-        });
-        return {data: true};
-    };
-}
-
-export function setMoreDirectChannelsSearchTerm(term) {
-    return async (dispatch) => {
-        dispatch({
-            type: SearchTypes.SET_MORE_DIRECT_CHANNELS_SEARCH,
+            type: SearchTypes.SET_MODAL_SEARCH,
             data: term,
         });
         return {data: true};

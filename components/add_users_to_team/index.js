@@ -8,12 +8,12 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {searchProfilesNotInCurrentTeam, getProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {addUsersToTeam} from 'actions/team_actions.jsx';
-import {setAddUsersToTeamSearchTerm} from 'actions/views/search';
+import {setModalSearchTerm} from 'actions/views/search';
 
 import AddUsersToTeam from './add_users_to_team.jsx';
 
 function mapStateToProps(state) {
-    const searchTerm = state.views.search.addUsersToTeam;
+    const searchTerm = state.views.search.modalSearch;
 
     let users;
     if (searchTerm) {
@@ -36,7 +36,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getProfilesNotInTeam,
-            setAddUsersToTeamSearchTerm,
+            setModalSearchTerm,
             searchProfiles,
             addUsersToTeam,
         }, dispatch),

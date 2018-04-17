@@ -15,7 +15,7 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {setMoreDirectChannelsSearchTerm} from 'actions/views/search';
+import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const restrictDirectMessage = config.RestrictDirectMessage;
 
-    const searchTerm = state.views.search.moreDirectChannels;
+    const searchTerm = state.views.search.modalSearch;
 
     let users;
     if (searchTerm) {
@@ -63,7 +63,7 @@ function mapDispatchToProps(dispatch) {
             getProfiles,
             getProfilesInTeam,
             searchProfiles,
-            setMoreDirectChannelsSearchTerm,
+            setModalSearchTerm,
         }, dispatch),
     };
 }

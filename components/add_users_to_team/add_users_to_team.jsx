@@ -26,7 +26,7 @@ export default class AddUsersToTeam extends React.Component {
         onModalDismissed: PropTypes.func,
         actions: PropTypes.shape({
             getProfilesNotInTeam: PropTypes.func.isRequired,
-            setAddUsersToTeamSearchTerm: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
             addUsersToTeam: PropTypes.func.isRequired,
         }).isRequired,
@@ -77,7 +77,7 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     handleHide = () => {
-        this.props.actions.setAddUsersToTeamSearchTerm('');
+        this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
 
@@ -148,7 +148,7 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     search = (term) => {
-        this.props.actions.setAddUsersToTeamSearchTerm(term);
+        this.props.actions.setModalSearchTerm(term);
     }
 
     renderOption(option, isSelected, onAdd) {

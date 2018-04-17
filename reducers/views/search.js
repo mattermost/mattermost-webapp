@@ -5,19 +5,9 @@ import {combineReducers} from 'redux';
 
 import {SearchTypes} from 'utils/constants';
 
-function addUsersToTeam(state = '', action) {
+function modalSearch(state = '', action) {
     switch (action.type) {
-    case SearchTypes.SET_ADD_USERS_TO_TEAM_SEARCH: {
-        return action.data;
-    }
-    default:
-        return state;
-    }
-}
-
-function moreDirectChannels(state = '', action) {
-    switch (action.type) {
-    case SearchTypes.SET_MORE_DIRECT_CHANNELS_SEARCH: {
+    case SearchTypes.SET_MODAL_SEARCH: {
         return action.data;
     }
     default:
@@ -26,6 +16,5 @@ function moreDirectChannels(state = '', action) {
 }
 
 export default combineReducers({
-    addUsersToTeam,
-    moreDirectChannels,
+    modalSearch,
 });

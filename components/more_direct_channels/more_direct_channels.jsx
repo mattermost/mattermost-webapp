@@ -49,7 +49,7 @@ export default class MoreDirectChannels extends React.Component {
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
-            setMoreDirectChannelsSearchTerm: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -112,6 +112,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleHide = () => {
+        this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
 
@@ -204,7 +205,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     search = (term) => {
-        this.props.actions.setMoreDirectChannelsSearchTerm(term);
+        this.props.actions.setModalSearchTerm(term);
     }
 
     handleDelete = (values) => {

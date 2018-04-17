@@ -393,8 +393,7 @@ export const StatTypes = keyMirror({
 });
 
 export const SearchTypes = keyMirror({
-    SET_ADD_USERS_TO_TEAM_SEARCH: null,
-    SET_MORE_DIRECT_CHANNELS_SEARCH: null,
+    SET_MODAL_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({
