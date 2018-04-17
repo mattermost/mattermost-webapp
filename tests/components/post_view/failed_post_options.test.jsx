@@ -47,5 +47,16 @@ describe('components/post_view/FailedPostOptions', () => {
         // Third attempt should be ignored, since already succeeded.
         wrapper.find('.post-retry').simulate('click', e);
         expect(props.actions.createPost.mock.calls.length).toBe(2);
+
+        // Next attempt should succeed when post id changes.
+        wrapper.setProps({
+            ...props,
+            post: {
+                ...props.post,
+                id: 'post_id_new',
+            },
+        });
+        wrapper.find('.post-retry').simulate('click', e);
+        expect(props.actions.createPost.mock.calls.length).toBe(3);
     });
 });
