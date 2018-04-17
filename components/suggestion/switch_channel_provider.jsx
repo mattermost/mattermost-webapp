@@ -2,6 +2,8 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {
@@ -30,11 +32,18 @@ import Suggestion from './suggestion.jsx';
 const getState = store.getState;
 
 class SwitchChannelSuggestion extends Suggestion {
+    static get propTypes() {
+        return {
+            ...super.propTypes,
+            channelMember: PropTypes.object,
+        };
+    }
+
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
 
-        const member = getMyChannelMemberships(getState())[item.id];
+        const member = this.props.channelMember;
         let badge = null;
         if (member) {
             if (member.notify_props && member.mention_count > 0) {
@@ -83,6 +92,15 @@ class SwitchChannelSuggestion extends Suggestion {
         );
     }
 }
+
+function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
+    const channelId = ownProps.item && ownProps.item.channel ? ownProps.item.channel.id : '';
+    return {
+        channelMember: getMyChannelMemberships(state)[channelId],
+    };
+}
+
+const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannelSuggestion)(SwitchChannelSuggestion);
 
 let prefix = '';
 
@@ -335,7 +353,7 @@ export default class SwitchChannelProvider extends Provider {
                 matchedPretext: channelPrefix,
                 terms: channelNames,
                 items: channels,
-                component: SwitchChannelSuggestion,
+                component: ConnectedSwitchChannelSuggestion,
             });
         }, 0);
     }
@@ -358,7 +376,6 @@ export default class SwitchChannelProvider extends Provider {
                 );
             }
             wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
-            wrappedChannel.id = channel.id;
             channels.push(wrappedChannel);
         }
 
@@ -371,7 +388,7 @@ export default class SwitchChannelProvider extends Provider {
                 matchedPretext: '',
                 terms: channelNames,
                 items: channels,
-                component: SwitchChannelSuggestion,
+                component: ConnectedSwitchChannelSuggestion,
             });
         }, 0);
     }
