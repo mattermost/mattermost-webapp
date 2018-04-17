@@ -20,30 +20,41 @@ export default class FailedPostOptions extends React.PureComponent {
         this.retryPost = this.retryPost.bind(this);
         this.cancelPost = this.cancelPost.bind(this);
 
-        this.submitting = false;
+        this.state = {
+            submitting: false,
+            submitted: false,
+        };
     }
 
     retryPost(e) {
         e.preventDefault();
 
-        if (this.submitting) {
+        // Don't retry if already retrying or previously retried and succeeded (and waiting for
+        // re-render).
+        if (this.state.submitting || this.state.submitted) {
             return;
         }
 
-        this.submitting = true;
+        this.setState({
+            submitting: true,
+        });
 
         const post = {...this.props.post};
         Reflect.deleteProperty(post, 'id');
         this.props.actions.createPost(post,
             () => {
-                this.submitting = false;
+                this.setState({
+                    submitted: true,
+                });
             },
             (err) => {
                 if (err && err.id && err.id === 'api.post.create_post.root_id.app_error') {
                     this.showPostDeletedModal();
                 }
 
-                this.submitting = false;
+                this.setState({
+                    submitting: false,
+                });
             }
         );
     }
