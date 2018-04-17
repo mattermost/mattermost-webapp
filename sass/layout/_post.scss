@@ -1755,6 +1755,7 @@
     z-index: 5;
 
     .post-collapse__show-more-button {
+        @include single-transition(all, .15s, ease);
         @include border-radius(2px);
         border: 1px solid transparent;
         display: inline-block;
