@@ -70,14 +70,12 @@ export default class SignupController extends React.Component {
         if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
             const token = params.get('t') || '';
-            const data = params.get('d') || '';
             const inviteId = params.get('id') || '';
 
             const userLoggedIn = UserStore.getCurrentUser() != null;
 
             if ((inviteId || token) && userLoggedIn) {
                 addUserToTeamFromInvite(
-                    data,
                     token,
                     inviteId,
                     (team) => {

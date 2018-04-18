@@ -182,12 +182,10 @@ export default class LoginController extends React.Component {
                 // check for query params brought over from signup_user_complete
                 const params = new URLSearchParams(this.props.location.search);
                 const inviteToken = params.get('t') || '';
-                const data = params.get('d') || '';
                 const inviteId = params.get('id') || '';
 
                 if (inviteId || inviteToken) {
                     addUserToTeamFromInvite(
-                        data,
                         inviteToken,
                         inviteId,
                         (team) => {
