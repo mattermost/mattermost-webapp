@@ -33,11 +33,7 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * If an image proxy is enabled.
          */
-<<<<<<< HEAD
         hasImageProxy: PropTypes.bool.isRequired
-=======
-        hasImageProxy: PropTypes.bool.isRequired,
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
     }
 
     constructor(props) {
@@ -48,11 +44,7 @@ export default class PostImageEmbed extends React.PureComponent {
 
         this.state = {
             loaded: false,
-<<<<<<< HEAD
             errored: false
-=======
-            errored: false,
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
         };
     }
 
@@ -64,11 +56,7 @@ export default class PostImageEmbed extends React.PureComponent {
         if (nextProps.link !== this.props.link) {
             this.setState({
                 loaded: false,
-<<<<<<< HEAD
                 errored: false
-=======
-                errored: false,
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
             });
         }
     }
@@ -103,11 +91,7 @@ export default class PostImageEmbed extends React.PureComponent {
     handleLoadError() {
         this.setState({
             errored: true,
-<<<<<<< HEAD
             loaded: true
-=======
-            loaded: true,
->>>>>>> f4d862fed764040ccb16ce47407aa65da7f3ad40
         });
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
