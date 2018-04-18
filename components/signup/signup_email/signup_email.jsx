@@ -56,7 +56,7 @@ export default class SignupEmail extends React.Component {
 
     getInviteInfo() {
         let data = (new URLSearchParams(this.props.location.search)).get('d');
-        let hash = (new URLSearchParams(this.props.location.search)).get('h');
+        let token = (new URLSearchParams(this.props.location.search)).get('t');
         const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
         let email = '';
         let teamDisplayName = '';
@@ -66,7 +66,7 @@ export default class SignupEmail extends React.Component {
         const serverError = '';
         const noOpenServerError = false;
 
-        if (hash && hash.length > 0) {
+        if (token && token.length > 0) {
             const parsedData = JSON.parse(data);
             email = parsedData.email;
             teamDisplayName = parsedData.display_name;
@@ -105,12 +105,12 @@ export default class SignupEmail extends React.Component {
             );
 
             data = null;
-            hash = null;
+            token = null;
         }
 
         return {
             data,
-            hash,
+            token,
             email,
             teamDisplayName,
             teamName,
@@ -129,8 +129,8 @@ export default class SignupEmail extends React.Component {
             user.password,
             '',
             () => {
-                if (this.state.hash > 0) {
-                    BrowserStore.setGlobalItem(this.state.hash, JSON.stringify({usedBefore: true}));
+                if (this.state.token > 0) {
+                    BrowserStore.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
                 }
 
                 loadMe().then(
@@ -258,7 +258,7 @@ export default class SignupEmail extends React.Component {
 
             createUserWithInvite(user,
                 this.state.data,
-                this.state.hash,
+                this.state.token,
                 this.state.inviteId,
                 this.handleSignupSuccess.bind(this, user),
                 (err) => {

@@ -64,8 +64,8 @@ export async function updateTeamMemberRoles(teamId, userId, newRoles, success, e
     }
 }
 
-export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
-    Client4.addToTeamFromInvite(hash, data, inviteId).then(
+export function addUserToTeamFromInvite(token, inviteId, success, error) {
+    Client4.addToTeamFromInvite(token, inviteId).then(
         async (member) => {
             const {data: team} = await TeamActions.getTeam(member.team_id)(dispatch, getState);
             dispatch({

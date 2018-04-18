@@ -33,9 +33,9 @@ export default class SignupController extends React.Component {
 
         if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
-            let hash = params.get('h');
-            if (hash == null) {
-                hash = '';
+            let token = params.get('t');
+            if (token == null) {
+                token = '';
             }
             let inviteId = params.get('id');
             if (inviteId == null) {
@@ -44,8 +44,8 @@ export default class SignupController extends React.Component {
 
             if (inviteId) {
                 loading = true;
-            } else if (hash && !UserStore.getCurrentUser()) {
-                usedBefore = BrowserStore.getGlobalItem(hash);
+            } else if (token && !UserStore.getCurrentUser()) {
+                usedBefore = BrowserStore.getGlobalItem(token);
             } else if (!inviteId && !this.props.enableOpenServer && !this.props.noAccounts) {
                 noOpenServerError = true;
                 serverError = (
@@ -69,16 +69,14 @@ export default class SignupController extends React.Component {
         BrowserStore.removeGlobalItem('team');
         if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
-            const hash = params.get('h') || '';
-            const data = params.get('d') || '';
+            const token = params.get('t') || '';
             const inviteId = params.get('id') || '';
 
             const userLoggedIn = UserStore.getCurrentUser() != null;
 
-            if ((inviteId || hash) && userLoggedIn) {
+            if ((inviteId || token) && userLoggedIn) {
                 addUserToTeamFromInvite(
-                    data,
-                    hash,
+                    token,
                     inviteId,
                     (team) => {
                         loadMe().then(

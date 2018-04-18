@@ -578,8 +578,8 @@ export async function loginById(userId, password, mfaToken, success, error) {
     }
 }
 
-export async function createUserWithInvite(user, data, emailHash, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, data, emailHash, inviteId)(dispatch, getState);
+export async function createUserWithInvite(user, token, inviteId, success, error) {
+    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
     if (resp && success) {
         success(resp);
     } else if (err && error) {
