@@ -33,13 +33,13 @@ beforeAll(() => {
 
     console.originalWarn = console.warn;
     console.warn = jest.fn((...params) => {
-        console.originalWarn.call(...params);
+        console.originalWarn(...params);
         warns.push(params);
     });
 
     console.originalError = console.error;
     console.error = jest.fn((...params) => {
-        console.originalError.call(...params);
+        console.originalError(...params);
         errors.push(params);
     });
 });
