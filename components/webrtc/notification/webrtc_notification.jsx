@@ -83,24 +83,33 @@ export default class WebrtcNotification extends React.Component {
     }
 
     onIncomingCall(incoming) {
-        if (this.mounted && this.props.enableWebrtc) {
+        if (this.mounted) {
             const userId = incoming.from_user_id;
 
-            if (WebrtcStore.isBusy()) {
-                WebSocketClient.sendMessage('webrtc', {
-                    action: WebrtcActionTypes.BUSY,
-                    from_user_id: UserStore.getCurrentId(),
-                    to_user_id: userId,
-                });
-                this.stopRinging();
-            } else if (Utils.isUserMediaAvailable()) {
-                WebrtcStore.setVideoCallWith(userId);
-                this.setState({
-                    userCalling: UserStore.getProfile(userId),
-                });
+            if (this.props.enableWebrtc) {
+                if (WebrtcStore.isBusy()) {
+                    WebSocketClient.sendMessage('webrtc', {
+                        action: WebrtcActionTypes.BUSY,
+                        from_user_id: UserStore.getCurrentId(),
+                        to_user_id: userId,
+                    });
+                    this.stopRinging();
+                } else if (Utils.isUserMediaAvailable()) {
+                    WebrtcStore.setVideoCallWith(userId);
+                    this.setState({
+                        userCalling: UserStore.getProfile(userId),
+                    });
+                } else {
+                    WebSocketClient.sendMessage('webrtc', {
+                        action: WebrtcActionTypes.UNSUPPORTED,
+                        from_user_id: UserStore.getCurrentId(),
+                        to_user_id: userId,
+                    });
+                    this.stopRinging();
+                }
             } else {
                 WebSocketClient.sendMessage('webrtc', {
-                    action: WebrtcActionTypes.UNSUPPORTED,
+                    action: WebrtcActionTypes.DISABLED,
                     from_user_id: UserStore.getCurrentId(),
                     to_user_id: userId,
                 });
