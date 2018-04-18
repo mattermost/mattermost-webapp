@@ -284,9 +284,7 @@ export default class Navbar extends React.Component {
     }
 
     isWebrtcEnabled() {
-        const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-        return this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        return this.props.enableWebrtc && Utils.isUserMediaAvailable();
     }
 
     initWebrtc = () => {

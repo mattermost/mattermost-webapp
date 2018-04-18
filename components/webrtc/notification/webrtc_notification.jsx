@@ -10,14 +10,13 @@ import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
-import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+import {WebrtcActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ring from 'images/ring.mp3';
 
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-
 export default class WebrtcNotification extends React.Component {
     static propTypes = {
+        enableWebrtc: PropTypes.bool.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeRhs: PropTypes.func.isRequired,
@@ -84,35 +83,24 @@ export default class WebrtcNotification extends React.Component {
     }
 
     onIncomingCall(incoming) {
-        if (this.mounted) {
+        if (this.mounted && this.props.enableWebrtc) {
             const userId = incoming.from_user_id;
-            const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            const featureEnabled = Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
-            if (featureEnabled) {
-                if (WebrtcStore.isBusy()) {
-                    WebSocketClient.sendMessage('webrtc', {
-                        action: WebrtcActionTypes.BUSY,
-                        from_user_id: UserStore.getCurrentId(),
-                        to_user_id: userId,
-                    });
-                    this.stopRinging();
-                } else if (userMedia) {
-                    WebrtcStore.setVideoCallWith(userId);
-                    this.setState({
-                        userCalling: UserStore.getProfile(userId),
-                    });
-                } else {
-                    WebSocketClient.sendMessage('webrtc', {
-                        action: WebrtcActionTypes.UNSUPPORTED,
-                        from_user_id: UserStore.getCurrentId(),
-                        to_user_id: userId,
-                    });
-                    this.stopRinging();
-                }
+            if (WebrtcStore.isBusy()) {
+                WebSocketClient.sendMessage('webrtc', {
+                    action: WebrtcActionTypes.BUSY,
+                    from_user_id: UserStore.getCurrentId(),
+                    to_user_id: userId,
+                });
+                this.stopRinging();
+            } else if (Utils.isUserMediaAvailable()) {
+                WebrtcStore.setVideoCallWith(userId);
+                this.setState({
+                    userCalling: UserStore.getProfile(userId),
+                });
             } else {
                 WebSocketClient.sendMessage('webrtc', {
-                    action: WebrtcActionTypes.DISABLED,
+                    action: WebrtcActionTypes.UNSUPPORTED,
                     from_user_id: UserStore.getCurrentId(),
                     to_user_id: userId,
                 });

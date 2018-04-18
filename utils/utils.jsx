@@ -1612,3 +1612,7 @@ export function moveCursorToEnd(e) {
         e.target.value = val;
     }
 }
+
+export function isUserMediaAvailable() {
+    return navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+}
