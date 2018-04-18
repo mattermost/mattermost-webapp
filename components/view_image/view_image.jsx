@@ -206,6 +206,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileName = fileInfo.link || fileInfo.name;
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
         const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
+        const isExternalFile = !fileInfo.id;
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -330,6 +331,7 @@ export default class ViewImageModal extends React.PureComponent {
                                 fileURL={fileDownloadUrl}
                                 enablePublicLink={this.props.enablePublicLink}
                                 canDownloadFiles={this.props.canDownloadFiles}
+                                isExternalFile={isExternalFile}
                                 onGetPublicLink={this.handleGetPublicLink}
                             />
                         </div>

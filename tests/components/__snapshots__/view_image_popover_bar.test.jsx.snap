@@ -1,6 +1,158 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['components/view_image/PopoverBar should match snapshot with public links disabled 1'] = `
+exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when externally hosted 1`] = `
+<div
+  className="modal-button-bar footer--show"
+>
+  <span
+    className="pull-left text"
+  >
+    <FormattedMessage
+      defaultMessage="File {count, number} of {total, number}"
+      id="view_image_popover.file"
+      values={
+        Object {
+          "count": 1,
+          "total": 0,
+        }
+      }
+    />
+  </span>
+  <div
+    className="image-links"
+  >
+    <a
+      className="text"
+      download="img.png"
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Open"
+        id="view_image_popover.open"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when externally hosted and on the desktop app 1`] = `
+<div
+  className="modal-button-bar footer--show"
+>
+  <span
+    className="pull-left text"
+  >
+    <FormattedMessage
+      defaultMessage="File {count, number} of {total, number}"
+      id="view_image_popover.file"
+      values={
+        Object {
+          "count": 1,
+          "total": 0,
+        }
+      }
+    />
+  </span>
+  <div
+    className="image-links"
+  >
+    <a
+      className="text"
+      download="img.png"
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Download"
+        id="view_image_popover.download"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when internally hosted 1`] = `
+<div
+  className="modal-button-bar footer--show"
+>
+  <span
+    className="pull-left text"
+  >
+    <FormattedMessage
+      defaultMessage="File {count, number} of {total, number}"
+      id="view_image_popover.file"
+      values={
+        Object {
+          "count": 1,
+          "total": 0,
+        }
+      }
+    />
+  </span>
+  <div
+    className="image-links"
+  >
+    <a
+      className="text"
+      download="img.png"
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Download"
+        id="view_image_popover.download"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when internally hosted and on the desktop app 1`] = `
+<div
+  className="modal-button-bar footer--show"
+>
+  <span
+    className="pull-left text"
+  >
+    <FormattedMessage
+      defaultMessage="File {count, number} of {total, number}"
+      id="view_image_popover.file"
+      values={
+        Object {
+          "count": 1,
+          "total": 0,
+        }
+      }
+    />
+  </span>
+  <div
+    className="image-links"
+  >
+    <a
+      className="text"
+      download="img.png"
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Download"
+        id="view_image_popover.download"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`components/view_image/popover_bar/PopoverBar should match snapshot with public links disabled 1`] = `
 <div
   className="modal-button-bar footer--show"
 >
@@ -38,7 +190,7 @@ exports['components/view_image/PopoverBar should match snapshot with public link
 </div>
 `;
 
-exports['components/view_image/PopoverBar should match snapshot with public links enabled 1'] = `
+exports[`components/view_image/popover_bar/PopoverBar should match snapshot with public links enabled 1`] = `
 <div
   className="modal-button-bar footer--show"
 >
