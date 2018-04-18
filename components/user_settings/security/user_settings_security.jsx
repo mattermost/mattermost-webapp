@@ -31,10 +31,8 @@ export default class SecurityTab extends React.Component {
         user: PropTypes.object,
         activeSection: PropTypes.string,
         updateSection: PropTypes.func,
-        updateTab: PropTypes.func,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        setEnforceFocus: PropTypes.func.isRequired,
         setRequireConfirm: PropTypes.func.isRequired,
 
         /*

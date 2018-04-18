@@ -574,9 +574,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 }
 
 AdvancedSettingsDisplay.propTypes = {
-    user: PropTypes.object,
     updateSection: PropTypes.func,
-    updateTab: PropTypes.func,
     activeSection: PropTypes.string,
     prevActiveSection: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
