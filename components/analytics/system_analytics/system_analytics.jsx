@@ -268,7 +268,7 @@ export default class SystemAnalytics extends React.Component {
                 title={
                     <FormattedMessage
                         id='analytics.system.totalUsers'
-                        defaultMessage='Total Users'
+                        defaultMessage='Total Active Users'
                     />
                 }
                 icon='fa-user'
