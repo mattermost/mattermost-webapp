@@ -170,6 +170,56 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
 </ul>
 `;
 
+exports[`components/SettingItemMin should match snapshot, with new saveTextButton 1`] = `
+<ul
+  className="section-max form-horizontal "
+>
+  <li
+    className="col-sm-12 section-title"
+  >
+    title
+  </li>
+  <li
+    className="col-sm-12"
+  >
+    <ul
+      className="setting-list"
+    >
+      <li
+        className="setting-list-item"
+      >
+        input_1
+      </li>
+      <li
+        className="setting-list-item"
+      >
+        <hr />
+        <SaveButton
+          btnClass="btn-primary"
+          defaultMessage="CustomText"
+          disabled={false}
+          extraClasses=""
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving"
+        />
+        <button
+          className="btn btn-sm cursor--pointer style--none"
+          id="cancelSetting"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="setting_item_max.cancel"
+            values={Object {}}
+          />
+        </button>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;
+
 exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
 <ul
   className="section-max form-horizontal "
