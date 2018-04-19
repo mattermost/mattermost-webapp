@@ -7,6 +7,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
 import Integrations from 'components/integrations';
 import Emoji from 'components/emoji';
 import AddEmoji from 'components/emoji/add_emoji';
@@ -87,6 +88,7 @@ export default class BackstageController extends React.Component {
         return (
             <div className='backstage'>
                 <AnnouncementBar/>
+                <SystemNotice/>
                 <BackstageNavbar
                     team={this.props.team}
                     siteName={this.props.siteName}
