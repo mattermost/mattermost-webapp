@@ -91,14 +91,18 @@ export function addUserToTeamFromInvite(token, inviteId, success, error) {
     );
 }
 
-export async function addUsersToTeam(teamId, userIds, success, error) {
-    const {data: teamMembers, error: err} = await TeamActions.addUsersToTeam(teamId, userIds)(dispatch, getState);
-    getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
-    if (teamMembers && success) {
-        success(teamMembers);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+export function addUsersToTeam(teamId, userIds) {
+    return async (doDispatch, doGetState) => {
+        const {data, error} = await doDispatch(TeamActions.addUsersToTeam(teamId, userIds));
+
+        if (error) {
+            return {error};
+        }
+
+        doDispatch(getChannelStats(doGetState().entities.channels.currentChannelId));
+
+        return {data};
+    };
 }
 
 export function getInviteInfo(inviteId, success, error) {

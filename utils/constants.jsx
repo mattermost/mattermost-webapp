@@ -392,6 +392,10 @@ export const StatTypes = keyMirror({
     MONTHLY_ACTIVE_USERS: null,
 });
 
+export const SearchTypes = keyMirror({
+    SET_MODAL_SEARCH: null,
+});
+
 export const StorageTypes = keyMirror({
     SET_ITEM: null,
     REMOVE_ITEM: null,
