@@ -3079,6 +3079,7 @@
   "user_profile.webrtc.unavailable": "New call unavailable until your existing call ends",
   "view_image.loading": "Loading ",
   "view_image_popover.download": "Download",
+  "view_image_popover.open": "Open",
   "view_image_popover.file": "File {count, number} of {total, number}",
   "view_image_popover.publicLink": "Get Public Link",
   "web.footer.about": "About",
