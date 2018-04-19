@@ -211,16 +211,31 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postAddToChannel3 = {type: Posts.POST_TYPES.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_3'}};
     const postAddToChannel4 = {type: Posts.POST_TYPES.ADD_TO_CHANNEL, user_id: 'user_id_2', props: {addedUserId: 'added_user_id_4'}};
     test('should match return for ADD_TO_CHANNEL', () => {
-        const out1 = {[Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1']}};
+        const out1 = {
+            allUserIds: ['added_user_id_1', 'user_id_1'],
+            messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToChannel1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1', 'added_user_id_2']}};
+        const out2 = {
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1'],
+            messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']}};
+        const out3 = {
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1'],
+            messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3'], user_id_2: ['added_user_id_4']}};
+        const out4 = {
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2'],
+            messageData: [
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']},
+                {actorId: 'user_id_2', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_4']},
+            ],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, postAddToChannel4])).toEqual(out4);
     });
 
@@ -229,16 +244,31 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postAddToTeam3 = {type: Posts.POST_TYPES.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_3'}};
     const postAddToTeam4 = {type: Posts.POST_TYPES.ADD_TO_TEAM, user_id: 'user_id_2', props: {addedUserId: 'added_user_id_4'}};
     test('should match return for ADD_TO_TEAM', () => {
-        const out1 = {[Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_1']}};
+        const out1 = {
+            allUserIds: ['added_user_id_1', 'user_id_1'],
+            messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToTeam1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_1', 'added_user_id_2']}};
+        const out2 = {
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1'],
+            messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_1', 'added_user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']}};
+        const out3 = {
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1'],
+            messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3'], user_id_2: ['added_user_id_4']}};
+        const out4 = {
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2'],
+            messageData: [
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']},
+                {actorId: 'user_id_2', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_4']},
+            ],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3, postAddToTeam4])).toEqual(out4);
     });
 
@@ -247,16 +277,28 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postJoinChannel3 = {type: Posts.POST_TYPES.JOIN_CHANNEL, user_id: 'user_id_3'};
     const postJoinChannel4 = {type: Posts.POST_TYPES.JOIN_CHANNEL, user_id: 'user_id_4'};
     test('should match return for JOIN_CHANNEL', () => {
-        const out1 = {[Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1']};
+        const out1 = {
+            allUserIds: ['user_id_1'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinChannel1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1', 'user_id_2']};
+        const out2 = {
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3']};
+        const out3 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinChannel3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']};
+        const out4 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinChannel3, postJoinChannel4])).toEqual(out4);
     });
 
@@ -265,16 +307,28 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postJoinTeam3 = {type: Posts.POST_TYPES.JOIN_TEAM, user_id: 'user_id_3'};
     const postJoinTeam4 = {type: Posts.POST_TYPES.JOIN_TEAM, user_id: 'user_id_4'};
     test('should match return for JOIN_TEAM', () => {
-        const out1 = {[Posts.POST_TYPES.JOIN_TEAM]: ['user_id_1']};
+        const out1 = {
+            allUserIds: ['user_id_1'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinTeam1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.JOIN_TEAM]: ['user_id_1', 'user_id_2']};
+        const out2 = {
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.JOIN_TEAM]: ['user_id_1', 'user_id_2', 'user_id_3']};
+        const out3 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2, postJoinTeam3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.JOIN_TEAM]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']};
+        const out4 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [{postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2, postJoinTeam3, postJoinTeam4])).toEqual(out4);
     });
 
@@ -283,16 +337,28 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postLeaveChannel3 = {type: Posts.POST_TYPES.LEAVE_CHANNEL, user_id: 'user_id_3'};
     const postLeaveChannel4 = {type: Posts.POST_TYPES.LEAVE_CHANNEL, user_id: 'user_id_4'};
     test('should match return for LEAVE_CHANNEL', () => {
-        const out1 = {[Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1']};
+        const out1 = {
+            allUserIds: ['user_id_1'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveChannel1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1', 'user_id_2']};
+        const out2 = {
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3']};
+        const out3 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveChannel3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']};
+        const out4 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveChannel3, postLeaveChannel4])).toEqual(out4);
     });
 
@@ -301,16 +367,28 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postLeaveTeam3 = {type: Posts.POST_TYPES.LEAVE_TEAM, user_id: 'user_id_3'};
     const postLeaveTeam4 = {type: Posts.POST_TYPES.LEAVE_TEAM, user_id: 'user_id_4'};
     test('should match return for LEAVE_TEAM', () => {
-        const out1 = {[Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_1']};
+        const out1 = {
+            allUserIds: ['user_id_1'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveTeam1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_1', 'user_id_2']};
+        const out2 = {
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_1', 'user_id_2', 'user_id_3']};
+        const out3 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2, postLeaveTeam3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']};
+        const out4 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [{postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2, postLeaveTeam3, postLeaveTeam4])).toEqual(out4);
     });
 
@@ -319,16 +397,28 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postRemoveFromChannel3 = {type: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, props: {removedUserId: 'user_id_3'}};
     const postRemoveFromChannel4 = {type: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, props: {removedUserId: 'user_id_4'}};
     test('should match return for REMOVE_FROM_CHANNEL', () => {
-        const out1 = {[Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1']};
+        const out1 = {
+            allUserIds: ['user_id_1'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromChannel1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1', 'user_id_2']};
+        const out2 = {
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1', 'user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3']};
+        const out3 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromChannel3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']};
+        const out4 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromChannel3, postRemoveFromChannel4])).toEqual(out4);
     });
 
@@ -337,49 +427,76 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
     const postRemoveFromTeam3 = {type: Posts.POST_TYPES.REMOVE_FROM_TEAM, user_id: 'user_id_3'};
     const postRemoveFromTeam4 = {type: Posts.POST_TYPES.REMOVE_FROM_TEAM, user_id: 'user_id_4'};
     test('should match return for REMOVE_FROM_TEAM', () => {
-        const out1 = {[Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_1']};
+        const out1 = {
+            allUserIds: ['user_id_1'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_1']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromTeam1])).toEqual(out1);
 
-        const out2 = {[Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_1', 'user_id_2']};
+        const out2 = {
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2])).toEqual(out2);
 
-        const out3 = {[Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_1', 'user_id_2', 'user_id_3']};
+        const out3 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2, postRemoveFromTeam3])).toEqual(out3);
 
-        const out4 = {[Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']};
+        const out4 = {
+            allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [{postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
+        };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2, postRemoveFromTeam3, postRemoveFromTeam4])).toEqual(out4);
     });
 
     test('should match return on combination', () => {
         const out1 = {
-            [Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1', 'added_user_id_2']},
-            [Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_1', 'added_user_id_2']},
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1'],
+            messageData: [
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_1', 'added_user_id_2']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToTeam1, postAddToTeam2])).toEqual(out1);
 
         const out2 = {
-            [Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.JOIN_TEAM]: ['user_id_1', 'user_id_2'],
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [
+                {postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2']},
+                {postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinTeam1, postJoinTeam2])).toEqual(out2);
 
         const out3 = {
-            [Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_1', 'user_id_2'],
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [
+                {postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2']},
+                {postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveTeam1, postLeaveTeam2])).toEqual(out3);
 
         const out4 = {
-            [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_1', 'user_id_2'],
+            allUserIds: ['user_id_1', 'user_id_2'],
+            messageData: [
+                {postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromTeam1, postRemoveFromTeam2])).toEqual(out4);
 
         const out5 = {
-            [Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1', 'added_user_id_2']},
-            [Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1', 'user_id_2'],
+            allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1', 'user_id_2'],
+            messageData: [
+                {postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
+                {postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([
             postAddToChannel1,
@@ -393,10 +510,14 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
         ])).toEqual(out5);
 
         const out6 = {
-            [Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_3'], user_id_2: ['added_user_id_4']},
-            [Posts.POST_TYPES.JOIN_TEAM]: ['user_id_3', 'user_id_4'],
-            [Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_3', 'user_id_4'],
-            [Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_3', 'user_id_4'],
+            allUserIds: ['added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [
+                {postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_3', 'user_id_4']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_3']},
+                {actorId: 'user_id_2', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_4']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_3', 'user_id_4']},
+                {postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_3', 'user_id_4']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([
             postAddToTeam3,
@@ -410,15 +531,19 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
         ])).toEqual(out6);
 
         const out7 = {
-            [Posts.POST_TYPES.ADD_TO_CHANNEL]: {user_id_1: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3'], user_id_2: ['added_user_id_4']},
-            [Posts.POST_TYPES.JOIN_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
-            [Posts.POST_TYPES.LEAVE_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
-            [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
-
-            [Posts.POST_TYPES.ADD_TO_TEAM]: {user_id_1: ['added_user_id_3', 'added_user_id_1', 'added_user_id_2'], user_id_2: ['added_user_id_4']},
-            [Posts.POST_TYPES.JOIN_TEAM]: ['user_id_3', 'user_id_4', 'user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.LEAVE_TEAM]: ['user_id_3', 'user_id_4', 'user_id_1', 'user_id_2'],
-            [Posts.POST_TYPES.REMOVE_FROM_TEAM]: ['user_id_3', 'user_id_4', 'user_id_1', 'user_id_2'],
+            allUserIds: ['added_user_id_3', 'added_user_id_1', 'added_user_id_2', 'user_id_1', 'added_user_id_4', 'user_id_2', 'user_id_3', 'user_id_4'],
+            messageData: [
+                {postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_3', 'user_id_4', 'user_id_1', 'user_id_2']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_3', 'added_user_id_1', 'added_user_id_2']},
+                {actorId: 'user_id_2', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_4']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_3', 'user_id_4', 'user_id_1', 'user_id_2']},
+                {postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_3', 'user_id_4', 'user_id_1', 'user_id_2']},
+                {postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']},
+                {actorId: 'user_id_2', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_4']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']},
+                {postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']},
+            ],
         };
         expect(PostUtils.combineUserActivitySystemPost([
             postAddToTeam3,
@@ -457,5 +582,38 @@ describe('PostUtils.combineUserActivitySystemPost', () => {
             postLeaveTeam2,
             postRemoveFromTeam2,
         ])).toEqual(out7);
+
+        const out8 = {
+            allUserIds: ['added_user_id_3', 'user_id_1', 'user_id_3', 'added_user_id_1'],
+            messageData: [
+                {postType: Posts.POST_TYPES.JOIN_TEAM, userIds: ['user_id_3']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_TEAM, userIds: ['added_user_id_3']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_TEAM, userIds: ['user_id_3']},
+                {postType: Posts.POST_TYPES.LEAVE_TEAM, userIds: ['user_id_3']},
+                {postType: Posts.POST_TYPES.JOIN_CHANNEL, userIds: ['user_id_1']},
+                {actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1']},
+                {postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL, userIds: ['user_id_1']},
+                {postType: Posts.POST_TYPES.LEAVE_CHANNEL, userIds: ['user_id_1']},
+            ],
+        };
+        expect(PostUtils.combineUserActivitySystemPost([
+            postAddToTeam3,
+            postAddToTeam3,
+            postJoinTeam3,
+            postJoinTeam3,
+            postLeaveTeam3,
+            postLeaveTeam3,
+            postRemoveFromTeam3,
+            postRemoveFromTeam3,
+
+            postAddToChannel1,
+            postAddToChannel1,
+            postJoinChannel1,
+            postJoinChannel1,
+            postLeaveChannel1,
+            postLeaveChannel1,
+            postRemoveFromChannel1,
+            postRemoveFromChannel1,
+        ])).toEqual(out8);
     });
 });

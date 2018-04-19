@@ -256,12 +256,55 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);
 }
 
+function extractUserActivityData(userActivities) {
+    const postTypePriority = {
+        [Posts.POST_TYPES.JOIN_TEAM]: 0,
+        [Posts.POST_TYPES.ADD_TO_TEAM]: 1,
+        [Posts.POST_TYPES.REMOVE_FROM_TEAM]: 2,
+        [Posts.POST_TYPES.LEAVE_TEAM]: 3,
+        [Posts.POST_TYPES.JOIN_CHANNEL]: 4,
+        [Posts.POST_TYPES.ADD_TO_CHANNEL]: 5,
+        [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: 6,
+        [Posts.POST_TYPES.LEAVE_CHANNEL]: 7,
+    };
+
+    const messageData = [];
+    const allUserIds = [];
+
+    Object.entries(userActivities).forEach(([postType, values]) => {
+        if (
+            postType === Posts.POST_TYPES.ADD_TO_TEAM ||
+            postType === Posts.POST_TYPES.ADD_TO_CHANNEL
+        ) {
+            Object.entries(values).forEach(([actorId, userIds]) => {
+                messageData.push({postType, userIds, actorId});
+                allUserIds.push(...userIds, actorId);
+            });
+        } else {
+            messageData.push({postType, userIds: values});
+            allUserIds.push(...values);
+        }
+    });
+
+    messageData.sort((a, b) => postTypePriority[a.postType] > postTypePriority[b.postType]);
+
+    return {
+        allUserIds: allUserIds.reduce((acc, curr) => {
+            if (!acc.includes(curr)) {
+                acc.push(curr);
+            }
+            return acc;
+        }, []),
+        messageData,
+    };
+}
+
 export function combineUserActivitySystemPost(systemPosts = []) {
     if (systemPosts.length === 0) {
         return null;
     }
 
-    return systemPosts.reduce((acc, post) => {
+    const userActivities = systemPosts.reduce((acc, post) => {
         const postType = post.type;
         let userActivityProps = acc;
         const combinedPostType = userActivityProps[postType];
@@ -272,8 +315,10 @@ export function combineUserActivitySystemPost(systemPosts = []) {
         ) {
             if (combinedPostType) {
                 const addedUserIds = combinedPostType[post.user_id] || [];
-                addedUserIds.push(post.props.addedUserId);
-                combinedPostType[post.user_id] = addedUserIds;
+                if (!addedUserIds.includes(post.props.addedUserId)) {
+                    addedUserIds.push(post.props.addedUserId);
+                    combinedPostType[post.user_id] = addedUserIds;
+                }
             } else {
                 userActivityProps[postType] = {[post.user_id]: [post.props.addedUserId]};
             }
@@ -284,7 +329,9 @@ export function combineUserActivitySystemPost(systemPosts = []) {
             }
 
             if (combinedPostType) {
-                userActivityProps[postType] = [...combinedPostType, propsUserId];
+                if (!combinedPostType.includes(propsUserId)) {
+                    userActivityProps[postType] = [...combinedPostType, propsUserId];
+                }
             } else {
                 userActivityProps = {...userActivityProps, [postType]: [propsUserId]};
             }
@@ -292,4 +339,6 @@ export function combineUserActivitySystemPost(systemPosts = []) {
 
         return userActivityProps;
     }, {});
+
+    return extractUserActivityData(userActivities);
 }

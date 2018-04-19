@@ -344,8 +344,13 @@ export function renderSystemMessage(post, options) {
     } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post);
     } else if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
+        const {allUserIds, messageData} = combineUserActivitySystemPost(post.user_activity_posts);
+
         return (
-            <CombinedSystemMessage userActivityProps={combineUserActivitySystemPost(post.user_activity_posts)}/>
+            <CombinedSystemMessage
+                allUserIds={allUserIds}
+                messageData={messageData}
+            />
         );
     }
 
