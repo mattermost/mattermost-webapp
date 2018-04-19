@@ -10,14 +10,13 @@ import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
-import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+import {WebrtcActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ring from 'images/ring.mp3';
 
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-
 export default class WebrtcNotification extends React.Component {
     static propTypes = {
+        enableWebrtc: PropTypes.bool.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeRhs: PropTypes.func.isRequired,
@@ -86,10 +85,8 @@ export default class WebrtcNotification extends React.Component {
     onIncomingCall(incoming) {
         if (this.mounted) {
             const userId = incoming.from_user_id;
-            const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            const featureEnabled = Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
-            if (featureEnabled) {
+            if (this.props.enableWebrtc) {
                 if (WebrtcStore.isBusy()) {
                     WebSocketClient.sendMessage('webrtc', {
                         action: WebrtcActionTypes.BUSY,
@@ -97,7 +94,7 @@ export default class WebrtcNotification extends React.Component {
                         to_user_id: userId,
                     });
                     this.stopRinging();
-                } else if (userMedia) {
+                } else if (Utils.isUserMediaAvailable()) {
                     WebrtcStore.setVideoCallWith(userId);
                     this.setState({
                         userCalling: UserStore.getProfile(userId),

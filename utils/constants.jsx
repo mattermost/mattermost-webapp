@@ -1062,10 +1062,6 @@ export const Constants = {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
             description: 'Show markdown preview option in message input box',
         },
-        WEBRTC_PREVIEW: {
-            label: 'webrtc_preview',
-            description: 'Enable WebRTC one on one calls',
-        },
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,

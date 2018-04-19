@@ -18,7 +18,6 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const UserStatuses = Constants.UserStatuses;
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -204,10 +203,7 @@ class ProfilePopover extends React.Component {
         delete popoverProps.enableTimezone;
 
         let webrtc;
-        const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-        const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
-
+        const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();
         if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
             const isOnline = this.props.status !== UserStatuses.OFFLINE;
             let webrtcMessage;
