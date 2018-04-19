@@ -45,7 +45,6 @@ export default class UserSettingsSidebar extends React.Component {
          */
         showUnreadOption: PropTypes.bool.isRequired,
         updateSection: PropTypes.func,
-        updateTab: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
