@@ -29,7 +29,10 @@ export default class FailedPostOptions extends React.PureComponent {
         this.retryPost = this.retryPost.bind(this);
         this.cancelPost = this.cancelPost.bind(this);
 
-        this.submitting = false;
+        this.state = {
+            submitting: false,
+            submitted: false,
+        };
     }
 
     retryPost(e) {
