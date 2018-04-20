@@ -746,7 +746,10 @@ export default class ChannelHeader extends React.Component {
                                 role='menuitem'
                                 modalId={ModalIdentifiers.CONVERT_CHANNEL}
                                 dialogType={ConvertChannelModal}
-                                dialogProps={{channel}}
+                                dialogProps={{
+                                    channelId: channel.id,
+                                    channelDisplayName: channel.display_name,
+                                }}
                             >
                                 <FormattedMessage
                                     id='channel_header.convert'

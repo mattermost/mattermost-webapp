@@ -754,12 +754,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     className=""
                     dialogProps={
                       Object {
-                        "channel": Object {
-                          "display_name": "display_name",
-                          "id": "channel_id",
-                          "team_id": "team_id",
-                          "type": "O",
-                        },
+                        "channelDisplayName": "display_name",
+                        "channelId": "channel_id",
                       }
                     }
                     dialogType={[Function]}
@@ -1403,12 +1399,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     className=""
                     dialogProps={
                       Object {
-                        "channel": Object {
-                          "display_name": "display_name",
-                          "id": "channel_id",
-                          "team_id": "team_id",
-                          "type": "O",
-                        },
+                        "channelDisplayName": "display_name",
+                        "channelId": "channel_id",
                       }
                     }
                     dialogType={[Function]}
@@ -1868,12 +1860,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     className=""
                     dialogProps={
                       Object {
-                        "channel": Object {
-                          "display_name": "display_name",
-                          "id": "channel_id",
-                          "team_id": "team_id",
-                          "type": "O",
-                        },
+                        "channelDisplayName": "display_name",
+                        "channelId": "channel_id",
                       }
                     }
                     dialogType={[Function]}

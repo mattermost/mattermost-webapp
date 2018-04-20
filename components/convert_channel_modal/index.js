@@ -4,15 +4,14 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {updateChannel} from 'mattermost-redux/actions/channels';
+import {convertChannelToPrivate} from 'mattermost-redux/actions/channels';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import ConvertChannelModal from './convert_channel_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentTeamDetails: getCurrentTeam(state),
     };
 }
@@ -20,7 +19,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            updateChannel,
+            convertChannelToPrivate,
         }, dispatch),
     };
 }

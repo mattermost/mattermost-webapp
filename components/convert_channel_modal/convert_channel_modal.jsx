@@ -16,49 +16,50 @@ export default class ConvertChannelModal extends React.PureComponent {
         * Function called when modal is dismissed
         */
         onHide: PropTypes.func.isRequired,
-
-        /**
-         * channel data
-         */
-        channel: PropTypes.object.isRequired,
+        channelId: PropTypes.string.isRequired,
+        channelDisplayName: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
 
             /**
             * Function called for converting channel to private,
             */
-            updateChannel: PropTypes.func.isRequired,
+            convertChannelToPrivate: PropTypes.func.isRequired,
         }),
     }
 
     constructor(props) {
         super(props);
 
-        this.handleConvert = this.handleConvert.bind(this);
-        this.onHide = this.onHide.bind(this);
         this.state = {show: true};
     }
 
-    handleConvert() {
-        if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
+    handleConvert = () => {
+        const {actions, channelId} = this.props;
+        if (channelId.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
-        const privateChannel = Object.assign({}, this.props.channel, {type: Constants.PRIVATE_CHANNEL});
-        this.props.actions.updateChannel(privateChannel);
-        trackEvent('actions', 'convert_to_private_channel', {channel_id: privateChannel.id});
+
+        actions.convertChannelToPrivate(channelId);
+        trackEvent('actions', 'convert_to_private_channel', {channel_id: channelId});
         this.onHide();
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
     render() {
+        const {
+            channelDisplayName,
+            onHide,
+        } = this.props;
+
         return (
             <Modal
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={onHide}
             >
                 <Modal.Header closeButton={true}>
                     <h4 className='modal-title'>
@@ -66,7 +67,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                             id='convert_channel.title'
                             defaultMessage='Convert {display_name} to a private channel?'
                             values={{
-                                display_name: this.props.channel.display_name,
+                                display_name: channelDisplayName,
                             }}
                         />
                     </h4>
@@ -77,7 +78,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                             id='convert_channel.question1'
                             defaultMessage='When you convert <strong>{display_name}</strong> to a private channel, history and membership are preserved. Publicly shared files remain accessible to anyone with the link. Membership in a private channel is by invitation only.'
                             values={{
-                                display_name: this.props.channel.display_name,
+                                display_name: channelDisplayName,
                             }}
                         />
                     </p>
@@ -92,7 +93,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                             id='convert_channel.question3'
                             defaultMessage='Are you sure you want to convert <strong>{display_name}</strong> to a private channel?'
                             values={{
-                                display_name: this.props.channel.display_name,
+                                display_name: channelDisplayName,
                             }}
                         />
                     </p>
