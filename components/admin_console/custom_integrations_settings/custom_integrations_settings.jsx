@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {RequestStatus} from 'mattermost-redux/constants';
-
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 
 import AdminSettings from '.././admin_settings.jsx';
@@ -18,7 +16,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 export default class WebhookSettings extends AdminSettings {
     static propTypes = {
         roles: PropTypes.object.isRequired,
-        rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
@@ -35,9 +32,19 @@ export default class WebhookSettings extends AdminSettings {
     }
 
     componentWillMount() {
-        this.props.actions.loadRolesIfNeeded(['team_user', 'system_user']).then(() => {
+        this.props.actions.loadRolesIfNeeded(['team_user', 'system_user']);
+        if (this.props.roles.system_user &&
+            this.props.roles.team_user) {
             this.loadPoliciesIntoState(this.props);
-        });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.loaded &&
+            nextProps.roles.system_user &&
+            nextProps.roles.team_user) {
+            this.loadPoliciesIntoState(nextProps);
+        }
     }
 
     handleSubmit = async (e) => {
@@ -67,15 +74,13 @@ export default class WebhookSettings extends AdminSettings {
     };
 
     loadPoliciesIntoState(props) {
-        if (props.rolesRequest.status === RequestStatus.SUCCESS) {
-            const {roles} = props;
+        const {roles} = props;
 
-            // Purposely parsing boolean from string 'true' or 'false'
-            // because the string comes from the policy roles adapter mapping.
-            const enableOnlyAdminIntegrations = (mappingValueFromRoles('enableOnlyAdminIntegrations', roles) === 'true');
+        // Purposely parsing boolean from string 'true' or 'false'
+        // because the string comes from the policy roles adapter mapping.
+        const enableOnlyAdminIntegrations = (mappingValueFromRoles('enableOnlyAdminIntegrations', roles) === 'true');
 
-            this.setState({enableOnlyAdminIntegrations, loaded: true});
-        }
+        this.setState({enableOnlyAdminIntegrations, loaded: true});
     }
 
     getConfigFromState = (config) => {
