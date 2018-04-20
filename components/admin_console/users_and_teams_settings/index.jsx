@@ -13,7 +13,6 @@ import UsersAndTeamsSettings from './users_and_teams_settings.jsx';
 function mapStateToProps(state) {
     return {
         roles: getRoles(state),
-        rolesRequest: state.requests.roles.getRolesByNames,
     };
 }
 
