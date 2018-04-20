@@ -5,11 +5,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {createPost} from 'actions/post_actions.jsx';
+
 export default class FailedPostOptions extends React.PureComponent {
     static propTypes = {
+
+        /*
+         * The failed post
+         */
         post: PropTypes.object.isRequired,
         actions: PropTypes.shape({
-            createPost: PropTypes.func.isRequired,
+
+            /**
+             * The function to delete the post
+             */
             removePost: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -23,44 +32,27 @@ export default class FailedPostOptions extends React.PureComponent {
         this.submitting = false;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.post.id !== this.props.post.id) {
-            this.setState({
-                submitting: false,
-                submitted: false,
-            });
-        }
-    }
-
     retryPost(e) {
         e.preventDefault();
 
-        // Don't retry if already retrying or previously retried and succeeded (and waiting for
-        // re-render).
-        if (this.state.submitting || this.state.submitted) {
+        if (this.submitting) {
             return;
         }
 
-        this.setState({
-            submitting: true,
-        });
+        this.submitting = true;
 
         const post = {...this.props.post};
         Reflect.deleteProperty(post, 'id');
-        this.props.actions.createPost(post,
+        createPost(post,
             () => {
-                this.setState({
-                    submitted: true,
-                });
+                this.submitting = false;
             },
             (err) => {
                 if (err && err.id && err.id === 'api.post.create_post.root_id.app_error') {
                     this.showPostDeletedModal();
                 }
 
-                this.setState({
-                    submitting: false,
-                });
+                this.submitting = false;
             }
         );
     }
