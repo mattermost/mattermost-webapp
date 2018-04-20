@@ -126,7 +126,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
               values={Object {}}
             />
