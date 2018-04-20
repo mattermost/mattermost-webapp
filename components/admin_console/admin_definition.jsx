@@ -971,6 +971,70 @@ export default {
         compliance: {
         },
         advanced: {
+            developer: {
+                schema: {
+                    id: 'ServiceSettings',
+                    name: 'admin.developer.title',
+                    name_default: 'Developer Settings',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableTesting',
+                            label: 'admin.service.testingTitle',
+                            label_default: 'Enable Testing Commands:',
+                            help_text: 'admin.service.testingDescription',
+                            help_text_default: 'When true, /test slash command is enabled to load test accounts, data and text formatting. Changing this requires a server restart before taking effect.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableDeveloper',
+                            label: 'admin.service.developerTitle',
+                            label_default: 'Enable Developer Mode: ',
+                            help_text: 'admin.service.developerDesc',
+                            help_text_default: 'When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'AllowedUntrustedInternalConnections',
+                            label: 'admin.service.internalConnectionsTitle',
+                            label_default: 'Allow untrusted internal connections to: ',
+                            placeholder: 'admin.service.internalConnectionsEx',
+                            placeholder_default: 'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28',
+                            help_text: 'admin.service.internalConnectionsDesc',
+                            help_text_default: 'In testing environments, such as when developing integrations locally on a development machine, use this setting to specify domains, IP addresses, or CIDR notations to allow internal connections. <b>Not recommended for use in production</b>, since this can allow a user to extract confidential data from your server or internal network.<br /><br />By default, user-supplied URLs such as those used for Open Graph metadata, webhooks, or slash commands will not be allowed to connect to reserved IP addresses including loopback or link-local addresses used for internal networks. Push notification, OAuth 2.0 and WebRTC server URLs are trusted and not affected by this setting.',
+                            help_text_html: true,
+                        },
+                    ],
+                },
+            },
+            metrics: {
+                schema: {
+                    id: 'MetricsSettings',
+                    name: 'admin.advance.metrics',
+                    name_default: 'Performance Monitoring',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'Enable',
+                            label: 'admin.metrics.enableTitle',
+                            label_default: 'Enable Performance Monitoring:',
+                            help_text: 'admin.metrics.enableDescription',
+                            help_text_default: 'When true, Mattermost will enable performance monitoring collection and profiling. Please see <a href="http://docs.mattermost.com/deployment/metrics.html" target="_blank">documentation</a> to learn more about configuring performance monitoring for Mattermost.',
+                            help_text_html: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'ListenAddress',
+                            label: 'admin.metrics.listenAddressTitle',
+                            label_default: 'Listen Address:',
+                            placeholder: 'admin.metrics.listenAddressEx',
+                            placeholder_default: 'E.g.: ":8067"',
+                            help_text: 'admin.metrics.listenAddressDesc',
+                            help_text_default: 'The address the server will listen on to expose performance metrics.',
+                        },
+                    ],
+                },
+            },
         },
     },
     other: {
