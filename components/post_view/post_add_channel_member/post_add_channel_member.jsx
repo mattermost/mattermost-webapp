@@ -60,9 +60,11 @@ export default class PostAddChannelMember extends React.PureComponent {
         const {currentUser, post, userIds, usernames} = this.props;
 
         if (post && post.channel_id) {
+            let createAt = post.create_at;
             userIds.forEach((userId, index) => {
+                createAt++;
                 this.props.actions.addChannelMember(post.channel_id, userId);
-                sendAddToChannelEphemeralPost(currentUser, usernames[index], post.channel_id, post.root_id);
+                sendAddToChannelEphemeralPost(currentUser, usernames[index], userId, post.channel_id, post.root_id, createAt);
             });
 
             this.props.actions.removePost(post);

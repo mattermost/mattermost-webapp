@@ -25,7 +25,7 @@ import {
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
-import {emitUserPostedEvent, postListScrollChange} from 'actions/global_actions.jsx';
+import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {getPostDraft} from 'selectors/rhs';
@@ -68,6 +68,7 @@ function mapStateToProps() {
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableConfirmNotificationsToChannel,
+            maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         };
     };
 }
@@ -76,7 +77,7 @@ function onSubmitPost(post, fileInfos) {
     return () => {
         emitUserPostedEvent(post);
         createPost(post, fileInfos);
-        postListScrollChange(true);
+        postListScrollChangeToBottom();
     };
 }
 

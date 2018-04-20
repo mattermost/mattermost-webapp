@@ -11,6 +11,7 @@ import modals from './modals';
 import emoji from './emoji';
 import lhs from './lhs';
 import webrtc from './webrtc';
+import search from './search';
 
 export default combineReducers({
     admin,
@@ -21,4 +22,5 @@ export default combineReducers({
     emoji,
     lhs,
     webrtc,
+    search,
 });

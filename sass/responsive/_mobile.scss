@@ -1,6 +1,12 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .textarea-wrapper {
+        .help__text {
+            display: none;
+        }
+    }
+
     .webrtc__option {
         display: none;
     }
@@ -1031,6 +1037,7 @@
 
     .footer-pane {
         .footer-link {
+            display: block;
             line-height: 1.7;
             padding: 0;
             text-align: right;
@@ -1254,6 +1261,7 @@
             }
 
             .post-create-footer {
+                padding-right: 0;
                 padding-top: 10px;
 
                 .control-label {
@@ -1429,7 +1437,7 @@
 }
 
 @media screen and (max-width: 640px) {
-    .col__reply {
+    .post__header {
         .dropdown-menu {
             > li {
                 > button {
@@ -1805,6 +1813,22 @@
 }
 
 @media screen and (max-width: 320px) {
+    .filter-row {
+        .Select--multi {
+            .Select-multi-value-wrapper {
+                display: block;
+                max-height: 50px;
+                overflow: auto;
+            }
+        }
+
+        .Select-input {
+            > input {
+                padding: 8px 0;
+            }
+        }
+    }
+
     .post {
         &.post--system {
              .post__header {

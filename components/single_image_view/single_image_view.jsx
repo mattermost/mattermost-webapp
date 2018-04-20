@@ -28,6 +28,7 @@ export default class SingleImageView extends React.PureComponent {
          * FileInfo to view
          **/
         fileInfo: PropTypes.object.isRequired,
+        isRhsOpen: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -58,6 +59,10 @@ export default class SingleImageView extends React.PureComponent {
     componentWillReceiveProps(nextProps) {
         window.removeEventListener('resize', this.handleResize);
         this.loadImage(nextProps.fileInfo);
+
+        if (nextProps.isRhsOpen !== this.props.isRhsOpen) {
+            this.handleResize();
+        }
     }
 
     handleResize = () => {
@@ -102,10 +107,6 @@ export default class SingleImageView extends React.PureComponent {
 
     setImageLoadedRef = (node) => {
         this.imageLoaded = node;
-    }
-
-    setFileImageRef = (node) => {
-        this.fileImage = node;
     }
 
     computeImageDimensions = () => {

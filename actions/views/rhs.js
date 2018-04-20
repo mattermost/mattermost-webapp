@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
+
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {searchPosts} from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
@@ -71,6 +72,10 @@ export function showSearchResults() {
         const searchTerms = getSearchTerms(getState());
 
         dispatch(updateRhsState(RHSStates.SEARCH));
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+            terms: searchTerms,
+        });
 
         return dispatch(performSearch(searchTerms));
     };

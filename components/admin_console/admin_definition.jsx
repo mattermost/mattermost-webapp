@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-import {invalidateAllCaches, reloadConfig} from 'actions/admin_actions';
+import {ldapTest, invalidateAllCaches, reloadConfig} from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 
@@ -32,12 +32,15 @@ import * as DefinitionConstants from './admin_definition_constants';
 // Widget:
 //   - type: which define the widget type.
 //   - label (and label_default): which define the main text of the setting.
-//   - needs: a list of pairs of [field, value] to enable/disable the field.
-//   - needs_license: True if need to have license to be shown.
-//   - needs_no_license: True if need to have not license to be shown.
+//   - isDisabled: a function which receive current config, the state of the page and the license.
+//   - isHidden: a function which receive current config, the state of the page and the license.
 //
 // Custom Widget (extends from Widget):
 //   - component: The component used to render the widget
+//
+// JobsTable Widget (extends from Widget):
+//   - job_type: The kind of job from Constants.JobTypes
+//   - render_job: Function to convert a job object into a react component.
 //
 // Banner Widget (extends from Widget):
 //   - banner_type: The type of banner (options: info or warning)
@@ -60,6 +63,7 @@ import * as DefinitionConstants from './admin_definition_constants';
 // Button Widget (extends from Setting Widget)
 //   - action: A redux action to execute on click.
 //   - error_message (and error_message_default): Error to show if action doesn't work.
+//   - success_message (and success_message_default): Success message to show if action doesn't work.
 //
 // Language Widget (extends from Setting Widget)
 //   - multiple: If you can select multiple languages.
@@ -68,6 +72,29 @@ import * as DefinitionConstants from './admin_definition_constants';
 //
 // Dropdown Widget (extends from Setting Widget)
 //   - options: List of options of the dropdown (each options has value, display_name and display_name_default fields).
+
+export const needsUtils = {
+    not: (func) => (config, state, license) => !func(config, state, license),
+    and: (...funcs) => (config, state, license) => {
+        for (const func of funcs) {
+            if (!func(config, state, license)) {
+                return false;
+            }
+        }
+        return true;
+    },
+    or: (...funcs) => (config, state, license) => {
+        for (const func of funcs) {
+            if (func(config, state, license)) {
+                return true;
+            }
+        }
+        return false;
+    },
+    stateValueMatch: (key, regex) => (config, state) => state[key].match(regex),
+    stateValueEqual: (key, value) => (config, state) => state[key] === value,
+    hasLicense: (config, state, license) => license.IsLicensed,
+};
 
 export default {
     reporting: {
@@ -140,7 +167,7 @@ export default {
                             disabled_help_text: 'admin.service.forward80To443Description.disabled',
                             disabled_help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. Not recommended when using a proxy server.<br /><br />This setting cannot be enabled until your server is <a href="#ListenAddress">listening</a> on port 443.',
                             disabled_help_text_html: true,
-                            needs: [['ListenAddress', /:443$/]],
+                            isDisabled: needsUtils.not(needsUtils.stateValueMatch('ListenAddress', /:443$/)),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -168,7 +195,7 @@ export default {
                             label_default: 'TLS Certificate File:',
                             help_text: 'admin.service.tlsCertFileDescription',
                             help_text_default: 'The certificate file to use.',
-                            needs: [['UseLetsEncrypt', false]],
+                            isDisabled: needsUtils.stateValueEqual('UseLetsEncrypt', true),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -177,7 +204,7 @@ export default {
                             label_default: 'TLS Key File:',
                             help_text: 'admin.service.tlsKeyFileDescription',
                             help_text_default: 'The private key file to use.',
-                            needs: [['UseLetsEncrypt', false]],
+                            isDisabled: needsUtils.stateValueEqual('UseLetsEncrypt', true),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
@@ -189,7 +216,7 @@ export default {
                             disabled_help_text: 'admin.service.useLetsEncryptDescription.disabled',
                             disabled_help_text_default: 'Enable the automatic retrieval of certificates from Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.<br /><br />This setting cannot be enabled unless the <a href="#Forward80To443">Forward port 80 to 443</a> setting is set to true.',
                             disabled_help_text_html: true,
-                            needs: [['Forward80To443', true]],
+                            isDisabled: needsUtils.stateValueEqual('Forward80To443', false),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -198,7 +225,7 @@ export default {
                             label_default: 'Let\'s Encrypt Certificate Cache File:',
                             help_text: 'admin.service.letsEncryptCertificateCacheFileDescription',
                             help_text_default: 'Certificates retrieved and other data about the Let\'s Encrypt service will be stored in this file.',
-                            needs: [['UseLetsEncrypt', true]],
+                            isDisabled: needsUtils.stateValueEqual('UseLetsEncrypt', false),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -323,7 +350,7 @@ export default {
                             label_default: 'Available Languages:',
                             help_text: 'admin.general.localization.availableLocalesDescription',
                             help_text_html: true,
-                            help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you’re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.',
+                            help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.',
                             multiple: true,
                             no_result: 'admin.general.localization.availableLocalesNoResults',
                             no_result_default: 'No results found',
@@ -368,7 +395,7 @@ export default {
                             type: Constants.SettingsTypes.TYPE_BANNER,
                             label: 'admin.compliance.noLicense',
                             label_default: '<h4 class="banner__heading">Note:</h4><p>Compliance is an enterprise feature. Your current license does not support Compliance. Click <a href="http://mattermost.com"target="_blank">here</a> for information and pricing on enterprise licenses.</p>',
-                            needs_no_license: true,
+                            isHidden: needsUtils.hasLicense,
                             banner_type: 'warning',
                         },
                         {
@@ -379,7 +406,7 @@ export default {
                             help_text: 'admin.compliance.enableDesc',
                             help_text_default: 'When true, Mattermost allows compliance reporting from the <strong>Compliance and Auditing</strong> tab. See <a href="https://docs.mattermost.com/administration/compliance.html" target="_blank">documentation</a> to learn more.',
                             help_text_html: true,
-                            needs_license: true,
+                            isHidden: needsUtils.not(needsUtils.hasLicense),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -390,8 +417,8 @@ export default {
                             help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
                             placeholder: 'admin.sql.maxOpenExample',
                             placeholder_default: 'E.g.: "10"',
-                            needs: [['Enable', true]],
-                            needs_license: true,
+                            isDisabled: needsUtils.stateValueEqual('Enable', false),
+                            isHidden: needsUtils.not(needsUtils.hasLicense),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
@@ -400,8 +427,8 @@ export default {
                             label_default: 'Enable Daily Report:',
                             help_text: 'admin.compliance.enableDailyDesc',
                             help_text_default: 'When true, Mattermost will generate a daily compliance report.',
-                            needs: [['Enable', true]],
-                            needs_license: true,
+                            isDisabled: needsUtils.stateValueEqual('Enable', false),
+                            isHidden: needsUtils.not(needsUtils.hasLicense),
                         },
                     ],
                 },
@@ -412,6 +439,13 @@ export default {
                     name: 'admin.general.log',
                     name_default: 'Logging',
                     settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BANNER,
+                            label: 'admin.log.noteDescription',
+                            label_default: 'Changing properties other than <a href="#EnableWebhookDebugging">Enable Webhook Debugging</a> and <a href="#EnableDiagnostics">Enable Diagnostics and Error Reporting</a> in this section will require a server restart before taking effect.',
+                            label_html: true,
+                            banner_type: 'info',
+                        },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'EnableConsole',
@@ -428,7 +462,7 @@ export default {
                             help_text: 'admin.log.levelDescription',
                             help_text_default: 'This setting determines the level of detail at which log events are written to the console. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.',
                             options: DefinitionConstants.LOG_LEVEL_OPTIONS,
-                            needs: [['EnableConsole', true]],
+                            isDisabled: needsUtils.stateValueEqual('EnableConsole', false),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
@@ -446,7 +480,7 @@ export default {
                             help_text: 'admin.log.fileLevelDescription',
                             help_text_default: 'This setting determines the level of detail at which log events are written to the log file. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.',
                             options: DefinitionConstants.LOG_LEVEL_OPTIONS,
-                            needs: [['EnableFile', true]],
+                            isDisabled: needsUtils.stateValueEqual('EnableFile', false),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -457,7 +491,7 @@ export default {
                             help_text_default: 'The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it.',
                             placeholder: 'admin.log.locationPlaceholder',
                             placeholder_default: 'Enter your file location',
-                            needs: [['EnableFile', true]],
+                            isDisabled: needsUtils.stateValueEqual('EnableFile', false),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -467,7 +501,7 @@ export default {
                             help_text: DefinitionConstants.LOG_FORMAT_HELP_TEXT,
                             placeholder: 'admin.log.formatPlaceholder',
                             placeholder_default: 'Enter your file format',
-                            needs: [['EnableFile', true]],
+                            isDisabled: needsUtils.stateValueEqual('EnableFile', false),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
@@ -534,6 +568,363 @@ export default {
                     ],
                 },
             },
+            ldap: {
+                schema: {
+                    id: 'LdapSettings',
+                    name: 'admin.authentication.ldap',
+                    name_default: 'AD/LDAP',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'Enable',
+                            label: 'admin.ldap.enableTitle',
+                            label_default: 'Enable sign-in with AD/LDAP:',
+                            help_text: 'admin.ldap.enableDesc',
+                            help_text_default: 'When true, Mattermost allows login using AD/LDAP',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'EnableSync',
+                            label: 'admin.ldap.enableSyncTitle',
+                            label_default: 'Enable Synchronization with AD/LDAP:',
+                            help_text: 'admin.ldap.enableSyncDesc',
+                            help_text_default: 'When true, Mattermost periodically synchronizes users from AD/LDAP. When false, user attributes are updated from AD/LDAP during user login only.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LdapServer',
+                            label: 'admin.ldap.serverTitle',
+                            label_default: 'AD/LDAP Server:',
+                            help_text: 'admin.ldap.serverDesc',
+                            help_text_default: 'The domain or IP address of AD/LDAP server.',
+                            placeholder: 'admin.ldap.serverEx',
+                            placeholder_default: 'E.g.: "10.0.0.23"',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LdapPort',
+                            label: 'admin.ldap.portTitle',
+                            label_default: 'AD/LDAP Port:',
+                            help_text: 'admin.ldap.portDesc',
+                            help_text_default: 'The port Mattermost will use to connect to the AD/LDAP server. Default is 389.',
+                            placeholder: 'admin.ldap.portEx',
+                            placeholder_default: 'E.g.: "389"',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                            key: 'ConnectionSecurity',
+                            label: 'admin.connectionSecurityTitle',
+                            label_default: 'Connection Security:',
+                            help_text: DefinitionConstants.CONNECTION_SECURITY_HELP_TEXT_LDAP,
+                            options: [
+                                {
+                                    value: '',
+                                    display_name: 'admin.connectionSecurityNone',
+                                    display_name_default: 'None',
+                                },
+                                {
+                                    value: 'TLS',
+                                    display_name: 'admin.connectionSecurityTls',
+                                    display_name_default: 'TLS (Recommended)',
+                                },
+                                {
+                                    value: 'STARTTLS',
+                                    display_name: 'admin.connectionSecurityStart',
+                                    display_name_default: 'STARTTLS',
+                                },
+                            ],
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'SkipCertificateVerification',
+                            label: 'admin.ldap.skipCertificateVerification',
+                            label_default: 'Skip Certificate Verification:',
+                            help_text: 'admin.ldap.skipCertificateVerificationDesc',
+                            help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Not recommended for production environments where TLS is required. For testing only.',
+                            isDisabled: needsUtils.stateValueEqual('ConnectionSecurity', ''),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'BaseDN',
+                            label: 'admin.ldap.baseTitle',
+                            label_default: 'BaseDN:',
+                            help_text: 'admin.ldap.baseDesc',
+                            help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
+                            placeholder: 'admin.ldap.baseEx',
+                            placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'BindUsername',
+                            label: 'admin.ldap.bindUserTitle',
+                            label_default: 'Bind Username:',
+                            help_text: 'admin.ldap.bindUserDesc',
+                            help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'BindPassword',
+                            label: 'admin.ldap.bindPwdTitle',
+                            label_default: 'Bind Password:',
+                            help_text: 'admin.ldap.bindPwdDesc',
+                            help_text_default: 'Password of the user given in "Bind Username".',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'UserFilter',
+                            label: 'admin.ldap.userFilterTitle',
+                            label_default: 'User Filter:',
+                            help_text: 'admin.ldap.userFilterDisc',
+                            help_text_default: '(Optional) Enter an AD/LDAP Filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
+                            placeholder: 'admin.ldap.userFilterEx',
+                            placeholder_default: 'Ex. "(objectClass=user)"',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'FirstNameAttribute',
+                            label: 'admin.ldap.firstnameAttrTitle',
+                            label_default: 'First Name Attribute:',
+                            placeholder: 'admin.ldap.firstnameAttrEx',
+                            placeholder_default: 'E.g.: "givenName"',
+                            help_text: 'admin.ldap.firstnameAttrDesc',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the first name of users in Mattermost.  When set, users will not be able to edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their own first name in Account Settings.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LastNameAttribute',
+                            label: 'admin.ldap.lastnameAttrTitle',
+                            label_default: 'Last Name Attribute:',
+                            placeholder: 'admin.ldap.lastnameAttrEx',
+                            placeholder_default: 'E.g.: "sn"',
+                            help_text: 'admin.ldap.lastnameAttrDesc',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the last name of users in Mattermost. When set, users will not be able to edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their own last name in Account Settings.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'NicknameAttribute',
+                            label: 'admin.ldap.nicknameAttrTitle',
+                            label_default: 'Nickname Attribute:',
+                            placeholder: 'admin.ldap.nicknameAttrEx',
+                            placeholder_default: 'E.g.: "nickname"',
+                            help_text: 'admin.ldap.nicknameAttrDesc',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the nickname of users in Mattermost. When set, users will not be able to edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their own nickname in Account Settings.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'PositionAttribute',
+                            label: 'admin.ldap.positionAttrTitle',
+                            label_default: 'Position Attribute:',
+                            placeholder: 'admin.ldap.positionAttrEx',
+                            placeholder_default: 'E.g.: "title"',
+                            help_text: 'admin.ldap.positionAttrDesc',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the position field in Mattermost.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'EmailAttribute',
+                            label: 'admin.ldap.emailAttrTitle',
+                            label_default: 'Email Attribute:',
+                            placeholder: 'admin.ldap.emailAttrEx',
+                            placeholder_default: 'E.g.: "mail" or "userPrincipalName"',
+                            help_text: 'admin.ldap.emailAttrDesc',
+                            help_text_default: 'The attribute in the AD/LDAP server that will be used to populate the email addresses of users in Mattermost.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'UsernameAttribute',
+                            label: 'admin.ldap.usernameAttrTitle',
+                            label_default: 'Username Attribute:',
+                            placeholder: 'admin.ldap.usernameAttrEx',
+                            placeholder_default: 'E.g.: "sAMAccountName"',
+                            help_text: 'admin.ldap.uernameAttrDesc',
+                            help_text_default: 'The attribute in the AD/LDAP server that will be used to populate the username field in Mattermost. This may be the same as the ID Attribute.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'IdAttribute',
+                            label: 'admin.ldap.idAttrTitle',
+                            label_default: 'ID Attribute: ',
+                            placeholder: 'admin.ldap.idAttrEx',
+                            placeholder_default: 'E.g.: "sAMAccountName"',
+                            help_text: 'admin.ldap.idAttrDesc',
+                            help_text_default: 'The attribute in the AD/LDAP server that will be used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change, such as username or uid. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one. This is the value used to log in to Mattermost in the "AD/LDAP Username" field on the sign in page. Normally this attribute is the same as the "Username Attribute" field above. If your team typically uses domain\\username to sign in to other services with AD/LDAP, you may choose to put domain\\username in this field to maintain consistency between sites.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LoginFieldName',
+                            label: 'admin.ldap.loginNameTitle',
+                            label_default: 'Sign-in Field Default Text:',
+                            placeholder: 'admin.ldap.loginNameEx',
+                            placeholder_default: 'E.g.: "AD/LDAP Username"',
+                            help_text: 'admin.ldap.loginNameDesc',
+                            help_text_default: 'The placeholder text that appears in the login field on the login page. Defaults to "AD/LDAP Username".',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'SyncIntervalMinutes',
+                            label: 'admin.ldap.syncIntervalTitle',
+                            label_default: 'Synchronization Interval (minutes):',
+                            help_text: 'admin.ldap.syncIntervalHelpText',
+                            help_text_default: 'AD/LDAP Synchronization updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user\'s name changes on the AD/LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to "Inactive" and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'MaxPageSize',
+                            label: 'admin.ldap.maxPageSizeTitle',
+                            label_default: 'Maximum Page Size:',
+                            placeholder: 'admin.ldap.maxPageSizeEx',
+                            placeholder_default: 'E.g.: "2000"',
+                            help_text: 'admin.ldap.maxPageSizeHelpText',
+                            help_text_default: 'The maximum number of users the Mattermost server will request from the AD/LDAP server at one time. 0 is unlimited.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'QueryTimeout',
+                            label: 'admin.ldap.queryTitle',
+                            label_default: 'Query Timeout (seconds):',
+                            placeholder: 'admin.ldap.queryEx',
+                            placeholder_default: 'E.g.: "60"',
+                            help_text: 'admin.ldap.queryDesc',
+                            help_text_default: 'The timeout value for queries to the AD/LDAP server. Increase if you are getting timeout errors caused by a slow AD/LDAP server.',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BUTTON,
+                            action: ldapTest,
+                            key: 'LdapTest',
+                            label: 'admin.ldap.ldap_test_button',
+                            label_default: 'AD/LDAP Test',
+                            help_text: 'admin.ldap.testHelpText',
+                            help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. See log file for more detailed error messages.',
+                            error_message: 'admin.ldap.testFailure',
+                            error_message_default: 'AD/LDAP Test Failure: {error}',
+                            success_message: 'admin.ldap.testSuccess',
+                            success_message_default: 'AD/LDAP Test Successful',
+                            isDisabled: needsUtils.and(
+                                needsUtils.stateValueEqual('Enable', false),
+                                needsUtils.stateValueEqual('EnableSync', false),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_JOBSTABLE,
+                            job_type: Constants.JobTypes.LDAP_SYNC,
+                            label: 'admin.ldap.sync_button',
+                            label_default: 'AD/LDAP Synchronize Now',
+                            help_text: 'admin.ldap.testHelpText',
+                            help_text_default: 'Initiates an AD/LDAP synchronization immediately.',
+                            isDisabled: needsUtils.stateValueEqual('EnableSync', false),
+                            render_job: (job) => {
+                                let mattermostUsers = '0';
+                                let ldapUsers = '0';
+                                let deleteCount = '0';
+                                let updateCount = '0';
+
+                                if (job && job.data) {
+                                    if (job.data.mattermost_users_count && job.data.mattermost_users_count.length > 0) {
+                                        mattermostUsers = job.data.mattermost_users_count;
+                                    }
+
+                                    if (job.data.ldap_users_count && job.data.ldap_users_count.length > 0) {
+                                        ldapUsers = job.data.ldap_users_count;
+                                    }
+
+                                    if (job.data.delete_count && job.data.delete_count.length > 0) {
+                                        deleteCount = job.data.delete_count;
+                                    }
+
+                                    if (job.data.update_count && job.data.update_count.length > 0) {
+                                        updateCount = job.data.update_count;
+                                    }
+                                }
+
+                                return (
+                                    <FormattedMessage
+                                        id='admin.ldap.jobExtraInfo'
+                                        defaultMessage='Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}'
+                                        values={{
+                                            mattermostUsers,
+                                            ldapUsers,
+                                            deleteCount,
+                                            updateCount,
+                                        }}
+                                    />
+                                );
+                            },
+                        },
+                    ],
+                },
+            },
             mfa: {
                 schema: {
                     id: 'ServiceSettings',
@@ -563,7 +954,7 @@ export default {
                             help_text: 'admin.service.enforceMfaDesc',
                             help_text_html: true,
                             help_text_default: 'When true, <a href=\'https://docs.mattermost.com/deployment/auth.html\' target=\'_blank\'>multi-factor authentication</a> is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.<br/><br/>If your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
-                            needs: [['EnableMultifactorAuthentication', true]],
+                            isDisabled: needsUtils.stateValueEqual('EnableMultifactorAuthentication', false),
                         },
                     ],
                 },

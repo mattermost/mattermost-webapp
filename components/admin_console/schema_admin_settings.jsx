@@ -21,6 +21,7 @@ import ColorSetting from 'components/admin_console/color_setting.jsx';
 import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
 import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
+import JobsTable from 'components/admin_console/jobs';
 
 export default class SchemaAdminSettings extends AdminSettings {
     constructor(props) {
@@ -37,6 +38,7 @@ export default class SchemaAdminSettings extends AdminSettings {
             [SettingsTypes.TYPE_USERNAME]: this.buildUsernameSetting,
             [SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
             [SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
+            [SettingsTypes.TYPE_JOBSTABLE]: this.buildJobsTableSetting,
             [SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
         };
     }
@@ -201,27 +203,19 @@ export default class SchemaAdminSettings extends AdminSettings {
     }
 
     isDisabled = (setting) => {
-        if (setting.needs) {
-            for (const need of setting.needs) {
-                const actual = this.getSettingValue(this.getSetting(need[0]));
-                const expected = need[1];
+        if (!setting.isDisabled || typeof setting.isDisabled !== 'function') {
+            return false;
+        }
 
-                if (expected instanceof RegExp) {
-                    if (!expected.test(actual)) {
-                        return true;
-                    }
-                } else if (actual !== expected) {
-                    return true;
-                }
-            }
+        return setting.isDisabled(this.props.config, this.state, this.props.license);
+    }
+
+    isHidden = (setting) => {
+        if (!setting.isHidden || typeof setting.isHidden !== 'function') {
+            return false;
         }
-        if (setting.needs_license && !this.props.license.IsLicensed) {
-            return true;
-        }
-        if (setting.needs_no_license && this.props.license.IsLicensed) {
-            return true;
-        }
-        return false;
+
+        return setting.isHidden(this.props.config, this.state, this.props.license);
     }
 
     buildButtonSetting = (setting) => {
@@ -231,11 +225,15 @@ export default class SchemaAdminSettings extends AdminSettings {
                 requestAction={setting.action}
                 helpText={this.renderHelpText(setting)}
                 buttonText={<span>{this.renderLabel(setting)}</span>}
-                showSuccessMessage={false}
+                showSuccessMessage={Boolean(setting.success_message)}
                 includeDetailedError={true}
                 errorMessage={{
                     id: setting.error_message,
-                    defaultMessage: setting.error_message,
+                    defaultMessage: setting.error_message_default,
+                }}
+                successMessage={setting.success_message && {
+                    id: setting.success_message,
+                    defaultMessage: setting.success_message_default,
                 }}
             />
         );
@@ -425,6 +423,29 @@ export default class SchemaAdminSettings extends AdminSettings {
         );
     }
 
+    buildJobsTableSetting = (setting) => {
+        return (
+            <JobsTable
+                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                jobType={setting.job_type}
+                getExtraInfoText={setting.render_job}
+                disabled={this.isDisabled(setting)}
+                createJobButtonText={
+                    <FormattedMessage
+                        id={setting.label}
+                        defaultMessage={setting.label_default}
+                    />
+                }
+                createJobHelpText={
+                    <FormattedMessage
+                        id={setting.help_text}
+                        defaultMessage={setting.help_text_default}
+                    />
+                }
+            />
+        );
+    }
+
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
         return (
@@ -444,7 +465,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         const settingsList = [];
         if (schema.settings) {
             schema.settings.forEach((setting) => {
-                if (this.buildSettingFunctions[setting.type]) {
+                if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
                     settingsList.push(this.buildSettingFunctions[setting.type](setting));
                 }
             });

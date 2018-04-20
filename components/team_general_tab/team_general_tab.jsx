@@ -414,6 +414,7 @@ export default class GeneralTab extends React.Component {
                                 onChange={this.updateInviteId}
                                 value={this.state.invite_id}
                                 maxLength='32'
+                                onFocus={Utils.moveCursorToEnd}
                             />
                             <div className='padding-top x2'>
                                 <button
@@ -499,6 +500,7 @@ export default class GeneralTab extends React.Component {
                             maxLength={Constants.MAX_TEAMNAME_LENGTH.toString()}
                             onChange={this.updateName}
                             value={this.state.name}
+                            onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
                 </div>
@@ -560,6 +562,7 @@ export default class GeneralTab extends React.Component {
                             maxLength={Constants.MAX_TEAMDESCRIPTION_LENGTH.toString()}
                             onChange={this.updateDescription}
                             value={this.state.description}
+                            onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
                 </div>

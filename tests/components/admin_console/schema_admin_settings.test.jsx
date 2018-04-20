@@ -156,6 +156,15 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     key: 'custom',
                     component: () => <p>{'Test'}</p>,
                 },
+                {
+                    type: 'jobstable',
+                    label: 'label-l',
+                    label_default: 'Setting Twelve',
+                    help_text: 'help-text-l',
+                    help_text_default: 'This is some help text for the jobs table field.',
+                    job_type: 'test',
+                    render_job: () => <p>{'Test'}</p>,
+                },
             ],
         };
 

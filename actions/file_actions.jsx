@@ -25,7 +25,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                 e = {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + err.status + ')'};
             }
 
-            forceLogoutIfNecessary(err, dispatch);
+            forceLogoutIfNecessary(err, dispatch, getState);
 
             const failure = {
                 type: FileTypes.UPLOAD_FILES_FAILURE,

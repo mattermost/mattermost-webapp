@@ -48,6 +48,7 @@ export const SettingsTypes = {
     TYPE_USERNAME: 'username',
     TYPE_BUTTON: 'button',
     TYPE_LANGUAGE: 'language',
+    TYPE_JOBSTABLE: 'jobstable',
     TYPE_CUSTOM: 'custom',
 };
 
@@ -120,6 +121,7 @@ export const ActionTypes = keyMirror({
 
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
+    UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
     UPDATE_MOBILE_VIEW: null,
 
@@ -391,6 +393,10 @@ export const StatTypes = keyMirror({
     MONTHLY_ACTIVE_USERS: null,
 });
 
+export const SearchTypes = keyMirror({
+    SET_MODAL_SEARCH: null,
+});
+
 export const StorageTypes = keyMirror({
     SET_ITEM: null,
     REMOVE_ITEM: null,
@@ -492,6 +498,7 @@ export const GroupUnreadChannels = {
 
 export const Constants = {
     SettingsTypes,
+    JobTypes,
     Preferences,
     SocketEvents,
     ActionTypes,
@@ -527,7 +534,7 @@ export const Constants = {
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     NOTIFY_ALL_MEMBERS: 5,
-    CHARACTER_LIMIT: 4000,
+    DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
@@ -1059,10 +1066,6 @@ export const Constants = {
         MARKDOWN_PREVIEW: {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
             description: 'Show markdown preview option in message input box',
-        },
-        WEBRTC_PREVIEW: {
-            label: 'webrtc_preview',
-            description: 'Enable WebRTC one on one calls',
         },
     },
     OVERLAY_TIME_DELAY_SMALL: 100,

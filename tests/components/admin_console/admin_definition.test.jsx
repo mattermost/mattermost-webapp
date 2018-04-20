@@ -12,6 +12,7 @@ const baseShape = {
     needs_no_license: yup.boolean(),
     needs_license: yup.boolean(),
     needs: yup.array().of(yup.array().of(yup.string())),
+    needs_or: yup.array().of(yup.array().of(yup.string())),
 };
 
 const fieldShape = {
@@ -92,8 +93,15 @@ const settingCustom = yup.object().shape({
     component: yup.object().required(),
 });
 
+const settingJobsTable = yup.object().shape({
+    type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_JOBSTABLE]),
+    ...baseShape,
+    job_type: yup.string().required(),
+    render_job: yup.object().required(),
+});
+
 // eslint-disable-next-line no-template-curly-in-string
-const setting = yup.mixed().test('is-setting', '${path} not a valid setting', (value) => {
+const setting = yup.mixed().test('is-setting', 'not a valid setting: ${path}', (value) => {
     let valid = false;
     valid = valid || settingBanner.isValidSync(value);
     valid = valid || settingBool.isValidSync(value);
@@ -105,6 +113,7 @@ const setting = yup.mixed().test('is-setting', '${path} not a valid setting', (v
     valid = valid || settingMultiLanguage.isValidSync(value);
     valid = valid || settingDropdown.isValidSync(value);
     valid = valid || settingCustom.isValidSync(value);
+    valid = valid || settingJobsTable.isValidSync(value);
     return valid;
 });
 
@@ -137,6 +146,7 @@ var definition = yup.object().shape({
         }),
         authentication: yup.object().shape({
             email: yup.object().shape({schema}),
+            ldap: yup.object().shape({schema}),
             mfa: yup.object().shape({schema}),
         }),
         security: yup.object().shape({}),

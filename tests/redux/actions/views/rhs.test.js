@@ -200,6 +200,10 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(testInitialState);
             compareStore.dispatch(updateRhsState(RHSStates.SEARCH));
+            compareStore.dispatch({
+                type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+                terms,
+            });
             compareStore.dispatch(performSearch(terms));
 
             expect(store.getActions()).toEqual(compareStore.getActions());

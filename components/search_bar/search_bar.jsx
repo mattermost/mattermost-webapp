@@ -35,13 +35,12 @@ export default class SearchBar extends React.Component {
         }),
     };
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
             focused: false,
             isPristine: true,
-            searchTerms: this.props.searchTerms,
         };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
@@ -58,12 +57,6 @@ export default class SearchBar extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            searchTerms: nextProps.searchTerms,
-        });
-    }
-
     handleClose = () => {
         this.props.actions.closeWebrtc();
         this.props.actions.closeRightHandSide();
@@ -78,19 +71,19 @@ export default class SearchBar extends React.Component {
 
     handleChange = (e) => {
         var term = e.target.value;
-        this.setState({
-            searchTerms: term,
-        });
+        this.props.actions.updateSearchTerms(term);
     }
 
     handleUserBlur = () => {
-        this.setState({focused: false});
+        // add time out so that the pinned and member buttons are clickable
+        // when focus is released from the search box.
+        setTimeout(() => {
+            this.setState({focused: false});
+        }, 100);
     }
 
     handleClear = () => {
-        this.setState({
-            searchTerms: '',
-        });
+        this.props.actions.updateSearchTerms('');
     }
 
     handleUserFocus = () => {
@@ -102,8 +95,6 @@ export default class SearchBar extends React.Component {
             this.setState({
                 isPristine: false,
             });
-
-            this.props.actions.updateSearchTerms(terms);
 
             const {error} = await this.props.actions.showSearchResults();
 
@@ -121,7 +112,7 @@ export default class SearchBar extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const terms = this.state.searchTerms.trim();
+        const terms = this.props.searchTerms.trim();
 
         if (terms.length === 0) {
             return;
@@ -181,7 +172,7 @@ export default class SearchBar extends React.Component {
         }
 
         let helpClass = 'search-help-popover';
-        if (!this.state.searchTerms && this.state.focused) {
+        if (!this.props.searchTerms && this.state.focused) {
             helpClass += ' visible';
         }
 
@@ -221,7 +212,7 @@ export default class SearchBar extends React.Component {
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.props.isSearchingTerm && this.state.searchTerms && this.state.searchTerms.trim() !== '') {
+        if (!this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -261,7 +252,7 @@ export default class SearchBar extends React.Component {
                             ref={this.getSearch}
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            value={this.state.searchTerms}
+                            value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
                             onBlur={this.handleUserBlur}
                             onChange={this.handleChange}
@@ -269,7 +260,7 @@ export default class SearchBar extends React.Component {
                             listComponent={SearchSuggestionList}
                             providers={this.suggestionProviders}
                             type='search'
-                            autoFocus={this.props.isFocus && this.state.searchTerms === ''}
+                            autoFocus={this.props.isFocus && this.props.searchTerms === ''}
                             delayInputUpdate={true}
                         />
                         <div

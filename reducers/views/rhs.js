@@ -68,6 +68,15 @@ function searchTerms(state = '', action) {
     }
 }
 
+function searchResultsTerms(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS:
+        return action.terms;
+    default:
+        return state;
+    }
+}
+
 function isSearchingTerm(state = false, action) {
     switch (action.type) {
     case SearchTypes.SEARCH_POSTS_REQUEST:
@@ -150,6 +159,7 @@ export default combineReducers({
     previousRhsState,
     rhsState,
     searchTerms,
+    searchResultsTerms,
     isSearchingTerm,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,

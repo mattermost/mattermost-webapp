@@ -46,7 +46,6 @@ import Pluggable from 'plugins/pluggable';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 export default class ChannelHeader extends React.Component {
@@ -333,7 +332,6 @@ export default class ChannelHeader extends React.Component {
         let webrtc;
 
         if (isDirect) {
-            const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             const dmUserStatus = this.props.dmUserStatus.status;
 
             const teammateId = Utils.getUserIdFromChannelName(channel);
@@ -351,7 +349,7 @@ export default class ChannelHeader extends React.Component {
                 channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
             }
 
-            const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+            const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();
 
             if (webrtcEnabled && this.props.currentUser.id !== teammateId) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
@@ -1011,11 +1009,11 @@ export default class ChannelHeader extends React.Component {
                             id='channelHeaderInfo'
                             className='channel-header__info'
                         >
-                            {toggleFavorite}
                             <div
                                 id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
                             >
+                                {toggleFavorite}
                                 <h2>
                                     <button
                                         id='channelHeaderDropdownButton'
@@ -1045,8 +1043,8 @@ export default class ChannelHeader extends React.Component {
                                     </ul>
                                 </h2>
                                 {muteTrigger}
-                                {headerTextContainer}
                             </div>
+                            {headerTextContainer}
                         </div>
                     </div>
                     <div className='flex-child'>

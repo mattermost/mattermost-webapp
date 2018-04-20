@@ -18,6 +18,7 @@ describe('components/TextBox', () => {
                 value='some test text'
                 onChange={emptyFunction}
                 onKeyPress={emptyFunction}
+                characterLimit={4000}
                 createMessage='placeholder text'
                 supportsCommands={false}
             />
@@ -40,6 +41,7 @@ describe('components/TextBox', () => {
                 value='some test text'
                 onChange={emptyFunction}
                 onKeyPress={emptyFunction}
+                characterLimit={4000}
                 createMessage='placeholder text'
                 supportsCommands={false}
                 handlePostError={handlePostError}

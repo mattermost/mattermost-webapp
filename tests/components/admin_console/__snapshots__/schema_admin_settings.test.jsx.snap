@@ -430,7 +430,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         disabled={false}
         errorMessage={
           Object {
-            "defaultMessage": "admin.reload.reloadFail",
+            "defaultMessage": "Reload unsuccessful: {error}",
             "id": "admin.reload.reloadFail",
           }
         }
@@ -470,6 +470,26 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       />
       <component
         key="Config_userautocomplete_custom"
+      />
+      <Connect(InjectIntl(JobTable))
+        createJobButtonText={
+          <FormattedMessage
+            defaultMessage="Setting Twelve"
+            id="label-l"
+            values={Object {}}
+          />
+        }
+        createJobHelpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the jobs table field."
+            id="help-text-l"
+            values={Object {}}
+          />
+        }
+        disabled={false}
+        getExtraInfoText={[Function]}
+        jobType="test"
+        key="Config_userautocomplete_undefined"
       />
     </SettingsGroup>
     <div

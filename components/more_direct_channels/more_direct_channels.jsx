@@ -6,14 +6,10 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
-import {searchProfiles, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
-import {searchUsers} from 'actions/user_actions.jsx';
-import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
@@ -25,10 +21,12 @@ const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 export default class MoreDirectChannels extends React.Component {
     static propTypes = {
 
-        /*
-         * Current user's ID
-         */
         currentUserId: PropTypes.string.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
+        currentTeamName: PropTypes.string.isRequired,
+        searchTerm: PropTypes.string.isRequired,
+        users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        statuses: PropTypes.object.isRequired,
 
         /*
          * List of current channel members of existing channel
@@ -44,46 +42,21 @@ export default class MoreDirectChannels extends React.Component {
          * The mode by which direct messages are restricted, if at all.
          */
         restrictDirectMessage: PropTypes.string,
-
-        /*
-         * Function to call on modal dismissed
-         */
         onModalDismissed: PropTypes.func,
-
-        /**
-         * Function to call on modal hide
-         */
-        onHide: PropTypes.func.isRequired,
+        onHide: PropTypes.func,
 
         actions: PropTypes.shape({
-
-            /**
-             * Function to get profiles
-             */
             getProfiles: PropTypes.func.isRequired,
-
-            /**
-             * Function to get profiles in team
-             */
             getProfilesInTeam: PropTypes.func.isRequired,
+            searchProfiles: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.handleHide = this.handleHide.bind(this);
-        this.handleExit = this.handleExit.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.search = this.search.bind(this);
-        this.addValue = this.addValue.bind(this);
-
         this.searchTimeoutId = 0;
-        this.term = '';
-        this.listType = this.props.restrictDirectMessage;
 
         const values = [];
 
@@ -100,7 +73,6 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         this.state = {
-            users: null,
             values,
             show: true,
             search: false,
@@ -110,19 +82,37 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     componentDidMount() {
-        UserStore.addChangeListener(this.onChange);
-        UserStore.addInTeamChangeListener(this.onChange);
-        UserStore.addStatusesChangeListener(this.onChange);
         this.getUserProfiles();
     }
 
-    componentWillUnmount() {
-        UserStore.removeChangeListener(this.onChange);
-        UserStore.removeInTeamChangeListener(this.onChange);
-        UserStore.removeStatusesChangeListener(this.onChange);
+    componentWillReceiveProps(nextProps) {
+        if (this.props.searchTerm !== nextProps.searchTerm) {
+            clearTimeout(this.searchTimeoutId);
+
+            const searchTerm = nextProps.searchTerm;
+            if (searchTerm === '') {
+                this.resetPaging();
+            } else {
+                const teamId = nextProps.restrictDirectMessage === 'any' ? '' : nextProps.currentTeamId;
+
+                this.searchTimeoutId = setTimeout(
+                    async () => {
+                        this.setUsersLoadingState(true);
+                        const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: teamId});
+                        if (data) {
+                            loadStatusesForProfilesList(data);
+                            this.resetPaging();
+                        }
+                        this.setUsersLoadingState(false);
+                    },
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                );
+            }
+        }
     }
 
-    handleHide() {
+    handleHide = () => {
+        this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
 
@@ -132,7 +122,7 @@ export default class MoreDirectChannels extends React.Component {
         });
     }
 
-    handleExit() {
+    handleExit = () => {
         if (this.exitToChannel) {
             browserHistory.push(this.exitToChannel);
         }
@@ -146,7 +136,7 @@ export default class MoreDirectChannels extends React.Component {
         }
     }
 
-    handleSubmit(values = this.state.values) {
+    handleSubmit = (values = this.state.values) => {
         if (this.state.saving) {
             return;
         }
@@ -162,7 +152,7 @@ export default class MoreDirectChannels extends React.Component {
             // Due to how react-overlays Modal handles focus, we delay pushing
             // the new channel information until the modal is fully exited.
             // The channel information will be pushed in `handleExit`
-            this.exitToChannel = TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name;
+            this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + channel.name;
             this.setState({saving: false});
             this.handleHide();
         };
@@ -178,7 +168,7 @@ export default class MoreDirectChannels extends React.Component {
         }
     }
 
-    addValue(value) {
+    addValue = (value) => {
         const values = Object.assign([], this.state.values);
 
         if (values.indexOf(value) === -1) {
@@ -188,45 +178,20 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({values});
     }
 
-    onChange() {
-        let users;
-
-        if (this.term) {
-            if (this.listType === 'any') {
-                users = Object.assign([], searchProfiles(store.getState(), this.term, false));
-            } else {
-                users = Object.assign([], searchProfilesInCurrentTeam(store.getState(), this.term, false));
-            }
-        } else if (this.listType === 'any') {
-            users = Object.assign([], UserStore.getProfileList(false, true));
-        } else {
-            users = Object.assign([], UserStore.getProfileListInTeam(TeamStore.getCurrentId(), false, false));
-        }
-
-        for (let i = 0; i < users.length; i++) {
-            const user = Object.assign({}, users[i]);
-            users[i] = user;
-        }
-
-        this.setState({
-            users,
-        });
-    }
-
-    getUserProfiles(page) {
+    getUserProfiles = (page) => {
         const pageNum = page ? page + 1 : 0;
-        if (this.listType === 'any') {
+        if (this.props.restrictDirectMessage === 'any') {
             this.props.actions.getProfiles(pageNum, USERS_PER_PAGE * 2).then(() => {
                 this.setUsersLoadingState(false);
             });
         } else {
-            this.props.actions.getProfilesInTeam(TeamStore.getCurrentId(), pageNum, USERS_PER_PAGE * 2).then(() => {
+            this.props.actions.getProfilesInTeam(this.props.currentTeamId, pageNum, USERS_PER_PAGE * 2).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
     }
 
-    handlePageChange(page, prevPage) {
+    handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
             this.getUserProfiles(page);
@@ -239,44 +204,19 @@ export default class MoreDirectChannels extends React.Component {
         }
     }
 
-    search(term) {
-        clearTimeout(this.searchTimeoutId);
-        this.term = term;
-
-        if (term === '') {
-            this.resetPaging();
-            this.onChange();
-            return;
-        }
-
-        let teamId;
-        if (this.listType === 'any') {
-            teamId = '';
-        } else {
-            teamId = TeamStore.getCurrentId();
-        }
-
-        this.searchTimeoutId = setTimeout(
-            () => {
-                this.setUsersLoadingState(true);
-                searchUsers(term, teamId, {}, this.resetPaging).then(() => {
-                    this.setUsersLoadingState(false);
-                });
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+    search = (term) => {
+        this.props.actions.setModalSearchTerm(term);
     }
 
-    handleDelete(values) {
+    handleDelete = (values) => {
         this.setState({values});
     }
 
-    renderOption(option, isSelected, onAdd) {
-        const currentUser = UserStore.getCurrentUser();
+    renderOption = (option, isSelected, onAdd) => {
         const displayName = displayEntireNameForUser(option);
 
         let modalName = displayName;
-        if (option.id === currentUser.id) {
+        if (option.id === this.props.currentUserId) {
             modalName = (
                 <FormattedMessage
                     id='more_direct_channels.directchannel.you'
@@ -303,7 +243,7 @@ export default class MoreDirectChannels extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
-        const status = option.delete_at ? null : UserStore.getStatus(option.id);
+        const status = option.delete_at ? null : this.props.statuses[option.id];
 
         return (
             <div
@@ -352,14 +292,14 @@ export default class MoreDirectChannels extends React.Component {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note.full'
-                        defaultMessage='You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'
+                        defaultMessage={'You\'ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'}
                     />
                 );
             } else if (this.props.isExistingChannel) {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note'
-                        defaultMessage='This will start a new conversation. If you’re adding a lot of people, consider creating a private channel instead.'
+                        defaultMessage={'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.'}
                     />
                 );
             }
@@ -377,7 +317,7 @@ export default class MoreDirectChannels extends React.Component {
             />
         );
 
-        let users = this.state.users || [];
+        let users = this.props.users || [];
 
         if (this.state.values.length) {
             users = users.filter((user) => user.delete_at === 0 && user.id !== this.props.currentUserId);

@@ -18,7 +18,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
-import Comment from 'components/rhs_comment';
+import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RootPost from 'components/rhs_root_post';
 
@@ -359,7 +359,7 @@ export default class RhsThread extends React.Component {
             const reverseCount = postsLength - i - 1;
             commentsLists.push(
                 <div key={keyPrefix + 'commentKey'}>
-                    <Comment
+                    <RhsComment
                         ref={comPost.id}
                         post={comPost}
                         teamId={this.props.channel.team_id}
@@ -380,7 +380,8 @@ export default class RhsThread extends React.Component {
         }
 
         let createComment;
-        if (selected.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        const isFakeDeletedPost = selected.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+        if (!isFakeDeletedPost) {
             createComment = (
                 <div className='post-create__container'>
                     <CreateComment
@@ -437,12 +438,13 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        <DateSeparator date={rootPostDay}/>
+                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                         <RootPost
                             ref={selected.id}
                             post={selected}
                             commentCount={postsLength}
                             user={profile}
+                            teamId={this.props.channel.team_id}
                             currentUser={this.props.currentUser}
                             compactDisplay={this.state.compactDisplay}
                             isFlagged={isRootFlagged}
@@ -452,6 +454,7 @@ export default class RhsThread extends React.Component {
                             isBusy={this.state.isBusy}
                             isEmbedVisible={this.props.postsEmbedVisibleObj[selected.id]}
                         />
+                        {isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                         <div
                             ref='rhspostlist'
                             className='post-right-comments-container'

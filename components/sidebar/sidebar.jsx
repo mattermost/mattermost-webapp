@@ -12,6 +12,7 @@ import classNames from 'classnames';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {goToChannelById} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
@@ -94,7 +95,6 @@ export default class Sidebar extends React.PureComponent {
         showUnreadSection: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
-            goToChannelById: PropTypes.func.isRequired,
             close: PropTypes.func.isRequired,
         }).isRequired,
     };
@@ -339,9 +339,9 @@ export default class Sidebar extends React.PureComponent {
             } else {
                 nextIndex = curIndex - 1;
             }
-            const nextChannel = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            this.props.actions.goToChannelById(nextChannel);
-            this.updateScrollbarOnChannelChange(nextChannel);
+            const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
+            goToChannelById(nextChannelId);
+            this.updateScrollbarOnChannelChange(nextChannelId);
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.handleOpenMoreDirectChannelsModal(e);
@@ -375,9 +375,9 @@ export default class Sidebar extends React.PureComponent {
             );
 
             if (nextIndex !== -1) {
-                const nextChannel = allChannelIds[nextIndex];
-                this.props.actions.goToChannelById(nextChannel);
-                this.updateScrollbarOnChannelChange(nextChannel);
+                const nextChannelId = allChannelIds[nextIndex];
+                goToChannelById(nextChannelId);
+                this.updateScrollbarOnChannelChange(nextChannelId);
             }
 
             this.isSwitchingChannel = false;

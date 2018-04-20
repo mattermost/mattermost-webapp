@@ -46,6 +46,7 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
             license={licenseProp}
             editingPost={editingPostProp}
             actions={actionsProp}
+            maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
         />
     );
 }

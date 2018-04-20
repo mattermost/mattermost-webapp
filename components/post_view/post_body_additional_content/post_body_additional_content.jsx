@@ -245,7 +245,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 onModalDismissed={() => this.setState({showPreviewModal: false})}
                 startIndex={0}
                 fileInfos={[{
-                    hasPreviewImage: false,
+                    has_preview_image: false,
                     link,
                     extension: ext,
                 }]}

@@ -257,7 +257,7 @@ export default class TeamAnalytics extends React.Component {
                         title={
                             <FormattedMessage
                                 id='analytics.team.totalUsers'
-                                defaultMessage='Total Users'
+                                defaultMessage='Total Active Users'
                             />
                         }
                         icon='fa-user'
