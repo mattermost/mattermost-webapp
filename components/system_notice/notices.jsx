@@ -28,7 +28,7 @@ export default [
         body: (
             <FormattedHTMLMessage
                 id='system_notice.body.api3'
-                defaultMessage='If you’ve created or installed <a href="https://about.mattermost.com/default-integrations-documentation" target="_blank">integrations</a> in the last two years, find out how <a href="https://about.mattermost.com/default-apiv3-deprecation-guide" target="_blank">upcoming changes</a> may affect them.'
+                defaultMessage='If you’ve created or installed integrations in the last two years, find out how <a href="https://about.mattermost.com/default-apiv3-deprecation-guide" target="_blank">upcoming changes</a> may affect them.'
             />
         ),
     },
