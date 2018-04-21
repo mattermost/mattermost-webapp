@@ -30,6 +30,8 @@ const KeyCodes = Constants.KeyCodes;
 export default class CreatePost extends React.Component {
     static propTypes = {
 
+        isRhsOpen: PropTypes.bool.isRequired,
+
         /**
         *  ref passed from channelView for EmojiPickerOverlay
         */
@@ -422,10 +424,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    rhsFocus = (keepFocus = false) => {
-            this.refs.textbox.focus();
-    }
-
     postMsgKeyPress = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
@@ -604,7 +602,6 @@ export default class CreatePost extends React.Component {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
-        const test = false;
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -642,8 +639,12 @@ export default class CreatePost extends React.Component {
     replyToLastPost = (e) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
+        const isRhsOpen = this.props.isRhsOpen;
+        if (isRhsOpen) {
+            document.getElementById('reply_textbox').focus();
+        }
         if (latestReplyablePostId) {
-             this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
+            this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
         }
     }
 
