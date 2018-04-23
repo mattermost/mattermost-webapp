@@ -1,5 +1,5 @@
 {
-  "system_notice.title": "<strong>System Message</strong> from Mattermost",
+  "system_notice.title": "<strong>System Message</strong><br>from Mattermost",
   "system_notice.body.api3": "If you’ve created or installed integrations in the last two years, find out how <a href=\"https://about.mattermost.com/default-apiv3-deprecation-guide\" target=\"_blank\">upcoming changes</a> may affect them.",
   "system_notice.remind_me": "Remind me later",
   "system_notice.dont_show": "Don't show again",

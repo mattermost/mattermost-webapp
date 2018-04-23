@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'utils/constants.jsx';
+import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class SystemNotice extends React.PureComponent {
     static propTypes = {
@@ -94,38 +95,41 @@ export default class SystemNotice extends React.PureComponent {
 
         return (
             <div
-                className='system-notice'
+                className='system-notice bg--white shadow--2'
             >
-                <img
-                    className='system-notice-icon'
-                    src={notice.icon}
-                />
-                <div className='system-notice-title'>
-                    {notice.title}
+                <div className='system-notice__header'>
+                    <div className='system-notice__logo'>
+                        <MattermostLogo/>
+                    </div>
+                    <div className='system-notice__title'>
+                        {notice.title}
+                    </div>
                 </div>
-                <div className='system-notice-body'>
+                <div className='system-notice__body'>
                     {notice.body}
                 </div>
-                <button
-                    id='systemnotice_remindme'
-                    className='system-notice-button left'
-                    onClick={this.hideAndRemind}
-                >
-                    <FormattedMessage
-                        id='system_notice_remind_me'
-                        defaultMessage='Remind me later'
-                    />
-                </button>
-                <button
-                    id='systemnotice_dontshow'
-                    className='system-notice-button right'
-                    onClick={this.hideAndForget}
-                >
-                    <FormattedMessage
-                        id='system_notice_dont_show'
-                        defaultMessage="Don't show again"
-                    />
-                </button>
+                <div className='system-notice__footer'>
+                    <button
+                        id='systemnotice_remindme'
+                        className='btn btn-transparent'
+                        onClick={this.hideAndRemind}
+                    >
+                        <FormattedMessage
+                            id='system_notice_remind_me'
+                            defaultMessage='Remind me later'
+                        />
+                    </button>
+                    <button
+                        id='systemnotice_dontshow'
+                        className='btn btn-transparent'
+                        onClick={this.hideAndForget}
+                    >
+                        <FormattedMessage
+                            id='system_notice_dont_show'
+                            defaultMessage="Don't show again"
+                        />
+                    </button>
+                </div>
             </div>
         );
     }
