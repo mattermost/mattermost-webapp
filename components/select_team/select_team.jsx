@@ -35,7 +35,6 @@ export default class SelectTeam extends React.Component {
         rolesRequest: PropTypes.object.isRequired,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
-            loadRolesIfNeeded: PropTypes.func.isRequired,
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
         }).isRequired,
@@ -50,17 +49,13 @@ export default class SelectTeam extends React.Component {
         this.state = state;
     }
 
-    componentWillMount() {
-        this.props.actions.loadRolesIfNeeded(['system_user', 'system_admin']);
-    }
-
     componentDidMount() {
         TeamStore.addChangeListener(this.onTeamChange);
         this.props.actions.getTeams(0, 200);
     }
 
     componentWillMount() {
-        this.props.actions.loadRolesIfNeeded([General.SYSTEM_USER_ROLE]).then(() => {
+        this.props.actions.loadRolesIfNeeded([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]).then(() => {
             this.loadPoliciesIntoState(this.props.rolesRequest, this.props.roles);
         });
     }

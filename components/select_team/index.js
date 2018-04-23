@@ -28,7 +28,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadRolesIfNeeded,
             getTeams,
             loadRolesIfNeeded,
         }, dispatch),
