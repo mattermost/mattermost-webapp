@@ -150,6 +150,25 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
+    isLinkGifv(link) {
+        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+        const match = link.match(regex);
+        if (match && match[1]) {
+            return true;
+        }
+        return false;
+    }
+
+    isLinkImage(link) {
+        const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
+        const match = link.match(regex);
+        if (match && match[1]) {
+            return true;
+        }
+
+        return false;
+    }
+
     isLinkToggleable() {
         const link = this.state.link;
         if (!link) {
@@ -340,7 +359,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 </div>
             );
         }
-
+        
         return this.props.children;
     }
 }

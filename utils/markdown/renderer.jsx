@@ -139,6 +139,7 @@ export default class Renderer extends marked.Renderer {
             if (dimensions.length > 1) {
                 out += ' height="' + dimensions[1] + '"';
             }
+            out += ' class="markdown-inline-img"';
             out += '><source src="' + mp4Src + '" type="video/mp4"></video>';
         } else {
             src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
