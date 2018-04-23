@@ -279,7 +279,7 @@ export function doPostAction(postId, actionId) {
     PostActions.doPostAction(postId, actionId)(dispatch, getState);
 }
 
-export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', title = '', isRHS = false) {
+export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
 
@@ -303,7 +303,7 @@ export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', t
         if (canEditNow) {
             doDispatch({
                 type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, commentsCount, refocusId, title, isRHS},
+                data: {postId, commentCount, refocusId, title, isRHS},
             }, doGetState);
         }
 

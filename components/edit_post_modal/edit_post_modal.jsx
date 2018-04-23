@@ -172,7 +172,7 @@ export default class EditPostModal extends React.PureComponent {
                 dialogType: DeletePostModal,
                 dialogProps: {
                     post: editingPost.post,
-                    commentCount: editingPost.commentsCount,
+                    commentCount: editingPost.commentCount,
                     isRHS: editingPost.isRHS,
                 },
             };

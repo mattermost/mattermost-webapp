@@ -19,7 +19,7 @@ describe('Actions.Posts', () => {
             store.getState().views.posts.editingPost,
             {
                 postId: '123',
-                commentsCount: 0,
+                commentCount: 0,
                 refocusId: 'test',
                 show: true,
                 title: 'title',
@@ -33,7 +33,7 @@ describe('Actions.Posts', () => {
             store.getState().views.posts.editingPost,
             {
                 postId: '456',
-                commentsCount: 3,
+                commentCount: 3,
                 refocusId: 'test2',
                 show: true,
                 title: 'title2',
