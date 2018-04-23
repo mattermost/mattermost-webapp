@@ -257,7 +257,6 @@ export default class SignupEmail extends React.Component {
             };
 
             createUserWithInvite(user,
-                this.state.data,
                 this.state.token,
                 this.state.inviteId,
                 this.handleSignupSuccess.bind(this, user),

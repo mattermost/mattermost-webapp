@@ -107,7 +107,7 @@ export default class SelectTeam extends React.Component {
     handleTeamClick = (team) => {
         this.setState({loadingTeamId: team.id});
 
-        addUserToTeamFromInvite('', '', team.invite_id,
+        addUserToTeamFromInvite('', team.invite_id,
             () => {
                 this.props.history.push(`/${team.name}/channels/town-square`);
             },
