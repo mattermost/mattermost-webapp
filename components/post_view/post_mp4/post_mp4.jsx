@@ -117,7 +117,6 @@ export default class PostImageEmbed extends React.PureComponent {
         }
         return (
             <div className='post__embed-container'>
-                <div className='video-div embed-responsive-item'>
                     <video
                         poster={PostUtils.changeToJPGSrc(
                             this.props.link,
@@ -138,7 +137,6 @@ export default class PostImageEmbed extends React.PureComponent {
                             type='video/mp4'
                         />
                     </video>
-                </div>
             </div>
         );
     }
