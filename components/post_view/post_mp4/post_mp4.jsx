@@ -33,8 +33,8 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * If an image proxy is enabled.
          */
-        hasImageProxy: PropTypes.bool.isRequired
-    }
+        hasImageProxy: PropTypes.bool.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -44,26 +44,33 @@ export default class PostImageEmbed extends React.PureComponent {
 
         this.state = {
             loaded: false,
-            errored: false
+            errored: false,
         };
     }
 
     componentWillMount() {
-        this.loadVideo(PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy));
+        this.loadVideo(
+            PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy)
+        );
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.link !== this.props.link) {
             this.setState({
                 loaded: false,
-                errored: false
+                errored: false,
             });
         }
     }
 
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && prevProps.link !== this.props.link) {
-            this.loadVideo(PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy));
+            this.loadVideo(
+                PostUtils.changeToMp4Src(
+                    this.props.link,
+                    this.props.hasImageProxy
+                )
+            );
         }
     }
 
@@ -78,7 +85,7 @@ export default class PostImageEmbed extends React.PureComponent {
     handleLoadComplete() {
         this.setState({
             loaded: true,
-            errored: false
+            errored: false,
         });
 
         postListScrollChange();
@@ -91,7 +98,7 @@ export default class PostImageEmbed extends React.PureComponent {
     handleLoadError() {
         this.setState({
             errored: true,
-            loaded: true
+            loaded: true,
         });
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
@@ -109,23 +116,29 @@ export default class PostImageEmbed extends React.PureComponent {
             return null;
         }
         return (
-            <div
-                className='post__embed-container'
-            >
-                <video
-                    poster={PostUtils.changeToJPGSrc(this.props.link, this.props.hasImageProxy)}
-                    preload='auto'
-                    autoPlay='autoPlay'
-                    muted='true'
-                    loop='true'
-                    onClick={this.onImageClick}
-                    className='img-div cursor--pointer'
-                >
-                    <source
-                        src={PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy)}
-                        type='video/mp4'
-                    />
-                </video>
+            <div className='post__embed-container'>
+                <div className='video-div embed-responsive-item'>
+                    <video
+                        poster={PostUtils.changeToJPGSrc(
+                            this.props.link,
+                            this.props.hasImageProxy
+                        )}
+                        preload='auto'
+                        autoPlay='autoPlay'
+                        muted='true'
+                        loop='true'
+                        onClick={this.onImageClick}
+                        className='img-div cursor--pointer'
+                    >
+                        <source
+                            src={PostUtils.changeToMp4Src(
+                                this.props.link,
+                                this.props.hasImageProxy
+                            )}
+                            type='video/mp4'
+                        />
+                    </video>
+                </div>
             </div>
         );
     }
