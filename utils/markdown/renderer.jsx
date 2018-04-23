@@ -131,7 +131,7 @@ export default class Renderer extends marked.Renderer {
         if (match) {
             const jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
             const mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
-            out = '<video poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
+            out = '<video style="width:100%" poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
 
             if (dimensions.length > 0) {
                 out += ' width="' + dimensions[0] + '"';
@@ -140,7 +140,7 @@ export default class Renderer extends marked.Renderer {
                 out += ' height="' + dimensions[1] + '"';
             }
             out += ' class="markdown-inline-img"';
-            out += '><source src="' + mp4Src + '" type="video/mp4"></video>';
+            out += '><source class="markdown-inline-img" src="' + mp4Src + '" type="video/mp4"></video>';
         } else {
             src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
             out = '<img src="' + src + '" alt="' + text + '"';
