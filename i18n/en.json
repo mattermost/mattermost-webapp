@@ -92,7 +92,7 @@
   "add_emoji.save": "Save",
   "add_incoming_webhook.cancel": "Cancel",
   "add_incoming_webhook.channel": "Channel",
-  "add_incoming_webhook.channel.help": "Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.",
+  "add_incoming_webhook.channel.help": "The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.",
   "add_incoming_webhook.channelRequired": "A valid channel is required",
   "add_incoming_webhook.description": "Description",
   "add_incoming_webhook.description.help": "Description for your incoming webhook.",
