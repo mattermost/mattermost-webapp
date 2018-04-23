@@ -53,6 +53,7 @@ export default class PolicySettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             ...this.roleBasedPolicies,
             loaded: false,
+            edited: {},
         };
     }
 
@@ -79,8 +80,23 @@ export default class PolicySettings extends AdminSettings {
         });
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: true},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         const stateForAdapter = {...this.state};
         if (this.state.allowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
@@ -108,7 +124,30 @@ export default class PolicySettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.postEditTimeLimit ||
+                this.state.edited.enableBanner ||
+                this.state.edited.bannerText ||
+                this.state.edited.bannerColor ||
+                this.state.edited.bannerTextColor ||
+                this.state.edited.allowBannerDismissal
+            );
+
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
     };
 

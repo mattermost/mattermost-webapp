@@ -31,6 +31,7 @@ export default class WebhookSettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             enableOnlyAdminIntegrations: null,
             loaded: false,
+            edited: {},
         };
     }
 
@@ -40,8 +41,23 @@ export default class WebhookSettings extends AdminSettings {
         });
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: true},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         // Purposely converting enableOnlyAdminIntegrations value from boolean to string 'true' or 'false'
         // so that it can be used as a key in the policy roles adapter mapping.
@@ -62,7 +78,30 @@ export default class WebhookSettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.enableIncomingWebhooks ||
+                this.state.edited.enableOutgoingWebhooks ||
+                this.state.edited.enableCommands ||
+                this.state.edited.enablePostUsernameOverride ||
+                this.state.edited.enablePostIconOverride ||
+                this.state.edited.enableOAuthServiceProvider ||
+                this.state.edited.enableUserAccessTokens
+            );
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
     };
 

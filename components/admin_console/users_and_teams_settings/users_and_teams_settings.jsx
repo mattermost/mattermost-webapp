@@ -39,6 +39,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             enableTeamCreation: null,
             loaded: false,
+            edited: {},
         };
     }
 
@@ -48,8 +49,23 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         });
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: true},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         // Purposely converting enableTeamCreation value from boolean to string 'true' or 'false'
         // so that it can be used as a key in the policy roles adapter mapping.
@@ -70,7 +86,32 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.enableUserCreation ||
+                this.state.edited.maxUsersPerTeam ||
+                this.state.edited.restrictCreationToDomains ||
+                this.state.edited.restrictDirectMessage ||
+                this.state.edited.teammateNameDisplay ||
+                this.state.edited.maxChannelsPerTeam ||
+                this.state.edited.maxNotificationsPerChannel ||
+                this.state.edited.enableConfirmNotificationsToChannel
+            );
+
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
     };
 
