@@ -117,26 +117,26 @@ export default class PostImageEmbed extends React.PureComponent {
         }
         return (
             <div className='post__embed-container'>
-                    <video
-                        poster={PostUtils.changeToJPGSrc(
+                <video
+                    poster={PostUtils.changeToJPGSrc(
+                        this.props.link,
+                        this.props.hasImageProxy
+                    )}
+                    preload='auto'
+                    autoPlay='autoPlay'
+                    muted='true'
+                    loop='true'
+                    onClick={this.onImageClick}
+                    className='img-div cursor--pointer'
+                >
+                    <source
+                        src={PostUtils.changeToMp4Src(
                             this.props.link,
                             this.props.hasImageProxy
                         )}
-                        preload='auto'
-                        autoPlay='autoPlay'
-                        muted='true'
-                        loop='true'
-                        onClick={this.onImageClick}
-                        className='img-div cursor--pointer'
-                    >
-                        <source
-                            src={PostUtils.changeToMp4Src(
-                                this.props.link,
-                                this.props.hasImageProxy
-                            )}
-                            type='video/mp4'
-                        />
-                    </video>
+                        type='video/mp4'
+                    />
+                </video>
             </div>
         );
     }
