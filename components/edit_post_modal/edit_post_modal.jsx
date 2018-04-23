@@ -5,9 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
-import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
-import store from 'stores/redux_store.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -17,8 +15,6 @@ import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 
 const KeyCodes = Constants.KeyCodes;
-
-const getState = store.getState;
 
 export default class EditPostModal extends React.PureComponent {
     static propTypes = {
@@ -175,7 +171,7 @@ export default class EditPostModal extends React.PureComponent {
                 ModalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
-                    post: Selectors.getPost(getState(), editingPost.postId),
+                    post: editingPost.post,
                     commentCount: editingPost.commentsCount,
                     isRHS: editingPost.isRHS,
                 },
