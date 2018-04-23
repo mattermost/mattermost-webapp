@@ -22,7 +22,6 @@ function mapStateToProps(state, ownProps) {
     }
 
     return {
-        ...ownProps,
         channelType,
         currentUser: getCurrentUser(state),
         post,

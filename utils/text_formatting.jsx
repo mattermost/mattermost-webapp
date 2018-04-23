@@ -416,7 +416,7 @@ function convertSearchTermToRegex(term) {
     if (cjkPattern.test(term)) {
         // term contains Chinese, Japanese, or Korean characters so don't mark word boundaries
         pattern = '()(' + escapeRegex(term.replace(/\*/g, '')) + ')';
-    } else if (term.endsWith('*')) {
+    } else if (/[^\s][*]$/.test(term)) {
         pattern = '\\b()(' + escapeRegex(term.substring(0, term.length - 1)) + ')';
     } else if (term.startsWith('@') || term.startsWith('#')) {
         // needs special handling of the first boundary because a word boundary doesn't work before a symbol

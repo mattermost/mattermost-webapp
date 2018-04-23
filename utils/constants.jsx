@@ -392,6 +392,10 @@ export const StatTypes = keyMirror({
     MONTHLY_ACTIVE_USERS: null,
 });
 
+export const SearchTypes = keyMirror({
+    SET_MODAL_SEARCH: null,
+});
+
 export const StorageTypes = keyMirror({
     SET_ITEM: null,
     REMOVE_ITEM: null,
@@ -1061,10 +1065,6 @@ export const Constants = {
         MARKDOWN_PREVIEW: {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
             description: 'Show markdown preview option in message input box',
-        },
-        WEBRTC_PREVIEW: {
-            label: 'webrtc_preview',
-            description: 'Enable WebRTC one on one calls',
         },
     },
     OVERLAY_TIME_DELAY_SMALL: 100,

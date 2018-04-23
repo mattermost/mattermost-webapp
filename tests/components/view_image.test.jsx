@@ -200,6 +200,15 @@ describe('components/ViewImageModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot for external file', () => {
+        const fileInfos = [
+            {extension: 'png'},
+        ];
+        const props = {...requiredProps, fileInfos};
+        const wrapper = shallow(<ViewImageModal {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should have called loadImage', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},

@@ -87,14 +87,12 @@ export default class SignupLdap extends React.Component {
 
     handleLdapSignupSuccess() {
         const params = new URLSearchParams(this.props.location.search);
-        const hash = params.get('h') || '';
-        const data = params.get('d') || '';
+        const token = params.get('t') || '';
         const inviteId = params.get('id') || '';
 
-        if (inviteId || hash) {
+        if (inviteId || token) {
             addUserToTeamFromInvite(
-                data,
-                hash,
+                token,
                 inviteId,
                 () => {
                     this.finishSignup();
