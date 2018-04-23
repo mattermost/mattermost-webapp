@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {General, Permissions, RequestStatus} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
@@ -32,7 +32,6 @@ export default class SelectTeam extends React.Component {
         isLicensed: PropTypes.bool.isRequired,
         customDescriptionText: PropTypes.string,
         roles: PropTypes.object.isRequired,
-        rolesRequest: PropTypes.object.isRequired,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
@@ -55,25 +54,45 @@ export default class SelectTeam extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.loadRolesIfNeeded([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]).then(() => {
-            this.loadPoliciesIntoState(this.props.rolesRequest, this.props.roles);
-        });
+        const {
+            actions,
+            roles,
+        } = this.props;
+
+        actions.loadRolesIfNeeded([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]);
+
+        if (
+            roles.system_admin &&
+            roles.system_user
+        ) {
+            this.loadPoliciesIntoState(roles);
+        }
     }
 
     componentWillUnmount() {
         TeamStore.removeChangeListener(this.onTeamChange);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (
+            !this.state.loaded &&
+            nextProps.roles.system_admin &&
+            nextProps.roles.system_user
+        ) {
+            this.loadPoliciesIntoState(nextProps.roles);
+        }
+    }
+
     onTeamChange = () => {
         this.setState(this.getStateFromStores(true));
     };
 
-    loadPoliciesIntoState(rolesRequest, roles) {
-        if (rolesRequest.status === RequestStatus.SUCCESS) {
-            const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
+    loadPoliciesIntoState(roles) {
+        // Purposely parsing boolean from string 'true' or 'false'
+        // because the string comes from the policy roles adapter mapping.
+        const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
 
-            this.setState({enableTeamCreation, loaded: true});
-        }
+        this.setState({enableTeamCreation, loaded: true});
     }
 
     getStateFromStores(loaded) {

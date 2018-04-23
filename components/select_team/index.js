@@ -20,7 +20,6 @@ function mapStateToProps(state) {
         isLicensed: license.IsLicensed === 'true',
         customDescriptionText: config.CustomDescriptionText,
         roles: getRoles(state),
-        rolesRequest: state.requests.roles.getRolesByNames,
         siteName: config.SiteName,
     };
 }
