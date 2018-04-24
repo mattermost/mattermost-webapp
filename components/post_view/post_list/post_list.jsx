@@ -12,14 +12,14 @@ import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-import DateSeparator from 'components/post_view/date_separator.jsx';
 
-import FloatingTimestamp from './floating_timestamp.jsx';
-import NewMessageIndicator from './new_message_indicator.jsx';
-import Post from './post';
-import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
-import CreateChannelIntroMessage from './channel_intro_message';
+import CreateChannelIntroMessage from 'components/post_view/channel_intro_message';
+import DateSeparator from 'components/post_view/date_separator.jsx';
+import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
+import NewMessageIndicator from 'components/post_view/new_message_indicator.jsx';
+import Post from 'components/post_view/post';
+import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows.jsx';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
@@ -46,11 +46,6 @@ export default class PostList extends React.PureComponent {
          * The last time the channel was viewed, sets the new message separator
          */
         lastViewedAt: PropTypes.number,
-
-        /**
-         * Set if more posts are being loaded
-         */
-        loadingPosts: PropTypes.bool,
 
         /**
          * The user id of the logged in user
@@ -110,13 +105,19 @@ export default class PostList extends React.PureComponent {
         this.previousScrollHeight = 0;
         this.previousClientHeight = 0;
         this.atBottom = false;
+        this.loadedAfterPosts = false;
 
         this.state = {
-            atEnd: false,
+            atAfterEnd: false,
+            atBeforeEnd: false,
             unViewedCount: 0,
             isDoingInitialLoad: true,
+            isLoadingAfterPosts: false,
+            isLoadingBeforePosts: false,
             isScrolling: false,
             lastViewed: props.lastViewedAt,
+            pageAfterPostId: 1,
+            pageBeforePostId: 1,
         };
     }
 
@@ -140,7 +141,14 @@ export default class PostList extends React.PureComponent {
         if (nextProps.focusedPostId && this.props.focusedPostId !== nextProps.focusedPostId) {
             this.hasScrolledToFocusedPost = false;
             this.hasScrolledToNewMessageSeparator = false;
-            this.setState({atEnd: false, isDoingInitialLoad: !nextProps.posts});
+            this.loadedAfterPosts = false;
+            this.setState({
+                atAfterEnd: false,
+                atBeforeEnd: false,
+                pageAfterPostId: 1,
+                pageBeforePostId: 1,
+                isDoingInitialLoad: !nextProps.posts,
+            });
             this.loadPosts(nextProps.channel.id, nextProps.focusedPostId);
             return;
         }
@@ -155,7 +163,16 @@ export default class PostList extends React.PureComponent {
                 this.hasScrolledToFocusedPost = false;
                 this.hasScrolledToNewMessageSeparator = false;
                 this.atBottom = false;
-                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts, unViewedCount: 0});
+                this.loadedAfterPosts = false;
+                this.setState({
+                    atAfterEnd: false,
+                    atBeforeEnd: false,
+                    pageAfterPostId: 0,
+                    pageBeforePostId: 1,
+                    lastViewed: nextProps.lastViewedAt,
+                    isDoingInitialLoad: !nextProps.posts,
+                    unViewedCount: 0,
+                });
 
                 if (nextChannel.id) {
                     this.loadPosts(nextChannel.id);
@@ -174,7 +191,12 @@ export default class PostList extends React.PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         // Do not update scrolling unless posts, visibility or intro message change
-        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd) {
+        if (
+            this.props.posts === prevProps.posts &&
+            this.props.postVisibility === prevProps.postVisibility &&
+            this.state.atAfterEnd === prevState.atAfterEnd &&
+            this.state.atBeforeEnd === prevState.atBeforeEnd
+        ) {
             return;
         }
 
@@ -215,7 +237,7 @@ export default class PostList extends React.PureComponent {
             this.hasScrolledToNewMessageSeparator = true;
         }
 
-        if (didInitialScroll) {
+        if (didInitialScroll || this.loadedAfterPosts) {
             return;
         }
 
@@ -320,7 +342,7 @@ export default class PostList extends React.PureComponent {
     handleResize = (forceScrollToBottom) => {
         const postList = this.refs.postlist;
         const messageSeparator = this.refs.newMessageSeparator;
-        const doScrollToBottom = this.atBottom || forceScrollToBottom;
+        const doScrollToBottom = (this.atBottom || forceScrollToBottom) && !this.loadedAfterPosts;
 
         if (postList) {
             if (doScrollToBottom) {
@@ -349,8 +371,12 @@ export default class PostList extends React.PureComponent {
 
             const result = await getPostsBeforeAsync;
             posts = result.data;
-            await getPostsAfterAsync;
             await getPostThreadAsync;
+            const resultAfter = await getPostsAfterAsync;
+            const postsAfter = resultAfter.data;
+            if (postsAfter && postsAfter.order.length < POSTS_PER_PAGE) {
+                this.setState({atAfterEnd: true});
+            }
 
             this.hasScrolledToFocusedPost = true;
         } else {
@@ -367,17 +393,56 @@ export default class PostList extends React.PureComponent {
 
         this.setState({isDoingInitialLoad: false});
         if (posts && posts.order.length < POSTS_PER_PAGE) {
-            this.setState({atEnd: true});
+            this.setState({atBeforeEnd: true});
         }
     }
 
-    loadMorePosts = (e) => {
+    loadMoreAfterPosts = (e) => {
         if (e) {
             e.preventDefault();
         }
 
-        this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
-            this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
+        const {
+            actions,
+            channel,
+            focusedPostId,
+        } = this.props;
+        const {pageAfterPostId} = this.state;
+
+        this.setState({isLoadingAfterPosts: true});
+
+        actions.increasePostVisibility(channel.id, focusedPostId, false, pageAfterPostId).then((moreToLoad) => {
+            this.setState({
+                atAfterEnd: !moreToLoad,
+                isLoadingAfterPosts: false,
+                pageAfterPostId: pageAfterPostId + 1,
+            });
+        });
+
+        this.loadedAfterPosts = true;
+    }
+
+    loadMoreBeforePosts = (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        const {
+            actions,
+            channel,
+            focusedPostId,
+        } = this.props;
+
+        const {pageBeforePostId} = this.state;
+
+        this.setState({isLoadingBeforePosts: true});
+
+        actions.increasePostVisibility(channel.id, focusedPostId, true, pageBeforePostId).then((moreToLoad) => {
+            this.setState({
+                atBeforeEnd: !moreToLoad,
+                isLoadingBeforePosts: false,
+                pageBeforePostId: pageBeforePostId + 1,
+            });
         });
     }
 
@@ -551,7 +616,7 @@ export default class PostList extends React.PureComponent {
         }
 
         let topRow;
-        if (this.state.atEnd) {
+        if (this.state.atBeforeEnd) {
             topRow = (
                 <CreateChannelIntroMessage
                     channel={channel}
@@ -567,14 +632,34 @@ export default class PostList extends React.PureComponent {
                     />
                 </div>
             );
-        } else if (this.state.isDoingInitialLoad) {
+        } else if (this.state.isDoingInitialLoad || this.state.isLoadingBeforePosts) {
             topRow = <LoadingScreen style={{height: '0px'}}/>;
         } else {
             topRow = (
                 <button
                     ref='loadmoretop'
                     className='more-messages-text theme style--none color--link'
-                    onClick={this.loadMorePosts}
+                    onClick={this.loadMoreBeforePosts}
+                >
+                    <FormattedMessage
+                        id='posts_view.loadMore'
+                        defaultMessage='Load more messages'
+                    />
+                </button>
+            );
+        }
+
+        let bottomRow;
+        if (this.state.atAfterEnd || !this.props.focusedPostId) {
+            bottomRow = null;
+        } else if (this.state.isLoadingAfterPosts) {
+            bottomRow = <LoadingScreen style={{height: '0px'}}/>;
+        } else {
+            bottomRow = (
+                <button
+                    ref='loadmorebelow'
+                    className='more-messages-text theme style--none color--link'
+                    onClick={this.loadMoreAfterPosts}
                 >
                     <FormattedMessage
                         id='posts_view.loadMore'
@@ -623,6 +708,7 @@ export default class PostList extends React.PureComponent {
                         >
                             {topRow}
                             {this.createPosts(posts.slice(0, postVisibility))}
+                            {bottomRow}
                         </div>
                     </div>
                 </div>

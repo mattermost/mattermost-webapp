@@ -203,7 +203,7 @@ export function emitEmojiPosted(emoji) {
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 // Returns true if there are more posts to load
-export function increasePostVisibility(channelId, focusedPostId) {
+export function increasePostVisibility(channelId, focusedPostId, isBefore, page) {
     return async (doDispatch, doGetState) => {
         if (doGetState().views.channel.loadingPosts[channelId]) {
             return true;
@@ -228,11 +228,11 @@ export function increasePostVisibility(channelId, focusedPostId) {
             },
         ]));
 
-        const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
-
         let result;
-        if (focusedPostId) {
+        if (focusedPostId && isBefore) {
             result = await PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+        } else if (focusedPostId && !isBefore) {
+            result = await PostActions.getPostsAfter(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
         } else {
             result = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);
         }
