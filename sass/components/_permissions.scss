@@ -11,25 +11,29 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 1em 1.5rem;
+        padding: 20px;
         cursor: pointer;
         h3 {
             margin: 0;
             padding: 0;
+            font-weight: normal;
+            font-size: 18px;
         }
         .button {
             self-align: end;
-            padding: 0em 1rem;
-            font-size: 2em;
-            transform: rotate(0deg);
-            transition: transform 500ms;
+            svg {
+                transform: rotate(0deg);
+                transition: transform 500ms;
+            }
         }
     }
     &.closed {
         .header{
             .button {
-                transform: rotate(90deg);
-                transition: transform 500ms;
+                svg {
+                    transform: rotate(90deg);
+                    transition: transform 500ms;
+                }
             }
         }
         .permissions-tree {
@@ -88,16 +92,14 @@
         width: 18px;
         border: 2px solid $dark-gray;
         border-radius: 3px;
-        color: $white;
         align-items: center;
         justify-content: space-around;
-        font-size: .8em;
         &.checked, &.intermediate {
-            background-color: $primary-color;
-            border: 2px solid $primary-color;
-        }
-        svg {
-            stroke: $white;
+            border: 0;
+            svg {
+                fill: $primary-color;
+                stroke: $white;
+            }
         }
     }
     .permission-name {
@@ -152,7 +154,11 @@
                 background-color: $gray;
                 &.checked, &.intermediate {
                     border: 0;
-                    background-color: $gray;
+                    background: none
+                    svg {
+                        fill: $gray;
+                        stroke: $white;
+                    }
                 }
             }
         }

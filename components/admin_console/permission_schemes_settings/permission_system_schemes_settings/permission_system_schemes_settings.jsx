@@ -11,6 +11,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import SaveButton from 'components/save_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 
 import PermissionsTree from '../permissions_tree.jsx';
 
@@ -206,7 +207,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <span className='fa fa-chevron-circle-down'/>
+                            <AccordionToggleIcon />
                         </div>
                     </div>
                     <PermissionsTree
@@ -236,7 +237,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <span className='fa fa-chevron-circle-down'/>
+                            <AccordionToggleIcon />
                         </div>
                     </div>
                     <PermissionsTree
@@ -267,7 +268,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <span className='fa fa-chevron-circle-down'/>
+                            <AccordionToggleIcon />
                         </div>
                     </div>
                     <PermissionsTree
@@ -298,7 +299,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <span className='fa fa-chevron-circle-down'/>
+                            <AccordionToggleIcon />
                         </div>
                     </div>
                     <PermissionsTree

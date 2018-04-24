@@ -4,6 +4,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx'
+import CheckboxPartialIcon from 'components/svg/checkbox_partial_icon.jsx'
+
 export default class PermissionCheckbox extends React.PureComponent {
     static propTypes = {
         value: PropTypes.string.isRequired,
@@ -18,10 +21,11 @@ export default class PermissionCheckbox extends React.PureComponent {
         let icon = null;
         let extraClass = '';
         if (value === 'checked') {
-            icon = (<span className='fa fa-check'/>);
+            icon = (<CheckboxCheckedIcon/>);
             extraClass = 'checked';
         } else if (value === 'intermediate') {
             icon = (<span className='fa fa-minus'/>);
+            icon = (<CheckboxPartialIcon/>);
             extraClass = 'intermediate';
         }
         return (
