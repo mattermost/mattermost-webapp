@@ -131,7 +131,7 @@ export default class Renderer extends marked.Renderer {
         if (match) {
             const jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
             const mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
-            out = '<video style="width:100%" poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
+            out = '<video style="max-width:100%" poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
 
             if (dimensions.length > 0) {
                 out += ' width="' + dimensions[0] + '"';
