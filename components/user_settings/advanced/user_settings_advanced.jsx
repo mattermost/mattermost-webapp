@@ -560,7 +560,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 <br/>
                                 <FormattedMessage
                                     id='user.settings.advance.deactivateDesc'
-                                    defaultMessage='Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To re-activate your account, contact your System Administrator.'
+                                    defaultMessage='Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To reactivate your account, contact your System Administrator.'
                                 />
                             </div>
                         </div>,
@@ -585,7 +585,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     describe={
                         <FormattedMessage
                             id='user.settings.advance.deactivateDescShort'
-                            defaultMessage='Open to deactivate your account.'
+                            defaultMessage='Open to deactivate your account'
                         />
                     }
                     focused={this.props.prevActiveSection === this.prevSections.deactivateAccount}
