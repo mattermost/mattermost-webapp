@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {
     getChannelsInCurrentTeam,
-    getGroupChannels,
+    getDirectChannels,
     getSortedUnreadChannelIds,
     makeGetChannel,
 } from 'mattermost-redux/selectors/entities/channels';
@@ -74,7 +74,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='pull-left'>
                     <img
                         className='mention__image'
-                        src={Utils.imageURLForUser(channel)}
+                        src={Utils.imageURLForUser(channel.userId)}
                     />
                 </div>
             );
@@ -182,7 +182,7 @@ export default class SwitchChannelProvider extends Provider {
             this.startNewRequest(suggestionId, channelPrefix);
 
             // Dispatch suggestions for local data
-            const channels = getChannelsInCurrentTeam(getState()).concat(getGroupChannels(getState()));
+            const channels = getChannelsInCurrentTeam(getState()).concat(getDirectChannels(getState()));
             const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
             this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users, true);
 
@@ -229,11 +229,11 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const users = Object.assign([], searchProfiles(state, channelPrefix, false)).concat(usersFromServer.users);
-        const channels = getChannelsInCurrentTeam(state).concat(getGroupChannels(state)).concat(channelsFromServer);
+        const channels = getChannelsInCurrentTeam(state).concat(getDirectChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
     }
 
-    userWrappedChannel(user) {
+    userWrappedChannel(user, channel) {
         let displayName = `@${user.username}`;
 
         if ((user.first_name || user.last_name) && user.nickname) {
@@ -252,7 +252,8 @@ export default class SwitchChannelProvider extends Provider {
             channel: {
                 display_name: displayName,
                 name: user.username,
-                id: user.id,
+                id: channel ? channel.id : user.id,
+                userId: user.id,
                 update_at: user.update_at,
                 type: Constants.DM_CHANNEL,
                 last_picture_update: user.last_picture_update || 0,
@@ -284,7 +285,8 @@ export default class SwitchChannelProvider extends Provider {
 
             if (channelFilter(channel)) {
                 const newChannel = Object.assign({}, channel);
-                const wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
+
+                let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
                 if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = getChannelDisplayName(newChannel);
                     wrappedChannel.name = newChannel.name;
@@ -296,6 +298,27 @@ export default class SwitchChannelProvider extends Provider {
                         if (skipNotInChannel) {
                             continue;
                         }
+                    }
+                } else if (newChannel.type === Constants.DM_CHANNEL) {
+                    const userId = Utils.getUserIdFromChannelId(newChannel.name);
+                    const user = users.find((u) => u.id === userId);
+
+                    if (user) {
+                        wrappedChannel = this.userWrappedChannel(
+                            user,
+                            newChannel
+                        );
+                        const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
+                        if (isDMVisible) {
+                            wrappedChannel.type = Constants.MENTION_CHANNELS;
+                        } else {
+                            wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
+                            if (skipNotInChannel) {
+                                continue;
+                            }
+                        }
+                    } else {
+                        continue;
                     }
                 } else if (members[channel.id]) {
                     wrappedChannel.type = Constants.MENTION_CHANNELS;
@@ -309,30 +332,6 @@ export default class SwitchChannelProvider extends Provider {
                 completedChannels[channel.id] = true;
                 channels.push(wrappedChannel);
             }
-        }
-
-        for (let i = 0; i < users.length; i++) {
-            const user = users[i];
-
-            if (completedChannels[user.id]) {
-                continue;
-            }
-
-            const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
-
-            const wrappedChannel = this.userWrappedChannel(user);
-
-            if (isDMVisible) {
-                wrappedChannel.type = Constants.MENTION_CHANNELS;
-            } else {
-                wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
-                if (skipNotInChannel) {
-                    continue;
-                }
-            }
-
-            completedChannels[user.id] = true;
-            channels.push(wrappedChannel);
         }
 
         const channelNames = channels.
@@ -372,7 +371,8 @@ export default class SwitchChannelProvider extends Provider {
                 wrappedChannel.name = getChannelDisplayName(channel);
             } else if (channel.type === Constants.DM_CHANNEL) {
                 wrappedChannel = this.userWrappedChannel(
-                    getUser(getState(), Utils.getUserIdFromChannelId(channel.name))
+                    getUser(getState(), Utils.getUserIdFromChannelId(channel.name)),
+                    channel
                 );
             }
             wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
