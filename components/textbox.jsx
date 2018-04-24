@@ -174,6 +174,9 @@ export default class Textbox extends React.Component {
                 }
             }
         }
+        if (this.props.value !== nextProps.value) {
+            this.checkMessageLength(nextProps.value);
+        }
     }
 
     render() {
