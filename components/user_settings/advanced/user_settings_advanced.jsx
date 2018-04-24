@@ -161,12 +161,16 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
-    showDeactivateAccount = () => {
-        this.setState({showDeactivateAccountModal: true});
+    handleShowDeactivateAccountModal = () => {
+        this.setState({
+            showDeactivateAccountModal: true,
+        });
     }
 
-    handleDeactivateAccountCancel = () => {
-        this.setState({showDeactivateAccountModal: false});
+    handleDeactivateAccountCancelModal = () => {
+        this.setState({
+            showDeactivateAccountModal: false,
+        });
     }
 
     handleUpdateSection = (section) => {
@@ -567,7 +571,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     ]}
                     saveButtonText={'Deactivate'}
                     setting={'deactivateAccount'}
-                    submit={this.showDeactivateAccount}
+                    submit={this.handleShowDeactivateAccountModal}
                     saving={this.state.isSaving}
                     server_error={this.state.serverError}
                     updateSection={this.handleUpdateSection}
@@ -621,7 +625,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                 confirmButtonClass={confirmButtonClass}
                 confirmButtonText={deactivateMemberButton}
                 onConfirm={this.handleDeactivateAccountSubmit}
-                onCancel={this.handleDeactivateAccountCancel}
+                onCancel={this.handleDeactivateAccountCancelModal}
             />
         );
 
