@@ -57,12 +57,15 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        window.removeEventListener('resize', this.handleResize);
         this.loadImage(nextProps.fileInfo);
 
         if (nextProps.isRhsOpen !== this.props.isRhsOpen) {
             this.handleResize();
         }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
     }
 
     handleResize = () => {
