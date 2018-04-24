@@ -24,7 +24,6 @@ export default class PermissionCheckbox extends React.PureComponent {
             icon = (<CheckboxCheckedIcon/>);
             extraClass = 'checked';
         } else if (value === 'intermediate') {
-            icon = (<span className='fa fa-minus'/>);
             icon = (<CheckboxPartialIcon/>);
             extraClass = 'intermediate';
         }

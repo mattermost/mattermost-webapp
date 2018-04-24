@@ -98,7 +98,7 @@
             border: 0;
             svg {
                 fill: $primary-color;
-                stroke: $white;
+                background: $white;
             }
         }
     }
@@ -153,11 +153,9 @@
                 border: 0;
                 background-color: $gray;
                 &.checked, &.intermediate {
-                    border: 0;
-                    background: none
                     svg {
                         fill: $gray;
-                        stroke: $white;
+                        background: $white;
                     }
                 }
             }

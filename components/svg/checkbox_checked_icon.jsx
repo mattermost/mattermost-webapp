@@ -7,8 +7,8 @@ export default class CheckboxCheckedIcon extends React.PureComponent {
     render() {
         return (
             <svg width="18px" height="18px" viewBox="0 0 18 18">
-                <g id="Developer-Export" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-285.000000, -933.000000)" fill="#4A90E2" id="All-Team-Members">
+                <g id="Developer-Export" stroke="none" stroke-width="1" fill-rule="evenodd">
+                    <g transform="translate(-285.000000, -933.000000)" id="All-Team-Members">
                         <g transform="translate(245.000000, 698.000000)">
                             <g id="Channel-Administrators" transform="translate(0.000000, 106.000000)">
                                 <g id="data-table/column-1" transform="translate(11.000000, 86.000000)">
