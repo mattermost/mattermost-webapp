@@ -5,9 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {savePreferences, updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
 import {clientLogout} from 'actions/global_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
+import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -161,12 +164,16 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
-    showDeactivateAccount = () => {
-        this.setState({showDeactivateAccountModal: true});
+    handleShowDeactivateAccountModal = () => {
+        this.setState({
+            showDeactivateAccountModal: true,
+        });
     }
 
-    handleDeactivateAccountCancel = () => {
-        this.setState({showDeactivateAccountModal: false});
+    handleDeactivateAccountCancelModal = () => {
+        this.setState({
+            showDeactivateAccountModal: false,
+        });
     }
 
     handleUpdateSection = (section) => {
@@ -544,86 +551,92 @@ export default class AdvancedSettingsDisplay extends React.Component {
             }
         }
 
-        let deactivateAccountSection;
-        if (this.props.activeSection === 'deactivateAccount') {
-            deactivateAccountSection = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.deactivateAccountTitle'
-                            defaultMessage='Deactivate Account'
-                        />
-                    }
-                    inputs={[
-                        <div key='formattingSetting'>
-                            <div>
-                                <br/>
-                                <FormattedMessage
-                                    id='user.settings.advance.deactivateDesc'
-                                    defaultMessage='Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To reactivate your account, contact your System Administrator.'
-                                />
-                            </div>
-                        </div>,
-                    ]}
-                    saveButtonText={'Deactivate'}
-                    setting={'deactivateAccount'}
-                    submit={this.showDeactivateAccount}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.handleUpdateSection}
+        let deactivateAccountSection = '';
+        let makeConfirmationModal = '';
+        const currentUser = UserStore.getCurrentUser();
+        const config = getConfig(store.getState());
+
+        if (currentUser.auth_service === '' && config.EnableUserDeactivation === 'true') {
+            if (this.props.activeSection === 'deactivateAccount') {
+                deactivateAccountSection = (
+                    <SettingItemMax
+                        title={
+                            <FormattedMessage
+                                id='user.settings.advance.deactivateAccountTitle'
+                                defaultMessage='Deactivate Account'
+                            />
+                        }
+                        inputs={[
+                            <div key='formattingSetting'>
+                                <div>
+                                    <br/>
+                                    <FormattedMessage
+                                        id='user.settings.advance.deactivateDesc'
+                                        defaultMessage='Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To reactivate your account, contact your System Administrator.'
+                                    />
+                                </div>
+                            </div>,
+                        ]}
+                        saveButtonText={'Deactivate'}
+                        setting={'deactivateAccount'}
+                        submit={this.handleShowDeactivateAccountModal}
+                        saving={this.state.isSaving}
+                        server_error={this.state.serverError}
+                        updateSection={this.handleUpdateSection}
+                    />
+                );
+            } else {
+                deactivateAccountSection = (
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.advance.deactivateAccountTitle'
+                                defaultMessage='Deactivate Account'
+                            />
+                        }
+                        describe={
+                            <FormattedMessage
+                                id='user.settings.advance.deactivateDescShort'
+                                defaultMessage='Open to deactivate your account'
+                            />
+                        }
+                        focused={this.props.prevActiveSection === this.prevSections.deactivateAccount}
+                        section={'deactivateAccount'}
+                        updateSection={this.handleUpdateSection}
+                    />
+                );
+            }
+
+            const confirmButtonClass = 'btn btn-danger';
+            const deactivateMemberButton = (
+                <FormattedMessage
+                    id='user.settings.advance.deactivate_member_modal.deactivateButton'
+                    defaultMessage='Yes, deactivate my account'
                 />
             );
-        } else {
-            deactivateAccountSection = (
-                <SettingItemMin
+
+            makeConfirmationModal = (
+                <ConfirmModal
+                    show={this.state.showDeactivateAccountModal}
                     title={
                         <FormattedMessage
-                            id='user.settings.advance.deactivateAccountTitle'
-                            defaultMessage='Deactivate Account'
+                            id='user.settings.advance.confirmDeactivateAccountTitle'
+                            defaultMessage='Confirm Deactivation'
                         />
                     }
-                    describe={
+                    message={
                         <FormattedMessage
-                            id='user.settings.advance.deactivateDescShort'
-                            defaultMessage='Open to deactivate your account'
+                            id='user.settings.advance.confirmDeactivateDesc'
+                            defaultMessage='Are you sure you want to deactivate your account? This can only be reversed by your System Administrator.'
                         />
                     }
-                    focused={this.props.prevActiveSection === this.prevSections.deactivateAccount}
-                    section={'deactivateAccount'}
-                    updateSection={this.handleUpdateSection}
+                    confirmButtonClass={confirmButtonClass}
+                    confirmButtonText={deactivateMemberButton}
+                    onConfirm={this.handleDeactivateAccountSubmit}
+                    onCancel={this.handleDeactivateAccountCancelModal}
                 />
             );
         }
-
-        const confirmButtonClass = 'btn btn-danger';
-        const deactivateMemberButton = (
-            <FormattedMessage
-                id='user.settings.advance.deactivate_member_modal.deactivateButton'
-                defaultMessage='Yes, deactivate my account'
-            />
-        );
-
-        const makeConfirmationModal = (
-            <ConfirmModal
-                show={this.state.showDeactivateAccountModal}
-                title={
-                    <FormattedMessage
-                        id='user.settings.advance.confirmDeactivateAccountTitle'
-                        defaultMessage='Confirm Deactivation'
-                    />
-                }
-                message={
-                    <FormattedMessage
-                        id='user.settings.advance.confirmDeactivateDesc'
-                        defaultMessage='Are you sure you want to deactivate your account? This can only be reversed by your System Administrator.'
-                    />
-                }
-                confirmButtonClass={confirmButtonClass}
-                confirmButtonText={deactivateMemberButton}
-                onConfirm={this.handleDeactivateAccountSubmit}
-                onCancel={this.handleDeactivateAccountCancel}
-            />
-        );
 
         return (
             <div>

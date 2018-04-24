@@ -85,19 +85,19 @@ export default class ConfirmModal extends React.Component {
 
     componentDidMount() {
         if (this.props.show) {
-            document.addEventListener('keypress', this.handleKeypress);
+            document.addEventListener('keydown', this.handleKeypress);
         }
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keypress', this.handleKeypress);
+        document.removeEventListener('keydown', this.handleKeypress);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.show && !nextProps.show) {
-            document.removeEventListener('keypress', this.handleKeypress);
+            document.removeEventListener('keydown', this.handleKeypress);
         } else if (!this.props.show && nextProps.show) {
-            document.addEventListener('keypress', this.handleKeypress);
+            document.addEventListener('keydown', this.handleKeypress);
         }
     }
 
@@ -175,6 +175,7 @@ export default class ConfirmModal extends React.Component {
                 <Modal.Footer>
                     {cancelButton}
                     <button
+                        autoFocus='true'
                         type='button'
                         className={this.props.confirmButtonClass}
                         onClick={this.handleConfirm}
