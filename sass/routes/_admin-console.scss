@@ -356,12 +356,14 @@
         position: absolute;
         top: 0;
         left: 0;
-        height: 55px;
+        height: 60px;
         width: calc(100% - 220px);
         margin: 0 0 0 220px;
         padding: 10px 20px;
-        font-size: 2em;
+        font-size: 22px;
+        font-weight: normal;
         z-index: 100;
+        align-items: center;
     }
 
     .admin-console-save {
@@ -370,10 +372,15 @@
         position: absolute;
         bottom: 0;
         left: 0;
+        height: 60px;
         width: calc(100% - 220px);
         margin: 0 0 0 220px;
-        padding: 10px 10px;
+        padding: 13px 0;
         z-index: 100;
+        .save-button {
+            width: 100px;
+            margin-right: 38px;
+        }
     }
 
     .status-icon-unknown {
