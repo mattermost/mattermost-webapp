@@ -740,6 +740,35 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   </a>
                 </li>
               </Connect(ChannelPermissionGate)>
+              <Connect(SystemPermissionGate)
+                permissions={
+                  Array [
+                    "manage_system",
+                  ]
+                }
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channelDisplayName": "display_name",
+                        "channelId": "channel_id",
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Convert to Private Channel"
+                      id="channel_header.convert"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(SystemPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 permissions={
@@ -1356,6 +1385,35 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   </a>
                 </li>
               </Connect(ChannelPermissionGate)>
+              <Connect(SystemPermissionGate)
+                permissions={
+                  Array [
+                    "manage_system",
+                  ]
+                }
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channelDisplayName": "display_name",
+                        "channelId": "channel_id",
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Convert to Private Channel"
+                      id="channel_header.convert"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(SystemPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 permissions={
@@ -1788,6 +1846,35 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   </a>
                 </li>
               </Connect(ChannelPermissionGate)>
+              <Connect(SystemPermissionGate)
+                permissions={
+                  Array [
+                    "manage_system",
+                  ]
+                }
+              >
+                <li
+                  role="presentation"
+                >
+                  <ModalToggleButton
+                    className=""
+                    dialogProps={
+                      Object {
+                        "channelDisplayName": "display_name",
+                        "channelId": "channel_id",
+                      }
+                    }
+                    dialogType={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Convert to Private Channel"
+                      id="channel_header.convert"
+                      values={Object {}}
+                    />
+                  </ModalToggleButton>
+                </li>
+              </Connect(SystemPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 permissions={
