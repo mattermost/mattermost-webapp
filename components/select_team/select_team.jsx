@@ -6,14 +6,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Permissions} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import {mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import logoImage from 'images/logo.png';
 
@@ -29,11 +31,11 @@ export default class SelectTeam extends React.Component {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
         customDescriptionText: PropTypes.string,
-        enableTeamCreation: PropTypes.bool.isRequired,
+        roles: PropTypes.object.isRequired,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
-            loadRolesIfNeeded: PropTypes.func.isRequired,
             getTeams: PropTypes.func.isRequired,
+            loadRolesIfNeeded: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -46,22 +48,52 @@ export default class SelectTeam extends React.Component {
         this.state = state;
     }
 
-    componentWillMount() {
-        this.props.actions.loadRolesIfNeeded(['system_user', 'system_admin']);
-    }
-
     componentDidMount() {
         TeamStore.addChangeListener(this.onTeamChange);
         this.props.actions.getTeams(0, 200);
+    }
+
+    componentWillMount() {
+        const {
+            actions,
+            roles,
+        } = this.props;
+
+        actions.loadRolesIfNeeded([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]);
+
+        if (
+            roles.system_admin &&
+            roles.system_user
+        ) {
+            this.loadPoliciesIntoState(roles);
+        }
     }
 
     componentWillUnmount() {
         TeamStore.removeChangeListener(this.onTeamChange);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (
+            !this.state.loaded &&
+            nextProps.roles.system_admin &&
+            nextProps.roles.system_user
+        ) {
+            this.loadPoliciesIntoState(nextProps.roles);
+        }
+    }
+
     onTeamChange = () => {
         this.setState(this.getStateFromStores(true));
     };
+
+    loadPoliciesIntoState(roles) {
+        // Purposely parsing boolean from string 'true' or 'false'
+        // because the string comes from the policy roles adapter mapping.
+        const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
+
+        this.setState({enableTeamCreation, loaded: true});
+    }
 
     getStateFromStores(loaded) {
         return {
@@ -75,7 +107,7 @@ export default class SelectTeam extends React.Component {
     handleTeamClick = (team) => {
         this.setState({loadingTeamId: team.id});
 
-        addUserToTeamFromInvite('', '', team.invite_id,
+        addUserToTeamFromInvite('', team.invite_id,
             () => {
                 this.props.history.push(`/${team.name}/channels/town-square`);
             },
@@ -108,10 +140,10 @@ export default class SelectTeam extends React.Component {
     render() {
         const {
             customDescriptionText,
-            enableTeamCreation,
             isLicensed,
             siteName,
         } = this.props;
+        const {enableTeamCreation} = this.state;
 
         const isSystemAdmin = Utils.isSystemAdmin(UserStore.getCurrentUser().roles);
 
@@ -206,6 +238,18 @@ export default class SelectTeam extends React.Component {
             );
         }
 
+        let teamHelp = null;
+        if (isSystemAdmin && !enableTeamCreation) {
+            teamHelp = (
+                <div>
+                    <FormattedMessage
+                        id='login.createTeamAdminOnly'
+                        defaultMessage='This option is only available for System Administrators, and does not show up for other users.'
+                    />
+                </div>
+            );
+        }
+
         const teamSignUp = (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div className='margin--extra'>
@@ -219,6 +263,7 @@ export default class SelectTeam extends React.Component {
                         />
                     </Link>
                 </div>
+                {teamHelp}
             </SystemPermissionGate>
         );
 

@@ -1,4 +1,5 @@
 dist
+.npminstall
 .yarninstall
 node_modules
 *.swp

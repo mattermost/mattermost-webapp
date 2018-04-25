@@ -3,21 +3,20 @@
 BUILD_SERVER_DIR = ../mattermost-server
 EMOJI_TOOLS_DIR = ./build/emoji
 
-check-style: .yarninstall ## Checks JS file for ESLint confirmity
+check-style: .npminstall ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
-	yarn run check
+	npm run check
 
-test: .yarninstall ## Runs tests
+test: .npminstall ## Runs tests
 	@echo Running jest unit/component testing
 
-	yarn run test
+	npm run test
 
-.yarninstall: package.json
-	@echo Getting dependencies using yarn
-	
-	yarn cache clean --pattern "mattermost-redux"
-	yarn install --pure-lockfile
+.npminstall: package.json package-lock.json
+	@echo Getting dependencies using npm
+
+	npm install
 	cd node_modules/mattermost-redux; npm run build
 
 	touch $@
@@ -31,22 +30,22 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-build: .yarninstall ## Builds the app
+build: .npminstall ## Builds the app
 	@echo Building mattermost Webapp
 
 	rm -rf dist
 
-	yarn run build
+	npm run build
 
-run: .yarninstall ## Runs app
+run: .npminstall ## Runs app
 	@echo Running mattermost Webapp for development
 
-	yarn run run &
+	npm run run &
 
-run-fullmap: .yarninstall ## Runs the app with the JS mapped to source (good for debugger)
+run-fullmap: .npminstall ## Runs the app with the JS mapped to source (good for debugger)
 	@echo FULL SOURCE MAP Running mattermost Webapp for development FULL SOURCE MAP
 
-	yarn run run-fullmap &
+	npm run run-fullmap &
 
 stop: ## Stops webpack
 	@echo Stopping changes watching
@@ -65,11 +64,9 @@ restart: | stop run ## Restarts the app
 clean: ## Clears cached; deletes node_modules and dist directories
 	@echo Cleaning Webapp
 
-	yarn cache clean
-
 	rm -rf dist
 	rm -rf node_modules
-	rm -f .yarninstall
+	rm -f .npminstall
 
 emojis: ## Creates emoji JSX file and extracts emoji images from the system font
 	gem install bundler

@@ -117,7 +117,7 @@ export default class DotMenu extends Component {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        if (this.props.idPrefix === Constants.CENTER && (!isMobile && isSystemMessage && !this.state.canDelete && !this.state.canEdit)) {
+        if (this.props.idPrefix === Constants.CENTER && ((!isMobile || isSystemMessage) && !this.state.canDelete && !this.state.canEdit)) {
             return null;
         }
 

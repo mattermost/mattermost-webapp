@@ -55,7 +55,7 @@ describe('components/dot_menu/DotMenu', () => {
 
         expect(wrapper.find('#centerDotMenu2').exists()).toBe(false);
         wrapper.setProps({idCount: 2});
-        expect(wrapper.find('#centerDotMenu2').exists()).toBe(true);
+        expect(wrapper.find('#centerDotMenu2').exists()).toBe(false);
 
         expect(wrapper.find('#rhsrootDotMenu').exists()).toBe(false);
         wrapper.setProps({idPrefix: Constants.RHS_ROOT});

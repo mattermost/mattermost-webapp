@@ -22,41 +22,38 @@ describe('components/post_view/FailedPostOptions', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should create post at most once', () => {
+    test('should create post on retry', () => {
         const props = {
             ...baseProps,
             actions: {
                 ...baseProps.actions,
-                createPost: jest.fn().
-                    mockImplementationOnce((post, success, failure) => failure()).
-                    mockImplementation((post, success) => success()),
+                createPost: jest.fn(),
             },
         };
 
         const wrapper = shallow(<FailedPostOptions {...props}/>);
         const e = {preventDefault: jest.fn()};
 
-        // First attempt should fail, allowing retry
         wrapper.find('.post-retry').simulate('click', e);
         expect(props.actions.createPost.mock.calls.length).toBe(1);
 
-        // Second attempt should succeed
         wrapper.find('.post-retry').simulate('click', e);
         expect(props.actions.createPost.mock.calls.length).toBe(2);
+    });
 
-        // Third attempt should be ignored, since already succeeded.
-        wrapper.find('.post-retry').simulate('click', e);
-        expect(props.actions.createPost.mock.calls.length).toBe(2);
-
-        // Next attempt should succeed when post id changes.
-        wrapper.setProps({
-            ...props,
-            post: {
-                ...props.post,
-                id: 'post_id_new',
+    test('should remove post on cancel', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                removePost: jest.fn(),
             },
-        });
-        wrapper.find('.post-retry').simulate('click', e);
-        expect(props.actions.createPost.mock.calls.length).toBe(3);
+        };
+
+        const wrapper = shallow(<FailedPostOptions {...props}/>);
+        const e = {preventDefault: jest.fn()};
+
+        wrapper.find('.post-cancel').simulate('click', e);
+        expect(props.actions.removePost.mock.calls.length).toBe(1);
     });
 });
