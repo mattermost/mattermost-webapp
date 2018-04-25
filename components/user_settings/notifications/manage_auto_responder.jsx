@@ -52,17 +52,10 @@ export default class ManageAutoResponder extends React.PureComponent {
                         checked={autoResponderActive}
                         onChange={this.handleAutoResponderChecked}
                     />
-                    {autoResponderActive ? (
-                        <FormattedMessage
-                            id='user.settings.notifications.autoResponderEnabled'
-                            defaultMessage='Enabled'
-                        />
-                    ) : (
-                        <FormattedMessage
-                            id='user.settings.notifications.autoResponderDisabled'
-                            defaultMessage='Disabled'
-                        />
-                    )}
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderEnabled'
+                        defaultMessage='Enabled'
+                    />
                 </label>
             </div>
         );
@@ -94,7 +87,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 <br/>
                 <FormattedHTMLMessage
                     id='user.settings.notifications.autoResponderHint'
-                    defaultMessage='Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies disables email and push notifications.'
+                    defaultMessage='Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.'
                 />
             </div>
         ));

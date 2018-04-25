@@ -101,13 +101,13 @@ export default class StatusDropdown extends React.Component {
 
     renderStatusDndAction = () => {
         if (this.isUserOutOfOffice()) {
-            return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'));
+            return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'), localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
         }
         return this.renderStatusAction(UserStatuses.DND, this.setDnd, localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
     }
 
     renderStatusOutOfOfficeAction = () => {
-        return this.renderStatusAction(UserStatuses.OUT_OF_OFFICE, null, localizeMessage('status_dropdown.set_ooo.extra', 'Auto Responder is enabled.'));
+        return this.renderStatusAction(UserStatuses.OUT_OF_OFFICE, null, localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled'));
     }
 
     renderProfilePicture = () => {
