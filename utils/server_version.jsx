@@ -1,5 +1,5 @@
 /**
- * Compare sever versions, ignoring the configuration hash and licensed status.
+ * Compare server versions, ignoring the configuration hash and licensed status.
  *
  * For example, the following two server versions are considered equal:
  *     4.7.1.dev.3034fbc5fd566195d1b53e03890e35ff.true
