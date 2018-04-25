@@ -28,6 +28,7 @@ import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
+import * as UserAgent from 'utils/user_agent.jsx';
 import CenterChannel from 'components/channel_layout/center_channel';
 
 export default class ChannelController extends React.Component {
@@ -38,6 +39,23 @@ export default class ChannelController extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName;
+    }
+
+    componentDidMount() {
+        document.body.classList.add('app__body');
+
+        // IE Detection
+        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
+            document.body.classList.remove('app__body');
+        }
+    }
+
+    componentWillUnmount() {
+        document.body.classList.remove('app__body');
+
+        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
+            document.body.classList.remove('browser--ie');
+        }
     }
 
     render() {

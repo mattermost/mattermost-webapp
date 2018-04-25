@@ -1,33 +1,30 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getPostsAfter, getPostsBefore, getPostThread} from 'mattermost-redux/actions/posts';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import PermalinkView from './permalink_view.jsx';
+import PermalinkView from './permalink_view';
 
 function mapStateToProps(state) {
-    const team = getCurrentTeam(state);
-    const channel = getCurrentChannel(state);
-    let channelId = '';
-    let channelName = '';
-    if (channel) {
-        channelId = channel.id;
-        channelName = channel.name;
-    }
-
-    let teamName = '';
-    if (team) {
-        teamName = team.name;
-    }
-
     return {
-        channelId,
-        channelName,
-        teamName,
+        currentTeam: getCurrentTeam(state),
+        currentChannel: getCurrentChannel(state),
     };
 }
 
-export default connect(mapStateToProps)(PermalinkView);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getPostThread,
+            getPostsAfter,
+            getPostsBefore,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView);

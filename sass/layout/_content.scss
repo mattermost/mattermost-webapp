@@ -55,7 +55,6 @@
 .app__content {
     @include display-flex;
     @include flex-direction(column);
-    background: $white;
     height: 100%;
     margin-left: 220px;
     padding-top: 50px;
@@ -92,4 +91,3 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-

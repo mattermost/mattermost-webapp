@@ -48,11 +48,6 @@ export default class PostList extends React.PureComponent {
         lastViewedAt: PropTypes.number,
 
         /**
-         * Set if more posts are being loaded
-         */
-        loadingPosts: PropTypes.bool,
-
-        /**
          * The user id of the logged in user
          */
         currentUserId: PropTypes.string,
@@ -108,20 +103,18 @@ export default class PostList extends React.PureComponent {
 
         this.previousScrollTop = Number.MAX_SAFE_INTEGER;
         this.previousScrollHeight = 0;
-        this.previousClientHeight = 0;
+
         this.atBottom = false;
 
         this.state = {
             atEnd: false,
             unViewedCount: 0,
-            isDoingInitialLoad: true,
             isScrolling: false,
             lastViewed: props.lastViewedAt,
         };
     }
 
     componentDidMount() {
-        this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
@@ -140,27 +133,7 @@ export default class PostList extends React.PureComponent {
         if (nextProps.focusedPostId && this.props.focusedPostId !== nextProps.focusedPostId) {
             this.hasScrolledToFocusedPost = false;
             this.hasScrolledToNewMessageSeparator = false;
-            this.setState({atEnd: false, isDoingInitialLoad: !nextProps.posts});
-            this.loadPosts(nextProps.channel.id, nextProps.focusedPostId);
-            return;
-        }
-
-        const channel = this.props.channel || {};
-        const nextChannel = nextProps.channel || {};
-
-        if (nextProps.focusedPostId == null) {
-            // Channel changed so load posts for new channel
-            if (channel.id !== nextChannel.id) {
-                this.hasScrolled = false;
-                this.hasScrolledToFocusedPost = false;
-                this.hasScrolledToNewMessageSeparator = false;
-                this.atBottom = false;
-                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts, unViewedCount: 0});
-
-                if (nextChannel.id) {
-                    this.loadPosts(nextChannel.id);
-                }
-            }
+            this.setState({atEnd: false});
         }
     }
 
@@ -168,7 +141,6 @@ export default class PostList extends React.PureComponent {
         if (this.refs.postlist) {
             this.previousScrollTop = this.refs.postlist.scrollTop;
             this.previousScrollHeight = this.refs.postlist.scrollHeight;
-            this.previousClientHeight = this.refs.postlist.clientHeight;
         }
     }
 
@@ -332,43 +304,11 @@ export default class PostList extends React.PureComponent {
 
             this.previousScrollHeight = postList.scrollHeight;
             this.previousScrollTop = postList.scrollTop;
-            this.previousClientHeight = postList.clientHeight;
 
             this.atBottom = this.checkBottom();
         }
 
         this.props.actions.checkAndSetMobileView();
-    }
-
-    loadPosts = async (channelId, focusedPostId) => {
-        let posts;
-        if (focusedPostId) {
-            const getPostThreadAsync = this.props.actions.getPostThread(focusedPostId, false);
-            const getPostsBeforeAsync = this.props.actions.getPostsBefore(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-            const getPostsAfterAsync = this.props.actions.getPostsAfter(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-
-            const result = await getPostsBeforeAsync;
-            posts = result.data;
-            await getPostsAfterAsync;
-            await getPostThreadAsync;
-
-            this.hasScrolledToFocusedPost = true;
-        } else {
-            const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
-            posts = result.data;
-
-            if (!this.checkBottom()) {
-                const postsArray = posts.order.map((id) => posts.posts[id]);
-                this.setUnreadsBelow(postsArray, this.props.currentUserId);
-            }
-
-            this.hasScrolledToNewMessageSeparator = true;
-        }
-
-        this.setState({isDoingInitialLoad: false});
-        if (posts && posts.order.length < POSTS_PER_PAGE) {
-            this.setState({atEnd: true});
-        }
     }
 
     loadMorePosts = (e) => {
@@ -536,10 +476,9 @@ export default class PostList extends React.PureComponent {
     }
 
     render() {
-        const posts = this.props.posts || [];
+        const posts = this.props.posts;
         const channel = this.props.channel;
-
-        if ((posts.length === 0 && this.state.isDoingInitialLoad) || channel == null) {
+        if (posts === null) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
@@ -551,7 +490,7 @@ export default class PostList extends React.PureComponent {
         }
 
         let topRow;
-        if (this.state.atEnd) {
+        if (this.state.atEnd || (posts && posts.length < POSTS_PER_PAGE)) {
             topRow = (
                 <CreateChannelIntroMessage
                     channel={channel}
@@ -567,8 +506,6 @@ export default class PostList extends React.PureComponent {
                     />
                 </div>
             );
-        } else if (this.state.isDoingInitialLoad) {
-            topRow = <LoadingScreen style={{height: '0px'}}/>;
         } else {
             topRow = (
                 <button
