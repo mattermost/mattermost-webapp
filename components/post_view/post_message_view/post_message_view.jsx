@@ -46,6 +46,16 @@ export default class PostMessageView extends React.PureComponent {
          */
         isRHS: PropTypes.bool,
 
+        /**
+         * Whether or not the RHS is visible
+         */
+        isRHSOpen: PropTypes.bool,
+
+        /**
+         * Whether or not the RHS is expanded
+         */
+        isRHSExpanded: PropTypes.bool,
+
         /*
          * Logged in user's theme
          */
@@ -74,6 +84,8 @@ export default class PostMessageView extends React.PureComponent {
 
     componentDidMount() {
         this.checkOverflow();
+
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUpdate(nextProps) {
@@ -85,10 +97,20 @@ export default class PostMessageView extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.post !== prevProps.post) {
+        if (this.props.post !== prevProps.post ||
+            this.props.isRHSOpen !== prevProps.isRHSOpen ||
+            this.props.isRHSExpanded !== prevProps.isRHSExpanded) {
             this.checkOverflow();
         }
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleResize = () => {
+        this.checkOverflow();
+    };
 
     checkOverflow = () => {
         const content = this.refs.content;
@@ -103,13 +125,15 @@ export default class PostMessageView extends React.PureComponent {
                 hasOverflow,
             });
         }
-    }
+    };
 
     toggleCollapse = () => {
-        this.setState((state) => ({
-            collapse: !state.collapse,
-        }));
-    }
+        this.setState((state) => {
+            return {
+                collapse: !state.collapse,
+            };
+        });
+    };
 
     renderDeletedPost() {
         return (

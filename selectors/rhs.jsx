@@ -109,3 +109,7 @@ export function getIsRhsOpen(state) {
 export function getIsRhsMenuOpen(state) {
     return state.views.rhs.isMenuOpen;
 }
+
+export function getIsRhsExpanded(state) {
+    return state.views.rhs.isSidebarExpanded;
+}

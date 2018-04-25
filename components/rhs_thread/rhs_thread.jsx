@@ -56,8 +56,6 @@ export default class RhsThread extends React.Component {
         previousRhsState: PropTypes.string,
         isWebrtc: PropTypes.bool,
         currentUser: PropTypes.object.isRequired,
-        toggleSize: PropTypes.func,
-        shrink: PropTypes.func,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
         postsEmbedVisibleObj: PropTypes.object,
@@ -424,8 +422,6 @@ export default class RhsThread extends React.Component {
                 <RhsHeaderPost
                     previousRhsState={this.props.previousRhsState}
                     isWebrtc={this.props.isWebrtc}
-                    toggleSize={this.props.toggleSize}
-                    shrink={this.props.shrink}
                 />
                 <Scrollbars
                     autoHide={true}

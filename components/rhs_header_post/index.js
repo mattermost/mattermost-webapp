@@ -10,6 +10,7 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     closeRightHandSide,
+    toggleRhsExpanded,
 } from 'actions/views/rhs';
 
 import RhsHeaderPost from './rhs_header_post.jsx';
@@ -22,6 +23,7 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             showPinnedPosts,
             closeRightHandSide,
+            toggleRhsExpanded,
         }, dispatch),
     };
 }

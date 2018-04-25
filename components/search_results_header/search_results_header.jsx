@@ -13,26 +13,12 @@ export default class SearchResultsHeader extends React.Component {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
-        toggleSize: PropTypes.func,
-        shrink: PropTypes.func,
         channelDisplayName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
+            toggleRhsExpanded: PropTypes.func.isRequired,
         }),
     };
-
-    handleClose = (e) => {
-        e.preventDefault();
-
-        this.props.actions.closeRightHandSide();
-
-        this.props.shrink();
-    }
-
-    toggleSize = (e) => {
-        e.preventDefault();
-        this.props.toggleSize();
-    }
 
     render() {
         var title = (
@@ -103,7 +89,7 @@ export default class SearchResultsHeader extends React.Component {
                         type='button'
                         className='sidebar--right__expand'
                         aria-label='Expand'
-                        onClick={this.toggleSize}
+                        onClick={this.props.actions.toggleRhsExpanded}
                     >
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
@@ -127,7 +113,7 @@ export default class SearchResultsHeader extends React.Component {
                         className='sidebar--right__close'
                         aria-label='Close'
                         title='Close'
-                        onClick={this.handleClose}
+                        onClick={this.props.actions.closeRightHandSide}
                     >
                         <OverlayTrigger
                             trigger={['hover', 'focus']}

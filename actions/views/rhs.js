@@ -278,3 +278,16 @@ export const openMenu = () => (dispatch) => dispatch({
 export const closeMenu = () => (dispatch) => dispatch({
     type: ActionTypes.CLOSE_RHS_MENU,
 });
+
+export function setRhsExpanded(expanded) {
+    return {
+        type: ActionTypes.SET_RHS_EXPANDED,
+        expanded,
+    };
+}
+
+export function toggleRhsExpanded() {
+    return {
+        type: ActionTypes.TOGGLE_RHS_EXPANDED,
+    };
+}

@@ -14,33 +14,15 @@ export default class RhsHeaderPost extends React.Component {
         previousRhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
-        toggleSize: PropTypes.func,
-        shrink: PropTypes.func,
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showSearchResults: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             showPinnedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func,
+            toggleRhsExpanded: PropTypes.func,
         }),
     };
-
-    constructor(props) {
-        super(props);
-
-        this.state = {};
-    }
-
-    handleClose = (e) => {
-        e.preventDefault();
-        this.props.actions.closeRightHandSide();
-        this.props.shrink();
-    }
-
-    toggleSize = (e) => {
-        e.preventDefault();
-        this.props.toggleSize();
-    }
 
     handleBack = (e) => {
         e.preventDefault();
@@ -178,7 +160,7 @@ export default class RhsHeaderPost extends React.Component {
                         type='button'
                         className='sidebar--right__expand'
                         aria-label='Expand'
-                        onClick={this.toggleSize}
+                        onClick={this.props.actions.toggleRhsExpanded}
                     >
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
@@ -201,7 +183,7 @@ export default class RhsHeaderPost extends React.Component {
                         type='button'
                         className='sidebar--right__close'
                         aria-label='Close'
-                        onClick={this.handleClose}
+                        onClick={this.props.actions.closeRightHandSide}
                     >
 
                         <OverlayTrigger

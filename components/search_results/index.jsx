@@ -7,7 +7,6 @@ import {getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 import {
     getSearchResultsTerms,
     getIsSearchingTerm,
@@ -82,8 +81,4 @@ function makeMapStateToProps() {
     };
 }
 
-const mapDispatchToProps = {
-    selectPost: selectPostFromRightHandSideSearch,
-};
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(makeMapStateToProps)(SearchResults);
