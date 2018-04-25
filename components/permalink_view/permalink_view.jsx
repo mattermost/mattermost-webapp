@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import ChannelHeader from 'components/channel_header';
-import PostView from 'components/post_view';
+import PostList from 'components/post_view/post_list';
 import {emitPostFocusEvent} from 'actions/global_actions.jsx';
 
 export default class PermalinkView extends React.PureComponent {
@@ -83,7 +83,7 @@ export default class PermalinkView extends React.PureComponent {
                 <ChannelHeader
                     channelId={channelId}
                 />
-                <PostView
+                <PostList
                     channelId={channelId}
                     focusedPostId={match.params.postid}
                 />

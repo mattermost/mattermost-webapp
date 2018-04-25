@@ -11,7 +11,7 @@ import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
-import PostView from 'components/post_view';
+import PostList from 'components/post_view/post_list';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
 
@@ -49,7 +49,7 @@ export default class ChannelView extends React.PureComponent {
 
     createDeferredPostView = () => {
         this.deferredPostView = deferComponentRender(
-            PostView,
+            PostList,
             <div id='post-list'/>
         );
     }
