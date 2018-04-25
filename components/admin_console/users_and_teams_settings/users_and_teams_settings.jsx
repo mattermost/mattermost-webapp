@@ -5,8 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
-import {RequestStatus} from 'mattermost-redux/constants';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
@@ -27,7 +25,6 @@ export class UsersAndTeamsSettings extends AdminSettings {
     static propTypes = {
         intl: intlShape.isRequired,
         roles: PropTypes.object.isRequired,
-        rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
@@ -46,9 +43,16 @@ export class UsersAndTeamsSettings extends AdminSettings {
     }
 
     componentWillMount() {
-        this.props.actions.loadRolesIfNeeded(['system_user']).then(() => {
+        this.props.actions.loadRolesIfNeeded(['system_user']);
+        if (this.props.roles.system_user) {
             this.loadPoliciesIntoState(this.props);
-        });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.loaded && nextProps.roles.system_user) {
+            this.loadPoliciesIntoState(nextProps);
+        }
     }
 
     handleChange = (id, value) => {
@@ -187,15 +191,13 @@ export class UsersAndTeamsSettings extends AdminSettings {
     };
 
     loadPoliciesIntoState(props) {
-        if (props.rolesRequest.status === RequestStatus.SUCCESS) {
-            const {roles} = props;
+        const {roles} = props;
 
-            // Purposely parsing boolean from string 'true' or 'false'
-            // because the string comes from the policy roles adapter mapping.
-            const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
+        // Purposely parsing boolean from string 'true' or 'false'
+        // because the string comes from the policy roles adapter mapping.
+        const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
 
-            this.setState({enableTeamCreation, loaded: true});
-        }
+        this.setState({enableTeamCreation, loaded: true});
     }
 
     getConfigFromState = (config) => {
