@@ -1750,7 +1750,6 @@
     display: flex;
     justify-content: center;
     position: absolute;
-    bottom: 10px;
     width: 100%;
     z-index: 5;
 
@@ -1806,6 +1805,10 @@
 
     .post-collapse__gradient {
         height: 60px;
+    }
+
+    .post-collapse__show-more {
+        bottom: 10px;
     }
 }
 
