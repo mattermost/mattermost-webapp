@@ -689,7 +689,7 @@ export function applyTheme(theme) {
             '.app__body .post-right-comments-container .post:not(.current--user) .post-collapse__gradient, ' +
             '.app__body .post-list__table .post.post--compact .post__body .post-collapse__gradient, ' +
             '.app__body .post-right-comments-container .post.post--compact .post-collapse__gradient',
-            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg}, ${theme.centerChannelBg})`,
+            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)} 0%, ${theme.centerChannelBg} 60%)`,
         );
         changeCss('.app__body .post .post__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
         changeCss('.app__body .post .post__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
@@ -804,18 +804,18 @@ export function applyTheme(theme) {
                 '.app__body .post-list__table .post.current--user:not(.post--compact) .post-collapse__gradient, ' +
                 '.app__body .post-right-comments-container .post.current--user:not(.post--compact) .post-collapse__gradient, ' +
                 '.app__body #thread--root .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg}, ${ownPostBg})`,
+                `background:linear-gradient(${changeOpacity(ownPostBg, 0)} 0%, ${ownPostBg} 60%)`,
             );
 
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post__body .post-collapse__gradient, ' +
                 '.app__body .post-right-comments-container .post:hover .post__body .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg}, ${hoveredPostBg})`,
+                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)} 0%, ${hoveredPostBg} 60%)`,
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post__body .post-collapse__gradient, ' +
                 '.app__body .post-right-comments-container .post.post--hovered .post__body .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg}, ${hoveredPostBg})`,
+                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)} 0%, ${hoveredPostBg} 60%)`,
             );
 
             // Apply a background behind the file attachments to cover any overflowing text in a collapsed post
