@@ -93,6 +93,11 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of cancel button
          */
         cancelButtonText: PropTypes.node,
+
+        /**
+         * Text of save button
+         */
+        saveButtonText: PropTypes.string,
     }
 
     componentDidMount() {
@@ -167,6 +172,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.submit) {
             submit = (
                 <SaveButton
+                    defaultMessage={this.props.saveButtonText}
                     saving={this.props.saving}
                     disabled={this.props.saving}
                     onClick={this.handleSubmit}
