@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {
@@ -155,6 +156,16 @@ function makeChannelSearchFilter(channelPrefix) {
 
         if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
             const usersInChannel = usersInChannels[channel.id] || [];
+
+            // In case the channel is a DM and the profilesInChannel is not populated
+            if (!usersInChannel.length && channel.type === Constants.DM_CHANNEL) {
+                const userId = Utils.getUserIdFromChannelId(channel.name);
+                const user = getUser(curState, userId);
+                if (user) {
+                    usersInChannel.push(userId);
+                }
+            }
+
             for (const userId of usersInChannel) {
                 let userString = userSearchStrings[userId];
 
@@ -229,6 +240,10 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const users = Object.assign([], searchProfiles(state, channelPrefix, false)).concat(usersFromServer.users);
+        store.dispatch({
+            type: UserTypes.RECEIVED_PROFILES_LIST,
+            data: users,
+        });
         const channels = getChannelsInCurrentTeam(state).concat(getDirectChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
     }
@@ -304,6 +319,7 @@ export default class SwitchChannelProvider extends Provider {
                     const user = users.find((u) => u.id === userId);
 
                     if (user) {
+                        completedChannels[user.id] = true;
                         wrappedChannel = this.userWrappedChannel(
                             user,
                             newChannel
@@ -332,6 +348,30 @@ export default class SwitchChannelProvider extends Provider {
                 completedChannels[channel.id] = true;
                 channels.push(wrappedChannel);
             }
+        }
+
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
+
+            if (completedChannels[user.id]) {
+                continue;
+            }
+
+            const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
+
+            const wrappedChannel = this.userWrappedChannel(user);
+
+            if (isDMVisible) {
+                wrappedChannel.type = Constants.MENTION_CHANNELS;
+            } else {
+                wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
+                if (skipNotInChannel) {
+                    continue;
+                }
+            }
+
+            completedChannels[user.id] = true;
+            channels.push(wrappedChannel);
         }
 
         const channelNames = channels.
