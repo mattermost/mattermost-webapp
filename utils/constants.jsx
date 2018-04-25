@@ -338,6 +338,8 @@ export const SocketEvents = {
     EMOJI_ADDED: 'emoji_added',
     PLUGIN_ACTIVATED: 'plugin_activated',
     PLUGIN_DEACTIVATED: 'plugin_deactivated',
+    LICENSE_CHANGED: 'license_changed',
+    CONFIG_CHANGED: 'config_changed',
 };
 
 export const TutorialSteps = {
