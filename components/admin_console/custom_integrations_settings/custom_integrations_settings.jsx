@@ -2,12 +2,13 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
+import {saveConfig} from 'actions/admin_actions.jsx';
 
 import AdminSettings from '.././admin_settings.jsx';
 import BooleanSetting from '.././boolean_setting.jsx';
@@ -15,8 +16,9 @@ import SettingsGroup from '.././settings_group.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class WebhookSettings extends AdminSettings {
+export class WebhookSettings extends AdminSettings {
     static propTypes = {
+        intl: intlShape.isRequired,
         roles: PropTypes.object.isRequired,
         rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -31,6 +33,7 @@ export default class WebhookSettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             enableOnlyAdminIntegrations: null,
             loaded: false,
+            edited: {},
         };
     }
 
@@ -40,8 +43,23 @@ export default class WebhookSettings extends AdminSettings {
         });
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: this.props.intl.formatMessage({id: 'admin.field_names.' + id, defaultMessage: id})},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         // Purposely converting enableOnlyAdminIntegrations value from boolean to string 'true' or 'false'
         // so that it can be used as a key in the policy roles adapter mapping.
@@ -62,8 +80,99 @@ export default class WebhookSettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.enableIncomingWebhooks ||
+                this.state.edited.enableOutgoingWebhooks ||
+                this.state.edited.enableCommands ||
+                this.state.edited.enablePostUsernameOverride ||
+                this.state.edited.enablePostIconOverride ||
+                this.state.edited.enableOAuthServiceProvider ||
+                this.state.edited.enableUserAccessTokens
+            );
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
+    };
+
+    doSubmit = (callback) => {
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
+
+        // clone config so that we aren't modifying data in the stores
+        let config = JSON.parse(JSON.stringify(this.props.config));
+        config = this.getConfigFromState(config);
+
+        saveConfig(
+            config,
+            (savedConfig) => {
+                this.setState(this.getStateFromConfig(savedConfig));
+
+                this.setState({
+                    saveNeeded: false,
+                    saving: false,
+                });
+
+                this.props.setNavigationBlocked(false);
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            },
+            (err) => {
+                let errMessage = err.message;
+                if (err.id === 'ent.cluster.save_config.error') {
+                    errMessage = (
+                        <FormattedMessage
+                            id='ent.cluster.save_config_with_roles.error'
+                            defaultMessage='The following configuration settings cannot be saved when High Availability is enabled and the System Console is in read-only mode: {keys}.'
+                            values={{
+                                keys: [
+                                    this.state.edited.enableIncomingWebhooks,
+                                    this.state.edited.enableOutgoingWebhooks,
+                                    this.state.edited.enableCommands,
+                                    this.state.edited.enablePostUsernameOverride,
+                                    this.state.edited.enablePostIconOverride,
+                                    this.state.edited.enableOAuthServiceProvider,
+                                    this.state.edited.enableUserAccessTokens,
+                                ].filter((v) => v).join(', '),
+                            }}
+                        />
+                    );
+                }
+
+                this.setState({
+                    saving: false,
+                    serverError: errMessage,
+                });
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            }
+        );
     };
 
     loadPoliciesIntoState(props) {
@@ -257,3 +366,5 @@ export default class WebhookSettings extends AdminSettings {
         );
     };
 }
+
+export default injectIntl(WebhookSettings);

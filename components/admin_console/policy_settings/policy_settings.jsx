@@ -3,12 +3,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {saveConfig} from 'actions/admin_actions.jsx';
 
 import AdminSettings from '../admin_settings.jsx';
 import BooleanSetting from '../boolean_setting.jsx';
@@ -23,8 +24,9 @@ import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapte
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class PolicySettings extends AdminSettings {
+export class PolicySettings extends AdminSettings {
     static propTypes = {
+        intl: intlShape.isRequired,
         roles: PropTypes.object.isRequired,
         rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -53,6 +55,7 @@ export default class PolicySettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             ...this.roleBasedPolicies,
             loaded: false,
+            edited: {},
         };
     }
 
@@ -79,8 +82,23 @@ export default class PolicySettings extends AdminSettings {
         });
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: this.props.intl.formatMessage({id: 'admin.field_names.' + id, defaultMessage: id})},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         const stateForAdapter = {...this.state};
         if (this.state.allowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
@@ -108,8 +126,98 @@ export default class PolicySettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.postEditTimeLimit ||
+                this.state.edited.enableBanner ||
+                this.state.edited.bannerText ||
+                this.state.edited.bannerColor ||
+                this.state.edited.bannerTextColor ||
+                this.state.edited.allowBannerDismissal
+            );
+
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
+    };
+
+    doSubmit = (callback) => {
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
+
+        // clone config so that we aren't modifying data in the stores
+        let config = JSON.parse(JSON.stringify(this.props.config));
+        config = this.getConfigFromState(config);
+
+        saveConfig(
+            config,
+            (savedConfig) => {
+                this.setState(this.getStateFromConfig(savedConfig));
+
+                this.setState({
+                    saveNeeded: false,
+                    saving: false,
+                });
+
+                this.props.setNavigationBlocked(false);
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            },
+            (err) => {
+                let errMessage = err.message;
+                if (err.id === 'ent.cluster.save_config.error') {
+                    errMessage = (
+                        <FormattedMessage
+                            id='ent.cluster.save_config_with_roles.error'
+                            defaultMessage='The following configuration settings cannot be saved when High Availability is enabled and the System Console is in read-only mode: {keys}.'
+                            values={{
+                                keys: [
+                                    this.state.edited.postEditTimeLimit,
+                                    this.state.edited.enableBanner,
+                                    this.state.edited.bannerText,
+                                    this.state.edited.bannerColor,
+                                    this.state.edited.bannerTextColor,
+                                    this.state.edited.AllowBannerDismissal,
+                                ].filter((v) => v).join(', '),
+                            }}
+                        />
+                    );
+                }
+
+                this.setState({
+                    saving: false,
+                    serverError: errMessage,
+                });
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            }
+        );
     };
 
     getConfigFromState = (config) => {
@@ -479,3 +587,5 @@ export default class PolicySettings extends AdminSettings {
         );
     };
 }
+
+export default injectIntl(PolicySettings);
