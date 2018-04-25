@@ -183,26 +183,6 @@ export function loadChannelMembersForProfilesList(profiles, channelId = ChannelS
     getChannelMembersForUserIds(channelId, list, success, error);
 }
 
-function populateDMChannelsWithProfiles(userIds) {
-    const currentUserId = UserStore.getCurrentId();
-
-    for (let i = 0; i < userIds.length; i++) {
-        const channelName = Utils.getDirectChannelName(currentUserId, userIds[i]);
-        const channel = ChannelStore.getByName(channelName);
-        const profilesInChannel = Selectors.getUserIdsInChannels(getState())[channel.id] || new Set();
-        if (channel && !profilesInChannel.has(userIds[i])) {
-            UserStore.saveUserIdInChannel(channel.id, userIds[i]);
-        }
-    }
-}
-
-function populateChannelWithProfiles(channelId, users) {
-    for (let i = 0; i < users.length; i++) {
-        UserStore.saveUserIdInChannel(channelId, users[i].id);
-    }
-    UserStore.emitInChannelChange();
-}
-
 export async function loadNewDMIfNeeded(channelId) {
     function checkPreference(channel) {
         const userId = Utils.getUserIdFromChannelName(channel);
@@ -289,9 +269,7 @@ export async function loadProfilesForGM() {
             });
         }
 
-        UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)(dispatch, getState).then(({data}) => {
-            populateChannelWithProfiles(channel.id, data);
-        });
+        await dispatch(UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)); //eslint-disable-line no-await-in-loop
     }
 
     if (newPreferences.length > 0) {
@@ -343,7 +321,6 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
-    populateDMChannelsWithProfiles(profileIds);
 }
 
 export async function saveTheme(teamId, theme, cb) {
