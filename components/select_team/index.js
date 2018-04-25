@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
+import {createSelector} from 'reselect';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
@@ -14,23 +15,29 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import SelectTeam from './select_team.jsx';
 
+const getSortedJoinableTeams = createSelector(
+    getJoinableTeams,
+    getCurrentUser,
+    (joinableTeams, currentUser) => {
+        function sortTeams(a, b) {
+            const options = {
+                numeric: true,
+                sensitivity: 'base',
+            };
+            return a.display_name.localeCompare(b.display_name, currentUser.locale || 'en', options);
+        }
+
+        return Object.values(joinableTeams).
+            filter((team) => team.delete_at === 0).
+            sort(sortTeams);
+    }
+);
+
 function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const myTeamMemberships = Object.values(getTeamMemberships(state));
-
-    function sortTeams(a, b) {
-        const options = {
-            numeric: true,
-            sensitivity: 'base',
-        };
-        return a.display_name.localeCompare(b.display_name, currentUser.locale || 'en', options);
-    }
-
-    const joinableTeams = Object.values(getJoinableTeams(state)).
-        filter((team) => team.delete_at === 0).
-        sort(sortTeams);
 
     return {
         isLicensed: license.IsLicensed === 'true',
@@ -39,7 +46,7 @@ function mapStateToProps(state) {
         roles: getRoles(state),
         enableTeamCreation: config.EnableTeamCreation === 'true',
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
-        joinableTeams,
+        joinableTeams: getSortedJoinableTeams(state),
         siteName: config.SiteName,
     };
 }
