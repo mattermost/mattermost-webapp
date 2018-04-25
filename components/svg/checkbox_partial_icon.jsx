@@ -7,7 +7,7 @@ export default class CheckboxPartialIcon extends React.PureComponent {
     render() {
         return (
             <svg width="18px" height="18px" viewBox="0 0 18 18">
-                <g id="Developer-Export" stroke="none" stroke-width="1" fill-rule="evenodd">
+                <g id="Developer-Export" stroke="none" strokeWidth="1" fillRule="evenodd">
                     <g transform="translate(-298.000000, -1273.000000)" id="All-Team-Members">
                         <g transform="translate(245.000000, 698.000000)">
                             <g id="Channel-Administrators" transform="translate(0.000000, 106.000000)">
