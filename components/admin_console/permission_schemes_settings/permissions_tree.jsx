@@ -13,7 +13,6 @@ const GROUPS = [
     {
         code: 'teams',
         permissions: [
-            'create_team',
             {
                 code: 'send_invites',
                 combined: true,
@@ -23,31 +22,27 @@ const GROUPS = [
                     'add_user_to_team',
                 ],
             },
+            'create_team',
         ],
     },
     {
-        code: 'channels',
+        code: 'public_channel',
         permissions: [
-            {
-                code: 'public_channel',
-                permissions: [
-                    'create_public_channel',
-                    'manage_public_channel_properties',
-                    'manage_public_channel_members',
-                    'delete_public_channel',
-                    'join_public_channels',
-                    'read_public_channel',
-                ],
-            },
-            {
-                code: 'private_channel',
-                permissions: [
-                    'create_private_channel',
-                    'manage_private_channel_properties',
-                    'manage_private_channel_members',
-                    'delete_private_channel',
-                ],
-            },
+            'create_public_channel',
+            'manage_public_channel_properties',
+            'manage_public_channel_members',
+            'delete_public_channel',
+            'join_public_channels',
+            'read_public_channel',
+        ],
+    },
+    {
+        code: 'private_channel',
+        permissions: [
+            'create_private_channel',
+            'manage_private_channel_properties',
+            'manage_private_channel_members',
+            'delete_private_channel',
         ],
     },
     {
@@ -55,10 +50,20 @@ const GROUPS = [
         permissions: [
             'create_post',
             'edit_post',
-            'delete_post',
-            'delete_others_posts',
-            'add_reaction',
-            'remove_reaction',
+            {
+                code: 'delete_posts',
+                permissions: [
+                    'delete_post',
+                    'delete_others_posts',
+                ]
+            },
+            {
+                code: 'reactions',
+                permissions: [
+                    'add_reaction',
+                    'remove_reaction',
+                ]
+            },
         ],
     },
     {
