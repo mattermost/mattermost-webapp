@@ -19,6 +19,7 @@ describe('Reducers.RHS', () => {
         isSearchingPinnedPost: false,
         isMenuOpen: false,
         isSidebarOpen: false,
+        isSidebarExpanded: false,
     };
 
     test('Initial state', () => {

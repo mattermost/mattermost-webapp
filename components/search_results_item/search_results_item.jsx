@@ -119,7 +119,7 @@ export default class SearchResultsItem extends React.PureComponent {
             this.props.actions.closeRightHandSide();
         }
 
-        this.shrinkSidebar();
+        this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
 
