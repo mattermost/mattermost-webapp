@@ -27,6 +27,8 @@ export default class PermissionGroup extends React.Component {
         super(props);
         this.state = {
             expanded: true,
+            prevPermissions: [],
+            lastMode: '',
         };
     }
 
@@ -39,6 +41,7 @@ export default class PermissionGroup extends React.Component {
         if (this.props.readOnly) {
             return;
         }
+        this.setState({lastMode: ''});
         this.props.onChange([code]);
     }
 
@@ -58,6 +61,7 @@ export default class PermissionGroup extends React.Component {
         if (this.props.readOnly) {
             return;
         }
+        this.setState({lastMode: ''});
         this.props.onChange(codes);
     }
 
@@ -67,13 +71,24 @@ export default class PermissionGroup extends React.Component {
             return;
         }
         if (this.getStatus(permissions) === 'checked' || this.getStatus(permissions) === '') {
-            onChange(this.getRecursivePermissions(permissions).filter((p) => !this.fromParent(p)));
+            onChange(this.state.prevPermissions);
+            this.setState({prevPermissions: [], lastMode: this.getStatus(permissions)});
         } else {
             const permissionsToToggle = [];
-            for (const permission of this.getRecursivePermissions(permissions)) {
-                if (role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
-                    permissionsToToggle.push(permission);
+            if (this.state.lastMode === '') {
+                for (const permission of this.getRecursivePermissions(permissions)) {
+                    if (role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
+                        permissionsToToggle.push(permission);
+                    }
                 }
+                this.setState({prevPermissions: permissionsToToggle, lastMode: 'intermediate'});
+            } else {
+                for (const permission of this.getRecursivePermissions(permissions)) {
+                    if (role.permissions.indexOf(permission) !== -1 && !this.fromParent(permission)) {
+                        permissionsToToggle.push(permission);
+                    }
+                }
+                this.setState({prevPermissions: permissionsToToggle, lastMode: 'intermediate'});
             }
             onChange(permissionsToToggle);
         }
