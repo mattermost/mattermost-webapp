@@ -6,15 +6,11 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
-import {searchProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
-import {addUsersToTeam} from 'actions/team_actions.jsx';
-import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
-import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
@@ -23,28 +19,25 @@ const MAX_SELECTABLE_VALUES = 20;
 
 export default class AddUsersToTeam extends React.Component {
     static propTypes = {
+        currentTeamName: PropTypes.string.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
+        searchTerm: PropTypes.string.isRequired,
+        users: PropTypes.array.isRequired,
         onModalDismissed: PropTypes.func,
         actions: PropTypes.shape({
             getProfilesNotInTeam: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
+            searchProfiles: PropTypes.func.isRequired,
+            addUsersToTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.handleHide = this.handleHide.bind(this);
-        this.handleExit = this.handleExit.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.search = this.search.bind(this);
-        this.addValue = this.addValue.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
-
         this.searchTimeoutId = 0;
 
         this.state = {
-            users: Object.assign([], UserStore.getProfileListNotInTeam(TeamStore.getCurrentId(), true)),
             values: [],
             show: true,
             search: false,
@@ -55,32 +48,46 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     componentDidMount() {
-        UserStore.addChangeListener(this.onChange);
-        UserStore.addNotInTeamChangeListener(this.onChange);
-        UserStore.addStatusesChangeListener(this.onChange);
-
-        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2).then(() => {
+        this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, 0, USERS_PER_PAGE * 2).then(() => {
             this.setUsersLoadingState(false);
         });
     }
 
-    componentWillUnmount() {
-        UserStore.removeChangeListener(this.onChange);
-        UserStore.removeNotInTeamChangeListener(this.onChange);
-        UserStore.removeStatusesChangeListener(this.onChange);
+    componentWillReceiveProps(nextProps) {
+        if (this.props.searchTerm !== nextProps.searchTerm) {
+            clearTimeout(this.searchTimeoutId);
+
+            const searchTerm = nextProps.searchTerm;
+            if (searchTerm === '') {
+                return;
+            }
+
+            this.searchTimeoutId = setTimeout(
+                async () => {
+                    this.setUsersLoadingState(true);
+                    const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeamId});
+                    if (data) {
+                        loadStatusesForProfilesList(data);
+                    }
+                    this.setUsersLoadingState(false);
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS
+            );
+        }
     }
 
-    handleHide() {
+    handleHide = () => {
+        this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
 
-    handleExit() {
+    handleExit = () => {
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
     }
 
-    handleResponse(err) {
+    handleResponse = (err) => {
         let addError = null;
         if (err && err.message) {
             addError = err.message;
@@ -92,7 +99,7 @@ export default class AddUsersToTeam extends React.Component {
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = async (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -104,20 +111,14 @@ export default class AddUsersToTeam extends React.Component {
 
         this.setState({saving: true});
 
-        addUsersToTeam(
-            TeamStore.getCurrentId(),
-            userIds,
-            () => {
-                this.handleResponse();
-                this.handleHide();
-            },
-            (err) => {
-                this.handleResponse(err);
-            }
-        );
+        const {error} = await this.props.actions.addUsersToTeam(this.props.currentTeamId, userIds);
+        this.handleResponse(error);
+        if (!error) {
+            this.handleHide();
+        }
     }
 
-    addValue(value) {
+    addValue = (value) => {
         const values = Object.assign([], this.state.values);
         const userIds = values.map((v) => v.id);
         if (value && value.id && userIds.indexOf(value.id) === -1) {
@@ -133,55 +134,21 @@ export default class AddUsersToTeam extends React.Component {
         });
     }
 
-    onChange() {
-        let users;
-        if (this.term) {
-            users = Object.assign([], searchProfilesNotInCurrentTeam(store.getState(), this.term, true));
-        } else {
-            users = Object.assign([], UserStore.getProfileListNotInTeam(TeamStore.getCurrentId(), true));
-        }
-
-        for (let i = 0; i < users.length; i++) {
-            const user = Object.assign({}, users[i]);
-            users[i] = user;
-        }
-
-        this.setState({
-            users,
-        });
-    }
-
-    handlePageChange(page, prevPage) {
+    handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
     }
 
-    search(term) {
-        clearTimeout(this.searchTimeoutId);
-        this.term = term;
-
-        if (term === '') {
-            this.onChange();
-            return;
-        }
-
-        this.searchTimeoutId = setTimeout(
-            () => {
-                this.setUsersLoadingState(true);
-                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {}).then(() => {
-                    this.setUsersLoadingState(false);
-                });
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+    handleDelete = (values) => {
+        this.setState({values});
     }
 
-    handleDelete(values) {
-        this.setState({values});
+    search = (term) => {
+        this.props.actions.setModalSearchTerm(term);
     }
 
     renderOption(option, isSelected, onAdd) {
@@ -239,8 +206,8 @@ export default class AddUsersToTeam extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
         let users = [];
-        if (this.state.users) {
-            users = this.state.users.filter((user) => user.delete_at === 0);
+        if (this.props.users) {
+            users = this.props.users.filter((user) => user.delete_at === 0);
         }
 
         let addError = null;
@@ -262,7 +229,7 @@ export default class AddUsersToTeam extends React.Component {
                             defaultMessage='Add New Members To {teamName} Team'
                             values={{
                                 teamName: (
-                                    <strong>{TeamStore.getCurrent().display_name}</strong>
+                                    <strong>{this.props.currentTeamName}</strong>
                                 ),
                             }}
                         />

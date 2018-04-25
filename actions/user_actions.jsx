@@ -183,26 +183,6 @@ export function loadChannelMembersForProfilesList(profiles, channelId = ChannelS
     getChannelMembersForUserIds(channelId, list, success, error);
 }
 
-function populateDMChannelsWithProfiles(userIds) {
-    const currentUserId = UserStore.getCurrentId();
-
-    for (let i = 0; i < userIds.length; i++) {
-        const channelName = Utils.getDirectChannelName(currentUserId, userIds[i]);
-        const channel = ChannelStore.getByName(channelName);
-        const profilesInChannel = Selectors.getUserIdsInChannels(getState())[channel.id] || new Set();
-        if (channel && !profilesInChannel.has(userIds[i])) {
-            UserStore.saveUserIdInChannel(channel.id, userIds[i]);
-        }
-    }
-}
-
-function populateChannelWithProfiles(channelId, users) {
-    for (let i = 0; i < users.length; i++) {
-        UserStore.saveUserIdInChannel(channelId, users[i].id);
-    }
-    UserStore.emitInChannelChange();
-}
-
 export async function loadNewDMIfNeeded(channelId) {
     function checkPreference(channel) {
         const userId = Utils.getUserIdFromChannelName(channel);
@@ -289,9 +269,7 @@ export async function loadProfilesForGM() {
             });
         }
 
-        UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)(dispatch, getState).then(({data}) => {
-            populateChannelWithProfiles(channel.id, data);
-        });
+        await dispatch(UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)); //eslint-disable-line no-await-in-loop
     }
 
     if (newPreferences.length > 0) {
@@ -343,7 +321,6 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
-    populateDMChannelsWithProfiles(profileIds);
 }
 
 export async function saveTheme(teamId, theme, cb) {
@@ -393,15 +370,6 @@ function onThemeSaved(teamId, theme, onSuccess) {
 
 export async function searchUsers(term, teamId = TeamStore.getCurrentId(), options = {}, success) {
     const {data} = await UserActions.searchProfiles(term, {team_id: teamId, ...options})(dispatch, getState);
-    loadStatusesForProfilesList(data);
-
-    if (success) {
-        success(data);
-    }
-}
-
-export async function searchUsersNotInTeam(term, teamId = TeamStore.getCurrentId(), options = {}, success) {
-    const {data} = await UserActions.searchProfiles(term, {not_in_team_id: teamId, ...options})(dispatch, getState);
     loadStatusesForProfilesList(data);
 
     if (success) {
@@ -578,8 +546,8 @@ export async function loginById(userId, password, mfaToken, success, error) {
     }
 }
 
-export async function createUserWithInvite(user, data, emailHash, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, data, emailHash, inviteId)(dispatch, getState);
+export async function createUserWithInvite(user, token, inviteId, success, error) {
+    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
     if (resp && success) {
         success(resp);
     } else if (err && error) {

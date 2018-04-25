@@ -27,6 +27,7 @@ import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
+import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -41,12 +42,12 @@ import PinIcon from 'components/svg/pin_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import Pluggable from 'plugins/pluggable';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 export default class ChannelHeader extends React.Component {
@@ -333,7 +334,6 @@ export default class ChannelHeader extends React.Component {
         let webrtc;
 
         if (isDirect) {
-            const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             const dmUserStatus = this.props.dmUserStatus.status;
 
             const teammateId = Utils.getUserIdFromChannelName(channel);
@@ -351,7 +351,7 @@ export default class ChannelHeader extends React.Component {
                 channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
             }
 
-            const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+            const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();
 
             if (webrtcEnabled && this.props.currentUser.id !== teammateId) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
@@ -728,6 +728,36 @@ export default class ChannelHeader extends React.Component {
                             </button>
                         </li>
                     </ChannelPermissionGate>
+                );
+            }
+
+            if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
+                dropdownContents.push(
+                    <SystemPermissionGate
+                        permissions={[Permissions.MANAGE_SYSTEM]}
+                        key='convert_channel_permission'
+                    >
+                        <li
+                            key='convert_channel'
+                            role='presentation'
+                        >
+                            <ToggleModalButtonRedux
+                                id='channelConvert'
+                                role='menuitem'
+                                modalId={ModalIdentifiers.CONVERT_CHANNEL}
+                                dialogType={ConvertChannelModal}
+                                dialogProps={{
+                                    channelId: channel.id,
+                                    channelDisplayName: channel.display_name,
+                                }}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.convert'
+                                    defaultMessage='Convert to Private Channel'
+                                />
+                            </ToggleModalButtonRedux>
+                        </li>
+                    </SystemPermissionGate>
                 );
             }
 

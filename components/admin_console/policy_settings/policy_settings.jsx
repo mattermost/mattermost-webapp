@@ -5,8 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import {RequestStatus} from 'mattermost-redux/constants';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -26,7 +24,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 export default class PolicySettings extends AdminSettings {
     static propTypes = {
         roles: PropTypes.object.isRequired,
-        rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
@@ -55,28 +52,43 @@ export default class PolicySettings extends AdminSettings {
             loaded: false,
         };
     }
-
     loadPoliciesIntoState(props) {
-        if (props.rolesRequest.status === RequestStatus.SUCCESS) {
-            const {roles} = props;
+        const {roles} = props;
 
-            Object.entries(this.roleBasedPolicies).forEach(([key]) => {
-                this.roleBasedPolicies[key] = mappingValueFromRoles(key, roles);
-            });
+        Object.entries(this.roleBasedPolicies).forEach(([key]) => {
+            this.roleBasedPolicies[key] = mappingValueFromRoles(key, roles);
+        });
 
-            // Adjustment to allowEditPost policy because the roles mapping is the same for 'always' and 'time_limit'
-            if (this.roleBasedPolicies.allowEditPost === Constants.ALLOW_EDIT_POST_ALWAYS && this.state.postEditTimeLimit) {
-                this.roleBasedPolicies.allowEditPost = Constants.ALLOW_EDIT_POST_TIME_LIMIT;
-            }
-
-            this.setState({...this.roleBasedPolicies, loaded: true});
+        // Adjustment to allowEditPost policy because the roles mapping is the same for 'always' and 'time_limit'
+        if (this.roleBasedPolicies.allowEditPost === Constants.ALLOW_EDIT_POST_ALWAYS && this.state.postEditTimeLimit) {
+            this.roleBasedPolicies.allowEditPost = Constants.ALLOW_EDIT_POST_TIME_LIMIT;
         }
+
+        this.setState({...this.roleBasedPolicies, loaded: true});
     }
 
     componentWillMount() {
-        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'channel_admin', 'team_admin', 'system_admin']).then(() => {
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'channel_admin', 'team_admin', 'system_admin']);
+        if (this.props.roles.system_user &&
+            this.props.roles.system_admin &&
+            this.props.roles.team_user &&
+            this.props.roles.team_admin &&
+            this.props.roles.channel_user &&
+            this.props.roles.channel_admin) {
             this.loadPoliciesIntoState(this.props);
-        });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.loaded &&
+            nextProps.roles.system_user &&
+            nextProps.roles.system_admin &&
+            nextProps.roles.team_user &&
+            nextProps.roles.team_admin &&
+            nextProps.roles.channel_user &&
+            nextProps.roles.channel_admin) {
+            this.loadPoliciesIntoState(nextProps);
+        }
     }
 
     handleSubmit = async (e) => {

@@ -162,24 +162,31 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       >
         <div>
           <FormattedMessage
-            defaultMessage="No channel header yet.{newline}{link} to add one."
+            defaultMessage="No channel header yet."
             id="navbar.noHeader"
-            values={
-              Object {
-                "link": <a
-                  href="#"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Click here"
-                    id="navbar.click"
-                    values={Object {}}
-                  />
-                </a>,
-                "newline": <br />,
-              }
-            }
+            values={Object {}}
           />
+          <UNDEFINED>
+            <br />
+            <FormattedMessage
+              defaultMessage="{clickHere} to add one."
+              id="navbar.clickToAddHeader"
+              values={
+                Object {
+                  "clickHere": <a
+                    href="#"
+                    onClick={[Function]}
+                  >
+                    <FormattedMessage
+                      defaultMessage="Click here"
+                      id="navbar.click"
+                      values={Object {}}
+                    />
+                  </a>,
+                }
+              }
+            />
+          </UNDEFINED>
         </div>
         <div
           className="close visible-xs-block"

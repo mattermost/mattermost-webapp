@@ -3,14 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
-import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
-import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 
@@ -18,105 +16,79 @@ const USERS_PER_PAGE = 50;
 
 export default class MemberListTeam extends React.Component {
     static propTypes = {
-        teamId: PropTypes.string.isRequired,
+        searchTerm: PropTypes.string.isRequired,
+        users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        teamMembers: PropTypes.object.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
+        totalTeamMembers: PropTypes.number.isRequired,
         canManageTeamMembers: PropTypes.bool,
         actions: PropTypes.shape({
+            searchProfiles: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.onStatsChange = this.onStatsChange.bind(this);
-        this.search = this.search.bind(this);
-        this.loadComplete = this.loadComplete.bind(this);
-
         this.searchTimeoutId = 0;
-        this.term = '';
-
-        const stats = TeamStore.getCurrentStats();
 
         this.state = {
-            users: UserStore.getProfileListInTeam(),
-            teamMembers: Object.assign([], TeamStore.getMembersInTeam()),
-            total: stats.active_member_count,
             loading: true,
         };
     }
 
     componentDidMount() {
-        UserStore.addInTeamChangeListener(this.onChange);
-        UserStore.addStatusesChangeListener(this.onChange);
-        TeamStore.addChangeListener(this.onChange);
-        TeamStore.addStatsChangeListener(this.onStatsChange);
-
-        loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, TeamStore.getCurrentId(), this.loadComplete);
-        this.props.actions.getTeamStats(TeamStore.getCurrentId());
+        loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId, this.loadComplete);
+        this.props.actions.getTeamStats(this.props.currentTeamId);
     }
 
     componentWillUnmount() {
-        UserStore.removeInTeamChangeListener(this.onChange);
-        UserStore.removeStatusesChangeListener(this.onChange);
-        TeamStore.removeChangeListener(this.onChange);
-        TeamStore.removeStatsChangeListener(this.onStatsChange);
+        this.props.actions.setModalSearchTerm('');
     }
 
-    loadComplete() {
-        this.setState({loading: false});
-    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.searchTerm !== nextProps.searchTerm) {
+            clearTimeout(this.searchTimeoutId);
 
-    onChange() {
-        let users;
-        if (this.term) {
-            users = searchProfilesInCurrentTeam(store.getState(), this.term);
-        } else {
-            users = UserStore.getProfileListInTeam();
+            const searchTerm = nextProps.searchTerm;
+            if (searchTerm === '') {
+                this.loadComplete();
+                this.searchTimeoutId = '';
+                return;
+            }
+
+            const searchTimeoutId = setTimeout(
+                async () => {
+                    const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
+
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+
+                    this.setState({loading: true});
+
+                    loadStatusesForProfilesList(data);
+                    loadTeamMembersForProfilesList(data, nextProps.currentTeamId, this.loadComplete);
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS
+            );
+
+            this.searchTimeoutId = searchTimeoutId;
         }
-
-        this.setState({users, teamMembers: Object.assign([], TeamStore.getMembersInTeam())});
     }
 
-    onStatsChange() {
-        const stats = TeamStore.getCurrentStats();
-        this.setState({total: stats.active_member_count});
+    loadComplete = () => {
+        this.setState({loading: false});
     }
 
     nextPage(page) {
         loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 
-    search(term) {
-        clearTimeout(this.searchTimeoutId);
-        this.term = term;
-
-        if (term === '') {
-            this.setState({loading: false});
-            this.searchTimeoutId = '';
-            this.onChange();
-            return;
-        }
-
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(
-                    term,
-                    TeamStore.getCurrentId(),
-                    {},
-                    (users) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
-                        this.setState({loading: true});
-                        loadTeamMembersForProfilesList(users, TeamStore.getCurrentId(), this.loadComplete);
-                    }
-                );
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
-
-        this.searchTimeoutId = searchTimeoutId;
+    search = (term) => {
+        this.props.actions.setModalSearchTerm(term);
     }
 
     render() {
@@ -125,8 +97,8 @@ export default class MemberListTeam extends React.Component {
             teamMembersDropdown = [TeamMembersDropdown];
         }
 
-        const teamMembers = this.state.teamMembers;
-        const users = this.state.users;
+        const teamMembers = this.props.teamMembers;
+        const users = this.props.users;
         const actionUserProps = {};
 
         let usersToDisplay;
@@ -151,7 +123,7 @@ export default class MemberListTeam extends React.Component {
             <SearchableUserList
                 users={usersToDisplay}
                 usersPerPage={USERS_PER_PAGE}
-                total={this.state.total}
+                total={this.props.totalTeamMembers}
                 nextPage={this.nextPage}
                 search={this.search}
                 actions={teamMembersDropdown}

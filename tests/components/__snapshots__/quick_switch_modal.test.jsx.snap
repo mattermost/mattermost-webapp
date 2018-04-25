@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/QuickSwitchModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="channel-switch-modal modal--overflow"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  />
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="modal__hint"
+    >
+      <FormattedMessage
+        defaultMessage="Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss."
+        id="quick_switch_modal.help_no_team"
+        values={Object {}}
+      />
+    </div>
+    <SuggestionBox
+      className="form-control focused"
+      completeOnTab={false}
+      delayInputUpdate={true}
+      isRHS={false}
+      listComponent={[Function]}
+      listStyle="bottom"
+      maxLength="64"
+      onChange={[Function]}
+      onItemSelected={[Function]}
+      onKeyDown={[Function]}
+      openOnFocus={false}
+      openWhenEmpty={true}
+      providers={
+        Array [
+          SwitchChannelProvider {
+            "disableDispatches": false,
+            "latestComplete": true,
+            "latestPrefix": "",
+          },
+        ]
+      }
+      renderDividers={true}
+      requiredCharacters={1}
+      value=""
+    />
+  </ModalBody>
+</Modal>
+`;

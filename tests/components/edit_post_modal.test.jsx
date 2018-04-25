@@ -2,7 +2,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 
 jest.useFakeTimers();
@@ -28,7 +29,7 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
             message: 'test',
             channel_id: '5',
         },
-        commentsCount: 3,
+        commentCount: 3,
         refocusId: 'test',
         show: true,
         title: 'test',
@@ -82,7 +83,7 @@ describe('components/EditPostModal', () => {
                 channel_id: '5',
                 file_ids: ['file_id_1'],
             },
-            commentsCount: 3,
+            commentCount: 3,
             refocusId: 'test',
             show: true,
             title: 'test',
@@ -248,7 +249,18 @@ describe('components/EditPostModal', () => {
         instance.handleEdit();
 
         expect(actions.hideEditPostModal).toBeCalled();
-        expect(actions.openModal).toHaveBeenCalled();
+        expect(actions.openModal).toHaveBeenCalledWith({
+            ModalId: ModalIdentifiers.DELETE_POST,
+            dialogType: DeletePostModal,
+            dialogProps: {
+                post: {
+                    id: '123',
+                    message: 'test',
+                    channel_id: '5',
+                },
+                commentCount: 3,
+            },
+        });
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
 

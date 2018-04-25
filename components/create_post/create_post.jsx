@@ -30,6 +30,8 @@ const KeyCodes = Constants.KeyCodes;
 export default class CreatePost extends React.Component {
     static propTypes = {
 
+        isRhsOpen: PropTypes.bool.isRequired,
+
         /**
         *  ref passed from channelView for EmojiPickerOverlay
         */
@@ -637,6 +639,10 @@ export default class CreatePost extends React.Component {
     replyToLastPost = (e) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
+        const isRhsOpen = this.props.isRhsOpen;
+        if (isRhsOpen) {
+            document.getElementById('reply_textbox').focus();
+        }
         if (latestReplyablePostId) {
             this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
         }

@@ -5,11 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
-import {goToChannel, openDirectChannelToUser} from 'actions/channel_actions.jsx';
-import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -17,8 +14,6 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
-
-const getState = store.getState;
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
@@ -45,6 +40,12 @@ export default class QuickSwitchModal extends React.PureComponent {
          * Set to show team switcher
          */
         showTeamSwitcher: PropTypes.bool,
+
+        actions: PropTypes.shape({
+            goToChannel: PropTypes.func.isRequired,
+            goToChannelById: PropTypes.func.isRequired,
+            openDirectChannelToUser: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -145,7 +146,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         if (this.state.mode === CHANNEL_MODE) {
             const selectedChannel = selected.channel;
             if (selectedChannel.type === Constants.DM_CHANNEL) {
-                openDirectChannelToUser(
+                this.props.actions.openDirectChannelToUser(
                     selectedChannel.id,
                     (ch) => {
                         channel = ch;
@@ -157,8 +158,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                     }
                 );
             } else if (selectedChannel.type === Constants.GM_CHANNEL) {
-                channel = getChannel(getState(), selectedChannel.id);
-                this.switchToChannel(channel);
+                this.switchToChannelById(selectedChannel.id);
             } else {
                 this.switchToChannel(selectedChannel);
             }
@@ -170,7 +170,14 @@ export default class QuickSwitchModal extends React.PureComponent {
 
     switchToChannel(channel) {
         if (channel != null) {
-            goToChannel(channel);
+            this.props.actions.goToChannel(channel);
+            this.onHide();
+        }
+    }
+
+    switchToChannelById(channelId) {
+        if (channelId) {
+            this.props.actions.goToChannelById(channelId);
             this.onHide();
         }
     }

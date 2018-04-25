@@ -13,6 +13,7 @@ export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object,
         showEditChannelHeaderModal: PropTypes.func.isRequired,
+        isReadOnly: PropTypes.bool,
     };
 
     showEditChannelHeaderModal = () => {
@@ -36,28 +37,38 @@ export default class NavbarInfoButton extends React.PureComponent {
                     />
                 );
             } else {
-                const link = (
-                    <a
-                        href='#'
-                        onClick={this.showEditChannelHeaderModal}
-                    >
-                        <FormattedMessage
-                            id='navbar.click'
-                            defaultMessage='Click here'
-                        />
-                    </a>
-                );
+                let addOne;
+                if (!this.props.isReadOnly) {
+                    const link = (
+                        <a
+                            href='#'
+                            onClick={this.showEditChannelHeaderModal}
+                        >
+                            <FormattedMessage
+                                id='navbar.click'
+                                defaultMessage='Click here'
+                            />
+                        </a>
+                    );
+                    addOne = (
+                        <React.Fragment>
+                            <br/>
+                            <FormattedMessage
+                                id='navbar.clickToAddHeader'
+                                defaultMessage='{clickHere} to add one.'
+                                values={{clickHere: link}}
+                            />
+                        </React.Fragment>
+                    );
+                }
 
                 popoverContent = (
                     <div>
                         <FormattedMessage
                             id='navbar.noHeader'
-                            defaultMessage='No channel header yet.{newline}{link} to add one.'
-                            values={{
-                                newline: (<br/>),
-                                link,
-                            }}
+                            defaultMessage='No channel header yet.'
                         />
+                        {addOne}
                     </div>
                 );
             }

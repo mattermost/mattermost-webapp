@@ -10,13 +10,11 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const enableWebrtc = config.EnableWebrtc === 'true';
     const enablePreviewFeatures = config.EnablePreviewFeatures === 'true';
     const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isLicensed = license && license.IsLicensed === 'true';
 
     return {
-        enableWebrtc,
         enablePreviewFeatures,
         buildEnterpriseReady,
         isLicensed,
