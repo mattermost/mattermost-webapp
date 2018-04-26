@@ -1,0 +1,259 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/select_team/components/SelectTeamItem should match snapshot 1`] = `
+<div
+  className="signup-team-dir"
+>
+  <OverlayTrigger
+    container={
+      SelectTeamItem {
+        "context": Object {},
+        "handleTeamClick": [Function],
+        "props": Object {
+          "loading": false,
+          "onTeamClick": [MockFunction],
+          "team": Object {
+            "description": "team description",
+            "display_name": "team_display_name",
+          },
+        },
+        "refs": Object {},
+        "state": null,
+        "updater": Updater {
+          "_callbacks": Array [],
+          "_renderer": ReactShallowRenderer {
+            "_context": Object {},
+            "_element": <SelectTeamItem
+              loading={false}
+              onTeamClick={[MockFunction]}
+              team={
+                Object {
+                  "description": "team description",
+                  "display_name": "team_display_name",
+                }
+              }
+            />,
+            "_forcedUpdate": false,
+            "_instance": [Circular],
+            "_newState": null,
+            "_rendered": <div
+              className="signup-team-dir"
+            >
+              <OverlayTrigger
+                container={[Circular]}
+                defaultOverlayShown={false}
+                delayShow={1000}
+                overlay={
+                  <Tooltip
+                    bsClass="tooltip"
+                    id="team-description__tooltip"
+                    placement="right"
+                  >
+                    team description
+                  </Tooltip>
+                }
+                placement="top"
+                rootClose={true}
+                trigger={
+                  Array [
+                    "hover",
+                    "focus",
+                    "click",
+                  ]
+                }
+              >
+                <TeamInfoIcon
+                  className="icon icon--info"
+                />
+              </OverlayTrigger>
+              <a
+                href="#"
+                id="team_display_name"
+                onClick={[Function]}
+              >
+                <span
+                  className="signup-team-dir__name"
+                >
+                  team_display_name
+                </span>
+                <span
+                  className="fa fa-angle-right right signup-team__icon"
+                />
+              </a>
+            </div>,
+            "_rendering": false,
+            "_updater": [Circular],
+          },
+        },
+      }
+    }
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="team-description__tooltip"
+        placement="right"
+      >
+        team description
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+        "click",
+      ]
+    }
+  >
+    <TeamInfoIcon
+      className="icon icon--info"
+    />
+  </OverlayTrigger>
+  <a
+    href="#"
+    id="team_display_name"
+    onClick={[Function]}
+  >
+    <span
+      className="signup-team-dir__name"
+    >
+      team_display_name
+    </span>
+    <span
+      className="fa fa-angle-right right signup-team__icon"
+    />
+  </a>
+</div>
+`;
+
+exports[`components/select_team/components/SelectTeamItem should match snapshot, on loading 1`] = `
+<div
+  className="signup-team-dir"
+>
+  <OverlayTrigger
+    container={
+      SelectTeamItem {
+        "context": Object {},
+        "handleTeamClick": [Function],
+        "props": Object {
+          "loading": true,
+          "onTeamClick": [MockFunction],
+          "team": Object {
+            "description": "team description",
+            "display_name": "team_display_name",
+          },
+        },
+        "refs": Object {},
+        "state": null,
+        "updater": Updater {
+          "_callbacks": Array [],
+          "_renderer": ReactShallowRenderer {
+            "_context": Object {},
+            "_element": <SelectTeamItem
+              loading={true}
+              onTeamClick={[MockFunction]}
+              team={
+                Object {
+                  "description": "team description",
+                  "display_name": "team_display_name",
+                }
+              }
+            />,
+            "_forcedUpdate": false,
+            "_instance": [Circular],
+            "_newState": null,
+            "_rendered": <div
+              className="signup-team-dir"
+            >
+              <OverlayTrigger
+                container={[Circular]}
+                defaultOverlayShown={false}
+                delayShow={1000}
+                overlay={
+                  <Tooltip
+                    bsClass="tooltip"
+                    id="team-description__tooltip"
+                    placement="right"
+                  >
+                    team description
+                  </Tooltip>
+                }
+                placement="top"
+                rootClose={true}
+                trigger={
+                  Array [
+                    "hover",
+                    "focus",
+                    "click",
+                  ]
+                }
+              >
+                <TeamInfoIcon
+                  className="icon icon--info"
+                />
+              </OverlayTrigger>
+              <a
+                href="#"
+                id="team_display_name"
+                onClick={[Function]}
+              >
+                <span
+                  className="signup-team-dir__name"
+                >
+                  team_display_name
+                </span>
+                <span
+                  className="fa fa-refresh fa-spin right signup-team__icon"
+                />
+              </a>
+            </div>,
+            "_rendering": false,
+            "_updater": [Circular],
+          },
+        },
+      }
+    }
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="team-description__tooltip"
+        placement="right"
+      >
+        team description
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+        "click",
+      ]
+    }
+  >
+    <TeamInfoIcon
+      className="icon icon--info"
+    />
+  </OverlayTrigger>
+  <a
+    href="#"
+    id="team_display_name"
+    onClick={[Function]}
+  >
+    <span
+      className="signup-team-dir__name"
+    >
+      team_display_name
+    </span>
+    <span
+      className="fa fa-refresh fa-spin right signup-team__icon"
+    />
+  </a>
+</div>
+`;
