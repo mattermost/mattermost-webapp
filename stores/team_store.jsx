@@ -318,10 +318,7 @@ class TeamStoreClass extends EventEmitter {
     }
 
     getTeamListings() {
-        return Selectors.getJoinableTeams(store.getState()).reduce((acc, t) => {
-            acc[t.id] = t;
-            return acc;
-        }, {});
+        return Selectors.getJoinableTeams(store.getState());
     }
 
     isTeamAdminForAnyTeam() {

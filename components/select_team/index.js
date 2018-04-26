@@ -9,7 +9,7 @@ import {getTeams} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
-import {getJoinableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {getSortedJoinableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import SelectTeam from './select_team.jsx';
@@ -27,7 +27,7 @@ function mapStateToProps(state) {
         roles: getRoles(state),
         enableTeamCreation: config.EnableTeamCreation === 'true',
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
-        joinableTeams: getJoinableTeams(state),
+        joinableTeams: getSortedJoinableTeams(state, currentUser.locale),
         siteName: config.SiteName,
     };
 }
