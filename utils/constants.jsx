@@ -287,6 +287,7 @@ export const ModalIdentifiers = {
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
     DELETE_POST: 'delete_post',
+    CONVERT_CHANNEL: 'convert_channel',
 };
 
 export const UserStatuses = {
@@ -339,6 +340,8 @@ export const SocketEvents = {
     EMOJI_ADDED: 'emoji_added',
     PLUGIN_ACTIVATED: 'plugin_activated',
     PLUGIN_DEACTIVATED: 'plugin_deactivated',
+    LICENSE_CHANGED: 'license_changed',
+    CONFIG_CHANGED: 'config_changed',
 };
 
 export const TutorialSteps = {
@@ -362,6 +365,7 @@ export const PostTypes = {
     REMOVE_FROM_TEAM: 'system_remove_from_team',
     HEADER_CHANGE: 'system_header_change',
     DISPLAYNAME_CHANGE: 'system_displayname_change',
+    CONVERT_CHANNEL: 'system_convert_channel',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',

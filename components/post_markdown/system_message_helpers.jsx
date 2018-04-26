@@ -213,6 +213,24 @@ function renderDisplayNameChangeMessage(post, options) {
     );
 }
 
+function renderConvertChannelToPrivateMessage(post, options) {
+    if (!(post.props.username)) {
+        return null;
+    }
+
+    const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username, options);
+
+    return (
+        <FormattedMessage
+            id='api.channel.post_convert_channel_to_private.updated_from'
+            defaultMessage='{username} converted the channel from public to private'
+            values={{
+                username,
+            }}
+        />
+    );
+}
+
 function renderPurposeChangeMessage(post, options) {
     if (!post.props.username) {
         return null;
@@ -290,6 +308,7 @@ const systemMessageRenderers = {
     [PostTypes.REMOVE_FROM_TEAM]: renderRemoveFromTeamMessage,
     [PostTypes.HEADER_CHANGE]: renderHeaderChangeMessage,
     [PostTypes.DISPLAYNAME_CHANGE]: renderDisplayNameChangeMessage,
+    [PostTypes.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
     [PostTypes.PURPOSE_CHANGE]: renderPurposeChangeMessage,
     [PostTypes.CHANNEL_DELETED]: renderChannelDeletedMessage,
 };
