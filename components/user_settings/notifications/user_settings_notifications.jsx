@@ -422,7 +422,7 @@ export default class NotificationsTab extends React.Component {
                     >
                         <FormattedMessage
                             id='user.settings.push_notification.disabled_long'
-                            defaultMessage='Push Notifications are not enabled. Contact your System Administrator.'
+                            defaultMessage='Push notifications have not been enabled by your System Administrator.'
                         />
                     </div>
                 );
@@ -498,7 +498,7 @@ export default class NotificationsTab extends React.Component {
             describe = (
                 <FormattedMessage
                     id='user.settings.push_notification.disabled'
-                    defaultMessage='Disabled by System Administrator'
+                    defaultMessage='Push notifications are not enabled'
                 />
             );
         }
