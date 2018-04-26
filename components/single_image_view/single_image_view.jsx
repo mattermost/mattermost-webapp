@@ -131,9 +131,6 @@ export default class SingleImageView extends React.PureComponent {
             previewWidth *= heightRatio;
         }
 
-        console.log('Width: ' + previewWidth);
-        console.log('Height: ' + previewHeight);
-
         return {previewWidth, previewHeight};
     }
 
