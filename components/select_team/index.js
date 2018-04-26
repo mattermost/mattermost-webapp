@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
-import {createSelector} from 'reselect';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
@@ -14,24 +13,6 @@ import {getJoinableTeams, getTeamMemberships} from 'mattermost-redux/selectors/e
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import SelectTeam from './select_team.jsx';
-
-const getSortedJoinableTeams = createSelector(
-    getJoinableTeams,
-    getCurrentUser,
-    (joinableTeams, currentUser) => {
-        function sortTeams(a, b) {
-            const options = {
-                numeric: true,
-                sensitivity: 'base',
-            };
-            return a.display_name.localeCompare(b.display_name, currentUser.locale || 'en', options);
-        }
-
-        return Object.values(joinableTeams).
-            filter((team) => team.delete_at === 0).
-            sort(sortTeams);
-    }
-);
 
 function mapStateToProps(state) {
     const license = getLicense(state);
@@ -46,7 +27,7 @@ function mapStateToProps(state) {
         roles: getRoles(state),
         enableTeamCreation: config.EnableTeamCreation === 'true',
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
-        joinableTeams: getSortedJoinableTeams(state),
+        joinableTeams: getJoinableTeams(state),
         siteName: config.SiteName,
     };
 }
