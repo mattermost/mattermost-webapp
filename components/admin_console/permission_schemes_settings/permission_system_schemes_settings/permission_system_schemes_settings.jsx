@@ -207,7 +207,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <AccordionToggleIcon />
+                            <AccordionToggleIcon/>
                         </div>
                     </div>
                     <PermissionsTree
@@ -237,7 +237,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <AccordionToggleIcon />
+                            <AccordionToggleIcon/>
                         </div>
                     </div>
                     <PermissionsTree
@@ -268,7 +268,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <AccordionToggleIcon />
+                            <AccordionToggleIcon/>
                         </div>
                     </div>
                     <PermissionsTree
@@ -299,7 +299,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                             </span>
                         </div>
                         <div className='button'>
-                            <AccordionToggleIcon />
+                            <AccordionToggleIcon/>
                         </div>
                     </div>
                     <PermissionsTree

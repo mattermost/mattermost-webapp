@@ -4,9 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Permissions} from 'utils/constants.jsx';
-
-import PermissionRow from './permission_row.jsx';
 import PermissionGroup from './permission_group.jsx';
 
 const GROUPS = [
@@ -55,14 +52,14 @@ const GROUPS = [
                 permissions: [
                     'delete_post',
                     'delete_others_posts',
-                ]
+                ],
             },
             {
                 code: 'reactions',
                 permissions: [
                     'add_reaction',
                     'remove_reaction',
-                ]
+                ],
             },
         ],
     },
