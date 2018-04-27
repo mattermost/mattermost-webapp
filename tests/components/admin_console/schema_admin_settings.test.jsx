@@ -22,7 +22,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
             name_default: 'Configuration',
             settings: [
                 {
-                    key: 'settinga',
+                    key: 'FirstSettings.settinga',
                     label: 'label-a',
                     label_default: 'Setting One',
                     type: 'text',
@@ -33,7 +33,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     placeholder_default: 'e.g. some setting',
                 },
                 {
-                    key: 'settingb',
+                    key: 'FirstSettings.settingb',
                     label: 'label-b',
                     label_default: 'Setting Two',
                     type: 'bool',
@@ -42,7 +42,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the bool field.',
                 },
                 {
-                    key: 'settingc',
+                    key: 'FirstSettings.settingc',
                     label: 'label-c',
                     label_default: 'Setting Three',
                     type: 'dropdown',
@@ -56,7 +56,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the dropdown field.',
                 },
                 {
-                    key: 'settingd',
+                    key: 'SecondSettings.settingd',
                     label: 'label-d',
                     label_default: 'Setting Four',
                     type: 'radio',
@@ -70,7 +70,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the radio field.',
                 },
                 {
-                    key: 'settinge',
+                    key: 'SecondSettings.settinge',
                     label: 'label-e',
                     label_default: 'Setting Five',
                     type: 'generated',
@@ -81,7 +81,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     placeholder_default: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb',
                 },
                 {
-                    key: 'settingf',
+                    key: 'SecondSettings.settingf',
                     label: 'label-f',
                     label_default: 'Setting Six',
                     type: 'username',
@@ -91,7 +91,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     placeholder_default: 'Type a username here',
                 },
                 {
-                    key: 'settingg',
+                    key: 'SecondSettings.settingg',
                     label: 'label-g',
                     label_default: 'Setting Seven',
                     type: 'number',
@@ -107,7 +107,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     type: 'banner',
                 },
                 {
-                    key: 'settingi',
+                    key: 'SecondSettings.settingi',
                     label: 'label-i',
                     label_default: 'Setting Nine',
                     type: 'language',
@@ -118,7 +118,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     multiple: false,
                 },
                 {
-                    key: 'settingj',
+                    key: 'SecondSettings.settingj',
                     label: 'label-j',
                     label_default: 'Setting Nine',
                     type: 'language',
@@ -133,7 +133,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     not_present_default: 'No present',
                 },
                 {
-                    key: 'settingk',
+                    key: 'SecondSettings.settingk',
                     label: 'label-k',
                     label_default: 'Setting Eleven',
                     type: 'button',
@@ -161,10 +161,12 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         };
 
         config = {
-            Config: {
+            FirstSettings: {
                 settinga: 'fsdsdg',
                 settingb: false,
                 settingc: 'option3',
+            },
+            SecondSettings: {
                 settingd: 'option1',
                 settinge: 'Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23',
                 settingf: '3xz3r6n7dtbbmgref3yw4zg7sr',
