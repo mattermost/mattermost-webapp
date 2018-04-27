@@ -4,18 +4,6 @@ import React from 'react';
 import PostMp4 from 'components/post_view/post_mp4/post_mp4.jsx';
 
 describe('components/post_view/PostMp4', () => {
-    // const attachment = {
-    //     pretext: 'pretext',
-    //     author_name: 'author_name',
-    //     author_icon: 'author_icon',
-    //     author_link: 'author_link',
-    //     title: 'title',
-    //     title_link: 'title_link',
-    //     text: 'short text',
-    //     image_url: 'image_url',
-    //     thumb_url: 'thumb_url',
-    //     color: '#FFF',
-    // };
     const post = {
         channel_id: 'g6139tbospd18cmxroesdk3kkc',
         create_at: 1502715365009,
