@@ -13,7 +13,7 @@ describe('components/dot_menu/DotMenuEdit', () => {
         idPrefix: Constants.CENTER,
         post: {id: 'post_id_1'},
         type: 'Post',
-        commentsCount: 1,
+        commentCount: 1,
         isRHS: false,
         actions: {setEditingPost: jest.fn()},
     };

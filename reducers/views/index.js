@@ -12,6 +12,7 @@ import emoji from './emoji';
 import lhs from './lhs';
 import webrtc from './webrtc';
 import search from './search';
+import notice from './notice';
 
 export default combineReducers({
     admin,
@@ -23,4 +24,5 @@ export default combineReducers({
     lhs,
     webrtc,
     search,
+    notice,
 });
