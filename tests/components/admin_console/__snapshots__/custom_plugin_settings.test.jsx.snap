@@ -39,6 +39,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
+        setByEnv={false}
         type="input"
         value="setting_default"
       />
@@ -60,6 +61,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_bool_settingb"
         label="Setting Two"
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -81,6 +83,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_dropdown_settingc"
         label="Setting Three"
         onChange={[Function]}
+        setByEnv={false}
         value="option1"
         values={
           Array [
@@ -107,10 +110,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </span>
         }
         id="settingd"
-        isDisabled={false}
         key="testplugin_radio_settingd"
         label="Setting Four"
         onChange={[Function]}
+        setByEnv={false}
         value="option2"
         values={
           Array [
@@ -149,6 +152,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
+        setByEnv={false}
         value=""
       />
       <UserAutocompleteSetting
@@ -289,6 +293,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
+        setByEnv={false}
         type="input"
         value="setting_default"
       />
@@ -310,6 +315,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_bool_settingb"
         label="Setting Two"
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -331,6 +337,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_dropdown_settingc"
         label="Setting Three"
         onChange={[Function]}
+        setByEnv={false}
         value="option1"
         values={
           Array [
@@ -357,10 +364,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </span>
         }
         id="settingd"
-        isDisabled={false}
         key="testplugin_radio_settingd"
         label="Setting Four"
         onChange={[Function]}
+        setByEnv={false}
         value="option2"
         values={
           Array [
@@ -399,6 +406,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
+        setByEnv={false}
         value=""
       />
       <UserAutocompleteSetting

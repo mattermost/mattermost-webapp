@@ -17,6 +17,7 @@ describe('components/AdminConsole', () => {
         isCurrentUserSystemAdmin: false,
         actions: {
             getConfig: jest.fn(),
+            getEnvironmentConfig: jest.fn(),
             setNavigationBlocked: jest.fn(),
             confirmNavigation: jest.fn(),
             cancelNavigation: jest.fn(),

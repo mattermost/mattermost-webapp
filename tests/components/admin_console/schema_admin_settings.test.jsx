@@ -9,10 +9,12 @@ import SchemaAdminSettings from 'components/admin_console/schema_admin_settings.
 describe('components/admin_console/SchemaAdminSettings', () => {
     let schema = null;
     let config = null;
+    let environmentConfig = null;
 
     afterEach(() => {
         schema = null;
         config = null;
+        environmentConfig = null;
     });
 
     beforeEach(() => {
@@ -144,6 +146,15 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     error_message_default: 'Reload unsuccessful: {error}',
                 },
                 {
+                    key: 'FirstSettings.settingl',
+                    label: 'label-l',
+                    label_default: 'Setting Twelve',
+                    type: 'bool',
+                    default: false,
+                    help_text: 'help-text-l',
+                    help_text_default: 'This is some help text for the second bool field.',
+                },
+                {
                     type: 'custom',
                     key: 'custom',
                     component: () => <p>{'Test'}</p>,
@@ -165,6 +176,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 settinga: 'fsdsdg',
                 settingb: false,
                 settingc: 'option3',
+                settingl: true,
             },
             SecondSettings: {
                 settingd: 'option1',
@@ -173,12 +185,19 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 settingg: 7,
             },
         };
+
+        environmentConfig = {
+            FirstSettings: {
+                settingl: true,
+            },
+        };
     });
 
     test('should match snapshot with settings and plugin', () => {
         const wrapper = shallow(
             <SchemaAdminSettings
                 config={config}
+                environmentConfig={environmentConfig}
                 schema={{...schema}}
             />
         );
@@ -189,6 +208,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         const wrapper = shallow(
             <SchemaAdminSettings
                 config={config}
+                environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
             />
         );
