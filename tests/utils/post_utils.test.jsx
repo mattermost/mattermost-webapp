@@ -297,9 +297,9 @@ describe('PostUtils.changeToMp4Src', function() {
                 result: 'https://i.gifv.com/FY1Agifva13',
             },
         ]) {
-            const JPGSrc = PostUtils.changeToMp4Src(data.url, false);
+            const Mp4Src = PostUtils.changeToMp4Src(data.url, false);
 
-            assert.equal(JPGSrc, data.result);
+            assert.equal(Mp4Src, data.result);
         }
     });
 });
