@@ -51,34 +51,66 @@ export default class SchemaAdminSettings extends AdminSettings {
         const schema = this.props.schema;
 
         if (schema) {
-            if (!config[schema.id]) {
-                config[schema.id] = {};
-            }
-
-            const configSettings = config[schema.id];
-
             const settings = schema.settings || [];
             settings.forEach((setting) => {
-                configSettings[setting.key] = this.getSettingValue(setting);
+                if (!setting.key) {
+                    return;
+                }
+
+                this.setConfigValue(config, setting.key, this.getSettingValue(setting));
             });
         }
 
         return config;
     }
 
+    setConfigValue(config, path, value) {
+        function setValue(obj, pathParts) {
+            const part = pathParts[0];
+
+            if (pathParts.length === 1) {
+                obj[part] = value;
+            } else {
+                if (obj[part] == null) {
+                    obj[part] = {};
+                }
+
+                setValue(obj[part], pathParts.slice(1));
+            }
+        }
+
+        setValue(config, path.split('.'));
+    }
+
     getStateFromConfig(config, schema = this.props.schema) {
         const state = {};
 
         if (schema) {
-            const configSettings = config[schema.id] || {};
-
             const settings = schema.settings || [];
             settings.forEach((setting) => {
-                state[setting.key] = configSettings[setting.key] == null ? setting.default : configSettings[setting.key];
+                if (!setting.key) {
+                    return;
+                }
+
+                const value = this.getConfigValue(config, setting.key);
+
+                state[setting.key] = value == null ? setting.default : value;
             });
         }
 
         return state;
+    }
+
+    getConfigValue(config, path) {
+        const pathParts = path.split('.');
+
+        return pathParts.reduce((obj, pathPart) => {
+            if (!obj) {
+                return null;
+            }
+
+            return obj[pathPart];
+        }, config);
     }
 
     getSetting(key) {
