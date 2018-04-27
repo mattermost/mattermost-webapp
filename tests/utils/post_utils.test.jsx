@@ -5,6 +5,12 @@ import assert from 'assert';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 
+jest.mock('mattermost-redux/client', () => {
+    return {
+        Client4: jest.fn(() => true),
+    };
+});
+
 describe('PostUtils.containsAtChannel', function() {
     test('should return correct @all (same for @channel)', function() {
         for (const data of [
@@ -168,6 +174,132 @@ describe('PostUtils.containsAtChannel', function() {
             const containsAtChannel = PostUtils.containsAtChannel(data.text);
 
             assert.equal(containsAtChannel, data.result, data.text);
+        }
+    });
+});
+
+describe('PostUtils.changeToJPGSrc', function() {
+    test('should return correct for all gifv URLs', function() {
+        for (const data of [
+            {
+                url: '',
+                result: '',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.gifv',
+                result: 'https://i.imgur.com/FY1AbSo.jpg',
+            },
+            {
+                url: 'https://i.imgur.com/123123123.gifv',
+                result: 'https://i.imgur.com/123123123.jpg',
+            },
+            {
+                url: 'https://random.gifv',
+                result: 'https://random.jpg',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.gif',
+                result: 'https://i.imgur.com/FY1AbSo.gif',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.jpg',
+                result: 'https://i.imgur.com/FY1AbSo.jpg',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.jpg',
+                result: 'https://i.imgur.com/FY1AbSo.jpg',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.png',
+                result: 'https://i.imgur.com/FY1AbSo.png',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.mkv',
+                result: 'https://i.imgur.com/FY1AbSo.mkv',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo',
+                result: 'https://i.imgur.com/FY1AbSo',
+            },
+            {
+                url: 'https://i.imgur.com/FY1Agifv',
+                result: 'https://i.imgur.com/FY1Agifv',
+            },
+            {
+                url: 'https://i.imgur.com/FY1Agifva13',
+                result: 'https://i.imgur.com/FY1Agifva13',
+            },
+            {
+                url: 'https://i.gifv.com/FY1Agifva13',
+                result: 'https://i.gifv.com/FY1Agifva13',
+            },
+        ]) {
+            const JPGSrc = PostUtils.changeToJPGSrc(data.url, false);
+
+            assert.equal(JPGSrc, data.result);
+        }
+    });
+});
+
+describe('PostUtils.changeToMp4Src', function() {
+    test('should return correct for all gifv URLs', function() {
+        for (const data of [
+            {
+                url: '',
+                result: '',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.gifv',
+                result: 'https://i.imgur.com/FY1AbSo.mp4',
+            },
+            {
+                url: 'https://i.imgur.com/123123123.gifv',
+                result: 'https://i.imgur.com/123123123.mp4',
+            },
+            {
+                url: 'https://random.gifv',
+                result: 'https://random.mp4',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.gif',
+                result: 'https://i.imgur.com/FY1AbSo.gif',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.jpg',
+                result: 'https://i.imgur.com/FY1AbSo.jpg',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.jpg',
+                result: 'https://i.imgur.com/FY1AbSo.jpg',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.png',
+                result: 'https://i.imgur.com/FY1AbSo.png',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo.mkv',
+                result: 'https://i.imgur.com/FY1AbSo.mkv',
+            },
+            {
+                url: 'https://i.imgur.com/FY1AbSo',
+                result: 'https://i.imgur.com/FY1AbSo',
+            },
+            {
+                url: 'https://i.imgur.com/FY1Agifv',
+                result: 'https://i.imgur.com/FY1Agifv',
+            },
+            {
+                url: 'https://i.imgur.com/FY1Agifva13',
+                result: 'https://i.imgur.com/FY1Agifva13',
+            },
+            {
+                url: 'https://i.gifv.com/FY1Agifva13',
+                result: 'https://i.gifv.com/FY1Agifva13',
+            },
+        ]) {
+            const JPGSrc = PostUtils.changeToMp4Src(data.url, false);
+
+            assert.equal(JPGSrc, data.result);
         }
     });
 });

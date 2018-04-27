@@ -131,8 +131,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
     }
 
-    isLinkGifv(link) {
-        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+    isLinkMatch(link, regex) {
         const match = link.match(regex);
         if (match && match[1]) {
             return true;
@@ -140,14 +139,14 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
+    isLinkGifv(link) {
+        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+        return this.isLinkMatch(link, regex);
+    }
+
     isLinkImage(link) {
         const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
-        const match = link.match(regex);
-        if (match && match[1]) {
-            return true;
-        }
-
-        return false;
+        return this.isLinkMatch(link, regex);
     }
 
     isLinkToggleable() {
@@ -156,15 +155,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return false;
         }
 
-        if (YoutubeVideo.isYoutubeLink(link)) {
-            return true;
-        }
-
-        if (this.isLinkGifv(link)) {
-            return true;
-        }
-
-        if (this.isLinkImage(link)) {
+        if (
+            YoutubeVideo.isYoutubeLink(link) ||
+            this.isLinkGifv(link) ||
+            this.isLinkImage(link)
+        ) {
             return true;
         }
 

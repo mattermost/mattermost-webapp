@@ -120,14 +120,11 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
-        //After looking into the mark package, there appears to be no in-line level render function in marked.js
-        //to render a video. Since we just want to render gifv files like we do gifs, we can check if
-        //the URL src is a gifv, then render it in a <video> HTML5 element rather than an <img> element without
-        //having to touch the mark package. There is some DRY issues here, but I am not sure how to overcome that.
         const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
         const match = src.match(regex);
         let out = '';
 
+        //If the URL src is a gifv, then render it in a <video> HTML5 element, otherwise it will go into an <img> element
         if (match) {
             const jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
             const mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';

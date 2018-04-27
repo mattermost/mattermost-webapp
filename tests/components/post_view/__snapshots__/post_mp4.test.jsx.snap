@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/PostMp4 should match snapshot 1`] = `
+<div
+  className="post__embed-container"
+>
+  <video
+    autoPlay="autoPlay"
+    className="img-div cursor--pointer"
+    loop="true"
+    muted="true"
+    onClick={[Function]}
+    poster="https://i.imgur.com/FY1AbSo.jpg"
+    preload="auto"
+  >
+    <source
+      src="https://i.imgur.com/FY1AbSo.mp4"
+      type="video/mp4"
+    />
+  </video>
+</div>
+`;

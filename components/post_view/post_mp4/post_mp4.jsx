@@ -1,13 +1,14 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import loadingGif from 'images/load.gif';
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
+import {changeToJPGSrc, changeToMp4Src} from 'utils/post_utils.jsx';
 
-export default class PostImageEmbed extends React.PureComponent {
+export default class PostMp4 extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -39,9 +40,6 @@ export default class PostImageEmbed extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleLoadComplete = this.handleLoadComplete.bind(this);
-        this.handleLoadError = this.handleLoadError.bind(this);
-
         this.state = {
             loaded: false,
             errored: false,
@@ -50,7 +48,7 @@ export default class PostImageEmbed extends React.PureComponent {
 
     componentWillMount() {
         this.loadVideo(
-            PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy)
+            changeToMp4Src(this.props.link, this.props.hasImageProxy)
         );
     }
 
@@ -66,7 +64,7 @@ export default class PostImageEmbed extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && prevProps.link !== this.props.link) {
             this.loadVideo(
-                PostUtils.changeToMp4Src(
+                changeToMp4Src(
                     this.props.link,
                     this.props.hasImageProxy
                 )
@@ -82,7 +80,7 @@ export default class PostImageEmbed extends React.PureComponent {
         video.load();
     }
 
-    handleLoadComplete() {
+    handleLoadComplete = () => {
         this.setState({
             loaded: true,
             errored: false,
@@ -95,7 +93,7 @@ export default class PostImageEmbed extends React.PureComponent {
         }
     }
 
-    handleLoadError() {
+    handleLoadError = () => {
         this.setState({
             errored: true,
             loaded: true,
@@ -107,18 +105,30 @@ export default class PostImageEmbed extends React.PureComponent {
 
     onImageClick = (e) => {
         e.preventDefault();
-        this.props.handleImageClick();
+        if (this.props.handleImageClick) {
+            this.props.handleImageClick();
+        }
     };
 
     render() {
         if (this.state.errored || !this.state.loaded) {
             // scroll pop could be improved with a placeholder when !this.state.loaded
-            return null;
+            return (
+                <div
+                    className='post__embed-container'
+                >
+                    <img
+                        onClick={this.onImageClick}
+                        className='img-div cursor--pointer'
+                        src={loadingGif}
+                    />
+                </div>
+            );
         }
         return (
             <div className='post__embed-container'>
                 <video
-                    poster={PostUtils.changeToJPGSrc(
+                    poster={changeToJPGSrc(
                         this.props.link,
                         this.props.hasImageProxy
                     )}
@@ -130,7 +140,7 @@ export default class PostImageEmbed extends React.PureComponent {
                     className='img-div cursor--pointer'
                 >
                     <source
-                        src={PostUtils.changeToMp4Src(
+                        src={changeToMp4Src(
                             this.props.link,
                             this.props.hasImageProxy
                         )}

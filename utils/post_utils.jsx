@@ -54,18 +54,24 @@ export function getImageSrc(src, hasImageProxy) {
 }
 
 export function changeToMp4Src(src, hasImageProxy) {
+    if (src === '') {
+        return src;
+    }
     if (hasImageProxy) {
         return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
     }
-    const mp4Ext = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+    const mp4Ext = src.replace(/\.(gifv)($|\?)/, '.mp4$2');
     return mp4Ext;
 }
 
 export function changeToJPGSrc(src, hasImageProxy) {
+    if (src === '') {
+        return src;
+    }
     if (hasImageProxy) {
         return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
     }
-    const jpgExt = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
+    const jpgExt = src.replace(/\.(gifv)($|\?)/, '.jpg$2');
     return jpgExt;
 }
 
