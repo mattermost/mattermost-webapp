@@ -30,6 +30,7 @@ export function ConnectionSecurityDropdownSettingEmail(props) {
             onChange={props.onChange}
             disabled={props.disabled}
             helpText={CONNECTION_SECURITY_HELP_TEXT_EMAIL}
+            setByEnv={props.setByEnv}
         />
     );
 }
@@ -40,4 +41,5 @@ ConnectionSecurityDropdownSettingEmail.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool.isRequired,
+    setByEnv: PropTypes.bool.isRequired,
 };

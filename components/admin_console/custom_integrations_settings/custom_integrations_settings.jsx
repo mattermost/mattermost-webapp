@@ -138,6 +138,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enableIncomingWebhooks}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableIncomingWebhooks')}
                 />
                 <BooleanSetting
                     id='enableOutgoingWebhooks'
@@ -155,6 +156,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enableOutgoingWebhooks}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableOutgoingWebhooks')}
                 />
                 <BooleanSetting
                     id='enableCommands'
@@ -172,6 +174,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enableCommands}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableCommands')}
                 />
                 <BooleanSetting
                     id='enableOAuthServiceProvider'
@@ -189,6 +192,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enableOAuthServiceProvider}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableOAuthServiceProvider')}
                 />
                 <BooleanSetting
                     id='enableOnlyAdminIntegrations'
@@ -206,6 +210,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enableOnlyAdminIntegrations}
                     onChange={this.handleChange}
+                    setByEnv={false}
                 />
                 <BooleanSetting
                     id='enablePostUsernameOverride'
@@ -223,6 +228,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enablePostUsernameOverride}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnablePostUsernameOverride')}
                 />
                 <BooleanSetting
                     id='enablePostIconOverride'
@@ -240,6 +246,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enablePostIconOverride}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnablePostIconOverride')}
                 />
                 <BooleanSetting
                     id='enableUserAccessTokens'
@@ -257,6 +264,7 @@ export default class WebhookSettings extends AdminSettings {
                     }
                     value={this.state.enableUserAccessTokens}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableUserAccessTokens')}
                 />
             </SettingsGroup>
         );

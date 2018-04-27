@@ -171,6 +171,7 @@ export default class PasswordSettings extends AdminSettings {
                         }
                         value={this.state.passwordMinimumLength}
                         onChange={this.handlePasswordLengthChange}
+                        setByEnv={this.isSetByEnv('PasswordSettings.MinimumLength')}
                     />
                     <Setting
                         label={
@@ -276,6 +277,7 @@ export default class PasswordSettings extends AdminSettings {
                     }
                     value={this.state.maximumLoginAttempts}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.MaximumLoginAttempts')}
                 />
             </SettingsGroup>
         );

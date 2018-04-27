@@ -74,6 +74,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     value={this.state.restrictCustomEmojiCreation}
                     onChange={this.handleChange}
                     disabled={!this.state.enableCustomEmoji}
+                    setByEnv={this.isSetByEnv('ServiceSettings.RestrictCustomEmojiCreation')}
                 />
             );
         }
@@ -96,6 +97,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     }
                     value={this.state.enableEmojiPicker}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableEmojiPicker')}
                 />
                 <BooleanSetting
                     id='enableCustomEmoji'
@@ -113,6 +115,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     }
                     value={this.state.enableCustomEmoji}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableCustomEmoji')}
                 />
                 {restrictSetting}
             </SettingsGroup>
