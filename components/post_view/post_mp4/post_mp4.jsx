@@ -64,10 +64,7 @@ export default class PostMp4 extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && prevProps.link !== this.props.link) {
             this.loadVideo(
-                changeToMp4Src(
-                    this.props.link,
-                    this.props.hasImageProxy
-                )
+                changeToMp4Src(this.props.link, this.props.hasImageProxy)
             );
         }
     }
@@ -91,7 +88,7 @@ export default class PostMp4 extends React.PureComponent {
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
         }
-    }
+    };
 
     handleLoadError = () => {
         this.setState({
@@ -101,7 +98,7 @@ export default class PostMp4 extends React.PureComponent {
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
         }
-    }
+    };
 
     onImageClick = (e) => {
         e.preventDefault();
@@ -114,9 +111,7 @@ export default class PostMp4 extends React.PureComponent {
         if (this.state.errored || !this.state.loaded) {
             // scroll pop could be improved with a placeholder when !this.state.loaded
             return (
-                <div
-                    className='post__embed-container'
-                >
+                <div className='post__embed-container'>
                     <img
                         onClick={this.onImageClick}
                         className='img-div cursor--pointer'
