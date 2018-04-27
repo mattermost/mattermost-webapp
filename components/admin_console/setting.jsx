@@ -4,16 +4,25 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 
+import SetByEnv from './set_by_env';
+
 export default class Settings extends PureComponent {
     static propTypes = {
         inputId: PropTypes.string,
         label: PropTypes.node.isRequired,
         children: PropTypes.node.isRequired,
         helpText: PropTypes.node,
+        setByEnv: PropTypes.bool,
     };
 
     render() {
-        const {children, helpText, inputId, label} = this.props;
+        const {
+            children,
+            setByEnv,
+            helpText,
+            inputId,
+            label,
+        } = this.props;
 
         return (
             <div className='form-group'>
@@ -28,6 +37,7 @@ export default class Settings extends PureComponent {
                     <div className='help-text'>
                         {helpText}
                     </div>
+                    {setByEnv ? <SetByEnv/> : null}
                 </div>
             </div>
         );

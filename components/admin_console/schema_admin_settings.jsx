@@ -240,6 +240,10 @@ export default class SchemaAdminSettings extends AdminSettings {
         return setting.isDisabled(this.props.config, this.state, this.props.license);
     }
 
+    isSetByEnv = (setting) => {
+        return Boolean(this.getConfigValue(this.props.environmentConfig, setting.key));
+    }
+
     isHidden = (setting) => {
         if (!setting.isHidden || typeof setting.isHidden !== 'function') {
             return false;
@@ -284,6 +288,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting)}
                 onChange={this.handleChange}
             />
         );
@@ -298,6 +303,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting)}
                 onChange={this.handleChange}
             />
         );
@@ -316,6 +322,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting)}
                 onChange={this.handleChange}
             />
         );
@@ -349,6 +356,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                     helpText={this.renderHelpText(setting)}
                     selected={(this.state[setting.key] && this.state[setting.key].split(',')) || []}
                     disabled={this.isDisabled(setting)}
+                    setByEnv={this.isSetByEnv(setting)}
                     onChange={(changedId, value) => this.handleChange(changedId, value.join(','))}
                     noResultText={noResultText}
                     notPresent={notPresent}
@@ -364,6 +372,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting)}
                 onChange={this.handleChange}
             />
         );
@@ -382,6 +391,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0]}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting)}
                 onChange={this.handleChange}
             />
         );
@@ -414,6 +424,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting)}
                 onChange={this.handleGeneratedChange}
             />
         );

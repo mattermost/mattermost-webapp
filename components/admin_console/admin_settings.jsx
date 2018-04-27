@@ -18,6 +18,11 @@ export default class AdminSettings extends React.Component {
         config: PropTypes.object,
 
         /*
+         * Object containing config fields that have been set through environment variables
+         */
+        environmentConfig: PropTypes.object,
+
+        /*
          * Action for whether a save is needed
          */
         setNavigationBlocked: PropTypes.func,

@@ -56,7 +56,7 @@ const SCRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disa
                 {...extraProps}
                 {...props}
             />
-    )}
+        )}
     />
 );
 
@@ -67,6 +67,11 @@ export default class AdminConsole extends React.Component {
          * Object representing the config file
          */
         config: PropTypes.object.isRequired,
+
+        /*
+         * Object containing config fields that have been set through environment variables
+         */
+        environmentConfig: PropTypes.object,
 
         /*
          * Object representing the license
@@ -96,6 +101,11 @@ export default class AdminConsole extends React.Component {
             getConfig: PropTypes.func.isRequired,
 
             /*
+             * Function to get the environment config
+             */
+            getEnvironmentConfig: PropTypes.func.isRequired,
+
+            /*
              * Function to block navigation when there are unsaved changes
              */
             setNavigationBlocked: PropTypes.func.isRequired,
@@ -114,11 +124,17 @@ export default class AdminConsole extends React.Component {
 
     componentWillMount() {
         this.props.actions.getConfig();
+        this.props.actions.getEnvironmentConfig();
         reloadIfServerVersionChanged();
     }
 
     render() {
-        const {license, config, showNavigationPrompt} = this.props;
+        const {
+            license,
+            config,
+            environmentConfig,
+            showNavigationPrompt,
+        } = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation} = this.props.actions;
 
         if (!this.props.isCurrentUserSystemAdmin) {
@@ -148,7 +164,13 @@ export default class AdminConsole extends React.Component {
         );
 
         // not every page in the system console will need the license and config, but the vast majority will
-        const extraProps = {license, config, setNavigationBlocked};
+        const extraProps = {
+            license,
+            config,
+            environmentConfig,
+            setNavigationBlocked,
+        };
+
         return (
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
@@ -220,7 +242,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/configuration`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/authentication`}
@@ -267,7 +289,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/authentication_email`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/security`}
@@ -305,7 +327,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/sign_up`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/notifications`}
@@ -323,7 +345,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/notifications_email`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/integrations`}
@@ -346,7 +368,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/custom`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/plugins`}
@@ -369,7 +391,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/configuration`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/files`}
@@ -382,7 +404,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/storage`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/customization`}
@@ -415,7 +437,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/custom_brand`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/compliance`}
@@ -433,7 +455,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/data_retention`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/advanced`}
@@ -477,7 +499,7 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <Redirect to={`${props.match.url}/rate`}/>
                                 </Switch>
-                        )}
+                            )}
                         />
                         <SCRoute
                             path={`${this.props.match.url}/users`}
