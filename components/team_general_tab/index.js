@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {updateTeam, setTeamIcon} from 'mattermost-redux/actions/teams';
+import {updateTeam, removeTeamIcon, setTeamIcon} from 'mattermost-redux/actions/teams';
 
 import TeamGeneralTab from './team_general_tab.jsx';
 
@@ -23,6 +23,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             updateTeam,
+            removeTeamIcon,
             setTeamIcon,
         }, dispatch),
     };

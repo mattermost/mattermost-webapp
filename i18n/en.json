@@ -2520,7 +2520,7 @@
   "setting_item_min.edit": "Edit",
   "setting_picture.cancel": "Cancel",
   "setting_picture.help.profile": "Upload a picture in BMP, JPG or PNG format.",
-  "setting_picture.help.team": "Upload a team icon in BMP, JPG or PNG format.",
+  "setting_picture.help.team": "Upload a team icon in BMP, JPG or PNG format.<br>Images with a solid background color are recommended.",
   "setting_picture.save": "Save",
   "setting_picture.select": "Select",
   "setting_upload.import": "Import",
