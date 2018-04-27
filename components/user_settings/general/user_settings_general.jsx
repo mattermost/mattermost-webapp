@@ -158,7 +158,7 @@ class UserSettingsGeneralTab extends React.Component {
 
         user.nickname = nickname;
 
-        trackEvent('settings', 'user_settings_update', {field: 'username'});
+        trackEvent('settings', 'user_settings_update', {field: 'nickname'});
 
         this.submitUser(user, false);
     }
