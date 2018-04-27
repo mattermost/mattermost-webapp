@@ -10,8 +10,6 @@ import {General, Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import {mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -27,10 +25,15 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
+const TEAMS_PER_PAGE = 200;
+
 export default class SelectTeam extends React.Component {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
+        currentUserRoles: PropTypes.string,
         customDescriptionText: PropTypes.string,
+        isMemberOfTeam: PropTypes.bool.isRequired,
+        joinableTeams: PropTypes.array,
         roles: PropTypes.object.isRequired,
         siteName: PropTypes.string,
         actions: PropTypes.shape({
@@ -42,15 +45,14 @@ export default class SelectTeam extends React.Component {
     constructor(props) {
         super(props);
 
-        const state = this.getStateFromStores(false);
-        state.loadingTeamId = '';
-        state.error = null;
-        this.state = state;
+        this.state = {
+            loadingTeamId: '',
+            error: null,
+        };
     }
 
     componentDidMount() {
-        TeamStore.addChangeListener(this.onTeamChange);
-        this.props.actions.getTeams(0, 200);
+        this.props.actions.getTeams(0, TEAMS_PER_PAGE);
     }
 
     componentWillMount() {
@@ -69,10 +71,6 @@ export default class SelectTeam extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        TeamStore.removeChangeListener(this.onTeamChange);
-    }
-
     componentWillReceiveProps(nextProps) {
         if (
             !this.state.loaded &&
@@ -83,25 +81,12 @@ export default class SelectTeam extends React.Component {
         }
     }
 
-    onTeamChange = () => {
-        this.setState(this.getStateFromStores(true));
-    };
-
-    loadPoliciesIntoState(roles) {
+    loadPoliciesIntoState = (roles) => {
         // Purposely parsing boolean from string 'true' or 'false'
         // because the string comes from the policy roles adapter mapping.
         const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
 
         this.setState({enableTeamCreation, loaded: true});
-    }
-
-    getStateFromStores(loaded) {
-        return {
-            teams: TeamStore.getAll(),
-            teamMembers: TeamStore.getMyTeamMembers(),
-            teamListings: TeamStore.getTeamListings(),
-            loaded,
-        };
     }
 
     handleTeamClick = (team) => {
@@ -133,23 +118,21 @@ export default class SelectTeam extends React.Component {
         });
     };
 
-    teamContentsCompare(teamItemA, teamItemB) {
-        return teamItemA.props.team.display_name.localeCompare(teamItemB.props.team.display_name);
-    }
-
     render() {
         const {
+            currentUserRoles,
             customDescriptionText,
             isLicensed,
+            isMemberOfTeam,
+            joinableTeams,
             siteName,
         } = this.props;
         const {enableTeamCreation} = this.state;
 
-        const isSystemAdmin = Utils.isSystemAdmin(UserStore.getCurrentUser().roles);
+        const isSystemAdmin = Utils.isSystemAdmin(currentUserRoles);
 
         let openContent;
-
-        if (!this.state.loaded || this.state.loadingTeamId) {
+        if (this.state.loadingTeamId) {
             openContent = <LoadingScreen/>;
         } else if (this.state.error) {
             openContent = (
@@ -161,28 +144,16 @@ export default class SelectTeam extends React.Component {
             );
         } else {
             let openTeamContents = [];
-            const isAlreadyMember = new Map();
-
-            for (const teamMember of this.state.teamMembers) {
-                const teamId = teamMember.team_id;
-                isAlreadyMember[teamId] = true;
-            }
-
-            for (const id in this.state.teamListings) {
-                if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
-                    const openTeam = this.state.teamListings[id];
-                    if (openTeam && openTeam.delete_at === 0) {
-                        openTeamContents.push(
-                            <SelectTeamItem
-                                key={'team_' + openTeam.name}
-                                team={openTeam}
-                                onTeamClick={this.handleTeamClick}
-                                loading={this.state.loadingTeamId === openTeam.id}
-                            />
-                        );
-                    }
-                }
-            }
+            joinableTeams.forEach((joinableTeam) => {
+                openTeamContents.push(
+                    <SelectTeamItem
+                        key={'team_' + joinableTeam.name}
+                        team={joinableTeam}
+                        onTeamClick={this.handleTeamClick}
+                        loading={this.state.loadingTeamId === joinableTeam.id}
+                    />
+                );
+            });
 
             if (openTeamContents.length === 0 && (enableTeamCreation || isSystemAdmin)) {
                 openTeamContents = (
@@ -217,10 +188,6 @@ export default class SelectTeam extends React.Component {
                         </div>
                     </div>
                 );
-            }
-
-            if (Array.isArray(openTeamContents)) {
-                openTeamContents = openTeamContents.sort(this.teamContentsCompare);
             }
 
             openContent = (
@@ -289,7 +256,7 @@ export default class SelectTeam extends React.Component {
         let headerButton;
         if (this.state.error) {
             headerButton = <BackButton onClick={this.clearError}/>;
-        } else if (this.state.teamMembers.length) {
+        } else if (isMemberOfTeam) {
             headerButton = <BackButton/>;
         } else {
             headerButton = (

@@ -91,7 +91,7 @@ export default class EmailNotificationSetting extends React.Component {
                 >
                     <FormattedMessage
                         id='user.settings.notifications.email.disabled_long'
-                        defaultMessage='Email notifications have been disabled by your System Administrator.'
+                        defaultMessage='Email notifications have not been enabled by your System Administrator.'
                     />
                 </div>
             );
@@ -114,7 +114,7 @@ export default class EmailNotificationSetting extends React.Component {
                 description = (
                     <FormattedMessage
                         id='user.settings.notifications.email.disabled'
-                        defaultMessage='Disabled by System Administrator'
+                        defaultMessage='Email notifications are not enabled'
                     />
                 );
             } else if (this.props.enableEmail) {

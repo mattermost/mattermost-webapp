@@ -8,6 +8,7 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import AnnouncementBar from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import ClientVersionsSettings from 'components/admin_console/client_versions_settings.jsx';
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
@@ -150,6 +151,7 @@ export default class AdminConsole extends React.Component {
         return (
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
+                <SystemNotice/>
                 <AdminSidebar/>
                 <div className='admin-console'>
                     <Switch>

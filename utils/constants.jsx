@@ -84,6 +84,7 @@ export const Preferences = {
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
+    CATEGORY_SYSTEM_NOTICE: 'system_notice',
 };
 
 export const ActionTypes = keyMirror({
@@ -261,6 +262,8 @@ export const ActionTypes = keyMirror({
     CLOSE_WEBRTC: null,
 
     STORE_REHYDRATION_FAILED: null,
+
+    DISMISS_NOTICE: null,
 });
 
 export const WebrtcActionTypes = keyMirror({
