@@ -87,7 +87,6 @@ export default class Textbox extends React.Component {
     }
 
     handleChange = (e) => {
-        this.checkMessageLength(e.target.value);
         this.props.onChange(e);
     }
 
