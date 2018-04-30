@@ -130,10 +130,12 @@ export default class SettingPicture extends Component {
 
             img = (
                 <div className={`${imageContext}-img-preview`}>
-                    <div
-                        alt={`${imageContext} image preview`}
-                        style={imageStyles}
-                    />
+                    <div className='img-preview__image'>
+                        <div
+                            alt={`${imageContext} image preview`}
+                            style={imageStyles}
+                        />
+                    </div>
                 </div>
             );
         } else if (this.props.src) {
@@ -149,12 +151,14 @@ export default class SettingPicture extends Component {
             if (this.props.onRemove) {
                 img = (
                     <div className={`${imageContext}-img__container`}>
-                        <img
-                            ref='image'
-                            className={`${imageContext}-img`}
-                            alt={`${imageContext} image`}
-                            src={this.props.src}
-                        />
+                        <div className='img-preview__image'>
+                            <img
+                                ref='image'
+                                className={`${imageContext}-img`}
+                                alt={`${imageContext} image`}
+                                src={this.props.src}
+                            />
+                        </div>
                         <a
                             className={`${imageContext}-img__remove`}
                             onClick={this.props.onRemove}
