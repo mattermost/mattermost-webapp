@@ -116,13 +116,4 @@ describe('components/SettingItemMin', () => {
         expect(submit).toHaveBeenCalled();
         expect(submit).toHaveBeenCalledWith('setting');
     });
-
-    test('should match snapshot, with new saveTextButton', () => {
-        const props = {...baseProps, saveButtonText: 'CustomText'};
-        const wrapper = shallow(
-            <SettingItemMax {...props}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
 });
