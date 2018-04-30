@@ -115,6 +115,30 @@ export default class ResetStatusModal extends React.PureComponent {
         }
     };
 
+    renderModalMessage = () => {
+        if (this.props.currentUserStatus === UserStatuses.OUT_OF_OFFICE) {
+            return (
+                <FormattedMessage
+                    id={`modal.manual_status.auto_responder.message_${this.state.newStatus}`}
+                    defaultMessage='Would you like to switch your status to "{status}" and disable Automatic Replies?'
+                    values={{
+                        status: toTitleCase(this.state.newStatus),
+                    }}
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                id={`modal.manual_status.message_${this.state.newStatus}`}
+                defaultMessage='Would you like to switch your status to "{status}"?'
+                values={{
+                    status: toTitleCase(this.state.newStatus),
+                }}
+            />
+        );
+    };
+
     render() {
         const userStatus = this.state.currentUserStatus.status || '';
         const userStatusId = 'modal.manual_status.title_' + userStatus;
@@ -128,15 +152,7 @@ export default class ResetStatusModal extends React.PureComponent {
             />
         );
 
-        const manualStatusMessage = (
-            <FormattedMessage
-                id={`modal.manual_status.message_${this.state.newStatus}`}
-                defaultMessage='Would you like to switch your status to "{status}"'
-                values={{
-                    status: toTitleCase(this.state.newStatus),
-                }}
-            />
-        );
+        const manualStatusMessage = this.renderModalMessage();
 
         const manualStatusButton = (
             <FormattedMessage
