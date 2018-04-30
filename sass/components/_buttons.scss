@@ -22,7 +22,7 @@ button {
 }
 
 .btn {
-    @include single-transition(all, .3s, ease);
+    @include single-transition(all, .15s, ease);
     @include border-radius($border-rad);
 
     &.btn-primary {

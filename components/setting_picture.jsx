@@ -158,7 +158,7 @@ export default class SettingPicture extends Component {
                             className={`${imageContext}-img__remove`}
                             onClick={this.props.onRemove}
                         >
-                            <i className='fa fa-remove'/>
+                            <span>{'×'}</span>
                         </a>
                     </div>
                 );
