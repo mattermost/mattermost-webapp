@@ -453,6 +453,11 @@
             @include flex-grow(1);
         }
 
+        a.out_of_office {
+            background-color: transparent !important;
+            cursor: default;
+        }
+
         .sidebar-header-dropdown,
         .admin-navbar-dropdown {
             font-size: .85em;

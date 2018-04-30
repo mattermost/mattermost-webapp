@@ -107,7 +107,7 @@ export default class StatusDropdown extends React.Component {
     }
 
     renderStatusOutOfOfficeAction = () => {
-        return this.renderStatusAction(UserStatuses.OUT_OF_OFFICE, null, localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled'));
+        return this.renderOOFStatusAction(UserStatuses.OUT_OF_OFFICE, localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled'));
     }
 
     renderProfilePicture = () => {
@@ -119,6 +119,23 @@ export default class StatusDropdown extends React.Component {
                 className='user__picture'
                 src={this.props.profilePicture}
             />
+        );
+    }
+
+    renderOOFStatusAction = (status, extraText) => {
+        return (
+            <li key={status}>
+                <a
+                    className='out_of_office'
+                    id={'status' + status}
+                >
+                    <FormattedMessage
+                        id={`status_dropdown.set_${status}`}
+                        defaultMessage={status}
+                    />
+                    <span className='status-dropdown-extra'>{extraText}</span>
+                </a>
+            </li>
         );
     }
 
@@ -150,7 +167,17 @@ export default class StatusDropdown extends React.Component {
         ];
 
         if (this.isUserOutOfOffice()) {
-            actions = [this.renderStatusOutOfOfficeAction(), ...actions];
+            const divider = (
+                <li
+                    className='divider'
+                    key='oof_divider'
+                />
+            );
+            actions = [
+                this.renderStatusOutOfOfficeAction(),
+                divider,
+                ...actions,
+            ];
         }
 
         return (
