@@ -1053,18 +1053,18 @@ export function getDisplayName(user) {
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUserId(userId) {
-    return getDisplayNameByUser(UserStore.getProfile(userId));
+export function getDisplayNameByUserId(userId, usernameWithPrefix = false) {
+    return getDisplayNameByUser(UserStore.getProfile(userId), usernameWithPrefix);
 }
 
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUser(user) {
+export function getDisplayNameByUser(user, usernameWithPrefix = false) {
     const state = store.getState();
     const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
-        return displayUsername(user, teammateNameDisplay);
+        return displayUsername(user, teammateNameDisplay, usernameWithPrefix);
     }
 
     return '';

@@ -9,7 +9,6 @@ import {General, Posts} from 'mattermost-redux/constants';
 import ChannelStore from 'stores/channel_store.jsx';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import {combineUserActivitySystemPost} from 'utils/post_utils.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -344,7 +343,7 @@ export function renderSystemMessage(post, options) {
     } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post);
     } else if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
-        const {allUserIds, messageData} = combineUserActivitySystemPost(post.user_activity_posts);
+        const {allUserIds, messageData} = post.props.user_activity;
 
         return (
             <CombinedSystemMessage

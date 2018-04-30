@@ -14,6 +14,7 @@ describe('components/delete_post_modal', () => {
         id: '123',
         message: 'test',
         channel_id: '5',
+        type: '',
     };
 
     const baseProps = {
@@ -22,7 +23,6 @@ describe('components/delete_post_modal', () => {
         isRHS: false,
         actions: {
             deleteAndRemovePost: jest.fn(),
-            deleteCombinedPost: jest.fn(),
         },
         onHide: jest.fn(),
     };
@@ -70,7 +70,6 @@ describe('components/delete_post_modal', () => {
             ...baseProps,
             actions: {
                 deleteAndRemovePost,
-                deleteCombinedPost: jest.fn(),
             },
         };
         const wrapper = shallow(
@@ -94,7 +93,6 @@ describe('components/delete_post_modal', () => {
             teamName: 'team_name',
             actions: {
                 deleteAndRemovePost: jest.fn().mockReturnValueOnce({data: true}),
-                deleteCombinedPost: jest.fn(),
             },
         };
         const wrapper = shallow(

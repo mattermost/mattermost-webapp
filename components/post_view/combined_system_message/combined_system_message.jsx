@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -32,15 +32,19 @@ const postTypeMessage = {
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
         one: {
             id: 'combined_system_message.added_to_channel.one',
-            defaultMessage: '{firstUser} <b>added to channel</b> by {actor}.',
+            defaultMessage: '{firstUser} <b>added to the channel</b> by {actor}.',
+        },
+        one_you: {
+            id: 'combined_system_message.added_to_channel.one_you',
+            defaultMessage: 'You were <b>added to the channel</b> by {actor}.',
         },
         two: {
             id: 'combined_system_message.added_to_channel.two',
-            defaultMessage: '{firstUser} and {secondUser} <b>added to channel</b> by {actor}.',
+            defaultMessage: '{firstUser} and {secondUser} <b>added to the channel</b> by {actor}.',
         },
         many_expanded: {
             id: 'combined_system_message.added_to_channel.many_expanded',
-            defaultMessage: '{users} and {lastUser} <b>added to channel</b> by {actor}.',
+            defaultMessage: '{users} and {lastUser} <b>added to the channel</b> by {actor}.',
         },
     },
     [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: {
@@ -89,6 +93,10 @@ const postTypeMessage = {
         one: {
             id: 'combined_system_message.added_to_team.one',
             defaultMessage: '{firstUser} <b>added to the team</b> by {actor}.',
+        },
+        one_you: {
+            id: 'combined_system_message.added_to_team.one_you',
+            defaultMessage: 'You were <b>added to the team</b> by {actor}.',
         },
         two: {
             id: 'combined_system_message.added_to_team.two',
@@ -142,7 +150,22 @@ export default class CombinedSystemMessage extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        props.actions.getMissingProfilesByIds(props.allUserIds);
+        this.state = {
+            missingProfiles: [],
+        };
+    }
+
+    componentDidMount() {
+        this.loadMissingProfiles();
+    }
+
+    loadMissingProfiles = async () => {
+        const {
+            actions,
+            allUserIds,
+        } = this.props;
+        const missingProfiles = await actions.getMissingProfilesByIds(allUserIds);
+        this.setState({missingProfiles});
     }
 
     getDisplayNameByIds = (userIds = []) => {
@@ -153,7 +176,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
                 return userId !== currentUserId;
             }).
             map((userId) => {
-                return getDisplayNameByUserId(userId);
+                return getDisplayNameByUserId(userId, true);
             });
 
         const userInProp = userIds.includes(currentUserId);
@@ -186,6 +209,21 @@ export default class CombinedSystemMessage extends React.PureComponent {
                     }}
                 />
             );
+
+            if (
+                userIds[0] === this.props.currentUserId &&
+                (postType === Posts.POST_TYPES.ADD_TO_CHANNEL || postType === Posts.POST_TYPES.ADD_TO_TEAM)
+            ) {
+                formattedMessage = (
+                    <FormattedHTMLMessage
+                        id={postTypeMessage[postType].one_you.id}
+                        defaultMessage={postTypeMessage[postType].one_you.defaultMessage}
+                        values={{
+                            actor,
+                        }}
+                    />
+                );
+            }
         } else if (numOthers === 1) {
             formattedMessage = (
                 <FormattedHTMLMessage

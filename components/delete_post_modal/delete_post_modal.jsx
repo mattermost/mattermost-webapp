@@ -6,8 +6,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
-
 import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent.jsx';
 
@@ -36,7 +34,6 @@ export default class DeletePostModal extends React.PureComponent {
             * Function called for deleting post
             */
             deleteAndRemovePost: PropTypes.func.isRequired,
-            deleteCombinedPost: PropTypes.func.isRequired,
         }),
     }
 
@@ -58,12 +55,7 @@ export default class DeletePostModal extends React.PureComponent {
             teamName,
         } = this.props;
 
-        let result;
-        if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
-            result = await actions.deleteCombinedPost(post);
-        } else {
-            result = await actions.deleteAndRemovePost(post);
-        }
+        const result = await actions.deleteAndRemovePost(post);
 
         if (post.id === focusedPostId && channelName) {
             browserHistory.push('/' + teamName + '/channels/' + channelName);

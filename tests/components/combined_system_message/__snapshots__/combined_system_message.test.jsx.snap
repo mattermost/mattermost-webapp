@@ -7,7 +7,7 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot 1`] = 
   >
     <span>
       <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to channel</b> by {actor}."
+        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
         id="combined_system_message.added_to_channel.one"
         values={
           Object {

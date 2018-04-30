@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {deleteAndRemovePost, deleteCombinedPost} from 'actions/post_actions.jsx';
+import {deleteAndRemovePost} from 'actions/post_actions.jsx';
 
 import DeletePostModal from './delete_post_modal.jsx';
 
@@ -30,7 +30,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             deleteAndRemovePost,
-            deleteCombinedPost,
         }, dispatch),
     };
 }
