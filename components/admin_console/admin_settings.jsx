@@ -82,6 +82,7 @@ export default class AdminSettings extends React.Component {
                 this.setState({
                     saving: false,
                     serverError: err.message,
+                    serverErrorId: err.id,
                 });
 
                 if (callback) {
