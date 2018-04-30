@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostUtils.containsAtChannel messageHtmlToComponent latex 1`] = `
+Array [
+  <p>
+    This is some latex!
+  </p>,
+  "
+",
+  <LatexBlock
+    content="x^2 + y^2 = z^2
+"
+  />,
+  <LatexBlock
+    content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}
+"
+  />,
+  <p>
+    That was some latex!
+  </p>,
+  "
+",
+]
+`;
+
+exports[`PostUtils.containsAtChannel messageHtmlToComponent plain text 1`] = `
+Array [
+  <p>
+    Hello, world!
+  </p>,
+  "
+",
+]
+`;
