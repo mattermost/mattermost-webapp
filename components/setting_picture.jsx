@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import exif2css from 'exif2css';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
+import {Constants} from 'utils/constants.jsx';
 
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
@@ -141,7 +144,6 @@ export default class SettingPicture extends Component {
         } else if (this.props.src) {
             img = (
                 <img
-                    ref='image'
                     className={`${imageContext}-img`}
                     alt={`${imageContext} image`}
                     src={this.props.src}
@@ -153,18 +155,31 @@ export default class SettingPicture extends Component {
                     <div className={`${imageContext}-img__container`}>
                         <div className='img-preview__image'>
                             <img
-                                ref='image'
                                 className={`${imageContext}-img`}
                                 alt={`${imageContext} image`}
                                 src={this.props.src}
                             />
                         </div>
-                        <a
-                            className={`${imageContext}-img__remove`}
-                            onClick={this.props.onRemove}
+                        <OverlayTrigger
+                            trigger={['hover', 'focus']}
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='right'
+                            overlay={(
+                                <Tooltip id='removeIcon'>
+                                    <FormattedMessage
+                                        id='setting_picture.remove'
+                                        defaultMessage='Remove this icon'
+                                    />
+                                </Tooltip>
+                            )}
                         >
-                            <span>{'×'}</span>
-                        </a>
+                            <a
+                                className={`${imageContext}-img__remove`}
+                                onClick={this.props.onRemove}
+                            >
+                                <span>{'×'}</span>
+                            </a>
+                        </OverlayTrigger>
                     </div>
                 );
             }
@@ -210,7 +225,7 @@ export default class SettingPicture extends Component {
             helpText = (
                 <FormattedHTMLMessage
                     id={'setting_picture.help.team'}
-                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.<br>Images with a solid background color are recommended.'
+                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended.'
                 />
             );
         } else {
