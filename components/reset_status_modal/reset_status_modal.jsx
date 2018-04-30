@@ -9,7 +9,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import ModalStore from 'stores/modal_store.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import {toTitleCase} from 'utils/utils.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes, UserStatuses} from 'utils/constants.jsx';
 
 export default class ResetStatusModal extends React.PureComponent {
     static propTypes = {
@@ -57,7 +57,11 @@ export default class ResetStatusModal extends React.PureComponent {
         this.props.actions.autoResetStatus().then(
             (status) => {
                 const statusIsManual = status.manual;
-                const autoResetPrefNotSet = this.props.autoResetPref === '';
+                let autoResetPrefNotSet = this.props.autoResetPref === '';
+                const userIsOutOfOffice = status.status === UserStatuses.OUT_OF_OFFICE
+                if (userIsOutOfOffice) {
+                    autoResetPrefNotSet = true;
+                }
 
                 this.setState({
                     currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
