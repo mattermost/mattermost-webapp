@@ -96,11 +96,6 @@
             width: 128px;
         }
 
-        .team-img {
-            height: 128px;
-            width: 128px;
-        }
-
         .profile-img-preview {
             background-position: 50% 50%;
             background-size: cover;
@@ -109,26 +104,29 @@
             width: 128px;
         }
 
+        .team-img-preview,
         .team-img__container {
             @include border-radius(6px);
             background-color: $white;
-            background-position: 50% 50%;
-            background-size: cover;
             border: 1px solid alpha-color($black, .15);
-            height: 130px;
-            position: relative;
-            width: 130px;
-        }
-
-        .team-img-preview {
-            @include background-size(95px 95px);
-            @include border-radius(6px);
-            background-color: $white;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            border-radius: 0 0 3px 3px;
             height: 128px;
+            padding: 15px;
+            position: relative;
             width: 128px;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+
+            div {
+                @include background-size(cover);
+                background-color: $white;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 100%;
+                width: 100%;
+            }
         }
 
         .team-img__remove {

@@ -129,11 +129,12 @@ export default class SettingPicture extends Component {
             };
 
             img = (
-                <div
-                    className={`${imageContext}-img-preview`}
-                    alt={`${imageContext} image preview`}
-                    style={imageStyles}
-                />
+                <div className={`${imageContext}-img-preview`}>
+                    <div
+                        alt={`${imageContext} image preview`}
+                        style={imageStyles}
+                    />
+                </div>
             );
         } else if (this.props.src) {
             img = (
