@@ -1129,7 +1129,7 @@ class UserSettingsGeneralTab extends React.Component {
             pictureSection = (
                 <SettingPicture
                     title={formatMessage(holders.profilePicture)}
-                    submit={this.submitPicture}
+                    onSubmit={this.submitPicture}
                     src={Utils.imageURLForUser(user)}
                     serverError={serverError}
                     clientError={clientError}

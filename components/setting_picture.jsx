@@ -3,8 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import exif2css from 'exif2css';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
+import {Constants} from 'utils/constants.jsx';
 
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
@@ -22,7 +25,8 @@ export default class SettingPicture extends Component {
         file: PropTypes.object,
         loadingPicture: PropTypes.bool,
         submitActive: PropTypes.bool,
-        submit: PropTypes.func,
+        onRemove: PropTypes.func,
+        onSubmit: PropTypes.func,
         title: PropTypes.string,
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
@@ -128,21 +132,57 @@ export default class SettingPicture extends Component {
             };
 
             img = (
-                <div
-                    className={`${imageContext}-img-preview`}
-                    alt={`${imageContext} image preview`}
-                    style={imageStyles}
-                />
+                <div className={`${imageContext}-img-preview`}>
+                    <div className='img-preview__image'>
+                        <div
+                            alt={`${imageContext} image preview`}
+                            style={imageStyles}
+                        />
+                    </div>
+                </div>
             );
         } else if (this.props.src) {
             img = (
                 <img
-                    ref='image'
                     className={`${imageContext}-img`}
                     alt={`${imageContext} image`}
                     src={this.props.src}
                 />
             );
+
+            if (this.props.onRemove) {
+                img = (
+                    <div className={`${imageContext}-img__container`}>
+                        <div className='img-preview__image'>
+                            <img
+                                className={`${imageContext}-img`}
+                                alt={`${imageContext} image`}
+                                src={this.props.src}
+                            />
+                        </div>
+                        <OverlayTrigger
+                            trigger={['hover', 'focus']}
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='right'
+                            overlay={(
+                                <Tooltip id='removeIcon'>
+                                    <FormattedMessage
+                                        id='setting_picture.remove'
+                                        defaultMessage='Remove this icon'
+                                    />
+                                </Tooltip>
+                            )}
+                        >
+                            <a
+                                className={`${imageContext}-img__remove`}
+                                onClick={this.props.onRemove}
+                            >
+                                <span>{'×'}</span>
+                            </a>
+                        </OverlayTrigger>
+                    </div>
+                );
+            }
         }
 
         let confirmButton;
@@ -170,13 +210,30 @@ export default class SettingPicture extends Component {
             confirmButton = (
                 <a
                     className={confirmButtonClass}
-                    onClick={this.props.submit}
+                    onClick={this.props.onSubmit}
                 >
                     <FormattedMessage
                         id='setting_picture.save'
                         defaultMessage='Save'
                     />
                 </a>
+            );
+        }
+
+        let helpText;
+        if (imageContext === 'team') {
+            helpText = (
+                <FormattedHTMLMessage
+                    id={'setting_picture.help.team'}
+                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended.'
+                />
+            );
+        } else {
+            helpText = (
+                <FormattedMessage
+                    id={'setting_picture.help.profile'}
+                    defaultMessage='Upload a picture in BMP, JPG or PNG format.'
+                />
             );
         }
 
@@ -187,10 +244,7 @@ export default class SettingPicture extends Component {
                     <ul className='setting-list'>
                         {img ? <li className='setting-list-item'> {img} </li> : ''}
                         <li className='setting-list-item padding-top x2'>
-                            <FormattedMessage
-                                id={`setting_picture.help.${imageContext}`}
-                                defaultMessage='Upload a picture in BMP, JPG or PNG format.'
-                            />
+                            {helpText}
                         </li>
                         <li className='setting-list-item'>
                             <hr/>

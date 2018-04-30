@@ -35,6 +35,7 @@
                 }
 
                 .team-btn {
+                    @include clearfix;
                     @include border-radius(2px);
                     background-color: alpha-color($black, .3);
                     border: 1px solid alpha-color($white, .2);
@@ -49,8 +50,8 @@
                     width: 43px;
 
                     .team-btn__initials {
-                        text-align: left;
                         margin: 7px 5px 0;
+                        text-align: left;
                     }
 
                     .team-btn__content {
@@ -64,9 +65,10 @@
                     }
 
                     .team-btn__image {
-                        height: 100%;
-                        background-size: contain;
+                        background-color: $white;
                         background-repeat: round;
+                        background-size: contain;
+                        height: 100%;
                     }
 
                     .badge {

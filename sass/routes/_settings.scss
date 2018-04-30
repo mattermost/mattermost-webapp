@@ -91,12 +91,7 @@
         }
 
         .profile-img {
-            height: 128px;
-            width: 128px;
             border-radius: 100%;
-        }
-
-        .team-img {
             height: 128px;
             width: 128px;
         }
@@ -109,11 +104,53 @@
             width: 128px;
         }
 
-        .team-img-preview {
-            background-position: 50% 50%;
-            background-size: cover;
+        .team-img-preview,
+        .team-img__container {
             height: 128px;
+            position: relative;
             width: 128px;
+
+            img {
+                height: auto;
+                width: 100%;
+            }
+
+            .img-preview__image {
+                @include border-radius(6px);
+                background-color: $white;
+                border: 1px solid alpha-color($black, .15);
+                overflow: hidden;
+            }
+
+            div {
+                @include background-size(cover);
+                background-color: $white;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .team-img__remove {
+            @include border-radius(50%);
+            @include single-transition(all, .15s, ease);
+            background: $black;
+            color: $white;
+            height: 24px;
+            line-height: 23px;
+            position: absolute;
+            right: -8px;
+            text-align: center;
+            text-decoration: none;
+            top: -8px;
+            width: 24px;
+
+            span {
+                font-size: 22px;
+                left: .5px;
+                position: relative;
+            }
         }
 
         .settings-table {
