@@ -1,7 +1,7 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-/* eslint-disable max-nested-callbacks */
+/* eslint max-nested-callbacks: ["error", 3] */
 
 import localForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
