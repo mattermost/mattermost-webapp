@@ -3,11 +3,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
+import {saveConfig} from 'actions/admin_actions.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -20,8 +21,9 @@ import TextSetting from '../text_setting.jsx';
 const RESTRICT_DIRECT_MESSAGE_ANY = 'any';
 const RESTRICT_DIRECT_MESSAGE_TEAM = 'team';
 
-export default class UsersAndTeamsSettings extends AdminSettings {
+export class UsersAndTeamsSettings extends AdminSettings {
     static propTypes = {
+        intl: intlShape.isRequired,
         roles: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
@@ -36,6 +38,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             enableTeamCreation: null,
             loaded: false,
+            edited: {},
         };
     }
 
@@ -52,8 +55,23 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         }
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: this.props.intl.formatMessage({id: 'admin.field_names.' + id, defaultMessage: id})},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         // Purposely converting enableTeamCreation value from boolean to string 'true' or 'false'
         // so that it can be used as a key in the policy roles adapter mapping.
@@ -74,8 +92,102 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.enableUserCreation ||
+                this.state.edited.maxUsersPerTeam ||
+                this.state.edited.restrictCreationToDomains ||
+                this.state.edited.restrictDirectMessage ||
+                this.state.edited.teammateNameDisplay ||
+                this.state.edited.maxChannelsPerTeam ||
+                this.state.edited.maxNotificationsPerChannel ||
+                this.state.edited.enableConfirmNotificationsToChannel
+            );
+
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
+    };
+
+    doSubmit = (callback) => {
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
+
+        // clone config so that we aren't modifying data in the stores
+        let config = JSON.parse(JSON.stringify(this.props.config));
+        config = this.getConfigFromState(config);
+
+        saveConfig(
+            config,
+            (savedConfig) => {
+                this.setState(this.getStateFromConfig(savedConfig));
+
+                this.setState({
+                    saveNeeded: false,
+                    saving: false,
+                });
+
+                this.props.setNavigationBlocked(false);
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            },
+            (err) => {
+                let errMessage = err.message;
+                if (err.id === 'ent.cluster.save_config.error') {
+                    errMessage = (
+                        <FormattedMessage
+                            id='ent.cluster.save_config_with_roles.error'
+                            defaultMessage='The following configuration settings cannot be saved when High Availability is enabled and the System Console is in read-only mode: {keys}.'
+                            values={{
+                                keys: [
+                                    this.state.edited.enableUserCreation,
+                                    this.state.edited.maxUsersPerTeam,
+                                    this.state.edited.restrictCreationToDomains,
+                                    this.state.edited.restrictDirectMessage,
+                                    this.state.edited.teammateNameDisplay,
+                                    this.state.edited.maxChannelsPerTeam,
+                                    this.state.edited.maxNotificationsPerChannel,
+                                    this.state.edited.enableConfirmNotificationsToChannel,
+                                ].filter((v) => v).join(', '),
+                            }}
+                        />
+                    );
+                }
+
+                this.setState({
+                    saving: false,
+                    serverError: errMessage,
+                });
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            }
+        );
     };
 
     loadPoliciesIntoState(props) {
@@ -298,3 +410,5 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         );
     };
 }
+
+export default injectIntl(UsersAndTeamsSettings);
