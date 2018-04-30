@@ -108,15 +108,13 @@
         .team-img__container {
             @include border-radius(6px);
             background-color: $white;
-            border: 1px solid alpha-color($black, .15);
             height: 128px;
-            padding: 15px;
             position: relative;
             width: 128px;
 
             img {
-                width: 100%;
                 height: auto;
+                width: 100%;
             }
 
             div {
