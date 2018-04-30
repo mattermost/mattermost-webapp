@@ -24,7 +24,7 @@ export default class Renderer extends marked.Renderer {
         usedLanguage = usedLanguage.toLowerCase();
 
         if (usedLanguage === 'tex' || usedLanguage === 'latex') {
-            return `<div data-latex="${TextFormatting.escapeHtml(code)}" />`;
+            return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
 
         // treat html as xml to prevent injection attacks
