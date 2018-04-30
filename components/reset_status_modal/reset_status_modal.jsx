@@ -58,7 +58,7 @@ export default class ResetStatusModal extends React.PureComponent {
             (status) => {
                 const statusIsManual = status.manual;
                 let autoResetPrefNotSet = this.props.autoResetPref === '';
-                const userIsOutOfOffice = status.status === UserStatuses.OUT_OF_OFFICE
+                const userIsOutOfOffice = status.status === UserStatuses.OUT_OF_OFFICE;
                 if (userIsOutOfOffice) {
                     autoResetPrefNotSet = true;
                 }

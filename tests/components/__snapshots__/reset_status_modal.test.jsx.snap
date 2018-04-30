@@ -34,7 +34,7 @@ exports[`components/ResetStatusModal should match snapshot 1`] = `
   }
   message={
     <FormattedMessage
-      defaultMessage="Would you like to switch your status to \\"{status}\\""
+      defaultMessage="Would you like to switch your status to \\"{status}\\"?"
       id="modal.manual_status.message_online"
       values={
         Object {
