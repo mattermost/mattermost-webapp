@@ -4,10 +4,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
 <component
   config={
     Object {
-      "Config": Object {
+      "FirstSettings": Object {
         "settinga": "fsdsdg",
         "settingb": false,
         "settingc": "option3",
+      },
+      "SecondSettings": Object {
         "settingd": "option1",
         "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
         "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
@@ -52,8 +54,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settinga"
-        key="Config_text_settinga"
+        id="FirstSettings.settinga"
+        key="Config_text_FirstSettings.settinga"
         label="Setting One"
         maxLength={null}
         onChange={[Function]}
@@ -77,8 +79,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingb"
-        key="Config_bool_settingb"
+        id="FirstSettings.settingb"
+        key="Config_bool_FirstSettings.settingb"
         label="Setting Two"
         onChange={[Function]}
         trueText={
@@ -99,9 +101,9 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingc"
+        id="FirstSettings.settingc"
         isDisabled={false}
-        key="Config_dropdown_settingc"
+        key="Config_dropdown_FirstSettings.settingc"
         label="Setting Three"
         onChange={[Function]}
         value="option3"
@@ -131,9 +133,9 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingd"
+        id="SecondSettings.settingd"
         isDisabled={false}
-        key="Config_radio_settingd"
+        key="Config_radio_SecondSettings.settingd"
         label="Setting Four"
         onChange={[Function]}
         value="option1"
@@ -163,8 +165,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settinge"
-        key="Config_generated_settinge"
+        id="SecondSettings.settinge"
+        key="Config_generated_SecondSettings.settinge"
         label="Setting Five"
         onChange={[Function]}
         placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
@@ -187,8 +189,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingf"
-        key="Config_userautocomplete_settingf"
+        id="SecondSettings.settingf"
+        key="Config_userautocomplete_SecondSettings.settingf"
         label="Setting Six"
         onChange={[Function]}
         placeholder="Type a username here"
@@ -203,8 +205,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingg"
-        key="Config_text_settingg"
+        id="SecondSettings.settingg"
+        key="Config_text_SecondSettings.settingg"
         label="Setting Seven"
         maxLength={null}
         onChange={[Function]}
@@ -237,9 +239,9 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingi"
+        id="SecondSettings.settingi"
         isDisabled={false}
-        key="Config_language_settingi"
+        key="Config_language_SecondSettings.settingi"
         label="Setting Nine"
         onChange={[Function]}
         value="de"
@@ -327,8 +329,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingj"
-        key="Config_language_settingj"
+        id="SecondSettings.settingj"
+        key="Config_language_SecondSettings.settingj"
         label="Setting Nine"
         noResultText={
           <FormattedMessage
@@ -442,7 +444,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
         }
         includeDetailedError={true}
-        key="Config_text_settingk"
+        key="Config_text_SecondSettings.settingk"
         requestAction={[Function]}
         saveNeeded={false}
         showSuccessMessage={false}
