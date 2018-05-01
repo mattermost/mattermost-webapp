@@ -72,6 +72,7 @@ const actionsProp = {
     selectPostFromRightHandSideSearchByPostId: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction,
+    openModal: emptyFunction,
 };
 
 function createPost({
