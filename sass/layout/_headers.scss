@@ -9,12 +9,8 @@
     z-index: 9;
 
     .move--left & {
-        .channel-header__icon {
-            margin: 16px 4px 0;
-        }
-
         .flex-parent {
-            padding-right: 4px;
+            padding-right: 0;
         }
     }
 
@@ -68,7 +64,7 @@
 
     .flex-parent {
         display: flex;
-        padding: 0 8px 0 16px;
+        padding: 0 16px;
     }
 
     .flex-child {
@@ -91,7 +87,7 @@
         cursor: pointer;
         height: 30px;
         line-height: 30px;
-        margin: 16px 8px 0 0;
+        margin: 16px 0 0 8px;
         min-width: 30px;
         position: relative;
         text-align: center;
