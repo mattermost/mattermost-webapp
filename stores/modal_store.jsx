@@ -42,7 +42,6 @@ class ModalStoreClass extends EventEmitter {
         case ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL:
         case ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL:
         case ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL:
-        case ActionTypes.TOGGLE_RESET_STATUS_MODAL:
             this.emit(type, value, args);
             break;
         }

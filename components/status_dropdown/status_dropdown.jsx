@@ -6,11 +6,11 @@ import React from 'react';
 import {Dropdown} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserStatuses} from 'utils/constants.jsx';
+import {UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import BootstrapSpan from 'components/bootstrap_span.jsx';
+import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon.jsx';
-import {showResetStatusModal} from 'actions/global_actions.jsx';
 
 export default class StatusDropdown extends React.Component {
     static propTypes = {
@@ -19,6 +19,7 @@ export default class StatusDropdown extends React.Component {
         userId: PropTypes.string.isRequired,
         profilePicture: PropTypes.string,
         actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -75,7 +76,14 @@ export default class StatusDropdown extends React.Component {
 
     showStatusChangeConfirmation = (status) => {
         this.closeDropdown();
-        showResetStatusModal(status);
+
+        const resetStatusModalData = {
+            ModalId: ModalIdentifiers.RESET_STATUS,
+            dialogType: ResetStatusModal,
+            dialogProps: {newStatus: status},
+        };
+
+        this.props.actions.openModal(resetStatusModalData);
     };
 
     renderStatusOnlineAction = () => {

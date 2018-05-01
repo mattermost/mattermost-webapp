@@ -6,10 +6,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Preferences} from 'mattermost-redux/constants';
 
-import ModalStore from 'stores/modal_store.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import {toTitleCase} from 'utils/utils.jsx';
-import {ActionTypes, UserStatuses} from 'utils/constants.jsx';
+import {UserStatuses} from 'utils/constants.jsx';
 
 export default class ResetStatusModal extends React.PureComponent {
     static propTypes = {
@@ -23,6 +22,16 @@ export default class ResetStatusModal extends React.PureComponent {
          * Props value is used to update currentUserStatus
          */
         currentUserStatus: PropTypes.string,
+
+        /*
+         * Props value is used to reset status from status_dropdown
+         */
+        newStatus: PropTypes.string,
+
+        /**
+         * Function called when modal is dismissed
+         */
+        onHide: PropTypes.func,
         actions: PropTypes.shape({
 
             /*
@@ -48,12 +57,11 @@ export default class ResetStatusModal extends React.PureComponent {
         this.state = {
             show: false,
             currentUserStatus: {},
-            newStatus: 'online',
+            newStatus: props.newStatus || 'online',
         };
     }
 
     componentDidMount() {
-        ModalStore.addModalListener(ActionTypes.TOGGLE_RESET_STATUS_MODAL, this.toggleModal);
         this.props.actions.autoResetStatus().then(
             (status) => {
                 const statusIsManual = status.manual;
@@ -69,23 +77,6 @@ export default class ResetStatusModal extends React.PureComponent {
             }
         );
     }
-
-    componentWillUnmount() {
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_RESET_STATUS_MODAL, this.toggleModal);
-    }
-
-    toggleModal = (show, args) => {
-        const {currentUserStatus} = this.props;
-
-        this.setState({
-            show,
-            newStatus: args.newStatus || 'online',
-            currentUserStatus: {
-                ...this.state.currentUserStatus,
-                status: currentUserStatus,
-            },
-        });
-    };
 
     hideModal = () => {
         this.setState({show: false});
@@ -189,6 +180,7 @@ export default class ResetStatusModal extends React.PureComponent {
                 onConfirm={this.onConfirm}
                 cancelButtonText={manualStatusCancel}
                 onCancel={this.onCancel}
+                onExited={this.props.onHide}
                 showCheckbox={true}
                 checkboxText={manualStatusCheckbox}
             />

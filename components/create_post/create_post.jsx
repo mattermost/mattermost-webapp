@@ -11,7 +11,7 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -21,6 +21,7 @@ import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
@@ -186,6 +187,11 @@ export default class CreatePost extends React.Component {
              *  func called for opening the last replayable post in the RHS
              */
             selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired,
+
+            /**
+             * Function to open a modal
+             */
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -380,7 +386,14 @@ export default class CreatePost extends React.Component {
 
         const status = this.getStatusFromSlashCommand();
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
-            GlobalActions.showResetStatusModal(status);
+            const resetStatusModalData = {
+                ModalId: ModalIdentifiers.RESET_STATUS,
+                dialogType: ResetStatusModal,
+                dialogProps: {newStatus: status},
+            };
+
+            this.props.actions.openModal(resetStatusModalData);
+
             this.setState({message: ''});
             return;
         }

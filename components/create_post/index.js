@@ -30,6 +30,7 @@ import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {getPostDraft, getIsRhsOpen} from 'selectors/rhs';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants.jsx';
 import {canUploadFiles} from 'utils/file_utils';
 
@@ -99,6 +100,7 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
+            openModal,
         }, dispatch),
     };
 }

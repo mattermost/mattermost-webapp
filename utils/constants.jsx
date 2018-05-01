@@ -218,7 +218,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
-    TOGGLE_RESET_STATUS_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
@@ -290,6 +289,7 @@ export const ModalIdentifiers = {
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
     DELETE_POST: 'delete_post',
     CONVERT_CHANNEL: 'convert_channel',
+    RESET_STATUS: 'reset_status',
 };
 
 export const UserStatuses = {
