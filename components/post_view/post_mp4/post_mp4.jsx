@@ -93,7 +93,7 @@ export default class PostMp4 extends React.PureComponent {
     handleLoadError = () => {
         this.setState({
             errored: true,
-            loaded: true,
+            loaded: false,
         });
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();
@@ -109,12 +109,10 @@ export default class PostMp4 extends React.PureComponent {
 
     render() {
         if (this.state.errored || !this.state.loaded) {
-            // scroll pop could be improved with a placeholder when !this.state.loaded
             return (
                 <div className='post__embed-container'>
                     <img
-                        onClick={this.onImageClick}
-                        className='img-div cursor--pointer'
+                        className='loader-image'
                         src={loadingGif}
                     />
                 </div>

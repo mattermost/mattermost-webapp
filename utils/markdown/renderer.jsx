@@ -126,8 +126,10 @@ export default class Renderer extends marked.Renderer {
 
         //If the URL src is a gifv, then render it in a <video> HTML5 element, otherwise it will go into an <img> element
         if (match) {
-            const jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
-            const mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+            let jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
+            let mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+            mp4Src = PostUtils.getImageSrc(mp4Src, this.formattingOptions.proxyImages);
+            jpgSrc = PostUtils.getImageSrc(jpgSrc, this.formattingOptions.proxyImages);
             out = '<video style="max-width:100%" poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
 
             if (dimensions.length > 0) {
