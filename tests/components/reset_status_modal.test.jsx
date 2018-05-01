@@ -116,4 +116,13 @@ describe('components/ResetStatusModal', () => {
             [{category: 'auto_reset_manual_status', name: 'user_id_1', user_id: 'user_id_1', value: 'false'}]
         );
     });
+
+    test('should match snapshot, render modal for OOF status', () => {
+        const props = {...baseProps, currentUserStatus: 'ooo'};
+        const wrapper = shallow(
+            <ResetStatusModal {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
