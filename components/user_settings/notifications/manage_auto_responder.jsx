@@ -45,6 +45,7 @@ export default class ManageAutoResponder extends React.PureComponent {
 
         const activeToggle = (
             <div
+                id='autoResponderCheckbox'
                 key='autoResponderCheckbox'
                 className='checkbox'
             >
@@ -64,11 +65,14 @@ export default class ManageAutoResponder extends React.PureComponent {
         );
 
         const message = (
-            <div key='autoResponderMessage'>
+            <div
+                id='autoResponderMessage'
+                key='autoResponderMessage'
+            >
                 <div className='padding-top'>
                     <AutosizeTextarea
                         style={{resize: 'none'}}
-                        id='autoResponderMessage'
+                        id='autoResponderMessageInput'
                         className='form-control'
                         rows='5'
                         placeholder={localizeMessage('user.settings.notifications.autoResponderPlaceholder', 'Message')}
