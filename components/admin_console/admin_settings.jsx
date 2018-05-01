@@ -18,6 +18,11 @@ export default class AdminSettings extends React.Component {
         config: PropTypes.object,
 
         /*
+         * Object containing config fields that have been set through environment variables
+         */
+        environmentConfig: PropTypes.object,
+
+        /*
          * Action for whether a save is needed
          */
         setNavigationBlocked: PropTypes.func,
@@ -120,6 +125,40 @@ export default class AdminSettings extends React.Component {
         }
 
         return n;
+    };
+
+    getConfigValue(config, path) {
+        const pathParts = path.split('.');
+
+        return pathParts.reduce((obj, pathPart) => {
+            if (!obj) {
+                return null;
+            }
+
+            return obj[pathPart];
+        }, config);
+    }
+
+    setConfigValue(config, path, value) {
+        function setValue(obj, pathParts) {
+            const part = pathParts[0];
+
+            if (pathParts.length === 1) {
+                obj[part] = value;
+            } else {
+                if (obj[part] == null) {
+                    obj[part] = {};
+                }
+
+                setValue(obj[part], pathParts.slice(1));
+            }
+        }
+
+        setValue(config, path.split('.'));
+    }
+
+    isSetByEnv = (path) => {
+        return Boolean(this.getConfigValue(this.props.environmentConfig, path));
     };
 
     render() {

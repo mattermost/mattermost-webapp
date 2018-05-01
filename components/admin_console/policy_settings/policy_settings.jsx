@@ -289,6 +289,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can invite others to a team using <b>Send Email Invite</b> to invite new users by email, or the <b>Get Team Invite Link</b> and <b>Add Members to Team</b> options from the Main Menu. If <b>Get Team Invite Link</b> is used to share a link, you can expire the invite code from <b>Team Settings</b> > <b>Invite Code</b> after the desired users join the team.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPublicChannelCreation'
@@ -311,6 +312,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can create public channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPublicChannelManagement'
@@ -334,6 +336,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can rename and set the header or purpose for public channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPublicChannelDeletion'
@@ -371,6 +374,7 @@ export class PolicySettings extends AdminSettings {
                             }}
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelCreation'
@@ -393,6 +397,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can create private channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelManagement'
@@ -416,6 +421,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can rename and set the header or purpose for private channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelManageMembers'
@@ -439,6 +445,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can add and remove members from private groups.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelDeletion'
@@ -476,6 +483,7 @@ export class PolicySettings extends AdminSettings {
                             }}
                         />
                     }
+                    setByEnv={false}
                 />
                 <RadioSetting
                     id='restrictPostDelete'
@@ -498,6 +506,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who has permission to delete messages.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <PostEditSetting
                     id='allowEditPost'
@@ -517,6 +526,7 @@ export class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on the length of time authors have to edit their messages after posting.'
                         />
                     }
+                    setByEnv={this.isSetByEnv('ServiceSettings.PostEditTimeLimit')}
                 />
                 <BooleanSetting
                     id='enableBanner'
@@ -534,6 +544,7 @@ export class PolicySettings extends AdminSettings {
                     }
                     value={this.state.enableBanner}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.EnableBanner')}
                 />
                 <TextSetting
                     id='bannerText'
@@ -552,6 +563,7 @@ export class PolicySettings extends AdminSettings {
                     value={this.state.bannerText}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.BannerText')}
                 />
                 <ColorSetting
                     id='bannerColor'
@@ -564,6 +576,7 @@ export class PolicySettings extends AdminSettings {
                     value={this.state.bannerColor}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.BannerColor')}
                 />
                 <ColorSetting
                     id='bannerTextColor'
@@ -576,6 +589,7 @@ export class PolicySettings extends AdminSettings {
                     value={this.state.bannerTextColor}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.BannerTextColor')}
                 />
                 <BooleanSetting
                     id='allowBannerDismissal'
@@ -594,6 +608,7 @@ export class PolicySettings extends AdminSettings {
                     value={this.state.allowBannerDismissal}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.AllowBannerDismissal')}
                 />
             </SettingsGroup>
         );

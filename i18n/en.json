@@ -1018,6 +1018,7 @@
   "admin.service.webhooksTitle": "Enable Incoming Webhooks: ",
   "admin.service.writeTimeout": "Write Timeout:",
   "admin.service.writeTimeoutDescription": "If using HTTP (insecure), this is the maximum time allowed from the end of reading the request headers until the response is written. If using HTTPS, it is the total time from when the connection is accepted until the response is written.",
+  "admin.set_by_env": "This setting has been set through an environment variable. It cannot be changed through the System Console.",
   "admin.sidebar.advanced": "Advanced",
   "admin.sidebar.audits": "Compliance and Auditing",
   "admin.sidebar.authentication": "Authentication",

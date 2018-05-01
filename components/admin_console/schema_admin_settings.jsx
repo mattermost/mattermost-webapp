@@ -64,24 +64,6 @@ export default class SchemaAdminSettings extends AdminSettings {
         return config;
     }
 
-    setConfigValue(config, path, value) {
-        function setValue(obj, pathParts) {
-            const part = pathParts[0];
-
-            if (pathParts.length === 1) {
-                obj[part] = value;
-            } else {
-                if (obj[part] == null) {
-                    obj[part] = {};
-                }
-
-                setValue(obj[part], pathParts.slice(1));
-            }
-        }
-
-        setValue(config, path.split('.'));
-    }
-
     getStateFromConfig(config, schema = this.props.schema) {
         const state = {};
 
@@ -99,18 +81,6 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
 
         return state;
-    }
-
-    getConfigValue(config, path) {
-        const pathParts = path.split('.');
-
-        return pathParts.reduce((obj, pathPart) => {
-            if (!obj) {
-                return null;
-            }
-
-            return obj[pathPart];
-        }, config);
     }
 
     getSetting(key) {
@@ -284,6 +254,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -298,6 +269,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -316,6 +288,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -349,6 +322,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                     helpText={this.renderHelpText(setting)}
                     selected={(this.state[setting.key] && this.state[setting.key].split(',')) || []}
                     disabled={this.isDisabled(setting)}
+                    setByEnv={this.isSetByEnv(setting.key)}
                     onChange={(changedId, value) => this.handleChange(changedId, value.join(','))}
                     noResultText={noResultText}
                     notPresent={notPresent}
@@ -364,6 +338,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -382,6 +357,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0]}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -414,6 +390,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleGeneratedChange}
             />
         );

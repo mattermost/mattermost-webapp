@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/actions/admin';
+import {getConfig, getEnvironmentConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -17,6 +17,7 @@ import AdminConsole from './admin_console.jsx';
 function mapStateToProps(state) {
     return {
         config: Selectors.getConfig(state),
+        environmentConfig: Selectors.getEnvironmentConfig(state),
         license: getLicense(state),
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state),
@@ -28,6 +29,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getConfig,
+            getEnvironmentConfig,
             setNavigationBlocked,
             deferNavigation,
             cancelNavigation,

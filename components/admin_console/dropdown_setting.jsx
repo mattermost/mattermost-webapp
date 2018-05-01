@@ -14,6 +14,7 @@ export default class DropdownSetting extends React.Component {
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
         disabled: PropTypes.bool,
+        setByEnv: PropTypes.bool.isRequired,
         helpText: PropTypes.node,
     }
 
@@ -43,13 +44,14 @@ export default class DropdownSetting extends React.Component {
                 label={this.props.label}
                 inputId={this.props.id}
                 helpText={this.props.helpText}
+                setByEnv={this.props.setByEnv}
             >
                 <select
                     className='form-control'
                     id={this.props.id}
                     value={this.props.value}
                     onChange={this.handleChange}
-                    disabled={this.props.disabled}
+                    disabled={this.props.disabled || this.props.setByEnv}
                 >
                     {options}
                 </select>

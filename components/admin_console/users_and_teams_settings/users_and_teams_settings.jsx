@@ -256,6 +256,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.enableUserCreation}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.EnableUserCreation')}
                 />
                 <BooleanSetting
                     id='enableTeamCreation'
@@ -273,6 +274,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.enableTeamCreation}
                     onChange={this.handleChange}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='maxUsersPerTeam'
@@ -291,6 +293,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.maxUsersPerTeam}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.MaxUsersPerTeam')}
                 />
                 <TextSetting
                     id='maxChannelsPerTeam'
@@ -309,6 +312,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.maxChannelsPerTeam}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.MaxChannelsPerTeam')}
                 />
                 <TextSetting
                     id='maxNotificationsPerChannel'
@@ -327,6 +331,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.maxNotificationsPerChannel}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.MaxNotificationsPerChannel')}
                 />
                 <BooleanSetting
                     id='enableConfirmNotificationsToChannel'
@@ -344,6 +349,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.enableConfirmNotificationsToChannel}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.EnableConfirmNotificationsToChannel')}
                 />
                 <TextSetting
                     id='restrictCreationToDomains'
@@ -362,6 +368,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.restrictCreationToDomains}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.RestrictCreationToDomains')}
                 />
                 <DropdownSetting
                     id='restrictDirectMessage'
@@ -383,6 +390,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.restrictDirectMessage}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.RestrictDirectMessage')}
                 />
                 <DropdownSetting
                     id='teammateNameDisplay'
@@ -405,6 +413,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     }
                     value={this.state.teammateNameDisplay}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.TeammateNameDisplay')}
                 />
             </SettingsGroup>
         );

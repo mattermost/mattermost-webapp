@@ -23,9 +23,10 @@ export async function saveConfig(config, success, error) {
 }
 
 export async function reloadConfig(success, error) {
-    const {data, error: err} = await AdminActions.reloadConfig()(dispatch, getState);
+    const {data, error: err} = await dispatch(AdminActions.reloadConfig());
     if (data && success) {
-        AdminActions.getConfig()(dispatch, getState);
+        dispatch(AdminActions.getConfig());
+        dispatch(AdminActions.getEnvironmentConfig());
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});

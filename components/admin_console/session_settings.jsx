@@ -77,6 +77,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionIdleTimeoutInMinutes}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionIdleTimeoutInMinutes')}
                 />
             );
         }
@@ -100,6 +101,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionLengthWebInDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthWebInDays')}
                 />
                 <TextSetting
                     id='sessionLengthMobileInDays'
@@ -118,6 +120,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionLengthMobileInDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthMobileInDays')}
                 />
                 <TextSetting
                     id='sessionLengthSSOInDays'
@@ -136,6 +139,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionLengthSSOInDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthSSOInDays')}
                 />
                 <TextSetting
                     id='sessionCacheInMinutes'
@@ -154,6 +158,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionCacheInMinutes}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionCacheInMinutes')}
                 />
                 {idleTimeout}
             </SettingsGroup>
