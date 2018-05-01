@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -80,19 +80,19 @@ export default class ConfirmModal extends React.Component {
 
     componentDidMount() {
         if (this.props.show) {
-            document.addEventListener('keydown', this.handleKeypress);
+            document.addEventListener('keypress', this.handleKeypress);
         }
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeypress);
+        document.removeEventListener('keypress', this.handleKeypress);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.show && !nextProps.show) {
-            document.removeEventListener('keydown', this.handleKeypress);
+            document.removeEventListener('keypress', this.handleKeypress);
         } else if (!this.props.show && nextProps.show) {
-            document.addEventListener('keydown', this.handleKeypress);
+            document.addEventListener('keypress', this.handleKeypress);
         }
     }
 
@@ -169,7 +169,6 @@ export default class ConfirmModal extends React.Component {
                 <Modal.Footer>
                     {cancelButton}
                     <button
-                        autoFocus='true'
                         type='button'
                         className={this.props.confirmButtonClass}
                         onClick={this.handleConfirm}

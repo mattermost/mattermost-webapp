@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -103,6 +103,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.enableMobileUpload}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                    setByEnv={this.isSetByEnv('FileSettings.EnableMobileUpload')}
                 />
             );
 
@@ -125,6 +126,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.enableMobileDownload}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                    setByEnv={this.isSetByEnv('FileSettings.EnableMobileDownload')}
                 />
             );
 
@@ -147,6 +149,7 @@ export default class StorageSettings extends AdminSettings {
                         value={this.state.amazonS3SSE}
                         onChange={this.handleChange}
                         disabled={this.state.driverName !== DRIVER_S3}
+                        setByEnv={this.isSetByEnv('FileSettings.AmazonS3SSE')}
                     />
                 );
         }
@@ -175,6 +178,7 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.driverName}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('FileSettings.DriverName')}
                 />
                 <TextSetting
                     id='directory'
@@ -194,6 +198,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.directory}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_LOCAL}
+                    setByEnv={this.isSetByEnv('FileSettings.Directory')}
                 />
                 <TextSetting
                     id='amazonS3Bucket'
@@ -213,6 +218,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Bucket}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Bucket')}
                 />
                 <TextSetting
                     id='amazonS3Region'
@@ -232,6 +238,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Region}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Region')}
                 />
                 <TextSetting
                     id='amazonS3Endpoint'
@@ -251,6 +258,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Endpoint}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Endpoint')}
                 />
                 <TextSetting
                     id='amazonS3AccessKeyId'
@@ -270,6 +278,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3AccessKeyId}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3AccessKeyId')}
                 />
                 <TextSetting
                     id='amazonS3SecretAccessKey'
@@ -289,6 +298,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3SecretAccessKey}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3SecretAccessKey')}
                 />
                 <BooleanSetting
                     id='amazonS3SSL'
@@ -307,6 +317,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3SSL}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3SSL')}
                 />
                 {amazonSSEComp}
                 <BooleanSetting
@@ -326,6 +337,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Trace}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Trace')}
                 />
                 <S3ConnectionTest
                     config={this.props.config}
@@ -348,6 +360,7 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.enableFileAttachments}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('FileSettings.EnableFileAttachments')}
                 />
                 {mobileUploadDownloadSettings}
                 <TextSetting
@@ -368,6 +381,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.maxFileSize}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                    setByEnv={this.isSetByEnv('FileSettings.MaxFileSize')}
                 />
                 <DropdownSetting
                     id='imageProxyType'
@@ -389,6 +403,7 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.imageProxyType}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.ImageProxyType')}
                 />
                 <TextSetting
                     id='imageProxyURL'
@@ -407,6 +422,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.imageProxyURL}
                     onChange={this.handleChange}
                     disabled={!this.state.imageProxyType}
+                    setByEnv={this.isSetByEnv('ServiceSettings.ImageProxyURL')}
                 />
                 <TextSetting
                     id='imageProxyOptions'
@@ -425,6 +441,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.imageProxyOptions}
                     onChange={this.handleChange}
                     disabled={!this.state.imageProxyType}
+                    setByEnv={this.isSetByEnv('ServiceSettings.ImageProxyOptions')}
                 />
             </SettingsGroup>
         );

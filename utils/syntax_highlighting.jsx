@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import hlJS from 'highlight.js/lib/highlight.js';
 import hljsActionscript from 'highlight.js/lib/languages/actionscript.js';

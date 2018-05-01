@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -80,6 +80,7 @@ export default class RateSettings extends AdminSettings {
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.Enable')}
                 />
                 <TextSetting
                     id='perSec'
@@ -99,6 +100,7 @@ export default class RateSettings extends AdminSettings {
                     value={this.state.perSec}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.PerSec')}
                 />
                 <TextSetting
                     id='maxBurst'
@@ -118,6 +120,7 @@ export default class RateSettings extends AdminSettings {
                     value={this.state.maxBurst}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.MaxBurst')}
                 />
                 <TextSetting
                     id='memoryStoreSize'
@@ -137,6 +140,7 @@ export default class RateSettings extends AdminSettings {
                     value={this.state.memoryStoreSize}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.MemoryStoreSize')}
                 />
                 <BooleanSetting
                     id='varyByRemoteAddr'
@@ -155,6 +159,7 @@ export default class RateSettings extends AdminSettings {
                     value={this.state.varyByRemoteAddr}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.VaryByRemoteAddr')}
                 />
                 <BooleanSetting
                     id='varyByUser'
@@ -173,6 +178,7 @@ export default class RateSettings extends AdminSettings {
                     value={this.state.varyByUser}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.VaryByUser')}
                 />
                 <TextSetting
                     id='varyByHeader'
@@ -192,6 +198,7 @@ export default class RateSettings extends AdminSettings {
                     value={this.state.varyByHeader}
                     onChange={this.handleChange}
                     disabled={!this.state.enable || this.state.varyByRemoteAddr}
+                    setByEnv={this.isSetByEnv('RateLimitSettings.VaryByHeader')}
                 />
             </SettingsGroup>
         );

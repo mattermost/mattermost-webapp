@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -115,14 +115,5 @@ describe('components/SettingItemMin', () => {
         instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0]});
         expect(submit).toHaveBeenCalled();
         expect(submit).toHaveBeenCalledWith('setting');
-    });
-
-    test('should match snapshot, with new saveTextButton', () => {
-        const props = {...baseProps, saveButtonText: 'CustomText'};
-        const wrapper = shallow(
-            <SettingItemMax {...props}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
     });
 });

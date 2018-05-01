@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -141,6 +141,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.Enable}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.Enable')}
                 />
                 <TextSetting
                     id='ClusterName'
@@ -159,6 +160,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.ClusterName}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.ClusterName')}
                 />
                 <TextSetting
                     id='OverrideHostname'
@@ -177,6 +179,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.OverrideHostname}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.OverrideHostname')}
                 />
                 <BooleanSetting
                     id='UseIpAddress'
@@ -194,6 +197,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.UseIpAddress}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.UseIpAddress')}
                 />
                 <BooleanSetting
                     id='UseExperimentalGossip'
@@ -211,6 +215,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.UseExperimentalGossip}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.UseExperimentalGossip')}
                 />
                 <BooleanSetting
                     id='ReadOnlyConfig'
@@ -228,6 +233,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.ReadOnlyConfig}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.ReadOnlyConfig')}
                 />
                 <TextSetting
                     id='GossipPort'
@@ -246,6 +252,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.GossipPort}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.GossipPort')}
                 />
                 <TextSetting
                     id='StreamingPort'
@@ -264,6 +271,7 @@ export default class ClusterSettings extends AdminSettings {
                     }
                     value={this.state.StreamingPort}
                     onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.StreamingPort')}
                 />
             </SettingsGroup>
         );

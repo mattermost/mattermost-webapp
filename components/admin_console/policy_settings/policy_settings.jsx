@@ -1,12 +1,13 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {saveConfig} from 'actions/admin_actions.jsx';
 
 import AdminSettings from '../admin_settings.jsx';
 import BooleanSetting from '../boolean_setting.jsx';
@@ -21,8 +22,9 @@ import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapte
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class PolicySettings extends AdminSettings {
+export class PolicySettings extends AdminSettings {
     static propTypes = {
+        intl: intlShape.isRequired,
         roles: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
@@ -50,6 +52,7 @@ export default class PolicySettings extends AdminSettings {
             ...this.state, // Brings the state in from the parent class.
             ...this.roleBasedPolicies,
             loaded: false,
+            edited: {},
         };
     }
     loadPoliciesIntoState(props) {
@@ -91,8 +94,23 @@ export default class PolicySettings extends AdminSettings {
         }
     }
 
+    handleChange = (id, value) => {
+        this.setState({
+            saveNeeded: true,
+            [id]: value,
+            edited: {...this.state.edited, [id]: this.props.intl.formatMessage({id: 'admin.field_names.' + id, defaultMessage: id})},
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
 
         const stateForAdapter = {...this.state};
         if (this.state.allowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
@@ -120,8 +138,98 @@ export default class PolicySettings extends AdminSettings {
         }));
 
         if (success) {
-            this.doSubmit();
+            const configFieldEdited = (
+                this.state.edited.postEditTimeLimit ||
+                this.state.edited.enableBanner ||
+                this.state.edited.bannerText ||
+                this.state.edited.bannerColor ||
+                this.state.edited.bannerTextColor ||
+                this.state.edited.allowBannerDismissal
+            );
+
+            if (configFieldEdited) {
+                this.doSubmit(() => {
+                    if (!this.state.serverError) {
+                        this.setState({edited: {}});
+                    }
+                });
+            } else {
+                this.setState({
+                    saving: false,
+                    saveNeeded: false,
+                    serverError: null,
+                    edited: {},
+                });
+                this.props.setNavigationBlocked(false);
+            }
         }
+    };
+
+    doSubmit = (callback) => {
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
+
+        // clone config so that we aren't modifying data in the stores
+        let config = JSON.parse(JSON.stringify(this.props.config));
+        config = this.getConfigFromState(config);
+
+        saveConfig(
+            config,
+            (savedConfig) => {
+                this.setState(this.getStateFromConfig(savedConfig));
+
+                this.setState({
+                    saveNeeded: false,
+                    saving: false,
+                });
+
+                this.props.setNavigationBlocked(false);
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            },
+            (err) => {
+                let errMessage = err.message;
+                if (err.id === 'ent.cluster.save_config.error') {
+                    errMessage = (
+                        <FormattedMessage
+                            id='ent.cluster.save_config_with_roles.error'
+                            defaultMessage='The following configuration settings cannot be saved when High Availability is enabled and the System Console is in read-only mode: {keys}.'
+                            values={{
+                                keys: [
+                                    this.state.edited.postEditTimeLimit,
+                                    this.state.edited.enableBanner,
+                                    this.state.edited.bannerText,
+                                    this.state.edited.bannerColor,
+                                    this.state.edited.bannerTextColor,
+                                    this.state.edited.AllowBannerDismissal,
+                                ].filter((v) => v).join(', '),
+                            }}
+                        />
+                    );
+                }
+
+                this.setState({
+                    saving: false,
+                    serverError: errMessage,
+                });
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            }
+        );
     };
 
     getConfigFromState = (config) => {
@@ -181,6 +289,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can invite others to a team using <b>Send Email Invite</b> to invite new users by email, or the <b>Get Team Invite Link</b> and <b>Add Members to Team</b> options from the Main Menu. If <b>Get Team Invite Link</b> is used to share a link, you can expire the invite code from <b>Team Settings</b> > <b>Invite Code</b> after the desired users join the team.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPublicChannelCreation'
@@ -203,6 +312,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can create public channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPublicChannelManagement'
@@ -226,6 +336,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can rename and set the header or purpose for public channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPublicChannelDeletion'
@@ -263,6 +374,7 @@ export default class PolicySettings extends AdminSettings {
                             }}
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelCreation'
@@ -285,6 +397,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can create private channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelManagement'
@@ -308,6 +421,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can rename and set the header or purpose for private channels.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelManageMembers'
@@ -331,6 +445,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who can add and remove members from private groups.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <DropdownSetting
                     id='restrictPrivateChannelDeletion'
@@ -368,6 +483,7 @@ export default class PolicySettings extends AdminSettings {
                             }}
                         />
                     }
+                    setByEnv={false}
                 />
                 <RadioSetting
                     id='restrictPostDelete'
@@ -390,6 +506,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on who has permission to delete messages.'
                         />
                     }
+                    setByEnv={false}
                 />
                 <PostEditSetting
                     id='allowEditPost'
@@ -409,6 +526,7 @@ export default class PolicySettings extends AdminSettings {
                             defaultMessage='Set policy on the length of time authors have to edit their messages after posting.'
                         />
                     }
+                    setByEnv={this.isSetByEnv('ServiceSettings.PostEditTimeLimit')}
                 />
                 <BooleanSetting
                     id='enableBanner'
@@ -426,6 +544,7 @@ export default class PolicySettings extends AdminSettings {
                     }
                     value={this.state.enableBanner}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.EnableBanner')}
                 />
                 <TextSetting
                     id='bannerText'
@@ -444,6 +563,7 @@ export default class PolicySettings extends AdminSettings {
                     value={this.state.bannerText}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.BannerText')}
                 />
                 <ColorSetting
                     id='bannerColor'
@@ -456,6 +576,7 @@ export default class PolicySettings extends AdminSettings {
                     value={this.state.bannerColor}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.BannerColor')}
                 />
                 <ColorSetting
                     id='bannerTextColor'
@@ -468,6 +589,7 @@ export default class PolicySettings extends AdminSettings {
                     value={this.state.bannerTextColor}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.BannerTextColor')}
                 />
                 <BooleanSetting
                     id='allowBannerDismissal'
@@ -486,8 +608,11 @@ export default class PolicySettings extends AdminSettings {
                     value={this.state.allowBannerDismissal}
                     onChange={this.handleChange}
                     disabled={!this.state.enableBanner}
+                    setByEnv={this.isSetByEnv('AnnouncementSettings.AllowBannerDismissal')}
                 />
             </SettingsGroup>
         );
     };
 }
+
+export default injectIntl(PolicySettings);
