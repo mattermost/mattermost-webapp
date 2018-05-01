@@ -126,7 +126,14 @@ export default class PostHeader extends React.PureComponent {
                 );
             }
 
-            indicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            indicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
         } else if (fromAutoResponder) {
             userProfile = (
                 <UserProfile
@@ -138,7 +145,14 @@ export default class PostHeader extends React.PureComponent {
                 />
             );
 
-            indicator = <div className='bot-indicator'>{Constants.AUTO_RESPONDER_NAME}</div>;
+            indicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.auto_responder'
+                        defaultMessage='AUTOMATIC REPLY'
+                    />
+                </div>
+            );
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile

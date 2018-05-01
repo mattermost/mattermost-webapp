@@ -250,7 +250,14 @@ export default class RhsComment extends React.Component {
                 );
             }
 
-            botIndicator = <div className='col col__name bot-indicator'>{Constants.BOT_NAME}</div>;
+            botIndicator = (
+                <div className='col col__name bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
         } else if (fromAutoResponder) {
             userProfile = (
                 <span className='auto-responder'>
@@ -263,7 +270,14 @@ export default class RhsComment extends React.Component {
                     />
                 </span>
             );
-            botIndicator = <div className='col col__name bot-indicator'>{Constants.AUTO_RESPONDER_NAME}</div>;
+            botIndicator = (
+                <div className='col col__name bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.auto_responder'
+                        defaultMessage='AUTOMATIC REPLY'
+                    />
+                </div>
+            );
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
