@@ -22,7 +22,7 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -673,7 +673,11 @@ export function autoResetStatus() {
             return userStatus;
         }
 
-        const autoReset = getBool(getState(), PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, false);
+        let autoReset = getBool(getState(), PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, false);
+        const userIsOutOfOffice = Selectors.getStatusForUserId(getState(), currentUserId) === UserStatuses.OUT_OF_OFFICE;
+        if (userIsOutOfOffice) {
+            autoReset = false;
+        }
 
         if (autoReset) {
             UserActions.setStatus({user_id: currentUserId, status: 'online'})(doDispatch, doGetState);

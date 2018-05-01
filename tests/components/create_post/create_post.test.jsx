@@ -72,6 +72,7 @@ const actionsProp = {
     selectPostFromRightHandSideSearchByPostId: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction,
+    openModal: emptyFunction,
 };
 
 function createPost({
@@ -114,6 +115,7 @@ function createPost({
             enableConfirmNotificationsToChannel={true}
             enableEmojiPicker={true}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
+            userIsOutOfOffice={false}
         />
     );
 }

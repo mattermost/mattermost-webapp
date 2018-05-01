@@ -33,7 +33,7 @@ export function sendDesktopNotification(post, msgProps) {
     const userStatus = UserStore.getStatus(user.id);
     const member = ChannelStore.getMyMember(post.channel_id);
 
-    if (isChannelMuted(member) || userStatus === UserStatuses.DND) {
+    if (isChannelMuted(member) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
         return;
     }
 

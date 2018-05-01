@@ -1,0 +1,477 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/notifications/ManageAutoResponder should match snapshot, default disabled 1`] = `
+<ManageAutoResponder
+  autoResponderActive={false}
+  autoResponderMessage="Hello World!"
+  error=""
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  saving={false}
+  setParentState={[MockFunction]}
+  submit={[MockFunction]}
+  updateSection={[MockFunction]}
+>
+  <SettingItemMax
+    containerStyle=""
+    infoPosition="bottom"
+    inputs={
+      Array [
+        <div
+          className="checkbox"
+          id="autoResponderCheckbox"
+        >
+          <label>
+            <input
+              checked={false}
+              id="autoResponderActive"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <FormattedMessage
+              defaultMessage="Enabled"
+              id="user.settings.notifications.autoResponderEnabled"
+              values={Object {}}
+            />
+          </label>
+        </div>,
+        <div>
+          <br />
+          <FormattedHTMLMessage
+            defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
+            id="user.settings.notifications.autoResponderHint"
+            values={Object {}}
+          />
+        </div>,
+      ]
+    }
+    saving={false}
+    section=""
+    shiftEnter={true}
+    submit={[MockFunction]}
+    title={
+      <FormattedMessage
+        defaultMessage="Automatic Direct Message Replies"
+        id="user.settings.notifications.autoResponder"
+        values={Object {}}
+      />
+    }
+    updateSection={[MockFunction]}
+    width="medium"
+  >
+    <ul
+      className="section-max form-horizontal "
+    >
+      <li
+        className="col-sm-12 section-title"
+      >
+        <FormattedMessage
+          defaultMessage="Automatic Direct Message Replies"
+          id="user.settings.notifications.autoResponder"
+          values={Object {}}
+        >
+          <span>
+            Automatic Direct Message Replies
+          </span>
+        </FormattedMessage>
+      </li>
+      <li
+        className="col-sm-10 col-sm-offset-2"
+      >
+        <ul
+          className="setting-list"
+        >
+          <li
+            className="setting-list-item"
+          >
+            <div
+              className="checkbox"
+              id="autoResponderCheckbox"
+              key="autoResponderCheckbox"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="autoResponderActive"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <FormattedMessage
+                  defaultMessage="Enabled"
+                  id="user.settings.notifications.autoResponderEnabled"
+                  values={Object {}}
+                >
+                  <span>
+                    Enabled
+                  </span>
+                </FormattedMessage>
+              </label>
+            </div>
+            <div
+              key="autoResponderHint"
+            >
+              <br />
+              <FormattedHTMLMessage
+                defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
+                id="user.settings.notifications.autoResponderHint"
+                values={Object {}}
+              >
+                <span
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.",
+                    }
+                  }
+                />
+              </FormattedHTMLMessage>
+            </div>
+          </li>
+          <li
+            className="setting-list-item"
+          >
+            <hr />
+            <SaveButton
+              btnClass="btn-primary"
+              defaultMessage="Save"
+              disabled={false}
+              extraClasses=""
+              onClick={[Function]}
+              saving={false}
+              savingMessage="Saving"
+            >
+              <button
+                className="save-button btn btn-primary"
+                disabled={false}
+                id="saveSetting"
+                onClick={[Function]}
+                type="submit"
+              >
+                Save
+              </button>
+            </SaveButton>
+            <button
+              className="btn btn-sm cursor--pointer style--none"
+              id="cancelSetting"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Cancel"
+                id="setting_item_max.cancel"
+                values={Object {}}
+              >
+                <span>
+                  Cancel
+                </span>
+              </FormattedMessage>
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </SettingItemMax>
+</ManageAutoResponder>
+`;
+
+exports[`components/user_settings/notifications/ManageAutoResponder should match snapshot, enabled 1`] = `
+<ManageAutoResponder
+  autoResponderActive={true}
+  autoResponderMessage="Hello World!"
+  error=""
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  saving={false}
+  setParentState={[MockFunction]}
+  submit={[MockFunction]}
+  updateSection={[MockFunction]}
+>
+  <SettingItemMax
+    containerStyle=""
+    infoPosition="bottom"
+    inputs={
+      Array [
+        <div
+          className="checkbox"
+          id="autoResponderCheckbox"
+        >
+          <label>
+            <input
+              checked={true}
+              id="autoResponderActive"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <FormattedMessage
+              defaultMessage="Enabled"
+              id="user.settings.notifications.autoResponderEnabled"
+              values={Object {}}
+            />
+          </label>
+        </div>,
+        <div
+          id="autoResponderMessage"
+        >
+          <div
+            className="padding-top"
+          >
+            <AutosizeTextarea
+              className="form-control"
+              id="autoResponderMessageInput"
+              maxLength={200}
+              onChange={[Function]}
+              placeholder="Message"
+              rows="5"
+              style={
+                Object {
+                  "resize": "none",
+                }
+              }
+              value="Hello World!"
+            />
+          </div>
+        </div>,
+        <div>
+          <br />
+          <FormattedHTMLMessage
+            defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
+            id="user.settings.notifications.autoResponderHint"
+            values={Object {}}
+          />
+        </div>,
+      ]
+    }
+    saving={false}
+    section=""
+    shiftEnter={true}
+    submit={[MockFunction]}
+    title={
+      <FormattedMessage
+        defaultMessage="Automatic Direct Message Replies"
+        id="user.settings.notifications.autoResponder"
+        values={Object {}}
+      />
+    }
+    updateSection={[MockFunction]}
+    width="medium"
+  >
+    <ul
+      className="section-max form-horizontal "
+    >
+      <li
+        className="col-sm-12 section-title"
+      >
+        <FormattedMessage
+          defaultMessage="Automatic Direct Message Replies"
+          id="user.settings.notifications.autoResponder"
+          values={Object {}}
+        >
+          <span>
+            Automatic Direct Message Replies
+          </span>
+        </FormattedMessage>
+      </li>
+      <li
+        className="col-sm-10 col-sm-offset-2"
+      >
+        <ul
+          className="setting-list"
+        >
+          <li
+            className="setting-list-item"
+          >
+            <div
+              className="checkbox"
+              id="autoResponderCheckbox"
+              key="autoResponderCheckbox"
+            >
+              <label>
+                <input
+                  checked={true}
+                  id="autoResponderActive"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <FormattedMessage
+                  defaultMessage="Enabled"
+                  id="user.settings.notifications.autoResponderEnabled"
+                  values={Object {}}
+                >
+                  <span>
+                    Enabled
+                  </span>
+                </FormattedMessage>
+              </label>
+            </div>
+            <div
+              id="autoResponderMessage"
+              key="autoResponderMessage"
+            >
+              <div
+                className="padding-top"
+              >
+                <AutosizeTextarea
+                  className="form-control"
+                  id="autoResponderMessageInput"
+                  maxLength={200}
+                  onChange={[Function]}
+                  placeholder="Message"
+                  rows="5"
+                  style={
+                    Object {
+                      "resize": "none",
+                    }
+                  }
+                  value="Hello World!"
+                >
+                  <div>
+                    <textarea
+                      className="form-control"
+                      id="autoResponderMessageInput"
+                      maxLength={200}
+                      onChange={[Function]}
+                      placeholder="Message"
+                      rows="5"
+                      style={
+                        Object {
+                          "resize": "none",
+                        }
+                      }
+                      value="Hello World!"
+                    />
+                    <div
+                      style={
+                        Object {
+                          "height": 0,
+                          "overflow": "hidden",
+                        }
+                      }
+                    >
+                      <textarea
+                        className="form-control"
+                        disabled={true}
+                        id="autoResponderMessageInput-reference"
+                        maxLength={200}
+                        onChange={[Function]}
+                        placeholder="Message"
+                        rows="5"
+                        style={
+                          Object {
+                            "resize": "none",
+                          }
+                        }
+                        value="Hello World!"
+                      />
+                    </div>
+                  </div>
+                </AutosizeTextarea>
+              </div>
+            </div>
+            <div
+              key="autoResponderHint"
+            >
+              <br />
+              <FormattedHTMLMessage
+                defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
+                id="user.settings.notifications.autoResponderHint"
+                values={Object {}}
+              >
+                <span
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.",
+                    }
+                  }
+                />
+              </FormattedHTMLMessage>
+            </div>
+          </li>
+          <li
+            className="setting-list-item"
+          >
+            <hr />
+            <SaveButton
+              btnClass="btn-primary"
+              defaultMessage="Save"
+              disabled={false}
+              extraClasses=""
+              onClick={[Function]}
+              saving={false}
+              savingMessage="Saving"
+            >
+              <button
+                className="save-button btn btn-primary"
+                disabled={false}
+                id="saveSetting"
+                onClick={[Function]}
+                type="submit"
+              >
+                Save
+              </button>
+            </SaveButton>
+            <button
+              className="btn btn-sm cursor--pointer style--none"
+              id="cancelSetting"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Cancel"
+                id="setting_item_max.cancel"
+                values={Object {}}
+              >
+                <span>
+                  Cancel
+                </span>
+              </FormattedMessage>
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </SettingItemMax>
+</ManageAutoResponder>
+`;

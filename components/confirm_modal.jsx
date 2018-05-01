@@ -64,6 +64,11 @@ export default class ConfirmModal extends React.Component {
          */
         onCancel: PropTypes.func.isRequired,
 
+        /**
+         * Function called when modal is dismissed
+         */
+        onExited: PropTypes.func,
+
         /*
          * Set to hide the cancel button
          */
@@ -158,6 +163,7 @@ export default class ConfirmModal extends React.Component {
                 className={'modal-confirm ' + this.props.modalClass}
                 show={this.props.show}
                 onHide={this.props.onCancel}
+                onExited={this.props.onExited}
             >
                 <Modal.Header closeButton={false}>
                     <Modal.Title>{this.props.title}</Modal.Title>

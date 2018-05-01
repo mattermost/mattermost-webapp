@@ -213,6 +213,7 @@ export default class RhsComment extends React.Component {
 
         const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         let status = this.props.status;
         if (post.props && post.props.from_webhook === 'true') {
@@ -249,7 +250,34 @@ export default class RhsComment extends React.Component {
                 );
             }
 
-            botIndicator = <div className='col col__name bot-indicator'>{'BOT'}</div>;
+            botIndicator = (
+                <div className='col col__name bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        } else if (fromAutoResponder) {
+            userProfile = (
+                <span className='auto-responder'>
+                    <UserProfile
+                        user={this.props.user}
+                        status={status}
+                        isBusy={this.props.isBusy}
+                        isRHS={true}
+                        hasMention={true}
+                    />
+                </span>
+            );
+            botIndicator = (
+                <div className='col col__name bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.auto_responder'
+                        defaultMessage='AUTOMATIC REPLY'
+                    />
+                </div>
+            );
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
@@ -301,6 +329,14 @@ export default class RhsComment extends React.Component {
         );
 
         if (post.props && post.props.from_webhook) {
+            profilePic = (
+                <ProfilePicture
+                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
+                    width='36'
+                    height='36'
+                />
+            );
+        } else if (fromAutoResponder) {
             profilePic = (
                 <ProfilePicture
                     src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
