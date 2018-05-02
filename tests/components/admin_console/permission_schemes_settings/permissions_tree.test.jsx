@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree.jsx';
-import PermissionRow from 'components/admin_console/permission_schemes_settings/permission_row.jsx';
 import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_tree', () => {
@@ -66,18 +65,6 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             />
         );
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should ask to toggle on row toggle', () => {
-        const onToggle = jest.fn();
-        const wrapper = shallow(
-            <PermissionsTree
-                {...defaultProps}
-                onToggle={onToggle}
-            />
-        );
-        wrapper.find(PermissionRow).first().prop('onChange')('test_permission');
-        expect(onToggle).toBeCalledWith('test', ['test_permission']);
     });
 
     test('should ask to toggle on row toggle', () => {

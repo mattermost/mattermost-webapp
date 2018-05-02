@@ -21,27 +21,81 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionRow)
-      code="read_channel"
-      inherited={null}
-      key="read_channel"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
     <PermissionGroup
-      code="public_channel"
-      key="public_channel"
+      code="all"
+      combined={false}
+      key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
-          "create_public_channel",
-          "manage_public_channel_properties",
-          "manage_public_channel_members",
-          "delete_public_channel",
-          "join_public_channels",
-          "read_public_channel",
+          Object {
+            "code": "teams",
+            "permissions": Array [
+              Object {
+                "code": "send_invites",
+                "combined": true,
+                "permissions": Array [
+                  "invite_user",
+                  "get_public_link",
+                  "add_user_to_team",
+                ],
+              },
+              "create_team",
+            ],
+          },
+          Object {
+            "code": "public_channel",
+            "permissions": Array [
+              "create_public_channel",
+              "manage_public_channel_properties",
+              "manage_public_channel_members",
+              "delete_public_channel",
+              "join_public_channels",
+              "read_public_channel",
+            ],
+          },
+          Object {
+            "code": "private_channel",
+            "permissions": Array [
+              "create_private_channel",
+              "manage_private_channel_properties",
+              "manage_private_channel_members",
+              "delete_private_channel",
+            ],
+          },
+          Object {
+            "code": "posts",
+            "permissions": Array [
+              "create_post",
+              "edit_post",
+              Object {
+                "code": "delete_posts",
+                "permissions": Array [
+                  "delete_post",
+                  "delete_others_posts",
+                ],
+              },
+              Object {
+                "code": "reactions",
+                "permissions": Array [
+                  "add_reaction",
+                  "remove_reaction",
+                ],
+              },
+            ],
+          },
+          Object {
+            "code": "integrations",
+            "permissions": Array [
+              "manage_webhooks",
+              "manage_others_webhooks",
+              "manage_oauth",
+              "manage_system_wide_oauth",
+              "manage_slash_commands",
+              "manage_others_slash_commands",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -51,151 +105,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           "permissions": Array [],
         }
       }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="private_channel"
-      key="private_channel"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_private_channel",
-          "manage_private_channel_properties",
-          "manage_private_channel_members",
-          "delete_private_channel",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="posts"
-      key="posts"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_post",
-          "create_post_public",
-          "edit_post",
-          "edit_others_posts",
-          "delete_post",
-          "delete_others_posts",
-          "add_reaction",
-          "remove_reaction",
-          "remove_others_reactions",
-          "upload_file",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="teams"
-      key="teams"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_team",
-          "manage_team",
-          "import_team",
-          "view_team",
-          "add_user_to_team",
-          "manage_team_roles",
-          "list_team_channels",
-          "remove_user_from_team",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="roles"
-      key="roles"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_roles",
-          "manage_channel_roles",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="integrations"
-      key="integrations"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_webhooks",
-          "manage_others_webhooks",
-          "manage_oauth",
-          "manage_system_wide_oauth",
-          "use_slash_commands",
-          "manage_slash_commands",
-          "manage_others_slash_commands",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="system"
-      key="system"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_system",
-          "list_users_without_team",
-          "manage_jobs",
-          "assign_system_admin_role",
-          "permanent_delete_user",
-          "edit_other_users",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
+      root={true}
       scope="channel_scope"
     />
   </div>
@@ -223,27 +133,81 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionRow)
-      code="read_channel"
-      inherited={null}
-      key="read_channel"
-      onChange={[Function]}
-      readOnly={true}
-      value=""
-    />
     <PermissionGroup
-      code="public_channel"
-      key="public_channel"
+      code="all"
+      combined={false}
+      key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
-          "create_public_channel",
-          "manage_public_channel_properties",
-          "manage_public_channel_members",
-          "delete_public_channel",
-          "join_public_channels",
-          "read_public_channel",
+          Object {
+            "code": "teams",
+            "permissions": Array [
+              Object {
+                "code": "send_invites",
+                "combined": true,
+                "permissions": Array [
+                  "invite_user",
+                  "get_public_link",
+                  "add_user_to_team",
+                ],
+              },
+              "create_team",
+            ],
+          },
+          Object {
+            "code": "public_channel",
+            "permissions": Array [
+              "create_public_channel",
+              "manage_public_channel_properties",
+              "manage_public_channel_members",
+              "delete_public_channel",
+              "join_public_channels",
+              "read_public_channel",
+            ],
+          },
+          Object {
+            "code": "private_channel",
+            "permissions": Array [
+              "create_private_channel",
+              "manage_private_channel_properties",
+              "manage_private_channel_members",
+              "delete_private_channel",
+            ],
+          },
+          Object {
+            "code": "posts",
+            "permissions": Array [
+              "create_post",
+              "edit_post",
+              Object {
+                "code": "delete_posts",
+                "permissions": Array [
+                  "delete_post",
+                  "delete_others_posts",
+                ],
+              },
+              Object {
+                "code": "reactions",
+                "permissions": Array [
+                  "add_reaction",
+                  "remove_reaction",
+                ],
+              },
+            ],
+          },
+          Object {
+            "code": "integrations",
+            "permissions": Array [
+              "manage_webhooks",
+              "manage_others_webhooks",
+              "manage_oauth",
+              "manage_system_wide_oauth",
+              "manage_slash_commands",
+              "manage_others_slash_commands",
+            ],
+          },
         ]
       }
       readOnly={true}
@@ -253,151 +217,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           "permissions": Array [],
         }
       }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="private_channel"
-      key="private_channel"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_private_channel",
-          "manage_private_channel_properties",
-          "manage_private_channel_members",
-          "delete_private_channel",
-        ]
-      }
-      readOnly={true}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="posts"
-      key="posts"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_post",
-          "create_post_public",
-          "edit_post",
-          "edit_others_posts",
-          "delete_post",
-          "delete_others_posts",
-          "add_reaction",
-          "remove_reaction",
-          "remove_others_reactions",
-          "upload_file",
-        ]
-      }
-      readOnly={true}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="teams"
-      key="teams"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_team",
-          "manage_team",
-          "import_team",
-          "view_team",
-          "add_user_to_team",
-          "manage_team_roles",
-          "list_team_channels",
-          "remove_user_from_team",
-        ]
-      }
-      readOnly={true}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="roles"
-      key="roles"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_roles",
-          "manage_channel_roles",
-        ]
-      }
-      readOnly={true}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="integrations"
-      key="integrations"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_webhooks",
-          "manage_others_webhooks",
-          "manage_oauth",
-          "manage_system_wide_oauth",
-          "use_slash_commands",
-          "manage_slash_commands",
-          "manage_others_slash_commands",
-        ]
-      }
-      readOnly={true}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="channel_scope"
-    />
-    <PermissionGroup
-      code="system"
-      key="system"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_system",
-          "list_users_without_team",
-          "manage_jobs",
-          "assign_system_admin_role",
-          "permanent_delete_user",
-          "edit_other_users",
-        ]
-      }
-      readOnly={true}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
+      root={true}
       scope="channel_scope"
     />
   </div>
@@ -425,83 +245,81 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionRow)
-      code="invite_user"
-      inherited={null}
-      key="invite_user"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="create_direct_channel"
-      inherited={null}
-      key="create_direct_channel"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="create_group_channel"
-      inherited={null}
-      key="create_group_channel"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="read_channel"
-      inherited={null}
-      key="read_channel"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="get_public_link"
-      inherited={null}
-      key="get_public_link"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="create_user_access_token"
-      inherited={null}
-      key="create_user_access_token"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="read_user_access_token"
-      inherited={null}
-      key="read_user_access_token"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="revoke_user_access_token"
-      inherited={null}
-      key="revoke_user_access_token"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
     <PermissionGroup
-      code="public_channel"
-      key="public_channel"
+      code="all"
+      combined={false}
+      key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
-          "create_public_channel",
-          "manage_public_channel_properties",
-          "manage_public_channel_members",
-          "delete_public_channel",
-          "join_public_channels",
-          "read_public_channel",
+          Object {
+            "code": "teams",
+            "permissions": Array [
+              Object {
+                "code": "send_invites",
+                "combined": true,
+                "permissions": Array [
+                  "invite_user",
+                  "get_public_link",
+                  "add_user_to_team",
+                ],
+              },
+              "create_team",
+            ],
+          },
+          Object {
+            "code": "public_channel",
+            "permissions": Array [
+              "create_public_channel",
+              "manage_public_channel_properties",
+              "manage_public_channel_members",
+              "delete_public_channel",
+              "join_public_channels",
+              "read_public_channel",
+            ],
+          },
+          Object {
+            "code": "private_channel",
+            "permissions": Array [
+              "create_private_channel",
+              "manage_private_channel_properties",
+              "manage_private_channel_members",
+              "delete_private_channel",
+            ],
+          },
+          Object {
+            "code": "posts",
+            "permissions": Array [
+              "create_post",
+              "edit_post",
+              Object {
+                "code": "delete_posts",
+                "permissions": Array [
+                  "delete_post",
+                  "delete_others_posts",
+                ],
+              },
+              Object {
+                "code": "reactions",
+                "permissions": Array [
+                  "add_reaction",
+                  "remove_reaction",
+                ],
+              },
+            ],
+          },
+          Object {
+            "code": "integrations",
+            "permissions": Array [
+              "manage_webhooks",
+              "manage_others_webhooks",
+              "manage_oauth",
+              "manage_system_wide_oauth",
+              "manage_slash_commands",
+              "manage_others_slash_commands",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -511,151 +329,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           "permissions": Array [],
         }
       }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="private_channel"
-      key="private_channel"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_private_channel",
-          "manage_private_channel_properties",
-          "manage_private_channel_members",
-          "delete_private_channel",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="posts"
-      key="posts"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_post",
-          "create_post_public",
-          "edit_post",
-          "edit_others_posts",
-          "delete_post",
-          "delete_others_posts",
-          "add_reaction",
-          "remove_reaction",
-          "remove_others_reactions",
-          "upload_file",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="teams"
-      key="teams"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_team",
-          "manage_team",
-          "import_team",
-          "view_team",
-          "add_user_to_team",
-          "manage_team_roles",
-          "list_team_channels",
-          "remove_user_from_team",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="roles"
-      key="roles"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_roles",
-          "manage_channel_roles",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="integrations"
-      key="integrations"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_webhooks",
-          "manage_others_webhooks",
-          "manage_oauth",
-          "manage_system_wide_oauth",
-          "use_slash_commands",
-          "manage_slash_commands",
-          "manage_others_slash_commands",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="system"
-      key="system"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_system",
-          "list_users_without_team",
-          "manage_jobs",
-          "assign_system_admin_role",
-          "permanent_delete_user",
-          "edit_other_users",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
+      root={true}
       scope="system_scope"
     />
   </div>
@@ -683,35 +357,81 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionRow)
-      code="invite_user"
-      inherited={null}
-      key="invite_user"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="read_channel"
-      inherited={null}
-      key="read_channel"
-      onChange={[Function]}
-      readOnly={null}
-      value=""
-    />
     <PermissionGroup
-      code="public_channel"
-      key="public_channel"
+      code="all"
+      combined={false}
+      key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
-          "create_public_channel",
-          "manage_public_channel_properties",
-          "manage_public_channel_members",
-          "delete_public_channel",
-          "join_public_channels",
-          "read_public_channel",
+          Object {
+            "code": "teams",
+            "permissions": Array [
+              Object {
+                "code": "send_invites",
+                "combined": true,
+                "permissions": Array [
+                  "invite_user",
+                  "get_public_link",
+                  "add_user_to_team",
+                ],
+              },
+              "create_team",
+            ],
+          },
+          Object {
+            "code": "public_channel",
+            "permissions": Array [
+              "create_public_channel",
+              "manage_public_channel_properties",
+              "manage_public_channel_members",
+              "delete_public_channel",
+              "join_public_channels",
+              "read_public_channel",
+            ],
+          },
+          Object {
+            "code": "private_channel",
+            "permissions": Array [
+              "create_private_channel",
+              "manage_private_channel_properties",
+              "manage_private_channel_members",
+              "delete_private_channel",
+            ],
+          },
+          Object {
+            "code": "posts",
+            "permissions": Array [
+              "create_post",
+              "edit_post",
+              Object {
+                "code": "delete_posts",
+                "permissions": Array [
+                  "delete_post",
+                  "delete_others_posts",
+                ],
+              },
+              Object {
+                "code": "reactions",
+                "permissions": Array [
+                  "add_reaction",
+                  "remove_reaction",
+                ],
+              },
+            ],
+          },
+          Object {
+            "code": "integrations",
+            "permissions": Array [
+              "manage_webhooks",
+              "manage_others_webhooks",
+              "manage_oauth",
+              "manage_system_wide_oauth",
+              "manage_slash_commands",
+              "manage_others_slash_commands",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -721,151 +441,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           "permissions": Array [],
         }
       }
-      scope="team_scope"
-    />
-    <PermissionGroup
-      code="private_channel"
-      key="private_channel"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_private_channel",
-          "manage_private_channel_properties",
-          "manage_private_channel_members",
-          "delete_private_channel",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-    />
-    <PermissionGroup
-      code="posts"
-      key="posts"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_post",
-          "create_post_public",
-          "edit_post",
-          "edit_others_posts",
-          "delete_post",
-          "delete_others_posts",
-          "add_reaction",
-          "remove_reaction",
-          "remove_others_reactions",
-          "upload_file",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-    />
-    <PermissionGroup
-      code="teams"
-      key="teams"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "create_team",
-          "manage_team",
-          "import_team",
-          "view_team",
-          "add_user_to_team",
-          "manage_team_roles",
-          "list_team_channels",
-          "remove_user_from_team",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-    />
-    <PermissionGroup
-      code="roles"
-      key="roles"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_roles",
-          "manage_channel_roles",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-    />
-    <PermissionGroup
-      code="integrations"
-      key="integrations"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_webhooks",
-          "manage_others_webhooks",
-          "manage_oauth",
-          "manage_system_wide_oauth",
-          "use_slash_commands",
-          "manage_slash_commands",
-          "manage_others_slash_commands",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="team_scope"
-    />
-    <PermissionGroup
-      code="system"
-      key="system"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          "manage_system",
-          "list_users_without_team",
-          "manage_jobs",
-          "assign_system_admin_role",
-          "permanent_delete_user",
-          "edit_other_users",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
+      root={true}
       scope="team_scope"
     />
   </div>
@@ -893,77 +469,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionRow)
-      code="invite_user"
-      inherited={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      key="invite_user"
-      onChange={[Function]}
-      readOnly={true}
-      value="checked"
-    />
-    <InjectIntl(PermissionRow)
-      code="create_direct_channel"
-      inherited={null}
-      key="create_direct_channel"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="create_group_channel"
-      inherited={null}
-      key="create_group_channel"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="read_channel"
-      inherited={null}
-      key="read_channel"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="get_public_link"
-      inherited={null}
-      key="get_public_link"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="create_user_access_token"
-      inherited={null}
-      key="create_user_access_token"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="read_user_access_token"
-      inherited={null}
-      key="read_user_access_token"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
-    <InjectIntl(PermissionRow)
-      code="revoke_user_access_token"
-      inherited={null}
-      key="revoke_user_access_token"
-      onChange={[Function]}
-      readOnly={false}
-      value=""
-    />
     <PermissionGroup
-      code="public_channel"
-      key="public_channel"
+      code="all"
+      combined={false}
+      key="all"
       onChange={[Function]}
       parentRole={
         Object {
@@ -972,12 +481,73 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       }
       permissions={
         Array [
-          "create_public_channel",
-          "manage_public_channel_properties",
-          "manage_public_channel_members",
-          "delete_public_channel",
-          "join_public_channels",
-          "read_public_channel",
+          Object {
+            "code": "teams",
+            "permissions": Array [
+              Object {
+                "code": "send_invites",
+                "combined": true,
+                "permissions": Array [
+                  "invite_user",
+                  "get_public_link",
+                  "add_user_to_team",
+                ],
+              },
+              "create_team",
+            ],
+          },
+          Object {
+            "code": "public_channel",
+            "permissions": Array [
+              "create_public_channel",
+              "manage_public_channel_properties",
+              "manage_public_channel_members",
+              "delete_public_channel",
+              "join_public_channels",
+              "read_public_channel",
+            ],
+          },
+          Object {
+            "code": "private_channel",
+            "permissions": Array [
+              "create_private_channel",
+              "manage_private_channel_properties",
+              "manage_private_channel_members",
+              "delete_private_channel",
+            ],
+          },
+          Object {
+            "code": "posts",
+            "permissions": Array [
+              "create_post",
+              "edit_post",
+              Object {
+                "code": "delete_posts",
+                "permissions": Array [
+                  "delete_post",
+                  "delete_others_posts",
+                ],
+              },
+              Object {
+                "code": "reactions",
+                "permissions": Array [
+                  "add_reaction",
+                  "remove_reaction",
+                ],
+              },
+            ],
+          },
+          Object {
+            "code": "integrations",
+            "permissions": Array [
+              "manage_webhooks",
+              "manage_others_webhooks",
+              "manage_oauth",
+              "manage_system_wide_oauth",
+              "manage_slash_commands",
+              "manage_others_slash_commands",
+            ],
+          },
         ]
       }
       readOnly={false}
@@ -987,175 +557,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           "permissions": Array [],
         }
       }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="private_channel"
-      key="private_channel"
-      onChange={[Function]}
-      parentRole={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      permissions={
-        Array [
-          "create_private_channel",
-          "manage_private_channel_properties",
-          "manage_private_channel_members",
-          "delete_private_channel",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="posts"
-      key="posts"
-      onChange={[Function]}
-      parentRole={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      permissions={
-        Array [
-          "create_post",
-          "create_post_public",
-          "edit_post",
-          "edit_others_posts",
-          "delete_post",
-          "delete_others_posts",
-          "add_reaction",
-          "remove_reaction",
-          "remove_others_reactions",
-          "upload_file",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="teams"
-      key="teams"
-      onChange={[Function]}
-      parentRole={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      permissions={
-        Array [
-          "create_team",
-          "manage_team",
-          "import_team",
-          "view_team",
-          "add_user_to_team",
-          "manage_team_roles",
-          "list_team_channels",
-          "remove_user_from_team",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="roles"
-      key="roles"
-      onChange={[Function]}
-      parentRole={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      permissions={
-        Array [
-          "manage_roles",
-          "manage_channel_roles",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="integrations"
-      key="integrations"
-      onChange={[Function]}
-      parentRole={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      permissions={
-        Array [
-          "manage_webhooks",
-          "manage_others_webhooks",
-          "manage_oauth",
-          "manage_system_wide_oauth",
-          "use_slash_commands",
-          "manage_slash_commands",
-          "manage_others_slash_commands",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      scope="system_scope"
-    />
-    <PermissionGroup
-      code="system"
-      key="system"
-      onChange={[Function]}
-      parentRole={
-        Object {
-          "permissions": "invite_user",
-        }
-      }
-      permissions={
-        Array [
-          "manage_system",
-          "list_users_without_team",
-          "manage_jobs",
-          "assign_system_admin_role",
-          "permanent_delete_user",
-          "edit_other_users",
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
+      root={true}
       scope="system_scope"
     />
   </div>

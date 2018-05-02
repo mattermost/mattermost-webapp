@@ -16,9 +16,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_checkbo
 <div
   className="permission-check checked"
 >
-  <span
-    className="fa fa-check"
-  />
+  <CheckboxCheckedIcon />
 </div>
 `;
 
@@ -26,8 +24,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_checkbo
 <div
   className="permission-check intermediate"
 >
-  <span
-    className="fa fa-minus"
-  />
+  <CheckboxPartialIcon />
 </div>
 `;

@@ -225,7 +225,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only"
+    className="permission-group-row read-only "
     onClick={[Function]}
   >
     <div
@@ -280,7 +280,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only"
+    className="permission-group-row read-only "
     onClick={[Function]}
   >
     <div
@@ -404,7 +404,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only"
+    className="permission-group-row read-only "
     onClick={[Function]}
   >
     <div
@@ -630,7 +630,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only"
+    className="permission-group-row read-only "
     onClick={[Function]}
   >
     <div

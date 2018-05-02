@@ -19,7 +19,7 @@ export default class PermissionGroup extends React.Component {
         parentRole: PropTypes.object,
         scope: PropTypes.string.isRequired,
         combined: PropTypes.bool,
-        root: PropTypes.bool.isRequired,
+        root: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
 

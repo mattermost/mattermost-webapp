@@ -60,9 +60,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -107,9 +105,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -161,9 +157,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -215,9 +209,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -395,9 +387,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -438,9 +428,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -486,9 +474,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
@@ -534,9 +520,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <div
         className="button"
       >
-        <span
-          className="fa fa-chevron-circle-down"
-        />
+        <AccordionToggleIcon />
       </div>
     </div>
     <PermissionsTree
