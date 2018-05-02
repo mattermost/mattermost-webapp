@@ -1187,8 +1187,7 @@
         .col__reply {
             border: 1px solid transparent;
             border-radius: 2px;
-            min-width: 70px;
-            padding: 2px 5px;
+            padding: 2px 5px 2px 6px;
             position: absolute;
             right: 0;
             top: -4px;
@@ -1261,9 +1260,14 @@
 
     .dropdown {
         display: inline-block;
+        margin-right: 5px;
         top: -1px;
         vertical-align: middle;
         visibility: hidden;
+
+        &:last-child {
+            margin-right: 0;
+        }
 
         .dropdown-menu {
             left: auto;
@@ -1617,7 +1621,6 @@
         display: inline-block;
         fill: $primary-color;
         font-size: 16px;
-        margin-left: 5px;
         vertical-align: top;
         visibility: hidden;
 
