@@ -5,24 +5,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MsgTyping extends React.Component {
     static propTypes = {
         typingUsers: PropTypes.array.isRequired,
-        channelId: PropTypes.string.isRequired,
-        postId: PropTypes.string,
     }
 
     getTypingText = () => {
         let users = [];
         let numUsers = 0;
+        const defaultUsername = localizeMessage('msg_typing.someone', 'Someone');
         if (this.props.typingUsers) {
-            users = [...this.props.typingUsers];
+            users = this.props.typingUsers.map((userName) => {
+                if (userName !== '') {
+                    return userName;
+                }
+                return defaultUsername;
+            });
             numUsers = users.length;
         }
 
         if (numUsers === 0) {
             return '';
         }
+
         if (numUsers === 1) {
             return (
                 <FormattedMessage
