@@ -711,7 +711,6 @@
   "admin.log.locationPlaceholder": "Enter your file location",
   "admin.log.locationTitle": "File Log Directory:",
   "admin.log.logSettings": "Log Settings",
-  "admin.log.noteDescription": "Changing properties other than <a href=\"#EnableWebhookDebugging\">Enable Webhook Debugging</a> and <a href=\"#EnableDiagnostics\">Enable Diagnostics and Error Reporting</a> in this section will require a server restart before taking effect.",
   "admin.logs.bannerDesc": "To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter.",
   "admin.logs.next": "Next",
   "admin.logs.prev": "Previous",
