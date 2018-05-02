@@ -218,7 +218,7 @@
   "admin.permissions.permission.create_post.name": "Write Posts",
   "admin.permissions.permission.create_post.description": "Write posts in channels.",
   "admin.permissions.permission.edit_post.name": "Edit Posts",
-  "admin.permissions.permission.edit_post.description": "{Anytime} after posting, allow users to edit their own posts.",
+  "admin.permissions.permission.edit_post.description": "Anytime after posting, allow users to edit their own posts.",
   "admin.permissions.permission.delete_post.name": "Delete Own Posts",
   "admin.permissions.permission.delete_post.description": "Authors own posts can be deleted.",
   "admin.permissions.permission.delete_others_posts.name": "Delete Any Post",
