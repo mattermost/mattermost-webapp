@@ -10,7 +10,7 @@ import PermissionCheckbox from './permission_checkbox.jsx';
 export class PermissionRow extends React.Component {
     static propTypes = {
         intl: intlShape.isRequired,
-        code: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         inherited: PropTypes.object,
         readOnly: PropTypes.bool,
         value: PropTypes.string.isRequired,
@@ -21,11 +21,11 @@ export class PermissionRow extends React.Component {
         if (this.props.readOnly) {
             return;
         }
-        this.props.onChange(this.props.code);
+        this.props.onChange(this.props.id);
     }
 
     render = () => {
-        const {code, inherited, value} = this.props;
+        const {id, inherited, value} = this.props;
         return (
             <div
                 className={'permission-row ' + (this.props.readOnly ? 'read-only' : '')}
@@ -33,7 +33,7 @@ export class PermissionRow extends React.Component {
             >
                 <PermissionCheckbox value={value}/>
                 <span className='permission-name'>
-                    <FormattedMessage id={'admin.permissions.permission.' + code + '.name'}/>
+                    <FormattedMessage id={'admin.permissions.permission.' + id + '.name'}/>
                 </span>
                 {inherited &&
                     <span className='permission-description'>
@@ -50,7 +50,7 @@ export class PermissionRow extends React.Component {
                     </span>}
                 {!inherited &&
                     <span className='permission-description'>
-                        <FormattedMessage id={'admin.permissions.permission.' + code + '.description'}/>
+                        <FormattedMessage id={'admin.permissions.permission.' + id + '.description'}/>
                     </span>}
             </div>
         );

@@ -5,14 +5,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {Permissions} from 'utils/constants.jsx';
+import {PermissionsScope} from 'utils/constants.jsx';
 
 import PermissionCheckbox from './permission_checkbox.jsx';
 import PermissionRow from './permission_row.jsx';
 
 export default class PermissionGroup extends React.Component {
     static propTypes = {
-        code: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         permissions: PropTypes.array.isRequired,
         readOnly: PropTypes.bool,
         role: PropTypes.object,
@@ -37,12 +37,12 @@ export default class PermissionGroup extends React.Component {
         this.setState({expanded: !this.state.expanded});
     }
 
-    toggleSelectRow = (code) => {
+    toggleSelectRow = (id) => {
         if (this.props.readOnly) {
             return;
         }
         this.setState({lastMode: ''});
-        this.props.onChange([code]);
+        this.props.onChange([id]);
     }
 
     getRecursivePermissions = (permissions) => {
@@ -57,12 +57,12 @@ export default class PermissionGroup extends React.Component {
         return result;
     }
 
-    toggleSelectSubGroup = (codes) => {
+    toggleSelectSubGroup = (ids) => {
         if (this.props.readOnly) {
             return;
         }
         this.setState({lastMode: ''});
-        this.props.onChange(codes);
+        this.props.onChange(ids);
     }
 
     toggleSelectGroup = () => {
@@ -126,26 +126,25 @@ export default class PermissionGroup extends React.Component {
     }
 
     isInScope = (permission) => {
-        if (this.props.scope === 'channel_scope' && permission.scope !== 'channel_scope') {
+        if (this.props.scope === 'channel_scope' && PermissionsScope[permission] !== 'channel_scope') {
             return false;
         }
-        if (this.props.scope === 'team_scope' && permission.scope === 'system_scope') {
+        if (this.props.scope === 'team_scope' && PermissionsScope[permission] === 'system_scope') {
             return false;
         }
         return true;
     }
 
     renderPermission = (permission) => {
-        const p = Permissions[permission];
-        if (!this.isInScope(p)) {
+        if (!this.isInScope(permission)) {
             return null;
         }
-        const comesFromParent = this.fromParent(p.code);
-        const active = comesFromParent || this.props.role.permissions.indexOf(p.code) !== -1;
+        const comesFromParent = this.fromParent(permission);
+        const active = comesFromParent || this.props.role.permissions.indexOf(permission) !== -1;
         return (
             <PermissionRow
-                key={p.code}
-                code={p.code}
+                key={permission}
+                id={permission}
                 readOnly={this.props.readOnly || comesFromParent}
                 inherited={comesFromParent ? this.props.parentRole : null}
                 value={active ? 'checked' : ''}
@@ -157,8 +156,8 @@ export default class PermissionGroup extends React.Component {
     renderGroup = (g) => {
         return (
             <PermissionGroup
-                key={g.code}
-                code={g.code}
+                key={g.id}
+                id={g.id}
                 readOnly={this.props.readOnly}
                 permissions={g.permissions}
                 role={this.props.role}
@@ -171,8 +170,8 @@ export default class PermissionGroup extends React.Component {
         );
     }
 
-    fromParent = (code) => {
-        return this.props.parentRole && this.props.parentRole.permissions.indexOf(code) !== -1;
+    fromParent = (id) => {
+        return this.props.parentRole && this.props.parentRole.permissions.indexOf(id) !== -1;
     }
 
     getStatus = (permissions) => {
@@ -180,12 +179,11 @@ export default class PermissionGroup extends React.Component {
         let anyUnchecked = false;
         for (const permission of permissions) {
             if (typeof permission === 'string') {
-                const p = Permissions[permission];
-                if (!this.isInScope(p)) {
+                if (!this.isInScope(permission)) {
                     continue;
                 }
-                anyChecked = anyChecked || this.fromParent(p.code) || this.props.role.permissions.indexOf(p.code) !== -1;
-                anyUnchecked = anyUnchecked || (!this.fromParent(p.code) && this.props.role.permissions.indexOf(p.code) === -1);
+                anyChecked = anyChecked || this.fromParent(permission) || this.props.role.permissions.indexOf(permission) !== -1;
+                anyUnchecked = anyUnchecked || (!this.fromParent(permission) && this.props.role.permissions.indexOf(permission) === -1);
             } else {
                 const status = this.getStatus(permission.permissions);
                 if (status === 'intermediate') {
@@ -213,8 +211,7 @@ export default class PermissionGroup extends React.Component {
             if (typeof permission !== 'string') {
                 return true;
             }
-            const p = Permissions[permission];
-            if (this.isInScope(p)) {
+            if (this.isInScope(permission)) {
                 return true;
             }
         }
@@ -229,8 +226,7 @@ export default class PermissionGroup extends React.Component {
                 }
                 continue;
             }
-            const p = Permissions[permission];
-            if (this.isInScope(p) && !this.fromParent(p.code)) {
+            if (this.isInScope(permission) && !this.fromParent(permission)) {
                 return false;
             }
         }
@@ -238,7 +234,7 @@ export default class PermissionGroup extends React.Component {
     }
 
     render = () => {
-        const {code, permissions, readOnly, combined, root} = this.props;
+        const {id, permissions, readOnly, combined, root} = this.props;
         if (!this.hasPermissionsOnScope()) {
             return null;
         }
@@ -269,10 +265,10 @@ export default class PermissionGroup extends React.Component {
                             />}
                         <PermissionCheckbox value={this.getStatus(this.props.permissions)}/>
                         <span className='permission-name'>
-                            <FormattedMessage id={'admin.permissions.group.' + code + '.name'}/>
+                            <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>
                         <span className='permission-description'>
-                            <FormattedMessage id={'admin.permissions.group.' + code + '.description'}/>
+                            <FormattedMessage id={'admin.permissions.group.' + id + '.description'}/>
                         </span>
                     </div>}
                 {!combined &&

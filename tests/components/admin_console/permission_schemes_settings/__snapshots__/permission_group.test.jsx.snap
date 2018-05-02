@@ -36,7 +36,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -44,7 +44,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -91,7 +91,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions "
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -99,7 +99,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -146,7 +146,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -154,7 +154,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -201,7 +201,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -209,7 +209,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -256,7 +256,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -264,7 +264,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -311,7 +311,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={
         Object {
           "permissions": Array [
@@ -326,7 +326,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={
         Object {
           "permissions": Array [
@@ -380,7 +380,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -388,7 +388,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -435,7 +435,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -443,7 +443,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -490,7 +490,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={
         Object {
           "permissions": Array [
@@ -504,7 +504,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -551,7 +551,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -559,7 +559,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -606,7 +606,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -614,7 +614,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
@@ -661,7 +661,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <InjectIntl(PermissionRow)
-      code="invite_user"
+      id="invite_user"
       inherited={null}
       key="invite_user"
       onChange={[Function]}
@@ -669,7 +669,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <InjectIntl(PermissionRow)
-      code="add_user_to_team"
+      id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
       onChange={[Function]}

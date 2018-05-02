@@ -23,7 +23,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
             formatMessage: jest.fn(),
             formatHTMLMessage: jest.fn(),
         },
-        code: 'code',
+        id: 'id',
         inherited: null,
         readOnly: false,
         value: 'checked',
@@ -76,7 +76,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
             />
         );
         wrapper.find('div').first().simulate('click');
-        expect(onChange).toBeCalledWith('code');
+        expect(onChange).toBeCalledWith('id');
     });
 
     test('shouldn\'t call onChange function on click when is read-only', () => {

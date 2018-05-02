@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Permissions} from 'utils/constants.jsx';
+import {PermissionsScope} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import SaveButton from 'components/save_button.jsx';
@@ -86,15 +86,15 @@ export default class PermissionSystemSchemesSettings extends React.Component {
         return {
             system_user: {
                 ...this.props.roles.system_user,
-                permissions: role.permissions.filter((p) => Permissions[p].scope === 'system_scope'),
+                permissions: role.permissions.filter((p) => PermissionsScope[p] === 'system_scope'),
             },
             team_user: {
                 ...this.props.roles.team_user,
-                permissions: role.permissions.filter((p) => Permissions[p].scope === 'team_scope'),
+                permissions: role.permissions.filter((p) => PermissionsScope[p] === 'team_scope'),
             },
             channel_user: {
                 ...this.props.roles.channel_user,
-                permissions: role.permissions.filter((p) => Permissions[p].scope === 'channel_scope'),
+                permissions: role.permissions.filter((p) => PermissionsScope[p] === 'channel_scope'),
             },
         };
     }

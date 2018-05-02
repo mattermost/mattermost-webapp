@@ -22,19 +22,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
-      code="all"
       combined={false}
+      id="all"
       key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
           Object {
-            "code": "teams",
+            "id": "teams",
             "permissions": Array [
               Object {
-                "code": "send_invites",
                 "combined": true,
+                "id": "send_invites",
                 "permissions": Array [
                   "invite_user",
                   "get_public_link",
@@ -45,7 +45,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "public_channel",
+            "id": "public_channel",
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
@@ -54,7 +54,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "private_channel",
+            "id": "private_channel",
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
@@ -63,19 +63,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "posts",
+            "id": "posts",
             "permissions": Array [
               "create_post",
               "edit_post",
               Object {
-                "code": "delete_posts",
+                "id": "delete_posts",
                 "permissions": Array [
                   "delete_post",
                   "delete_others_posts",
                 ],
               },
               Object {
-                "code": "reactions",
+                "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
                   "remove_reaction",
@@ -84,7 +84,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "integrations",
+            "id": "integrations",
             "permissions": Array [
               "manage_webhooks",
               "manage_oauth",
@@ -129,19 +129,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
-      code="all"
       combined={false}
+      id="all"
       key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
           Object {
-            "code": "teams",
+            "id": "teams",
             "permissions": Array [
               Object {
-                "code": "send_invites",
                 "combined": true,
+                "id": "send_invites",
                 "permissions": Array [
                   "invite_user",
                   "get_public_link",
@@ -152,7 +152,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "public_channel",
+            "id": "public_channel",
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
@@ -161,7 +161,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "private_channel",
+            "id": "private_channel",
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
@@ -170,19 +170,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "posts",
+            "id": "posts",
             "permissions": Array [
               "create_post",
               "edit_post",
               Object {
-                "code": "delete_posts",
+                "id": "delete_posts",
                 "permissions": Array [
                   "delete_post",
                   "delete_others_posts",
                 ],
               },
               Object {
-                "code": "reactions",
+                "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
                   "remove_reaction",
@@ -191,7 +191,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "integrations",
+            "id": "integrations",
             "permissions": Array [
               "manage_webhooks",
               "manage_oauth",
@@ -236,19 +236,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
-      code="all"
       combined={false}
+      id="all"
       key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
           Object {
-            "code": "teams",
+            "id": "teams",
             "permissions": Array [
               Object {
-                "code": "send_invites",
                 "combined": true,
+                "id": "send_invites",
                 "permissions": Array [
                   "invite_user",
                   "get_public_link",
@@ -259,7 +259,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "public_channel",
+            "id": "public_channel",
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
@@ -268,7 +268,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "private_channel",
+            "id": "private_channel",
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
@@ -277,19 +277,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "posts",
+            "id": "posts",
             "permissions": Array [
               "create_post",
               "edit_post",
               Object {
-                "code": "delete_posts",
+                "id": "delete_posts",
                 "permissions": Array [
                   "delete_post",
                   "delete_others_posts",
                 ],
               },
               Object {
-                "code": "reactions",
+                "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
                   "remove_reaction",
@@ -298,7 +298,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "integrations",
+            "id": "integrations",
             "permissions": Array [
               "manage_webhooks",
               "manage_oauth",
@@ -343,19 +343,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
-      code="all"
       combined={false}
+      id="all"
       key="all"
       onChange={[Function]}
       parentRole={null}
       permissions={
         Array [
           Object {
-            "code": "teams",
+            "id": "teams",
             "permissions": Array [
               Object {
-                "code": "send_invites",
                 "combined": true,
+                "id": "send_invites",
                 "permissions": Array [
                   "invite_user",
                   "get_public_link",
@@ -366,7 +366,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "public_channel",
+            "id": "public_channel",
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
@@ -375,7 +375,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "private_channel",
+            "id": "private_channel",
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
@@ -384,19 +384,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "posts",
+            "id": "posts",
             "permissions": Array [
               "create_post",
               "edit_post",
               Object {
-                "code": "delete_posts",
+                "id": "delete_posts",
                 "permissions": Array [
                   "delete_post",
                   "delete_others_posts",
                 ],
               },
               Object {
-                "code": "reactions",
+                "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
                   "remove_reaction",
@@ -405,7 +405,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "integrations",
+            "id": "integrations",
             "permissions": Array [
               "manage_webhooks",
               "manage_oauth",
@@ -450,8 +450,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
-      code="all"
       combined={false}
+      id="all"
       key="all"
       onChange={[Function]}
       parentRole={
@@ -462,11 +462,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       permissions={
         Array [
           Object {
-            "code": "teams",
+            "id": "teams",
             "permissions": Array [
               Object {
-                "code": "send_invites",
                 "combined": true,
+                "id": "send_invites",
                 "permissions": Array [
                   "invite_user",
                   "get_public_link",
@@ -477,7 +477,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "public_channel",
+            "id": "public_channel",
             "permissions": Array [
               "create_public_channel",
               "manage_public_channel_properties",
@@ -486,7 +486,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "private_channel",
+            "id": "private_channel",
             "permissions": Array [
               "create_private_channel",
               "manage_private_channel_properties",
@@ -495,19 +495,19 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "posts",
+            "id": "posts",
             "permissions": Array [
               "create_post",
               "edit_post",
               Object {
-                "code": "delete_posts",
+                "id": "delete_posts",
                 "permissions": Array [
                   "delete_post",
                   "delete_others_posts",
                 ],
               },
               Object {
-                "code": "reactions",
+                "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
                   "remove_reaction",
@@ -516,7 +516,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "code": "integrations",
+            "id": "integrations",
             "permissions": Array [
               "manage_webhooks",
               "manage_oauth",

@@ -8,10 +8,10 @@ import PermissionGroup from './permission_group.jsx';
 
 const GROUPS = [
     {
-        code: 'teams',
+        id: 'teams',
         permissions: [
             {
-                code: 'send_invites',
+                id: 'send_invites',
                 combined: true,
                 permissions: [
                     'invite_user',
@@ -23,7 +23,7 @@ const GROUPS = [
         ],
     },
     {
-        code: 'public_channel',
+        id: 'public_channel',
         permissions: [
             'create_public_channel',
             'manage_public_channel_properties',
@@ -32,7 +32,7 @@ const GROUPS = [
         ],
     },
     {
-        code: 'private_channel',
+        id: 'private_channel',
         permissions: [
             'create_private_channel',
             'manage_private_channel_properties',
@@ -41,19 +41,19 @@ const GROUPS = [
         ],
     },
     {
-        code: 'posts',
+        id: 'posts',
         permissions: [
             'create_post',
             'edit_post',
             {
-                code: 'delete_posts',
+                id: 'delete_posts',
                 permissions: [
                     'delete_post',
                     'delete_others_posts',
                 ],
             },
             {
-                code: 'reactions',
+                id: 'reactions',
                 permissions: [
                     'add_reaction',
                     'remove_reaction',
@@ -62,7 +62,7 @@ const GROUPS = [
         ],
     },
     {
-        code: 'integrations',
+        id: 'integrations',
         permissions: [
             'manage_webhooks',
             'manage_oauth',
@@ -86,11 +86,11 @@ export default class PermissionsTree extends React.Component {
         },
     };
 
-    toggleGroup = (codes) => {
+    toggleGroup = (ids) => {
         if (this.props.readOnly) {
             return;
         }
-        this.props.onToggle(this.props.role.name, codes);
+        this.props.onToggle(this.props.role.name, ids);
     }
 
     render = () => {
@@ -103,7 +103,7 @@ export default class PermissionsTree extends React.Component {
                 <div className='permissions-tree--body'>
                     <PermissionGroup
                         key='all'
-                        code='all'
+                        id='all'
                         readOnly={this.props.readOnly}
                         permissions={GROUPS}
                         role={this.props.role}

@@ -8,7 +8,7 @@ import PermissionGroup from 'components/admin_console/permission_schemes_setting
 
 describe('components/admin_console/permission_schemes_settings/permission_group', () => {
     const defaultProps = {
-        code: 'name',
+        id: 'name',
         permissions: ['invite_user', 'add_user_to_team'],
         readOnly: false,
         role: {

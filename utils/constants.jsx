@@ -23,6 +23,7 @@ import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
 import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
@@ -504,211 +505,58 @@ export const GroupUnreadChannels = {
     DEFAULT_OFF: 'default_off',
 };
 
-export const Permissions = {
-    invite_user: {
-        code: 'invite_user',
-        scope: 'team_scope',
-    },
-    add_user_to_team: {
-        code: 'add_user_to_team',
-        scope: 'team_scope',
-    },
-    use_slash_commands: {
-        code: 'use_slash_commands',
-        scope: 'channel_scope',
-    },
-    manage_slash_commands: {
-        code: 'manage_slash_commands',
-        scope: 'team_scope',
-    },
-    manage_others_slash_commands: {
-        code: 'manage_others_slash_commands',
-        scope: 'team_scope',
-    },
-    create_public_channel: {
-        code: 'create_public_channel',
-        scope: 'team_scope',
-    },
-    create_private_channel: {
-        code: 'create_private_channel',
-        scope: 'team_scope',
-    },
-    manage_public_channel_members: {
-        code: 'manage_public_channel_members',
-        scope: 'channel_scope',
-    },
-    manage_private_channel_members: {
-        code: 'manage_private_channel_members',
-        scope: 'channel_scope',
-    },
-    assign_system_admin_role: {
-        code: 'assign_system_admin_role',
-        scope: 'system_scope',
-    },
-    manage_roles: {
-        code: 'manage_roles',
-        scope: 'system_scope',
-    },
-    manage_team_roles: {
-        code: 'manage_team_roles',
-        scope: 'team_scope',
-    },
-    manage_channel_roles: {
-        code: 'manage_channel_roles',
-        scope: 'chanel_scope',
-    },
-    manage_system: {
-        code: 'manage_system',
-        scope: 'system_scope',
-    },
-    create_direct_channel: {
-        code: 'create_direct_channel',
-        scope: 'system_scope',
-    },
-    create_group_channel: {
-        code: 'create_group_channel',
-        scope: 'system_scope',
-    },
-    manage_public_channel_properties: {
-        code: 'manage_public_channel_properties',
-        scope: 'channel_scope',
-    },
-    manage_private_channel_properties: {
-        code: 'manage_private_channel_properties',
-        scope: 'channel_scope',
-    },
-    list_team_channels: {
-        code: 'list_team_channels',
-        scope: 'team_scope',
-    },
-    join_public_channels: {
-        code: 'join_public_channels',
-        scope: 'team_scope',
-    },
-    delete_public_channel: {
-        code: 'delete_public_channel',
-        scope: 'channel_scope',
-    },
-    delete_private_channel: {
-        code: 'delete_private_channel',
-        scope: 'channel_scope',
-    },
-    edit_other_users: {
-        code: 'edit_other_users',
-        scope: 'system_scope',
-    },
-    read_channel: {
-        code: 'read_channel',
-        scope: 'channel_scope',
-    },
-    read_public_channel: {
-        code: 'read_public_channel',
-        scope: 'team_scope',
-    },
-    add_reaction: {
-        code: 'add_reaction',
-        scope: 'channel_scope',
-    },
-    remove_reaction: {
-        code: 'remove_reaction',
-        scope: 'channel_scope',
-    },
-    remove_others_reactions: {
-        code: 'remove_others_reactions',
-        scope: 'channel_scope',
-    },
-    permanent_delete_user: {
-        code: 'permanent_delete_user',
-        scope: 'system_scope',
-    },
-    upload_file: {
-        code: 'upload_file',
-        scope: 'channel_scope',
-    },
-    get_public_link: {
-        code: 'get_public_link',
-        scope: 'system_scope',
-    },
-    manage_webhooks: {
-        code: 'manage_webhooks',
-        scope: 'team_scope',
-    },
-    manage_others_webhooks: {
-        code: 'manage_others_webhooks',
-        scope: 'team_scope',
-    },
-    manage_oauth: {
-        code: 'manage_oauth',
-        scope: 'system_scope',
-    },
-    manage_system_wide_oauth: {
-        code: 'manage_system_wide_oauth',
-        scope: 'system_scope',
-    },
-    create_post: {
-        code: 'create_post',
-        scope: 'channel_scope',
-    },
-    create_post_public: {
-        code: 'create_post_public',
-        scope: 'channel_scope',
-    },
-    edit_post: {
-        code: 'edit_post',
-        scope: 'channel_scope',
-    },
-    edit_others_posts: {
-        code: 'edit_others_posts',
-        scope: 'channel_scope',
-    },
-    delete_post: {
-        code: 'delete_post',
-        scope: 'channel_scope',
-    },
-    delete_others_posts: {
-        code: 'delete_others_posts',
-        scope: 'channel_scope',
-    },
-    remove_user_from_team: {
-        code: 'remove_user_from_team',
-        scope: 'team_scope',
-    },
-    create_team: {
-        code: 'create_team',
-        scope: 'system_scope',
-    },
-    manage_team: {
-        code: 'manage_team',
-        scope: 'team_scope',
-    },
-    import_team: {
-        code: 'import_team',
-        scope: 'team_scope',
-    },
-    view_team: {
-        code: 'view_team',
-        scope: 'team_scope',
-    },
-    list_users_without_team: {
-        code: 'list_users_without_team',
-        scope: 'system_scope',
-    },
-    create_user_access_token: {
-        code: 'create_user_access_token',
-        scope: 'system_scope',
-    },
-    read_user_access_token: {
-        code: 'read_user_access_token',
-        scope: 'system_scope',
-    },
-    revoke_user_access_token: {
-        code: 'revoke_user_access_token',
-        scope: 'system_scope',
-    },
-    manage_jobs: {
-        code: 'manage_jobs',
-        scope: 'system_scope',
-    },
+export const PermissionsScope = {
+    [Permissions.INVITE_USER]: 'team_scope',
+    [Permissions.ADD_USER_TO_TEAM]: 'team_scope',
+    [Permissions.USE_SLASH_COMMANDS]: 'channel_scope',
+    [Permissions.MANAGE_SLASH_COMMANDS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_SLASH_COMMANDS]: 'team_scope',
+    [Permissions.CREATE_PUBLIC_CHANNEL]: 'team_scope',
+    [Permissions.CREATE_PRIVATE_CHANNEL]: 'team_scope',
+    [Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]: 'channel_scope',
+    [Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]: 'channel_scope',
+    [Permissions.ASSIGN_SYSTEM_ADMIN_ROLE]: 'system_scope',
+    [Permissions.MANAGE_ROLES]: 'system_scope',
+    [Permissions.MANAGE_TEAM_ROLES]: 'team_scope',
+    [Permissions.MANAGE_CHANNEL_ROLES]: 'chanel_scope',
+    [Permissions.MANAGE_SYSTEM]: 'system_scope',
+    [Permissions.CREATE_DIRECT_CHANNEL]: 'system_scope',
+    [Permissions.CREATE_GROUP_CHANNEL]: 'system_scope',
+    [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.LIST_TEAM_CHANNELS]: 'team_scope',
+    [Permissions.JOIN_PUBLIC_CHANNELS]: 'team_scope',
+    [Permissions.DELETE_PUBLIC_CHANNEL]: 'channel_scope',
+    [Permissions.DELETE_PRIVATE_CHANNEL]: 'channel_scope',
+    [Permissions.EDIT_OTHER_USERS]: 'system_scope',
+    [Permissions.READ_CHANNEL]: 'channel_scope',
+    [Permissions.READ_PUBLIC_CHANNEL]: 'team_scope',
+    [Permissions.ADD_REACTION]: 'channel_scope',
+    [Permissions.REMOVE_REACTION]: 'channel_scope',
+    [Permissions.REMOVE_OTHERS_REACTIONS]: 'channel_scope',
+    [Permissions.PERMANENT_DELETE_USER]: 'system_scope',
+    [Permissions.UPLOAD_FILE]: 'channel_scope',
+    [Permissions.GET_PUBLIC_LINK]: 'system_scope',
+    [Permissions.MANAGE_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OAUTH]: 'system_scope',
+    [Permissions.MANAGE_SYSTEM_WIDE_OAUTH]: 'system_scope',
+    [Permissions.CREATE_POST]: 'channel_scope',
+    [Permissions.CREATE_POST_PUBLIC]: 'channel_scope',
+    [Permissions.EDIT_POST]: 'channel_scope',
+    [Permissions.EDIT_OTHERS_POSTS]: 'channel_scope',
+    [Permissions.DELETE_POST]: 'channel_scope',
+    [Permissions.DELETE_OTHERS_POSTS]: 'channel_scope',
+    [Permissions.REMOVE_USER_FROM_TEAM]: 'team_scope',
+    [Permissions.CREATE_TEAM]: 'system_scope',
+    [Permissions.MANAGE_TEAM]: 'team_scope',
+    [Permissions.IMPORT_TEAM]: 'team_scope',
+    [Permissions.VIEW_TEAM]: 'team_scope',
+    [Permissions.LIST_USERS_WITHOUT_TEAM]: 'system_scope',
+    [Permissions.CREATE_USER_ACCESS_TOKEN]: 'system_scope',
+    [Permissions.READ_USER_ACCESS_TOKEN]: 'system_scope',
+    [Permissions.REVOKE_USER_ACCESS_TOKEN]: 'system_scope',
+    [Permissions.MANAGE_JOBS]: 'system_scope',
 };
 
 export const Constants = {
