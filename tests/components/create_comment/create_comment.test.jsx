@@ -4,8 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CreateComment from 'components/create_comment/create_comment.jsx';
 import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent';
+
+import CreateComment from 'components/create_comment/create_comment.jsx';
 
 jest.mock('stores/post_store.jsx', () => ({
     clearCommentDraftUploads: jest.fn(),
@@ -582,5 +584,31 @@ describe('components/CreateComment', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should not focus on textbox for mobile app on handleFileUploadChange', () => {
+        UserAgent.isMobileApp = jest.fn(() => true);
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.focusTextbox = jest.fn();
+
+        instance.handleFileUploadChange();
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
+        expect(instance.focusTextbox).toBeCalledWith(false);
+    });
+
+    it('should focus on textbox for non-mobile app on handleFileUploadChange', () => {
+        UserAgent.isMobileApp = jest.fn(() => false);
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.focusTextbox = jest.fn();
+
+        instance.handleFileUploadChange();
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
+        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 });

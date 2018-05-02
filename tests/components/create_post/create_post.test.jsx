@@ -5,10 +5,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import CreatePost from 'components/create_post/create_post.jsx';
-import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+
+import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent';
+import * as Utils from 'utils/utils.jsx';
+
+import CreatePost from 'components/create_post/create_post.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -374,13 +377,25 @@ describe('components/create_post', () => {
         expect(wrapper.find('#postCreateFooter').hasClass('post-create-footer has-error')).toBe(true);
     });
 
-    it('check for handleFileUploadChange callback for focus', () => {
+    it('should not focus on textbox for mobile app on handleFileUploadChange', () => {
+        UserAgent.isMobileApp = jest.fn(() => true);
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
-        expect(instance.focusTextbox).toBeCalled();
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
+        expect(instance.focusTextbox).toBeCalledWith(false);
+    });
+
+    it('should focus on textbox for non-mobile app on handleFileUploadChange', () => {
+        UserAgent.isMobileApp = jest.fn(() => false);
+        const wrapper = shallow(createPost());
+        const instance = wrapper.instance();
+        instance.focusTextbox = jest.fn();
+
+        instance.handleFileUploadChange();
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
         expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
