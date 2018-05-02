@@ -156,7 +156,7 @@ export const LOG_FORMAT_HELP_TEXT = (
     <div>
         <FormattedMessage
             id='admin.log.formatDescription'
-            defaultMessage='Format of log message output. If blank will be set to "[%D %T] [%L] %M", where:'
+            defaultMessage='Format of log message output. If blank will be set to "[%D %T] [%L] %M", where each variable is defined below. Changing this setting requires a server restart before taking effect.'
         />
         <table
             className='table table-bordered'
