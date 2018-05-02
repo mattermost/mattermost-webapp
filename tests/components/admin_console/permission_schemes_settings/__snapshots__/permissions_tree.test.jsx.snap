@@ -51,8 +51,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_public_channel_properties",
               "manage_public_channel_members",
               "delete_public_channel",
-              "join_public_channels",
-              "read_public_channel",
             ],
           },
           Object {
@@ -89,11 +87,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "code": "integrations",
             "permissions": Array [
               "manage_webhooks",
-              "manage_others_webhooks",
               "manage_oauth",
-              "manage_system_wide_oauth",
               "manage_slash_commands",
-              "manage_others_slash_commands",
             ],
           },
         ]
@@ -163,8 +158,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_public_channel_properties",
               "manage_public_channel_members",
               "delete_public_channel",
-              "join_public_channels",
-              "read_public_channel",
             ],
           },
           Object {
@@ -201,11 +194,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "code": "integrations",
             "permissions": Array [
               "manage_webhooks",
-              "manage_others_webhooks",
               "manage_oauth",
-              "manage_system_wide_oauth",
               "manage_slash_commands",
-              "manage_others_slash_commands",
             ],
           },
         ]
@@ -275,8 +265,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_public_channel_properties",
               "manage_public_channel_members",
               "delete_public_channel",
-              "join_public_channels",
-              "read_public_channel",
             ],
           },
           Object {
@@ -313,11 +301,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "code": "integrations",
             "permissions": Array [
               "manage_webhooks",
-              "manage_others_webhooks",
               "manage_oauth",
-              "manage_system_wide_oauth",
               "manage_slash_commands",
-              "manage_others_slash_commands",
             ],
           },
         ]
@@ -387,8 +372,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_public_channel_properties",
               "manage_public_channel_members",
               "delete_public_channel",
-              "join_public_channels",
-              "read_public_channel",
             ],
           },
           Object {
@@ -425,11 +408,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "code": "integrations",
             "permissions": Array [
               "manage_webhooks",
-              "manage_others_webhooks",
               "manage_oauth",
-              "manage_system_wide_oauth",
               "manage_slash_commands",
-              "manage_others_slash_commands",
             ],
           },
         ]
@@ -503,8 +483,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_public_channel_properties",
               "manage_public_channel_members",
               "delete_public_channel",
-              "join_public_channels",
-              "read_public_channel",
             ],
           },
           Object {
@@ -541,11 +519,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "code": "integrations",
             "permissions": Array [
               "manage_webhooks",
-              "manage_others_webhooks",
               "manage_oauth",
-              "manage_system_wide_oauth",
               "manage_slash_commands",
-              "manage_others_slash_commands",
             ],
           },
         ]

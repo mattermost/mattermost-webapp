@@ -29,8 +29,6 @@ const GROUPS = [
             'manage_public_channel_properties',
             'manage_public_channel_members',
             'delete_public_channel',
-            'join_public_channels',
-            'read_public_channel',
         ],
     },
     {
@@ -67,11 +65,8 @@ const GROUPS = [
         code: 'integrations',
         permissions: [
             'manage_webhooks',
-            'manage_others_webhooks',
             'manage_oauth',
-            'manage_system_wide_oauth',
             'manage_slash_commands',
-            'manage_others_slash_commands',
         ],
     },
 ];
