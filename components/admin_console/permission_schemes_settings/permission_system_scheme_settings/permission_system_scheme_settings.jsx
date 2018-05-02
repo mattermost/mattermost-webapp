@@ -15,7 +15,7 @@ import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 
 import PermissionsTree from '../permissions_tree.jsx';
 
-export default class PermissionSystemSchemesSettings extends React.Component {
+export default class PermissionSystemSchemeSettings extends React.Component {
     static propTypes = {
         roles: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -177,7 +177,7 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                     <div className='banner__content'>
                         <span>
                             <FormattedMessage
-                                id='admin.permissions.system-schemes.introBanner'
+                                id='admin.permissions.systemScheme.introBanner'
                                 defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a Team Override Scheme is applied in specific teams.'
                             />
                         </span>
@@ -195,13 +195,13 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                         <div>
                             <h3>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.allMembersTitle'
+                                    id='admin.permissions.systemScheme.allMembersTitle'
                                     defaultMessage='All Members'
                                 />
                             </h3>
                             <span>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.allMembersDescription'
+                                    id='admin.permissions.systemScheme.allMembersDescription'
                                     defaultMessage='Permissions granted to all members, including administrators and newly created users.'
                                 />
                             </span>
@@ -225,13 +225,13 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                         <div>
                             <h3>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.channelAdminsTitle'
+                                    id='admin.permissions.systemScheme.channelAdminsTitle'
                                     defaultMessage='Channel Administrators'
                                 />
                             </h3>
                             <span>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.channelAdminsDescription'
+                                    id='admin.permissions.systemScheme.channelAdminsDescription'
                                     defaultMessage='Permissions granted to channel creators and any users promoted to Channel Administrator.'
                                 />
                             </span>
@@ -256,13 +256,13 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                         <div>
                             <h3>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.teamAdminsTitle'
+                                    id='admin.permissions.systemScheme.teamAdminsTitle'
                                     defaultMessage='Team Administrators'
                                 />
                             </h3>
                             <span>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.teamAdminsDescription'
+                                    id='admin.permissions.systemScheme.teamAdminsDescription'
                                     defaultMessage='Permissions granted to team creators and any users promoted to Team Administrator.'
                                 />
                             </span>
@@ -287,13 +287,13 @@ export default class PermissionSystemSchemesSettings extends React.Component {
                         <div>
                             <h3>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.systemAdminsTitle'
+                                    id='admin.permissions.systemScheme.systemAdminsTitle'
                                     defaultMessage='System Administrators'
                                 />
                             </h3>
                             <span>
                                 <FormattedMessage
-                                    id='admin.permissions.systemSchemes.systemAdminsDescription'
+                                    id='admin.permissions.systemScheme.systemAdminsDescription'
                                     defaultMessage='Full permissions granted to System Administrators.'
                                 />
                             </span>

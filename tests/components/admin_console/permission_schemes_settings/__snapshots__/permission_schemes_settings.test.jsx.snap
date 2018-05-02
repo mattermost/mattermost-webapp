@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_schemes_settings should match snapshot on render 1`] = `
+exports[`components/admin_console/permission_schemes_settings/permission_schemes_settings should match snapshot on render 1`] = `
 <div
   className="wrapper--fixed"
 >
@@ -56,7 +56,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <Link
           className="btn btn-primary"
           replace={false}
-          to="/admin_console/permissions/system-schemes"
+          to="/admin_console/permissions/system-scheme"
         >
           <FormattedMessage
             defaultMessage="Edit Scheme"

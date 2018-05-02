@@ -52,7 +52,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         <div className='button'>
                             <Link
                                 className='btn btn-primary'
-                                to='/admin_console/permissions/system-schemes'
+                                to='/admin_console/permissions/system-scheme'
                             >
                                 <FormattedMessage
                                     id='admin.permissions.systemSchemeBannerButton'

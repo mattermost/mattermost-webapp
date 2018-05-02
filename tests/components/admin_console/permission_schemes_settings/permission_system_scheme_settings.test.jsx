@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionSystemSchemesSettings from 'components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_system_schemes_settings.jsx';
+import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings.jsx';
 import SaveButton from 'components/save_button.jsx';
 
-describe('components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_system_schemes_settings', () => {
+describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
     const defaultProps = {
         roles: {
             system_user: {
@@ -37,7 +37,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
 
     test('should match snapshot on roles without permissions', (done) => {
         const wrapper = shallow(
-            <PermissionSystemSchemesSettings {...defaultProps}/>
+            <PermissionSystemSchemeSettings {...defaultProps}/>
         );
         defaultProps.actions.loadRolesIfNeeded().then(() => {
             expect(wrapper.state()).toMatchSnapshot();
@@ -67,7 +67,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
             },
         };
         const wrapper = shallow(
-            <PermissionSystemSchemesSettings
+            <PermissionSystemSchemeSettings
                 {...defaultProps}
                 roles={roles}
             />
@@ -83,7 +83,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
     test('should save each role on save clicked except system_admin role', () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
         const wrapper = shallow(
-            <PermissionSystemSchemesSettings
+            <PermissionSystemSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole}}
             />
@@ -97,7 +97,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
     test('should show error if editRole fails', (done) => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
         const wrapper = shallow(
-            <PermissionSystemSchemesSettings
+            <PermissionSystemSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole}}
             />
@@ -112,7 +112,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
 
     test('should open and close correctly roles blocks', () => {
         const wrapper = shallow(
-            <PermissionSystemSchemesSettings {...defaultProps}/>
+            <PermissionSystemSchemeSettings {...defaultProps}/>
         );
         expect(wrapper.state().openRoles.all_users).toBe(true);
         wrapper.find('.header').first().simulate('click');

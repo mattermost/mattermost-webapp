@@ -8,7 +8,7 @@ import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
-import PermissionSystemSchemesSettings from './permission_system_schemes_settings.jsx';
+import PermissionSystemSchemeSettings from './permission_system_scheme_settings.jsx';
 
 function mapStateToProps(state) {
     return {
@@ -26,4 +26,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PermissionSystemSchemesSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(PermissionSystemSchemeSettings);

@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import PermissionSchemesSettings from 'components/admin_console/permission_schemes_settings/permission_schemes_settings.jsx';
 
-describe('components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_schemes_settings', () => {
+describe('components/admin_console/permission_schemes_settings/permission_schemes_settings', () => {
     test('should match snapshot on render', () => {
         const wrapper = shallow(
             <PermissionSchemesSettings/>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_system_schemes_settings should match snapshot on roles with permissions 1`] = `
+exports[`components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings should match snapshot on roles with permissions 1`] = `
 <div
   className="wrapper--fixed"
 >
@@ -27,7 +27,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <span>
         <FormattedMessage
           defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a Team Override Scheme is applied in specific teams."
-          id="admin.permissions.system-schemes.introBanner"
+          id="admin.permissions.systemScheme.introBanner"
           values={Object {}}
         />
       </span>
@@ -45,14 +45,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="All Members"
-            id="admin.permissions.systemSchemes.allMembersTitle"
+            id="admin.permissions.systemScheme.allMembersTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Permissions granted to all members, including administrators and newly created users."
-            id="admin.permissions.systemSchemes.allMembersDescription"
+            id="admin.permissions.systemScheme.allMembersDescription"
             values={Object {}}
           />
         </span>
@@ -90,14 +90,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="Channel Administrators"
-            id="admin.permissions.systemSchemes.channelAdminsTitle"
+            id="admin.permissions.systemScheme.channelAdminsTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Permissions granted to channel creators and any users promoted to Channel Administrator."
-            id="admin.permissions.systemSchemes.channelAdminsDescription"
+            id="admin.permissions.systemScheme.channelAdminsDescription"
             values={Object {}}
           />
         </span>
@@ -142,14 +142,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="Team Administrators"
-            id="admin.permissions.systemSchemes.teamAdminsTitle"
+            id="admin.permissions.systemScheme.teamAdminsTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Permissions granted to team creators and any users promoted to Team Administrator."
-            id="admin.permissions.systemSchemes.teamAdminsDescription"
+            id="admin.permissions.systemScheme.teamAdminsDescription"
             values={Object {}}
           />
         </span>
@@ -194,14 +194,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="System Administrators"
-            id="admin.permissions.systemSchemes.systemAdminsTitle"
+            id="admin.permissions.systemScheme.systemAdminsTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Full permissions granted to System Administrators."
-            id="admin.permissions.systemSchemes.systemAdminsDescription"
+            id="admin.permissions.systemScheme.systemAdminsDescription"
             values={Object {}}
           />
         </span>
@@ -255,7 +255,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
 </div>
 `;
 
-exports[`components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_system_schemes_settings should match snapshot on roles with permissions 2`] = `
+exports[`components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings should match snapshot on roles with permissions 2`] = `
 Object {
   "loaded": true,
   "openRoles": Object {
@@ -296,7 +296,7 @@ Object {
 }
 `;
 
-exports[`components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_system_schemes_settings should match snapshot on roles without permissions 1`] = `
+exports[`components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings should match snapshot on roles without permissions 1`] = `
 Object {
   "loaded": true,
   "openRoles": Object {
@@ -327,7 +327,7 @@ Object {
 }
 `;
 
-exports[`components/admin_console/permission_schemes_settings/permission_system_schemes_settings/permission_system_schemes_settings should save each role on save clicked except system_admin role 1`] = `
+exports[`components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings should save each role on save clicked except system_admin role 1`] = `
 <div
   className="wrapper--fixed"
 >
@@ -354,7 +354,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       <span>
         <FormattedMessage
           defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a Team Override Scheme is applied in specific teams."
-          id="admin.permissions.system-schemes.introBanner"
+          id="admin.permissions.systemScheme.introBanner"
           values={Object {}}
         />
       </span>
@@ -372,14 +372,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="All Members"
-            id="admin.permissions.systemSchemes.allMembersTitle"
+            id="admin.permissions.systemScheme.allMembersTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Permissions granted to all members, including administrators and newly created users."
-            id="admin.permissions.systemSchemes.allMembersDescription"
+            id="admin.permissions.systemScheme.allMembersDescription"
             values={Object {}}
           />
         </span>
@@ -413,14 +413,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="Channel Administrators"
-            id="admin.permissions.systemSchemes.channelAdminsTitle"
+            id="admin.permissions.systemScheme.channelAdminsTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Permissions granted to channel creators and any users promoted to Channel Administrator."
-            id="admin.permissions.systemSchemes.channelAdminsDescription"
+            id="admin.permissions.systemScheme.channelAdminsDescription"
             values={Object {}}
           />
         </span>
@@ -459,14 +459,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="Team Administrators"
-            id="admin.permissions.systemSchemes.teamAdminsTitle"
+            id="admin.permissions.systemScheme.teamAdminsTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Permissions granted to team creators and any users promoted to Team Administrator."
-            id="admin.permissions.systemSchemes.teamAdminsDescription"
+            id="admin.permissions.systemScheme.teamAdminsDescription"
             values={Object {}}
           />
         </span>
@@ -505,14 +505,14 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         <h3>
           <FormattedMessage
             defaultMessage="System Administrators"
-            id="admin.permissions.systemSchemes.systemAdminsTitle"
+            id="admin.permissions.systemScheme.systemAdminsTitle"
             values={Object {}}
           />
         </h3>
         <span>
           <FormattedMessage
             defaultMessage="Full permissions granted to System Administrators."
-            id="admin.permissions.systemSchemes.systemAdminsDescription"
+            id="admin.permissions.systemScheme.systemAdminsDescription"
             values={Object {}}
           />
         </span>
