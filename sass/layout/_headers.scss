@@ -245,7 +245,7 @@
         display: flex;
 
         .channel-header__favorites {
-            flex: 0;
+            flex: 0 auto;
         }
 
         h2 {
