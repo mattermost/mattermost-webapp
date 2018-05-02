@@ -698,7 +698,7 @@
   "admin.log.fileTitle": "Output logs to file: ",
   "admin.log.formatDateLong": "Date (2006/01/02)",
   "admin.log.formatDateShort": "Date (01/02/06)",
-  "admin.log.formatDescription": "Format of log message output. If blank will be set to "[%D %T] [%L] %M", where each variable is defined below. Changing this setting requires a server restart before taking effect.",
+  "admin.log.formatDescription": "Format of log message output. If blank will be set to \"[%D %T] [%L] %M\", where each variable is defined below. Changing this setting requires a server restart before taking effect.",
   "admin.log.formatLevel": "Level (DEBG, INFO, EROR)",
   "admin.log.formatMessage": "Message",
   "admin.log.formatPlaceholder": "Enter your file format",
