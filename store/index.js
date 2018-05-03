@@ -148,7 +148,7 @@ export default function configureStore(initialState) {
                 log: false,
             },
             blacklist: ['errors', 'offline', 'requests', 'entities', 'views', 'plugins'],
-            debounce: 500,
+            debounce: 30,
             transforms: [
                 setTransformer,
             ],
