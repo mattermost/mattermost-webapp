@@ -36,6 +36,7 @@ export default class SingleImageView extends React.PureComponent {
 
     static defaultProps = {
         fileInfo: {},
+        previewEnabled: false,
     };
 
     constructor(props) {
@@ -173,12 +174,12 @@ export default class SingleImageView extends React.PureComponent {
         );
 
         const fileHeader = (
-            <span
+            <div
                 className='image-name'
                 onClick={this.handleImageClick}
             >
                 {fileInfo.name}
-            </span>
+            </div>
         );
 
         const fileType = getFileType(fileInfo.extension);
@@ -222,7 +223,7 @@ export default class SingleImageView extends React.PureComponent {
             fadeInClass = 'image-fade-in';
             imageStyle = {cursor: 'pointer'};
             imageLoadedStyle = {};
-        } else {
+        } else if (this.props.isEmbedVisible) {
             loadingImagePreview = (
                 <LoadingImagePreview
                     loading={loading}
@@ -253,6 +254,7 @@ export default class SingleImageView extends React.PureComponent {
                     className='file__image'
                 >
                     {toggle} {fileHeader}
+                    {this.props.isEmbedVisible &&
                     <div
                         className='image-container'
                         style={imageContainerStyle}
@@ -267,6 +269,7 @@ export default class SingleImageView extends React.PureComponent {
                             {loadingImagePreview}
                         </div>
                     </div>
+                    }
                     {viewImageModal}
                 </div>
             </div>
