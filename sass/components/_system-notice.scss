@@ -1,9 +1,10 @@
 @charset 'UTF-8';
 
 .system-notice {
+    @include box-shadow(0 20px 30px alpha-color($black, .07), 0 14px 20px alpha-color($black, .07));
     @include border-radius(4px);
     background-color: $white;
-    border: 1px solid alpha-color($black, .1);
+    border: 1px solid alpha-color($black, .15);
     bottom: 12px;
     padding: 18px 20px 0;
     position: absolute;
@@ -21,6 +22,7 @@
     height: 36px;
 
     svg {
+        fill: rgb(22, 109, 224);
         height: 36px;
         width: 36px;
     }
@@ -51,6 +53,11 @@
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        &:hover {
+            background: rgb(22, 109, 224);
+            color: $white;
+        }
 
         &:first-child {
             @include border-radius(0 0 0 4px);
