@@ -287,8 +287,8 @@ function handleEvent(msg) {
         handleLicenseChanged(msg);
         break;
 
-    case SocketEvents.PLUGIN_STATUS_CHANGED:
-        handlePluginStatusChangedEvent(msg);
+    case SocketEvents.PLUGIN_STATUSES_CHANGED:
+        handlePluginStatusesChangedEvent(msg);
         break;
 
     default:
@@ -707,6 +707,6 @@ function handleLicenseChanged(msg) {
     store.dispatch({type: GeneralTypes.CLIENT_LICENSE_RECEIVED, data: msg.data.license});
 }
 
-function handlePluginStatusChangedEvent(msg) {
-    store.dispatch({type: AdminTypes.PLUGIN_STATUS_CHANGED, data: msg.data});
+function handlePluginStatusesChangedEvent(msg) {
+    store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
 }

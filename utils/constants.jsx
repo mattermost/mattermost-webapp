@@ -345,7 +345,7 @@ export const SocketEvents = {
     PLUGIN_DEACTIVATED: 'plugin_deactivated',
     LICENSE_CHANGED: 'license_changed',
     CONFIG_CHANGED: 'config_changed',
-    PLUGIN_STATUS_CHANGED: 'plugin_status_changed',
+    PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
 };
 
 export const TutorialSteps = {
