@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+
+import {getCurrentLocale} from 'selectors/i18n';
 
 import ChannelIntroMessage from './channel_intro_message.jsx';
 
 function mapStateToProps(state) {
-    const license = getLicense(state);
-
     return {
-        isLicensed: license.IsLicensed === 'true',
+        locale: getCurrentLocale(state),
     };
 }
 

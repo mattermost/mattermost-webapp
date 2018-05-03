@@ -5,11 +5,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
 
+import {getCurrentLocale} from 'selectors/i18n';
+
 import ActivityLogModal from './activity_log_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
+        locale: getCurrentLocale(state),
     };
 }
 

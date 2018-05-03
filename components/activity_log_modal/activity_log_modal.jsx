@@ -9,11 +9,13 @@ import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 
 import UserStore from 'stores/user_store.jsx';
+import {getMonthLong} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ActivityLogModal extends React.Component {
     static propTypes = {
+        locale: PropTypes.string.isRequired,
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getSessions: PropTypes.func.isRequired,
@@ -191,7 +193,7 @@ export default class ActivityLogModal extends React.Component {
                                         <FormattedDate
                                             value={firstAccessTime}
                                             day='2-digit'
-                                            month='long'
+                                            month={getMonthLong(this.props.locale)}
                                             year='numeric'
                                         />
                                     ),
@@ -266,7 +268,7 @@ export default class ActivityLogModal extends React.Component {
                                             <FormattedDate
                                                 value={lastAccessTime}
                                                 day='2-digit'
-                                                month='long'
+                                                month={getMonthLong(this.props.locale)}
                                                 year='numeric'
                                             />
                                         ),
