@@ -443,7 +443,7 @@
   "admin.field_names.enableBanner": "Enable Announcement banner",
   "admin.field_names.enableCommands": "Enable Custom Slash Commands",
   "admin.field_names.enableConfirmNotificationsToChannel": "Show @channel and @all confirmation dialog",
-  "admin.field_names.enableIncomingWebhooks": "Enable Incomming Webhooks",
+  "admin.field_names.enableIncomingWebhooks": "Enable Incoming Webhooks",
   "admin.field_names.enableOAuthServiceProvider": "Enable OAuth 2.0 Service Provider",
   "admin.field_names.enableOutgoingWebhooks": "Enable Outgoing Webhooks",
   "admin.field_names.enablePostIconOverride": "Enable integrations to override profile picture icons",
