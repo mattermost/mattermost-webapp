@@ -438,19 +438,12 @@ export default {
                     name_default: 'Logging',
                     settings: [
                         {
-                            type: Constants.SettingsTypes.TYPE_BANNER,
-                            label: 'admin.log.noteDescription',
-                            label_default: 'Changing properties other than <a href="#EnableWebhookDebugging">Enable Webhook Debugging</a> and <a href="#EnableDiagnostics">Enable Diagnostics and Error Reporting</a> in this section will require a server restart before taking effect.',
-                            label_html: true,
-                            banner_type: 'info',
-                        },
-                        {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'LogSettings.EnableConsole',
                             label: 'admin.log.consoleTitle',
                             label_default: 'Output logs to console: ',
                             help_text: 'admin.log.consoleDescription',
-                            help_text_default: 'Typically set to false in production. Developers may set this field to true to output log messages to console based on the console level option.  If true, server writes messages to the standard output stream (stdout).',
+                            help_text_default: 'Typically set to false in production. Developers may set this field to true to output log messages to console based on the console level option.  If true, server writes messages to the standard output stream (stdout). Changing this setting requires a server restart before taking effect.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -468,7 +461,7 @@ export default {
                             label: 'admin.log.fileTitle',
                             label_default: 'Output logs to file: ',
                             help_text: 'admin.log.fileDescription',
-                            help_text_default: 'Typically set to true in production. When true, logged events are written to the mattermost.log file in the directory specified in the File Log Directory field. The logs are rotated at 10,000 lines and archived to a file in the same directory, and given a name with a datestamp and serial number. For example, mattermost.2017-03-31.001.',
+                            help_text_default: 'Typically set to true in production. When true, logged events are written to the mattermost.log file in the directory specified in the File Log Directory field. The logs are rotated at 10,000 lines and archived to a file in the same directory, and given a name with a datestamp and serial number. For example, mattermost.2017-03-31.001. Changing this setting requires a server restart before taking effect.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -486,7 +479,7 @@ export default {
                             label: 'admin.log.locationTitle',
                             label_default: 'File Log Directory:',
                             help_text: 'admin.log.locationDescription',
-                            help_text_default: 'The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it.',
+                            help_text_default: 'The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it. Changing this setting requires a server restart before taking effect.',
                             placeholder: 'admin.log.locationPlaceholder',
                             placeholder_default: 'Enter your file location',
                             isDisabled: needsUtils.stateValueEqual('LogSettings.EnableFile', false),
