@@ -461,7 +461,7 @@ export default {
                             label: 'admin.log.consoleJsonTitle',
                             label_default: 'Output console logs as JSON:',
                             help_text: 'admin.log.jsonDescription',
-                            help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text.',
+                            help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
                             isDisabled: needsUtils.stateValueEqual('LogSettings.EnableConsole', false),
                         },
                         {
@@ -488,7 +488,7 @@ export default {
                             label: 'admin.log.fileJsonTitle',
                             label_default: 'Output file logs as JSON:',
                             help_text: 'admin.log.jsonDescription',
-                            help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text.',
+                            help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
                             isDisabled: needsUtils.stateValueEqual('LogSettings.EnableFile', false),
                         },
                         {
