@@ -5,10 +5,12 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import CreatePost from 'components/create_post/create_post.jsx';
-import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+
+import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import CreatePost from 'components/create_post/create_post.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -380,8 +382,7 @@ describe('components/create_post', () => {
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
-        expect(instance.focusTextbox).toBeCalled();
-        expect(instance.focusTextbox).toBeCalledWith(true);
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
     });
 
     it('check for handleFileUploadStart callback', () => {
