@@ -74,10 +74,13 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         }
     }
 
-    goToSelectedRow() {
+    goToSelectedRow = () => {
         const selected = document.querySelector('.permission-row.selected');
         if (selected) {
             selected.scrollIntoView({behavior: 'smooth', block: 'center'});
+            if (!this.state.openRoles.all_users) {
+                this.toggleRole('all_users');
+            }
             return true;
         }
         return false;
