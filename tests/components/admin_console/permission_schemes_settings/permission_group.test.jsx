@@ -171,6 +171,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         expect(onChange).not.toBeCalled();
     });
 
+
     test('shouldn\'t call onChange function on click when is read-only', () => {
         const onChange = jest.fn();
         const wrapper = shallow(
@@ -182,5 +183,37 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         );
         wrapper.find('.permission-group-row').first().simulate('click');
         expect(onChange).not.toBeCalled();
+    });
+
+    test('should collapse when toggle to all permissions and expand otherwise', () => {
+        let wrapper = shallow(
+            <PermissionGroup
+                {...defaultProps}
+                role={{permissions: ['invite_user']}}
+            />
+        );
+        expect(wrapper.state().expanded).toBe(true);
+        wrapper.instance().toggleSelectGroup()
+        expect(wrapper.state().expanded).toBe(false);
+
+        wrapper = shallow(
+            <PermissionGroup
+                {...defaultProps}
+                role={{permissions: ['invite_user', 'add_user_to_team']}}
+            />
+        );
+        wrapper.setState({expanded: false})
+        wrapper.instance().toggleSelectGroup()
+        expect(wrapper.state().expanded).toBe(true);
+
+        wrapper = shallow(
+            <PermissionGroup
+                {...defaultProps}
+                role={{permissions: []}}
+            />
+        );
+        wrapper.setState({expanded: false, prevPermissions: ['invite_user']})
+        wrapper.instance().toggleSelectGroup()
+        expect(wrapper.state().expanded).toBe(true);
     });
 });
