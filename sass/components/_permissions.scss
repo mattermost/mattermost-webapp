@@ -109,7 +109,7 @@
     }
     .permission-description {
         width: 100%;
-        color: $gray;
+        opacity: .4;
         overflow: hidden;
         span {
             width: 100%;
@@ -178,7 +178,7 @@
             background-color: lighten($primary-color, 40%);
             border-left: 2px solid $primary-color;
             .permission-description {
-                color: #333;
+                opacity: 1;
             }
         }
         &.read-only {
