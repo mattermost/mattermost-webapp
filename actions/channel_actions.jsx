@@ -58,7 +58,7 @@ export function executeCommand(message, args, success, error) {
         cmdLength = msg.length;
     }
     const cmd = msg.substring(0, cmdLength).toLowerCase();
-    msg = cmd + msg.substring(cmdLength, msg.length);
+    msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
 
     switch (cmd) {
     case '/search':
