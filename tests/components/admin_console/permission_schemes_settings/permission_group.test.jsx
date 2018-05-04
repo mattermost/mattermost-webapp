@@ -216,4 +216,42 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         wrapper.instance().toggleSelectGroup()
         expect(wrapper.state().expanded).toBe(true);
     });
+
+    test('should toggle correctly between states', () => {
+        let onChange = jest.fn();
+        let wrapper = shallow(
+            <PermissionGroup
+                {...defaultProps}
+                role={{permissions: ['invite_user']}}
+                onChange={onChange}
+            />
+        );
+        wrapper.setState({prevPermissions: ['invite_user']})
+        wrapper.instance().toggleSelectGroup();
+        expect(onChange).toBeCalledWith(['add_user_to_team']);
+
+        onChange = jest.fn();
+        wrapper = shallow(
+            <PermissionGroup
+                {...defaultProps}
+                role={{permissions: ['invite_user', 'add_user_to_team']}}
+                onChange={onChange}
+            />
+        );
+        wrapper.setState({prevPermissions: ['invite_user']})
+        wrapper.instance().toggleSelectGroup();
+        expect(onChange).toBeCalledWith(['invite_user', 'add_user_to_team']);
+
+        onChange = jest.fn();
+        wrapper = shallow(
+            <PermissionGroup
+                {...defaultProps}
+                role={{permissions: []}}
+                onChange={onChange}
+            />
+        );
+        wrapper.setState({prevPermissions: ['invite_user']})
+        wrapper.instance().toggleSelectGroup();
+        expect(onChange).toBeCalledWith(['invite_user']);
+    });
 });
