@@ -171,7 +171,6 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         expect(onChange).not.toBeCalled();
     });
 
-
     test('shouldn\'t call onChange function on click when is read-only', () => {
         const onChange = jest.fn();
         const wrapper = shallow(
@@ -193,7 +192,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
             />
         );
         expect(wrapper.state().expanded).toBe(true);
-        wrapper.instance().toggleSelectGroup()
+        wrapper.instance().toggleSelectGroup();
         expect(wrapper.state().expanded).toBe(false);
 
         wrapper = shallow(
@@ -202,8 +201,8 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
                 role={{permissions: ['invite_user', 'add_user_to_team']}}
             />
         );
-        wrapper.setState({expanded: false})
-        wrapper.instance().toggleSelectGroup()
+        wrapper.setState({expanded: false});
+        wrapper.instance().toggleSelectGroup();
         expect(wrapper.state().expanded).toBe(true);
 
         wrapper = shallow(
@@ -212,8 +211,8 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
                 role={{permissions: []}}
             />
         );
-        wrapper.setState({expanded: false, prevPermissions: ['invite_user']})
-        wrapper.instance().toggleSelectGroup()
+        wrapper.setState({expanded: false, prevPermissions: ['invite_user']});
+        wrapper.instance().toggleSelectGroup();
         expect(wrapper.state().expanded).toBe(true);
     });
 
@@ -226,7 +225,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
                 onChange={onChange}
             />
         );
-        wrapper.setState({prevPermissions: ['invite_user']})
+        wrapper.setState({prevPermissions: ['invite_user']});
         wrapper.instance().toggleSelectGroup();
         expect(onChange).toBeCalledWith(['add_user_to_team']);
 
@@ -238,7 +237,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
                 onChange={onChange}
             />
         );
-        wrapper.setState({prevPermissions: ['invite_user']})
+        wrapper.setState({prevPermissions: ['invite_user']});
         wrapper.instance().toggleSelectGroup();
         expect(onChange).toBeCalledWith(['invite_user', 'add_user_to_team']);
 
@@ -250,7 +249,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
                 onChange={onChange}
             />
         );
-        wrapper.setState({prevPermissions: ['invite_user']})
+        wrapper.setState({prevPermissions: ['invite_user']});
         wrapper.instance().toggleSelectGroup();
         expect(onChange).toBeCalledWith(['invite_user']);
     });
