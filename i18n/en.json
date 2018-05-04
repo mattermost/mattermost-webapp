@@ -698,6 +698,7 @@
   "admin.log.fileTitle": "Output logs to file: ",
   "admin.log.consoleJsonTitle": "Output console logs as JSON:",
   "admin.log.fileJsonTitle": "Output file logs as JSON:",
+  "admin.log.jsonDescription": "When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.",
   "admin.log.levelDescription": "This setting determines the level of detail at which log events are written to the console. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.",
   "admin.log.levelTitle": "Console Log Level:",
   "admin.log.locationDescription": "The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it. Changing this setting requires a server restart before taking effect.",
