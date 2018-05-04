@@ -23,7 +23,7 @@
             self-align: end;
             svg {
                 transform: rotate(0deg);
-                transition: transform 500ms;
+                transition: transform 300ms;
             }
         }
     }
@@ -32,7 +32,7 @@
             .button {
                 svg {
                     transform: rotate(90deg);
-                    transition: transform 500ms;
+                    transition: transform 300ms;
                 }
             }
         }
@@ -40,14 +40,14 @@
             padding: 0 1.5rem;
             max-height: 0;
             overflow-y: hidden;
-            transition: max-height 500ms, padding 500ms;
+            transition: max-height 300ms, padding 300ms;
         }
     }
 }
 .permissions-tree {
     padding: .8em 1.5rem;
     max-height: 2000px;
-    transition: max-height 500ms, padding 500ms;
+    transition: max-height 300ms, padding 300ms;
 
     .permissions-tree--header {
         display: flex;
@@ -79,11 +79,11 @@
         min-width: 10px;
         align-items: center;
         justify-content: space-around;
-        transition: transform 500ms;
+        transition: transform 300ms;
         &.open {
             transform: rotate(90deg);
             transform-origin: 60% 50%;
-            transition: transform 500ms;
+            transition: transform 300ms;
         }
     }
     .permission-check {
@@ -129,9 +129,10 @@
         .permission-group-permissions {
             overflow: hidden;
             max-height: 0;
+            transition: max-height 300ms;
             &.open {
-                transition: max-height .5s cubic-bezier(0, 1, 0.5, 1);
-                max-height: 2000px;
+                transition: max-height 300ms;
+                max-height: 400px;
             }
             .permission-row {
                 padding: 0 0 0 48px;
