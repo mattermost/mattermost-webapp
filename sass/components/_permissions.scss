@@ -58,10 +58,11 @@
         padding: .5em 0;
 
         .permission-name {
-            width: 100%;
+            min-width: 300px;
             margin-left: 16px
         }
         .permission-description {
+            width: 100%;
             color: #333;
         }
     }
@@ -103,20 +104,30 @@
         }
     }
     .permission-name {
-        width: 100%;
+        min-width: 300px;
         display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     .permission-description {
-        min-width: 500px;
+        width: 100%;
         color: $gray;
+        overflow: hidden;
+        span {
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+        }
     }
 
     .permission-group {
+        .permission-group-row {
+            .permission-name {
+                min-width: 272px;
+            }
+        }
         .permission-group-permissions {
-            overflow-y: hidden;
+            overflow: hidden;
             max-height: 0;
             &.open {
                 transition: max-height .5s cubic-bezier(0, 1, 0.5, 1);
@@ -124,21 +135,33 @@
             }
             .permission-row {
                 padding: 0 0 0 48px;
+                .permission-name {
+                    min-width: 242px;
+                }
             }
             .permission-group-row {
                 padding: 0 0 0 30px;
                 &.combined {
                     padding: 0 0 0 48px;
                 }
+                .permission-name {
+                    min-width: 242px;
+                }
             }
             .permission-group-permissions {
                 .permission-row {
                     padding: 0 0 0 78px;
+                    .permission-name {
+                        min-width: 212px;
+                    }
                 }
                 .permission-group-row {
                     padding: 0 0 0 60px;
                     &.combined {
                         padding: 0 0 0 78px;
+                    }
+                    .permission-name {
+                        min-width: 192px;
                     }
                 }
             }
