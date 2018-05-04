@@ -72,21 +72,12 @@ export default class PermissionGroup extends React.Component {
         }
         if (this.getStatus(permissions) === 'checked') {
             const permissionsToToggle = [];
-            if (this.state.prevPermissions.length === role.permissions.length) {
-                for (const permission of this.getRecursivePermissions(permissions)) {
-                    if (!this.fromParent(permission)) {
-                        permissionsToToggle.push(permission);
-                    }
-                }
-            } else {
-                for (const permission of this.getRecursivePermissions(permissions)) {
-                    if (this.state.prevPermissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
-                        permissionsToToggle.push(permission);
-                    }
+            for (const permission of this.getRecursivePermissions(permissions)) {
+                if (!this.fromParent(permission)) {
+                    permissionsToToggle.push(permission);
                 }
             }
             onChange(permissionsToToggle);
-            this.setState({prevPermissions: [], lastMode: this.getStatus(permissions)});
         } else if (this.getStatus(permissions) === '') {
             const permissionsToToggle = [];
             if (this.state.prevPermissions.length === 0) {
@@ -103,24 +94,15 @@ export default class PermissionGroup extends React.Component {
                 }
             }
             onChange(permissionsToToggle);
-            this.setState({prevPermissions: [], lastMode: this.getStatus(permissions)});
+            this.setState({prevPermissions: []});
         } else {
             const permissionsToToggle = [];
-            if (this.state.lastMode === '') {
-                for (const permission of this.getRecursivePermissions(permissions)) {
-                    if (role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
-                        permissionsToToggle.push(permission);
-                    }
+            for (const permission of this.getRecursivePermissions(permissions)) {
+                if (role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
+                    permissionsToToggle.push(permission);
                 }
-                this.setState({prevPermissions: role.permissions});
-            } else {
-                for (const permission of this.getRecursivePermissions(permissions)) {
-                    if (role.permissions.indexOf(permission) !== -1 && !this.fromParent(permission)) {
-                        permissionsToToggle.push(permission);
-                    }
-                }
-                this.setState({prevPermissions: role.permissions});
             }
+            this.setState({prevPermissions: role.permissions});
             onChange(permissionsToToggle);
         }
     }
