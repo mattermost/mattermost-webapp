@@ -8,7 +8,6 @@ import {Posts} from 'mattermost-redux/constants';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
@@ -377,26 +376,13 @@ describe('components/create_post', () => {
         expect(wrapper.find('#postCreateFooter').hasClass('post-create-footer has-error')).toBe(true);
     });
 
-    it('should not focus on textbox for mobile app on handleFileUploadChange', () => {
-        UserAgent.isMobileApp = jest.fn(() => true);
+    it('check for handleFileUploadChange callback for focus', () => {
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
-        expect(instance.focusTextbox).toBeCalledWith(false);
-    });
-
-    it('should focus on textbox for non-mobile app on handleFileUploadChange', () => {
-        UserAgent.isMobileApp = jest.fn(() => false);
-        const wrapper = shallow(createPost());
-        const instance = wrapper.instance();
-        instance.focusTextbox = jest.fn();
-
-        instance.handleFileUploadChange();
-        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
-        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
     it('check for handleFileUploadStart callback', () => {
