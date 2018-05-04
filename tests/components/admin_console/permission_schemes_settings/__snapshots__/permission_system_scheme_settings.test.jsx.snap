@@ -77,6 +77,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="system_scope"
+      selected={null}
     />
   </div>
   <div
@@ -400,6 +401,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="system_scope"
+      selected={null}
     />
   </div>
   <div

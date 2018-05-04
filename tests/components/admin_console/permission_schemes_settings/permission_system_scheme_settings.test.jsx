@@ -9,6 +9,7 @@ import SaveButton from 'components/save_button.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
     const defaultProps = {
+        location: {},
         roles: {
             system_user: {
                 permissions: [],

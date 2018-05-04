@@ -19,6 +19,7 @@ export default class PermissionGroup extends React.Component {
         parentRole: PropTypes.object,
         scope: PropTypes.string.isRequired,
         combined: PropTypes.bool,
+        selected: PropTypes.string,
         root: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
@@ -29,6 +30,14 @@ export default class PermissionGroup extends React.Component {
             expanded: true,
             prevPermissions: [],
         };
+    }
+
+    componentWillUpdate(nextProps) {
+        if (this.props.selected !== nextProps.selected) {
+            if (this.getRecursivePermissions(this.props.permissions).indexOf(nextProps.selected) !== -1) {
+                this.setState({expanded: true});
+            }
+        }
     }
 
     toggleExpanded = (e) => {
@@ -127,6 +136,7 @@ export default class PermissionGroup extends React.Component {
             <PermissionRow
                 key={permission}
                 id={permission}
+                selected={this.props.selected}
                 readOnly={this.props.readOnly || comesFromParent}
                 inherited={comesFromParent ? this.props.parentRole : null}
                 value={active ? 'checked' : ''}
@@ -140,6 +150,7 @@ export default class PermissionGroup extends React.Component {
             <PermissionGroup
                 key={g.id}
                 id={g.id}
+                selected={this.props.selected}
                 readOnly={this.props.readOnly}
                 permissions={g.permissions}
                 role={this.props.role}

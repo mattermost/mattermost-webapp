@@ -182,6 +182,13 @@
                 opacity: 1;
             }
         }
+        &.selected {
+            background-color: beige;
+            border-left: 2px solid darken(beige, 40%);
+            .permission-description {
+                opacity: 1;
+            }
+        }
         &.read-only {
             .permission-check {
                 border: 0;

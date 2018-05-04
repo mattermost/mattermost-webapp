@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/permission_schemes_settings/permission_row should match snapshot on editable and inherited 1`] = `
 <div
-  className="permission-row "
+  className="permission-row"
   onClick={[Function]}
 >
   <PermissionCheckbox
@@ -24,7 +24,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={
         Object {
           "name": undefined,
-          "ref": "test",
+          "ref": "test-id",
         }
       }
     />
@@ -34,7 +34,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
 
 exports[`components/admin_console/permission_schemes_settings/permission_row should match snapshot on editable and not inherited 1`] = `
 <div
-  className="permission-row "
+  className="permission-row"
   onClick={[Function]}
 >
   <PermissionCheckbox

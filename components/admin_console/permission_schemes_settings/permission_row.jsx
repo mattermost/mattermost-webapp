@@ -13,6 +13,7 @@ export class PermissionRow extends React.Component {
         id: PropTypes.string.isRequired,
         inherited: PropTypes.object,
         readOnly: PropTypes.bool,
+        selected: PropTypes.string,
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
     };
@@ -25,10 +26,19 @@ export class PermissionRow extends React.Component {
     }
 
     render = () => {
-        const {id, inherited, value} = this.props;
+        const {id, inherited, value, readOnly, selected} = this.props;
+        let classes = 'permission-row';
+        if (readOnly) {
+            classes += ' read-only';
+        }
+
+        if (selected === id) {
+            classes += ' selected';
+        }
+
         return (
             <div
-                className={'permission-row ' + (this.props.readOnly ? 'read-only' : '')}
+                className={classes}
                 onClick={this.toggleSelect}
             >
                 <PermissionCheckbox value={value}/>
@@ -40,7 +50,7 @@ export class PermissionRow extends React.Component {
                         <FormattedHTMLMessage
                             id='admin.permissions.inherited_from'
                             values={{
-                                ref: inherited.name,
+                                ref: inherited.name + '-' + id,
                                 name: this.props.intl.formatMessage({
                                     id: 'admin.permissions.roles.' + inherited.name + '.name',
                                     defaultMessage: inherited.display_name,

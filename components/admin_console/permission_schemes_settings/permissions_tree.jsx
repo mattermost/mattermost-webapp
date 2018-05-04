@@ -77,6 +77,7 @@ export default class PermissionsTree extends React.Component {
         role: PropTypes.object.isRequired,
         onToggle: PropTypes.func.isRequired,
         parentRole: PropTypes.object,
+        selected: PropTypes.string,
         readOnly: PropTypes.bool,
     };
 
@@ -104,6 +105,7 @@ export default class PermissionsTree extends React.Component {
                     <PermissionGroup
                         key='all'
                         id='all'
+                        selected={this.props.selected}
                         readOnly={this.props.readOnly}
                         permissions={GROUPS}
                         role={this.props.role}

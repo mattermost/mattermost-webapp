@@ -51,6 +51,15 @@ export default class PermissionSystemSchemeSettings extends React.Component {
             this.props.roles.channel_admin) {
             this.loadRolesIntoState(this.props);
         }
+        if (this.props.location.hash) {
+            this.goToSelectedRow();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location.hash !== prevProps.location.hash) {
+            this.goToSelectedRow();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,6 +72,15 @@ export default class PermissionSystemSchemeSettings extends React.Component {
             nextProps.roles.channel_admin) {
             this.loadRolesIntoState(nextProps);
         }
+    }
+
+    goToSelectedRow() {
+        const selected = document.querySelector('.permission-row.selected');
+        if (selected) {
+            selected.scrollIntoView({behavior: 'smooth', block: 'center'});
+            return true;
+        }
+        return false;
     }
 
     loadRolesIntoState(props) {
@@ -148,6 +166,10 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     render = () => {
+        let selectedPermission = null;
+        if (this.props.location.hash && this.props.location.hash.split('-').length > 1) {
+            selectedPermission = this.props.location.hash.split('-')[1];
+        }
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
@@ -211,6 +233,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         </div>
                     </div>
                     <PermissionsTree
+                        selected={selectedPermission}
                         role={this.state.roles.all_users}
                         scope={'system_scope'}
                         onToggle={this.togglePermission}
