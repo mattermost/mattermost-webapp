@@ -457,6 +457,15 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'LogSettings.ConsoleJson',
+                            label: 'admin.log.consoleJsonTitle',
+                            label_default: 'Output console logs as JSON:',
+                            help_text: 'admin.log.jsonDescription',
+                            help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
+                            isDisabled: needsUtils.stateValueEqual('LogSettings.EnableConsole', false),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'LogSettings.EnableFile',
                             label: 'admin.log.fileTitle',
                             label_default: 'Output logs to file: ',
@@ -474,6 +483,15 @@ export default {
                             isDisabled: needsUtils.stateValueEqual('LogSettings.EnableFile', false),
                         },
                         {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'LogSettings.FileJson',
+                            label: 'admin.log.fileJsonTitle',
+                            label_default: 'Output file logs as JSON:',
+                            help_text: 'admin.log.jsonDescription',
+                            help_text_default: 'When true, logged events are written in a machine readable JSON format. Otherwise they are printed as plain text. Changing this setting requires a server restart before taking effect.',
+                            isDisabled: needsUtils.stateValueEqual('LogSettings.EnableFile', false),
+                        },
+                        {
                             type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'LogSettings.FileLocation',
                             label: 'admin.log.locationTitle',
@@ -482,16 +500,6 @@ export default {
                             help_text_default: 'The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it. Changing this setting requires a server restart before taking effect.',
                             placeholder: 'admin.log.locationPlaceholder',
                             placeholder_default: 'Enter your file location',
-                            isDisabled: needsUtils.stateValueEqual('LogSettings.EnableFile', false),
-                        },
-                        {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'LogSettings.FileFormat',
-                            label: 'admin.log.formatTitle',
-                            label_default: 'File Log Format:',
-                            help_text: DefinitionConstants.LOG_FORMAT_HELP_TEXT,
-                            placeholder: 'admin.log.formatPlaceholder',
-                            placeholder_default: 'Enter your file format',
                             isDisabled: needsUtils.stateValueEqual('LogSettings.EnableFile', false),
                         },
                         {
