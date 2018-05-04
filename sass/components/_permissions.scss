@@ -1,3 +1,28 @@
+@keyframes rowhighlight {
+    0%  {
+          background-color: $transparent;
+          border-left: 2px solid $transparent;
+        }
+    30% {
+          background-color: beige;
+          border-left: 2px solid darken(beige, 40%);
+          .permission-description {
+            opacity: 1;
+          }
+        }
+    70% {
+          background-color: beige;
+          border-left: 2px solid darken(beige, 40%);
+          .permission-description {
+            opacity: 1;
+          }
+        }
+    100% {
+          background-color: $transparent;
+          border-left: 2px solid $transparent;
+        }
+}
+
 .permissions-block {
     border: $border-gray;
     font-size: .95em;
@@ -183,11 +208,8 @@
             }
         }
         &.selected {
-            background-color: beige;
-            border-left: 2px solid darken(beige, 40%);
-            .permission-description {
-                opacity: 1;
-            }
+            animation-name: rowhighlight;
+            animation-duration: 1.5s;
         }
         &.read-only {
             .permission-check {
