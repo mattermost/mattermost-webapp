@@ -28,7 +28,6 @@ export default class PermissionGroup extends React.Component {
         this.state = {
             expanded: true,
             prevPermissions: [],
-            lastMode: '',
         };
     }
 
@@ -41,7 +40,6 @@ export default class PermissionGroup extends React.Component {
         if (this.props.readOnly) {
             return;
         }
-        this.setState({lastMode: ''});
         this.props.onChange([id]);
     }
 
@@ -61,7 +59,6 @@ export default class PermissionGroup extends React.Component {
         if (this.props.readOnly) {
             return;
         }
-        this.setState({lastMode: ''});
         this.props.onChange(ids);
     }
 
@@ -77,13 +74,16 @@ export default class PermissionGroup extends React.Component {
                     permissionsToToggle.push(permission);
                 }
             }
+            this.setState({expanded: true});
             onChange(permissionsToToggle);
         } else if (this.getStatus(permissions) === '') {
             const permissionsToToggle = [];
+            let expanded = true;
             if (this.state.prevPermissions.length === 0) {
                 for (const permission of this.getRecursivePermissions(permissions)) {
                     if (!this.fromParent(permission)) {
                         permissionsToToggle.push(permission);
+                        expanded = false;
                     }
                 }
             } else {
@@ -94,7 +94,7 @@ export default class PermissionGroup extends React.Component {
                 }
             }
             onChange(permissionsToToggle);
-            this.setState({prevPermissions: []});
+            this.setState({prevPermissions: [], expanded});
         } else {
             const permissionsToToggle = [];
             for (const permission of this.getRecursivePermissions(permissions)) {
@@ -102,7 +102,7 @@ export default class PermissionGroup extends React.Component {
                     permissionsToToggle.push(permission);
                 }
             }
-            this.setState({prevPermissions: role.permissions});
+            this.setState({prevPermissions: role.permissions, expanded: false});
             onChange(permissionsToToggle);
         }
     }
