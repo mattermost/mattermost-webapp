@@ -34,6 +34,8 @@
 
 .multi-select__help {
     padding: 10px 15px 0;
+    display: flex;
+    justify-content: space-between;
 
     > div:not(.multi-select__note),
     > span {

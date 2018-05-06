@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getProfiles, getProfilesInTeam, searchProfiles} from 'mattermost-redux/actions/users';
+import {getProfiles, getProfilesInTeam, searchProfiles, getTotalUsersStats} from 'mattermost-redux/actions/users';
 import {
     getCurrentUserId,
     getProfiles as selectProfiles,
@@ -11,6 +11,7 @@ import {
     getProfilesInCurrentTeam,
     searchProfiles as searchProfilesSelector,
     searchProfilesInCurrentTeam,
+    getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -44,6 +45,7 @@ function mapStateToProps(state, ownProps) {
     }
 
     const team = getCurrentTeam(state);
+    const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
     return {
         currentTeamId: team.id,
@@ -54,6 +56,7 @@ function mapStateToProps(state, ownProps) {
         currentChannelMembers,
         currentUserId: getCurrentUserId(state),
         restrictDirectMessage,
+        totalCount: stats.total_users_count,
     };
 }
 
@@ -64,6 +67,7 @@ function mapDispatchToProps(dispatch) {
             getProfilesInTeam,
             searchProfiles,
             setModalSearchTerm,
+            getTotalUsersStats,
         }, dispatch),
     };
 }
