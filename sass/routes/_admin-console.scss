@@ -385,6 +385,8 @@
     }
 
     .admin-console-save {
+        display: flex;
+        align-items: center;
         border-top: 1px solid alpha-color($black, .1);
         background: white;
         position: absolute;
@@ -396,8 +398,26 @@
         padding: 13px 0;
         z-index: 100;
         .save-button {
-            width: 100px;
-            margin-right: 38px;
+            min-width: 100px;
+            height: 34px;
+            margin: 0 10px 0 13px;
+        }
+        .cancel-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100px;
+            height: 34px;
+            margin: 0 10px 0 0;
+            text-decoration: none;
+            &:hover {
+                background-color: $light-gray;
+            }
+        }
+        .error-message {
+            .control-label {
+                padding: 0;
+            }
         }
     }
 

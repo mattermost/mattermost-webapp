@@ -173,17 +173,15 @@ export default class AdminSettings extends React.Component {
                     onSubmit={this.handleSubmit}
                 >
                     {this.renderSettings()}
-                    <div className='form-group'>
-                        <FormError error={this.state.serverError}/>
-                    </div>
                     <div className='admin-console-save'>
-                        <div className='col-sm-12'>
-                            <SaveButton
-                                saving={this.state.saving}
-                                disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
-                                onClick={this.handleSubmit}
-                                savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
-                            />
+                        <SaveButton
+                            saving={this.state.saving}
+                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                            onClick={this.handleSubmit}
+                            savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
+                        />
+                        <div className="error-message">
+                            <FormError error={this.state.serverError}/>
                         </div>
                     </div>
                 </form>
