@@ -229,28 +229,33 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   <div
     className="admin-console-save"
   >
-    <div
-      className="col-sm-12"
+    <SaveButton
+      btnClass="btn-primary"
+      defaultMessage="Save"
+      disabled={true}
+      extraClasses=""
+      onClick={[Function]}
+      saving={false}
+      savingMessage="Saving Config..."
+    />
+    <Link
+      className="cancel-button"
+      replace={false}
+      to="/admin_console/permissions/schemes"
     >
-      <SaveButton
-        btnClass="btn-primary"
-        defaultMessage="Save"
-        disabled={true}
-        extraClasses=""
-        onClick={[Function]}
-        saving={false}
-        savingMessage="Saving Config..."
+      <FormattedMessage
+        defaultMessage="Cancel"
+        id="admin.permissions.permissionSchemes.cancel"
+        values={Object {}}
       />
-      <Link
-        replace={false}
-        to="/admin_console/permissions/schemes"
-      >
-        <FormattedMessage
-          defaultMessage="Cancel"
-          id="admin.permissions.permissionSchemes.cancel"
-          values={Object {}}
-        />
-      </Link>
+    </Link>
+    <div
+      className="error-message"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
     </div>
   </div>
 </div>
@@ -539,28 +544,33 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   <div
     className="admin-console-save"
   >
-    <div
-      className="col-sm-12"
+    <SaveButton
+      btnClass="btn-primary"
+      defaultMessage="Save"
+      disabled={true}
+      extraClasses=""
+      onClick={[Function]}
+      saving={false}
+      savingMessage="Saving Config..."
+    />
+    <Link
+      className="cancel-button"
+      replace={false}
+      to="/admin_console/permissions/schemes"
     >
-      <SaveButton
-        btnClass="btn-primary"
-        defaultMessage="Save"
-        disabled={true}
-        extraClasses=""
-        onClick={[Function]}
-        saving={false}
-        savingMessage="Saving Config..."
+      <FormattedMessage
+        defaultMessage="Cancel"
+        id="admin.permissions.permissionSchemes.cancel"
+        values={Object {}}
       />
-      <Link
-        replace={false}
-        to="/admin_console/permissions/schemes"
-      >
-        <FormattedMessage
-          defaultMessage="Cancel"
-          id="admin.permissions.permissionSchemes.cancel"
-          values={Object {}}
-        />
-      </Link>
+    </Link>
+    <div
+      className="error-message"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
     </div>
   </div>
 </div>

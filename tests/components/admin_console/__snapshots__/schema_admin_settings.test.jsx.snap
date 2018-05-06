@@ -540,27 +540,23 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       />
     </SettingsGroup>
     <div
-      className="form-group"
-    >
-      <FormError
-        error={null}
-        errors={Array []}
-      />
-    </div>
-    <div
       className="admin-console-save"
     >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
       <div
-        className="col-sm-12"
+        className="error-message"
       >
-        <SaveButton
-          btnClass="btn-primary"
-          defaultMessage="Save"
-          disabled={true}
-          extraClasses=""
-          onClick={[Function]}
-          saving={false}
-          savingMessage="Saving Config..."
+        <FormError
+          error={null}
+          errors={Array []}
         />
       </div>
     </div>
