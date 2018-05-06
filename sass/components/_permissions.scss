@@ -1,26 +1,16 @@
 @keyframes rowhighlight {
     0%  {
-          background-color: $transparent;
-          border-left: 2px solid $transparent;
-        }
-    30% {
-          background-color: beige;
-          border-left: 2px solid darken(beige, 40%);
-          .permission-description {
-            opacity: 1;
-          }
-        }
-    70% {
-          background-color: beige;
-          border-left: 2px solid darken(beige, 40%);
-          .permission-description {
-            opacity: 1;
-          }
-        }
+      background-color: $transparent;
+    }
+    20% {
+      background-color: beige;
+    }
+    80% {
+      background-color: beige;
+    }
     100% {
-          background-color: $transparent;
-          border-left: 2px solid $transparent;
-        }
+      background-color: $transparent;
+    }
 }
 
 .permissions-block {
@@ -134,7 +124,6 @@
     }
     .permission-description {
         width: 100%;
-        opacity: .4;
         overflow: hidden;
         span {
             width: 100%;
@@ -203,13 +192,10 @@
         &:hover {
             background-color: lighten($primary-color, 40%);
             border-left: 2px solid $primary-color;
-            .permission-description {
-                opacity: 1;
-            }
         }
         &.selected {
             animation-name: rowhighlight;
-            animation-duration: 1.5s;
+            animation-duration: 3s;
         }
         &.read-only {
             .permission-check {

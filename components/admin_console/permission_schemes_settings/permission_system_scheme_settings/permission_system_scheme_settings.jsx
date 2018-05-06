@@ -174,14 +174,6 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         if (this.props.location.hash && this.props.location.hash.split('-').length > 1) {
             selectedPermission = this.props.location.hash.split('-')[1];
         }
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = (
-                <div className='form-group has-error'>
-                    <label className='control-label'>{this.state.serverError}</label>
-                </div>
-            );
-        }
 
         if (!this.state.loaded) {
             return <LoadingScreen/>;
@@ -344,13 +336,16 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         onClick={this.handleSubmit}
                         savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                     />
-                    <Link className="cancel-button" to='/admin_console/permissions/schemes'>
+                    <Link
+                        className='cancel-button'
+                        to='/admin_console/permissions/schemes'
+                    >
                         <FormattedMessage
                             id='admin.permissions.permissionSchemes.cancel'
                             defaultMessage='Cancel'
                         />
                     </Link>
-                    <div className="error-message">
+                    <div className='error-message'>
                         <FormError error={this.state.serverError}/>
                     </div>
                 </div>

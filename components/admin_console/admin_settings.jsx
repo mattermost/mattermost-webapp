@@ -180,7 +180,7 @@ export default class AdminSettings extends React.Component {
                             onClick={this.handleSubmit}
                             savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                         />
-                        <div className="error-message">
+                        <div className='error-message'>
                             <FormError error={this.state.serverError}/>
                         </div>
                     </div>
