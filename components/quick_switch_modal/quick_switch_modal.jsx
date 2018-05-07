@@ -147,7 +147,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             const selectedChannel = selected.channel;
             if (selectedChannel.type === Constants.DM_CHANNEL) {
                 this.props.actions.openDirectChannelToUser(
-                    selectedChannel.id,
+                    selectedChannel.userId,
                     (ch) => {
                         channel = ch;
                         this.switchToChannel(channel);

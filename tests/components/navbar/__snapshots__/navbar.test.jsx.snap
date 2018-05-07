@@ -740,12 +740,13 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   </a>
                 </li>
               </Connect(ChannelPermissionGate)>
-              <Connect(SystemPermissionGate)
+              <Connect(TeamPermissionGate)
                 permissions={
                   Array [
-                    "manage_system",
+                    "manage_team",
                   ]
                 }
+                teamId="team_id"
               >
                 <li
                   role="presentation"
@@ -768,7 +769,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     />
                   </ModalToggleButton>
                 </li>
-              </Connect(SystemPermissionGate)>
+              </Connect(TeamPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 permissions={
@@ -1385,12 +1386,13 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   </a>
                 </li>
               </Connect(ChannelPermissionGate)>
-              <Connect(SystemPermissionGate)
+              <Connect(TeamPermissionGate)
                 permissions={
                   Array [
-                    "manage_system",
+                    "manage_team",
                   ]
                 }
+                teamId="team_id"
               >
                 <li
                   role="presentation"
@@ -1413,7 +1415,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     />
                   </ModalToggleButton>
                 </li>
-              </Connect(SystemPermissionGate)>
+              </Connect(TeamPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 permissions={
@@ -1846,12 +1848,13 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   </a>
                 </li>
               </Connect(ChannelPermissionGate)>
-              <Connect(SystemPermissionGate)
+              <Connect(TeamPermissionGate)
                 permissions={
                   Array [
-                    "manage_system",
+                    "manage_team",
                   ]
                 }
+                teamId="team_id"
               >
                 <li
                   role="presentation"
@@ -1874,7 +1877,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     />
                   </ModalToggleButton>
                 </li>
-              </Connect(SystemPermissionGate)>
+              </Connect(TeamPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 permissions={

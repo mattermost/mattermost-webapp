@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getUser} from 'mattermost-redux/actions/users';
 
 import SystemUsersList from './system_users_list.jsx';
 import {getUsers} from './selectors.jsx';

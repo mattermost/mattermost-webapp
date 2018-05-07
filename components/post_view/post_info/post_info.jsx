@@ -167,7 +167,7 @@ export default class PostInfo extends React.PureComponent {
         return this.refs.dotMenu;
     };
 
-    buildOptions = (post, isSystemMessage, idCount) => {
+    buildOptions = (post, isSystemMessage, fromAutoResponder, idCount) => {
         if (!PostUtils.shouldShowDotMenu(post)) {
             return null;
         }
@@ -177,6 +177,18 @@ export default class PostInfo extends React.PureComponent {
 
         let comments;
         let react;
+
+        if (fromAutoResponder) {
+            comments = (
+                <CommentIcon
+                    idPrefix='commentIcon'
+                    idCount={idCount}
+                    handleCommentClick={this.props.handleCommentClick}
+                    commentCount={this.props.replyCount}
+                    id={post.channel_id + '_' + post.id}
+                />
+            );
+        }
 
         if (!isSystemMessage) {
             if (isMobile || hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
@@ -259,6 +271,7 @@ export default class PostInfo extends React.PureComponent {
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         let flagIcon;
         if (!isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged)) {
@@ -281,7 +294,7 @@ export default class PostInfo extends React.PureComponent {
                 </div>
             );
         } else if (!post.failed) {
-            options = this.buildOptions(post, isSystemMessage, idCount);
+            options = this.buildOptions(post, isSystemMessage, fromAutoResponder, idCount);
         }
 
         let visibleMessage;

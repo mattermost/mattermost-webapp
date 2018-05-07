@@ -374,7 +374,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox(true);
+        this.focusTextbox();
     }
 
     handleUploadStart = (clientIds) => {

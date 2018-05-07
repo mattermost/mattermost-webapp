@@ -5,7 +5,7 @@
         position: fixed;
         text-align: center;
         width: 65px;
-        z-index: 6;
+        z-index: 12;
 
         .team-wrapper {
             -webkit-overflow-scrolling: touch;
@@ -35,8 +35,7 @@
                 }
 
                 .team-btn {
-                    @include clearfix;
-                    @include border-radius(2px);
+                    @include border-radius(4px);
                     background-color: alpha-color($black, .3);
                     border: 1px solid alpha-color($white, .2);
                     display: table-cell;
@@ -65,6 +64,8 @@
                     }
 
                     .team-btn__image {
+                        @include border-radius(4px);
+                        @include clearfix;
                         background-color: $white;
                         background-repeat: round;
                         background-size: contain;

@@ -14,7 +14,28 @@ exports[`components/post_view/PostMp4 should match snapshot 1`] = `
     preload="auto"
   >
     <source
-      src="https://i.imgur.com/FY1AbSo.mp4"
+      src="https://i.imgur.com/FY1AbSo.gifv"
+      type="video/mp4"
+    />
+  </video>
+</div>
+`;
+
+exports[`components/post_view/PostMp4 with proxy should match snapshot 1`] = `
+<div
+  className="post__embed-container"
+>
+  <video
+    autoPlay="autoPlay"
+    className="img-div cursor--pointer"
+    loop="true"
+    muted="true"
+    onClick={[Function]}
+    poster="/api/v4/image?url=https%3A%2F%2Fi.imgur.com%2FFY1AbSo.jpg"
+    preload="auto"
+  >
+    <source
+      src="/api/v4/image?url=https%3A%2F%2Fi.imgur.com%2FFY1AbSo.gifv"
       type="video/mp4"
     />
   </video>

@@ -13,12 +13,14 @@ function mapStateToProps(state) {
     const enableEmailBatching = config.EnableEmailBatching === 'true';
     const siteName = config.SiteName;
     const sendPushNotifications = config.SendPushNotifications === 'true';
+    const enableAutoResponder = config.ExperimentalEnableAutomaticReplies === 'true';
 
     return {
         sendEmailNotifications,
         enableEmailBatching,
         siteName,
         sendPushNotifications,
+        enableAutoResponder,
     };
 }
 

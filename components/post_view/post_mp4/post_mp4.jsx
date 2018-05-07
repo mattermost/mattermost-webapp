@@ -6,7 +6,7 @@ import React from 'react';
 
 import loadingGif from 'images/load.gif';
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import {changeToJPGSrc, changeToMp4Src} from 'utils/post_utils.jsx';
+import { changeToJPGSrc, changeToMp4Src, getImageSrc} from 'utils/post_utils.jsx';
 
 export default class PostMp4 extends React.PureComponent {
     static propTypes = {
@@ -133,10 +133,7 @@ export default class PostMp4 extends React.PureComponent {
                     className='img-div cursor--pointer'
                 >
                     <source
-                        src={changeToMp4Src(
-                            this.props.link,
-                            this.props.hasImageProxy
-                        )}
+                        src={getImageSrc(this.props.link, this.props.hasImageProxy)}
                         type='video/mp4'
                     />
                 </video>

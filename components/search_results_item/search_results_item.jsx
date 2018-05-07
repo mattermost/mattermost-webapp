@@ -206,7 +206,14 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let botIndicator;
         if (post.props && post.props.from_webhook) {
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            botIndicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
         }
 
         const profilePic = (

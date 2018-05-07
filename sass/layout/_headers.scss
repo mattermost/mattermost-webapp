@@ -245,7 +245,7 @@
         display: flex;
 
         .channel-header__favorites {
-            flex: 0;
+            flex: 0 auto;
         }
 
         h2 {
@@ -451,6 +451,11 @@
         a {
             text-decoration: none;
             @include flex-grow(1);
+        }
+
+        a.out_of_office {
+            background-color: transparent !important;
+            cursor: default;
         }
 
         .sidebar-header-dropdown,

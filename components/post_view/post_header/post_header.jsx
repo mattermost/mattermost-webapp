@@ -92,6 +92,8 @@ export default class PostHeader extends React.PureComponent {
     render() {
         const post = this.props.post;
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
+        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
         let userProfile = (
             <UserProfile
@@ -102,10 +104,10 @@ export default class PostHeader extends React.PureComponent {
                 hasMention={true}
             />
         );
-        let botIndicator;
+        let indicator;
         let colon;
 
-        if (post.props && post.props.from_webhook) {
+        if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
@@ -124,7 +126,33 @@ export default class PostHeader extends React.PureComponent {
                 );
             }
 
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            indicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        } else if (fromAutoResponder) {
+            userProfile = (
+                <UserProfile
+                    user={this.props.user}
+                    displayNameType={this.props.displayNameType}
+                    status={this.props.status}
+                    isBusy={this.props.isBusy}
+                    hasMention={true}
+                />
+            );
+
+            indicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.auto_responder'
+                        defaultMessage='AUTOMATIC REPLY'
+                    />
+                </div>
+            );
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
@@ -148,7 +176,7 @@ export default class PostHeader extends React.PureComponent {
         return (
             <div className='post__header'>
                 <div className='col col__name'>{userProfile}{colon}</div>
-                {botIndicator}
+                {indicator}
                 <div className='col'>
                     <PostInfo
                         post={post}
