@@ -29,7 +29,7 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
                 if (value == null) {
                     Reflect.deleteProperty(configSettings, lowerKey);
                 } else {
-                    configSettings[lowerKey] = this.state[lowerKey] || setting.default;
+                    configSettings[lowerKey] = value;
                 }
             });
         }
