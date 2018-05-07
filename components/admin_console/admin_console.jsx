@@ -30,7 +30,6 @@ import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_sett
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PushSettings from 'components/admin_console/push_settings.jsx';
-import RateSettings from 'components/admin_console/rate_settings.jsx';
 import SamlSettings from 'components/admin_console/saml_settings.jsx';
 import SessionSettings from 'components/admin_console/session_settings.jsx';
 import StorageSettings from 'components/admin_console/storage_settings.jsx';
@@ -481,8 +480,11 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/rate`}
-                                        component={RateSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.advanced.rate.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/database`}
