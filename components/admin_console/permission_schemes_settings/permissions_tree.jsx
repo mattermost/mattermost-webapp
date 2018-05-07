@@ -43,7 +43,6 @@ const GROUPS = [
     {
         id: 'posts',
         permissions: [
-            'create_post',
             'edit_post',
             {
                 id: 'delete_posts',
@@ -54,6 +53,7 @@ const GROUPS = [
             },
             {
                 id: 'reactions',
+                combined: true,
                 permissions: [
                     'add_reaction',
                     'remove_reaction',
