@@ -20,6 +20,7 @@ export default class PermissionGroup extends React.Component {
         scope: PropTypes.string.isRequired,
         combined: PropTypes.bool,
         selected: PropTypes.string,
+        selectRow: PropTypes.func.isRequired,
         root: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
     };
@@ -137,6 +138,7 @@ export default class PermissionGroup extends React.Component {
                 key={permission}
                 id={permission}
                 selected={this.props.selected}
+                selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly || comesFromParent}
                 inherited={comesFromParent ? this.props.parentRole : null}
                 value={active ? 'checked' : ''}
@@ -151,6 +153,7 @@ export default class PermissionGroup extends React.Component {
                 key={g.id}
                 id={g.id}
                 selected={this.props.selected}
+                selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly}
                 permissions={g.permissions}
                 role={this.props.role}

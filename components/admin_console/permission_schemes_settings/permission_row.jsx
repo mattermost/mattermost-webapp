@@ -14,6 +14,7 @@ export class PermissionRow extends React.Component {
         inherited: PropTypes.object,
         readOnly: PropTypes.bool,
         selected: PropTypes.string,
+        selectRow: PropTypes.func.isRequired,
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
     };
@@ -23,6 +24,12 @@ export class PermissionRow extends React.Component {
             return;
         }
         this.props.onChange(this.props.id);
+    }
+
+    parentPermissionClicked = (e) => {
+        if (e.target.tagName === 'A') {
+            this.props.selectRow(this.props.id);
+        }
     }
 
     render = () => {
@@ -46,11 +53,10 @@ export class PermissionRow extends React.Component {
                     <FormattedMessage id={'admin.permissions.permission.' + id + '.name'}/>
                 </span>
                 {inherited &&
-                    <span className='permission-description'>
+                    <span className='permission-description' onClick={this.parentPermissionClicked}>
                         <FormattedHTMLMessage
                             id='admin.permissions.inherited_from'
                             values={{
-                                ref: inherited.name + '-' + id,
                                 name: this.props.intl.formatMessage({
                                     id: 'admin.permissions.roles.' + inherited.name + '.name',
                                     defaultMessage: inherited.display_name,

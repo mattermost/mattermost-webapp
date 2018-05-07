@@ -52,15 +52,6 @@ export default class PermissionSystemSchemeSettings extends React.Component {
             this.props.roles.channel_admin) {
             this.loadRolesIntoState(this.props);
         }
-        if (this.props.location.hash) {
-            this.goToSelectedRow();
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.location.hash !== prevProps.location.hash) {
-            this.goToSelectedRow();
-        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -78,18 +69,28 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     goToSelectedRow = () => {
         const selected = document.querySelector('.permission-row.selected');
         if (selected) {
-            selected.scrollIntoView({behavior: 'smooth', block: 'center'});
             if (!this.state.openRoles.all_users) {
                 this.toggleRole('all_users');
             }
+            // Give it time to open and show everything
+            setTimeout(() => {
+                selected.scrollIntoView({behavior: 'smooth', block: 'center'});
+            }, 300);
             return true;
         }
         return false;
     }
 
+    selectRow = (permission) => {
+        this.setState({selectedPermission: permission})
+        // Wait until next render
+        setTimeout(this.goToSelectedRow);
+    }
+
     loadRolesIntoState(props) {
         const {system_admin, team_admin, channel_admin, system_user, team_user, channel_user} = props.roles;
         this.setState({
+            selectedPermission: null,
             loaded: true,
             roles: {
                 system_admin,
@@ -170,10 +171,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     render = () => {
-        let selectedPermission = null;
-        if (this.props.location.hash && this.props.location.hash.split('-').length > 1) {
-            selectedPermission = this.props.location.hash.split('-')[1];
-        }
+        const selectedPermission = this.state.selectedPermission;
 
         if (!this.state.loaded) {
             return <LoadingScreen/>;
@@ -233,6 +231,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         role={this.state.roles.all_users}
                         scope={'system_scope'}
                         onToggle={this.togglePermission}
+                        selectRow={this.selectRow}
                     />
                 </div>
 
@@ -264,6 +263,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         role={this.state.roles.channel_admin}
                         scope={'channel_scope'}
                         onToggle={this.togglePermission}
+                        selectRow={this.selectRow}
                     />
                 </div>
 
@@ -295,6 +295,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         role={this.state.roles.team_admin}
                         scope={'team_scope'}
                         onToggle={this.togglePermission}
+                        selectRow={this.selectRow}
                     />
                 </div>
 
@@ -326,6 +327,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         role={this.state.roles.system_admin}
                         scope={'system_scope'}
                         onToggle={this.togglePermission}
+                        selectRow={this.selectRow}
                     />
                 </div>
 
