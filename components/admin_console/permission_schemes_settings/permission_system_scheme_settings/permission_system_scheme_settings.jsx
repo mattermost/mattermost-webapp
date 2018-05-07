@@ -71,11 +71,13 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         if (selected) {
             if (!this.state.openRoles.all_users) {
                 this.toggleRole('all_users');
-            }
-            // Give it time to open and show everything
-            setTimeout(() => {
+                // Give it time to open and show everything
+                setTimeout(() => {
+                    selected.scrollIntoView({behavior: 'smooth', block: 'center'});
+                }, 300);
+            } else {
                 selected.scrollIntoView({behavior: 'smooth', block: 'center'});
-            }, 300);
+            }
             return true;
         }
         return false;
@@ -85,6 +87,11 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         this.setState({selectedPermission: permission})
         // Wait until next render
         setTimeout(this.goToSelectedRow);
+
+        // Remove selection after animation
+        setTimeout(() => {
+            this.setState({selectedPermission: null});
+        }, 3000)
     }
 
     loadRolesIntoState(props) {
@@ -171,8 +178,6 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     render = () => {
-        const selectedPermission = this.state.selectedPermission;
-
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }
@@ -227,7 +232,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         </div>
                     </div>
                     <PermissionsTree
-                        selected={selectedPermission}
+                        selected={this.state.selectedPermission}
                         role={this.state.roles.all_users}
                         scope={'system_scope'}
                         onToggle={this.togglePermission}
