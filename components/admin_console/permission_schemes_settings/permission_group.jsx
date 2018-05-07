@@ -288,7 +288,10 @@ export class PermissionGroup extends React.Component {
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>
                         {inherited &&
-                            <span className='permission-description' onClick={this.parentPermissionClicked}>
+                            <span
+                                className='permission-description'
+                                onClick={this.parentPermissionClicked}
+                            >
                                 <FormattedHTMLMessage
                                     id='admin.permissions.inherited_from'
                                     values={{

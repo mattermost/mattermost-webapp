@@ -41,6 +41,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
     <InjectIntl(PermissionRow)
@@ -49,6 +50,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -96,6 +98,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
     <InjectIntl(PermissionRow)
@@ -104,6 +107,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -151,6 +155,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
     <InjectIntl(PermissionRow)
@@ -159,6 +164,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -206,6 +212,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value="checked"
     />
     <InjectIntl(PermissionRow)
@@ -214,6 +221,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value="checked"
     />
   </div>
@@ -225,7 +233,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only "
+    className="permission-group-row  read-only"
     onClick={[Function]}
   >
     <div
@@ -261,6 +269,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value="checked"
     />
     <InjectIntl(PermissionRow)
@@ -269,6 +278,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value="checked"
     />
   </div>
@@ -280,7 +290,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only "
+    className="permission-group-row  read-only"
     onClick={[Function]}
   >
     <div
@@ -323,6 +333,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value="checked"
     />
     <InjectIntl(PermissionRow)
@@ -338,6 +349,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value="checked"
     />
   </div>
@@ -385,6 +397,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value="checked"
     />
     <InjectIntl(PermissionRow)
@@ -393,6 +406,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -404,7 +418,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only "
+    className="permission-group-row  read-only"
     onClick={[Function]}
   >
     <div
@@ -440,6 +454,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value="checked"
     />
     <InjectIntl(PermissionRow)
@@ -448,6 +463,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -501,6 +517,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value="checked"
     />
     <InjectIntl(PermissionRow)
@@ -509,6 +526,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={false}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -556,6 +574,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
     <InjectIntl(PermissionRow)
@@ -564,6 +583,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -611,6 +631,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
     <InjectIntl(PermissionRow)
@@ -619,6 +640,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={null}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>
@@ -630,7 +652,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
   className="permission-group"
 >
   <div
-    className="permission-group-row read-only "
+    className="permission-group-row  read-only"
     onClick={[Function]}
   >
     <div
@@ -666,6 +688,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value=""
     />
     <InjectIntl(PermissionRow)
@@ -674,6 +697,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
+      selectRow={[MockFunction]}
       value=""
     />
   </div>

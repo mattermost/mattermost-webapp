@@ -77,6 +77,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="system_scope"
+      selectRow={[Function]}
       selected={null}
     />
   </div>
@@ -130,6 +131,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="channel_scope"
+      selectRow={[Function]}
     />
   </div>
   <div
@@ -182,6 +184,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="team_scope"
+      selectRow={[Function]}
     />
   </div>
   <div
@@ -224,6 +227,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="system_scope"
+      selectRow={[Function]}
     />
   </div>
   <div
@@ -298,6 +302,7 @@ Object {
   },
   "saveNeeded": false,
   "saving": false,
+  "selectedPermission": null,
   "serverError": null,
 }
 `;
@@ -329,6 +334,7 @@ Object {
   },
   "saveNeeded": false,
   "saving": false,
+  "selectedPermission": null,
   "serverError": null,
 }
 `;
@@ -406,6 +412,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="system_scope"
+      selectRow={[Function]}
       selected={null}
     />
   </div>
@@ -453,6 +460,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="channel_scope"
+      selectRow={[Function]}
     />
   </div>
   <div
@@ -499,6 +507,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="team_scope"
+      selectRow={[Function]}
     />
   </div>
   <div
@@ -539,6 +548,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         }
       }
       scope="system_scope"
+      selectRow={[Function]}
     />
   </div>
   <div

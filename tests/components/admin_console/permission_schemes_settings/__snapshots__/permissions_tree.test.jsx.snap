@@ -21,7 +21,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <PermissionGroup
+    <InjectIntl(PermissionGroup)
       combined={false}
       id="all"
       key="all"
@@ -65,7 +65,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "create_post",
               "edit_post",
               Object {
                 "id": "delete_posts",
@@ -75,6 +74,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               Object {
+                "combined": true,
                 "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
@@ -102,6 +102,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       }
       root={true}
       scope="channel_scope"
+      selectRow={[MockFunction]}
     />
   </div>
 </div>
@@ -128,7 +129,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <PermissionGroup
+    <InjectIntl(PermissionGroup)
       combined={false}
       id="all"
       key="all"
@@ -172,7 +173,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "create_post",
               "edit_post",
               Object {
                 "id": "delete_posts",
@@ -182,6 +182,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               Object {
+                "combined": true,
                 "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
@@ -209,6 +210,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       }
       root={true}
       scope="channel_scope"
+      selectRow={[MockFunction]}
     />
   </div>
 </div>
@@ -235,7 +237,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <PermissionGroup
+    <InjectIntl(PermissionGroup)
       combined={false}
       id="all"
       key="all"
@@ -279,7 +281,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "create_post",
               "edit_post",
               Object {
                 "id": "delete_posts",
@@ -289,6 +290,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               Object {
+                "combined": true,
                 "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
@@ -316,6 +318,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       }
       root={true}
       scope="system_scope"
+      selectRow={[MockFunction]}
     />
   </div>
 </div>
@@ -342,7 +345,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <PermissionGroup
+    <InjectIntl(PermissionGroup)
       combined={false}
       id="all"
       key="all"
@@ -386,7 +389,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "create_post",
               "edit_post",
               Object {
                 "id": "delete_posts",
@@ -396,6 +398,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               Object {
+                "combined": true,
                 "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
@@ -423,6 +426,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       }
       root={true}
       scope="team_scope"
+      selectRow={[MockFunction]}
     />
   </div>
 </div>
@@ -449,7 +453,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <PermissionGroup
+    <InjectIntl(PermissionGroup)
       combined={false}
       id="all"
       key="all"
@@ -497,7 +501,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "create_post",
               "edit_post",
               Object {
                 "id": "delete_posts",
@@ -507,6 +510,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               Object {
+                "combined": true,
                 "id": "reactions",
                 "permissions": Array [
                   "add_reaction",
@@ -534,6 +538,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       }
       root={true}
       scope="system_scope"
+      selectRow={[MockFunction]}
     />
   </div>
 </div>

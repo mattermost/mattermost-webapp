@@ -69,14 +69,15 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     goToSelectedRow = () => {
         const selected = document.querySelector('.permission-row.selected,.permission-group-row.selected');
         if (selected) {
-            if (!this.state.openRoles.all_users) {
+            if (this.state.openRoles.all_users) {
+                selected.scrollIntoView({behavior: 'smooth', block: 'center'});
+            } else {
                 this.toggleRole('all_users');
+
                 // Give it time to open and show everything
                 setTimeout(() => {
                     selected.scrollIntoView({behavior: 'smooth', block: 'center'});
                 }, 300);
-            } else {
-                selected.scrollIntoView({behavior: 'smooth', block: 'center'});
             }
             return true;
         }
@@ -84,14 +85,15 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     selectRow = (permission) => {
-        this.setState({selectedPermission: permission})
+        this.setState({selectedPermission: permission});
+
         // Wait until next render
         setTimeout(this.goToSelectedRow);
 
         // Remove selection after animation
         setTimeout(() => {
             this.setState({selectedPermission: null});
-        }, 3000)
+        }, 3000);
     }
 
     loadRolesIntoState(props) {

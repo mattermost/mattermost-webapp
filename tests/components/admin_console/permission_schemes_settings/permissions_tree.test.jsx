@@ -15,6 +15,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             permissions: [],
         },
         onToggle: jest.fn(),
+        selectRow: jest.fn(),
         parentRole: null,
         readOnly: false,
     };

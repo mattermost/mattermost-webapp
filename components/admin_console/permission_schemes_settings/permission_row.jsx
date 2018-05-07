@@ -53,7 +53,10 @@ export class PermissionRow extends React.Component {
                     <FormattedMessage id={'admin.permissions.permission.' + id + '.name'}/>
                 </span>
                 {inherited &&
-                    <span className='permission-description' onClick={this.parentPermissionClicked}>
+                    <span
+                        className='permission-description'
+                        onClick={this.parentPermissionClicked}
+                    >
                         <FormattedHTMLMessage
                             id='admin.permissions.inherited_from'
                             values={{

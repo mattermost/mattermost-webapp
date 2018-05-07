@@ -4,10 +4,25 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
+import {PermissionGroup} from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_group', () => {
     const defaultProps = {
+        intl: {
+            now: jest.fn(),
+            locale: '',
+            formats: {},
+            messages: {},
+            defaultLocale: 'en',
+            defaultFormats: {},
+            formatDate: jest.fn(),
+            formatTime: jest.fn(),
+            formatRelative: jest.fn(),
+            formatNumber: jest.fn(),
+            formatPlural: jest.fn(),
+            formatMessage: jest.fn(),
+            formatHTMLMessage: jest.fn(),
+        },
         id: 'name',
         permissions: ['invite_user', 'add_user_to_team'],
         readOnly: false,
@@ -17,6 +32,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         parentRole: null,
         scope: 'team_scope',
         value: 'checked',
+        selectRow: jest.fn(),
         onChange: jest.fn(),
     };
 

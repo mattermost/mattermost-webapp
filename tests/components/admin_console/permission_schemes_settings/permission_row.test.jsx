@@ -27,6 +27,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
         inherited: null,
         readOnly: false,
         value: 'checked',
+        selectRow: jest.fn(),
         onChange: jest.fn(),
     };
 
