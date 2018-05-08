@@ -361,8 +361,8 @@ export function areObjectsEqual(x, y) {
             rightChain.push(y);
 
             if (!areObjectsEqual(x[p], y[p])) {
-                    return false;
-                }
+                return false;
+            }
 
             leftChain.pop();
             rightChain.pop();
@@ -370,8 +370,8 @@ export function areObjectsEqual(x, y) {
 
         default:
             if (x[p] !== y[p]) {
-                    return false;
-                }
+                return false;
+            }
             break;
         }
     }
