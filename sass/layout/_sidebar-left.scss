@@ -274,15 +274,6 @@
                     font-weight: 600;
                 }
 
-<<<<<<< HEAD
-                .js-focus-visible :focus:not(.focus-visible) {
-                    outline: 0;
-=======
-                &.muted {
-                    opacity: 0.5;
->>>>>>> 8a5f196dd1715d8749e9aceca233871c52e528d6
-                }
-
                 .js-focus-visible :focus:not(.focus-visible) {
                     outline: 0;
                 }
