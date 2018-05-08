@@ -546,6 +546,13 @@
                 right: 0;
                 top: 0;
                 width: 100%;
+
+                &:focus {
+                    margin-right: 0px;
+                    opacity: 1;
+                    outline-offset: -14px;
+                    outline: 5px auto -webkit-focus-ring-color;
+                }
             }
 
             svg {
@@ -1585,9 +1592,13 @@
         top: 1px;
         visibility: hidden;
 
-        &:focus {
-            outline: none;
-        }
+        // &:focus {
+        //     outline: none;
+        // }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
+          }
 
         &.icon--visible {
             visibility: visible;

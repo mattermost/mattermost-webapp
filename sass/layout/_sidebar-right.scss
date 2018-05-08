@@ -189,9 +189,10 @@
         line-height: 0;
         margin: 11px 0 0;
         opacity: .5;
-        outline: none;
+        //outline: none;
         padding: 0;
         width: 30px;
+        overflow: hidden;
 
         &:hover,
         &:active {
@@ -201,11 +202,16 @@
         i {
             position: relative;
         }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
+        }
     }
 
     .sidebar--right__expand {
         @extend .sidebar--right__close;
         font-size: 17px;
+        overflow: hidden;
 
         i {
             top: -2px;

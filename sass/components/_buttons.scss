@@ -6,9 +6,9 @@ button {
         border: none;
         padding: 0;
 
-        &:focus {
-            outline: 0;
-        }
+        // &:focus {
+        //     outline: 0;
+        // }
 
         &.btn {
             padding: 6px 12px;
@@ -17,6 +17,10 @@ button {
         &.btn--block {
             text-align: left;
             width: 100%;
+        }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
         }
     }
 }
@@ -87,7 +91,7 @@ button {
     &.btn-link {
         &:active,
         &:focus {
-            outline: none;
+            outline: 5px auto -webkit-focus-ring-color;
         }
     }
 }

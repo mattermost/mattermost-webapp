@@ -224,6 +224,13 @@
     margin-left: 1px;
     position: relative;
     top: 1px;
+
+    &.focus {
+        margin-left: 0px;
+        opacity: 1;
+        outline-offset: -16px;
+        outline: 5px auto -webkit-focus-ring-color;
+    }
 }
 
 .channel-header__info {
@@ -319,6 +326,13 @@
 
         .markdown-inline-img {
             max-height: 45px;
+        }
+
+        &:focus {
+            margin-right: 0px;
+            opacity: 1;
+            outline-offset: -14px;
+            outline: 5px auto -webkit-focus-ring-color;
         }
     }
 
