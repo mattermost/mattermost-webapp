@@ -361,8 +361,8 @@ export function areObjectsEqual(x, y) {
             rightChain.push(y);
 
             if (!areObjectsEqual(x[p], y[p])) {
-                return false;
-            }
+                    return false;
+                }
 
             leftChain.pop();
             rightChain.pop();
@@ -370,8 +370,8 @@ export function areObjectsEqual(x, y) {
 
         default:
             if (x[p] !== y[p]) {
-                return false;
-            }
+                    return false;
+                }
             break;
         }
     }
@@ -1229,17 +1229,17 @@ export function imageURLForTeam(teamIdOrObject) {
     return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
 }
 
-// Converts a file size in bytes into a human-readable string of the form '123MB'.
+// Converts a file size in bytes into a human-readable string of the form '123MiB'.
 export function fileSizeToString(bytes) {
     // it's unlikely that we'll have files bigger than this
     if (bytes > 1024 * 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024 * 1024)) + 'TB';
+        return Math.floor(bytes / (1024 * 1024 * 1024 * 1024)) + 'TiB';
     } else if (bytes > 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024)) + 'GB';
+        return Math.floor(bytes / (1024 * 1024 * 1024)) + 'GiB';
     } else if (bytes > 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024)) + 'MB';
+        return Math.floor(bytes / (1024 * 1024)) + 'MiB';
     } else if (bytes > 1024) {
-        return Math.floor(bytes / 1024) + 'KB';
+        return Math.floor(bytes / 1024) + 'KiB';
     }
 
     return bytes + 'B';

@@ -273,7 +273,7 @@ export default class AddEmoji extends React.Component {
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_emoji.image.help'
-                                            defaultMessage='Choose the image for your emoji. The image can be a gif, png, or jpeg file with a max size of 64 KB and dimensions up to 128 by 128 pixels.'
+                                            defaultMessage='Choose the image for your emoji. The image can be a gif, png, or jpeg file with a max size of 1 MiB. Dimensions will automatically resize to fit 128 by 128 pixels but keeping aspect ratio.'
                                         />
                                     </div>
                                 </div>
