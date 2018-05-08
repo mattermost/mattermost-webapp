@@ -192,6 +192,7 @@
         //outline: none;
         padding: 0;
         width: 30px;
+        overflow: hidden;
 
         &:hover,
         &:active {
@@ -210,6 +211,7 @@
     .sidebar--right__expand {
         @extend .sidebar--right__close;
         font-size: 17px;
+        overflow: hidden;
 
         i {
             top: -2px;
