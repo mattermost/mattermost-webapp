@@ -23,19 +23,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -44,7 +42,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value=""
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -80,19 +78,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions "
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -101,7 +97,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value=""
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -137,19 +133,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -158,7 +152,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value=""
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -194,19 +188,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -215,7 +207,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value="checked"
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -251,19 +243,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -272,7 +262,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value="checked"
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -308,19 +298,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={
         Object {
@@ -336,7 +324,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value="checked"
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={
         Object {
@@ -379,19 +367,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -400,7 +386,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value="checked"
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -436,19 +422,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -457,7 +441,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value="checked"
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -493,19 +477,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={
         Object {
@@ -520,7 +502,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value="checked"
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -556,19 +538,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -577,7 +557,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value=""
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -613,19 +593,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -634,7 +612,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value=""
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -670,19 +648,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <span
-      className="permission-description"
-    >
-      <FormattedMessage
-        id="admin.permissions.group.name.description"
-        values={Object {}}
-      />
-    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
   </div>
   <div
     className="permission-group-permissions open"
   >
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -691,7 +667,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       selectRow={[MockFunction]}
       value=""
     />
-    <InjectIntl(PermissionRow)
+    <PermissionRow
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"

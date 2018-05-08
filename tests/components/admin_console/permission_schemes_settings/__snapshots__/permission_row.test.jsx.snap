@@ -16,19 +16,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <span
-    className="permission-description"
-    onClick={[Function]}
-  >
-    <FormattedHTMLMessage
-      id="admin.permissions.inherited_from"
-      values={
-        Object {
-          "name": undefined,
-        }
+  <InjectIntl(PermissionDescription)
+    id="id"
+    inherited={
+      Object {
+        "displayName": "Test",
+        "name": "test",
       }
-    />
-  </span>
+    }
+    rowType="permission"
+    selectRow={[MockFunction]}
+  />
 </div>
 `;
 
@@ -48,14 +46,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <span
-    className="permission-description"
-  >
-    <FormattedMessage
-      id="admin.permissions.permission.id.description"
-      values={Object {}}
-    />
-  </span>
+  <InjectIntl(PermissionDescription)
+    id="id"
+    inherited={null}
+    rowType="permission"
+    selectRow={[MockFunction]}
+  />
 </div>
 `;
 
@@ -75,14 +71,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <span
-    className="permission-description"
-  >
-    <FormattedMessage
-      id="admin.permissions.permission.id.description"
-      values={Object {}}
-    />
-  </span>
+  <InjectIntl(PermissionDescription)
+    id="id"
+    inherited={null}
+    rowType="permission"
+    selectRow={[MockFunction]}
+  />
 </div>
 `;
 
@@ -102,13 +96,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <span
-    className="permission-description"
-  >
-    <FormattedMessage
-      id="admin.permissions.permission.id.description"
-      values={Object {}}
-    />
-  </span>
+  <InjectIntl(PermissionDescription)
+    id="id"
+    inherited={null}
+    rowType="permission"
+    selectRow={[MockFunction]}
+  />
 </div>
 `;

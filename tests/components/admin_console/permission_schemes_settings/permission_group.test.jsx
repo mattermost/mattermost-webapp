@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {PermissionGroup} from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
+import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_group', () => {
     const defaultProps = {

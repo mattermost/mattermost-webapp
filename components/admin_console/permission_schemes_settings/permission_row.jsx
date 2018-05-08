@@ -3,13 +3,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import PermissionCheckbox from './permission_checkbox.jsx';
+import PermissionDescription from './permission_description.jsx';
 
-export class PermissionRow extends React.Component {
+export default class PermissionRow extends React.Component {
     static propTypes = {
-        intl: intlShape.isRequired,
         id: PropTypes.string.isRequired,
         inherited: PropTypes.object,
         readOnly: PropTypes.bool,
@@ -24,12 +24,6 @@ export class PermissionRow extends React.Component {
             return;
         }
         this.props.onChange(this.props.id);
-    }
-
-    parentPermissionClicked = (e) => {
-        if (e.target.tagName === 'A') {
-            this.props.selectRow(this.props.id);
-        }
     }
 
     render = () => {
@@ -52,28 +46,13 @@ export class PermissionRow extends React.Component {
                 <span className='permission-name'>
                     <FormattedMessage id={'admin.permissions.permission.' + id + '.name'}/>
                 </span>
-                {inherited &&
-                    <span
-                        className='permission-description'
-                        onClick={this.parentPermissionClicked}
-                    >
-                        <FormattedHTMLMessage
-                            id='admin.permissions.inherited_from'
-                            values={{
-                                name: this.props.intl.formatMessage({
-                                    id: 'admin.permissions.roles.' + inherited.name + '.name',
-                                    defaultMessage: inherited.display_name,
-                                }),
-                            }}
-                        />
-                    </span>}
-                {!inherited &&
-                    <span className='permission-description'>
-                        <FormattedMessage id={'admin.permissions.permission.' + id + '.description'}/>
-                    </span>}
+                <PermissionDescription
+                    inherited={inherited}
+                    id={id}
+                    selectRow={this.props.selectRow}
+                    rowType='permission'
+                />
             </div>
         );
     };
 }
-
-export default injectIntl(PermissionRow);

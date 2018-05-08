@@ -3,16 +3,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {PermissionsScope} from 'utils/constants.jsx';
 
 import PermissionCheckbox from './permission_checkbox.jsx';
 import PermissionRow from './permission_row.jsx';
+import PermissionDescription from './permission_description.jsx';
 
-export class PermissionGroup extends React.Component {
+export default class PermissionGroup extends React.Component {
     static propTypes = {
-        intl: intlShape.isRequired,
         id: PropTypes.string.isRequired,
         permissions: PropTypes.array.isRequired,
         readOnly: PropTypes.bool,
@@ -151,7 +151,6 @@ export class PermissionGroup extends React.Component {
     renderGroup = (g) => {
         return (
             <PermissionGroup
-                intl={this.props.intl}
                 key={g.id}
                 id={g.id}
                 selected={this.props.selected}
@@ -228,12 +227,6 @@ export class PermissionGroup extends React.Component {
         return true;
     }
 
-    parentPermissionClicked = (e) => {
-        if (e.target.tagName === 'A') {
-            this.props.selectRow(this.props.id);
-        }
-    }
-
     render = () => {
         const {id, permissions, readOnly, combined, root, selected} = this.props;
         if (!this.hasPermissionsOnScope()) {
@@ -287,25 +280,12 @@ export class PermissionGroup extends React.Component {
                         <span className='permission-name'>
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>
-                        {inherited &&
-                            <span
-                                className='permission-description'
-                                onClick={this.parentPermissionClicked}
-                            >
-                                <FormattedHTMLMessage
-                                    id='admin.permissions.inherited_from'
-                                    values={{
-                                        name: this.props.intl.formatMessage({
-                                            id: 'admin.permissions.roles.' + inherited.name + '.name',
-                                            defaultMessage: inherited.display_name,
-                                        }),
-                                    }}
-                                />
-                            </span>}
-                        {!inherited &&
-                            <span className='permission-description'>
-                                <FormattedMessage id={'admin.permissions.group.' + id + '.description'}/>
-                            </span>}
+                        <PermissionDescription
+                            inherited={inherited}
+                            id={id}
+                            selectRow={this.props.selectRow}
+                            rowType='group'
+                        />
                     </div>}
                 {!combined &&
                     <div className={'permission-group-permissions ' + (this.state.expanded ? 'open' : '')}>
@@ -315,5 +295,3 @@ export class PermissionGroup extends React.Component {
         );
     };
 }
-
-export default injectIntl(PermissionGroup);

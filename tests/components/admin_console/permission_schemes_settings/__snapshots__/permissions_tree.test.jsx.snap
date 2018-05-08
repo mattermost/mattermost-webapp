@@ -21,7 +21,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionGroup)
+    <PermissionGroup
       combined={false}
       id="all"
       key="all"
@@ -129,7 +129,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionGroup)
+    <PermissionGroup
       combined={false}
       id="all"
       key="all"
@@ -237,7 +237,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionGroup)
+    <PermissionGroup
       combined={false}
       id="all"
       key="all"
@@ -345,7 +345,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionGroup)
+    <PermissionGroup
       combined={false}
       id="all"
       key="all"
@@ -453,7 +453,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
   <div
     className="permissions-tree--body"
   >
-    <InjectIntl(PermissionGroup)
+    <PermissionGroup
       combined={false}
       id="all"
       key="all"
