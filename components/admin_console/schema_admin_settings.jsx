@@ -500,7 +500,7 @@ export default class SchemaAdminSettings extends AdminSettings {
     render = () => {
         const schema = this.props.schema;
 
-        if (schema.component) {
+        if (schema && schema.component) {
             const CustomComponent = schema.component;
             return (<CustomComponent {...this.props}/>);
         }
