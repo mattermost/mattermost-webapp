@@ -4,13 +4,18 @@
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings.jsx';
 
 export default class CustomPluginSettings extends SchemaAdminSettings {
-    componentWillReceiveProps = (nextProps) => {
-        if (nextProps.schema !== this.props.schema) {
+    constructor(props) {
+        super(props);
+        this.isPlugin = true;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.schema && nextProps.schema) {
             this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
         }
     }
 
-    getConfigFromState = (config) => {
+    getConfigFromState(config) {
         const schema = this.props.schema;
 
         if (schema) {
@@ -23,14 +28,19 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
             const settings = schema.settings || [];
             settings.forEach((setting) => {
                 const lowerKey = setting.key.toLowerCase();
-                configSettings[lowerKey] = this.state[lowerKey];
+                const value = this.state[lowerKey] || setting.default;
+                if (value == null) {
+                    Reflect.deleteProperty(configSettings, lowerKey);
+                } else {
+                    configSettings[lowerKey] = value;
+                }
             });
         }
 
         return config;
     }
 
-    getStateFromConfig = (config, schema = this.props.schema) => {
+    getStateFromConfig(config, schema = this.props.schema) {
         const state = {};
 
         if (schema) {
