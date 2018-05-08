@@ -40,6 +40,10 @@
     width: 40px;
 }
 
+.search-bar__container {
+    padding-left: 8px;
+}
+
 .search__form {
     padding: 0 30px;
     position: relative;
@@ -48,7 +52,7 @@
         @include border-radius(50px);
         @include single-transition(all, .3s, ease-out);
         border: 1px solid $light-gray;
-        margin: 20px 9px 0 0;
+        margin: 16px 0 0;
         width: 180px;
     }
 
