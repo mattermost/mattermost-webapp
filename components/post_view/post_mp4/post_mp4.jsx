@@ -6,7 +6,7 @@ import React from 'react';
 
 import loadingGif from 'images/load.gif';
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import { changeToJPGSrc, changeToMp4Src, getImageSrc} from 'utils/post_utils.jsx';
+import {changeToJPGSrc, changeToMp4Src, getImageSrc} from 'utils/post_utils.jsx';
 
 export default class PostMp4 extends React.PureComponent {
     static propTypes = {
