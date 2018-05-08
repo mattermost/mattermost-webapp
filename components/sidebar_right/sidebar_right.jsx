@@ -6,7 +6,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
@@ -63,16 +62,6 @@ export default class SidebarRight extends React.Component {
             this.setState({
                 expanded: false,
             });
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        const isOpen = this.props.searchVisible || this.props.postRightVisible;
-
-        const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
-
-        if (isOpen && !wasOpen) {
-            setTimeout(() => postListScrollChange(), 0);
         }
     }
 

@@ -25,7 +25,7 @@ import {
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
-import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
+import {emitUserPostedEvent} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {getPostDraft, getIsRhsOpen} from 'selectors/rhs';
@@ -83,7 +83,6 @@ function onSubmitPost(post, fileInfos) {
     return () => {
         emitUserPostedEvent(post);
         createPost(post, fileInfos);
-        postListScrollChangeToBottom();
     };
 }
 

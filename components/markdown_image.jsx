@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions.jsx';
-
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
 export default class MarkdownImage extends React.PureComponent {
@@ -39,8 +37,6 @@ export default class MarkdownImage extends React.PureComponent {
 
     waitForHeight = () => {
         if (this.refs.image.height) {
-            setTimeout(postListScrollChange, 0);
-
             this.heightTimeout = 0;
         } else {
             this.heightTimeout = setTimeout(this.waitForHeight, WAIT_FOR_HEIGHT_TIMEOUT);
