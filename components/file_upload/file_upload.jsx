@@ -33,11 +33,11 @@ const holders = defineMessages({
     },
     filesAbove: {
         id: 'file_upload.filesAbove',
-        defaultMessage: 'Files above {max}MB could not be uploaded: {filenames}',
+        defaultMessage: 'Files above {max}MiB could not be uploaded: {filenames}',
     },
     fileAbove: {
         id: 'file_upload.fileAbove',
-        defaultMessage: 'File above {max}MB could not be uploaded: {filename}',
+        defaultMessage: 'File above {max}MiB could not be uploaded: {filename}',
     },
     zeroBytesFiles: {
         id: 'file_upload.zeroBytesFiles',
@@ -476,20 +476,20 @@ export default class FileUpload extends PureComponent {
                 className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
             >
                 {this.props.canUploadFiles &&
-                <div
-                    id='fileUploadButton'
-                    className='icon icon--attachment'
-                >
-                    <AttachmentIcon/>
-                    <input
-                        ref='fileInput'
-                        type='file'
-                        onChange={this.handleChange}
-                        onClick={onClick}
-                        multiple={multiple}
-                        accept={accept}
-                    />
-                </div>
+                    <div
+                        id='fileUploadButton'
+                        className='icon icon--attachment'
+                    >
+                        <AttachmentIcon/>
+                        <input
+                            ref='fileInput'
+                            type='file'
+                            onChange={this.handleChange}
+                            onClick={onClick}
+                            multiple={multiple}
+                            accept={accept}
+                        />
+                    </div>
                 }
             </span>
         );
