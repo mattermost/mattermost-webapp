@@ -9,8 +9,11 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
         this.isPlugin = true;
     }
 
-    // The schema will never change so we want to skip resetting the state from config
-    componentWillReceiveProps = () => {} //eslint-disable-line no-empty-function
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.schema && nextProps.schema) {
+            this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
+        }
+    }
 
     getConfigFromState(config) {
         const schema = this.props.schema;
