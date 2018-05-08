@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -441,7 +441,21 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.callbackUrls.help'
-                                        defaultMessage='The URL that messages will be sent to.'
+                                        defaultMessage='The URL that messages will be sent to. If the URL is private, add it as a {link}.'
+                                        values={{
+                                            link: (
+                                                <a
+                                                    href='https://about.mattermost.com/default-allow-internal-connections-settings-documentation/'
+                                                    target='_blank'
+                                                    rel='noopener noreferrer'
+                                                >
+                                                    <FormattedMessage
+                                                        id='add_outgoing_webhook.callbackUrls.helpLinkText'
+                                                        defaultMessage='trusted internal connection'
+                                                    />
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </div>
                             </div>

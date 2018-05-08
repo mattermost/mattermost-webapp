@@ -53,10 +53,10 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
     >
       <ProfilePopover
         dispatch={[Function]}
+        enableTimezone={false}
         enableWebrtc={true}
         hasMention={false}
         isRHS={false}
-        showEmailAddress={false}
         src="src"
         theme={Object {}}
         user={

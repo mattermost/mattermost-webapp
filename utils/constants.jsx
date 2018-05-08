@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 /* eslint-disable no-magic-numbers */
-
 import keyMirror from 'key-mirror';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -36,13 +35,19 @@ import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!
 // eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
-export const PluginSettings = {
+export const SettingsTypes = {
     TYPE_TEXT: 'text',
+    TYPE_NUMBER: 'number',
     TYPE_BOOL: 'bool',
     TYPE_RADIO: 'radio',
+    TYPE_BANNER: 'banner',
     TYPE_DROPDOWN: 'dropdown',
     TYPE_GENERATED: 'generated',
     TYPE_USERNAME: 'username',
+    TYPE_BUTTON: 'button',
+    TYPE_LANGUAGE: 'language',
+    TYPE_JOBSTABLE: 'jobstable',
+    TYPE_CUSTOM: 'custom',
 };
 
 export const Preferences = {
@@ -66,6 +71,7 @@ export const Preferences = {
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
     USE_MILITARY_TIME: 'use_military_time',
+    USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
@@ -75,11 +81,12 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    NAME_NAME_FORMAT: 'name_format',
+    CATEGORY_SYSTEM_NOTICE: 'system_notice',
 };
 
 export const ActionTypes = keyMirror({
     RECEIVED_ERROR: null,
-
     CLICK_CHANNEL: null,
     CREATE_CHANNEL: null,
     CREATE_POST: null,
@@ -113,6 +120,7 @@ export const ActionTypes = keyMirror({
 
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
+    UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
     UPDATE_MOBILE_VIEW: null,
 
@@ -196,8 +204,6 @@ export const ActionTypes = keyMirror({
 
     SHOW_SEARCH: null,
 
-    USER_TYPING: null,
-
     TOGGLE_ACCOUNT_SETTINGS_MODAL: null,
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
@@ -228,6 +234,7 @@ export const ActionTypes = keyMirror({
 
     RECEIVED_PLUGIN_COMPONENTS: null,
     RECEIVED_PLUGIN_POST_TYPES: null,
+    RECEIVED_PLUGIN_MENU_ACTIONS: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
@@ -240,6 +247,21 @@ export const ActionTypes = keyMirror({
     SELECT_CHANNEL_WITH_MEMBER: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
+
+    TOGGLE_LHS: null,
+    OPEN_LHS: null,
+    CLOSE_LHS: null,
+
+    TOGGLE_RHS_MENU: null,
+    OPEN_RHS_MENU: null,
+    CLOSE_RHS_MENU: null,
+
+    INIT_WEBRTC: null,
+    CLOSE_WEBRTC: null,
+
+    STORE_REHYDRATION_FAILED: null,
+
+    DISMISS_NOTICE: null,
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -256,7 +278,6 @@ export const WebrtcActionTypes = keyMirror({
     MUTED: null,
     IN_PROGRESS: null,
     DISABLED: null,
-    RHS: null,
 });
 
 export const ModalIdentifiers = {
@@ -266,20 +287,17 @@ export const ModalIdentifiers = {
     CHANNEL_INVITE: 'channel_invite',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
+    DELETE_POST: 'delete_post',
+    CONVERT_CHANNEL: 'convert_channel',
+    RESET_STATUS: 'reset_status',
 };
 
 export const UserStatuses = {
+    OUT_OF_OFFICE: 'ooo',
     OFFLINE: 'offline',
     AWAY: 'away',
     ONLINE: 'online',
     DND: 'dnd',
-};
-
-export const UserStatusesWeight = {
-    online: 0,
-    away: 1,
-    offline: 2,
-    dnd: 3,
 };
 
 export const UserSearchOptions = {
@@ -296,6 +314,7 @@ export const SocketEvents = {
     CHANNEL_DELETED: 'channel_deleted',
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
+    CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
@@ -308,6 +327,9 @@ export const SocketEvents = {
     USER_UPDATED: 'user_updated',
     USER_ROLE_UPDATED: 'user_role_updated',
     MEMBERROLE_UPDATED: 'memberrole_updated',
+    ROLE_ADDED: 'role_added',
+    ROLE_REMOVED: 'role_removed',
+    ROLE_UPDATED: 'role_updated',
     TYPING: 'typing',
     PREFERENCE_CHANGED: 'preference_changed',
     PREFERENCES_CHANGED: 'preferences_changed',
@@ -321,6 +343,8 @@ export const SocketEvents = {
     EMOJI_ADDED: 'emoji_added',
     PLUGIN_ACTIVATED: 'plugin_activated',
     PLUGIN_DEACTIVATED: 'plugin_deactivated',
+    LICENSE_CHANGED: 'license_changed',
+    CONFIG_CHANGED: 'config_changed',
 };
 
 export const TutorialSteps = {
@@ -344,6 +368,7 @@ export const PostTypes = {
     REMOVE_FROM_TEAM: 'system_remove_from_team',
     HEADER_CHANGE: 'system_header_change',
     DISPLAYNAME_CHANGE: 'system_displayname_change',
+    CONVERT_CHANNEL: 'system_convert_channel',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
@@ -373,6 +398,10 @@ export const StatTypes = keyMirror({
     TOTAL_READ_DB_CONNECTIONS: null,
     DAILY_ACTIVE_USERS: null,
     MONTHLY_ACTIVE_USERS: null,
+});
+
+export const SearchTypes = keyMirror({
+    SET_MODAL_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -424,7 +453,6 @@ export const ErrorBarTypes = {
     LICENSE_PAST_GRACE: 'error_bar.past_grace',
     PREVIEW_MODE: 'error_bar.preview_mode',
     SITE_URL: 'error_bar.site_url',
-    APIV3_ENABLED: 'error_bar.apiv3_enabled',
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
 };
 
@@ -476,7 +504,8 @@ export const GroupUnreadChannels = {
 };
 
 export const Constants = {
-    PluginSettings,
+    SettingsTypes,
+    JobTypes,
     Preferences,
     SocketEvents,
     ActionTypes,
@@ -512,7 +541,7 @@ export const Constants = {
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     NOTIFY_ALL_MEMBERS: 5,
-    CHARACTER_LIMIT: 4000,
+    DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
@@ -551,8 +580,6 @@ export const Constants = {
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
-    PROFILE_WIDTH: 128,
-    PROFILE_HEIGHT: 128,
     WEB_VIDEO_WIDTH: 640,
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
@@ -583,6 +610,7 @@ export const Constants = {
     POST_DELETED: 'deleted',
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
+    AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
         'signup',
@@ -1047,10 +1075,6 @@ export const Constants = {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
             description: 'Show markdown preview option in message input box',
         },
-        WEBRTC_PREVIEW: {
-            label: 'webrtc_preview',
-            description: 'Enable WebRTC one on one calls',
-        },
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
@@ -1080,7 +1104,6 @@ export const Constants = {
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'http://push-test.mattermost.com',
-    BOT_NAME: 'BOT',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     PERMISSIONS_ALL: 'all',
@@ -1093,9 +1116,10 @@ export const Constants = {
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
-    DEFAULT_POST_EDIT_TIME_LIMIT: 300,
+    UNSET_POST_EDIT_TIME_LIMIT: -1,
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
+    MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
     MENTION_MEMBERS: 'mention.members',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_SPECIAL: 'mention.special',

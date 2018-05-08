@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -14,18 +14,14 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class CustomBrandSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
-    }
-
     getConfigFromState(config) {
         config.TeamSettings.SiteName = this.state.siteName;
+
+        if (this.props.license.IsLicensed === 'true') {
+            config.TeamSettings.CustomDescriptionText = this.state.customDescriptionText;
+        }
+
         if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
-            config.TeamSettings.customDescriptionText = this.state.customDescriptionText;
             config.TeamSettings.EnableCustomBrand = this.state.enableCustomBrand;
             config.TeamSettings.CustomBrandText = this.state.customBrandText;
         }
@@ -73,6 +69,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     value={this.state.customDescriptionText}
                     placeholder={Utils.localizeMessage('web.root.signup_info', 'All team communication in one place, searchable and accessible anywhere')}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.CustomDescriptionText')}
                 />
             );
 
@@ -94,6 +91,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     }
                     value={this.state.enableCustomBrand}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.EnableCustomBrand')}
                 />
             );
 
@@ -124,6 +122,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     value={this.state.customBrandText}
                     onChange={this.handleChange}
                     disabled={!this.state.enableCustomBrand}
+                    setByEnv={this.isSetByEnv('TeamSettings.CustomBrandText')}
                 />
             );
         }
@@ -139,7 +138,7 @@ export default class CustomBrandSettings extends AdminSettings {
                         />
                     }
                     maxLength={Constants.MAX_SITENAME_LENGTH}
-                    placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'Ex "Mattermost"')}
+                    placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'E.g.: "Mattermost"')}
                     helpText={
                         <FormattedMessage
                             id='admin.team.siteNameDescription'
@@ -148,6 +147,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     }
                     value={this.state.siteName}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.SiteName')}
                 />
                 {enterpriseSettings}
             </SettingsGroup>

@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 export default function ImagePreview({fileInfo, canDownloadFiles}) {
     const {has_preview_image: hasPreviewImage, id, link} = fileInfo;
-    const fileUrl = link || getFileUrl(id);
+    const fileUrl = link || getFileDownloadUrl(id);
     const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
 
     if (!canDownloadFiles) {

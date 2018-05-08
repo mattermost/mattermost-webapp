@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -20,11 +20,6 @@ export default class TeamMembersModal extends React.PureComponent {
          * Function called when modal is dismissed
          */
         onHide: PropTypes.func.isRequired,
-
-        /**
-        * Set if user is admin
-        */
-        isAdmin: PropTypes.bool.isRequired,
 
         /**
          * Function called when modal is loaded
@@ -75,7 +70,7 @@ export default class TeamMembersModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <MemberListTeam
-                        isAdmin={this.props.isAdmin}
+                        teamId={this.props.currentTeam.id}
                     />
                 </Modal.Body>
             </Modal>

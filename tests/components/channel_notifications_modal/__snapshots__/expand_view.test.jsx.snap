@@ -1,58 +1,279 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, DESKTOP on expanded view 1`] = `
-<SettingItemMin
-  describe={
-    <Describe
-      globalNotifyLevel="default"
-      memberNotifyLevel="all"
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
       section="desktop"
     />
   }
-  focused={false}
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={false}
+                id="channelNotificationGlobalDefault"
+                onChange={[Function]}
+                type="radio"
+                value="default"
+              />
+              <Describe
+                globalNotifyLevel="default"
+                memberNotifyLevel="default"
+                section="desktop"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={true}
+                id="channelNotificationAllActivity"
+                onChange={[Function]}
+                type="radio"
+                value="all"
+              />
+              <Describe
+                memberNotifyLevel="all"
+                section="desktop"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={false}
+                id="channelNotificationMentions"
+                onChange={[Function]}
+                type="radio"
+                value="mention"
+              />
+              <Describe
+                memberNotifyLevel="mention"
+                section="desktop"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label>
+              <input
+                checked={false}
+                id="channelNotificationNever"
+                onChange={[Function]}
+                type="radio"
+                value="none"
+              />
+              <Describe
+                memberNotifyLevel="none"
+                section="desktop"
+              />
+            </label>
+          </div>
+        </div>
+      </div>,
+    ]
+  }
+  saving={false}
   section=""
+  server_error=""
+  submit={[Function]}
   title={
     <SectionTitle
       section="desktop"
     />
   }
+  updateSection={[Function]}
 />
 `;
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, MARK_UNREAD on expanded view 1`] = `
-<SettingItemMin
-  describe={
-    <Describe
-      globalNotifyLevel={null}
-      memberNotifyLevel="all"
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
       section="markUnread"
     />
   }
-  focused={false}
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={false}
+                id="channelNotificationUnmute"
+                onChange={[Function]}
+                type="radio"
+                value="mention"
+              />
+              <Describe
+                memberNotifyLevel="mention"
+                section="markUnread"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={true}
+                id="channelNotificationMute"
+                onChange={[Function]}
+                type="radio"
+                value="all"
+              />
+              <Describe
+                memberNotifyLevel="all"
+                section="markUnread"
+              />
+            </label>
+          </div>
+        </div>
+      </div>,
+    ]
+  }
+  saving={false}
   section=""
+  server_error=""
+  submit={[Function]}
   title={
     <SectionTitle
       section="markUnread"
     />
   }
+  updateSection={[Function]}
 />
 `;
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, PUSH on expanded view 1`] = `
-<SettingItemMin
-  describe={
-    <Describe
-      globalNotifyLevel="default"
-      memberNotifyLevel="all"
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
       section="push"
     />
   }
-  focused={false}
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={false}
+                id="channelNotificationGlobalDefault"
+                onChange={[Function]}
+                type="radio"
+                value="default"
+              />
+              <Describe
+                globalNotifyLevel="default"
+                memberNotifyLevel="default"
+                section="push"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={true}
+                id="channelNotificationAllActivity"
+                onChange={[Function]}
+                type="radio"
+                value="all"
+              />
+              <Describe
+                memberNotifyLevel="all"
+                section="push"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label
+              className=""
+            >
+              <input
+                checked={false}
+                id="channelNotificationMentions"
+                onChange={[Function]}
+                type="radio"
+                value="mention"
+              />
+              <Describe
+                memberNotifyLevel="mention"
+                section="push"
+              />
+            </label>
+          </div>
+          <div
+            className="radio"
+          >
+            <label>
+              <input
+                checked={false}
+                id="channelNotificationNever"
+                onChange={[Function]}
+                type="radio"
+                value="none"
+              />
+              <Describe
+                memberNotifyLevel="none"
+                section="push"
+              />
+            </label>
+          </div>
+        </div>
+      </div>,
+    ]
+  }
+  saving={false}
   section=""
+  server_error=""
+  submit={[Function]}
   title={
     <SectionTitle
       section="push"
     />
   }
+  updateSection={[Function]}
 />
 `;

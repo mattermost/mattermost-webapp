@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -33,34 +33,44 @@ export default class QuickInput extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (prevProps.value !== this.props.value) {
             if (this.props.delayInputUpdate) {
-                requestAnimationFrame(() => {
-                    this.refs.input.value = this.props.value;
-                });
+                requestAnimationFrame(this.updateInputFromProps);
             } else {
-                this.refs.input.value = this.props.value;
+                this.updateInputFromProps();
             }
         }
     }
 
+    updateInputFromProps = () => {
+        if (!this.input || this.input.value === this.props.value) {
+            return;
+        }
+
+        this.input.value = this.props.value;
+    }
+
     get value() {
-        return this.refs.input.value;
+        return this.input.value;
     }
 
     set value(value) {
-        this.refs.input.value = value;
+        this.input.value = value;
     }
 
     focus() {
-        this.refs.input.focus();
+        this.input.focus();
     }
 
     blur() {
-        this.refs.input.blur();
+        this.input.blur();
     }
 
     getInput = () => {
-        return this.refs.input;
+        return this.input;
     };
+
+    setInput = (input) => {
+        this.input = input;
+    }
 
     render() {
         const {value, inputComponent, ...props} = this.props;
@@ -71,7 +81,7 @@ export default class QuickInput extends React.PureComponent {
             inputComponent || 'input',
             {
                 ...props,
-                ref: 'input',
+                ref: this.setInput,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );

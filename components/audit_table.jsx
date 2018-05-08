@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -73,6 +73,10 @@ const holders = defineMessages({
     attemptedLogin: {
         id: 'audit_table.attemptedLogin',
         defaultMessage: 'Attempted to login',
+    },
+    authenticated: {
+        id: 'audit_table.authenticated',
+        defauleMessage: 'Successfully authenticated',
     },
     successfullLogin: {
         id: 'audit_table.successfullLogin',
@@ -442,6 +446,8 @@ export function formatAuditInfo(audit, formatMessage) {
                 auditDesc = formatMessage(holders.attemptedLogin);
             } else if (userInfo[0] === 'success') {
                 auditDesc = formatMessage(holders.successfullLogin);
+            } else if (userInfo[0] === 'authenticated') {
+                auditDesc = formatMessage(holders.authenticated);
             } else if (userInfo[0]) {
                 auditDesc = formatMessage(holders.failedLogin);
             }

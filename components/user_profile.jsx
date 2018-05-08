@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -56,8 +56,8 @@ export default class UserProfile extends React.Component {
         let name = '...';
         let profileImg = '';
 
-        if (this.props.user) {
-            name = Utils.displayUsername(this.props.user.id);
+        if (this.props.user && this.props.user.id) {
+            name = Utils.getDisplayNameByUserId(this.props.user.id);
             profileImg = Utils.imageURLForUser(this.props.user);
         }
 

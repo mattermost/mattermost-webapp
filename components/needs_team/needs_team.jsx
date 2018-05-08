@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -38,10 +38,18 @@ export default class NeedsTeam extends React.Component {
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
-            getMyChannelMembers: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
+
+        /*
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                team: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
     };
 
     constructor(params) {
@@ -120,10 +128,19 @@ export default class NeedsTeam extends React.Component {
 
     onShortcutKeyDown(e) {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-            if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
-                document.getElementById('reply_textbox').focus();
-            } else {
-                document.getElementById('post_textbox').focus();
+            const sidebar = document.getElementById('sidebar-right');
+            if (sidebar) {
+                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
+                    const replyTextbox = document.getElementById('reply_textbox');
+                    if (replyTextbox) {
+                        replyTextbox.focus();
+                    }
+                } else {
+                    const postTextbox = document.getElementById('post_textbox');
+                    if (postTextbox) {
+                        postTextbox.focus();
+                    }
+                }
             }
         }
     }
@@ -140,7 +157,7 @@ export default class NeedsTeam extends React.Component {
             window.isActive = true;
 
             if (new Date().getTime() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
-                this.props.actions.getMyChannelMembers(TeamStore.getCurrentId()).then(loadProfilesForSidebar);
+                this.props.actions.fetchMyChannelsAndMembers(TeamStore.getCurrentId()).then(loadProfilesForSidebar);
             }
         });
 

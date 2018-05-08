@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 
@@ -32,14 +32,6 @@ describe('/components/create_team', () => {
         const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should display custom branded description', () => {
-        const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
-
-        const customText = wrapper.find('h4').text();
-
-        expect(customText).toBe(defaultProps.customDescriptionText);
     });
 
     test('should run props.history.push with new state', () => {

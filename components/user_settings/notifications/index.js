@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -13,12 +13,14 @@ function mapStateToProps(state) {
     const enableEmailBatching = config.EnableEmailBatching === 'true';
     const siteName = config.SiteName;
     const sendPushNotifications = config.SendPushNotifications === 'true';
+    const enableAutoResponder = config.ExperimentalEnableAutomaticReplies === 'true';
 
     return {
         sendEmailNotifications,
         enableEmailBatching,
         siteName,
         sendPushNotifications,
+        enableAutoResponder,
     };
 }
 

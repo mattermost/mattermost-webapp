@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 
@@ -16,8 +16,6 @@ function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
 
     const isLicensed = license.IsLicensed === 'true';
-    const customBrand = license.CustomBrand === 'true';
-    const enableCustomBrand = config.EnableCustomBrand === 'true';
     const customDescriptionText = config.CustomDescriptionText;
     const siteName = config.SiteName;
 
@@ -25,8 +23,6 @@ function mapStateToProps(state) {
         currentChannel,
         currentTeam,
         isLicensed,
-        customBrand,
-        enableCustomBrand,
         customDescriptionText,
         siteName,
     };

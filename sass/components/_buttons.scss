@@ -26,7 +26,7 @@ button {
 }
 
 .btn {
-    @include single-transition(all, .15s, ease-in);
+    @include single-transition(all, .15s, ease);
     @include border-radius($border-rad);
 
     &.btn-primary {
@@ -70,6 +70,12 @@ button {
         &:active {
             color: $white;
         }
+    }
+
+    &.btn-transparent {
+        background: transparent;
+        border: none;
+        padding: 7px 12px;
     }
 
     &.btn-inactive {

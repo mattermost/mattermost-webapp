@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -40,7 +40,7 @@ export default class InstalledCommands extends React.PureComponent {
         /**
         * Set to allow changes to installed slash commands
         */
-        isAdmin: PropTypes.bool,
+        canManageOthersSlashCommands: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -82,7 +82,7 @@ export default class InstalledCommands extends React.PureComponent {
         const commands = this.props.commands.
             filter((command) => command.team_id === this.props.team.id).
             sort(this.commandCompare).map((command) => {
-                const canChange = this.props.isAdmin || this.props.user.id === command.creator_id;
+                const canChange = this.props.canManageOthersSlashCommands || this.props.user.id === command.creator_id;
 
                 return (
                     <InstalledCommand

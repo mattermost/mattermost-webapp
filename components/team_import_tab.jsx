@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -62,7 +62,7 @@ class TeamImportTab extends React.Component {
             <strong>
                 <FormattedMessage
                     id='team_import_tab.importHelpExportInstructions'
-                    defaultMessage='Slack > Team Settings > Import/Export Data > Export > Start Export'
+                    defaultMessage='Slack > Administration > Workspace settings > Import/Export Data > Export > Start Export'
                 />
             </strong>
         );

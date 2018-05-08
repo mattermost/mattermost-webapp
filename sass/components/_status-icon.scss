@@ -89,6 +89,7 @@
 
     svg {
         max-height: 14px;
+        backface-visibility: hidden;
     }
 
     i,

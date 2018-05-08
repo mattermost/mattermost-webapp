@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+
+import S3ConnectionTest from 'components/admin_console/s3_connection_test';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -101,6 +103,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.enableMobileUpload}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                    setByEnv={this.isSetByEnv('FileSettings.EnableMobileUpload')}
                 />
             );
 
@@ -123,6 +126,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.enableMobileDownload}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                    setByEnv={this.isSetByEnv('FileSettings.EnableMobileDownload')}
                 />
             );
 
@@ -145,6 +149,7 @@ export default class StorageSettings extends AdminSettings {
                         value={this.state.amazonS3SSE}
                         onChange={this.handleChange}
                         disabled={this.state.driverName !== DRIVER_S3}
+                        setByEnv={this.isSetByEnv('FileSettings.AmazonS3SSE')}
                     />
                 );
         }
@@ -173,6 +178,7 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.driverName}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('FileSettings.DriverName')}
                 />
                 <TextSetting
                     id='directory'
@@ -182,7 +188,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Local Storage Directory:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.localExample', 'Ex "./data/"')}
+                    placeholder={Utils.localizeMessage('admin.image.localExample', 'E.g.: "./data/"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.localDescription'
@@ -192,44 +198,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.directory}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_LOCAL}
-                />
-                <TextSetting
-                    id='amazonS3AccessKeyId'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3IdTitle'
-                            defaultMessage='Amazon S3 Access Key ID:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'Ex "AKIADTOVBGERKLCBV"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.image.amazonS3IdDescription'
-                            defaultMessage='Obtain this credential from your Amazon EC2 administrator.'
-                        />
-                    }
-                    value={this.state.amazonS3AccessKeyId}
-                    onChange={this.handleChange}
-                    disabled={this.state.driverName !== DRIVER_S3}
-                />
-                <TextSetting
-                    id='amazonS3SecretAccessKey'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3SecretTitle'
-                            defaultMessage='Amazon S3 Secret Access Key:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.image.amazonS3SecretDescription'
-                            defaultMessage='Obtain this credential from your Amazon EC2 administrator.'
-                        />
-                    }
-                    value={this.state.amazonS3SecretAccessKey}
-                    onChange={this.handleChange}
-                    disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.Directory')}
                 />
                 <TextSetting
                     id='amazonS3Bucket'
@@ -239,7 +208,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Bucket:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3BucketExample', 'Ex "mattermost-media"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3BucketExample', 'E.g.: "mattermost-media"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3BucketDescription'
@@ -249,6 +218,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Bucket}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Bucket')}
                 />
                 <TextSetting
                     id='amazonS3Region'
@@ -258,7 +228,7 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Region:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3RegionExample', 'Ex "us-east-1"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3RegionExample', 'E.g.: "us-east-1"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3RegionDescription'
@@ -268,6 +238,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Region}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Region')}
                 />
                 <TextSetting
                     id='amazonS3Endpoint'
@@ -277,16 +248,57 @@ export default class StorageSettings extends AdminSettings {
                             defaultMessage='Amazon S3 Endpoint:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3EndpointExample', 'Ex "s3.amazonaws.com"')}
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3EndpointExample', 'E.g.: "s3.amazonaws.com"')}
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3EndpointDescription'
-                            defaultMessage='Hostname of your S3 Compatible Storage provider. Defaults to `s3.amazonaws.com`.'
+                            defaultMessage='Hostname of your S3 Compatible Storage provider. Defaults to "s3.amazonaws.com".'
                         />
                     }
                     value={this.state.amazonS3Endpoint}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Endpoint')}
+                />
+                <TextSetting
+                    id='amazonS3AccessKeyId'
+                    label={
+                        <FormattedMessage
+                            id='admin.image.amazonS3IdTitle'
+                            defaultMessage='Amazon S3 Access Key ID:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'E.g.: "AKIADTOVBGERKLCBV"')}
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.image.amazonS3IdDescription'
+                            defaultMessage='(Optional) Only required if you do not want to authenticate to S3 using an <a target="_blank" href="https://about.mattermost.com/default-iam-role">IAM role</a>. Enter the Access Key ID provided by your Amazon EC2 administrator.'
+                        />
+                    }
+                    value={this.state.amazonS3AccessKeyId}
+                    onChange={this.handleChange}
+                    disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3AccessKeyId')}
+                />
+                <TextSetting
+                    id='amazonS3SecretAccessKey'
+                    label={
+                        <FormattedMessage
+                            id='admin.image.amazonS3SecretTitle'
+                            defaultMessage='Amazon S3 Secret Access Key:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.image.amazonS3SecretDescription'
+                            defaultMessage='(Optional) The secret access key associated with your Amazon S3 Access Key ID.'
+                        />
+                    }
+                    value={this.state.amazonS3SecretAccessKey}
+                    onChange={this.handleChange}
+                    disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3SecretAccessKey')}
                 />
                 <BooleanSetting
                     id='amazonS3SSL'
@@ -305,6 +317,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3SSL}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3SSL')}
                 />
                 {amazonSSEComp}
                 <BooleanSetting
@@ -324,6 +337,12 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.amazonS3Trace}
                     onChange={this.handleChange}
                     disabled={this.state.driverName !== DRIVER_S3}
+                    setByEnv={this.isSetByEnv('FileSettings.AmazonS3Trace')}
+                />
+                <S3ConnectionTest
+                    config={this.props.config}
+                    getConfigFromState={this.getConfigFromState}
+                    disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <BooleanSetting
                     id='enableFileAttachments'
@@ -341,6 +360,7 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.enableFileAttachments}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('FileSettings.EnableFileAttachments')}
                 />
                 {mobileUploadDownloadSettings}
                 <TextSetting
@@ -361,6 +381,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.maxFileSize}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                    setByEnv={this.isSetByEnv('FileSettings.MaxFileSize')}
                 />
                 <DropdownSetting
                     id='imageProxyType'
@@ -382,6 +403,7 @@ export default class StorageSettings extends AdminSettings {
                     }
                     value={this.state.imageProxyType}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.ImageProxyType')}
                 />
                 <TextSetting
                     id='imageProxyURL'
@@ -400,6 +422,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.imageProxyURL}
                     onChange={this.handleChange}
                     disabled={!this.state.imageProxyType}
+                    setByEnv={this.isSetByEnv('ServiceSettings.ImageProxyURL')}
                 />
                 <TextSetting
                     id='imageProxyOptions'
@@ -418,6 +441,7 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.imageProxyOptions}
                     onChange={this.handleChange}
                     disabled={!this.state.imageProxyType}
+                    setByEnv={this.isSetByEnv('ServiceSettings.ImageProxyOptions')}
                 />
             </SettingsGroup>
         );

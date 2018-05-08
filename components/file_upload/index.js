@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 
@@ -19,8 +19,8 @@ function mapStateToProps(state) {
         currentChannelId: getCurrentChannelId(state),
         uploadFile,
         maxFileSize,
-        canUploadFiles: canUploadFiles(state),
+        canUploadFiles: canUploadFiles(config),
     };
 }
 
-export default connect(mapStateToProps)(FileUpload);
+export default connect(mapStateToProps, null, null, {withRef: true})(FileUpload);

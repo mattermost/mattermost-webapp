@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
 import request from 'superagent';
@@ -25,7 +25,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                 e = {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + err.status + ')'};
             }
 
-            forceLogoutIfNecessary(err, dispatch);
+            forceLogoutIfNecessary(err, dispatch, getState);
 
             const failure = {
                 type: FileTypes.UPLOAD_FILES_FAILURE,

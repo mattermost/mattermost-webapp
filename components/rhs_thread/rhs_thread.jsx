@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import {Posts} from 'mattermost-redux/constants';
 
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -17,7 +18,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
-import Comment from 'components/rhs_comment';
+import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RootPost from 'components/rhs_root_post';
 
@@ -55,7 +56,6 @@ export default class RhsThread extends React.Component {
         previousRhsState: PropTypes.string,
         isWebrtc: PropTypes.bool,
         currentUser: PropTypes.object.isRequired,
-        useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         previewCollapsed: PropTypes.string.isRequired,
@@ -148,10 +148,6 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextState.compactDisplay !== this.state.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.useMilitaryTime !== this.props.useMilitaryTime) {
             return true;
         }
 
@@ -363,14 +359,14 @@ export default class RhsThread extends React.Component {
             const reverseCount = postsLength - i - 1;
             commentsLists.push(
                 <div key={keyPrefix + 'commentKey'}>
-                    <Comment
+                    <RhsComment
                         ref={comPost.id}
                         post={comPost}
+                        teamId={this.props.channel.team_id}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         user={p}
                         currentUser={this.props.currentUser}
                         compactDisplay={this.state.compactDisplay}
-                        useMilitaryTime={this.props.useMilitaryTime}
                         isFlagged={isFlagged}
                         status={status}
                         isBusy={this.state.isBusy}
@@ -384,12 +380,14 @@ export default class RhsThread extends React.Component {
         }
 
         let createComment;
-        if (selected.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        const isFakeDeletedPost = selected.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+        if (!isFakeDeletedPost) {
             createComment = (
                 <div className='post-create__container'>
                     <CreateComment
                         channelId={selected.channel_id}
                         rootId={selected.id}
+                        rootDeleted={selected.state === Posts.POST_DELETED}
                         latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
                         getSidebarBody={this.getSidebarBody}
                     />
@@ -440,15 +438,15 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        <DateSeparator date={rootPostDay}/>
+                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                         <RootPost
                             ref={selected.id}
                             post={selected}
                             commentCount={postsLength}
                             user={profile}
+                            teamId={this.props.channel.team_id}
                             currentUser={this.props.currentUser}
                             compactDisplay={this.state.compactDisplay}
-                            useMilitaryTime={this.props.useMilitaryTime}
                             isFlagged={isRootFlagged}
                             status={rootStatus}
                             previewCollapsed={this.props.previewCollapsed}
@@ -456,6 +454,7 @@ export default class RhsThread extends React.Component {
                             isBusy={this.state.isBusy}
                             isEmbedVisible={this.props.postsEmbedVisibleObj[selected.id]}
                         />
+                        {isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                         <div
                             ref='rhspostlist'
                             className='post-right-comments-container'

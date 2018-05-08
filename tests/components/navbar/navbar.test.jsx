@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -12,13 +12,18 @@ describe('components/navbar/Navbar', () => {
         isPinnedPosts: true,
         actions: {
             showEditChannelHeaderModal: jest.fn(),
+            toggleLhs: jest.fn(),
+            closeLhs: jest.fn(),
+            closeRhs: jest.fn(),
+            toggleRhsMenu: jest.fn(),
+            closeRhsMenu: jest.fn(),
         },
         isLicensed: true,
         enableWebrtc: true,
     };
 
     const validState = {
-        channel: {type: 'O', id: 'channel_id', display_name: 'display_name'},
+        channel: {type: 'O', id: 'channel_id', display_name: 'display_name', team_id: 'team_id'},
         member: {id: 'member_id'},
         users: [{id: 'user_id_1'}],
         currentUser: {id: 'current_user_id'},
@@ -61,7 +66,7 @@ describe('components/navbar/Navbar', () => {
             />
         );
 
-        const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name'}};
+        const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name', team_id: 'team_id'}};
         wrapper.setState(newValidState);
         expect(wrapper).toMatchSnapshot();
     });
@@ -83,7 +88,7 @@ describe('components/navbar/Navbar', () => {
             <Navbar {...baseProps}/>
         );
 
-        const newValidState = {...validState, channel: {type: 'P', id: 'channel_id', display_name: 'display_name'}};
+        const newValidState = {...validState, channel: {type: 'P', id: 'channel_id', display_name: 'display_name', team_id: 'team_id'}};
         wrapper.setState(newValidState);
         expect(wrapper).toMatchSnapshot();
     });

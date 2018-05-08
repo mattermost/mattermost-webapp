@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -24,33 +24,39 @@ export default class DotMenu extends Component {
         isRHS: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
+        isReadOnly: PropTypes.bool,
 
         actions: PropTypes.shape({
 
-            /*
+            /**
              * Function flag the post
              */
             flagPost: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Function to unflag the post
              */
             unflagPost: PropTypes.func.isRequired,
 
-            /*
-             * Function to set the edting post
+            /**
+             * Function to set the editing post
              */
             setEditingPost: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Function to pin the post
              */
             pinPost: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Function to unpin the post
              */
             unpinPost: PropTypes.func.isRequired,
+
+            /**
+             * Function to open a modal
+             */
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -59,6 +65,8 @@ export default class DotMenu extends Component {
         post: {},
         commentCount: 0,
         isFlagged: false,
+        isRHS: false,
+        isReadOnly: false,
     }
 
     constructor(props) {
@@ -109,7 +117,7 @@ export default class DotMenu extends Component {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        if (this.props.idPrefix === Constants.CENTER && (!isMobile && isSystemMessage && !this.state.canDelete && !this.state.canEdit)) {
+        if (this.props.idPrefix === Constants.CENTER && isSystemMessage && !this.state.canDelete && !this.state.canEdit) {
             return null;
         }
 
@@ -125,7 +133,7 @@ export default class DotMenu extends Component {
         const idPrefix = this.props.idPrefix + 'DotMenu';
 
         let dotMenuFlag = null;
-        if (isMobile) {
+        if (isMobile && !isSystemMessage) {
             dotMenuFlag = (
                 <DotMenuFlag
                     idPrefix={idPrefix + 'Flag'}
@@ -161,18 +169,19 @@ export default class DotMenu extends Component {
                     post={this.props.post}
                 />
             );
-
-            dotMenuPin = (
-                <DotMenuItem
-                    idPrefix={idPrefix + 'Pin'}
-                    idCount={this.props.idCount}
-                    post={this.props.post}
-                    actions={{
-                        pinPost: this.props.actions.pinPost,
-                        unpinPost: this.props.actions.unpinPost,
-                    }}
-                />
-            );
+            if (!this.props.isReadOnly) {
+                dotMenuPin = (
+                    <DotMenuItem
+                        idPrefix={idPrefix + 'Pin'}
+                        idCount={this.props.idCount}
+                        post={this.props.post}
+                        actions={{
+                            pinPost: this.props.actions.pinPost,
+                            unpinPost: this.props.actions.unpinPost,
+                        }}
+                    />
+                );
+            }
         }
 
         let dotMenuDelete = null;
@@ -184,6 +193,9 @@ export default class DotMenu extends Component {
                     idCount={this.props.idCount}
                     post={this.props.post}
                     commentCount={type === 'Post' ? this.props.commentCount : 0}
+                    actions={{
+                        openModal: this.props.actions.openModal,
+                    }}
                 />
             );
         }
@@ -193,6 +205,7 @@ export default class DotMenu extends Component {
             dotMenuEdit = (
                 <DotMenuEdit
                     idPrefix={idPrefix + 'Edit'}
+                    isRHS={this.props.isRHS}
                     idCount={this.props.idCount}
                     post={this.props.post}
                     type={type}

@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -74,6 +74,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     value={this.state.restrictCustomEmojiCreation}
                     onChange={this.handleChange}
                     disabled={!this.state.enableCustomEmoji}
+                    setByEnv={this.isSetByEnv('ServiceSettings.RestrictCustomEmojiCreation')}
                 />
             );
         }
@@ -96,6 +97,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     }
                     value={this.state.enableEmojiPicker}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableEmojiPicker')}
                 />
                 <BooleanSetting
                     id='enableCustomEmoji'
@@ -113,6 +115,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     }
                     value={this.state.enableCustomEmoji}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableCustomEmoji')}
                 />
                 {restrictSetting}
             </SettingsGroup>

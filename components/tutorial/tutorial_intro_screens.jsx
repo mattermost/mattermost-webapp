@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -210,7 +210,7 @@ export default class TutorialIntroScreens extends React.Component {
                     {inviteModalLink}
                     <FormattedMessage
                         id='tutorial_intro.whenReady'
-                        defaultMessage=' when you’re ready.'
+                        defaultMessage={' when you\'re ready.'}
                     />
                 </p>
             );
@@ -243,7 +243,7 @@ export default class TutorialIntroScreens extends React.Component {
                 <h3>
                     <FormattedMessage
                         id='tutorial_intro.allSet'
-                        defaultMessage='You’re all set'
+                        defaultMessage={'You\'re all set'}
                     />
                 </h3>
                 {inviteText}

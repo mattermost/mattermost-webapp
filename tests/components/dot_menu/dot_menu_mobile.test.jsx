@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -32,6 +32,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
+                openModal: jest.fn(),
             },
         };
 

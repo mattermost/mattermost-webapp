@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import * as AdminActions from 'mattermost-redux/actions/admin';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -23,9 +23,10 @@ export async function saveConfig(config, success, error) {
 }
 
 export async function reloadConfig(success, error) {
-    const {data, error: err} = await AdminActions.reloadConfig()(dispatch, getState);
+    const {data, error: err} = await dispatch(AdminActions.reloadConfig());
     if (data && success) {
-        AdminActions.getConfig()(dispatch, getState);
+        dispatch(AdminActions.getConfig());
+        dispatch(AdminActions.getEnvironmentConfig());
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});

@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -46,6 +46,16 @@ export default class Reaction extends React.PureComponent {
          * Array of reactions by user
          */
         reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+        /*
+         * True if the user has the permission to add a reaction in this channel
+         */
+        canAddReaction: PropTypes.bool.isRequired,
+
+        /*
+         * True if user has the permission to remove his own reactions in this channel
+         */
+        canRemoveReaction: PropTypes.bool.isRequired,
 
         /*
          * The URL of the emoji image
@@ -107,7 +117,7 @@ export default class Reaction extends React.PureComponent {
             if (user.id === this.props.currentUserId) {
                 currentUserReacted = true;
             } else {
-                users.push(Utils.displayUsernameForUser(user));
+                users.push(Utils.getDisplayNameByUser(user));
             }
         }
 
@@ -205,16 +215,18 @@ export default class Reaction extends React.PureComponent {
         let clickTooltip;
         let className = 'post-reaction';
         if (currentUserReacted) {
-            handleClick = this.removeReaction;
-            clickTooltip = (
-                <FormattedMessage
-                    id='reaction.clickToRemove'
-                    defaultMessage='(click to remove)'
-                />
-            );
+            if (this.props.canRemoveReaction) {
+                handleClick = this.removeReaction;
+                clickTooltip = (
+                    <FormattedMessage
+                        id='reaction.clickToRemove'
+                        defaultMessage='(click to remove)'
+                    />
+                );
+            }
 
             className += ' post-reaction--current-user';
-        } else {
+        } else if (!currentUserReacted && this.props.canAddReaction) {
             handleClick = this.addReaction;
             clickTooltip = (
                 <FormattedMessage

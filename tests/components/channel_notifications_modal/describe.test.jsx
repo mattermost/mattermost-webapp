@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -50,8 +50,8 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, on NEVER', () => {
-        const props = {...baseProps, memberNotifyLevel: NotificationLevels.NEVER};
+    test('should match snapshot, on NONE', () => {
+        const props = {...baseProps, memberNotifyLevel: NotificationLevels.NONE};
         const wrapper = shallow(
             <Describe {...props}/>
         );

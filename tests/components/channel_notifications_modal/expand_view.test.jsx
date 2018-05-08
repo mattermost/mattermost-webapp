@@ -1,12 +1,12 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 
-import ExpandView from 'components/channel_notifications_modal/components/collapse_view.jsx';
+import ExpandView from 'components/channel_notifications_modal/components/expand_view.jsx';
 
 describe('components/channel_notifications_modal/ExpandView', () => {
     const baseProps = {

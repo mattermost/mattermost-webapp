@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -158,7 +158,7 @@ export default class PasswordSettings extends AdminSettings {
                                 defaultMessage='Minimum Password Length:'
                             />
                         }
-                        placeholder={Utils.localizeMessage('admin.password.minimumLengthExample', 'Ex "5"')}
+                        placeholder={Utils.localizeMessage('admin.password.minimumLengthExample', 'E.g.: "5"')}
                         helpText={
                             <FormattedMessage
                                 id='admin.password.minimumLengthDescription'
@@ -171,6 +171,7 @@ export default class PasswordSettings extends AdminSettings {
                         }
                         value={this.state.passwordMinimumLength}
                         onChange={this.handlePasswordLengthChange}
+                        setByEnv={this.isSetByEnv('PasswordSettings.MinimumLength')}
                     />
                     <Setting
                         label={
@@ -267,7 +268,7 @@ export default class PasswordSettings extends AdminSettings {
                             defaultMessage='Maximum Login Attempts:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.attemptExample', 'Ex "10"')}
+                    placeholder={Utils.localizeMessage('admin.service.attemptExample', 'E.g.: "10"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.attemptDescription'
@@ -276,6 +277,7 @@ export default class PasswordSettings extends AdminSettings {
                     }
                     value={this.state.maximumLoginAttempts}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.MaximumLoginAttempts')}
                 />
             </SettingsGroup>
         );

@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -10,13 +10,11 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const enableWebrtc = config.EnableWebrtc === 'true';
     const enablePreviewFeatures = config.EnablePreviewFeatures === 'true';
     const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isLicensed = license && license.IsLicensed === 'true';
 
     return {
-        enableWebrtc,
         enablePreviewFeatures,
         buildEnterpriseReady,
         isLicensed,

@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -25,6 +25,22 @@ export default class AutosizeTextarea extends React.Component {
 
     set value(value) {
         this.refs.textarea.value = value;
+    }
+
+    get selectionStart() {
+        return this.refs.textarea.selectionStart;
+    }
+
+    set selectionStart(selectionStart) {
+        this.refs.textarea.selectionStart = selectionStart;
+    }
+
+    get selectionEnd() {
+        return this.refs.textarea.selectionEnd;
+    }
+
+    set selectionEnd(selectionEnd) {
+        this.refs.textarea.selectionEnd = selectionEnd;
     }
 
     focus() {

@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ export default class Textbox extends React.Component {
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
         popoverMentionKeyClick: PropTypes.bool,
-        characterLimit: PropTypes.number,
+        characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
     };
 
@@ -45,7 +45,6 @@ export default class Textbox extends React.Component {
         supportsCommands: true,
         isRHS: false,
         popoverMentionKeyClick: false,
-        characterLimit: Constants.CHARACTER_LIMIT,
     };
 
     constructor(props) {
@@ -273,7 +272,16 @@ export default class Textbox extends React.Component {
 
         let preview = null;
 
+        let textboxClassName = 'form-control custom-textarea';
+        if (this.props.emojiEnabled) {
+            textboxClassName += ' custom-textarea--emoji-picker';
+        }
+        if (this.state.connection) {
+            textboxClassName += ' ' + this.state.connection;
+        }
         if (this.state.preview) {
+            textboxClassName += ' custom-textarea--preview';
+
             preview = (
                 <div
                     ref='preview'
@@ -286,14 +294,6 @@ export default class Textbox extends React.Component {
                     />
                 </div>
             );
-        }
-
-        let textboxClassName = 'form-control custom-textarea';
-        if (this.props.emojiEnabled) {
-            textboxClassName += ' custom-textarea--emoji-picker';
-        }
-        if (this.state.connection) {
-            textboxClassName += ' ' + this.state.connection;
         }
 
         return (

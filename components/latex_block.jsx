@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -51,7 +51,7 @@ export default class LatexBlock extends React.Component {
                 >
                     <FormattedMessage
                         id='katex.error'
-                        defaultMessage='Error: Invalid Latex code'
+                        defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."
                     />
                 </div>
             );

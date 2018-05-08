@@ -1,9 +1,9 @@
-// Copyright (c) 2017 Mattermost Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
@@ -28,7 +28,7 @@ function mapStateToProps(state) {
 
     const config = getConfig(state);
     const enableTutorial = config.EnableTutorial === 'true';
-    const tutorialStep = parseInt(getPreference(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
+    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
 
     return {
         channelId,

@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +8,7 @@ import Constants, {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
-import SingleImageView from 'components/single_image_view.jsx';
+import SingleImageView from 'components/single_image_view';
 import ViewImageModal from 'components/view_image';
 
 export default class FileAttachmentList extends React.Component {

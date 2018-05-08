@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,9 +21,10 @@ export default function DotMenuEdit(props) {
     function handleOnClick() {
         props.actions.setEditingPost(
             props.post.id,
-            props.commentsCount,
+            props.commentCount,
             props.idPrefix.indexOf(Constants.CENTER) === 0 ? 'post_textbox' : 'reply_textbox',
-            props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')
+            props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment'),
+            props.isRHS
         );
     }
 
@@ -48,10 +49,11 @@ export default function DotMenuEdit(props) {
 
 DotMenuEdit.propTypes = {
     idPrefix: PropTypes.string.isRequired,
+    isRHS: PropTypes.bool,
     idCount: PropTypes.number,
     post: PropTypes.object,
     type: PropTypes.string,
-    commentsCount: PropTypes.number,
+    commentCount: PropTypes.number,
     actions: PropTypes.shape({
 
         /*

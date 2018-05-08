@@ -1,3 +1,6 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 const childProcess = require('child_process');
 const path = require('path');
 
@@ -255,7 +258,7 @@ var config = {
             children: true,
         }),
         new webpack.DefinePlugin({
-            COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString()),
+            COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
         }),
         extractCSS,
         extractSCSS,

@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,7 +11,7 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -19,16 +19,19 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
-import MsgTyping from 'components/msg_typing.jsx';
+import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
-import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip';
 
 const KeyCodes = Constants.KeyCodes;
 
 export default class CreatePost extends React.Component {
     static propTypes = {
+
+        isRhsOpen: PropTypes.bool.isRequired,
 
         /**
         *  ref passed from channelView for EmojiPickerOverlay
@@ -124,6 +127,15 @@ export default class CreatePost extends React.Component {
          */
         enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
 
+        /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
+
+        /**
+         * Whether to display a confirmation modal to reset status.
+         */
+        userIsOutOfOffice: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -175,6 +187,11 @@ export default class CreatePost extends React.Component {
              *  func called for opening the last replayable post in the RHS
              */
             selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired,
+
+            /**
+             * Function to open a modal
+             */
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -339,13 +356,45 @@ export default class CreatePost extends React.Component {
         this.setState({showConfirmModal: true});
     }
 
+    getStatusFromSlashCommand = () => {
+        const {message} = this.state;
+        const tokens = message.split(' ');
+
+        if (tokens.length > 0) {
+            return tokens[0].substring(1);
+        }
+        return '';
+    };
+
+    isStatusSlashCommand = (command) => {
+        return command === 'online' || command === 'away' ||
+            command === 'dnd' || command === 'offline';
+    };
+
     handleSubmit = (e) => {
-        const updateChannel = this.props.currentChannel;
+        const {
+            currentChannel: updateChannel,
+            userIsOutOfOffice,
+        } = this.props;
 
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             PostUtils.containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
+            return;
+        }
+
+        const status = this.getStatusFromSlashCommand();
+        if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
+            const resetStatusModalData = {
+                ModalId: ModalIdentifiers.RESET_STATUS,
+                dialogType: ResetStatusModal,
+                dialogProps: {newStatus: status},
+            };
+
+            this.props.actions.openModal(resetStatusModalData);
+
+            this.setState({message: ''});
             return;
         }
 
@@ -418,7 +467,7 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
             if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
@@ -448,7 +497,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox(true);
+        this.focusTextbox();
     }
 
     handleUploadStart = (clientIds, channelId) => {
@@ -536,8 +585,9 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                // draft.uploadsInProgress.splice(index, 1);
-                this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                }
             }
         } else {
             const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
@@ -557,7 +607,7 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -587,7 +637,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
         const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
@@ -631,6 +681,10 @@ export default class CreatePost extends React.Component {
     replyToLastPost = (e) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
+        const isRhsOpen = this.props.isRhsOpen;
+        if (isRhsOpen) {
+            document.getElementById('reply_textbox').focus();
+        }
         if (latestReplyablePostId) {
             this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
         }
@@ -868,6 +922,7 @@ export default class CreatePost extends React.Component {
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
+                                characterLimit={this.props.maxPostSize}
                             />
                             <span
                                 ref='createPostControls'
@@ -891,7 +946,7 @@ export default class CreatePost extends React.Component {
                     >
                         <MsgTyping
                             channelId={currentChannel.id}
-                            parentId=''
+                            postId=''
                         />
                         {postError}
                         {preview}

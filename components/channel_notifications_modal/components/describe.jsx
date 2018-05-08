@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -16,6 +16,13 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
                 values={{
                     notifyLevel: (globalNotifyLevel),
                 }}
+            />
+        );
+    } else if (memberNotifyLevel === NotificationLevels.MENTION && section === NotificationSections.MARK_UNREAD) {
+        return (
+            <FormattedMessage
+                id='channel_notifications.muteChannel.on.title'
+                defaultMessage='On'
             />
         );
     } else if (memberNotifyLevel === NotificationLevels.MENTION) {
@@ -41,8 +48,8 @@ export default function Describe({section, memberNotifyLevel, globalNotifyLevel}
     ) {
         return (
             <FormattedMessage
-                id='channel_notifications.allUnread'
-                defaultMessage='For all unread messages'
+                id='channel_notifications.muteChannel.off.title'
+                defaultMessage='Off'
             />
         );
     }

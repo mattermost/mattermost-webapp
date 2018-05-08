@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -8,7 +8,7 @@ import {getUser, getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-re
 
 import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
-import {displayUsernameForUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         emoji,
-        creatorDisplayName: displayUsernameForUser(creator),
+        creatorDisplayName: getDisplayNameByUser(creator),
         creatorUsername: creator.username,
         currentUserId: getCurrentUserId(state),
         isSystemAdmin: isCurrentUserSystemAdmin(state),

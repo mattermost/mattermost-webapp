@@ -26,8 +26,9 @@
     "key-mirror": "1.0.1",
     "localforage": "1.5.6",
     "localforage-observable": "1.4.0",
-    "marked": "mattermost/marked#802e981ade71149a497cbe79d12b8a3f82f7657e",
-    "mattermost-redux": "mattermost/mattermost-redux",
+    "marked": "mattermost/marked#4bc7e5f00c324d2eadec6b932224871497af6f7c",
+    "mattermost-redux": "github:mattermost/mattermost-redux#b1bb31daf58d5ec88f4f14627d6fe655d1570c03",
+    "moment-timezone": "0.5.14",
     "pdfjs-dist": "2.0.290",
     "perfect-scrollbar": "0.8.1",
     "prop-types": "15.6.0",
@@ -58,7 +59,7 @@
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
-    "babel-jest": "22.1.0",
+    "babel-jest": "22.4.3",
     "babel-loader": "7.1.2",
     "babel-plugin-dynamic-import-node": "1.2.0",
     "babel-plugin-module-resolver": "3.0.0",
@@ -77,6 +78,7 @@
     "enzyme-to-json": "3.3.1",
     "eslint": "3.17.1",
     "eslint-import-resolver-webpack": "0.8.3",
+    "eslint-plugin-header": "^1.2.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-react": "7.1.0",
     "exports-loader": "0.6.4",
@@ -87,8 +89,9 @@
     "identity-obj-proxy": "3.0.0",
     "image-webpack-loader": "3.6.0",
     "imports-loader": "0.7.1",
-    "jest": "22.1.4",
-    "jest-cli": "22.1.4",
+    "jest": "22.4.3",
+    "jest-canvas-mock": "1.0.2",
+    "jest-cli": "22.4.3",
     "jquery-deferred": "0.3.1",
     "json-loader": "0.5.7",
     "nightwatch": "0.9.19",
@@ -100,7 +103,8 @@
     "selenium-standalone": "6.12.0",
     "style-loader": "0.19.1",
     "webpack": "3.10.0",
-    "webpack-node-externals": "1.6.0"
+    "webpack-node-externals": "1.6.0",
+    "yup": "0.24.1"
   },
   "jest": {
     "snapshotSerializers": [
@@ -139,6 +143,9 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
+    ],
+    "setupFiles": [
+      "jest-canvas-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
     "testURL": "http://localhost:8065"

@@ -13,7 +13,8 @@
     "parser": "babel-eslint",
     "plugins": [
         "react",
-        "import"
+        "import",
+        "header"
     ],
     "env": {
         "browser": true,
@@ -64,6 +65,7 @@
         "generator-star-spacing": [2, {"before": false, "after": true}],
         "global-require": 2,
         "guard-for-in": 2,
+        "header/header": [2, "line", " Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.\n See LICENSE.txt for license information."],
         "id-blacklist": 0,
         "import/no-unresolved": 2,
         "import/order": ["error", {"newlines-between": "always-and-inside-groups", "groups": ["builtin", "external", ["internal", "parent"], "sibling", "index"]}],
@@ -250,7 +252,7 @@
         "react/no-unused-prop-types": [1, {"skipShapeProps": true}],
         "react/prefer-es6-class": 2,
         "react/prefer-stateless-function": 0,
-        "react/prop-types": [2, { "ignore": ["match", "location", "history", "component"] }],
+        "react/prop-types": [2, { "ignore": ["location", "history", "component"] }],
         "react/require-default-props": 0,
         "react/require-optimization": 1,
         "react/require-render-return": 2,

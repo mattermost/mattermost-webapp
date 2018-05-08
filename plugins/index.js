@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 // EXPERIMENTAL - SUBJECT TO CHANGE
 
@@ -8,6 +8,8 @@ import {Client4} from 'mattermost-redux/client';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
+import {formatText} from 'utils/text_formatting.jsx';
+import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 
 window.plugins = {};
 
@@ -17,8 +19,9 @@ window['react-dom'] = require('react-dom');
 window.redux = require('redux');
 window['react-redux'] = require('react-redux');
 window['react-bootstrap'] = require('react-bootstrap');
+window['post-utils'] = {formatText, messageHtmlToComponent};
 
-export function registerComponents(id, components = {}, postTypes = {}) {
+export function registerComponents(id, components = {}, postTypes = {}, mainMenuActions = []) {
     const wrappedComponents = {};
     Object.keys(components).forEach((name) => {
         wrappedComponents[name] = {component: components[name], id};
@@ -37,6 +40,13 @@ export function registerComponents(id, components = {}, postTypes = {}) {
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_POST_TYPES,
         data: wrappedPostTypes,
+    });
+
+    const wrappedMainMenuActions = mainMenuActions.map((action) => ({id, ...action}));
+
+    store.dispatch({
+        type: ActionTypes.RECEIVED_PLUGIN_MENU_ACTIONS,
+        data: wrappedMainMenuActions,
     });
 }
 

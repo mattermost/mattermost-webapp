@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -54,7 +54,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             height: 80,
             width: 80,
         };
-        this.textMaxLenght = 300;
+        this.textMaxLength = 300;
         this.textEllipsis = '...';
         this.largeImageMinRatio = 16 / 9;
         this.smallImageContainerLeftPadding = 15;
@@ -227,8 +227,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return element;
     }
 
-    truncateText(text, maxLength = this.textMaxLenght, ellipsis = this.textEllipsis) {
-        if (text.length > maxLength) {
+    truncateText(text, maxLength = this.textMaxLength, ellipsis = this.textEllipsis) {
+        if (text && text.length > maxLength) {
             return text.substring(0, maxLength - ellipsis.length) + ellipsis;
         }
         return text;
@@ -258,7 +258,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     render() {
         const data = this.props.openGraphData;
-        if (!data || Utils.isEmptyObject(data.description) || this.state.removePreview) {
+        if (!data || !data.url || this.state.removePreview) {
             return null;
         }
 

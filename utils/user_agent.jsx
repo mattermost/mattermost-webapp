@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 /*
 Example User Agents
@@ -116,4 +116,14 @@ export function isWindowsApp() {
 
 export function isMacApp() {
     return isDesktopApp() && userAgent.indexOf('Macintosh') !== -1;
+}
+
+export function isWindows7() {
+    const appVersion = navigator.appVersion;
+
+    if (!appVersion) {
+        return false;
+    }
+
+    return (/\bWindows NT 6\.1\b/).test(appVersion);
 }

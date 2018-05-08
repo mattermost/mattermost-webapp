@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -60,11 +60,6 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Flag for highlighting search term
         */
         term: PropTypes.string,
-
-        /**
-        *  Flag for determining time format
-        */
-        useMilitaryTime: PropTypes.bool.isRequired,
 
         /**
         *  Flag for determining result flag state
@@ -159,7 +154,6 @@ export default class SearchResultsItem extends React.PureComponent {
             <PostTime
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
-                useMilitaryTime={this.props.useMilitaryTime}
                 postId={post.id}
             />
         );
@@ -193,7 +187,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         id='search_item.direct'
                         defaultMessage='Direct Message (with {username})'
                         values={{
-                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id)),
+                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
                         }}
                     />
                 );
@@ -212,7 +206,14 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let botIndicator;
         if (post.props && post.props.from_webhook) {
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            botIndicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
         }
 
         const profilePic = (

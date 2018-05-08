@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,6 +8,8 @@ import {Client4} from 'mattermost-redux/client';
 
 import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
+
+import * as Utils from 'utils/utils.jsx';
 
 export default class AtMention extends React.PureComponent {
     static propTypes = {
@@ -97,7 +99,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className={className}>{'@' + user.username}</a>
+                    <a className={className}>{'@' + Utils.getDisplayNameByUser(user)}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>

@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -7,11 +7,14 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+import {Permissions} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 export default class NewChannelModal extends React.PureComponent {
     static propTypes = {
@@ -20,6 +23,11 @@ export default class NewChannelModal extends React.PureComponent {
          * Set whether to show the modal or not
          */
         show: PropTypes.bool.isRequired,
+
+        /**
+         * Id of the active team
+         */
+        currentTeamId: PropTypes.string.isRequired,
 
         /**
          * The type of channel to create, 'O' or 'P'
@@ -40,16 +48,6 @@ export default class NewChannelModal extends React.PureComponent {
          * Server error from failed channel creation
          */
         serverError: PropTypes.node,
-
-        /**
-         * Flag to display the option to create public channels.
-         */
-        showCreatePublicChannelOption: PropTypes.bool.isRequired,
-
-        /**
-         * Flag to display the option to create private channels.
-         */
-        showCreatePrivateChannelOption: PropTypes.bool.isRequired,
 
         /**
          * Function used to submit the channel
@@ -106,9 +104,13 @@ export default class NewChannelModal extends React.PureComponent {
     }
 
     onEnterKeyDown = (e) => {
-        if (this.props.ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && Utils.cmdOrCtrlPressed(e)) {
-            this.handleSubmit(e);
-        } else if (!this.props.ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
+        const enterPressed = Utils.isKeyPressed(e, Constants.KeyCodes.ENTER);
+        const {ctrlSend} = this.props;
+
+        // Enter pressed alone without required cmd or ctrl key
+        if (ctrlSend && enterPressed && !e.ctrlKey) {
+            e.preventDefault();
+        } else if ((ctrlSend && enterPressed && e.ctrlKey) || (!ctrlSend && enterPressed && !e.shiftKey && !e.altKey)) {
             this.handleSubmit(e);
         }
     }
@@ -163,7 +165,7 @@ export default class NewChannelModal extends React.PureComponent {
             serverError = <div className='form-group has-error'><div className='col-sm-12'><p className='input__help error'>{this.props.serverError}</p></div></div>;
         }
 
-        let createPublicChannelLink = (
+        const createPublicChannelLink = (
             <button
                 className='style--none color--link'
                 onClick={this.props.onTypeSwitched}
@@ -175,7 +177,7 @@ export default class NewChannelModal extends React.PureComponent {
             </button>
         );
 
-        let createPrivateChannelLink = (
+        const createPrivateChannelLink = (
             <button
                 className='style--none color--link'
                 onClick={this.props.onTypeSwitched}
@@ -188,14 +190,6 @@ export default class NewChannelModal extends React.PureComponent {
             </button>
         );
 
-        if (!this.props.showCreatePublicChannelOption) {
-            createPublicChannelLink = null;
-        }
-
-        if (!this.props.showCreatePrivateChannelOption) {
-            createPrivateChannelLink = null;
-        }
-
         var channelSwitchText = '';
         let inputPrefixId = '';
         switch (this.props.channelType) {
@@ -206,7 +200,12 @@ export default class NewChannelModal extends React.PureComponent {
                         id='channel_modal.privateGroup1'
                         defaultMessage='Create a new private channel with restricted membership. '
                     />
-                    {createPublicChannelLink}
+                    <TeamPermissionGate
+                        teamId={this.props.currentTeamId}
+                        permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                    >
+                        {createPublicChannelLink}
+                    </TeamPermissionGate>
                 </div>
             );
             inputPrefixId = 'newPrivateChannel';
@@ -218,7 +217,12 @@ export default class NewChannelModal extends React.PureComponent {
                         id='channel_modal.publicChannel2'
                         defaultMessage='Create a new public channel anyone can join. '
                     />
-                    {createPrivateChannelLink}
+                    <TeamPermissionGate
+                        teamId={this.props.currentTeamId}
+                        permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
+                    >
+                        {createPrivateChannelLink}
+                    </TeamPermissionGate>
                 </div>
             );
             inputPrefixId = 'newPublicChannel';

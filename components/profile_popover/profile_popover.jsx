@@ -1,11 +1,12 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import LocalDateTime from 'components/local_date_time';
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -17,7 +18,6 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const UserStatuses = Constants.UserStatuses;
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -65,11 +65,6 @@ class ProfilePopover extends React.Component {
          * @internal
          */
         hasMention: PropTypes.bool,
-
-        /**
-         * Whether or not to reveal the email address associated with the user.
-         */
-        showEmailAddress: PropTypes.bool.isRequired,
 
         /**
          * Whether or not WebRtc is enabled.
@@ -204,14 +199,11 @@ class ProfilePopover extends React.Component {
         delete popoverProps.isRHS;
         delete popoverProps.hasMention;
         delete popoverProps.dispatch;
-        delete popoverProps.showEmailAddress;
         delete popoverProps.enableWebrtc;
+        delete popoverProps.enableTimezone;
 
         let webrtc;
-        const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-        const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
-
+        const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();
         if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
             const isOnline = this.props.status !== UserStatuses.OFFLINE;
             let webrtcMessage;
@@ -279,9 +271,9 @@ class ProfilePopover extends React.Component {
                     key='user-popover-fullname'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
+                        className='overflow--ellipsis text-nowrap padding-top'
                     >
-                        {fullname}
+                        <strong>{fullname}</strong>
                     </div>
                 </OverlayTrigger>
             );
@@ -297,7 +289,7 @@ class ProfilePopover extends React.Component {
                     key='user-popover-position'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
+                        className='overflow--ellipsis text-nowrap padding-bottom half'
                     >
                         {position}
                     </div>
@@ -306,7 +298,14 @@ class ProfilePopover extends React.Component {
         }
 
         const email = this.props.user.email;
-        if (this.props.showEmailAddress || UserStore.isSystemAdminForCurrentUser() || this.props.user === UserStore.getCurrentUser()) {
+        if (email) {
+            dataContent.push(
+                <hr
+                    key='user-popover-hr'
+                    className='divider divider--expanded'
+                />
+            );
+
             dataContent.push(
                 <div
                     data-toggle='tooltip'
@@ -315,10 +314,25 @@ class ProfilePopover extends React.Component {
                 >
                     <a
                         href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email'
+                        className='text-nowrap text-lowercase user-popover__email padding-bottom half'
                     >
                         {email}
                     </a>
+                </div>
+            );
+        }
+
+        if (this.props.enableTimezone && this.props.user.timezone) {
+            dataContent.push(
+                <div
+                    key='user-popover-local-time'
+                    className='padding-bottom half'
+                >
+                    <FormattedMessage
+                        id='user_profile.account.localTime'
+                        defaultMessage='Local Time: '
+                    />
+                    <LocalDateTime userTimezone={this.props.user.timezone}/>
                 </div>
             );
         }

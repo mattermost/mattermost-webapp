@@ -1,13 +1,11 @@
-
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
-//
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
 
-describe('Utils.displayUsernameForUser', function() {
+describe('Utils.getDisplayNameByUser', function() {
     afterEach(() => {
         store.dispatch({
             type: GeneralTypes.CLIENT_CONFIG_RESET,
@@ -35,7 +33,7 @@ describe('Utils.displayUsernameForUser', function() {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.displayUsernameForUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
         });
     });
 
@@ -59,7 +57,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 
@@ -83,7 +81,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 });
@@ -96,16 +94,28 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         });
     });
 
-    const userA = {status: 'dnd', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
-    const userB = {status: 'away', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
-    const userC = {status: 'offline', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
-    const userD = {status: 'online', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
-    const userE = {status: 'online', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
-    const userF = {status: 'online', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
-    const userG = {status: 'dnd', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
-    const userH = {status: 'away', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
-    const userI = {status: 'offline', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
-    const userJ = {status: 'online', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const userA = {id: 'a', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
+    const userB = {id: 'b', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
+    const userC = {id: 'c', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
+    const userD = {id: 'd', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
+    const userE = {id: 'e', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
+    const userF = {id: 'f', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
+    const userG = {id: 'g', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
+    const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
+    const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
+    const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const statusesByUserId = {
+        a: 'dnd',
+        b: 'away',
+        c: 'offline',
+        d: 'online',
+        e: 'online',
+        f: 'online',
+        g: 'dnd',
+        h: 'away',
+        i: 'offline',
+        j: 'online',
+    };
 
     test('Users sort by status and displayname, TeammateNameDisplay set to username', function() {
         store.dispatch({
@@ -118,18 +128,18 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userC, userA],
+                result: [userD, userE, userF, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userI, userG],
+                result: [userE, userF, userJ, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
                 result: [userD, userE, userF, userJ],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -147,18 +157,18 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userC, userA],
+                result: [userF, userE, userD, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userI, userG],
+                result: [userJ, userF, userE, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
                 result: [userJ, userF, userE, userD],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -176,18 +186,18 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userC, userA],
+                result: [userD, userF, userE, userB, userA, userC],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userI, userG],
+                result: [userF, userE, userJ, userH, userG, userI],
             },
             {
                 users: [userJ, userF, userE, userD],
                 result: [userD, userF, userE, userJ],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
