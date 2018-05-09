@@ -1,5 +1,324 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/navbar/Navbar should match snapshot, for default channel 1`] = `
+<div>
+  <nav
+    className="navbar navbar-default navbar-fixed-top"
+    role="navigation"
+  >
+    <div
+      className="container-fluid theme"
+    >
+      <div
+        className="navbar-header"
+      >
+        <button
+          className="navbar-toggle"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-sidebar"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="sr-only"
+          >
+            <FormattedMessage
+              defaultMessage="Toggle sidebar"
+              id="navbar.toggle2"
+              values={Object {}}
+            />
+          </span>
+          <MenuIcon
+            className="icon icon__menu icon--sidebarHeaderTextColor"
+          />
+          <NotifyCounts />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <NavbarInfoButton
+          channel={
+            Object {
+              "display_name": "Town Square",
+              "id": "123",
+              "name": "town-square",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
+        <div
+          className="navbar-brand"
+        >
+          <div
+            className="dropdown"
+          >
+            <a
+              aria-expanded="true"
+              className="dropdown-toggle theme"
+              data-toggle="dropdown"
+              href="#"
+              type="button"
+            >
+              <span
+                className="heading"
+              >
+                <StatusIcon
+                  className=""
+                  status={null}
+                />
+                Town Square
+                 
+              </span>
+              <span
+                className="fa fa-angle-down header-dropdown__icon"
+              />
+            </a>
+            <ul
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                role="presentation"
+              >
+                <Connect(ModalToggleButtonRedux)
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "Town Square",
+                        "id": "123",
+                        "name": "town-square",
+                        "team_id": "team_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  modalId="channel_info"
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Info"
+                    id="navbar.viewInfo"
+                    values={Object {}}
+                  />
+                </Connect(ModalToggleButtonRedux)>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Pinned Posts"
+                    id="navbar.viewPinnedPosts"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Notification Preferences"
+                    id="navbar.preferences"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                key="view_members"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Members"
+                    id="channel_header.viewMembers"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <Connect(ChannelPermissionGate)
+                channelId="123"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Header"
+                      id="channel_header.setHeader"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="123"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Edit Channel Purpose"
+                      id="channel_header.setPurpose"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <Connect(ChannelPermissionGate)
+                channelId="123"
+                permissions={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
+                teamId="team_id"
+              >
+                <li
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    role="menuitem"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Rename Channel"
+                      id="channel_header.rename"
+                      values={Object {}}
+                    />
+                  </a>
+                </li>
+              </Connect(ChannelPermissionGate)>
+              <li
+                key="toggle_favorite"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <div
+                className="close visible-xs-block"
+                onClick={[Function]}
+              >
+                ×
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <Connect(InjectIntl(RenameChannelModal))
+    channel={
+      Object {
+        "display_name": "Town Square",
+        "id": "123",
+        "name": "town-square",
+        "team_id": "team_id",
+        "type": "O",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(ChannelNotificationsModal)
+    channel={
+      Object {
+        "display_name": "Town Square",
+        "id": "123",
+        "name": "town-square",
+        "team_id": "team_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(QuickSwitchModal)
+    initialMode="channel"
+    onHide={[Function]}
+    show={false}
+  />
+</div>
+`;
+
 exports[`components/navbar/Navbar should match snapshot, for private channel 1`] = `
 <div>
   <nav
