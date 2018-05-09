@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import debounce from 'lodash/debounce';
-
 import {
     getChannel,
     createDirectChannel,
@@ -540,17 +538,10 @@ export async function redirectUserToDefaultTeam() {
     }
 }
 
-export const postListScrollChange = debounce(() => {
+export function postListScrollChange(forceScrollToBottom = false) {
     AppDispatcher.handleViewAction({
         type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: false,
-    });
-});
-
-export function postListScrollChangeToBottom() {
-    AppDispatcher.handleViewAction({
-        type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: true,
+        value: forceScrollToBottom,
     });
 }
 
