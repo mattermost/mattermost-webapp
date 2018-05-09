@@ -5,18 +5,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
 
-import * as Utils from 'utils/utils.jsx';
-
 export default class AtMention extends React.PureComponent {
     static propTypes = {
+        children: PropTypes.node,
         currentUserId: PropTypes.string.isRequired,
         hasMention: PropTypes.bool,
         isRHS: PropTypes.bool,
         mentionName: PropTypes.string.isRequired,
+        teammateNameDisplay: PropTypes.string.isRequired,
         usersByUsername: PropTypes.object.isRequired,
     };
 
@@ -49,7 +50,7 @@ export default class AtMention extends React.PureComponent {
 
     getUserFromMentionName(props) {
         const usersByUsername = props.usersByUsername;
-        let mentionName = props.mentionName;
+        let mentionName = props.mentionName.toLowerCase();
 
         while (mentionName.length > 0) {
             if (usersByUsername.hasOwnProperty(mentionName)) {
@@ -69,7 +70,7 @@ export default class AtMention extends React.PureComponent {
 
     render() {
         if (!this.state.user) {
-            return <span>{'@' + this.props.mentionName}</span>;
+            return <React.Fragment>{this.props.children}</React.Fragment>;
         }
 
         const user = this.state.user;
@@ -99,7 +100,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className={className}>{'@' + Utils.getDisplayNameByUser(user)}</a>
+                    <a className={className}>{'@' + displayUsername(user, this.props.teammateNameDisplay)}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>
