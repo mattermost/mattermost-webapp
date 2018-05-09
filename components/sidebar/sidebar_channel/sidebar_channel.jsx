@@ -109,6 +109,7 @@ export default class SidebarChannel extends React.PureComponent {
          * Set if the tutorial must be shown
          */
         showTutorialTip: PropTypes.bool.isRequired,
+        teamId: PropTypes.string,
 
         /**
          * TownSquare (default channel) display name
@@ -131,6 +132,7 @@ export default class SidebarChannel extends React.PureComponent {
         shouldHideChannel: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
+            addHiddenDefaultChannel: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
             openLhs: PropTypes.func.isRequired,
@@ -138,6 +140,22 @@ export default class SidebarChannel extends React.PureComponent {
     }
 
     isLeaving = false;
+
+    componentDidMount() {
+        if (this.props.shouldHideChannel && !this.showChannelAsUnread()) {
+            this.props.actions.addHiddenDefaultChannel(this.props.teamId, this.props.channelId);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (
+            nextProps.shouldHideChannel !== this.props.shouldHideChannel &&
+            nextProps.shouldHideChannel &&
+            !this.showChannelAsUnread()
+        ) {
+            nextProps.actions.addHiddenDefaultChannel(nextProps.teamId, nextProps.channelId);
+        }
+    }
 
     handleLeavePublicChannel = () => {
         this.props.actions.leaveChannel(this.props.channelId);

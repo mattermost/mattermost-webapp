@@ -22,10 +22,13 @@ const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
 export default class MoreChannels extends React.Component {
     static propTypes = {
+        currentTeamId: PropTypes.string.isRequired,
+        hiddenDefaultChannelId: PropTypes.string,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
+            removeHiddenDefaultChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -46,7 +49,7 @@ export default class MoreChannels extends React.Component {
 
     componentDidMount() {
         ChannelStore.addChangeListener(this.onChange);
-        this.props.actions.getChannels(TeamStore.getCurrentId(), 0, CHANNELS_CHUNK_SIZE * 2);
+        this.props.actions.getChannels(this.props.currentTeamId, 0, CHANNELS_CHUNK_SIZE * 2);
     }
 
     componentWillUnmount() {
@@ -68,17 +71,28 @@ export default class MoreChannels extends React.Component {
             return;
         }
 
+        const channels = ChannelStore.getMoreChannelsList();
+        if (this.props.hiddenDefaultChannelId) {
+            const defaultChannel = ChannelStore.getChannelById(this.props.hiddenDefaultChannelId);
+            if (defaultChannel) {
+                channels.unshift(defaultChannel);
+            }
+        }
+
         this.setState({
-            channels: ChannelStore.getMoreChannelsList(),
+            channels,
             serverError: null,
         });
     }
 
     nextPage = (page) => {
-        this.props.actions.getChannels(TeamStore.getCurrentId(), page + 1, CHANNELS_PER_PAGE);
+        this.props.actions.getChannels(this.props.currentTeamId, page + 1, CHANNELS_PER_PAGE);
     }
 
     handleJoin = (channel, done) => {
+        const {actions, currentTeamId} = this.props;
+        actions.removeHiddenDefaultChannel(currentTeamId, channel.id);
+
         joinChannel(
             channel,
             () => {
@@ -132,16 +146,21 @@ export default class MoreChannels extends React.Component {
             serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
         }
 
+        const {
+            currentTeamId,
+            handleNewChannel,
+        } = this.props;
+
         const createNewChannelButton = (
             <TeamPermissionGate
-                teamId={TeamStore.getCurrentId()}
+                teamId={currentTeamId}
                 permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
             >
                 <button
                     id='createNewChannel'
                     type='button'
                     className='btn btn-primary channel-create-btn'
-                    onClick={this.props.handleNewChannel}
+                    onClick={handleNewChannel}
                 >
                     <FormattedMessage
                         id='more_channels.create'
@@ -153,7 +172,7 @@ export default class MoreChannels extends React.Component {
 
         const createChannelHelpText = (
             <TeamPermissionGate
-                teamId={TeamStore.getCurrentId()}
+                teamId={currentTeamId}
                 permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
             >
                 <p className='secondary-message'>

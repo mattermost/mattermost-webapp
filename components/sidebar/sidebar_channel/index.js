@@ -7,7 +7,11 @@ import {bindActionCreators} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {leaveChannel} from 'mattermost-redux/actions/channels';
 
-import {getChannelsNameMapInCurrentTeam, makeGetChannel, isChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannelsNameMapInCurrentTeam,
+    isChannelHidden,
+    makeGetChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -18,6 +22,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
 
+import {addHiddenDefaultChannel} from 'actions/views/channel';
 import {open as openLhs} from 'actions/views/lhs.js';
 
 import SidebarChannel from './sidebar_channel.jsx';
@@ -78,7 +83,7 @@ function makeMapStateToProps() {
             channelDisplayName = displayUsername(teammate, teammateNameDisplay);
         }
 
-        const shouldHideChannel = isChannelReadOnly(state, channel) && !ownProps.active &&
+        const shouldHideChannel = isChannelHidden(state, channel) && !ownProps.active &&
             !isFavoriteChannel(state.entities.preferences.myPreferences, channel.id);
 
         return {
@@ -98,6 +103,7 @@ function makeMapStateToProps() {
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
             showUnreadForMsgs,
+            teamId: channel.team_id || '',
             unreadMsgs,
             unreadMentions,
             membersCount,
@@ -109,9 +115,10 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            savePreferences,
+            addHiddenDefaultChannel,
             leaveChannel,
             openLhs,
+            savePreferences,
         }, dispatch),
     };
 }

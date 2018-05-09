@@ -3,7 +3,11 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getChannels} from 'mattermost-redux/actions/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {removeHiddenDefaultChannel} from 'actions/views/channel';
 
 import MoreChannels from './more_channels.jsx';
 
@@ -11,8 +15,19 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getChannels,
+            removeHiddenDefaultChannel,
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(MoreChannels);
+function mapStateToProps(state) {
+    const currentTeamId = getCurrentTeamId(state);
+    const hiddenDefaultChannelId = state.views.channel.hiddenDefaultChannelId[currentTeamId] || '';
+
+    return {
+        currentTeamId,
+        hiddenDefaultChannelId,
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoreChannels);

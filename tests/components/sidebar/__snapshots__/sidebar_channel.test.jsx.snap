@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot and should call actions.addHiddenDefaultChannel on componentDidMount and componentWillReceiveProps 1`] = `""`;
+
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on active channel show 1`] = `
 <li
   className="active"
