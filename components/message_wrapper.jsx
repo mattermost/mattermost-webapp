@@ -4,10 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 
 export default class MessageWrapper extends React.Component {
     constructor(props) {
