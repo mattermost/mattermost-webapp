@@ -13,6 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class AtMention extends React.PureComponent {
     static propTypes = {
+        children: PropTypes.node,
         currentUserId: PropTypes.string.isRequired,
         hasMention: PropTypes.bool,
         isRHS: PropTypes.bool,
@@ -49,7 +50,7 @@ export default class AtMention extends React.PureComponent {
 
     getUserFromMentionName(props) {
         const usersByUsername = props.usersByUsername;
-        let mentionName = props.mentionName;
+        let mentionName = props.mentionName.toLowerCase();
 
         while (mentionName.length > 0) {
             if (usersByUsername.hasOwnProperty(mentionName)) {
@@ -69,7 +70,7 @@ export default class AtMention extends React.PureComponent {
 
     render() {
         if (!this.state.user) {
-            return <span>{'@' + this.props.mentionName}</span>;
+            return <React.Fragment>{this.props.children}</React.Fragment>;
         }
 
         const user = this.state.user;
