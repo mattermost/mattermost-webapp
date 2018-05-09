@@ -72,15 +72,15 @@ describe('TextFormatting.AtMentions', function() {
 
         assert.equal(
             TextFormatting.formatText('@USER', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="user">@USER</span></span></p>',
+            '<p><span class=\'mention--highlight\'><span data-mention="USER">@USER</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@CHanNEL', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="channel">@CHanNEL</span></span></p>',
+            '<p><span class=\'mention--highlight\'><span data-mention="CHanNEL">@CHanNEL</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@ALL', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="all">@ALL</span></span></p>',
+            '<p><span class=\'mention--highlight\'><span data-mention="ALL">@ALL</span></span></p>',
         );
     });
 });
