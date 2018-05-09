@@ -282,6 +282,12 @@
                 top: 1px;
             }
 
+            blockquote {
+                &:first-child {
+                    margin-left: 53px;
+                }
+            }
+
             &.same--root {
                 &.same--user {
                     padding-left: 77px;
@@ -291,6 +297,12 @@
                         left: -21px;
                         position: absolute;
                         top: 4px;
+                    }
+
+                    blockquote {
+                        &:first-child {
+                            margin-left: 0;
+                        }
                     }
 
                     .post__header {
