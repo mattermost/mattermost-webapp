@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -20,6 +20,7 @@ export default class TextSetting extends React.Component {
             maxLength: PropTypes.number,
             onChange: PropTypes.func,
             disabled: PropTypes.bool,
+            setByEnv: PropTypes.bool.isRequired,
             type: PropTypes.oneOf([
                 'number',
                 'input',
@@ -55,7 +56,7 @@ export default class TextSetting extends React.Component {
                     value={this.props.value}
                     maxLength={this.props.maxLength}
                     onChange={this.handleChange}
-                    disabled={this.props.disabled}
+                    disabled={this.props.disabled || this.props.setByEnv}
                 />
             );
         } else if (this.props.type === 'number') {
@@ -68,7 +69,7 @@ export default class TextSetting extends React.Component {
                     value={this.props.value}
                     maxLength={this.props.maxLength}
                     onChange={this.handleChange}
-                    disabled={this.props.disabled}
+                    disabled={this.props.disabled || this.props.setByEnv}
                 />
             );
         } else if (this.props.type === 'textarea') {
@@ -81,7 +82,7 @@ export default class TextSetting extends React.Component {
                     value={this.props.value}
                     maxLength={this.props.maxLength}
                     onChange={this.handleChange}
-                    disabled={this.props.disabled}
+                    disabled={this.props.disabled || this.props.setByEnv}
                 />
             );
         }
@@ -91,6 +92,7 @@ export default class TextSetting extends React.Component {
                 label={this.props.label}
                 helpText={this.props.helpText}
                 inputId={this.props.id}
+                setByEnv={this.props.setByEnv}
             >
                 {input}
             </Setting>

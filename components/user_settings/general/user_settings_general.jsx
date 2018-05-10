@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -1129,7 +1129,7 @@ class UserSettingsGeneralTab extends React.Component {
             pictureSection = (
                 <SettingPicture
                     title={formatMessage(holders.profilePicture)}
-                    submit={this.submitPicture}
+                    onSubmit={this.submitPicture}
                     src={Utils.imageURLForUser(user)}
                     serverError={serverError}
                     clientError={clientError}

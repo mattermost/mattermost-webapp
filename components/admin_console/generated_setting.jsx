@@ -1,11 +1,13 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import crypto from 'crypto';
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import SetByEnv from './set_by_env';
 
 export default class GeneratedSetting extends React.Component {
     static get propTypes() {
@@ -16,6 +18,7 @@ export default class GeneratedSetting extends React.Component {
             value: PropTypes.string.isRequired,
             onChange: PropTypes.func.isRequired,
             disabled: PropTypes.bool.isRequired,
+            setByEnv: PropTypes.bool.isRequired,
             disabledText: PropTypes.node,
             helpText: PropTypes.node.isRequired,
             regenerateText: PropTypes.node,
@@ -91,12 +94,13 @@ export default class GeneratedSetting extends React.Component {
                         <button
                             className='btn btn-default'
                             onClick={this.regenerate}
-                            disabled={this.props.disabled}
+                            disabled={this.props.disabled || this.props.setByEnv}
                         >
                             {this.props.regenerateText}
                         </button>
                     </div>
                     {regenerateHelpText}
+                    {this.props.setByEnv ? <SetByEnv/> : null}
                 </div>
             </div>
         );

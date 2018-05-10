@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -115,5 +115,14 @@ describe('components/ResetStatusModal', () => {
             'user_id_1',
             [{category: 'auto_reset_manual_status', name: 'user_id_1', user_id: 'user_id_1', value: 'false'}]
         );
+    });
+
+    test('should match snapshot, render modal for OOF status', () => {
+        const props = {...baseProps, currentUserStatus: 'ooo'};
+        const wrapper = shallow(
+            <ResetStatusModal {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

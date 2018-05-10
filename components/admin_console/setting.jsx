@@ -1,8 +1,10 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
+
+import SetByEnv from './set_by_env';
 
 export default class Settings extends PureComponent {
     static propTypes = {
@@ -10,10 +12,17 @@ export default class Settings extends PureComponent {
         label: PropTypes.node.isRequired,
         children: PropTypes.node.isRequired,
         helpText: PropTypes.node,
+        setByEnv: PropTypes.bool,
     };
 
     render() {
-        const {children, helpText, inputId, label} = this.props;
+        const {
+            children,
+            setByEnv,
+            helpText,
+            inputId,
+            label,
+        } = this.props;
 
         return (
             <div className='form-group'>
@@ -28,6 +37,7 @@ export default class Settings extends PureComponent {
                     <div className='help-text'>
                         {helpText}
                     </div>
+                    {setByEnv ? <SetByEnv/> : null}
                 </div>
             </div>
         );

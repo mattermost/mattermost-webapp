@@ -1,10 +1,10 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getUser} from 'mattermost-redux/actions/users';
 
 import SystemUsersList from './system_users_list.jsx';
 import {getUsers} from './selectors.jsx';

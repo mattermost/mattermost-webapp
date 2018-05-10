@@ -1,14 +1,16 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import CreatePost from 'components/create_post/create_post.jsx';
-import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+
+import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import CreatePost from 'components/create_post/create_post.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -72,6 +74,7 @@ const actionsProp = {
     selectPostFromRightHandSideSearchByPostId: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction,
+    openModal: emptyFunction,
 };
 
 function createPost({
@@ -114,6 +117,7 @@ function createPost({
             enableConfirmNotificationsToChannel={true}
             enableEmojiPicker={true}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
+            userIsOutOfOffice={false}
         />
     );
 }
@@ -378,8 +382,7 @@ describe('components/create_post', () => {
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
-        expect(instance.focusTextbox).toBeCalled();
-        expect(instance.focusTextbox).toBeCalledWith(true);
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
     });
 
     it('check for handleFileUploadStart callback', () => {

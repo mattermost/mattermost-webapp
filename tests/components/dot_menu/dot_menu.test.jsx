@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -55,7 +55,7 @@ describe('components/dot_menu/DotMenu', () => {
 
         expect(wrapper.find('#centerDotMenu2').exists()).toBe(false);
         wrapper.setProps({idCount: 2});
-        expect(wrapper.find('#centerDotMenu2').exists()).toBe(false);
+        expect(wrapper.find('#centerDotMenu2').exists()).toBe(true);
 
         expect(wrapper.find('#rhsrootDotMenu').exists()).toBe(false);
         wrapper.setProps({idPrefix: Constants.RHS_ROOT});

@@ -1,12 +1,18 @@
 @charset 'UTF-8';
 
 .channel-header {
-    @include flex(0 0 71px);
+    @include flex(0 0 63px);
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
     width: 100%;
     z-index: 9;
+
+    .move--left & {
+        .flex-parent {
+            padding-right: 0;
+        }
+    }
 
 
     .channel-header__favorites {
@@ -27,7 +33,9 @@
         }
 
         i {
-            font-size: 17px;
+            font-size: 16px;
+            position: relative;
+            top: -1px;
         }
     }
 
@@ -56,13 +64,14 @@
 
     .flex-parent {
         display: flex;
+        padding: 0 16px;
     }
 
     .flex-child {
         &:first-child {
             flex: 1;
             min-width: 0;
-            padding: 0 8px 0 20px;
+            padding: 0 8px 0 0;
         }
 
         .markdown__paragraph-inline {
@@ -78,7 +87,7 @@
         cursor: pointer;
         height: 30px;
         line-height: 30px;
-        margin: 20px 9px 0 0;
+        margin: 16px 0 0 8px;
         min-width: 30px;
         position: relative;
         text-align: center;
@@ -181,7 +190,7 @@
 
     .heading {
         display: inline-block;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
         margin: 0 7px 0 0;
         max-width: 100%;
@@ -220,14 +229,14 @@
 
 .header-dropdown__icon {
     color: inherit;
-    font-size: 21px;
+    font-size: 19px;
     margin-left: 1px;
     position: relative;
-    top: 1px;
+    top: 0;
 }
 
 .channel-header__info {
-    margin-top: 16px;
+    margin-top: 13px;
     white-space: nowrap;
 
     .dropdown-toggle {
@@ -245,7 +254,7 @@
         display: flex;
 
         .channel-header__favorites {
-            flex: 0;
+            flex: 0 auto;
         }
 
         h2 {
@@ -412,7 +421,7 @@
         @include legacy-pie-clearfix;
         @include display-flex();
         @include flex-direction(row-reverse);
-        padding: 17px 40px 14px 12px;
+        padding: 12px 40px 10px 16px;
         position: relative;
 
         &:before {
@@ -451,6 +460,11 @@
         a {
             text-decoration: none;
             @include flex-grow(1);
+        }
+
+        a.out_of_office {
+            background-color: transparent !important;
+            cursor: default;
         }
 
         .sidebar-header-dropdown,
@@ -503,7 +517,7 @@
                 height: 36px;
                 line-height: 36px;
                 position: relative;
-                right: -3px;
+                right: -5px;
                 text-align: center;
                 top: 0;
                 width: 36px;
@@ -547,7 +561,7 @@
             @include alpha-property(color, $white, .8);
             font-size: 14px;
             font-weight: 400;
-            line-height: 18px;
+            line-height: 15px;
         }
     }
 

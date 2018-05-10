@@ -1878,7 +1878,7 @@ Creative Commons may be contacted at creativecommons.org.
 
 ## whatwg-fetch
 
-This product contains a portion of `whatwg-fetch`, a promise-based mechanism for programmatically making web requests in the browser by Mislav Marohnić.
+This product contains a modified portion of 'whatwg-fetch', a promise-based mechanism for programmatically making web requests in the browser by Mislav Marohnić.
 
 * HOMEPAGE:
  * https://www.npmjs.com/package/whatwg-fetch
@@ -1945,7 +1945,7 @@ THE SOFTWARE.
 
 ## katex
 
-KaTeX is a fast, easy-to-use JavaScript library for TeX math rendering on the web.
+This product contains a modified portion of 'KaTeX', a fast, easy-to-use JavaScript library for TeX math rendering on the web.
 
 * HOMEPAGE:
   * https://github.com/Khan/KaTeX
@@ -1984,7 +1984,7 @@ SOFTWARE.
 
 ## localforage-observable
 
-This project adds observables to localForage, providing a way to get notified whenever.
+This product contains a modified portion of 'localforage-observable, which adds observables to localForage, providing a way to get notified whenever.
 
 * HOMEPAGE:
   * https://github.com/localForage/localForage-observable
@@ -2009,7 +2009,7 @@ limitations under the License.
 
 ## hoist-non-react-statics
 
-This project Copies non-react specific statics from a child component to a parent component.
+This product contains a modified portion of 'hoist-non-react-statics', which copies non-react specific statics from a child component to a parent component.
 
 * HOMEPAGE:
   * https://github.com/mridgway/hoist-non-react-statics
@@ -2029,7 +2029,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ## react-contextmenu
 
-This project includes ContextMenu implemented in React with accessibility support, built by Vivek Kumar Bansal. 
+This product contains a modified portion of 'react-contextmenu', implemented in React with accessibility support, built by Vivek Kumar Bansal. 
 
 * HOMEPAGE:
   * https://github.com/vkbansal/react-contextmenu
@@ -2050,7 +2050,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## url-search-params-polyfill
 
-This project is a polyfill library for javascript's URLSearchParams class. This library has implemented all features from MDN document, built by Jerry Bendy. 
+This product contains a modified portion of 'url-search-params-polyfill', a polyfill library for javascript's URLSearchParams class. This library has implemented all features from MDN document, built by Jerry Bendy. 
 
 * HOMEPAGE:
   * https://github.com/jerrybendy/url-search-params-polyfill
@@ -2078,3 +2078,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+--------
+
+## moment-timezone
+
+This product contains a modified portion of 'moment-timezone', which adds timezone support for moment.js, built by Moment.js. 
+
+* HOMEPAGE:
+  * https://github.com/moment/moment-timezone
+
+* LICENSE:
+
+The MIT License (MIT)
+
+Copyright (c) JS Foundation and other contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

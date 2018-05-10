@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import {Route} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
 import EditPostModal from 'components/edit_post_modal';
 import GetPostLinkModal from 'components/get_post_link_modal';
 import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
@@ -44,6 +45,7 @@ export default class ChannelController extends React.Component {
         return (
             <div className='channel-view'>
                 <AnnouncementBar/>
+                <SystemNotice/>
                 <WebrtcNotification/>
 
                 <div className='container-fluid'>

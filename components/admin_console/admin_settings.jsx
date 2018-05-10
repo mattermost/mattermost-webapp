@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -16,6 +16,11 @@ export default class AdminSettings extends React.Component {
          * Object representing the config file
          */
         config: PropTypes.object,
+
+        /*
+         * Object containing config fields that have been set through environment variables
+         */
+        environmentConfig: PropTypes.object,
 
         /*
          * Action for whether a save is needed
@@ -82,6 +87,7 @@ export default class AdminSettings extends React.Component {
                 this.setState({
                     saving: false,
                     serverError: err.message,
+                    serverErrorId: err.id,
                 });
 
                 if (callback) {
@@ -119,6 +125,40 @@ export default class AdminSettings extends React.Component {
         }
 
         return n;
+    };
+
+    getConfigValue(config, path) {
+        const pathParts = path.split('.');
+
+        return pathParts.reduce((obj, pathPart) => {
+            if (!obj) {
+                return null;
+            }
+
+            return obj[pathPart];
+        }, config);
+    }
+
+    setConfigValue(config, path, value) {
+        function setValue(obj, pathParts) {
+            const part = pathParts[0];
+
+            if (pathParts.length === 1) {
+                obj[part] = value;
+            } else {
+                if (obj[part] == null) {
+                    obj[part] = {};
+                }
+
+                setValue(obj[part], pathParts.slice(1));
+            }
+        }
+
+        setValue(config, path.split('.'));
+    }
+
+    isSetByEnv = (path) => {
+        return Boolean(this.getConfigValue(this.props.environmentConfig, path));
     };
 
     render() {

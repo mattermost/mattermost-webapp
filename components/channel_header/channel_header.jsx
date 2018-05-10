@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -42,7 +42,7 @@ import PinIcon from 'components/svg/pin_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -733,8 +733,9 @@ export default class ChannelHeader extends React.Component {
 
             if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
                 dropdownContents.push(
-                    <SystemPermissionGate
-                        permissions={[Permissions.MANAGE_SYSTEM]}
+                    <TeamPermissionGate
+                        teamId={teamId}
+                        permissions={[Permissions.MANAGE_TEAM]}
                         key='convert_channel_permission'
                     >
                         <li
@@ -757,7 +758,7 @@ export default class ChannelHeader extends React.Component {
                                 />
                             </ToggleModalButtonRedux>
                         </li>
-                    </SystemPermissionGate>
+                    </TeamPermissionGate>
                 );
             }
 

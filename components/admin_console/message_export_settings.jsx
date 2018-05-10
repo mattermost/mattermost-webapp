@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
@@ -97,6 +99,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.globalRelayCustomerType ? this.state.globalRelayCustomerType : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.CustomerType')}
                 />
             );
 
@@ -119,6 +122,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.globalRelaySmtpUsername ? this.state.globalRelaySmtpUsername : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpUsername')}
                 />
             );
 
@@ -141,6 +145,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.globalRelaySmtpPassword ? this.state.globalRelaySmtpPassword : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpPassword')}
                 />
             );
 
@@ -163,6 +168,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.globalRelayEmailAddress ? this.state.globalRelayEmailAddress : ''}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.EmailAddress')}
                 />
             );
 
@@ -210,6 +216,7 @@ export default class MessageExportSettings extends AdminSettings {
                     }
                     value={this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.EnableExport')}
                 />
 
                 <TextSetting
@@ -230,6 +237,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.exportJobStartTime}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.DailyRunTime')}
                 />
 
                 <DropdownSetting
@@ -245,6 +253,7 @@ export default class MessageExportSettings extends AdminSettings {
                     value={this.state.exportFormat}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.ExportFormat')}
                 />
 
                 {globalRelaySettings}

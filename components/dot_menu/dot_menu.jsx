@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -117,7 +117,7 @@ export default class DotMenu extends Component {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        if (this.props.idPrefix === Constants.CENTER && ((!isMobile || isSystemMessage) && !this.state.canDelete && !this.state.canEdit)) {
+        if (this.props.idPrefix === Constants.CENTER && isSystemMessage && !this.state.canDelete && !this.state.canEdit) {
             return null;
         }
 

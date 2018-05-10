@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 require('perfect-scrollbar/jquery')($);
@@ -13,6 +13,7 @@ import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
+import {setLocalizeFunction} from 'mattermost-redux/utils/i18n_utils.js';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -26,6 +27,7 @@ import {loadMeAndConfig} from 'actions/user_actions.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
+import {localizeMessage} from 'utils/utils.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import NeedsTeam from 'components/needs_team';
@@ -172,6 +174,7 @@ export default class Root extends React.Component {
         const afterIntl = () => {
             initializePlugins();
             I18n.doAddLocaleData();
+            setLocalizeFunction(localizeMessage);
 
             // Setup localization listener
             LocalizationStore.addChangeListener(this.localizationChanged);

@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -21,37 +21,43 @@ import UserProfile from 'components/user_profile.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
+import {getMonthLong} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
 
-const CreateChannelIntroMessage = ({
-    channel,
-    fullWidth,
-}) => {
-    let centeredIntro = '';
-    if (!fullWidth) {
-        centeredIntro = 'channel-intro--centered';
+export default class ChannelIntroMessage extends React.PureComponent {
+    static propTypes = {
+        channel: PropTypes.object.isRequired,
+        fullWidth: PropTypes.bool.isRequired,
+        locale: PropTypes.string.isRequired,
+    };
+
+    render() {
+        const {
+            channel,
+            fullWidth,
+            locale,
+        } = this.props;
+
+        let centeredIntro = '';
+        if (!fullWidth) {
+            centeredIntro = 'channel-intro--centered';
+        }
+
+        if (channel.type === Constants.DM_CHANNEL) {
+            return createDMIntroMessage(channel, centeredIntro);
+        } else if (channel.type === Constants.GM_CHANNEL) {
+            return createGMIntroMessage(channel, centeredIntro);
+        } else if (ChannelStore.isDefault(channel)) {
+            return createDefaultIntroMessage(channel, centeredIntro);
+        } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
+            return createOffTopicIntroMessage(channel, centeredIntro);
+        } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
+            return createStandardIntroMessage(channel, centeredIntro, locale);
+        }
+        return null;
     }
-
-    if (channel.type === Constants.DM_CHANNEL) {
-        return createDMIntroMessage(channel, centeredIntro);
-    } else if (channel.type === Constants.GM_CHANNEL) {
-        return createGMIntroMessage(channel, centeredIntro);
-    } else if (ChannelStore.isDefault(channel)) {
-        return createDefaultIntroMessage(channel, centeredIntro);
-    } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-        return createOffTopicIntroMessage(channel, centeredIntro);
-    } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-        return createStandardIntroMessage(channel, centeredIntro);
-    }
-    return null;
-};
-
-CreateChannelIntroMessage.propTypes = {
-    isLicensed: PropTypes.bool.isRequired,
-};
-
-export default CreateChannelIntroMessage;
+}
 
 function createGMIntroMessage(channel, centeredIntro) {
     const profiles = UserStore.getProfileListInChannel(channel.id, true);
@@ -284,7 +290,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     );
 }
 
-function createStandardIntroMessage(channel, centeredIntro) {
+function createStandardIntroMessage(channel, centeredIntro, locale) {
     var uiName = channel.display_name;
     var creatorName = Utils.getDisplayNameByUserId(channel.creator_id);
     var uiType;
@@ -321,7 +327,7 @@ function createStandardIntroMessage(channel, centeredIntro) {
     const date = (
         <FormattedDate
             value={channel.create_at}
-            month='long'
+            month={getMonthLong(locale)}
             day='2-digit'
             year='numeric'
         />

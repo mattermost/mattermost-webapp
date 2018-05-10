@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -17,6 +17,7 @@ describe('components/AdminConsole', () => {
         isCurrentUserSystemAdmin: false,
         actions: {
             getConfig: jest.fn(),
+            getEnvironmentConfig: jest.fn(),
             setNavigationBlocked: jest.fn(),
             confirmNavigation: jest.fn(),
             cancelNavigation: jest.fn(),
