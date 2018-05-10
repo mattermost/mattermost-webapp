@@ -6,7 +6,6 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "autolinker": "1.6.0",
     "bootstrap": "3.3.7",
     "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.7.1",
