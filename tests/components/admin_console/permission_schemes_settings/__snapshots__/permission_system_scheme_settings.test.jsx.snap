@@ -34,7 +34,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </div>
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block all_users "
     id="all_users"
   >
     <div
@@ -82,7 +82,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block channel_admin "
   >
     <div
       className="header"
@@ -135,7 +135,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block team_admin "
   >
     <div
       className="header"
@@ -188,7 +188,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block system_admin "
   >
     <div
       className="header"
@@ -373,7 +373,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </div>
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block all_users "
     id="all_users"
   >
     <div
@@ -417,7 +417,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block channel_admin "
   >
     <div
       className="header"
@@ -464,7 +464,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block team_admin "
   >
     <div
       className="header"
@@ -511,7 +511,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     />
   </div>
   <div
-    className="permissions-block "
+    className="permissions-block system_admin "
   >
     <div
       className="header"

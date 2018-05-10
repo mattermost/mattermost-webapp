@@ -193,12 +193,27 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -235,12 +250,27 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -439,12 +469,27 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>

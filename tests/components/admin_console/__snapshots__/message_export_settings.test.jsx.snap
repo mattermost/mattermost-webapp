@@ -160,12 +160,27 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -441,12 +456,27 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -612,12 +642,27 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -893,12 +938,27 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       />
       <div
         className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
         <FormError
           error={null}
           errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
