@@ -115,27 +115,6 @@ function keepChannelIdAsUnread(state = null, action) {
     }
 }
 
-function hiddenDefaultChannelId(state = {}, action) {
-    switch (action.type) {
-    case ActionTypes.ADD_HIDDEN_DEFAULT_CHANNEL: {
-        const nextState = {...state};
-        nextState[action.data.teamId] = action.data.channelId;
-        return nextState;
-    }
-    case ActionTypes.REMOVE_HIDDEN_DEFAULT_CHANNEL: {
-        if (state[action.data.teamId] === action.data.channelId) {
-            const nextState = {...state};
-            Reflect.deleteProperty(nextState, action.data.teamId);
-            return nextState;
-        }
-
-        return state;
-    }
-    default:
-        return state;
-    }
-}
-
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -143,5 +122,4 @@ export default combineReducers({
     focusedPostId,
     mobileView,
     keepChannelIdAsUnread,
-    hiddenDefaultChannelId,
 });

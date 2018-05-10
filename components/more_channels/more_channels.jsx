@@ -6,7 +6,8 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import Permissions from 'mattermost-redux/constants/permissions';
+
+import {General, Permissions} from 'mattermost-redux/constants';
 
 import {browserHistory} from 'utils/browser_history';
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
@@ -91,7 +92,9 @@ export default class MoreChannels extends React.Component {
 
     handleJoin = (channel, done) => {
         const {actions, currentTeamId} = this.props;
-        actions.removeHiddenDefaultChannel(currentTeamId, channel.id);
+        if (channel.name === General.DEFAULT_CHANNEL) {
+            actions.removeHiddenDefaultChannel(currentTeamId, channel.id);
+        }
 
         joinChannel(
             channel,

@@ -12,25 +12,3 @@ export function checkAndSetMobileView() {
         });
     };
 }
-
-export function addHiddenDefaultChannel(teamId, channelId) {
-    return (dispatch) => {
-        if (teamId && channelId) {
-            dispatch({
-                type: ActionTypes.ADD_HIDDEN_DEFAULT_CHANNEL,
-                data: {teamId, channelId},
-            });
-        }
-    };
-}
-
-export function removeHiddenDefaultChannel(teamId, channelId) {
-    return (dispatch) => {
-        if (teamId && channelId) {
-            dispatch({
-                type: ActionTypes.REMOVE_HIDDEN_DEFAULT_CHANNEL,
-                data: {teamId, channelId},
-            });
-        }
-    };
-}
