@@ -156,11 +156,11 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         );
     }
 
-    toggleRole = (roleId, scrollOnOpen=true) => {
+    toggleRole = (roleId, scrollOnOpen = true) => {
         const newOpenRoles = {...this.state.openRoles};
         newOpenRoles[roleId] = !newOpenRoles[roleId];
         if (newOpenRoles[roleId] && scrollOnOpen) {
-            const block = document.querySelector('.permissions-block.'+roleId);
+            const block = document.querySelector('.permissions-block.' + roleId);
             if (block) {
                 setTimeout(() => {
                     block.scrollIntoView({behavior: 'smooth', block: 'start'});
