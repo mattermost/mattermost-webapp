@@ -397,8 +397,12 @@
             }
         }
         .error-message {
+            overflow: hidden;
             .control-label {
                 padding: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }
@@ -842,4 +846,10 @@
 
 .password__group-addon-space {
     margin-bottom: 20px;
+}
+
+#error-tooltip {
+    .tooltip-inner {
+        max-width: none;
+    }
 }
