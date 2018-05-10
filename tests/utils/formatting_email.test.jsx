@@ -1,0 +1,125 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import assert from 'assert';
+
+import * as TextFormatting from 'utils/text_formatting.jsx';
+
+describe('TextFormatting.Emails', function() {
+    it('Valid email addresses', function() {
+        assert.equal(
+            TextFormatting.formatText('email@domain.com').trim(),
+            '<p><a class="theme" href="mailto:email@domain.com">email@domain.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('firstname.lastname@domain.com').trim(),
+            '<p><a class="theme" href="mailto:firstname.lastname@domain.com">firstname.lastname@domain.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email@subdomain.domain.com').trim(),
+            '<p><a class="theme" href="mailto:email@subdomain.domain.com">email@subdomain.domain.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('firstname+lastname@domain.com').trim(),
+            '<p><a class="theme" href="mailto:firstname+lastname@domain.com">firstname+lastname@domain.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('1234567890@domain.com').trim(),
+            '<p><a class="theme" href="mailto:1234567890@domain.com">1234567890@domain.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email@domain-one.com').trim(),
+            '<p><a class="theme" href="mailto:email@domain-one.com">email@domain-one.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email@domain.name').trim(),
+            '<p><a class="theme" href="mailto:email@domain.name">email@domain.name</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email@domain.co.jp').trim(),
+            '<p><a class="theme" href="mailto:email@domain.co.jp">email@domain.co.jp</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('firstname-lastname@domain.com').trim(),
+            '<p><a class="theme" href="mailto:firstname-lastname@domain.com">firstname-lastname@domain.com</a></p>',
+        );
+    });
+
+    it('Should be valid, but matching GitHub', function() {
+        assert.equal(
+            TextFormatting.formatText('email@123.123.123.123').trim(),
+            '<p>email@123.123.123.123</p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email@[123.123.123.123]').trim(),
+            '<p>email@[123.123.123.123]</p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('"email"@domain.com').trim(),
+            '<p>&quot;email&quot;@domain.com</p>',
+        );
+    });
+
+    it('Should be valid, but broken due to Markdown parsing happening before email autolinking', function() {
+        assert.equal(
+            TextFormatting.formatText('_______@domain.com').trim(),
+            '<p><strong><em>_</em></strong>@domain.com</p>',
+        );
+    });
+
+    it('Not valid emails', function() {
+        assert.equal(
+            TextFormatting.formatText('plainaddress').trim(),
+            '<p>plainaddress</p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('#@%^%#$@#$@#.com').trim(),
+            '<p>#@%^%#$@#$@#.com</p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('@domain.com').trim(),
+            '<p>@domain.com</p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('Joe Smith <email@domain.com>').trim(),
+            '<p>Joe Smith <a class="theme markdown__link" href="mailto:email@domain.com" rel="noreferrer" target="_blank">email@domain.com</a></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email.domain.com').trim(),
+            '<p>email.domain.com</p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('email.@domain.com').trim(),
+            '<p>email.@domain.com</p>',
+        );
+    });
+
+    it('Should be invalid, but matching GitHub', function() {
+        assert.equal(
+            TextFormatting.formatText('email@domain@domain.com').trim(),
+            '<p>email@<a class="theme" href="mailto:domain@domain.com">domain@domain.com</a></p>',
+        );
+    });
+
+    it('Should be invalid, but broken', function() {
+        assert.equal(
+            TextFormatting.formatText('email@domain@domain.com').trim(),
+            '<p>email@<a class="theme" href="mailto:domain@domain.com">domain@domain.com</a></p>',
+        );
+    });
+});
