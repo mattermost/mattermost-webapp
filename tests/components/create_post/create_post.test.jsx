@@ -78,7 +78,6 @@ const actionsProp = {
 };
 
 function createPost({
-    isRhsOpen = false,
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
@@ -97,7 +96,6 @@ function createPost({
 } = {}) {
     return (
         <CreatePost
-            isRhsOpen={isRhsOpen}
             currentChannel={currentChannel}
             currentTeamId={currentTeamId}
             currentUserId={currentUserId}
