@@ -297,7 +297,7 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.getRef}
                 id={'post_' + post.id}
-                    className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
+                className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
             >
