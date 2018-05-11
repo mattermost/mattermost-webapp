@@ -911,7 +911,7 @@
 
             .post-image__column {
                 margin: 3px 10px 3px 0;
-                padding: 0 5px;
+                padding: 0;
             }
         }
 
@@ -920,8 +920,9 @@
             font-size: .9em;
             height: 26px;
             line-height: 25px;
+            max-width: 250px;
+            min-width: 150px;
             padding: 0 7px;
-            width: 250px;
 
             .post-image__thumbnail {
                 display: none;
@@ -961,8 +962,10 @@
                 @include clearfix;
                 display: block;
                 margin: 0;
+                padding: 0 5px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                width: 100%;
 
                 i {
                     font-size: .9em;
