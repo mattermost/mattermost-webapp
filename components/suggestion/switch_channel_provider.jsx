@@ -17,7 +17,12 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCurrentUserId,
+    getUserIdsInChannels,
+    getUser,
+    searchProfiles,
+} from 'mattermost-redux/selectors/entities/users';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -240,9 +245,10 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const users = Object.assign([], searchProfiles(state, channelPrefix, false)).concat(usersFromServer.users);
+        const currentUserId = getCurrentUserId(state);
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILES_LIST,
-            data: users,
+            data: users.filter((user) => user.id !== currentUserId),
         });
         const channels = getChannelsInCurrentTeam(state).concat(getDirectChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
