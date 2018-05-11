@@ -23,6 +23,13 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
   >
     some body
   </div>
+  <div>
+    <FormattedMessage
+      defaultMessage="Only visible to System Admins"
+      id="system_notice.adminVisible"
+      values={Object {}}
+    />
+  </div>
   <div
     className="system-notice__footer"
   >
