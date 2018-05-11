@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -95,9 +95,9 @@ export default class SettingItemMax extends React.PureComponent {
         cancelButtonText: PropTypes.node,
 
         /**
-         * Text of save button
+         * Avoid submitting when using SHIFT + ENTER
          */
-        saveButtonText: PropTypes.string,
+        shiftEnter: PropTypes.bool,
     }
 
     componentDidMount() {
@@ -109,6 +109,9 @@ export default class SettingItemMax extends React.PureComponent {
     }
 
     onKeyDown = (e) => {
+        if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
+            return;
+        }
         if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit) {
             this.handleSubmit(e);
         }
@@ -172,7 +175,6 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.submit) {
             submit = (
                 <SaveButton
-                    defaultMessage={this.props.saveButtonText}
                     saving={this.props.saving}
                     disabled={this.props.saving}
                     onClick={this.handleSubmit}

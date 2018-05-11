@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -9,10 +9,12 @@ import SchemaAdminSettings from 'components/admin_console/schema_admin_settings.
 describe('components/admin_console/SchemaAdminSettings', () => {
     let schema = null;
     let config = null;
+    let environmentConfig = null;
 
     afterEach(() => {
         schema = null;
         config = null;
+        environmentConfig = null;
     });
 
     beforeEach(() => {
@@ -22,7 +24,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
             name_default: 'Configuration',
             settings: [
                 {
-                    key: 'settinga',
+                    key: 'FirstSettings.settinga',
                     label: 'label-a',
                     label_default: 'Setting One',
                     type: 'text',
@@ -33,7 +35,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     placeholder_default: 'e.g. some setting',
                 },
                 {
-                    key: 'settingb',
+                    key: 'FirstSettings.settingb',
                     label: 'label-b',
                     label_default: 'Setting Two',
                     type: 'bool',
@@ -42,7 +44,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the bool field.',
                 },
                 {
-                    key: 'settingc',
+                    key: 'FirstSettings.settingc',
                     label: 'label-c',
                     label_default: 'Setting Three',
                     type: 'dropdown',
@@ -56,7 +58,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the dropdown field.',
                 },
                 {
-                    key: 'settingd',
+                    key: 'SecondSettings.settingd',
                     label: 'label-d',
                     label_default: 'Setting Four',
                     type: 'radio',
@@ -70,7 +72,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the radio field.',
                 },
                 {
-                    key: 'settinge',
+                    key: 'SecondSettings.settinge',
                     label: 'label-e',
                     label_default: 'Setting Five',
                     type: 'generated',
@@ -81,7 +83,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     placeholder_default: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb',
                 },
                 {
-                    key: 'settingf',
+                    key: 'SecondSettings.settingf',
                     label: 'label-f',
                     label_default: 'Setting Six',
                     type: 'username',
@@ -91,7 +93,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     placeholder_default: 'Type a username here',
                 },
                 {
-                    key: 'settingg',
+                    key: 'SecondSettings.settingg',
                     label: 'label-g',
                     label_default: 'Setting Seven',
                     type: 'number',
@@ -107,7 +109,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     type: 'banner',
                 },
                 {
-                    key: 'settingi',
+                    key: 'SecondSettings.settingi',
                     label: 'label-i',
                     label_default: 'Setting Nine',
                     type: 'language',
@@ -118,7 +120,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     multiple: false,
                 },
                 {
-                    key: 'settingj',
+                    key: 'SecondSettings.settingj',
                     label: 'label-j',
                     label_default: 'Setting Nine',
                     type: 'language',
@@ -133,7 +135,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     not_present_default: 'No present',
                 },
                 {
-                    key: 'settingk',
+                    key: 'SecondSettings.settingk',
                     label: 'label-k',
                     label_default: 'Setting Eleven',
                     type: 'button',
@@ -144,11 +146,20 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     error_message_default: 'Reload unsuccessful: {error}',
                 },
                 {
-                    key: 'settingl',
+                    key: 'FirstSettings.settingl',
                     label: 'label-l',
                     label_default: 'Setting Twelve',
-                    type: 'color',
+                    type: 'bool',
+                    default: false,
                     help_text: 'help-text-l',
+                    help_text_default: 'This is some help text for the second bool field.',
+                },
+                {
+                    key: 'FirstSettings.settingm',
+                    label: 'label-m',
+                    label_default: 'Setting Thirteen',
+                    type: 'color',
+                    help_text: 'help-text-m',
                     help_text_default: 'This is some help text for the color field.',
                 },
                 {
@@ -169,14 +180,23 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         };
 
         config = {
-            Config: {
+            FirstSettings: {
                 settinga: 'fsdsdg',
                 settingb: false,
                 settingc: 'option3',
+                settingl: true,
+            },
+            SecondSettings: {
                 settingd: 'option1',
                 settinge: 'Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23',
                 settingf: '3xz3r6n7dtbbmgref3yw4zg7sr',
                 settingg: 7,
+            },
+        };
+
+        environmentConfig = {
+            FirstSettings: {
+                settingl: true,
             },
         };
     });
@@ -185,6 +205,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         const wrapper = shallow(
             <SchemaAdminSettings
                 config={config}
+                environmentConfig={environmentConfig}
                 schema={{...schema}}
             />
         );
@@ -195,6 +216,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         const wrapper = shallow(
             <SchemaAdminSettings
                 config={config}
+                environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
             />
         );

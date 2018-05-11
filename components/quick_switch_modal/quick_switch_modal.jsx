@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -147,7 +147,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             const selectedChannel = selected.channel;
             if (selectedChannel.type === Constants.DM_CHANNEL) {
                 this.props.actions.openDirectChannelToUser(
-                    selectedChannel.id,
+                    selectedChannel.userId,
                     (ch) => {
                         channel = ch;
                         this.switchToChannel(channel);

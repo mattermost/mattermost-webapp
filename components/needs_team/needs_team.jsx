@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -130,7 +130,7 @@ export default class NeedsTeam extends React.Component {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
             const sidebar = document.getElementById('sidebar-right');
             if (sidebar) {
-                if (sidebar.className.match('sidebar--right move--left')) {
+                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
                     const replyTextbox = document.getElementById('reply_textbox');
                     if (replyTextbox) {
                         replyTextbox.focus();

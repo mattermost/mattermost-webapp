@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -25,6 +25,7 @@ export default class GeneralTab extends React.Component {
         maxFileSize: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             updateTeam: PropTypes.func.isRequired,
+            removeTeamIcon: PropTypes.func.isRequired,
             setTeamIcon: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -237,11 +238,10 @@ export default class GeneralTab extends React.Component {
         }
 
         this.setState({
+            loadingIcon: true,
             clientError: '',
             serverError: '',
         });
-
-        this.setState({loadingIcon: true});
 
         const {error} = await this.props.actions.setTeamIcon(this.props.team.id, this.state.teamIconFile);
 
@@ -256,6 +256,27 @@ export default class GeneralTab extends React.Component {
                 submitActive: false,
             });
             this.updateSection('');
+        }
+    }
+
+    handleTeamIconRemove = async (e) => {
+        e.preventDefault();
+
+        this.setState({
+            loadingIcon: true,
+            clientError: '',
+            serverError: '',
+        });
+
+        const {error} = await this.props.actions.removeTeamIcon(this.props.team.id);
+
+        if (error) {
+            this.setState({
+                loadingIcon: false,
+                serverError: error.message,
+            });
+        } else {
+            this.setState({loadingIcon: false});
         }
     }
 
@@ -620,7 +641,8 @@ export default class GeneralTab extends React.Component {
                         e.preventDefault();
                     }}
                     onFileChange={this.updateTeamIcon}
-                    submit={this.handleTeamIconSubmit}
+                    onSubmit={this.handleTeamIconSubmit}
+                    onRemove={this.handleTeamIconRemove}
                 />
             );
         } else {

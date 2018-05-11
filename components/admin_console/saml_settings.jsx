@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -189,6 +189,7 @@ export default class SamlSettings extends AdminSettings {
                     fileName={this.state.idpCertificateFile}
                     onSubmit={this.removeCertificate}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.IdpCertificateFile')}
                 />
             );
         } else {
@@ -212,6 +213,7 @@ export default class SamlSettings extends AdminSettings {
                     fileType='.crt,.cer,.cert,.pem'
                     onSubmit={this.uploadCertificate}
                     error={this.state.idpCertificateFileError}
+                    setByEnv={this.isSetByEnv('SamlSettings.IdpCertificateFile')}
                 />
             );
         }
@@ -237,6 +239,7 @@ export default class SamlSettings extends AdminSettings {
                     fileName={this.state.privateKeyFile}
                     onSubmit={this.removeCertificate}
                     disabled={!this.state.enable || !this.state.encrypt}
+                    setByEnv={this.isSetByEnv('SamlSettings.PrivateKeyFile')}
                 />
             );
         } else {
@@ -260,6 +263,7 @@ export default class SamlSettings extends AdminSettings {
                     fileType='.key'
                     onSubmit={this.uploadCertificate}
                     error={this.state.privateKeyFileError}
+                    setByEnv={this.isSetByEnv('SamlSettings.PrivateKeyFile')}
                 />
             );
         }
@@ -285,6 +289,7 @@ export default class SamlSettings extends AdminSettings {
                     fileName={this.state.publicCertificateFile}
                     onSubmit={this.removeCertificate}
                     disabled={!this.state.enable || !this.state.encrypt}
+                    setByEnv={this.isSetByEnv('SamlSettings.PublicCertificateFile')}
                 />
             );
         } else {
@@ -308,6 +313,7 @@ export default class SamlSettings extends AdminSettings {
                     fileType='.crt,.cer'
                     onSubmit={this.uploadCertificate}
                     error={this.state.publicCertificateFileError}
+                    setByEnv={this.isSetByEnv('SamlSettings.PublicCertificateFile')}
                 />
             );
         }
@@ -347,6 +353,7 @@ export default class SamlSettings extends AdminSettings {
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SamlSettings.Enable')}
                 />
                 <BooleanSetting
                     id='enableSyncWithLdap'
@@ -365,6 +372,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.enableSyncWithLdap}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.EnableSyncWithLdap')}
                 />
                 <TextSetting
                     id='idpUrl'
@@ -384,6 +392,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.idpUrl}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.IdpUrl')}
                 />
                 <TextSetting
                     id='idpDescriptorUrl'
@@ -403,6 +412,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.idpDescriptorUrl}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.IdpDescriptorUrl')}
                 />
                 {idpCert}
                 <BooleanSetting
@@ -422,6 +432,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.verify}
                     disabled={!this.state.enable}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SamlSettings.Verify')}
                 />
                 <TextSetting
                     id='assertionConsumerServiceURL'
@@ -436,6 +447,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.assertionConsumerServiceURL}
                     onChange={this.handleChange}
                     disabled={!this.state.enable || !this.state.verify || this.state.siteUrlSet}
+                    setByEnv={this.isSetByEnv('SamlSettings.AssertionConsumerServiceURL')}
                 />
                 <BooleanSetting
                     id='encrypt'
@@ -454,6 +466,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.encrypt}
                     disabled={!this.state.enable}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SamlSettings.Encrypt')}
                 />
                 {privKey}
                 {pubCert}
@@ -475,6 +488,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.emailAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.EmailAttribute')}
                 />
                 <TextSetting
                     id='usernameAttribute'
@@ -494,6 +508,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.usernameAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.UsernameAttribute')}
                 />
                 <TextSetting
                     id='firstNameAttribute'
@@ -513,6 +528,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.firstNameAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.FirstNameAttribute')}
                 />
                 <TextSetting
                     id='lastNameAttribute'
@@ -532,6 +548,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.lastNameAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.LastNameAttribute')}
                 />
                 <TextSetting
                     id='nicknameAttribute'
@@ -551,6 +568,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.nicknameAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.NicknameAttribute')}
                 />
                 <TextSetting
                     id='positionAttribute'
@@ -570,6 +588,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.positionAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.PositionAttribute')}
                 />
                 <TextSetting
                     id='localeAttribute'
@@ -589,6 +608,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.localeAttribute}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.LocaleAttribute')}
                 />
                 <TextSetting
                     id='loginButtonText'
@@ -608,6 +628,7 @@ export default class SamlSettings extends AdminSettings {
                     value={this.state.loginButtonText}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.LoginButtonText')}
                 />
             </SettingsGroup>
         );

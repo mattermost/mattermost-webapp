@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -181,6 +181,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }
                     value={this.state.enableIndexing}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.EnableIndexing')}
                 />
                 <TextSetting
                     id='connectionUrl'
@@ -214,6 +215,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     value={this.state.connectionUrl}
                     disabled={!this.state.enableIndexing}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.ConnectionUrl')}
                 />
                 <TextSetting
                     id='username'
@@ -233,6 +235,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     value={this.state.username}
                     disabled={!this.state.enableIndexing}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.Username')}
                 />
                 <TextSetting
                     id='password'
@@ -252,6 +255,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     value={this.state.password}
                     disabled={!this.state.enableIndexing}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.Password')}
                 />
                 <BooleanSetting
                     id='sniff'
@@ -270,6 +274,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     value={this.state.sniff}
                     disabled={!this.state.enableIndexing}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.Sniff')}
                 />
                 <RequestButton
                     requestAction={this.doTestConfig}
@@ -369,6 +374,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     value={this.state.enableSearching}
                     disabled={!this.state.enableIndexing || !this.state.configTested}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.EnableSearching')}
                 />
             </SettingsGroup>
         );

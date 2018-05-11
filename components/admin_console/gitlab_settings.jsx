@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -58,6 +58,14 @@ export default class GitLabSettings extends AdminSettings {
         });
     }
 
+    isGitLabURLSetByEnv = () => {
+        // Assume that if one of these has been set using an environment variable,
+        // all of them have been set that way
+        return this.isSetByEnv('GitLabSettings.AuthEndpoint') ||
+            this.isSetByEnv('GitLabSettings.TokenEndpoint') ||
+            this.isSetByEnv('GitLabSettings.UserApiEndpoint');
+    };
+
     renderTitle() {
         return (
             <FormattedMessage
@@ -93,6 +101,7 @@ export default class GitLabSettings extends AdminSettings {
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('GitLabSettings.Enable')}
                 />
                 <TextSetting
                     id='id'
@@ -112,6 +121,7 @@ export default class GitLabSettings extends AdminSettings {
                     value={this.state.id}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('GitLabSettings.Id')}
                 />
                 <TextSetting
                     id='secret'
@@ -131,6 +141,7 @@ export default class GitLabSettings extends AdminSettings {
                     value={this.state.secret}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('GitLabSettings.Secret')}
                 />
                 <TextSetting
                     id='gitlabUrl'
@@ -150,6 +161,7 @@ export default class GitLabSettings extends AdminSettings {
                     value={this.state.gitLabUrl}
                     onChange={this.updateGitLabUrl}
                     disabled={!this.state.enable}
+                    setByEnv={this.isGitLabURLSetByEnv()}
                 />
                 <TextSetting
                     id='userApiEndpoint'
@@ -162,6 +174,7 @@ export default class GitLabSettings extends AdminSettings {
                     placeholder={''}
                     value={this.state.userApiEndpoint}
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='authEndpoint'
@@ -174,6 +187,7 @@ export default class GitLabSettings extends AdminSettings {
                     placeholder={''}
                     value={this.state.authEndpoint}
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='tokenEndpoint'
@@ -186,6 +200,7 @@ export default class GitLabSettings extends AdminSettings {
                     placeholder={''}
                     value={this.state.tokenEndpoint}
                     disabled={true}
+                    setByEnv={false}
                 />
             </SettingsGroup>
         );

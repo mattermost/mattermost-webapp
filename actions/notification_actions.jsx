@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
@@ -33,7 +33,7 @@ export function sendDesktopNotification(post, msgProps) {
     const userStatus = UserStore.getStatus(user.id);
     const member = ChannelStore.getMyMember(post.channel_id);
 
-    if (isChannelMuted(member) || userStatus === UserStatuses.DND) {
+    if (isChannelMuted(member) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
         return;
     }
 

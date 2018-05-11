@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -53,15 +53,13 @@ export default class SchemaAdminSettings extends AdminSettings {
         const schema = this.props.schema;
 
         if (schema) {
-            if (!config[schema.id]) {
-                config[schema.id] = {};
-            }
-
-            const configSettings = config[schema.id];
-
             const settings = schema.settings || [];
             settings.forEach((setting) => {
-                configSettings[setting.key] = this.getSettingValue(setting);
+                if (!setting.key) {
+                    return;
+                }
+
+                this.setConfigValue(config, setting.key, this.getSettingValue(setting));
             });
         }
 
@@ -72,11 +70,15 @@ export default class SchemaAdminSettings extends AdminSettings {
         const state = {};
 
         if (schema) {
-            const configSettings = config[schema.id] || {};
-
             const settings = schema.settings || [];
             settings.forEach((setting) => {
-                state[setting.key] = configSettings[setting.key] == null ? setting.default : configSettings[setting.key];
+                if (!setting.key) {
+                    return;
+                }
+
+                const value = this.getConfigValue(config, setting.key);
+
+                state[setting.key] = value == null ? setting.default : value;
             });
         }
 
@@ -224,6 +226,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 key={this.props.schema.id + '_text_' + setting.key}
                 requestAction={setting.action}
                 helpText={this.renderHelpText(setting)}
+                loadingText={Utils.localizeMessage(setting.loading, setting.loading_default)}
                 buttonText={<span>{this.renderLabel(setting)}</span>}
                 showSuccessMessage={Boolean(setting.success_message)}
                 includeDetailedError={true}
@@ -254,6 +257,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -283,6 +287,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -301,6 +306,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -334,6 +340,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                     helpText={this.renderHelpText(setting)}
                     selected={(this.state[setting.key] && this.state[setting.key].split(',')) || []}
                     disabled={this.isDisabled(setting)}
+                    setByEnv={this.isSetByEnv(setting.key)}
                     onChange={(changedId, value) => this.handleChange(changedId, value.join(','))}
                     noResultText={noResultText}
                     notPresent={notPresent}
@@ -349,6 +356,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -367,6 +375,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 helpText={this.renderHelpText(setting)}
                 value={this.state[setting.key] || values[0]}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
             />
         );
@@ -399,6 +408,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleGeneratedChange}
             />
         );

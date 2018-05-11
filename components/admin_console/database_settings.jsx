@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -159,6 +159,7 @@ export default class DatabaseSettings extends AdminSettings {
                     }
                     value={this.state.maxIdleConns}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.MaxIdleConns')}
                 />
                 <TextSetting
                     id='maxOpenConns'
@@ -177,6 +178,7 @@ export default class DatabaseSettings extends AdminSettings {
                     }
                     value={this.state.maxOpenConns}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.MaxOpenConns')}
                 />
                 <TextSetting
                     id='queryTimeout'
@@ -195,6 +197,7 @@ export default class DatabaseSettings extends AdminSettings {
                     }
                     value={this.state.queryTimeout}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.QueryTimeout')}
                 />
                 <GeneratedSetting
                     id='atRestEncryptKey'
@@ -213,6 +216,7 @@ export default class DatabaseSettings extends AdminSettings {
                     }
                     value={this.state.atRestEncryptKey}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.AtRestEncryptKey')}
                 />
                 <BooleanSetting
                     id='trace'
@@ -230,6 +234,7 @@ export default class DatabaseSettings extends AdminSettings {
                     }
                     value={this.state.trace}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.Trace')}
                 />
                 {recycleDbButton}
             </SettingsGroup>

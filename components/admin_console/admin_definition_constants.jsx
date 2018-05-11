@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -147,76 +149,6 @@ export const WEBSERVER_MODE_HELP_TEXT = (
                 defaultMessage='gzip compression applies to static content files. It is recommended to enable gzip to improve performance unless your environment has specific restrictions, such as a web proxy that distributes gzip files poorly.'
             />
         </p>
-    </div>
-);
-
-export const LOG_FORMAT_HELP_TEXT = (
-    <div>
-        <FormattedMessage
-            id='admin.log.formatDescription'
-            defaultMessage='Format of log message output. If blank will be set to "[%D %T] [%L] %M", where:'
-        />
-        <table
-            className='table table-bordered'
-            cellPadding='5'
-        >
-            <tbody>
-                <tr>
-                    <td>{'%T'}</td>
-                    <td>
-                        <FormattedMessage
-                            id='admin.log.formatTime'
-                            defaultMessage='Time (15:04:05 MST)'
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>{'%D'}</td>
-                    <td>
-                        <FormattedMessage
-                            id='admin.log.formatDateLong'
-                            defaultMessage='Date (2006/01/02)'
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>{'%d'}</td>
-                    <td>
-                        <FormattedMessage
-                            id='admin.log.formatDateShort'
-                            defaultMessage='Date (01/02/06)'
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>{'%L'}</td>
-                    <td>
-                        <FormattedMessage
-                            id='admin.log.formatLevel'
-                            defaultMessage='Level (DEBG, INFO, EROR)'
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>{'%S'}</td>
-                    <td>
-                        <FormattedMessage
-                            id='admin.log.formatSource'
-                            defaultMessage='Source'
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>{'%M'}</td>
-                    <td>
-                        <FormattedMessage
-                            id='admin.log.formatMessage'
-                            defaultMessage='Message'
-                        />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 );
 

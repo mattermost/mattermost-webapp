@@ -59,6 +59,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -88,6 +89,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
+        setByEnv={false}
         type="input"
         value="01:00"
       />
@@ -110,6 +112,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         value="actiance"
         values={
           Array [
@@ -231,6 +234,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -260,6 +264,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
+        setByEnv={false}
         type="input"
         value="01:00"
       />
@@ -282,6 +287,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         value="globalrelay"
         values={
           Array [
@@ -310,7 +316,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             />
           }
           id="globalRelayCustomerType"
-          isDisabled={false}
           label={
             <FormattedMessage
               defaultMessage="Customer Type:"
@@ -319,6 +324,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             />
           }
           onChange={[Function]}
+          setByEnv={false}
           value="A10"
           values={
             Array [
@@ -353,6 +359,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayUser\\""
+          setByEnv={false}
           type="input"
           value="globalRelayUser"
         />
@@ -376,6 +383,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayPassword\\""
+          setByEnv={false}
           type="input"
           value="globalRelayPassword"
         />
@@ -399,6 +407,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalrelay@mattermost.com\\""
+          setByEnv={false}
           type="input"
           value="globalRelay@mattermost.com"
         />
@@ -510,6 +519,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -539,6 +549,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
+        setByEnv={false}
         type="input"
         value="01:00"
       />
@@ -561,6 +572,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         value="actiance"
         values={
           Array [
@@ -682,6 +694,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -711,6 +724,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         maxLength={null}
         onChange={[Function]}
         placeholder="E.g.: \\"02:00\\""
+        setByEnv={false}
         type="input"
         value="01:00"
       />
@@ -733,6 +747,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         onChange={[Function]}
+        setByEnv={false}
         value="globalrelay"
         values={
           Array [
@@ -761,7 +776,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             />
           }
           id="globalRelayCustomerType"
-          isDisabled={false}
           label={
             <FormattedMessage
               defaultMessage="Customer Type:"
@@ -770,6 +784,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             />
           }
           onChange={[Function]}
+          setByEnv={false}
           value="A10"
           values={
             Array [
@@ -804,6 +819,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayUser\\""
+          setByEnv={false}
           type="input"
           value="globalRelayUser"
         />
@@ -827,6 +843,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalRelayPassword\\""
+          setByEnv={false}
           type="input"
           value="globalRelayPassword"
         />
@@ -850,6 +867,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           maxLength={null}
           onChange={[Function]}
           placeholder="E.g.: \\"globalrelay@mattermost.com\\""
+          setByEnv={false}
           type="input"
           value="globalRelay@mattermost.com"
         />

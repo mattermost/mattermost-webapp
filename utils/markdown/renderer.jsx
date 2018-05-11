@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import marked from 'marked';
 
@@ -24,7 +24,7 @@ export default class Renderer extends marked.Renderer {
         usedLanguage = usedLanguage.toLowerCase();
 
         if (usedLanguage === 'tex' || usedLanguage === 'latex') {
-            return `<div data-latex="${TextFormatting.escapeHtml(code)}" />`;
+            return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
 
         // treat html as xml to prevent injection attacks

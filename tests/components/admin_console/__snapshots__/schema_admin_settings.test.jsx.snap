@@ -4,14 +4,24 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
 <component
   config={
     Object {
-      "Config": Object {
+      "FirstSettings": Object {
         "settinga": "fsdsdg",
         "settingb": false,
         "settingc": "option3",
+        "settingl": true,
+      },
+      "SecondSettings": Object {
         "settingd": "option1",
         "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
         "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
         "settingg": 7,
+      },
+    }
+  }
+  environmentConfig={
+    Object {
+      "FirstSettings": Object {
+        "settingl": true,
       },
     }
   }
@@ -52,12 +62,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settinga"
-        key="Config_text_settinga"
+        id="FirstSettings.settinga"
+        key="Config_text_FirstSettings.settinga"
         label="Setting One"
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
+        setByEnv={false}
         type="input"
         value="fsdsdg"
       />
@@ -77,10 +88,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingb"
-        key="Config_bool_settingb"
+        id="FirstSettings.settingb"
+        key="Config_bool_FirstSettings.settingb"
         label="Setting Two"
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -99,11 +111,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingc"
+        id="FirstSettings.settingc"
         isDisabled={false}
-        key="Config_dropdown_settingc"
+        key="Config_dropdown_FirstSettings.settingc"
         label="Setting Three"
         onChange={[Function]}
+        setByEnv={false}
         value="option3"
         values={
           Array [
@@ -131,11 +144,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingd"
-        isDisabled={false}
-        key="Config_radio_settingd"
+        id="SecondSettings.settingd"
+        key="Config_radio_SecondSettings.settingd"
         label="Setting Four"
         onChange={[Function]}
+        setByEnv={false}
         value="option1"
         values={
           Array [
@@ -163,8 +176,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settinge"
-        key="Config_generated_settinge"
+        id="SecondSettings.settinge"
+        key="Config_generated_SecondSettings.settinge"
         label="Setting Five"
         onChange={[Function]}
         placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
@@ -176,6 +189,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
+        setByEnv={false}
         value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
       />
       <UserAutocompleteSetting
@@ -187,8 +201,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingf"
-        key="Config_userautocomplete_settingf"
+        id="SecondSettings.settingf"
+        key="Config_userautocomplete_SecondSettings.settingf"
         label="Setting Six"
         onChange={[Function]}
         placeholder="Type a username here"
@@ -203,12 +217,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingg"
-        key="Config_text_settingg"
+        id="SecondSettings.settingg"
+        key="Config_text_SecondSettings.settingg"
         label="Setting Seven"
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
+        setByEnv={false}
         type="number"
         value={7}
       />
@@ -237,11 +252,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingi"
+        id="SecondSettings.settingi"
         isDisabled={false}
-        key="Config_language_settingi"
+        key="Config_language_SecondSettings.settingi"
         label="Setting Nine"
         onChange={[Function]}
+        setByEnv={false}
         value="de"
         values={
           Array [
@@ -327,8 +343,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             values={Object {}}
           />
         }
-        id="settingj"
-        key="Config_language_settingj"
+        id="SecondSettings.settingj"
+        key="Config_language_SecondSettings.settingj"
         label="Setting Nine"
         noResultText={
           <FormattedMessage
@@ -346,6 +362,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         }
         onChange={[Function]}
         selected={Array []}
+        setByEnv={false}
         values={
           Array [
             Object {
@@ -442,7 +459,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
         }
         includeDetailedError={true}
-        key="Config_text_settingk"
+        key="Config_text_SecondSettings.settingk"
         requestAction={[Function]}
         saveNeeded={false}
         showSuccessMessage={false}
@@ -453,18 +470,48 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           }
         }
       />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the second bool field."
+            id="help-text-l"
+            values={Object {}}
+          />
+        }
+        id="FirstSettings.settingl"
+        key="Config_bool_FirstSettings.settingl"
+        label="Setting Twelve"
+        onChange={[Function]}
+        setByEnv={true}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={true}
+      />
       <ColorSetting
         disabled={false}
         helpText={
           <FormattedMessage
             defaultMessage="This is some help text for the color field."
-            id="help-text-l"
+            id="help-text-m"
             values={Object {}}
           />
         }
-        id="settingl"
-        key="Config_text_settingl"
-        label="Setting Twelve"
+        id="FirstSettings.settingm"
+        key="Config_text_FirstSettings.settingm"
+        label="Setting Thirteen"
         onChange={[Function]}
         value=""
       />

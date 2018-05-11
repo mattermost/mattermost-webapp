@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -142,7 +142,7 @@ export default class Post extends React.PureComponent {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, fromWebhook) => {
+    getClassName = (post, isSystemMessage, fromWebhook, fromAutoResponder) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -187,6 +187,10 @@ export default class Post extends React.PureComponent {
             rootUser = '';
         }
 
+        if (fromAutoResponder) {
+            postType = 'post--comment';
+        }
+
         if (this.props.compactDisplay) {
             className += ' post--compact';
         }
@@ -218,6 +222,7 @@ export default class Post extends React.PureComponent {
         const post = this.props.post || {};
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
         let status = this.props.status;
@@ -244,7 +249,17 @@ export default class Post extends React.PureComponent {
                         src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
                     />
                 );
-            } else if (PostUtils.isSystemMessage(post)) {
+            } else if (fromAutoResponder) {
+                profilePic = (
+                    <span className='auto-responder'>
+                        <ProfilePicture
+                            src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
+                            user={this.props.user}
+                            hasMention={true}
+                        />
+                    </span>
+                );
+            } else if (isSystemMessage) {
                 profilePic = (
                     <MattermostLogo className='icon'/>
                 );
@@ -286,7 +301,7 @@ export default class Post extends React.PureComponent {
             >
                 <div
                     id={'post_' + post.id}
-                    className={this.getClassName(post, isSystemMessage, fromWebhook)}
+                    className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 >
                     <div className={'post__content ' + centerClass}>
                         {profilePicContainer}

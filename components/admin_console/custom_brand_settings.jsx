@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -69,6 +69,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     value={this.state.customDescriptionText}
                     placeholder={Utils.localizeMessage('web.root.signup_info', 'All team communication in one place, searchable and accessible anywhere')}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.CustomDescriptionText')}
                 />
             );
 
@@ -90,6 +91,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     }
                     value={this.state.enableCustomBrand}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.EnableCustomBrand')}
                 />
             );
 
@@ -120,6 +122,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     value={this.state.customBrandText}
                     onChange={this.handleChange}
                     disabled={!this.state.enableCustomBrand}
+                    setByEnv={this.isSetByEnv('TeamSettings.CustomBrandText')}
                 />
             );
         }
@@ -144,6 +147,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     }
                     value={this.state.siteName}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.SiteName')}
                 />
                 {enterpriseSettings}
             </SettingsGroup>

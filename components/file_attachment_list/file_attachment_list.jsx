@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -33,6 +33,8 @@ export default class FileAttachmentList extends React.Component {
          * Set to render compactly
          */
         compactDisplay: PropTypes.bool,
+
+        isEmbedVisible: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -76,10 +78,12 @@ export default class FileAttachmentList extends React.Component {
                     return (
                         <SingleImageView
                             fileInfo={fileInfos[0]}
+                            isEmbedVisible={this.props.isEmbedVisible}
+                            post={this.props.post}
                         />
                     );
                 }
-            } else if (fileCount === 1) {
+            } else if (fileCount === 1 && this.props.isEmbedVisible) {
                 return (
                     <div style={style.minHeightPlaceholder}/>
                 );

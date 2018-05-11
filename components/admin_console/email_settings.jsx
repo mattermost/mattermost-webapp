@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -150,6 +150,7 @@ export default class EmailSettings extends AdminSettings {
                     onChange={this.handleChange}
                     helpText={emailNotificationContentsHelpText}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.EmailNotificationContentsType')}
                 />
             );
         }
@@ -172,6 +173,7 @@ export default class EmailSettings extends AdminSettings {
                     }
                     value={this.state.sendEmailNotifications}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('EmailSettings.SendEmailNotifications')}
                 />
                 <BooleanSetting
                     id='enableEmailBatching'
@@ -192,6 +194,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.enableEmailBatching && !this.props.config.ClusterSettings.Enable && Boolean(this.props.config.ServiceSettings.SiteURL)}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications || this.props.config.ClusterSettings.Enable || !this.props.config.ServiceSettings.SiteURL}
+                    setByEnv={this.isSetByEnv('EmailSettings.EnableEmailBatching')}
                 />
                 {emailNotificationContentsTypeDropdown}
                 <TextSetting
@@ -212,6 +215,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.feedbackName}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.FeedbackName')}
                 />
                 <TextSetting
                     id='feedbackEmail'
@@ -231,6 +235,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.feedbackEmail}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.FeedbackEmail')}
                 />
                 <TextSetting
                     id='feedbackOrganization'
@@ -250,6 +255,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.feedbackOrganization}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.FeedbackOrganization')}
                 />
                 <TextSetting
                     id='smtpServer'
@@ -269,6 +275,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.smtpServer}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.SMTPServer')}
                 />
                 <TextSetting
                     id='smtpPort'
@@ -288,6 +295,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.smtpPort}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.SMTPPort')}
                 />
                 <BooleanSetting
                     id='enableSMTPAuth'
@@ -307,6 +315,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.enableSMTPAuth}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.EnableSMTPAuth')}
                 />
                 <TextSetting
                     id='smtpUsername'
@@ -326,6 +335,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.smtpUsername}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications || !this.state.enableSMTPAuth}
+                    setByEnv={this.isSetByEnv('EmailSettings.SMTPUsername')}
                 />
                 <TextSetting
                     id='smtpPassword'
@@ -345,11 +355,13 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.smtpPassword}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications || !this.state.enableSMTPAuth}
+                    setByEnv={this.isSetByEnv('EmailSettings.SMTPPassword')}
                 />
                 <ConnectionSecurityDropdownSettingEmail
                     value={this.state.connectionSecurity}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.ConnectionSecurity')}
                 />
                 <EmailConnectionTest
                     config={this.props.config}
@@ -373,6 +385,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.skipServerCertificateVerification}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications || this.state.connectionSecurity === ''}
+                    setByEnv={this.isSetByEnv('EmailSettings.SkipServerCertificateVerification')}
                 />
                 <BooleanSetting
                     id='enableSecurityFixAlert'
@@ -391,6 +404,7 @@ export default class EmailSettings extends AdminSettings {
                     value={this.state.enableSecurityFixAlert}
                     onChange={this.handleChange}
                     disabled={!this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('ServiceSettings.EnableSecurityFixAlert')}
                 />
             </SettingsGroup>
         );

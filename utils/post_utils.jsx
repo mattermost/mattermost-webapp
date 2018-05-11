@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
@@ -25,6 +25,10 @@ import * as Utils from 'utils/utils.jsx';
 
 export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
+}
+
+export function fromAutoResponder(post) {
+    return Boolean(post.type && (post.type === Constants.AUTO_RESPONDER));
 }
 
 export function isFromWebhook(post) {
@@ -61,6 +65,10 @@ export function getProfilePicSrcForPost(post, user) {
         src = Utils.imageURLForUser(user);
     } else {
         src = Utils.imageURLForUser(post.user_id);
+    }
+
+    if (fromAutoResponder(post)) {
+        return src;
     }
 
     if (post.props && post.props.from_webhook && !post.props.use_user_icon && config.EnablePostIconOverride === 'true') {

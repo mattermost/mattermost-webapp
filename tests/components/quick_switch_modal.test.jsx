@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -58,11 +58,11 @@ describe('components/QuickSwitchModal', () => {
                 <QuickSwitchModal {...props}/>
             );
 
-            wrapper.instance().handleSubmit({channel: {id: 'channel_id', type: Constants.DM_CHANNEL}});
+            wrapper.instance().handleSubmit({channel: {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL}});
             expect(baseProps.onHide).not.toBeCalled();
             expect(props.actions.goToChannel).not.toBeCalled();
             expect(props.actions.goToChannelById).not.toBeCalled();
-            expect(props.actions.openDirectChannelToUser).toBeCalledWith('channel_id', expect.anything(), expect.anything());
+            expect(props.actions.openDirectChannelToUser).toBeCalledWith('user_id', expect.anything(), expect.anything());
         });
 
         it('should switch to group channel when selecting a group channel', () => {

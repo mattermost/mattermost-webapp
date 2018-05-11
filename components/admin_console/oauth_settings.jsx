@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -128,6 +128,14 @@ export default class OAuthSettings extends AdminSettings {
         });
     }
 
+    isGitLabURLSetByEnv = () => {
+        // Assume that if one of these has been set using an environment variable,
+        // all of them have been set that way
+        return this.isSetByEnv('GitLabSettings.AuthEndpoint') ||
+            this.isSetByEnv('GitLabSettings.TokenEndpoint') ||
+            this.isSetByEnv('GitLabSettings.UserApiEndpoint');
+    };
+
     renderTitle() {
         return (
             <FormattedMessage
@@ -157,6 +165,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.id}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('GoogleSettings.Id')}
                 />
                 <TextSetting
                     id='secret'
@@ -175,6 +184,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.secret}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('GoogleSettings.Secret')}
                 />
                 <TextSetting
                     id='userApiEndpoint'
@@ -186,6 +196,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value='https://www.googleapis.com/plus/v1/people/me'
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='authEndpoint'
@@ -197,6 +208,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value='https://accounts.google.com/o/oauth2/v2/auth'
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='tokenEndpoint'
@@ -208,6 +220,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value='https://www.googleapis.com/oauth2/v4/token'
                     disabled={true}
+                    setByEnv={false}
                 />
             </div>
         );
@@ -233,6 +246,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.id}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('Office365Settings.Id')}
                 />
                 <TextSetting
                     id='secret'
@@ -251,6 +265,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.secret}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('Office365Settings.Secret')}
                 />
                 <TextSetting
                     id='userApiEndpoint'
@@ -262,6 +277,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value='https://graph.microsoft.com/v1.0/me'
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='authEndpoint'
@@ -273,6 +289,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value='https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='tokenEndpoint'
@@ -284,6 +301,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value='https://login.microsoftonline.com/common/oauth2/v2.0/token'
                     disabled={true}
+                    setByEnv={false}
                 />
             </div>
         );
@@ -309,6 +327,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.id}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('GitLabSettings.Id')}
                 />
                 <TextSetting
                     id='secret'
@@ -327,6 +346,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.secret}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('GitLabSettings.Secret')}
                 />
                 <TextSetting
                     id='gitlabUrl'
@@ -345,6 +365,7 @@ export default class OAuthSettings extends AdminSettings {
                     }
                     value={this.state.gitLabUrl}
                     onChange={this.updateGitLabUrl}
+                    setByEnv={this.isGitLabURLSetByEnv()}
                 />
                 <TextSetting
                     id='userApiEndpoint'
@@ -357,6 +378,7 @@ export default class OAuthSettings extends AdminSettings {
                     placeholder={''}
                     value={this.state.userApiEndpoint}
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='authEndpoint'
@@ -369,6 +391,7 @@ export default class OAuthSettings extends AdminSettings {
                     placeholder={''}
                     value={this.state.authEndpoint}
                     disabled={true}
+                    setByEnv={false}
                 />
                 <TextSetting
                     id='tokenEndpoint'
@@ -381,6 +404,7 @@ export default class OAuthSettings extends AdminSettings {
                     placeholder={''}
                     value={this.state.tokenEndpoint}
                     disabled={true}
+                    setByEnv={false}
                 />
             </div>
         );
@@ -441,6 +465,7 @@ export default class OAuthSettings extends AdminSettings {
                     helpText={helpText}
                     value={this.state.oauthType}
                     onChange={this.changeType}
+                    setByEnv={false}
                 />
                 {contents}
             </SettingsGroup>
