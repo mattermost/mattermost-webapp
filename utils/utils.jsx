@@ -119,15 +119,6 @@ export function isSystemAdmin(roles) {
     return false;
 }
 
-export function getCookie(name) {
-    var value = '; ' + document.cookie;
-    var parts = value.split('; ' + name + '=');
-    if (parts.length === 2) {
-        return parts.pop().split(';').shift();
-    }
-    return '';
-}
-
 var requestedNotificationPermission = false;
 
 export function notifyMe(title, body, channel, teamId, duration, silent) {
@@ -508,21 +499,6 @@ export function getIconClassName(fileTypeIn) {
     }
 
     return 'generic';
-}
-
-export function splitFileLocation(fileLocation) {
-    var fileSplit = fileLocation.split('.');
-
-    var ext = '';
-    if (fileSplit.length > 1) {
-        ext = fileSplit[fileSplit.length - 1];
-        fileSplit.splice(fileSplit.length - 1, 1);
-    }
-
-    var filePath = fileSplit.join('.');
-    var filename = filePath.split('/')[filePath.split('/').length - 1];
-
-    return {ext, name: filename, path: filePath};
 }
 
 export function sortFilesByName(files) {
@@ -1017,21 +993,6 @@ export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }
 
-export function getSelectedText(input) {
-    var selectedText;
-    if (typeof document.selection !== 'undefined') {
-        input.focus();
-        var sel = document.selection.createRange();
-        selectedText = sel.text;
-    } else if (typeof input.selectionStart !== 'undefined') {
-        var startPos = input.selectionStart;
-        var endPos = input.selectionEnd;
-        selectedText = input.value.substring(startPos, endPos);
-    }
-
-    return selectedText;
-}
-
 export function isValidUsername(name) {
     var error = '';
     if (!name) {
@@ -1340,11 +1301,6 @@ export function getUserIdFromChannelId(channelId) {
     return otherUserId;
 }
 
-// Returns true if the given channel is a direct channel between the current user and the given one
-export function isDirectChannelForUser(otherUserId, channel) {
-    return channel.type === Constants.DM_CHANNEL && getUserIdFromChannelName(channel) === otherUserId;
-}
-
 export function importSlack(file, success, error) {
     Client4.importTeam(TeamStore.getCurrent().id, file, 'slack').then(success).catch(error);
 }
@@ -1355,24 +1311,6 @@ export function windowWidth() {
 
 export function windowHeight() {
     return $(window).height();
-}
-
-export function getChannelTerm(channelType) {
-    let channelTerm = 'Channel';
-    if (channelType === Constants.PRIVATE_CHANNEL) {
-        channelTerm = 'Group';
-    }
-
-    return channelTerm;
-}
-
-export function getPostTerm(post) {
-    let postTerm = 'Post';
-    if (post.root_id) {
-        postTerm = 'Comment';
-    }
-
-    return postTerm;
 }
 
 export function isFeatureEnabled(feature) {

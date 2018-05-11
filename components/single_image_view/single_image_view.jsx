@@ -6,7 +6,7 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes} from 'utils/constants.jsx';
+import {FileTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {
     getFileType,
     localizeMessage,
@@ -16,6 +16,8 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image';
+
+import BrowserStore from 'stores/browser_store.jsx';
 
 const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
@@ -29,6 +31,7 @@ export default class SingleImageView extends React.PureComponent {
          **/
         fileInfo: PropTypes.object.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
+        isEmbedVisible: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -89,6 +92,7 @@ export default class SingleImageView extends React.PureComponent {
         const previewURL = hasPreviewImage ? getFilePreviewUrl(id) : fileURL;
 
         const loaderImage = new Image();
+
         loaderImage.src = previewURL;
         loaderImage.onload = () => {
             if (this.imageLoaded) {
@@ -134,6 +138,10 @@ export default class SingleImageView extends React.PureComponent {
         return {previewWidth, previewHeight};
     }
 
+    toggleEmbedVisibility = () => {
+        BrowserStore.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + this.props.fileInfo.post_id, !this.props.isEmbedVisible);
+    }
+
     render() {
         const {fileInfo} = this.props;
         const {
@@ -154,14 +162,21 @@ export default class SingleImageView extends React.PureComponent {
             }
         }
 
+        const toggle = (
+            <a
+                key='toggle'
+                className='post__embed-visibility'
+                aria-label='Toggle Embed Visibility'
+                onClick={this.toggleEmbedVisibility}
+            />
+        );
+
         const fileHeader = (
-            <div className='file-details'>
-                <span
-                    className='file-details__name'
-                    onClick={this.handleImageClick}
-                >
-                    {fileInfo.name}
-                </span>
+            <div
+                className='image-name'
+                onClick={this.handleImageClick}
+            >
+                {fileInfo.name}
             </div>
         );
 
@@ -206,11 +221,23 @@ export default class SingleImageView extends React.PureComponent {
             fadeInClass = 'image-fade-in';
             imageStyle = {cursor: 'pointer'};
             imageLoadedStyle = {};
-        } else {
+        } else if (this.props.isEmbedVisible) {
             loadingImagePreview = (
                 <LoadingImagePreview
                     loading={loading}
                     containerClass={'file__image-loading'}
+                />
+            );
+        }
+
+        let image;
+        if (this.props.isEmbedVisible) {
+            image = (
+                <img
+                    ref={this.setImageLoadedRef}
+                    style={imageStyle}
+                    className={`${minPreviewClass} ${svgClass}`}
+                    onClick={this.handleImageClick}
                 />
             );
         }
@@ -224,7 +251,8 @@ export default class SingleImageView extends React.PureComponent {
                     ref={this.setViewPortRef}
                     className='file__image'
                 >
-                    {fileHeader}
+                    {toggle} {fileHeader}
+                    {this.props.isEmbedVisible &&
                     <div
                         className='image-container'
                         style={imageContainerStyle}
@@ -233,17 +261,13 @@ export default class SingleImageView extends React.PureComponent {
                             className={`image-loaded ${fadeInClass}`}
                             style={imageLoadedStyle}
                         >
-                            <img
-                                ref={this.setImageLoadedRef}
-                                style={imageStyle}
-                                className={`${minPreviewClass} ${svgClass}`}
-                                onClick={this.handleImageClick}
-                            />
+                            {image}
                         </div>
                         <div className='image-preload'>
                             {loadingImagePreview}
                         </div>
                     </div>
+                    }
                     {viewImageModal}
                 </div>
             </div>

@@ -34,6 +34,8 @@ export default class FileAttachmentList extends React.Component {
          */
         compactDisplay: PropTypes.bool,
 
+        isEmbedVisible: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /*
@@ -76,10 +78,12 @@ export default class FileAttachmentList extends React.Component {
                     return (
                         <SingleImageView
                             fileInfo={fileInfos[0]}
+                            isEmbedVisible={this.props.isEmbedVisible}
+                            post={this.props.post}
                         />
                     );
                 }
-            } else if (fileCount === 1) {
+            } else if (fileCount === 1 && this.props.isEmbedVisible) {
                 return (
                     <div style={style.minHeightPlaceholder}/>
                 );

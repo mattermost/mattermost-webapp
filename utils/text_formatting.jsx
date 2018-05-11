@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Autolinker from 'autolinker';
 import twemoji from 'twemoji';
 import XRegExp from 'xregexp';
 
@@ -122,38 +121,33 @@ export function sanitizeHtml(text) {
     return output;
 }
 
+// Copied from our fork of commonmark.js
+var emailAlphaNumericChars = '\\p{L}\\p{Nd}';
+var emailSpecialCharacters = '!#$%&\'*+\\-\\/=?^_`{|}~';
+var emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
+var emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
+var emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
+var emailStartPattern = '(?:[' + emailValidCharacters + '](?:[' + emailValidCharacters + ']|\\.(?!\\.|@))*|\\"[' + emailValidRestrictedCharacters + '.]+\\")@';
+var reEmail = XRegExp.cache('(^|[^\\pL\\d])(' + emailStartPattern + '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))', 'g');
+
 // Convert emails into tokens
 function autolinkEmails(text, tokens) {
-    function replaceEmailWithToken(match) {
-        const linkText = match.getMatchedText();
-        let url = linkText;
-
-        if (match.getType() === 'email') {
-            url = `mailto:${url}`;
-        }
-
+    function replaceEmailWithToken(fullMatch, prefix, email) {
         const index = tokens.size;
         const alias = `$MM_EMAIL${index}`;
 
         tokens.set(alias, {
-            value: `<a class="theme" href="${url}">${linkText}</a>`,
-            originalText: linkText,
+            value: `<a class="theme" href="mailto:${email}">${email}</a>`,
+            originalText: email,
         });
 
-        return alias;
+        return prefix + alias;
     }
 
-    // we can't just use a static autolinker because we need to set replaceFn
-    const autolinker = new Autolinker({
-        urls: false,
-        email: true,
-        phone: false,
-        mention: false,
-        hashtag: false,
-        replaceFn: replaceEmailWithToken,
-    });
+    let output = text;
+    output = XRegExp.replace(text, reEmail, replaceEmailWithToken);
 
-    return autolinker.link(text);
+    return output;
 }
 
 export function autolinkAtMentions(text, tokens) {
