@@ -1,0 +1,434 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SettingItemMin should match snapshot, profile picture on file 1`] = `
+<ul
+  className="section-max form-horizontal"
+>
+  <li
+    className="col-xs-12 section-title"
+  >
+    Profile Picture
+  </li>
+  <li
+    className="col-xs-offset-3 col-xs-8"
+  >
+    <ul
+      className="setting-list"
+    >
+      <li
+        className="setting-list-item"
+      >
+         
+        <div
+          className="profile-img-preview"
+        >
+          <div
+            className="img-preview__image"
+          >
+            <div
+              alt="profile image preview"
+              className="profile-img-preview"
+              style={
+                Object {
+                  "backgroundImage": "url(null)",
+                }
+              }
+            />
+          </div>
+        </div>
+         
+      </li>
+      <li
+        className="setting-list-item padding-top x2"
+      >
+        <FormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          id="setting_picture.help.profile"
+          values={Object {}}
+        />
+      </li>
+      <li
+        className="setting-list-item"
+      >
+        <hr />
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              "",
+            ]
+          }
+          type="modal"
+        />
+        <div
+          className="btn btn-sm btn-primary btn-file sel-btn"
+          disabled={false}
+        >
+          <FormattedMessage
+            defaultMessage="Select"
+            id="setting_picture.select"
+            values={Object {}}
+          />
+          <input
+            accept=".jpg,.png,.bmp"
+            disabled={false}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Save"
+            id="setting_picture.save"
+            values={Object {}}
+          />
+        </a>
+        <a
+          className="btn btn-sm theme"
+          href="#"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="setting_picture.cancel"
+            values={Object {}}
+          />
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;
+
+exports[`components/SettingItemMin should match snapshot, profile picture on source 1`] = `
+<ul
+  className="section-max form-horizontal"
+>
+  <li
+    className="col-xs-12 section-title"
+  >
+    Profile Picture
+  </li>
+  <li
+    className="col-xs-offset-3 col-xs-8"
+  >
+    <ul
+      className="setting-list"
+    >
+      <li
+        className="setting-list-item"
+      >
+         
+        <img
+          alt="profile image"
+          className="profile-img"
+          src="http://localhost:8065/api/v4/users/src_id"
+        />
+         
+      </li>
+      <li
+        className="setting-list-item padding-top x2"
+      >
+        <FormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          id="setting_picture.help.profile"
+          values={Object {}}
+        />
+      </li>
+      <li
+        className="setting-list-item"
+      >
+        <hr />
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              "",
+            ]
+          }
+          type="modal"
+        />
+        <div
+          className="btn btn-sm btn-primary btn-file sel-btn"
+          disabled={false}
+        >
+          <FormattedMessage
+            defaultMessage="Select"
+            id="setting_picture.select"
+            values={Object {}}
+          />
+          <input
+            accept=".jpg,.png,.bmp"
+            disabled={false}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Save"
+            id="setting_picture.save"
+            values={Object {}}
+          />
+        </a>
+        <a
+          className="btn btn-sm theme"
+          href="#"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="setting_picture.cancel"
+            values={Object {}}
+          />
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;
+
+exports[`components/SettingItemMin should match snapshot, team icon on file 1`] = `
+<ul
+  className="section-max form-horizontal"
+>
+  <li
+    className="col-xs-12 section-title"
+  >
+    Profile Picture
+  </li>
+  <li
+    className="col-xs-offset-3 col-xs-8"
+  >
+    <ul
+      className="setting-list"
+    >
+      <li
+        className="setting-list-item"
+      >
+         
+        <div
+          className="team-img-preview"
+        >
+          <div
+            className="img-preview__image"
+          >
+            <div
+              alt="team image preview"
+              className="team-img-preview"
+              style={
+                Object {
+                  "backgroundImage": "url(null)",
+                }
+              }
+            />
+          </div>
+        </div>
+         
+      </li>
+      <li
+        className="setting-list-item padding-top x2"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended."
+          id="setting_picture.help.team"
+          values={Object {}}
+        />
+      </li>
+      <li
+        className="setting-list-item"
+      >
+        <hr />
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              "",
+            ]
+          }
+          type="modal"
+        />
+        <div
+          className="btn btn-sm btn-primary btn-file sel-btn"
+          disabled={false}
+        >
+          <FormattedMessage
+            defaultMessage="Select"
+            id="setting_picture.select"
+            values={Object {}}
+          />
+          <input
+            accept=".jpg,.png,.bmp"
+            disabled={false}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Save"
+            id="setting_picture.save"
+            values={Object {}}
+          />
+        </a>
+        <a
+          className="btn btn-sm theme"
+          href="#"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="setting_picture.cancel"
+            values={Object {}}
+          />
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;
+
+exports[`components/SettingItemMin should match snapshot, team icon on source 1`] = `
+<ul
+  className="section-max form-horizontal"
+>
+  <li
+    className="col-xs-12 section-title"
+  >
+    Profile Picture
+  </li>
+  <li
+    className="col-xs-offset-3 col-xs-8"
+  >
+    <ul
+      className="setting-list"
+    >
+      <li
+        className="setting-list-item"
+      >
+         
+        <div
+          className="team-img__container"
+        >
+          <div
+            className="img-preview__image"
+          >
+            <img
+              alt="team image"
+              className="team-img"
+              src="http://localhost:8065/api/v4/users/src_id"
+            />
+          </div>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="removeIcon"
+                placement="right"
+              >
+                <FormattedMessage
+                  defaultMessage="Remove this icon"
+                  id="setting_picture.remove"
+                  values={Object {}}
+                />
+              </Tooltip>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <a
+              className="team-img__remove"
+              onClick={[MockFunction]}
+            >
+              <span>
+                ×
+              </span>
+            </a>
+          </OverlayTrigger>
+        </div>
+         
+      </li>
+      <li
+        className="setting-list-item padding-top x2"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended."
+          id="setting_picture.help.team"
+          values={Object {}}
+        />
+      </li>
+      <li
+        className="setting-list-item"
+      >
+        <hr />
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              "",
+            ]
+          }
+          type="modal"
+        />
+        <div
+          className="btn btn-sm btn-primary btn-file sel-btn"
+          disabled={false}
+        >
+          <FormattedMessage
+            defaultMessage="Select"
+            id="setting_picture.select"
+            values={Object {}}
+          />
+          <input
+            accept=".jpg,.png,.bmp"
+            disabled={false}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Save"
+            id="setting_picture.save"
+            values={Object {}}
+          />
+        </a>
+        <a
+          className="btn btn-sm theme"
+          href="#"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="setting_picture.cancel"
+            values={Object {}}
+          />
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;

@@ -647,7 +647,9 @@ export default class Navbar extends React.Component {
                             </li>
                         </ChannelPermissionGate>
                     );
+                }
 
+                if (!ChannelStore.isDefault(channel)) {
                     deleteChannelOption = (
                         <ChannelPermissionGate
                             channelId={channel.id}
@@ -668,9 +670,7 @@ export default class Navbar extends React.Component {
                             </li>
                         </ChannelPermissionGate>
                     );
-                }
 
-                if (!ChannelStore.isDefault(channel)) {
                     leaveChannelOption = (
                         <li role='presentation'>
                             <a
