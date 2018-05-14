@@ -9,7 +9,7 @@ import PermissionSchemesSettings from 'components/admin_console/permission_schem
 describe('components/admin_console/permission_schemes_settings/permission_schemes_settings', () => {
     test('should match snapshot on render', () => {
         const wrapper = shallow(
-            <PermissionSchemesSettings/>
+            <PermissionSchemesSettings actions={{loadSchemes: jest.fn}}/>
         );
         expect(wrapper).toMatchSnapshot();
     });

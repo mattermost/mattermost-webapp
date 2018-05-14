@@ -67,5 +67,53 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       </div>
     </div>
   </div>
+  <div
+    className="permissions-block"
+  >
+    <div
+      className="header"
+    >
+      <div>
+        <h3>
+          <FormattedMessage
+            defaultMessage="Team Override Schemes"
+            id="admin.permissions.teamOverrideSchemesTitle"
+            values={Object {}}
+          />
+        </h3>
+        <span>
+          <FormattedMessage
+            defaultMessage="Use when specific teams need permission exceptions to the System Scheme."
+            id="admin.permissions.teamOverrideSchemesBannerText"
+            values={Object {}}
+          />
+        </span>
+      </div>
+      <div
+        className="button"
+      >
+        <Link
+          className="btn btn-primary"
+          replace={false}
+          to="/admin_console/permissions/team-override-scheme"
+        >
+          <FormattedMessage
+            defaultMessage="New Team Override Scheme"
+            id="admin.permissions.teamOverrideSchemesNewButton"
+            values={Object {}}
+          />
+        </Link>
+      </div>
+    </div>
+    <div
+      className="no-team-schemes"
+    >
+      <FormattedMessage
+        defaultMessage="No team schemes found."
+        id="admin.permissions.teamOverrideSchemesNoSchemes"
+        values={Object {}}
+      />
+    </div>
+  </div>
 </div>
 `;
