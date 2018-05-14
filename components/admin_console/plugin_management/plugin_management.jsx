@@ -541,7 +541,15 @@ export default class PluginManagement extends React.Component {
             );
         } else {
             const showInstances = plugins.some((pluginStatus) => pluginStatus.instances.length > 1);
-            plugins.sort((a, b) => a.name - b.name);
+            plugins.sort((a, b) => {
+                if (a.name < b.name) {
+                    return -1;
+                } else if (a.name > b.name) {
+                    return 1;
+                }
+
+                return 0;
+            });
             pluginsList = plugins.map((pluginStatus) => (
                 <PluginItem
                     key={pluginStatus.id}
