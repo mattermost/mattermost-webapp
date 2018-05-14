@@ -10,14 +10,14 @@ import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 export default class PermissionSchemesSettings extends React.PureComponent {
     static propTypes = {
-        schemes: PropTypes.object.isRequired,
+        schemes: PropTypes.array.isRequired,
         actions: PropTypes.shape({
             loadSchemes: PropTypes.func.isRequired,
         }),
     };
 
     static defaultProps = {
-        schemes: {},
+        schemes: [],
     };
 
     componentDidMount() {
