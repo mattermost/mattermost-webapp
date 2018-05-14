@@ -317,11 +317,11 @@ const PluginItem = ({
                 </div>
                 {pluginStatus.instances.map((instance) => (
                     <div
-                        key={instance.cluster_discovery_id}
+                        key={instance.cluster_id}
                         className='row'
                     >
                         <div className='col-md-6'>
-                            {instance.cluster_discovery_id}
+                            {instance.cluster_id}
                         </div>
                         <div className='col-md-3'>
                             {instance.version}

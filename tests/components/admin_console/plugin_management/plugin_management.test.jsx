@@ -27,7 +27,7 @@ describe('components/PluginManagement', () => {
                 active: false,
                 instances: [
                     {
-                        cluster_discovery_id: 'cluster_discovery_id_1',
+                        cluster_id: 'cluster_id_1',
                         state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                         version: '0.1.0',
                     },
@@ -43,12 +43,12 @@ describe('components/PluginManagement', () => {
                 active: true,
                 instances: [
                     {
-                        cluster_discovery_id: 'cluster_discovery_id_1',
+                        cluster_id: 'cluster_id_1',
                         state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                         version: '0.0.1',
                     },
                     {
-                        cluster_discovery_id: 'cluster_discovery_id_2',
+                        cluster_id: 'cluster_id_2',
                         state: PluginState.PLUGIN_STATE_RUNNING,
                         version: '0.0.2',
                     },
