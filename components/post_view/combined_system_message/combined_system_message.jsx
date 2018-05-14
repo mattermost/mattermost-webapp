@@ -14,8 +14,13 @@ import {
 
 import LastUsers from './last_users';
 
+const {
+    JOIN_CHANNEL, ADD_TO_CHANNEL, REMOVE_FROM_CHANNEL, LEAVE_CHANNEL,
+    JOIN_TEAM, ADD_TO_TEAM, REMOVE_FROM_TEAM, LEAVE_TEAM,
+} = Posts.POST_TYPES;
+
 const postTypeMessage = {
-    [Posts.POST_TYPES.JOIN_CHANNEL]: {
+    [JOIN_CHANNEL]: {
         one: {
             id: 'combined_system_message.joined_channel.one',
             defaultMessage: '{firstUser} <b>joined the channel</b>.',
@@ -29,7 +34,7 @@ const postTypeMessage = {
             defaultMessage: '{users} and {lastUser} <b>joined the channel</b>.',
         },
     },
-    [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
+    [ADD_TO_CHANNEL]: {
         one: {
             id: 'combined_system_message.added_to_channel.one',
             defaultMessage: '{firstUser} <b>added to the channel</b> by {actor}.',
@@ -44,13 +49,17 @@ const postTypeMessage = {
         },
         many_expanded: {
             id: 'combined_system_message.added_to_channel.many_expanded',
-            defaultMessage: '{users} and {lastUser} <b>added to the channel</b> by {actor}.',
+            defaultMessage: '{users} and {lastUser} were <b>added to the channel</b> by {actor}.',
         },
     },
-    [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: {
+    [REMOVE_FROM_CHANNEL]: {
         one: {
             id: 'combined_system_message.removed_from_channel.one',
             defaultMessage: '{firstUser} was <b>removed from the channel</b>.',
+        },
+        one_you: {
+            id: 'combined_system_message.removed_from_channel.one_you',
+            defaultMessage: 'You were <b>removed from the channel</b>.',
         },
         two: {
             id: 'combined_system_message.removed_from_channel.two',
@@ -61,7 +70,7 @@ const postTypeMessage = {
             defaultMessage: '{users} and {lastUser} were <b>removed from the channel</b>.',
         },
     },
-    [Posts.POST_TYPES.LEAVE_CHANNEL]: {
+    [LEAVE_CHANNEL]: {
         one: {
             id: 'combined_system_message.left_channel.one',
             defaultMessage: '{firstUser} <b>left the channel</b>.',
@@ -75,7 +84,7 @@ const postTypeMessage = {
             defaultMessage: '{users} and {lastUser} <b>left the channel</b>.',
         },
     },
-    [Posts.POST_TYPES.JOIN_TEAM]: {
+    [JOIN_TEAM]: {
         one: {
             id: 'combined_system_message.joined_team.one',
             defaultMessage: '{firstUser} <b>joined the team</b>.',
@@ -89,7 +98,7 @@ const postTypeMessage = {
             defaultMessage: '{users} and {lastUser} <b>joined the team</b>.',
         },
     },
-    [Posts.POST_TYPES.ADD_TO_TEAM]: {
+    [ADD_TO_TEAM]: {
         one: {
             id: 'combined_system_message.added_to_team.one',
             defaultMessage: '{firstUser} <b>added to the team</b> by {actor}.',
@@ -104,13 +113,17 @@ const postTypeMessage = {
         },
         many_expanded: {
             id: 'combined_system_message.added_to_team.many_expanded',
-            defaultMessage: '{users} and {lastUser} <b>added to the team</b> by {actor}.',
+            defaultMessage: '{users} and {lastUser} were <b>added to the team</b> by {actor}.',
         },
     },
-    [Posts.POST_TYPES.REMOVE_FROM_TEAM]: {
+    [REMOVE_FROM_TEAM]: {
         one: {
             id: 'combined_system_message.removed_from_team.one',
             defaultMessage: '{firstUser} was <b>removed from the team</b>.',
+        },
+        one_you: {
+            id: 'combined_system_message.removed_from_team.one_you',
+            defaultMessage: 'You were <b>removed from the team</b>.',
         },
         two: {
             id: 'combined_system_message.removed_from_team.two',
@@ -121,7 +134,7 @@ const postTypeMessage = {
             defaultMessage: '{users} and {lastUser} were <b>removed from the team</b>.',
         },
     },
-    [Posts.POST_TYPES.LEAVE_TEAM]: {
+    [LEAVE_TEAM]: {
         one: {
             id: 'combined_system_message.left_team.one',
             defaultMessage: '{firstUser} <b>left the team</b>.',
@@ -212,7 +225,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
 
             if (
                 userIds[0] === this.props.currentUserId &&
-                (postType === Posts.POST_TYPES.ADD_TO_CHANNEL || postType === Posts.POST_TYPES.ADD_TO_TEAM)
+                ([ADD_TO_CHANNEL, ADD_TO_TEAM, REMOVE_FROM_CHANNEL, REMOVE_FROM_TEAM].includes(postType))
             ) {
                 formattedMessage = (
                     <FormattedHTMLMessage

@@ -10,7 +10,7 @@ import {Posts} from 'mattermost-redux/constants';
 const typeMessage = {
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
         id: 'last_users_message.added_to_channel.type',
-        defaultMessage: '<b>added to channel</b> by {actor}.',
+        defaultMessage: 'were <b>added to the channel</b> by {actor}.',
     },
     [Posts.POST_TYPES.JOIN_CHANNEL]: {
         id: 'last_users_message.joined_channel.type',
@@ -26,7 +26,7 @@ const typeMessage = {
     },
     [Posts.POST_TYPES.ADD_TO_TEAM]: {
         id: 'last_users_message.added_to_team.type',
-        defaultMessage: '<b>added to team</b> by {actor}.',
+        defaultMessage: 'were <b>added to the team</b> by {actor}.',
     },
     [Posts.POST_TYPES.JOIN_TEAM]: {
         id: 'last_users_message.joined_team.type',

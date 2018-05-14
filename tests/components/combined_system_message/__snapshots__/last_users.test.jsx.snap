@@ -25,7 +25,7 @@ exports[`components/post_view/combined_system_message/LastUsers should match sna
     />
   </a>
   <FormattedHTMLMessage
-    defaultMessage="<b>added to channel</b> by {actor}."
+    defaultMessage="were <b>added to the channel</b> by {actor}."
     id="last_users_message.added_to_channel.type"
     values={
       Object {
@@ -38,7 +38,7 @@ exports[`components/post_view/combined_system_message/LastUsers should match sna
 
 exports[`components/post_view/combined_system_message/LastUsers should match snapshot, expanded 1`] = `
 <FormattedHTMLMessage
-  defaultMessage="{users} and {lastUser} <b>added to channel</b> by {actor}."
+  defaultMessage="{users} and {lastUser} <b>added to the channel</b> by {actor}."
   id="combined_system_message.added_to_channel.many_expanded"
   values={
     Object {

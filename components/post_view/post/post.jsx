@@ -259,7 +259,7 @@ export default class Post extends React.PureComponent {
                         />
                     </span>
                 );
-            } else if (isSystemMessage) {
+            } else if (isSystemMessage || post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
                 profilePic = (
                     <MattermostLogo className='icon'/>
                 );
@@ -275,7 +275,6 @@ export default class Post extends React.PureComponent {
                             user={this.props.user}
                         />
                     );
-<<<<<<< HEAD
                 } else {
                     profilePic = (
                         <ProfilePicture
@@ -284,27 +283,6 @@ export default class Post extends React.PureComponent {
                         />
                     );
                 }
-=======
-                }
-            } else if (PostUtils.isSystemMessage(post)) {
-                profilePic = (
-                    <MattermostLogo className='icon'/>
-                );
-            } else if (fromWebhook) {
-                profilePic = (
-                    <ProfilePicture src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}/>
-                );
-            } else {
-                profilePic = (
-                    <ProfilePicture
-                        src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                        status={status}
-                        user={this.props.user}
-                        isBusy={this.props.isBusy}
-                        hasMention={true}
-                    />
-                );
->>>>>>> make users unique per system message type and add priority to fix order in showing messages
             }
         }
 

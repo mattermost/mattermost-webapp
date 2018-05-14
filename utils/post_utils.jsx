@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions, Posts} from 'mattermost-redux/constants';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
@@ -59,11 +59,10 @@ export function getImageSrc(src, hasImageProxy) {
 
 export function getProfilePicSrcForPost(post, user) {
     const config = getConfig(store.getState());
-
     let src = '';
     if (user && user.id === post.user_id) {
         src = Utils.imageURLForUser(user);
-    } else {
+    } else if (post.user_id) {
         src = Utils.imageURLForUser(post.user_id);
     }
 
@@ -77,7 +76,7 @@ export function getProfilePicSrcForPost(post, user) {
         } else {
             src = Constants.DEFAULT_WEBHOOK_LOGO;
         }
-    } else if (isSystemMessage(post)) {
+    } else if (isSystemMessage(post) || post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
         src = Constants.SYSTEM_MESSAGE_PROFILE_IMAGE;
     }
 

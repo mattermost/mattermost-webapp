@@ -13,7 +13,7 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
         actor: 'user_1',
         expandedLocale: {
             id: 'combined_system_message.added_to_channel.many_expanded',
-            defaultMessage: '{users} and {lastUser} <b>added to channel</b> by {actor}.',
+            defaultMessage: '{users} and {lastUser} <b>added to the channel</b> by {actor}.',
         },
         postType: Posts.POST_TYPES.ADD_TO_CHANNEL,
         userDisplayNames: ['user_2', 'user_3', 'user_4 '],
