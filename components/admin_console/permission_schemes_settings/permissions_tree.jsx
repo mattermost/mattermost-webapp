@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
 
 import PermissionGroup from './permission_group.jsx';
 
@@ -99,8 +100,18 @@ export default class PermissionsTree extends React.Component {
         return (
             <div className='permissions-tree'>
                 <div className='permissions-tree--header'>
-                    <div className='permission-name'>{'Permission'}</div>
-                    <div className='permission-description'>{'Description'}</div>
+                    <div className='permission-name'>
+                        <FormattedMessage
+                            id='admin.permissions.permissionsTree.permission'
+                            defaultMessage='Permission'
+                        />
+                    </div>
+                    <div className='permission-description'>
+                        <FormattedMessage
+                            id='admin.permissions.permissionsTree.description'
+                            defaultMessage='Description'
+                        />
+                    </div>
                 </div>
                 <div className='permissions-tree--body'>
                     <PermissionGroup

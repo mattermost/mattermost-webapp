@@ -10,12 +10,20 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      Permission
+      <FormattedMessage
+        defaultMessage="Permission"
+        id="admin.permissions.permissionsTree.permission"
+        values={Object {}}
+      />
     </div>
     <div
       className="permission-description"
     >
-      Description
+      <FormattedMessage
+        defaultMessage="Description"
+        id="admin.permissions.permissionsTree.description"
+        values={Object {}}
+      />
     </div>
   </div>
   <div
@@ -118,12 +126,20 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      Permission
+      <FormattedMessage
+        defaultMessage="Permission"
+        id="admin.permissions.permissionsTree.permission"
+        values={Object {}}
+      />
     </div>
     <div
       className="permission-description"
     >
-      Description
+      <FormattedMessage
+        defaultMessage="Description"
+        id="admin.permissions.permissionsTree.description"
+        values={Object {}}
+      />
     </div>
   </div>
   <div
@@ -226,12 +242,20 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      Permission
+      <FormattedMessage
+        defaultMessage="Permission"
+        id="admin.permissions.permissionsTree.permission"
+        values={Object {}}
+      />
     </div>
     <div
       className="permission-description"
     >
-      Description
+      <FormattedMessage
+        defaultMessage="Description"
+        id="admin.permissions.permissionsTree.description"
+        values={Object {}}
+      />
     </div>
   </div>
   <div
@@ -334,12 +358,20 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      Permission
+      <FormattedMessage
+        defaultMessage="Permission"
+        id="admin.permissions.permissionsTree.permission"
+        values={Object {}}
+      />
     </div>
     <div
       className="permission-description"
     >
-      Description
+      <FormattedMessage
+        defaultMessage="Description"
+        id="admin.permissions.permissionsTree.description"
+        values={Object {}}
+      />
     </div>
   </div>
   <div
@@ -442,12 +474,20 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      Permission
+      <FormattedMessage
+        defaultMessage="Permission"
+        id="admin.permissions.permissionsTree.permission"
+        values={Object {}}
+      />
     </div>
     <div
       className="permission-description"
     >
-      Description
+      <FormattedMessage
+        defaultMessage="Description"
+        id="admin.permissions.permissionsTree.description"
+        values={Object {}}
+      />
     </div>
   </div>
   <div

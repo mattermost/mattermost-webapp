@@ -251,6 +251,8 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permissions granted to team creators and any users promoted to Team Administrator.",
   "admin.permissions.systemScheme.systemAdminsTitle": "System Administrators",
   "admin.permissions.systemScheme.systemAdminsDescription": "Full permissions granted to System Administrators.",
+  "admin.permissions.permissionsTree.permission": "Permission",
+  "admin.permissions.permissionsTree.description": "Description",
   "admin.permissions.permissionSchemes.cancel": "Cancel",
   "admin.permissions.inherited_from": "Inherited from <a>{name}</a>",
   "admin.permissions.roles.all_users.name": "All members",
