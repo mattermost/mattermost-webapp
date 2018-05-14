@@ -2,24 +2,41 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import PermissionsSchemeSummary from './permissions_scheme_summary';
+
 export default class PermissionSchemesSettings extends React.PureComponent {
-    renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.permissions.permissionSchemes'
-                defaultMessage='Permission Schemes'
-            />
-        );
+    static propTypes = {
+        schemes: PropTypes.object.isRequired,
+        actions: PropTypes.shape({
+            loadSchemes: PropTypes.func.isRequired,
+        }),
+    };
+
+    static defaultProps = {
+        schemes: {},
+    };
+
+    componentDidMount() {
+        this.props.actions.loadSchemes('team');
     }
 
     render = () => {
+        const schemes = Object.values(this.props.schemes).map((scheme) => (<PermissionsSchemeSummary
+            scheme={scheme}
+            key={scheme.id}
+                                                                           />));
+
         return (
             <div className='wrapper--fixed'>
                 <h3 className='admin-console-header'>
-                    {this.renderTitle()}
+                    <FormattedMessage
+                        id='admin.permissions.permissionSchemes'
+                        defaultMessage='Permission Schemes'
+                    />
                 </h3>
 
                 <div className={'banner info'}>
@@ -61,6 +78,44 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                             </Link>
                         </div>
                     </div>
+                </div>
+
+                <div className='permissions-block'>
+                    <div className='header'>
+                        <div>
+                            <h3>
+                                <FormattedMessage
+                                    id='admin.permissions.teamOverrideSchemesTitle'
+                                    defaultMessage='Team Override Schemes'
+                                />
+                            </h3>
+                            <span>
+                                <FormattedMessage
+                                    id='admin.permissions.teamOverrideSchemesBannerText'
+                                    defaultMessage='Use when specific teams need permission exceptions to the System Scheme.'
+                                />
+                            </span>
+                        </div>
+                        <div className='button'>
+                            <Link
+                                className='btn btn-primary'
+                                to='/admin_console/permissions/team-override-scheme'
+                            >
+                                <FormattedMessage
+                                    id='admin.permissions.teamOverrideSchemesNewButton'
+                                    defaultMessage='New Team Override Scheme'
+                                />
+                            </Link>
+                        </div>
+                    </div>
+                    {schemes.length === 0 &&
+                        <div className='no-team-schemes'>
+                            <FormattedMessage
+                                id='admin.permissions.teamOverrideSchemesNoSchemes'
+                                defaultMessage='No team schemes found.'
+                            />
+                        </div> }
+                    {schemes.length > 0 && schemes}
                 </div>
             </div>
         );

@@ -258,3 +258,37 @@
         }
     }
 }
+
+.permissions-scheme-summary {
+    margin: .8em 1.5rem;
+    padding: .8em 1.5rem;
+    &:nth-child(odd) {
+        background: rgba(255, 255, 255, .4);
+    }
+    .permissions-scheme-summary--header {
+        display: flex;
+        flex-direction: row;
+        font-size: 1.1em;
+        .title {
+            flex-grow: 1;
+            font-weight: bold;
+        }
+        .actions {
+            flex-grow: 0;
+            a {
+                display: inline-block;
+                padding: 0 3px;
+            }
+        }
+    }
+    .permissions-scheme-summary--teams {
+        padding-top: 10px;
+        .team {
+            display: inline-block;
+            background: $light-gray;
+            border-radius: 15px;
+            padding: 3px 8px;
+            margin-right: 10px;
+        }
+    }
+}
