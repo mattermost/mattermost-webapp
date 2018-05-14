@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getSchemes as loadSchemes} from 'mattermost-redux/actions/schemes';
+import {getSchemeTeams as loadSchemeTeams, getSchemes as loadSchemes} from 'mattermost-redux/actions/schemes';
 import {getSchemes} from 'mattermost-redux/selectors/entities/schemes';
 
 import PermissionSchemesSettings from './permission_schemes_settings.jsx';
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadSchemes,
+            loadSchemeTeams,
         }, dispatch),
     };
 }

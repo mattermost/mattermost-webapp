@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 
 export default class PermissionsSchemeSummary extends React.Component {
@@ -16,7 +17,6 @@ export default class PermissionsSchemeSummary extends React.Component {
         scheme: PropTypes.object.isRequired,
         teams: PropTypes.array,
         actions: PropTypes.shape({
-            loadSchemeTeams: PropTypes.func.isRequired,
             deleteScheme: PropTypes.func.isRequired,
         }).isRequired,
     };
@@ -27,10 +27,6 @@ export default class PermissionsSchemeSummary extends React.Component {
             showConfirmModal: false,
             deleting: false,
         };
-    }
-
-    componentDidMount() {
-        this.props.actions.loadSchemeTeams(this.props.scheme.id);
     }
 
     renderConfirmModal = () => {
@@ -90,6 +86,10 @@ export default class PermissionsSchemeSummary extends React.Component {
         );
     }
 
+    stopPropagation = (e) => {
+        e.stopPropagation();
+    }
+
     handleDeleteCanceled = () => {
         this.setState({
             showConfirmModal: false,
@@ -102,16 +102,26 @@ export default class PermissionsSchemeSummary extends React.Component {
         this.setState({deleting: false, showConfirmModal: false});
     }
 
-    delete = () => {
+    delete = (e) => {
+        e.stopPropagation();
         this.setState({showConfirmModal: true});
+    }
+
+    goToEdit = () => {
+        browserHistory.push('/admin_console/permissions/team-override-scheme/' + this.props.scheme.id);
     }
 
     render = () => {
         const scheme = this.props.scheme;
-        let teams = this.props.teams ? this.props.teams.map((team) => (<span
-            className='team'
-            key={team.id}
-                                                                       >{team.name}</span>)) : [];
+
+        let teams = this.props.teams ? this.props.teams.map((team) => (
+            <span
+                className='team'
+                key={team.id}
+            >
+                {team.name}
+            </span>
+        )) : [];
 
         let extraTeams = null;
         if (teams.length > 8) {
@@ -121,7 +131,10 @@ export default class PermissionsSchemeSummary extends React.Component {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={
-                        <Tooltip id={scheme.id + '-extra-teams-overlay'}>
+                        <Tooltip
+                            className='team-scheme-extra-teams-overlay'
+                            id={scheme.id + '-extra-teams-overlay'}
+                        >
                             {teams.slice(8)}
                         </Tooltip>
                     }
@@ -143,9 +156,14 @@ export default class PermissionsSchemeSummary extends React.Component {
         const confirmModal = this.renderConfirmModal();
 
         return (
-            <div className='permissions-scheme-summary'>
-                {confirmModal}
-                <div className='permissions-scheme-summary--header'>
+            <div
+                className='permissions-scheme-summary'
+                onClick={this.goToEdit}
+            >
+                <div onClick={this.stopPropagation}>{confirmModal}</div>
+                <div
+                    className='permissions-scheme-summary--header'
+                >
                     <div className='title'>
                         {scheme.name}
                     </div>

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getSchemeTeams as loadSchemeTeams, deleteScheme} from 'mattermost-redux/actions/schemes';
+import {deleteScheme} from 'mattermost-redux/actions/schemes';
 
 import {makeGetSchemeTeams} from 'mattermost-redux/selectors/entities/schemes';
 
@@ -23,7 +23,6 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadSchemeTeams,
             deleteScheme,
         }, dispatch),
     };

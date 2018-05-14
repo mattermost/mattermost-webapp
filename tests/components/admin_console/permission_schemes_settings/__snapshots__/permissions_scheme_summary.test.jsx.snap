@@ -3,50 +3,55 @@
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on default data 1`] = `
 <div
   className="permissions-scheme-summary"
+  onClick={[Function]}
 >
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm deletion"
-        id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-        values={Object {}}
-      />
-    }
-    message={
-      <div>
-        <p>
-          <FormattedMessage
-            defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
-            id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
-            values={
-              Object {
-                "schemeName": "Test",
+  <div
+    onClick={[Function]}
+  >
+    <ConfirmModal
+      confirmButtonClass="btn btn-primary"
+      confirmButtonText={
+        <FormattedMessage
+          defaultMessage="Confirm deletion"
+          id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
+          values={Object {}}
+        />
+      }
+      message={
+        <div>
+          <p>
+            <FormattedMessage
+              defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
+              id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
+              values={
+                Object {
+                  "schemeName": "Test",
+                }
               }
-            }
-          />
-        </p>
-        <p>
-          <FormattedMessage
-            defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
-            id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
-            values={Object {}}
-          />
-        </p>
-      </div>
-    }
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm scheme deletion"
-        id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
-        values={Object {}}
-      />
-    }
-  />
+            />
+          </p>
+          <p>
+            <FormattedMessage
+              defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
+              id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
+              values={Object {}}
+            />
+          </p>
+        </div>
+      }
+      modalClass=""
+      onCancel={[Function]}
+      onConfirm={[Function]}
+      show={false}
+      title={
+        <FormattedMessage
+          defaultMessage="Confirm scheme deletion"
+          id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
+          values={Object {}}
+        />
+      }
+    />
+  </div>
   <div
     className="permissions-scheme-summary--header"
   >
@@ -115,50 +120,55 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on more than eight teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  onClick={[Function]}
 >
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm deletion"
-        id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-        values={Object {}}
-      />
-    }
-    message={
-      <div>
-        <p>
-          <FormattedMessage
-            defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
-            id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
-            values={
-              Object {
-                "schemeName": "Test",
+  <div
+    onClick={[Function]}
+  >
+    <ConfirmModal
+      confirmButtonClass="btn btn-primary"
+      confirmButtonText={
+        <FormattedMessage
+          defaultMessage="Confirm deletion"
+          id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
+          values={Object {}}
+        />
+      }
+      message={
+        <div>
+          <p>
+            <FormattedMessage
+              defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
+              id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
+              values={
+                Object {
+                  "schemeName": "Test",
+                }
               }
-            }
-          />
-        </p>
-        <p>
-          <FormattedMessage
-            defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
-            id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
-            values={Object {}}
-          />
-        </p>
-      </div>
-    }
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm scheme deletion"
-        id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
-        values={Object {}}
-      />
-    }
-  />
+            />
+          </p>
+          <p>
+            <FormattedMessage
+              defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
+              id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
+              values={Object {}}
+            />
+          </p>
+        </div>
+      }
+      modalClass=""
+      onCancel={[Function]}
+      onConfirm={[Function]}
+      show={false}
+      title={
+        <FormattedMessage
+          defaultMessage="Confirm scheme deletion"
+          id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
+          values={Object {}}
+        />
+      }
+    />
+  </div>
   <div
     className="permissions-scheme-summary--header"
   >
@@ -256,6 +266,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       overlay={
         <Tooltip
           bsClass="tooltip"
+          className="team-scheme-extra-teams-overlay"
           id="id-extra-teams-overlay"
           placement="right"
         >
@@ -301,50 +312,55 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on no teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  onClick={[Function]}
 >
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm deletion"
-        id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
-        values={Object {}}
-      />
-    }
-    message={
-      <div>
-        <p>
-          <FormattedMessage
-            defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
-            id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
-            values={
-              Object {
-                "schemeName": "Test",
+  <div
+    onClick={[Function]}
+  >
+    <ConfirmModal
+      confirmButtonClass="btn btn-primary"
+      confirmButtonText={
+        <FormattedMessage
+          defaultMessage="Confirm deletion"
+          id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
+          values={Object {}}
+        />
+      }
+      message={
+        <div>
+          <p>
+            <FormattedMessage
+              defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
+              id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
+              values={
+                Object {
+                  "schemeName": "Test",
+                }
               }
-            }
-          />
-        </p>
-        <p>
-          <FormattedMessage
-            defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
-            id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
-            values={Object {}}
-          />
-        </p>
-      </div>
-    }
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm scheme deletion"
-        id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
-        values={Object {}}
-      />
-    }
-  />
+            />
+          </p>
+          <p>
+            <FormattedMessage
+              defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
+              id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
+              values={Object {}}
+            />
+          </p>
+        </div>
+      }
+      modalClass=""
+      onCancel={[Function]}
+      onConfirm={[Function]}
+      show={false}
+      title={
+        <FormattedMessage
+          defaultMessage="Confirm scheme deletion"
+          id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
+          values={Object {}}
+        />
+      }
+    />
+  </div>
   <div
     className="permissions-scheme-summary--header"
   >

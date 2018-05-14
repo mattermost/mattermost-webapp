@@ -256,7 +256,7 @@
   "admin.permissions.teamOverrideSchemesTitle": "Team Override Schemes",
   "admin.permissions.teamOverrideSchemesBannerText": "Use when specific teams need permission exceptions to the System Scheme.",
   "admin.permissions.teamOverrideSchemesNewButton": "New Team Override Scheme",
-  "admin.permissions.teamOverrideSchemesNoSchemes": "No team schemes found.",
+  "admin.permissions.teamOverrideSchemesNoSchemes": "No team override schemes created.",
   "admin.permissions.permissionsSchemeSummary.deleteSchemeTitle": "Confirm scheme deletion",
   "admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion": "Are you sure you want to delete the {schemeName} scheme?",
   "admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation": "Once deleted, all the teams using this scheme will start to use the default system scheme.",

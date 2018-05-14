@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import LoadingScreen from 'components/loading_screen.jsx';
+
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 export default class PermissionSchemesSettings extends React.PureComponent {
@@ -13,22 +15,41 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: PropTypes.array.isRequired,
         actions: PropTypes.shape({
             loadSchemes: PropTypes.func.isRequired,
+            loadSchemeTeams: PropTypes.func.isRequired,
         }),
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+        };
+    }
 
     static defaultProps = {
         schemes: [],
     };
 
     componentDidMount() {
-        this.props.actions.loadSchemes('team');
+        this.props.actions.loadSchemes('team').then((schemes) => {
+            var promises = [];
+            for (var scheme of schemes.data) {
+                promises.push(this.props.actions.loadSchemeTeams(scheme.id));
+            }
+            Promise.all(promises).then(() => this.setState({loading: false}));
+        });
     }
 
     render = () => {
-        const schemes = Object.values(this.props.schemes).map((scheme) => (<PermissionsSchemeSummary
-            scheme={scheme}
-            key={scheme.id}
-                                                                           />));
+        if (this.state.loading) {
+            return (<LoadingScreen/>);
+        }
+        const schemes = Object.values(this.props.schemes).map((scheme) => (
+            <PermissionsSchemeSummary
+                scheme={scheme}
+                key={scheme.id}
+            />
+        ));
 
         return (
             <div className='wrapper--fixed'>
@@ -112,7 +133,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         <div className='no-team-schemes'>
                             <FormattedMessage
                                 id='admin.permissions.teamOverrideSchemesNoSchemes'
-                                defaultMessage='No team schemes found.'
+                                defaultMessage='No team override schemes created.'
                             />
                         </div> }
                     {schemes.length > 0 && schemes}

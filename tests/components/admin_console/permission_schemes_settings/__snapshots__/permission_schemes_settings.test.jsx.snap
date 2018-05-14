@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/admin_console/permission_schemes_settings/permission_schemes_settings should match snapshot loading 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
+`;
+
 exports[`components/admin_console/permission_schemes_settings/permission_schemes_settings should match snapshot with schemes 1`] = `
 <div
   className="wrapper--fixed"
@@ -248,7 +255,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       className="no-team-schemes"
     >
       <FormattedMessage
-        defaultMessage="No team schemes found."
+        defaultMessage="No team override schemes created."
         id="admin.permissions.teamOverrideSchemesNoSchemes"
         values={Object {}}
       />

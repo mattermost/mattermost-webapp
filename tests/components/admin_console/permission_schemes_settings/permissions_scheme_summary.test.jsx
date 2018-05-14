@@ -20,7 +20,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
             {id: 'team-3', name: 'Team 3'},
         ],
         actions: {
-            loadSchemeTeams: jest.fn(),
+            loadSchemeTeams: jest.fn().mockReturnValueOnce(Promise.resolve()),
             deleteScheme: jest.fn(),
         },
     };
@@ -74,14 +74,14 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
                 }}
             />
         );
-        expect(deleteScheme).not.toBeCalled()
-        wrapper.find(".delete-button").first().simulate('click')
-        expect(deleteScheme).not.toBeCalled()
-        wrapper.find(ConfirmModal).first().prop('onCancel')()
-        expect(deleteScheme).not.toBeCalled()
+        expect(deleteScheme).not.toBeCalled();
+        wrapper.find('.delete-button').first().simulate('click', {stopPropagation: jest.fn()});
+        expect(deleteScheme).not.toBeCalled();
+        wrapper.find(ConfirmModal).first().prop('onCancel')();
+        expect(deleteScheme).not.toBeCalled();
 
-        wrapper.find(".delete-button").first().simulate('click')
-        wrapper.find(ConfirmModal).first().prop('onConfirm')()
-        expect(deleteScheme).toBeCalledWith('id')
+        wrapper.find('.delete-button').first().simulate('click', {stopPropagation: jest.fn()});
+        wrapper.find(ConfirmModal).first().prop('onConfirm')();
+        expect(deleteScheme).toBeCalledWith('id');
     });
 });
