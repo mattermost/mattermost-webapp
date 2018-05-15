@@ -74,7 +74,7 @@ const PluginItemStateDescription = ({state}) => {
     case PluginState.PLUGIN_STATE_NOT_RUNNING:
         return (
             <div className='alert alert-info'>
-                <i className='fa fa-info'/>
+                <i className='fa fa-ban'/>
                 <FormattedMessage
                     id='admin.plugin.state.not_running.description'
                     defaultMessage='This plugin is not activated.'
@@ -84,7 +84,7 @@ const PluginItemStateDescription = ({state}) => {
     case PluginState.PLUGIN_STATE_STARTING:
         return (
             <div className='alert alert-success'>
-                <i className='fa fa-info'/>
+                <i className='fa fa-check'/>
                 <FormattedMessage
                     id='admin.plugin.state.starting.description'
                     defaultMessage='This plugin is starting.'
