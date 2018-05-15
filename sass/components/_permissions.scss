@@ -149,6 +149,7 @@
         height: 100%;
         overflow: hidden;
         width: 100%;
+        opacity: .3;
 
         span {
             display: inline-block;
@@ -231,6 +232,9 @@
         &:hover {
             background-color: lighten($primary-color, 40%);
             border-left: 2px solid $primary-color;
+            .permission-description {
+                opacity: 1;
+            }
         }
 
         &.selected {
