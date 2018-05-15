@@ -267,16 +267,15 @@ export default class PostList extends React.PureComponent {
         }
 
         const messageSeparator = this.refs.newMessageSeparator;
-        if (messageSeparator) {
-            // Scroll to new message indicator since we have unread posts
+
+        // Scroll to new message indicator since we have unread posts and we can't show every new post in the screen
+        if (messageSeparator && (postList.scrollHeight - messageSeparator.offsetTop) > postList.clientHeight) {
             messageSeparator.scrollIntoView();
-            if (!this.checkBottom()) {
-                this.setUnreadsBelow(posts, this.props.currentUserId);
-            }
+            this.setUnreadsBelow(posts, this.props.currentUserId);
             return true;
         }
 
-        // Scroll to bottom since we don't have unread posts
+        // Scroll to bottom since we don't have unread posts or we can show every new post in the screen
         postList.scrollTop = postList.scrollHeight;
         this.atBottom = true;
         return true;
