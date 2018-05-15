@@ -548,6 +548,12 @@ export default class PluginManagement extends React.Component {
                     return 1;
                 }
 
+                if (a.cluster_id < b.cluster_id) {
+                    return -1;
+                } else if (a.cluster_id > b.cluster_id) {
+                    return 1;
+                }
+
                 return 0;
             });
             pluginsList = plugins.map((pluginStatus) => (
