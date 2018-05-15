@@ -328,8 +328,7 @@ class UserStoreClass extends EventEmitter {
     removeProfileFromTeam(teamId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
-            data: {user_id: userId},
-            id: teamId,
+            data: {id: teamId, user_id: userId},
         });
     }
 
@@ -364,8 +363,7 @@ class UserStoreClass extends EventEmitter {
     removeProfileNotInTeam(teamId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_TEAM,
-            data: {user_id: userId},
-            id: teamId,
+            data: {id: teamId, user_id: userId},
         });
     }
 
@@ -374,24 +372,21 @@ class UserStoreClass extends EventEmitter {
     saveProfileInChannel(channelId = ChannelStore.getCurrentId(), profile) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: profile.id},
-            id: channelId,
+            data: {id: channelId, user_id: profile.id},
         });
     }
 
     saveUserIdInChannel(channelId = ChannelStore.getCurrentId(), userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: userId},
-            id: channelId,
+            data: {id: channelId, user_id: userId},
         });
     }
 
     removeProfileInChannel(channelId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {user_id: userId},
-            id: channelId,
+            data: {id: channelId, user_id: userId},
         });
     }
 
@@ -404,16 +399,14 @@ class UserStoreClass extends EventEmitter {
     saveProfileNotInChannel(channelId = ChannelStore.getCurrentId(), profile) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {user_id: profile.id},
-            id: channelId,
+            data: {id: channelId, user_id: profile.id},
         });
     }
 
     removeProfileNotInChannel(channelId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: userId},
-            id: channelId,
+            data: {id: channelId, user_id: userId},
         });
     }
 
