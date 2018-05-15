@@ -12,7 +12,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
         <FormattedMessage
-          defaultMessage="Confirm deletion"
+          defaultMessage="Yes, Delete"
           id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
           values={Object {}}
         />
@@ -21,20 +21,13 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <div>
           <p>
             <FormattedMessage
-              defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
+              defaultMessage="The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?"
               id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
               values={
                 Object {
                   "schemeName": "Test",
                 }
               }
-            />
-          </p>
-          <p>
-            <FormattedMessage
-              defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
-              id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
-              values={Object {}}
             />
           </p>
         </div>
@@ -45,9 +38,13 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       show={false}
       title={
         <FormattedMessage
-          defaultMessage="Confirm scheme deletion"
+          defaultMessage="Delete {scheme} scheme?"
           id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
-          values={Object {}}
+          values={
+            Object {
+              "scheme": "Test",
+            }
+          }
         />
       }
     />
@@ -129,7 +126,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
         <FormattedMessage
-          defaultMessage="Confirm deletion"
+          defaultMessage="Yes, Delete"
           id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
           values={Object {}}
         />
@@ -138,20 +135,13 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <div>
           <p>
             <FormattedMessage
-              defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
+              defaultMessage="The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?"
               id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
               values={
                 Object {
                   "schemeName": "Test",
                 }
               }
-            />
-          </p>
-          <p>
-            <FormattedMessage
-              defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
-              id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
-              values={Object {}}
             />
           </p>
         </div>
@@ -162,9 +152,13 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       show={false}
       title={
         <FormattedMessage
-          defaultMessage="Confirm scheme deletion"
+          defaultMessage="Delete {scheme} scheme?"
           id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
-          values={Object {}}
+          values={
+            Object {
+              "scheme": "Test",
+            }
+          }
         />
       }
     />
@@ -321,7 +315,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
         <FormattedMessage
-          defaultMessage="Confirm deletion"
+          defaultMessage="Yes, Delete"
           id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
           values={Object {}}
         />
@@ -330,20 +324,13 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         <div>
           <p>
             <FormattedMessage
-              defaultMessage="Are you sure you want to delete the {schemeName} scheme?"
+              defaultMessage="The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?"
               id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
               values={
                 Object {
                   "schemeName": "Test",
                 }
               }
-            />
-          </p>
-          <p>
-            <FormattedMessage
-              defaultMessage="Once deleted, all the teams using this scheme will start to use the default system scheme."
-              id="admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation"
-              values={Object {}}
             />
           </p>
         </div>
@@ -354,9 +341,13 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       show={false}
       title={
         <FormattedMessage
-          defaultMessage="Confirm scheme deletion"
+          defaultMessage="Delete {scheme} scheme?"
           id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
-          values={Object {}}
+          values={
+            Object {
+              "scheme": "Test",
+            }
+          }
         />
       }
     />

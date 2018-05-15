@@ -10,6 +10,8 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
+const PAGE_SIZE = 30;
+
 export default class PermissionSchemesSettings extends React.PureComponent {
     static propTypes = {
         schemes: PropTypes.array.isRequired,
@@ -23,6 +25,8 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         super(props);
         this.state = {
             loading: true,
+            loadingMore: false,
+            page: 0,
         };
     }
 
@@ -31,12 +35,23 @@ export default class PermissionSchemesSettings extends React.PureComponent {
     };
 
     componentDidMount() {
-        this.props.actions.loadSchemes('team').then((schemes) => {
+        this.props.actions.loadSchemes('team', 0, PAGE_SIZE).then((schemes) => {
             var promises = [];
             for (var scheme of schemes.data) {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
             Promise.all(promises).then(() => this.setState({loading: false}));
+        });
+    }
+
+    loadMoreSchemes = () => {
+        this.setState({loadingMore: true});
+        this.props.actions.loadSchemes('team', this.state.page + 1, PAGE_SIZE).then((schemes) => {
+            var promises = [];
+            for (var scheme of schemes.data) {
+                promises.push(this.props.actions.loadSchemeTeams(scheme.id));
+            }
+            Promise.all(promises).then(() => this.setState({loadingMore: false, page: this.state.page + 1}));
         });
     }
 
@@ -137,6 +152,24 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                             />
                         </div> }
                     {schemes.length > 0 && schemes}
+                    {!this.state.loadingMore && schemes.length === (PAGE_SIZE * (this.state.page + 1)) &&
+                        <button
+                            className='more-schemes theme style--none color--link'
+                            onClick={this.loadMoreSchemes}
+                        >
+                            <FormattedMessage
+                                id='admin.permissions.loadMoreSchemes'
+                                defaultMessage='Load more schemes'
+                            />
+                        </button>}
+                    {this.state.loadingMore &&
+                        <button className='more-schemes theme style--none color--link'>
+                            <span className='fa fa-refresh icon--rotate'/>
+                            <FormattedMessage
+                                id='admin.permissions.loadingMoreSchemes'
+                                defaultMessage='Loading...'
+                            />
+                        </button>}
                 </div>
             </div>
         );

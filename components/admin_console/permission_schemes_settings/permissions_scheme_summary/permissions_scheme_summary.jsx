@@ -26,6 +26,7 @@ export default class PermissionsSchemeSummary extends React.Component {
         this.state = {
             showConfirmModal: false,
             deleting: false,
+            serverError: null,
         };
     }
 
@@ -38,6 +39,15 @@ export default class PermissionsSchemeSummary extends React.Component {
             />
         );
 
+        let serverError = null;
+        if (this.state.serverError) {
+            serverError = (
+                <div className='permission-scheme-summary-error-message'>
+                    <i className='fa fa-exclamation-circle'/> {this.state.serverError}
+                </div>
+            );
+        }
+
         const message = (
             <div>
                 <p>
@@ -45,9 +55,9 @@ export default class PermissionsSchemeSummary extends React.Component {
                         id='admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion'
                         defaultMessage='The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?'
                         values={{schemeName: this.props.scheme.name}}
-            
                     />
                 </p>
+                {serverError}
             </div>
         );
 
@@ -93,14 +103,18 @@ export default class PermissionsSchemeSummary extends React.Component {
     }
 
     handleDeleteConfirmed = async () => {
-        this.setState({deleting: true});
-        await this.props.actions.deleteScheme(this.props.scheme.id);
-        this.setState({deleting: false, showConfirmModal: false});
+        this.setState({deleting: true, serverError: null});
+        const data = await this.props.actions.deleteScheme(this.props.scheme.id);
+        if (data.error) {
+            this.setState({deleting: false, serverError: data.error.message});
+        } else {
+            this.setState({deleting: false, showConfirmModal: false});
+        }
     }
 
     delete = (e) => {
         e.stopPropagation();
-        this.setState({showConfirmModal: true});
+        this.setState({showConfirmModal: true, serverError: null});
     }
 
     goToEdit = () => {

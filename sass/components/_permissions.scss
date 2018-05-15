@@ -25,6 +25,13 @@
     &.simple {
     }
 
+    .more-schemes {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        text-decoration: none;
+    }
+
     .header {
         align-items: center;
         background: $white;
@@ -324,4 +331,8 @@
         display: flex;
         flex-direction: column;
     }
+}
+
+.permission-scheme-summary-error-message {
+    color: $red;
 }
