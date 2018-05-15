@@ -3,15 +3,15 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
+
+import {getRelativeChannelURL} from 'utils/url.jsx';
+import {areObjectsEqual} from 'utils/utils.jsx';
 
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -20,8 +20,11 @@ const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
-export default class MoreChannels extends React.Component {
+export default class MoreChannels extends React.PureComponent {
     static propTypes = {
+        channels: PropTypes.array.isRequired,
+        teamId: PropTypes.string.isRequired,
+        teamName: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
         actions: PropTypes.shape({
@@ -32,25 +35,24 @@ export default class MoreChannels extends React.Component {
     constructor(props) {
         super(props);
 
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-
         this.searchTimeoutId = 0;
 
         this.state = {
             show: true,
             search: false,
-            channels: null,
+            channels: props.channels,
             serverError: null,
         };
     }
 
     componentDidMount() {
-        ChannelStore.addChangeListener(this.onChange);
-        this.props.actions.getChannels(TeamStore.getCurrentId(), 0, CHANNELS_CHUNK_SIZE * 2);
+        this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
     }
 
-    componentWillUnmount() {
-        ChannelStore.removeChangeListener(this.onChange);
+    componentWillReceiveProps(nextProps) {
+        if (!areObjectsEqual(nextProps.channels, this.props.channels)) {
+            this.setState({channels: nextProps.channels});
+        }
     }
 
     handleHide = () => {
@@ -69,20 +71,20 @@ export default class MoreChannels extends React.Component {
         }
 
         this.setState({
-            channels: ChannelStore.getMoreChannelsList(),
+            channels: this.props.channels,
             serverError: null,
         });
     }
 
     nextPage = (page) => {
-        this.props.actions.getChannels(TeamStore.getCurrentId(), page + 1, CHANNELS_PER_PAGE);
+        this.props.actions.getChannels(this.props.teamId, page + 1, CHANNELS_PER_PAGE);
     }
 
     handleJoin = (channel, done) => {
         joinChannel(
             channel,
             () => {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+                browserHistory.push(getRelativeChannelURL(this.props.teamName, channel.name));
                 if (done) {
                     done();
                 }
@@ -132,9 +134,11 @@ export default class MoreChannels extends React.Component {
             serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
         }
 
+        const {teamId} = this.props;
+
         const createNewChannelButton = (
             <TeamPermissionGate
-                teamId={TeamStore.getCurrentId()}
+                teamId={teamId}
                 permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
             >
                 <button
@@ -153,7 +157,7 @@ export default class MoreChannels extends React.Component {
 
         const createChannelHelpText = (
             <TeamPermissionGate
-                teamId={TeamStore.getCurrentId()}
+                teamId={teamId}
                 permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
             >
                 <p className='secondary-message'>
