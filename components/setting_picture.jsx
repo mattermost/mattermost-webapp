@@ -137,6 +137,7 @@ export default class SettingPicture extends Component {
                         <div
                             alt={`${imageContext} image preview`}
                             style={imageStyles}
+                            className={`${imageContext}-img-preview`}
                         />
                     </div>
                 </div>

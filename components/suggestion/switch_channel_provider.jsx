@@ -155,14 +155,14 @@ function makeChannelSearchFilter(channelPrefix) {
         let searchString = channel.display_name;
 
         if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
-            const usersInChannel = usersInChannels[channel.id] || [];
+            const usersInChannel = usersInChannels[channel.id] || new Set([]);
 
             // In case the channel is a DM and the profilesInChannel is not populated
             if (!usersInChannel.length && channel.type === Constants.DM_CHANNEL) {
                 const userId = Utils.getUserIdFromChannelId(channel.name);
                 const user = getUser(curState, userId);
                 if (user) {
-                    usersInChannel.push(userId);
+                    usersInChannel.add(userId);
                 }
             }
 

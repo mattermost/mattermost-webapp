@@ -9,6 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
@@ -113,15 +114,6 @@ export function isSystemAdmin(roles) {
     }
 
     return false;
-}
-
-export function getCookie(name) {
-    var value = '; ' + document.cookie;
-    var parts = value.split('; ' + name + '=');
-    if (parts.length === 2) {
-        return parts.pop().split(';').shift();
-    }
-    return '';
 }
 
 var requestedNotificationPermission = false;
@@ -506,21 +498,6 @@ export function getIconClassName(fileTypeIn) {
     return 'generic';
 }
 
-export function splitFileLocation(fileLocation) {
-    var fileSplit = fileLocation.split('.');
-
-    var ext = '';
-    if (fileSplit.length > 1) {
-        ext = fileSplit[fileSplit.length - 1];
-        fileSplit.splice(fileSplit.length - 1, 1);
-    }
-
-    var filePath = fileSplit.join('.');
-    var filename = filePath.split('/')[filePath.split('/').length - 1];
-
-    return {ext, name: filename, path: filePath};
-}
-
 export function sortFilesByName(files) {
     const locale = LocalizationStore.getLocale();
     return Array.from(files).sort((a, b) => a.name.localeCompare(b.name, locale, {numeric: true}));
@@ -729,6 +706,7 @@ export function applyTheme(theme) {
         changeCss('@media(min-width: 768px){.app__body .search-bar__container .search__form .search-bar, .app__body .form-control', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon, .app__body .form-control, .app__body .post-create__container .post-body__actions > span, .app__body .post-create__container .post-body__actions > a', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .form-control:focus', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
@@ -951,21 +929,6 @@ export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }
 
-export function getSelectedText(input) {
-    var selectedText;
-    if (typeof document.selection !== 'undefined') {
-        input.focus();
-        var sel = document.selection.createRange();
-        selectedText = sel.text;
-    } else if (typeof input.selectionStart !== 'undefined') {
-        var startPos = input.selectionStart;
-        var endPos = input.selectionEnd;
-        selectedText = input.value.substring(startPos, endPos);
-    }
-
-    return selectedText;
-}
-
 export function isValidUsername(name) {
     var error = '';
     if (!name) {
@@ -1060,28 +1023,6 @@ export function changeColor(colourIn, amt) {
     }
 
     return rgb;
-}
-
-export function changeOpacity(oldColor, opacity) {
-    var color = oldColor;
-    if (color[0] === '#') {
-        color = color.slice(1);
-    }
-
-    if (color.length === 3) {
-        const tempColor = color;
-        color = '';
-
-        color += tempColor[0] + tempColor[0];
-        color += tempColor[1] + tempColor[1];
-        color += tempColor[2] + tempColor[2];
-    }
-
-    var r = parseInt(color.substring(0, 2), 16);
-    var g = parseInt(color.substring(2, 4), 16);
-    var b = parseInt(color.substring(4, 6), 16);
-
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
 }
 
 export function getFullName(user) {
@@ -1296,11 +1237,6 @@ export function getUserIdFromChannelId(channelId) {
     return otherUserId;
 }
 
-// Returns true if the given channel is a direct channel between the current user and the given one
-export function isDirectChannelForUser(otherUserId, channel) {
-    return channel.type === Constants.DM_CHANNEL && getUserIdFromChannelName(channel) === otherUserId;
-}
-
 export function importSlack(file, success, error) {
     Client4.importTeam(TeamStore.getCurrent().id, file, 'slack').then(success).catch(error);
 }
@@ -1311,24 +1247,6 @@ export function windowWidth() {
 
 export function windowHeight() {
     return $(window).height();
-}
-
-export function getChannelTerm(channelType) {
-    let channelTerm = 'Channel';
-    if (channelType === Constants.PRIVATE_CHANNEL) {
-        channelTerm = 'Group';
-    }
-
-    return channelTerm;
-}
-
-export function getPostTerm(post) {
-    let postTerm = 'Post';
-    if (post.root_id) {
-        postTerm = 'Comment';
-    }
-
-    return postTerm;
 }
 
 export function isFeatureEnabled(feature) {
