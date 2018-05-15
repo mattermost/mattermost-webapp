@@ -84,7 +84,7 @@ const PluginItemStateDescription = ({state}) => {
     case PluginState.PLUGIN_STATE_STARTING:
         return (
             <div className='alert alert-success'>
-                <i className='fa fa-check'/>
+                <i className='fa fa-info'/>
                 <FormattedMessage
                     id='admin.plugin.state.starting.description'
                     defaultMessage='This plugin is starting.'
@@ -94,7 +94,7 @@ const PluginItemStateDescription = ({state}) => {
     case PluginState.PLUGIN_STATE_RUNNING:
         return (
             <div className='alert alert-success'>
-                <i className='fa fa-info'/>
+                <i className='fa fa-check'/>
                 <FormattedMessage
                     id='admin.plugin.state.running.description'
                     defaultMessage='This plugin is running.'
@@ -285,6 +285,17 @@ const PluginItem = ({
         />
     );
 
+    let instances = pluginStatus.instances;
+    instances.sort((a, b) => {
+        if (a.cluster_id < b.cluster_id) {
+            return -1;
+        } else if (a.cluster_id > b.cluster_id) {
+            return 1;
+        }
+
+        return 0;
+    });
+
     let clusterSummary;
     if (showInstances) {
         clusterSummary = (
@@ -315,7 +326,7 @@ const PluginItem = ({
                         </strong>
                     </div>
                 </div>
-                {pluginStatus.instances.map((instance) => (
+                {instances.map((instance) => (
                     <div
                         key={instance.cluster_id}
                         className='row'
@@ -545,12 +556,6 @@ export default class PluginManagement extends React.Component {
                 if (a.name < b.name) {
                     return -1;
                 } else if (a.name > b.name) {
-                    return 1;
-                }
-
-                if (a.cluster_id < b.cluster_id) {
-                    return -1;
-                } else if (a.cluster_id > b.cluster_id) {
                     return 1;
                 }
 
