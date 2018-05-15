@@ -2514,7 +2514,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <Connect(ThemeSetting)
+      <ThemeSetting
         selected={true}
         setEnforceFocus={[MockFunction]}
         setRequireConfirm={[MockFunction]}

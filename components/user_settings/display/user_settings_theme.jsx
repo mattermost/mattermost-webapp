@@ -17,10 +17,18 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-import CustomThemeChooser from '../custom_theme_chooser.jsx';
-import PremadeThemeChooser from '../premade_theme_chooser';
+import CustomThemeChooser from './custom_theme_chooser.jsx';
+import PremadeThemeChooser from './premade_theme_chooser';
 
 export default class ThemeSetting extends React.Component {
+    static propTypes = {
+        selected: PropTypes.bool.isRequired,
+        updateSection: PropTypes.func.isRequired,
+        setRequireConfirm: PropTypes.func.isRequired,
+        setEnforceFocus: PropTypes.func.isRequired,
+        allowCustomThemes: PropTypes.bool,
+    };
+
     constructor(props) {
         super(props);
 
@@ -68,16 +76,11 @@ export default class ThemeSetting extends React.Component {
             theme.codeTheme = Constants.DEFAULT_CODE_THEME;
         }
 
-        let showAllTeamsCheckbox = false;
-        let applyToAllTeams = true;
+        // show the "apply to all teams" checkbox if the user is on more than one team
+        const showAllTeamsCheckbox = Object.keys(TeamStore.getAll()).length > 1;
 
-        if (this.props.isLicensed && this.props.ldap) {
-            // show the "apply to all teams" checkbox if the user is on more than one team
-            showAllTeamsCheckbox = Object.keys(TeamStore.getAll()).length > 1;
-
-            // check the "apply to all teams" checkbox by default if the user has any team-specific themes
-            applyToAllTeams = PreferenceStore.getCategory(Preferences.CATEGORY_THEME).size <= 1;
-        }
+        // check the "apply to all teams" checkbox by default if the user has any team-specific themes
+        const applyToAllTeams = PreferenceStore.getCategory(Preferences.CATEGORY_THEME).size <= 1;
 
         return {
             teamId: TeamStore.getCurrentId(),
@@ -118,7 +121,7 @@ export default class ThemeSetting extends React.Component {
                 this.setState({isSaving: false});
             }
         );
-    }
+    };
 
     updateTheme = (theme) => {
         let themeChanged = this.state.theme.length === theme.length;
@@ -137,7 +140,7 @@ export default class ThemeSetting extends React.Component {
 
         this.setState({theme});
         Utils.applyTheme(theme);
-    }
+    };
 
     updateType(type) {
         this.setState({type});
@@ -152,7 +155,7 @@ export default class ThemeSetting extends React.Component {
         Utils.applyTheme(state.theme);
 
         this.props.setRequireConfirm(false);
-    }
+    };
 
     handleImportModal = () => {
         AppDispatcher.handleViewAction({
@@ -162,14 +165,14 @@ export default class ThemeSetting extends React.Component {
         });
 
         this.props.setEnforceFocus(false);
-    }
+    };
 
     handleUpdateSection = (section) => {
         this.props.updateSection(section);
-    }
+    };
 
     render() {
-        var serverError;
+        let serverError;
         if (this.state.serverError) {
             serverError = this.state.serverError;
         }
@@ -344,13 +347,3 @@ export default class ThemeSetting extends React.Component {
         return themeUI;
     }
 }
-
-ThemeSetting.propTypes = {
-    selected: PropTypes.bool.isRequired,
-    updateSection: PropTypes.func.isRequired,
-    setRequireConfirm: PropTypes.func.isRequired,
-    setEnforceFocus: PropTypes.func.isRequired,
-    allowCustomThemes: PropTypes.bool,
-    isLicensed: PropTypes.bool.isRequired,
-    ldap: PropTypes.bool.isRequired,
-};
