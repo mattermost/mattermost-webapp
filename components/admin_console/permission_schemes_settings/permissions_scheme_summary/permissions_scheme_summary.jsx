@@ -33,7 +33,8 @@ export default class PermissionsSchemeSummary extends React.Component {
         const title = (
             <FormattedMessage
                 id='admin.permissions.permissionsSchemeSummary.deleteSchemeTitle'
-                defaultMessage='Confirm scheme deletion'
+                defaultMessage='Delete {scheme} scheme?'
+                values={{scheme: this.props.scheme.name}}
             />
         );
 
@@ -42,14 +43,9 @@ export default class PermissionsSchemeSummary extends React.Component {
                 <p>
                     <FormattedMessage
                         id='admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion'
-                        defaultMessage='Are you sure you want to delete the {schemeName} scheme?'
+                        defaultMessage='The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?'
                         values={{schemeName: this.props.scheme.name}}
-                    />
-                </p>
-                <p>
-                    <FormattedMessage
-                        id='admin.permissions.permissionsSchemeSummary.deleteConfirmExplanation'
-                        defaultMessage='Once deleted, all the teams using this scheme will start to use the default system scheme.'
+            
                     />
                 </p>
             </div>
@@ -58,7 +54,7 @@ export default class PermissionsSchemeSummary extends React.Component {
         let confirmButton = (
             <FormattedMessage
                 id='admin.permissions.permissionsSchemeSummary.deleteConfirmButton'
-                defaultMessage='Confirm deletion'
+                defaultMessage='Yes, Delete'
             />
         );
 
