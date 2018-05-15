@@ -72,7 +72,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
             if (this.state.openRoles.all_users) {
                 selected.scrollIntoView({behavior: 'smooth', block: 'center'});
             } else {
-                this.toggleRole('all_users', false);
+                this.toggleRole('all_users');
 
                 // Give it time to open and show everything
                 setTimeout(() => {
@@ -156,17 +156,9 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         );
     }
 
-    toggleRole = (roleId, scrollOnOpen = true) => {
+    toggleRole = (roleId) => {
         const newOpenRoles = {...this.state.openRoles};
         newOpenRoles[roleId] = !newOpenRoles[roleId];
-        if (newOpenRoles[roleId] && scrollOnOpen) {
-            const block = document.querySelector('.permissions-block.' + roleId);
-            if (block) {
-                setTimeout(() => {
-                    block.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }, 300);
-            }
-        }
         this.setState({openRoles: newOpenRoles});
     }
 
@@ -216,7 +208,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 </div>
 
                 <div
-                    className={'permissions-block all_users ' + (this.state.openRoles.all_users ? '' : 'closed')}
+                    className={'permissions-block ' + (this.state.openRoles.all_users ? '' : 'closed')}
                     id='all_users'
                 >
                     <div
@@ -250,7 +242,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     />
                 </div>
 
-                <div className={'permissions-block channel_admin ' + (this.state.openRoles.channel_admin ? '' : 'closed')}>
+                <div className={'permissions-block ' + (this.state.openRoles.channel_admin ? '' : 'closed')}>
                     <div
                         className='header'
                         onClick={() => this.toggleRole('channel_admin')}
@@ -282,7 +274,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     />
                 </div>
 
-                <div className={'permissions-block team_admin ' + (this.state.openRoles.team_admin ? '' : 'closed')}>
+                <div className={'permissions-block ' + (this.state.openRoles.team_admin ? '' : 'closed')}>
                     <div
                         className='header'
                         onClick={() => this.toggleRole('team_admin')}
@@ -314,7 +306,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     />
                 </div>
 
-                <div className={'permissions-block system_admin ' + (this.state.openRoles.system_admin ? '' : 'closed')}>
+                <div className={'permissions-block ' + (this.state.openRoles.system_admin ? '' : 'closed')}>
                     <div
                         className='header'
                         onClick={() => this.toggleRole('system_admin')}
