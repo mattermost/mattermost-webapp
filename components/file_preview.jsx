@@ -37,7 +37,7 @@ export default class FilePreview extends React.PureComponent {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
             this.setState({
                 fileInfos: [...newProps.fileInfos],

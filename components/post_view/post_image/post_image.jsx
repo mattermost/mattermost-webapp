@@ -48,11 +48,11 @@ export default class PostImageEmbed extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.loadImg(this.props.link);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.link !== this.props.link) {
             this.setState({
                 loaded: false,

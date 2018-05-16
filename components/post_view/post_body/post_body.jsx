@@ -124,7 +124,7 @@ export default class PostBody extends React.PureComponent {
         this.sendingAction.cancel();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         const post = nextProps.post;
         if (post && post.id !== post.pending_post_id) {
             this.sendingAction.cancel();

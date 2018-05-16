@@ -38,7 +38,7 @@ export default class ChannelNotificationsModal extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, nextProps.channelMember.notify_props)) {
             this.setState({
                 desktopNotifyLevel: nextProps.channelMember.notify_props.desktop,

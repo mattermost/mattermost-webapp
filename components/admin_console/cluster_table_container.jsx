@@ -33,7 +33,7 @@ export default class ClusterTableContainer extends React.Component {
         );
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.load();
 
         // reload the cluster status every 15 seconds

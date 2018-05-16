@@ -162,7 +162,7 @@ export default class CreateComment extends React.PureComponent {
         this.lastBlurAt = 0;
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
@@ -176,7 +176,7 @@ export default class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
             this.showPostDeletedModal();
         }

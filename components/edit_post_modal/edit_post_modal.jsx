@@ -88,7 +88,7 @@ export default class EditPostModal extends React.PureComponent {
         };
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
         if (!this.props.editingPost.show && nextProps.editingPost.show) {
             this.setState({
                 editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,

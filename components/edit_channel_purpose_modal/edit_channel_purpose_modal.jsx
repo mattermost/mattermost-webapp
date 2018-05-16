@@ -61,7 +61,7 @@ export default class EditChannelPurposeModal extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         const {requestStatus: nextRequestStatus, serverError: nextServerError} = nextProps;
         const {requestStatus} = this.props;
 

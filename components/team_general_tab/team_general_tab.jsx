@@ -75,7 +75,7 @@ export default class GeneralTab extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.setState({
             name: nextProps.team.display_name,
             description: nextProps.team.description,

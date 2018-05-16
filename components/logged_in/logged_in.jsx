@@ -51,7 +51,7 @@ export default class LoggedIn extends React.Component {
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         ErrorStore.clearLastError();
     }
 

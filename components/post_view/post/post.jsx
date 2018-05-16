@@ -103,7 +103,7 @@ export default class Post extends React.PureComponent {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.setState({sameRoot: this.hasSameRoot(nextProps)});
     }
 

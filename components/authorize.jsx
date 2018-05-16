@@ -26,7 +26,7 @@ export default class Authorize extends React.Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
         if (!(/^[a-z0-9]+$/.test(clientId))) {
             return;

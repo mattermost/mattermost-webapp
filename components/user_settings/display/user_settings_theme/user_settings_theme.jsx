@@ -47,7 +47,7 @@ export default class ThemeSetting extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.selected && !nextProps.selected) {
             this.resetFields();
         }

@@ -9,7 +9,7 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
         this.isPlugin = true;
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         const id = this.props.schema ? this.props.schema.id : '';
         const nextId = nextProps.schema ? nextProps.schema.id : '';
 

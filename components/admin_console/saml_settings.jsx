@@ -82,7 +82,7 @@ export default class SamlSettings extends AdminSettings {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         AdminActions.samlCertificateStatus(
             (data) => {
                 const files = {};

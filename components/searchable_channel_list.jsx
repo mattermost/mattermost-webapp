@@ -47,7 +47,7 @@ export default class SearchableChannelList extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSearch && !this.props.isSearch) {
             this.setState({page: 0});
         }

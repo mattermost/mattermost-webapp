@@ -223,7 +223,7 @@ export default class Root extends React.Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         this.redirectIfNecessary(newProps);
     }
 

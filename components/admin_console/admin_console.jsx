@@ -111,7 +111,7 @@ export default class AdminConsole extends React.Component {
         }).isRequired,
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         reloadIfServerVersionChanged();

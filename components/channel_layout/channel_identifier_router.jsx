@@ -223,7 +223,7 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
         onChannelByIdentifierEnter(props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.match.params.identifier !== nextProps.match.params.identifier) {
             onChannelByIdentifierEnter(nextProps);
         }

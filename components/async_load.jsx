@@ -21,11 +21,11 @@ export class AsyncComponent extends React.Component {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.load(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.doLoad !== this.props.doLoad) {
             this.load(nextProps);
         }

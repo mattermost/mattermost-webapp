@@ -33,7 +33,7 @@ export default class SystemNotice extends React.PureComponent {
         this.setCurrentNotice();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.setCurrentNotice(nextProps);
     }
 

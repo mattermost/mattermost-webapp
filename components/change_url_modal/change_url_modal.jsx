@@ -76,7 +76,7 @@ export default class ChangeURLModal extends React.PureComponent {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         // This check prevents the url being deleted when we re-render
         // because of user status check
         if (!this.state.userEdit) {

@@ -48,7 +48,7 @@ export default class MemberListTeam extends React.Component {
         this.props.actions.setModalSearchTerm('');
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.searchTerm !== nextProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
