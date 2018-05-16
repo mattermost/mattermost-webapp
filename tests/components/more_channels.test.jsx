@@ -25,7 +25,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.state('channels')).toEqual(props.channels);
+        expect(wrapper.state('searchedChannels')).toEqual([]);
         expect(wrapper.state('show')).toEqual(true);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
@@ -33,11 +33,6 @@ describe('components/MoreChannels', () => {
         // on componentDidMount
         expect(actions.getChannels).toHaveBeenCalledTimes(1);
         expect(actions.getChannels).toHaveBeenCalledWith(props.teamId, 0, 100);
-
-        // on componentWillReceiveProps
-        const newChannels = [{id: 'channel_id_1'}, {id: 'channel_id_2'}];
-        wrapper.setProps({channels: newChannels});
-        expect(wrapper.state('channels')).toEqual(newChannels);
     });
 
     test('should match state on handleHide', () => {
@@ -64,9 +59,9 @@ describe('components/MoreChannels', () => {
         const wrapper = shallow(
             <MoreChannels {...baseProps}/>
         );
-        wrapper.setState({channels: [{id: 'other_channel_id'}]});
+        wrapper.setState({searchedChannels: [{id: 'other_channel_id'}]});
         wrapper.instance().onChange();
-        expect(wrapper.state('channels')).toEqual(baseProps.channels);
+        expect(wrapper.state('searchedChannels')).toEqual([]);
 
         // on search
         wrapper.setState({search: true});

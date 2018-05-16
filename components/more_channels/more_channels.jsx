@@ -11,7 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
 
 import {getRelativeChannelURL} from 'utils/url.jsx';
-import {areObjectsEqual} from 'utils/utils.jsx';
 
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -40,19 +39,13 @@ export default class MoreChannels extends React.PureComponent {
         this.state = {
             show: true,
             search: false,
-            channels: props.channels,
+            searchedChannels: [],
             serverError: null,
         };
     }
 
     componentDidMount() {
         this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (!areObjectsEqual(nextProps.channels, this.props.channels)) {
-            this.setState({channels: nextProps.channels});
-        }
     }
 
     handleHide = () => {
@@ -71,7 +64,7 @@ export default class MoreChannels extends React.PureComponent {
         }
 
         this.setState({
-            channels: this.props.channels,
+            searchedChannels: [],
             serverError: null,
         });
     }
@@ -105,7 +98,7 @@ export default class MoreChannels extends React.PureComponent {
 
         if (term === '') {
             this.onChange(true);
-            this.setState({search: false});
+            this.setState({search: false, searchedChannels: []});
             this.searchTimeoutId = '';
             return;
         }
@@ -118,7 +111,7 @@ export default class MoreChannels extends React.PureComponent {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
                         }
-                        this.setState({search: true, channels});
+                        this.setState({search: true, searchedChannels: channels});
                     }
                 );
             },
@@ -129,12 +122,22 @@ export default class MoreChannels extends React.PureComponent {
     }
 
     render() {
-        let serverError;
-        if (this.state.serverError) {
-            serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
-        }
+        const {
+            channels,
+            teamId,
+        } = this.props;
 
-        const {teamId} = this.props;
+        const {
+            search,
+            searchedChannels,
+            serverError: serverErrorState,
+            show,
+        } = this.state;
+
+        let serverError;
+        if (serverErrorState) {
+            serverError = <div className='form-group has-error'><label className='control-label'>{serverErrorState}</label></div>;
+        }
 
         const createNewChannelButton = (
             <TeamPermissionGate
@@ -172,7 +175,7 @@ export default class MoreChannels extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='more-modal more-modal--action'
-                show={this.state.show}
+                show={show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
             >
@@ -187,10 +190,10 @@ export default class MoreChannels extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <SearchableChannelList
-                        channels={this.state.channels}
+                        channels={search ? searchedChannels : channels}
                         channelsPerPage={CHANNELS_PER_PAGE}
                         nextPage={this.nextPage}
-                        isSearch={this.state.search}
+                        isSearch={search}
                         search={this.search}
                         handleJoin={this.handleJoin}
                         noResultsText={createChannelHelpText}
