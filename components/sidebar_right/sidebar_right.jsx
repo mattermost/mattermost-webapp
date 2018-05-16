@@ -51,7 +51,7 @@ export default class SidebarRight extends React.Component {
         PostStore.removePostPinnedChangeListener(this.onPostPinnedChange);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
         const willOpen = nextProps.searchVisible || nextProps.postRightVisible;
 

@@ -110,7 +110,7 @@ export default class SystemUsers extends React.Component {
         this.props.actions.getTeams(0, 1000).then(reloadIfServerVersionChanged);
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         const nextTeamId = nextState.teamId;
 
         if (this.state.teamId !== nextTeamId) {

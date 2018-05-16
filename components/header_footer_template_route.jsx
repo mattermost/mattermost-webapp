@@ -18,7 +18,7 @@ export const HFTRoute = ({component: Component, ...rest}) => (
             >
                 <Component {...props}/>
             </AsyncComponent>
-    )}
+        )}
     />
 );
 
@@ -37,6 +37,6 @@ export const LoggedInHFTRoute = ({component: Component, ...rest}) => (
                     <Component {...props}/>
                 </AsyncComponent>
             </AsyncComponent>
-    )}
+        )}
     />
 );

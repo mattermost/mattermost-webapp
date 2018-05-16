@@ -13,10 +13,10 @@ describe('components/SettingItemMin', () => {
         src: 'http://localhost:8065/api/v4/users/src_id',
         loadingPicture: false,
         submitActive: false,
-        onSubmit: () => {},  // eslint-disable-line no-empty-function
+        onSubmit: () => {}, // eslint-disable-line no-empty-function
         title: 'Profile Picture',
-        onFileChange: () => {},  // eslint-disable-line no-empty-function
-        updateSection: () => {},  // eslint-disable-line no-empty-function
+        onFileChange: () => {}, // eslint-disable-line no-empty-function
+        updateSection: () => {}, // eslint-disable-line no-empty-function
     };
 
     test('should match snapshot, profile picture on source', () => {

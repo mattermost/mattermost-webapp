@@ -59,7 +59,7 @@ export default class SingleImageView extends React.PureComponent {
         setTimeout(postListScrollChange, 0);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.loadImage(nextProps.fileInfo);
 
         if (nextProps.isRhsOpen !== this.props.isRhsOpen) {

@@ -13,7 +13,6 @@ import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
-
     static defaultProps = {
         imageContext: 'profile',
     };
@@ -41,7 +40,7 @@ export default class SettingPicture extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.file !== this.props.file) {
             this.setState({image: null});
 

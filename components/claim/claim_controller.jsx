@@ -39,7 +39,7 @@ export default class ClaimController extends React.Component {
                                             siteName={this.props.siteName}
                                             passwordConfig={this.props.passwordConfig}
                                         />
-                                )}
+                                    )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/email_to_oauth`}
@@ -50,7 +50,7 @@ export default class ClaimController extends React.Component {
                                             email={email}
                                             siteName={this.props.siteName}
                                         />
-                                )}
+                                    )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/ldap_to_email`}
@@ -61,7 +61,7 @@ export default class ClaimController extends React.Component {
                                             email={email}
                                             passwordConfig={this.props.passwordConfig}
                                         />
-                                )}
+                                    )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/email_to_ldap`}
@@ -72,7 +72,7 @@ export default class ClaimController extends React.Component {
                                             siteName={this.props.siteName}
                                             ldapLoginFieldName={this.props.ldapLoginFieldName}
                                         />
-                                )}
+                                    )}
                                 />
                             </Switch>
                         </div>

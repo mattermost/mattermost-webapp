@@ -78,7 +78,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.props.show && nextProps.show) {
             this.setState({mode: nextProps.initialMode, text: ''});
         }

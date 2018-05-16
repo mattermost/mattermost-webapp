@@ -51,18 +51,18 @@ export default class BackstageCategory extends React.Component {
                     render={() => (
                         <ul className='sections'>
                             {
-                            React.Children.map(children, (child) => {
-                                if (!child) {
-                                    return child;
-                                }
+                                React.Children.map(children, (child) => {
+                                    if (!child) {
+                                        return child;
+                                    }
 
-                                return React.cloneElement(child, {
-                                    parentLink: link,
-                                });
-                            })
-                        }
+                                    return React.cloneElement(child, {
+                                        parentLink: link,
+                                    });
+                                })
+                            }
                         </ul>
-                )}
+                    )}
                 />
             </li>
         );

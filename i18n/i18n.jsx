@@ -20,14 +20,14 @@ const pl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pl.json');
 
 const ptBR = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pt-BR.json');
 
- //eslint-disable-line camelcase
+//eslint-disable-line camelcase
 const tr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./tr.json');
 
 const ru = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ru.json');
 
 const zhTW = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-TW.json');
 
- //eslint-disable-line camelcase
+//eslint-disable-line camelcase
 const zhCN = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-CN.json'); //eslint-disable-line camelcase
 
 import {addLocaleData} from 'react-intl';

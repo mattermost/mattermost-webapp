@@ -49,7 +49,7 @@ export default class MultiSelectSetting extends React.Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
         if (newProps.selected.length > 0 && newProps.mustBePresent && newProps.selected.join(',').indexOf(newProps.mustBePresent) === -1) {
             this.setState({error: this.props.notPresent});
         } else {

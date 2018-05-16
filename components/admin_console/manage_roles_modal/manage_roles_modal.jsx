@@ -60,7 +60,7 @@ export default class ManageRolesModal extends React.PureComponent {
         this.state = getStateFromProps(props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         const user = this.props.user || {};
         const nextUser = nextProps.user || {};
         if (user.id !== nextUser.id) {

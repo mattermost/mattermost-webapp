@@ -59,7 +59,7 @@ export default class AnnouncementBar extends React.PureComponent {
         this.state = this.getState(props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.enableBanner !== this.props.enableBanner ||
                 nextProps.bannerText !== this.props.bannerText ||
                 nextProps.bannerColor !== this.props.bannerColor ||

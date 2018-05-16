@@ -15,7 +15,6 @@ import SettingPicture from 'components/setting_picture.jsx';
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 export default class GeneralTab extends React.Component {
-
     static propTypes = {
         updateSection: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
@@ -75,7 +74,7 @@ export default class GeneralTab extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setState({
             name: nextProps.team.display_name,
             description: nextProps.team.description,
