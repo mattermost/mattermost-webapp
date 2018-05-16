@@ -31,7 +31,7 @@ export default class CodePreview extends React.Component {
         this.updateStateFromProps(this.props);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.fileUrl !== nextProps.fileUrl) {
             this.updateStateFromProps(nextProps);
         }

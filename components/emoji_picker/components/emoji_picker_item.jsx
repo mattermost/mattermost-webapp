@@ -32,7 +32,7 @@ export default class EmojiPickerItem extends React.Component {
         this.emojiItem = emojiItem;
     };
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.props.isSelected && nextProps.isSelected) {
             const topOfTheEmojiItem = this.emojiItem.offsetTop;
             const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;

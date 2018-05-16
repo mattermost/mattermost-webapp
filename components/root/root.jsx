@@ -223,7 +223,7 @@ export default class Root extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
         this.redirectIfNecessary(newProps);
     }
 

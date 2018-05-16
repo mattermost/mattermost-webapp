@@ -21,11 +21,11 @@ export class AsyncComponent extends React.Component {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.load(this.props);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.doLoad !== this.props.doLoad) {
             this.load(nextProps);
         }

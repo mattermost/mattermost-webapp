@@ -82,7 +82,7 @@ export default class SamlSettings extends AdminSettings {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         AdminActions.samlCertificateStatus(
             (data) => {
                 const files = {};

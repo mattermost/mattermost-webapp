@@ -38,7 +38,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.handleFileInfoChanged(this.props.fileInfo);
     }
 
@@ -48,7 +48,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.fileUrl !== nextProps.fileUrl) {
             this.handleFileInfoChanged(nextProps.fileInfo);
         }

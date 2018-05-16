@@ -85,7 +85,7 @@ export default class MoreDirectChannels extends React.Component {
         this.getUserProfiles();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.searchTerm !== nextProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 

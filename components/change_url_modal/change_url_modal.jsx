@@ -75,7 +75,7 @@ export default class ChangeURLModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         // This check prevents the url being deleted when we re-render
         // because of user status check
         if (!this.state.userEdit) {

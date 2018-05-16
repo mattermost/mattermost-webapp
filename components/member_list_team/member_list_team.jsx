@@ -48,7 +48,7 @@ export default class MemberListTeam extends React.Component {
         this.props.actions.setModalSearchTerm('');
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.searchTerm !== nextProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 

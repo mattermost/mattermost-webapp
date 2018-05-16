@@ -76,7 +76,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         const {requestStatus: nextRequestStatus} = nextProps;
         const {requestStatus} = this.props;
 

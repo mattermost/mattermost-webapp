@@ -40,7 +40,7 @@ export default class SettingPicture extends Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.file !== this.props.file) {
             this.setState({image: null});
 

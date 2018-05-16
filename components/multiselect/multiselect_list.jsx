@@ -33,7 +33,7 @@ export default class MultiSelectList extends React.Component {
         document.removeEventListener('keydown', this.handleArrowPress);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setState({selected: this.toSelect});
 
         const options = nextProps.options;

@@ -39,7 +39,7 @@ export default class BrandImageSetting extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
             (resp) => {
                 if (resp.status === HTTP_STATUS_OK) {

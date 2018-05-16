@@ -74,7 +74,7 @@ export default class GeneralTab extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setState({
             name: nextProps.team.display_name,
             description: nextProps.team.description,

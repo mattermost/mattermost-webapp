@@ -25,7 +25,7 @@ export default class NewMessageIndicator extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.newMessages > 0) {
             this.setState({rendered: true}, () => {
                 this.setState({visible: true});

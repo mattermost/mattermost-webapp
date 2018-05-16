@@ -64,7 +64,7 @@ export default class SystemUsersList extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.teamId !== this.props.teamId) {
             this.setState({page: 0});
         }
