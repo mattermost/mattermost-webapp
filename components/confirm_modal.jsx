@@ -93,7 +93,7 @@ export default class ConfirmModal extends React.Component {
         document.removeEventListener('keypress', this.handleKeypress);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (this.props.show && !nextProps.show) {
             document.removeEventListener('keypress', this.handleKeypress);
         } else if (!this.props.show && nextProps.show) {

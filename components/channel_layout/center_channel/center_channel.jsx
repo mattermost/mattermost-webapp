@@ -28,7 +28,7 @@ export default class CenterChannel extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
             this.setState({returnTo: this.props.location.pathname});
         }

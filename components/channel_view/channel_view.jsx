@@ -67,7 +67,7 @@ export default class ChannelView extends React.PureComponent {
         $('body').removeClass('app__body');
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (this.props.match.url !== nextProps.match.url) {
             this.createDeferredPostView();
         }

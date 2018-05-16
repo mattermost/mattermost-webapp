@@ -39,7 +39,7 @@ export default class ManageTeamsModal extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         const userId = this.props.user ? this.props.user.id : '';
         const nextUserId = nextProps.user ? nextProps.user.id : '';
 

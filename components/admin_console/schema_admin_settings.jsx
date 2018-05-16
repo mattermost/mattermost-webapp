@@ -41,7 +41,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.schema !== this.props.schema) {
             this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
         }

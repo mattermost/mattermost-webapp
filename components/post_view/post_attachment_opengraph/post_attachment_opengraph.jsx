@@ -77,7 +77,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.handleRemovePreview = this.handleRemovePreview.bind(this);
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         const removePreview = this.isRemovePreview(this.props.post, this.props.currentUser);
 
         this.setState({
@@ -89,7 +89,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.fetchData(this.props.link);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
             const removePreview = this.isRemovePreview(nextProps.post, nextProps.currentUser);
             this.setState({

@@ -9,7 +9,7 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
         this.isPlugin = true;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         const id = this.props.schema ? this.props.schema.id : '';
         const nextId = nextProps.schema ? nextProps.schema.id : '';
 

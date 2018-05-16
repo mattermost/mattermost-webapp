@@ -33,7 +33,7 @@ export default class SystemNotice extends React.PureComponent {
         this.setCurrentNotice();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         this.setCurrentNotice(nextProps);
     }
 

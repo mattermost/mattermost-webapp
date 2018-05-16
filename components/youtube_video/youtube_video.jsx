@@ -38,11 +38,11 @@ export default class YoutubeVideo extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         this.updateStateFromProps(this.props);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         this.updateStateFromProps(nextProps);
     }
 

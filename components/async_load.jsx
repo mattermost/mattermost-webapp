@@ -21,11 +21,11 @@ export class AsyncComponent extends React.Component {
         };
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         this.load(this.props);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.doLoad !== this.props.doLoad) {
             this.load(nextProps);
         }
@@ -43,8 +43,10 @@ export class AsyncComponent extends React.Component {
 }
 
 export function makeAsyncComponent(loadComponent) {
-    return (props) => (<AsyncComponent
-        doLoad={loadComponent}
-        {...props}
-                       />);
+    return (props) => (
+        <AsyncComponent
+            doLoad={loadComponent}
+            {...props}
+        />
+    );
 }

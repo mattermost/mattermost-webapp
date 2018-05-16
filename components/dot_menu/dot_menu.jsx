@@ -85,7 +85,7 @@ export default class DotMenu extends Component {
         $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.post !== this.props.post) {
             this.setState({
                 canDelete: PostUtils.canDeletePost(nextProps.post),

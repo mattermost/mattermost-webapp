@@ -36,7 +36,7 @@ export default class AtMention extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
             this.setState({
                 user: this.getUserFromMentionName(nextProps),

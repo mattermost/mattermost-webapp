@@ -110,7 +110,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.show === true && this.props.show === false) {
             this.onModalShown(nextProps);
         } else if (nextProps.show === false && this.props.show === true) {

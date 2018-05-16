@@ -37,7 +37,7 @@ export default class FilePreview extends React.PureComponent {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line
         if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
             this.setState({
                 fileInfos: [...newProps.fileInfos],

@@ -78,7 +78,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (!this.props.show && nextProps.show) {
             this.setState({mode: nextProps.initialMode, text: ''});
         }

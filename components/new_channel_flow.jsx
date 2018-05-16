@@ -56,7 +56,7 @@ export default class NewChannelFlow extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         // If we are being shown, grab channel type from props and clear
         if (nextProps.show === true && this.props.show === false) {
             this.setState({

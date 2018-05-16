@@ -50,7 +50,7 @@ export default class MemberListChannel extends React.PureComponent {
         this.props.actions.setModalSearchTerm('');
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (this.props.searchTerm !== nextProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
             const searchTerm = nextProps.searchTerm;

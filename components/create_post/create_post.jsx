@@ -211,7 +211,7 @@ export default class CreatePost extends React.Component {
         this.lastBlurAt = 0;
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         const enableSendButton = this.handleEnableSendButton(this.state.message, this.props.draft.fileInfos);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
@@ -231,7 +231,7 @@ export default class CreatePost extends React.Component {
         document.addEventListener('keydown', this.showShortcuts);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.currentChannel.id !== this.props.currentChannel.id) {
             const draft = nextProps.draft;
 

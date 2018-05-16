@@ -55,7 +55,7 @@ export default class SelectTeam extends React.Component {
         this.props.actions.getTeams(0, TEAMS_PER_PAGE);
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         const {
             actions,
             roles,
@@ -71,7 +71,7 @@ export default class SelectTeam extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (
             !this.state.loaded &&
             nextProps.roles.system_admin &&

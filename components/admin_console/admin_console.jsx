@@ -111,7 +111,7 @@ export default class AdminConsole extends React.Component {
         }).isRequired,
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         reloadIfServerVersionChanged();

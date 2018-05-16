@@ -120,9 +120,9 @@ describe('components/ChangeURLModal', () => {
         const returned = wrapper.instance().getURLError(param);
         expect(returned.length).toEqual(1);
         expect(wrapper.instance().formattedError).toBeCalledWith(
-          'errorlast',
-          'change_url.invalidUrl',
-          'Invalid URL'
+            'errorlast',
+            'change_url.invalidUrl',
+            'Invalid URL'
         );
     });
 
@@ -138,9 +138,9 @@ describe('components/ChangeURLModal', () => {
         const returned = wrapper.instance().getURLError(param);
         expect(returned.length).toEqual(1);
         expect(wrapper.instance().formattedError).toBeCalledWith(
-          'error1',
-          'change_url.longer',
-          'URL must be two or more characters.'
+            'error1',
+            'change_url.longer',
+            'URL must be two or more characters.'
         );
     });
 
@@ -156,19 +156,19 @@ describe('components/ChangeURLModal', () => {
         const returned = wrapper.instance().getURLError(param);
         expect(returned.length).toEqual(3);
         expect(wrapper.instance().formattedError).toBeCalledWith(
-          'error2',
-          'change_url.startWithLetter',
-          'URL must start with a letter or number.'
+            'error2',
+            'change_url.startWithLetter',
+            'URL must start with a letter or number.'
         );
         expect(wrapper.instance().formattedError).toBeCalledWith(
-          'error3',
-          'change_url.endWithLetter',
-          'URL must end with a letter or number.'
+            'error3',
+            'change_url.endWithLetter',
+            'URL must end with a letter or number.'
         );
         expect(wrapper.instance().formattedError).toBeCalledWith(
-          'error4',
-          'change_url.noUnderscore',
-          'URL can not contain two underscores in a row.'
+            'error4',
+            'change_url.noUnderscore',
+            'URL can not contain two underscores in a row.'
         );
     });
 });

@@ -81,7 +81,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         this.preCheckImageLink();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (nextProps.post.message !== this.props.post.message) {
             this.setState({
                 link: Utils.extractFirstLink(nextProps.post.message),

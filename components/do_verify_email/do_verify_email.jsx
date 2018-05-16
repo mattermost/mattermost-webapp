@@ -44,7 +44,7 @@ export default class DoVerifyEmail extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         this.verifyEmail();
     }
 

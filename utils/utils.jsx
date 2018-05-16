@@ -338,7 +338,7 @@ export function areObjectsEqual(x, y) {
         }
     }
 
-    for (p in x) {
+    for (p in x) { //eslint-disable-line guard-for-in
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
             return false;
         } else if (typeof y[p] !== typeof x[p]) {

@@ -14,9 +14,9 @@ describe('components/channel_notifications_modal/ExpandView', () => {
         memberNotifyLevel: NotificationLevels.ALL,
         globalNotifyLevel: NotificationLevels.DEFAULT,
         serverError: '',
-        onChange: () => {},             //eslint-disable-line no-empty-function
-        onCollapseSection: () => {},    //eslint-disable-line no-empty-function
-        onSubmit: () => {},              //eslint-disable-line no-empty-function
+        onChange: () => {}, //eslint-disable-line no-empty-function
+        onCollapseSection: () => {}, //eslint-disable-line no-empty-function
+        onSubmit: () => {}, //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot, DESKTOP on expanded view', () => {

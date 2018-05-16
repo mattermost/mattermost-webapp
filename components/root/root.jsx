@@ -80,7 +80,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
             <LoggedIn {...props}>
                 <Component {...props}/>
             </LoggedIn>
-    )}
+        )}
     />
 );
 
@@ -223,7 +223,7 @@ export default class Root extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line
         this.redirectIfNecessary(newProps);
     }
 

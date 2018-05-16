@@ -51,7 +51,7 @@ export default class LoggedIn extends React.Component {
         }
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         ErrorStore.clearLastError();
     }
 

@@ -49,7 +49,7 @@ export default class PopoverListMembers extends React.Component {
         $('.member-list__popover .popover-content .more-modal__body').perfectScrollbar();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (this.props.users !== nextProps.users || this.props.statuses !== nextProps.statuses) {
             const sortedUsers = this.sortUsers(nextProps.users, nextProps.statuses);
 

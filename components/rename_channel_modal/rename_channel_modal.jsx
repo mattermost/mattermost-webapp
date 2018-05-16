@@ -100,7 +100,7 @@ export class RenameChannelModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (!Utils.areObjectsEqual(nextProps.channel, this.props.channel)) {
             this.setState({
                 displayName: nextProps.channel.display_name,

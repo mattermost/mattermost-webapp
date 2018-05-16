@@ -70,7 +70,7 @@ export class PolicySettings extends AdminSettings {
         this.setState({...this.roleBasedPolicies, loaded: true});
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'channel_admin', 'team_admin', 'system_admin']);
         if (this.props.roles.system_user &&
             this.props.roles.system_admin &&
@@ -82,7 +82,7 @@ export class PolicySettings extends AdminSettings {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (!this.state.loaded &&
             nextProps.roles.system_user &&
             nextProps.roles.system_admin &&

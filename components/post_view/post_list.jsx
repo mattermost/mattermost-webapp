@@ -135,7 +135,7 @@ export default class PostList extends React.PureComponent {
         window.removeEventListener('resize', this.handleWindowResize);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         // Focusing on a new post so load posts around it
         if (nextProps.focusedPostId && this.props.focusedPostId !== nextProps.focusedPostId) {
             this.hasScrolledToFocusedPost = false;
@@ -164,7 +164,7 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    UNSAFE_componentWillUpdate() {
+    UNSAFE_componentWillUpdate() { // eslint-disable-line
         if (this.refs.postlist) {
             this.previousScrollTop = this.refs.postlist.scrollTop;
             this.previousScrollHeight = this.refs.postlist.scrollHeight;

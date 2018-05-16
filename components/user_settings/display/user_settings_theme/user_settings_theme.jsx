@@ -47,7 +47,7 @@ export default class ThemeSetting extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         if (this.props.selected && !nextProps.selected) {
             this.resetFields();
         }

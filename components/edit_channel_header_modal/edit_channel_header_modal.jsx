@@ -76,7 +76,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line
         const {requestStatus: nextRequestStatus} = nextProps;
         const {requestStatus} = this.props;
 

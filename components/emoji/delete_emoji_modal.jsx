@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
 
 export default class DeleteEmoji extends DeleteModalTrigger {
-
     static propTypes = {
         onDelete: PropTypes.func.isRequired,
     }

@@ -127,7 +127,7 @@ export default class Sidebar extends React.PureComponent {
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
-    UNSAFE_componentWillUpdate() {
+    UNSAFE_componentWillUpdate() { // eslint-disable-line
         this.updateUnreadIndicators();
     }
 

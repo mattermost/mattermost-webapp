@@ -57,7 +57,7 @@
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
-    "babel-eslint": "7.2.3",
+    "babel-eslint": "8.2.3",
     "babel-jest": "22.4.3",
     "babel-loader": "7.1.4",
     "babel-plugin-dynamic-import-node": "1.2.0",
@@ -76,7 +76,7 @@
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "enzyme-to-json": "3.3.3",
-    "eslint": "3.17.1",
+    "eslint": "4.19.1",
     "eslint-import-resolver-webpack": "0.9.0",
     "eslint-plugin-header": "^1.2.0",
     "eslint-plugin-import": "2.11.0",
