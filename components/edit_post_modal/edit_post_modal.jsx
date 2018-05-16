@@ -74,7 +74,7 @@ export default class EditPostModal extends React.PureComponent {
             addMessageIntoHistory: PropTypes.func.isRequired,
             editPost: PropTypes.func.isRequired,
             hideEditPostModal: PropTypes.func.isRequired,
-            openModal: PropTypes.function.isRequired,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
