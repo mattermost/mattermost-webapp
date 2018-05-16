@@ -247,15 +247,6 @@ export default {
                             help_text_default: 'If using HTTP (insecure), this is the maximum time allowed from the end of reading the request headers until the response is written. If using HTTPS, it is the total time from when the connection is accepted until the response is written.',
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'ServiceSettings.EnableAPIv3',
-                            label: 'admin.service.enableAPIv3',
-                            label_default: 'Allow use of API v3 endpoints:',
-                            help_text: 'admin.service.enableAPIv3Description',
-                            help_text_default: 'Set to false to disable all version 3 endpoints of the REST API. Integrations that rely on API v3 will fail and can then be identified for migration to API v4. API v3 is deprecated and will be removed in the near future. See <a href="https://api.mattermost.com" target="_blank">https://api.mattermost.com</a> for details.',
-                            help_text_html: true,
-                        },
-                        {
                             type: Constants.SettingsTypes.TYPE_DROPDOWN,
                             key: 'ServiceSettings.WebserverMode',
                             label: 'admin.webserverModeTitle',
