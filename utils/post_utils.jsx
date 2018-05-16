@@ -57,6 +57,28 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
+export function changeToMp4Src(src, hasImageProxy) {
+    if (src === '') {
+        return src;
+    }
+    const mp4Ext = src.replace(/\.(gifv)($|\?)/, '.mp4$2');
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(mp4Ext);
+    }
+    return mp4Ext;
+}
+
+export function changeToJPGSrc(src, hasImageProxy) {
+    if (src === '') {
+        return src;
+    }
+    const jpgExt = src.replace(/\.(gifv)($|\?)/, '.jpg$2');
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(jpgExt);
+    }
+    return jpgExt;
+}
+
 export function getProfilePicSrcForPost(post, user) {
     const config = getConfig(store.getState());
 
@@ -155,7 +177,6 @@ export function containsAtChannel(text) {
     }
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
-
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }
 

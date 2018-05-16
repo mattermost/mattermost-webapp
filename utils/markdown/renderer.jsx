@@ -18,7 +18,6 @@ export default class Renderer extends marked.Renderer {
 
         this.formattingOptions = formattingOptions;
     }
-
     code(code, language) {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
@@ -120,19 +119,42 @@ export default class Renderer extends marked.Renderer {
                 }
             }
         }
-        src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
-        let out = '<img src="' + src + '" alt="' + text + '"';
-        if (title) {
-            out += ' title="' + title + '"';
+
+        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+        const match = src.match(regex);
+        let out = '';
+
+        //If the URL src is a gifv, then render it in a <video> HTML5 element, otherwise it will go into an <img> element
+        if (match) {
+            let jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
+            let mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+            mp4Src = PostUtils.getImageSrc(mp4Src, this.formattingOptions.proxyImages);
+            jpgSrc = PostUtils.getImageSrc(jpgSrc, this.formattingOptions.proxyImages);
+            out = '<video style="max-width:100%" poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
+
+            if (dimensions.length > 0) {
+                out += ' width="' + dimensions[0] + '"';
+            }
+            if (dimensions.length > 1) {
+                out += ' height="' + dimensions[1] + '"';
+            }
+            out += ' class="markdown-inline-img"';
+            out += '><source class="markdown-inline-img" src="' + mp4Src + '" type="video/mp4"></video>';
+        } else {
+            src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+            out = '<img src="' + src + '" alt="' + text + '"';
+            if (title) {
+                out += ' title="' + title + '"';
+            }
+            if (dimensions.length > 0) {
+                out += ' width="' + dimensions[0] + '"';
+            }
+            if (dimensions.length > 1) {
+                out += ' height="' + dimensions[1] + '"';
+            }
+            out += ' class="markdown-inline-img"';
+            out += this.options.xhtml ? '/>' : '>';
         }
-        if (dimensions.length > 0) {
-            out += ' width="' + dimensions[0] + '"';
-        }
-        if (dimensions.length > 1) {
-            out += ' height="' + dimensions[1] + '"';
-        }
-        out += ' class="markdown-inline-img"';
-        out += this.options.xhtml ? '/>' : '>';
         return out;
     }
 
