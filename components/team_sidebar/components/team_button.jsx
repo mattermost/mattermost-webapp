@@ -69,9 +69,6 @@ export default class TeamButton extends React.Component {
                 content = (
                     <div className='team-btn__initials'>
                         {initials}
-                        <div className='team-btn__content'>
-                            {this.props.displayName}
-                        </div>
                     </div>
                 );
             }

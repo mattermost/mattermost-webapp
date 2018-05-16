@@ -8,8 +8,8 @@ export default class EmojiIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='15px'
-                    height='15px'
+                    width='18px'
+                    height='18px'
                     viewBox='0 0 15 15'
                 >
                     <g

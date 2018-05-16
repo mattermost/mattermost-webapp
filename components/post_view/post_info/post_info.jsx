@@ -207,7 +207,7 @@ export default class PostInfo extends React.PureComponent {
 
             if (hover && !isReadOnly && this.props.enableEmojiPicker) {
                 react = (
-                    <span>
+                    <div>
                         <EmojiPickerOverlay
                             show={this.state.showEmojiPicker}
                             container={this.props.getPostList}
@@ -228,7 +228,7 @@ export default class PostInfo extends React.PureComponent {
                                 <EmojiIcon className='icon icon--emoji'/>
                             </button>
                         </ChannelPermissionGate>
-                    </span>
+                    </div>
                 );
             }
         }
