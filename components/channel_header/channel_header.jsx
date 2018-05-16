@@ -468,8 +468,8 @@ export default class ChannelHeader extends React.Component {
                         dialogProps={{channel}}
                     >
                         <FormattedMessage
-                            id='channel_header.channelHeader'
-                            defaultMessage='Edit Channel Header'
+                            id='channel_header.channelHeader1'
+                            defaultMessage='TESTING BLABLABLABAL'
                         />
                     </ToggleModalButtonRedux>
                 </li>
