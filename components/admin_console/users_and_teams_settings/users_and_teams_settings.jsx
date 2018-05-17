@@ -42,14 +42,14 @@ export class UsersAndTeamsSettings extends AdminSettings {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.props.actions.loadRolesIfNeeded(['system_user']);
         if (this.props.roles.system_user) {
             this.loadPoliciesIntoState(this.props);
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.state.loaded && nextProps.roles.system_user) {
             this.loadPoliciesIntoState(nextProps);
         }

@@ -357,7 +357,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           >
             <a
               className="team-img__remove"
-              onClick={[MockFunction]}
+              onClick={[Function]}
             >
               <span>
                 ×

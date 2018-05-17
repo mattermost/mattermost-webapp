@@ -88,7 +88,7 @@ export default class NewChannelModal extends React.PureComponent {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.show === true && this.props.show === false) {
             this.setState({
                 displayNameError: '',

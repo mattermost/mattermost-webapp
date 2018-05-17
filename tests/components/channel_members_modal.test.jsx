@@ -11,8 +11,8 @@ describe('components/ChannelMembersModal', () => {
     const baseProps = {
         channel: {id: 'channel_id', display_name: 'channel_display_name'},
         canManageChannelMembers: true,
-        onModalDismissed: () => {},         //eslint-disable-line no-empty-function
-        showInviteModal: () => {},           //eslint-disable-line no-empty-function
+        onModalDismissed: () => {}, //eslint-disable-line no-empty-function
+        showInviteModal: () => {}, //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot', () => {

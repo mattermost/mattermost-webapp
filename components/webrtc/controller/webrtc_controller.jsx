@@ -122,7 +122,7 @@ export default class WebrtcController extends React.Component {
         this.close();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if ((nextProps.currentUser !== this.props.currentUser) ||
             (nextProps.userId !== this.props.userId) ||
             (nextProps.isCaller !== this.props.isCaller)) {

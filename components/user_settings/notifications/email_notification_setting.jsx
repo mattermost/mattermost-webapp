@@ -36,7 +36,7 @@ export default class EmailNotificationSetting extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!nextProps.saving && (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval)) {
             this.setState({
                 enableEmail: nextProps.enableEmail,

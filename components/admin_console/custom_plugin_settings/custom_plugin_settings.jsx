@@ -9,8 +9,11 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
         this.isPlugin = true;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.schema && nextProps.schema) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        const id = this.props.schema ? this.props.schema.id : '';
+        const nextId = nextProps.schema ? nextProps.schema.id : '';
+
+        if ((!this.props.schema && nextProps.schema) || (id !== nextId)) {
             this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
         }
     }

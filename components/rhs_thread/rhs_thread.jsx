@@ -107,7 +107,7 @@ export default class RhsThread extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.props.selected || !nextProps.selected) {
             return;
         }

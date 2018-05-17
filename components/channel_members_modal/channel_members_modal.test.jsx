@@ -18,7 +18,7 @@ describe('components/ChannelMembersModal', () => {
         },
         canManageChannelMembers: true,
         onModalDismissed: () => {}, // eslint-disable-line no-empty-function
-        showInviteModal: () => {},  // eslint-disable-line no-empty-function
+        showInviteModal: () => {}, // eslint-disable-line no-empty-function
     };
 
     test('renders the channel display name', () => {

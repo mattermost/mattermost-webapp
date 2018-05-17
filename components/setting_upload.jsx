@@ -21,7 +21,7 @@ export default class SettingsUpload extends React.Component {
         };
     }
 
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() { // eslint-disable-line camelcase
         this.setState({
             clientError: this.props.clientError,
             serverError: this.props.serverError,

@@ -66,7 +66,7 @@ class JobTable extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.interval = setInterval(this.reload, 15000);
     }
 

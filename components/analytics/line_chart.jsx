@@ -44,7 +44,7 @@ export default class LineChart extends React.PureComponent {
         this.initChart();
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
         const willHaveData = nextProps.data && nextProps.data.labels.length > 0;
         const hasChart = Boolean(this.chart);
 

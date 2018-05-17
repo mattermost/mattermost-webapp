@@ -68,7 +68,7 @@ export default class Textbox extends React.Component {
         ErrorStore.addChangeListener(this.onReceivedError);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.checkMessageLength(this.props.value);
     }
 
@@ -164,7 +164,7 @@ export default class Textbox extends React.Component {
         this.setState({preview: false});
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.channelId !== this.props.channelId) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;

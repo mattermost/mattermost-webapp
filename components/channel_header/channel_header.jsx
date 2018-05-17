@@ -116,7 +116,7 @@ export default class ChannelHeader extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.channel.id !== nextProps.channel.id) {
             this.props.actions.getCustomEmojisInText(nextProps.channel.header);
         }

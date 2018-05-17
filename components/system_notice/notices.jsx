@@ -21,7 +21,7 @@ export default [
         title: (
             <FormattedHTMLMessage
                 id='system_notice.title'
-                defaultMessage='<strong>System Message</strong> from Mattermost'
+                defaultMessage='<strong>Notice</strong> from Mattermost'
             />
         ),
         icon: mattermostIcon,

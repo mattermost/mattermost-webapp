@@ -63,18 +63,18 @@ export default class AdminSidebarCategory extends React.Component {
                     render={() => (
                         <ul className={'sections ' + this.props.sectionClass}>
                             {
-                            React.Children.map(this.props.children, (child) => {
-                                if (child === null) {
-                                    return null;
-                                }
+                                React.Children.map(this.props.children, (child) => {
+                                    if (child === null) {
+                                        return null;
+                                    }
 
-                                return React.cloneElement(child, {
-                                    parentLink: link,
-                                });
-                            })
-                        }
+                                    return React.cloneElement(child, {
+                                        parentLink: link,
+                                    });
+                                })
+                            }
                         </ul>
-                )}
+                    )}
                 />
             );
         }
