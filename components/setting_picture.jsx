@@ -37,6 +37,7 @@ export default class SettingPicture extends Component {
 
         this.state = {
             image: null,
+            removeSrc: false,
         };
     }
 
@@ -52,6 +53,31 @@ export default class SettingPicture extends Component {
         if (this.previewBlob) {
             URL.revokeObjectURL(this.previewBlob);
         }
+    }
+
+    handleCancel = (e) => {
+        this.setState({removeSrc: false});
+        this.props.updateSection(e);
+    }
+
+    handleSave = (e) => {
+        if (this.state.removeSrc) {
+            this.props.onRemove(e);
+        } else {
+            this.props.onSubmit(e);
+        }
+
+        this.setState({removeSrc: false});
+    }
+
+    handleRemoveSrc = (e) => {
+        e.preventDefault();
+        this.setState({removeSrc: true});
+    }
+
+    handleFileChange = (e) => {
+        this.setState({removeSrc: false});
+        this.props.onFileChange(e);
     }
 
     setPicture = (file) => {
@@ -141,7 +167,7 @@ export default class SettingPicture extends Component {
                     </div>
                 </div>
             );
-        } else if (this.props.src) {
+        } else if (this.props.src && !this.state.removeSrc) {
             img = (
                 <img
                     className={`${imageContext}-img`}
@@ -175,7 +201,7 @@ export default class SettingPicture extends Component {
                         >
                             <a
                                 className={`${imageContext}-img__remove`}
-                                onClick={this.props.onRemove}
+                                onClick={this.handleRemoveSrc}
                             >
                                 <span>{'×'}</span>
                             </a>
@@ -210,7 +236,7 @@ export default class SettingPicture extends Component {
             confirmButton = (
                 <a
                     className={confirmButtonClass}
-                    onClick={this.props.onSubmit}
+                    onClick={this.handleSave}
                 >
                     <FormattedMessage
                         id='setting_picture.save'
@@ -265,7 +291,7 @@ export default class SettingPicture extends Component {
                                     ref='input'
                                     accept='.jpg,.png,.bmp'
                                     type='file'
-                                    onChange={this.props.onFileChange}
+                                    onChange={this.handleFileChange}
                                     disabled={fileInputDisabled}
                                 />
                             </div>
@@ -273,7 +299,7 @@ export default class SettingPicture extends Component {
                             <a
                                 className='btn btn-sm theme'
                                 href='#'
-                                onClick={this.props.updateSection}
+                                onClick={this.handleCancel}
                             >
                                 <FormattedMessage
                                     id='setting_picture.cancel'
