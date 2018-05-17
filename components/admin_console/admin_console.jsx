@@ -248,7 +248,7 @@ export default class AdminConsole extends React.Component {
                                         }}
                                     />
                                 </Switch>
-                        )}
+                            )}
                         />
                         <Route
                             path={`${this.props.match.url}/authentication`}
