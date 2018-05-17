@@ -24,6 +24,8 @@ import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
 // eslint-disable-line import/order
@@ -502,6 +504,60 @@ export const GroupUnreadChannels = {
     DISABLED: 'disabled',
     DEFAULT_ON: 'default_on',
     DEFAULT_OFF: 'default_off',
+};
+
+export const PermissionsScope = {
+    [Permissions.INVITE_USER]: 'team_scope',
+    [Permissions.ADD_USER_TO_TEAM]: 'team_scope',
+    [Permissions.USE_SLASH_COMMANDS]: 'channel_scope',
+    [Permissions.MANAGE_SLASH_COMMANDS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_SLASH_COMMANDS]: 'team_scope',
+    [Permissions.CREATE_PUBLIC_CHANNEL]: 'team_scope',
+    [Permissions.CREATE_PRIVATE_CHANNEL]: 'team_scope',
+    [Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]: 'channel_scope',
+    [Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]: 'channel_scope',
+    [Permissions.ASSIGN_SYSTEM_ADMIN_ROLE]: 'system_scope',
+    [Permissions.MANAGE_ROLES]: 'system_scope',
+    [Permissions.MANAGE_TEAM_ROLES]: 'team_scope',
+    [Permissions.MANAGE_CHANNEL_ROLES]: 'chanel_scope',
+    [Permissions.MANAGE_SYSTEM]: 'system_scope',
+    [Permissions.CREATE_DIRECT_CHANNEL]: 'system_scope',
+    [Permissions.CREATE_GROUP_CHANNEL]: 'system_scope',
+    [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.LIST_TEAM_CHANNELS]: 'team_scope',
+    [Permissions.JOIN_PUBLIC_CHANNELS]: 'team_scope',
+    [Permissions.DELETE_PUBLIC_CHANNEL]: 'channel_scope',
+    [Permissions.DELETE_PRIVATE_CHANNEL]: 'channel_scope',
+    [Permissions.EDIT_OTHER_USERS]: 'system_scope',
+    [Permissions.READ_CHANNEL]: 'channel_scope',
+    [Permissions.READ_PUBLIC_CHANNEL]: 'team_scope',
+    [Permissions.ADD_REACTION]: 'channel_scope',
+    [Permissions.REMOVE_REACTION]: 'channel_scope',
+    [Permissions.REMOVE_OTHERS_REACTIONS]: 'channel_scope',
+    [Permissions.PERMANENT_DELETE_USER]: 'system_scope',
+    [Permissions.UPLOAD_FILE]: 'channel_scope',
+    [Permissions.GET_PUBLIC_LINK]: 'system_scope',
+    [Permissions.MANAGE_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_WEBHOOKS]: 'team_scope',
+    [Permissions.MANAGE_OAUTH]: 'system_scope',
+    [Permissions.MANAGE_SYSTEM_WIDE_OAUTH]: 'system_scope',
+    [Permissions.CREATE_POST]: 'channel_scope',
+    [Permissions.CREATE_POST_PUBLIC]: 'channel_scope',
+    [Permissions.EDIT_POST]: 'channel_scope',
+    [Permissions.EDIT_OTHERS_POSTS]: 'channel_scope',
+    [Permissions.DELETE_POST]: 'channel_scope',
+    [Permissions.DELETE_OTHERS_POSTS]: 'channel_scope',
+    [Permissions.REMOVE_USER_FROM_TEAM]: 'team_scope',
+    [Permissions.CREATE_TEAM]: 'system_scope',
+    [Permissions.MANAGE_TEAM]: 'team_scope',
+    [Permissions.IMPORT_TEAM]: 'team_scope',
+    [Permissions.VIEW_TEAM]: 'team_scope',
+    [Permissions.LIST_USERS_WITHOUT_TEAM]: 'system_scope',
+    [Permissions.CREATE_USER_ACCESS_TOKEN]: 'system_scope',
+    [Permissions.READ_USER_ACCESS_TOKEN]: 'system_scope',
+    [Permissions.REVOKE_USER_ACCESS_TOKEN]: 'system_scope',
+    [Permissions.MANAGE_JOBS]: 'system_scope',
 };
 
 export const Constants = {

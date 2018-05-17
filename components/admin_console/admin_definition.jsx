@@ -13,6 +13,8 @@ import SystemUsers from './system_users';
 import ServerLogs from './server_logs';
 import Audits from './audits';
 import LicenseSettings from './license_settings';
+import PermissionSchemesSettings from './permission_schemes_settings';
+import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -528,6 +530,20 @@ export default {
                             help_text_html: true,
                         },
                     ],
+                },
+            },
+        },
+        permissions: {
+            schemes: {
+                schema: {
+                    id: 'PermissionSchemes',
+                    component: PermissionSchemesSettings,
+                },
+            },
+            systemScheme: {
+                schema: {
+                    id: 'PermissionSystemScheme',
+                    component: PermissionSystemSchemeSettings,
                 },
             },
         },

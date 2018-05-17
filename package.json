@@ -47,6 +47,7 @@
     "redux-persist": "4.9.1",
     "redux-persist-transform-filter": "0.0.16",
     "reselect": "3.0.1",
+    "smoothscroll-polyfill": "0.4.3",
     "superagent": "3.8.3",
     "twemoji": "2.5.1",
     "url-search-params-polyfill": "4.0.0",

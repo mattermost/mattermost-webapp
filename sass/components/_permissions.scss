@@ -1,0 +1,260 @@
+@keyframes rowhighlight {
+    0%  {
+      background-color: $transparent;
+    }
+
+    20% {
+      background-color: beige;
+    }
+
+    80% {
+      background-color: beige;
+    }
+
+    100% {
+      background-color: $transparent;
+    }
+}
+
+.permissions-block {
+    border: $border-gray;
+    font-size: .95em;
+    margin: 2em 0;
+    padding: 0;
+
+    &.simple {
+    }
+
+    .header {
+        align-items: center;
+        background: $white;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px;
+
+        h3 {
+            font-size: 18px;
+            font-weight: normal;
+            margin: 0;
+            padding: 0;
+        }
+
+        .button {
+            self-align: end;
+
+            svg {
+                transform: rotate(0deg);
+                transition: transform 300ms;
+            }
+        }
+    }
+
+    &.closed {
+        .header {
+            .button {
+                svg {
+                    transform: rotate(90deg);
+                    transition: transform 300ms;
+                }
+            }
+        }
+
+        .permissions-tree {
+            max-height: 0;
+            overflow-y: hidden;
+            padding: 0 1.5rem;
+        }
+    }
+}
+
+.permissions-tree {
+    @include single-transition(all, .4s, ease-in-out, 0s);
+    max-height: 2000px;
+    padding: .8em 1.5rem;
+
+    .permissions-tree--header {
+        border-bottom: 1px solid #cccccc;
+        display: flex;
+        flex-direction: row;
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: .5em 0;
+
+        .permission-name {
+            margin-left: 16px;
+            min-width: 300px;
+        }
+
+        .permission-description {
+            color: $black;
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .permissions-tree--body {
+        background-color: $bg--gray;
+        background-image: linear-gradient(transparent 50%, alpha-color($white, .5) 50%);
+        background-size: 68px 68px;
+        cursor: pointer;
+    }
+
+    .permission-arrow {
+        align-items: center;
+        display: flex;
+        justify-content: space-around;
+        margin: 4px;
+        min-height: 10px;
+        min-width: 10px;
+        transition: transform 300ms;
+
+        &.open {
+            transform: rotate(90deg);
+            transform-origin: 55% 50%;
+            transition: transform 300ms;
+        }
+    }
+
+    .permission-check {
+        align-items: center;
+        border-radius: 3px;
+        border: 2px solid $dark-gray;
+        display: flex;
+        justify-content: space-around;
+        margin: 5px 5px 5px 0;
+        min-height: 18px;
+        min-width: 18px;
+
+        &.checked,
+        &.intermediate {
+            border: 0;
+
+            svg {
+                background: $white;
+                fill: $primary-color;
+            }
+        }
+    }
+
+    .permission-name {
+        display: inline-block;
+        min-width: 300px;
+    }
+
+    .permission-description {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        overflow: hidden;
+        width: 100%;
+        opacity: .3;
+
+        span {
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
+
+    .permission-group {
+        .permission-group-row {
+            .permission-name {
+                min-width: 272px;
+            }
+        }
+
+        .permission-group-permissions {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 300ms;
+
+            &.open {
+                max-height: 400px;
+                transition: max-height 300ms;
+            }
+
+            .permission-row {
+                padding: 0 0 0 48px;
+
+                .permission-name {
+                    min-width: 242px;
+                }
+            }
+
+            .permission-group-row {
+                padding: 0 0 0 30px;
+
+                &.combined {
+                    padding: 0 0 0 48px;
+                }
+
+                .permission-name {
+                    min-width: 242px;
+                }
+            }
+
+            .permission-group-permissions {
+                .permission-row {
+                    padding: 0 0 0 78px;
+
+                    .permission-name {
+                        min-width: 212px;
+                    }
+                }
+
+                .permission-group-row {
+                    padding: 0 0 0 60px;
+
+                    &.combined {
+                        padding: 0 0 0 78px;
+                    }
+
+                    .permission-name {
+                        min-width: 192px;
+                    }
+                }
+            }
+        }
+    }
+
+    .permission-row,
+    .permission-group-row {
+        align-items: center;
+        border-left: 2px solid $transparent;
+        display: flex;
+        flex-direction: row;
+        height: 34px;
+
+        &:hover {
+            background-color: lighten($primary-color, 40%);
+            border-left: 2px solid $primary-color;
+            .permission-description {
+                opacity: 1;
+            }
+        }
+
+        &.selected {
+            animation-duration: 3s;
+            animation-name: rowhighlight;
+        }
+
+        &.read-only {
+            .permission-check {
+                background-color: $gray;
+                border: none;
+
+                &.checked,
+                &.intermediate {
+                    svg {
+                        background: $white;
+                        fill: $gray;
+                    }
+                }
+            }
+        }
+    }
+}

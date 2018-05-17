@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/permission_schemes_settings/permission_checkbox should match snapshot on no value 1`] = `
+<div
+  className="permission-check "
+/>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_checkbox should match snapshot on other value 1`] = `
+<div
+  className="permission-check "
+/>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_checkbox should match snapshot on value "checked" 1`] = `
+<div
+  className="permission-check checked"
+>
+  <CheckboxCheckedIcon />
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_checkbox should match snapshot on value "intermediate" 1`] = `
+<div
+  className="permission-check intermediate"
+>
+  <CheckboxPartialIcon />
+</div>
+`;
