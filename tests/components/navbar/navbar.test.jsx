@@ -46,6 +46,16 @@ describe('components/navbar/Navbar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, for default channel', () => {
+        const wrapper = shallow(
+            <Navbar {...baseProps}/>
+        );
+
+        const channel = {type: 'O', id: '123', name: 'town-square', display_name: 'Town Square', team_id: 'team_id'};
+        wrapper.setState({...validState, channel});
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, if not licensed', () => {
         const wrapper = shallow(
             <Navbar

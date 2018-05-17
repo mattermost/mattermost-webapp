@@ -317,7 +317,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         placeholder="e.g. some setting"
         setByEnv={false}
         type="input"
-        value="setting_default"
+        value="fsdsdg"
       />
       <BooleanSetting
         disabled={false}
@@ -345,7 +345,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        value={true}
+        value={false}
       />
       <DropdownSetting
         disabled={false}
@@ -360,7 +360,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         label="Setting Three"
         onChange={[Function]}
         setByEnv={false}
-        value="option1"
+        value="option3"
         values={
           Array [
             Object {
@@ -390,7 +390,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         label="Setting Four"
         onChange={[Function]}
         setByEnv={false}
-        value="option2"
+        value="option1"
         values={
           Array [
             Object {
@@ -429,7 +429,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           />
         }
         setByEnv={false}
-        value=""
+        value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
       />
       <UserAutocompleteSetting
         disabled={false}
@@ -443,7 +443,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         label="Setting Six"
         onChange={[Function]}
         placeholder="Type a username here"
-        value=""
+        value="3xz3r6n7dtbbmgref3yw4zg7sr"
       />
       <div
         className="banner"

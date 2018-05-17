@@ -41,7 +41,7 @@ export default class PermalinkView extends React.PureComponent {
         document.body.classList.remove('app__body');
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.match.params.postid !== nextProps.match.params.postid) {
             this.doPermalinkEvent(nextProps);
         }

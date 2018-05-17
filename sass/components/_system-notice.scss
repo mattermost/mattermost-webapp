@@ -38,10 +38,20 @@
     text-overflow: ellipsis;
 }
 
+.system-notice__info {
+    @include opacity(.5);
+    font-size: 12px;
+    margin-bottom: 12px;
+
+    .fa {
+        margin-right: 4px;
+    }
+}
+
 .system-notice__body {
     @include opacity(.7);
     line-height: 16px;
-    padding: 18px 0 20px;
+    padding: 18px 0 16px;
 }
 
 .system-notice__footer {

@@ -100,7 +100,7 @@ export default class CreateTeam extends React.PureComponent {
                                             updateParent={this.updateParent}
                                             {...props}
                                         />
-                                )}
+                                    )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/team_url`}
@@ -110,7 +110,7 @@ export default class CreateTeam extends React.PureComponent {
                                             updateParent={this.updateParent}
                                             {...props}
                                         />
-                                )}
+                                    )}
                                 />
                                 <Redirect to={`${match.url}/display_name`}/>
                             </Switch>

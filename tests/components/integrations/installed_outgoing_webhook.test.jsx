@@ -39,7 +39,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     const baseProps = {
         outgoingWebhook,
         onRegenToken: () => {}, //eslint-disable-line no-empty-function
-        onDelete: () => {},     //eslint-disable-line no-empty-function
+        onDelete: () => {}, //eslint-disable-line no-empty-function
         filter: '',
         creator: {username: 'username'},
         canChange: true,

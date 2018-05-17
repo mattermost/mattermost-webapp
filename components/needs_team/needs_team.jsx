@@ -84,7 +84,7 @@ export default class NeedsTeam extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.match.params.team !== nextProps.match.params.team) {
             this.setState({team: this.updateCurrentTeam(nextProps)});
         }

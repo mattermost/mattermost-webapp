@@ -31,7 +31,6 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
 export default class SidebarRightMenu extends React.Component {
-
     static propTypes = {
         teamId: PropTypes.string,
         isOpen: PropTypes.bool.isRequired,

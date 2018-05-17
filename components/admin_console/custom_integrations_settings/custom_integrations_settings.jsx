@@ -34,7 +34,7 @@ export class WebhookSettings extends AdminSettings {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.props.actions.loadRolesIfNeeded(['team_user', 'system_user']);
         if (this.props.roles.system_user &&
             this.props.roles.team_user) {
@@ -42,7 +42,7 @@ export class WebhookSettings extends AdminSettings {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.state.loaded &&
             nextProps.roles.system_user &&
             nextProps.roles.team_user) {

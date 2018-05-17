@@ -81,7 +81,7 @@ export default class MFAController extends React.Component {
                                                     updateParent={this.updateParent}
                                                     {...props}
                                                 />
-                                        )}
+                                            )}
                                         />
                                         <Route
                                             path={`${this.props.match.url}/confirm`}
@@ -91,7 +91,7 @@ export default class MFAController extends React.Component {
                                                     updateParent={this.updateParent}
                                                     {...props}
                                                 />
-                                        )}
+                                            )}
                                         />
                                     </Switch>
                                 </div>

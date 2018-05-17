@@ -58,7 +58,7 @@ export default class FileAttachment extends React.PureComponent {
         this.loadFiles();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.fileInfo.id !== this.props.fileInfo.id) {
             const extension = nextProps.fileInfo.extension;
 

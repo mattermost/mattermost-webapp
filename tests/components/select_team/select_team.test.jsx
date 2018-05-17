@@ -47,7 +47,6 @@ describe('components/select_team/SelectTeam', () => {
         expect(wrapper).toMatchSnapshot();
 
         // on componentWillMount
-        expect(props.actions.loadRolesIfNeeded).toHaveBeenCalledTimes(1);
         expect(props.actions.loadRolesIfNeeded).toHaveBeenCalledWith([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]);
 
         // on componentDidMount
