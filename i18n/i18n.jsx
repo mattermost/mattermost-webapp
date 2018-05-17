@@ -2,33 +2,31 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable import/order */
-const de = require('!!file-loader?name=i18n/[name].[hash].[ext]!./de.json');
+const de = require('./de.json');
 
-const es = require('!!file-loader?name=i18n/[name].[hash].[ext]!./es.json');
+const es = require('./es.json');
 
-const fr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./fr.json');
+const fr = require('./fr.json');
 
-const it = require('!!file-loader?name=i18n/[name].[hash].[ext]!./it.json');
+const it = require('./it.json');
 
-const ja = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ja.json');
+const ja = require('./ja.json');
 
-const ko = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ko.json');
+const ko = require('./ko.json');
 
-const nl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./nl.json');
+const nl = require('./nl.json');
 
-const pl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pl.json');
+const pl = require('./pl.json');
 
-const ptBR = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pt-BR.json');
+const ptBR = require('./pt-BR.json');
 
-//eslint-disable-line camelcase
-const tr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./tr.json');
+const tr = require('./tr.json');
 
-const ru = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ru.json');
+const ru = require('./ru.json');
 
-const zhTW = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-TW.json');
+const zhTW = require('./zh-TW.json');
 
-//eslint-disable-line camelcase
-const zhCN = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-CN.json'); //eslint-disable-line camelcase
+const zhCN = require('./zh-CN.json');
 
 import {addLocaleData} from 'react-intl';
 import deLocaleData from 'react-intl/locale-data/de';
