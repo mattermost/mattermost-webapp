@@ -12,13 +12,13 @@ describe('components/TeamSettings', () => {
         team: {id: 'team_id'},
         maxFileSize: 50,
         activeSection: 'team_icon',
-        updateSection: () => {},    //eslint-disable-line no-empty-function
-        closeModal: () => {},       //eslint-disable-line no-empty-function
-        collapseModal: () => {},    //eslint-disable-line no-empty-function
+        updateSection: () => {}, //eslint-disable-line no-empty-function
+        closeModal: () => {}, //eslint-disable-line no-empty-function
+        collapseModal: () => {}, //eslint-disable-line no-empty-function
         actions: {
-            updateTeam: () => {},   //eslint-disable-line no-empty-function
-            removeTeamIcon: () => {},  //eslint-disable-line no-empty-function
-            setTeamIcon: () => {},  //eslint-disable-line no-empty-function
+            updateTeam: () => {}, //eslint-disable-line no-empty-function
+            removeTeamIcon: () => {}, //eslint-disable-line no-empty-function
+            setTeamIcon: () => {}, //eslint-disable-line no-empty-function
         },
     };
 

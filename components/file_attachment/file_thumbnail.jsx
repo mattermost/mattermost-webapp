@@ -14,7 +14,6 @@ import {
 } from 'utils/utils.jsx';
 
 export default class FileThumbnail extends React.PureComponent {
-
     static propTypes = {
 
         /*

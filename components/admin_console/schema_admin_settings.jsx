@@ -41,7 +41,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.schema !== this.props.schema) {
             this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
         }
@@ -459,7 +459,12 @@ export default class SchemaAdminSettings extends AdminSettings {
         if (schema.settings) {
             schema.settings.forEach((setting) => {
                 if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
-                    settingsList.push(this.buildSettingFunctions[setting.type](setting));
+                    // This is a hack required as plugin settings are case insensitive
+                    let s = setting;
+                    if (this.isPlugin) {
+                        s = {...setting, key: setting.key.toLowerCase()};
+                    }
+                    settingsList.push(this.buildSettingFunctions[setting.type](s));
                 }
             });
         }
@@ -496,7 +501,7 @@ export default class SchemaAdminSettings extends AdminSettings {
     render = () => {
         const schema = this.props.schema;
 
-        if (schema.component) {
+        if (schema && schema.component) {
             const CustomComponent = schema.component;
             return (<CustomComponent {...this.props}/>);
         }

@@ -33,7 +33,7 @@ export default class SystemNotice extends React.PureComponent {
         this.setCurrentNotice();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setCurrentNotice(nextProps);
     }
 
@@ -93,6 +93,19 @@ export default class SystemNotice extends React.PureComponent {
             return null;
         }
 
+        let visibleMessage;
+        if (notice.adminOnly) {
+            visibleMessage = (
+                <div className='system-notice__info'>
+                    <i className='fa fa-eye'/>
+                    <FormattedMessage
+                        id='system_notice.adminVisible'
+                        defaultMessage='Only visible to System Admins'
+                    />
+                </div>
+            );
+        }
+
         return (
             <div
                 className='system-notice bg--white shadow--2'
@@ -108,6 +121,7 @@ export default class SystemNotice extends React.PureComponent {
                 <div className='system-notice__body'>
                     {notice.body}
                 </div>
+                {visibleMessage}
                 <div className='system-notice__footer'>
                     <button
                         id='systemnotice_remindme'

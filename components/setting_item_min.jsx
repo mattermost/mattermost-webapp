@@ -52,7 +52,7 @@ export default class SettingItemMin extends React.PureComponent {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.focused && this.edit) {
             this.edit.focus();
         }

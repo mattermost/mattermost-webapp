@@ -31,8 +31,6 @@ const KeyCodes = Constants.KeyCodes;
 export default class CreatePost extends React.Component {
     static propTypes = {
 
-        isRhsOpen: PropTypes.bool.isRequired,
-
         /**
         *  ref passed from channelView for EmojiPickerOverlay
         */
@@ -213,7 +211,7 @@ export default class CreatePost extends React.Component {
         this.lastBlurAt = 0;
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const enableSendButton = this.handleEnableSendButton(this.state.message, this.props.draft.fileInfos);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
@@ -233,7 +231,7 @@ export default class CreatePost extends React.Component {
         document.addEventListener('keydown', this.showShortcuts);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.currentChannel.id !== this.props.currentChannel.id) {
             const draft = nextProps.draft;
 
@@ -681,9 +679,9 @@ export default class CreatePost extends React.Component {
     replyToLastPost = (e) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
-        const isRhsOpen = this.props.isRhsOpen;
-        if (isRhsOpen) {
-            document.getElementById('reply_textbox').focus();
+        const replyBox = document.getElementById('reply_textbox');
+        if (replyBox) {
+            replyBox.focus();
         }
         if (latestReplyablePostId) {
             this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);

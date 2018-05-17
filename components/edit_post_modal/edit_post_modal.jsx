@@ -74,6 +74,7 @@ export default class EditPostModal extends React.PureComponent {
             addMessageIntoHistory: PropTypes.func.isRequired,
             editPost: PropTypes.func.isRequired,
             hideEditPostModal: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -88,7 +89,7 @@ export default class EditPostModal extends React.PureComponent {
         };
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
         if (!this.props.editingPost.show && nextProps.editingPost.show) {
             this.setState({
                 editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,

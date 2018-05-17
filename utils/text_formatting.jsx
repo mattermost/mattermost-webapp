@@ -156,7 +156,7 @@ export function autolinkAtMentions(text, tokens) {
         const alias = `$MM_ATMENTION${index}`;
 
         tokens.set(alias, {
-            value: `<span data-mention="${username.toLowerCase()}">@${username}</span>`,
+            value: `<span data-mention="${username}">@${username}</span>`,
             originalText: fullMatch,
         });
 

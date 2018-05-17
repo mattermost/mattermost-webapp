@@ -155,7 +155,7 @@ export default class EmojiPicker extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         if (this.props.customEmojiPage === 0) {
             this.loadMoreCustomEmojis();
         }
@@ -171,7 +171,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         if (this.state.divTopOffset === nextState.divTopOffset) {
             return;
         }
@@ -196,7 +196,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.emojiMap !== nextProps.emojiMap) {
             this.getEmojis(nextProps);
         }

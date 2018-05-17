@@ -14,7 +14,7 @@ import Attaching from './components/attaching';
 import Commands from './components/commands';
 
 export default class HelpController extends React.Component {
-    componentWillUpdate() {
+    UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
         ReactDOM.findDOMNode(this).scrollIntoView();
     }
 

@@ -14,9 +14,9 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         expand: false,
         memberNotificationLevel: NotificationLevels.ALL,
         globalNotificationLevel: NotificationLevels.DEFAULT,
-        onChange: () => {},         //eslint-disable-line no-empty-function
-        onSubmit: () => {},         //eslint-disable-line no-empty-function
-        onUpdateSection: () => {},  //eslint-disable-line no-empty-function
+        onChange: () => {}, //eslint-disable-line no-empty-function
+        onSubmit: () => {}, //eslint-disable-line no-empty-function
+        onUpdateSection: () => {}, //eslint-disable-line no-empty-function
         serverError: '',
     };
 

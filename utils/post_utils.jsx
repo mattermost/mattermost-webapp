@@ -185,14 +185,16 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         processingInstructions.push({
             replaceChildren: true,
             shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
-            processNode: (node) => {
+            processNode: (node, children) => {
                 const mentionName = node.attribs[mentionAttrib];
                 const callAtMention = (
                     <AtMention
                         mentionName={mentionName}
                         isRHS={isRHS}
                         hasMention={true}
-                    />
+                    >
+                        {children}
+                    </AtMention>
                 );
                 return callAtMention;
             },

@@ -48,7 +48,7 @@ export default class EmojiPage extends React.Component {
         document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + props.teamDisplayName + ' ' + props.siteName;
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.siteName !== nextProps.siteName) {
             this.updateTitle(nextProps);
         }

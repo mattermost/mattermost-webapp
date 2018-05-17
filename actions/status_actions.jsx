@@ -91,10 +91,9 @@ export function loadStatusesForProfilesMap(users) {
 
     const statusesToLoad = [];
     for (const userId in users) {
-        if (!users.hasOwnProperty(userId)) {
-            return;
+        if ({}.hasOwnProperty.call(users, userId)) {
+            statusesToLoad.push(userId);
         }
-        statusesToLoad.push(userId);
     }
 
     loadStatusesByIds(statusesToLoad);

@@ -17,9 +17,9 @@ describe('components/post_view/Reaction', () => {
     const reactions = [{user_id: 'user_id_2'}, {user_id: 'user_id_3'}];
     const emojiName = 'smile';
     const actions = {
-        addReaction: () => {},              //eslint-disable-line no-empty-function
-        getMissingProfilesByIds: () => {},   //eslint-disable-line no-empty-function
-        removeReaction: () => {},            //eslint-disable-line no-empty-function
+        addReaction: () => {}, //eslint-disable-line no-empty-function
+        getMissingProfilesByIds: () => {}, //eslint-disable-line no-empty-function
+        removeReaction: () => {}, //eslint-disable-line no-empty-function
     };
 
     const baseProps = {

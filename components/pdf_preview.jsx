@@ -51,7 +51,7 @@ export default class PDFPreview extends React.PureComponent {
         this.updateStateFromProps(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.fileUrl !== nextProps.fileUrl) {
             this.updateStateFromProps(nextProps);
             this.pdfPagesRendered = {};

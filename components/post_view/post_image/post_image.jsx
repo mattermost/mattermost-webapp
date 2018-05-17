@@ -48,11 +48,11 @@ export default class PostImageEmbed extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.loadImg(this.props.link);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.link !== this.props.link) {
             this.setState({
                 loaded: false,

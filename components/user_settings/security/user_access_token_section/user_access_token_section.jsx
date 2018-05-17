@@ -61,7 +61,7 @@ export default class UserAccessTokenSection extends React.Component {
         this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!nextProps.active && this.props.active) {
             this.setState({
                 showConfirmModal: false,
