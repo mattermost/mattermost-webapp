@@ -25,6 +25,13 @@
     &.simple {
     }
 
+    .more-schemes {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        text-decoration: none;
+    }
+
     .header {
         align-items: center;
         background: $white;
@@ -66,6 +73,14 @@
             overflow-y: hidden;
             padding: 0 1.5rem;
         }
+    }
+    .no-team-schemes {
+        margin: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, .5);
+        font-size: 16px;
+        color: $gray;
+        text-align: center;
     }
 }
 
@@ -257,4 +272,67 @@
             }
         }
     }
+}
+
+.permissions-scheme-summary {
+    margin: 0 20px;
+    padding: 10px 20px 0 20px;
+    min-height: 110px;
+    border-left: 2px solid $transparent;
+    cursor: pointer;
+    &:nth-child(2) {
+        margin-top: 20px;
+    }
+    &:last-child {
+        margin-bottom: 20px;
+    }
+    &:nth-child(odd) {
+        background: rgba(255, 255, 255, .5);
+    }
+    &:hover {
+        background-color: lighten($primary-color, 40%);
+        border-left: 2px solid $primary-color;
+    }
+    .permissions-scheme-summary--header {
+        display: flex;
+        flex-direction: row;
+        font-size: 1.1em;
+        .title {
+            flex-grow: 1;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .actions {
+            flex-grow: 0;
+            a {
+                display: inline-block;
+                padding: 0 3px;
+            }
+        }
+    }
+    .permissions-scheme-summary--teams {
+        padding-top: 30px;
+        .team {
+            margin-bottom: 10px;
+            height: 25px;
+            display: inline-flex;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 13px;
+            padding: 5px 8px;
+            margin-right: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.team-scheme-extra-teams-overlay {
+    .tooltip-inner {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.permission-scheme-summary-error-message {
+    color: $red;
 }

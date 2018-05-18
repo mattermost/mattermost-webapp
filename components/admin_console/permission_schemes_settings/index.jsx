@@ -4,24 +4,22 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
-
-import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+import {getSchemeTeams as loadSchemeTeams, getSchemes as loadSchemes} from 'mattermost-redux/actions/schemes';
+import {getSchemes} from 'mattermost-redux/selectors/entities/schemes';
 
 import PermissionSchemesSettings from './permission_schemes_settings.jsx';
 
 function mapStateToProps(state) {
     return {
-        roles: getRoles(state),
-        rolesRequest: state.requests.roles.getRolesByNames,
+        schemes: getSchemes(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadRolesIfNeeded,
-            editRole,
+            loadSchemes,
+            loadSchemeTeams,
         }, dispatch),
     };
 }
