@@ -204,12 +204,7 @@ export default class PermissionGroup extends React.Component {
     }
 
     hasPermissionsOnScope = () => {
-        for (const permission of this.getRecursivePermissions(this.props.permissions)) {
-            if (this.isInScope(permission)) {
-                return true;
-            }
-        }
-        return false;
+        return this.getRecursivePermissions(this.props.permissions).some((permission) => this.isInScope(permission));
     }
 
     allPermissionsFromParent = (permissions) => {
