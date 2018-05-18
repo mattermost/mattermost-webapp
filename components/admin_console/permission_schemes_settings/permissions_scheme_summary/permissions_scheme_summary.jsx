@@ -12,6 +12,8 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 
+const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
+
 export default class PermissionsSchemeSummary extends React.Component {
     static propTypes = {
         scheme: PropTypes.object.isRequired,
@@ -134,7 +136,7 @@ export default class PermissionsSchemeSummary extends React.Component {
         )) : [];
 
         let extraTeams = null;
-        if (teams.length > 8) {
+        if (teams.length > MAX_TEAMS_PER_SCHEME_SUMMARY) {
             extraTeams = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
@@ -145,7 +147,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                             className='team-scheme-extra-teams-overlay'
                             id={scheme.id + '-extra-teams-overlay'}
                         >
-                            {teams.slice(8)}
+                            {teams.slice(MAX_TEAMS_PER_SCHEME_SUMMARY)}
                         </Tooltip>
                     }
                 >
@@ -156,12 +158,12 @@ export default class PermissionsSchemeSummary extends React.Component {
                         <FormattedMessage
                             id='admin.permissions.permissionsSchemeSummary.moreTeams'
                             defaultMessage='+{number} more'
-                            values={{number: teams.length - 8}}
+                            values={{number: teams.length - MAX_TEAMS_PER_SCHEME_SUMMARY}}
                         />
                     </span>
                 </OverlayTrigger>
             );
-            teams = teams.slice(0, 8);
+            teams = teams.slice(0, MAX_TEAMS_PER_SCHEME_SUMMARY);
         }
         const confirmModal = this.renderConfirmModal();
 

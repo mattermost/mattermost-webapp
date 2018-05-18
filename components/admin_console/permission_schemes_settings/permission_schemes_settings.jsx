@@ -36,8 +36,8 @@ export default class PermissionSchemesSettings extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.loadSchemes('team', 0, PAGE_SIZE).then((schemes) => {
-            var promises = [];
-            for (var scheme of schemes.data) {
+            const promises = [];
+            for (const scheme of schemes.data) {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
             Promise.all(promises).then(() => this.setState({loading: false}));
@@ -47,8 +47,8 @@ export default class PermissionSchemesSettings extends React.PureComponent {
     loadMoreSchemes = () => {
         this.setState({loadingMore: true});
         this.props.actions.loadSchemes('team', this.state.page + 1, PAGE_SIZE).then((schemes) => {
-            var promises = [];
-            for (var scheme of schemes.data) {
+            const promises = [];
+            for (const scheme of schemes.data) {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
             Promise.all(promises).then(() => this.setState({loadingMore: false, page: this.state.page + 1}));
