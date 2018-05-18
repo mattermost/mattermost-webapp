@@ -404,8 +404,14 @@ export const StatTypes = keyMirror({
     MONTHLY_ACTIVE_USERS: null,
 });
 
+export const SearchUserTeamFilter = {
+    ALL_USERS: '',
+    NO_TEAM: 'no_team',
+};
+
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
+    SET_SYSTEM_USERS_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({

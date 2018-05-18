@@ -13,11 +13,15 @@ describe('components/admin_console/system_users', () => {
         mfaEnabled: false,
         enableUserAccessTokens: false,
         experimentalEnableAuthenticationTransfer: false,
+        searchTerm: '',
+        teamId: '',
+        totalUsers: 0,
         actions: {
             getTeams: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn().mockImplementation(() => Promise.resolve()),
             getUser: jest.fn().mockImplementation(() => Promise.resolve()),
             getUserAccessToken: jest.fn().mockImplementation(() => Promise.resolve()),
+            setSystemUsersSearch: jest.fn().mockImplementation(() => Promise.resolve()),
         },
     };
 
