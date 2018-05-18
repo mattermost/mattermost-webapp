@@ -225,7 +225,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
 
             if (
                 userIds[0] === this.props.currentUserId &&
-                ([ADD_TO_CHANNEL, ADD_TO_TEAM, REMOVE_FROM_CHANNEL, REMOVE_FROM_TEAM].includes(postType))
+                postTypeMessage[postType].one_you
             ) {
                 formattedMessage = (
                     <FormattedHTMLMessage

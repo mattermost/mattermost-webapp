@@ -259,7 +259,7 @@ export default class Post extends React.PureComponent {
                         />
                     </span>
                 );
-            } else if (isSystemMessage || post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
+            } else if (isSystemMessage) {
                 profilePic = (
                     <MattermostLogo className='icon'/>
                 );
