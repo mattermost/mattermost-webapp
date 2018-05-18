@@ -106,12 +106,12 @@
 
 @media (min-width: 880px) {
     .post-collapse__show-more {
-        margin-left: -30px;
+        padding-right: 60px;
     }
 
     .sidebar--right {
         .post-collapse__show-more {
-            margin-left: 0;
+            padding-right: 0;
         }
     }
 }
