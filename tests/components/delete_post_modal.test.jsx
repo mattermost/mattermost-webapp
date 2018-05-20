@@ -14,6 +14,7 @@ describe('components/delete_post_modal', () => {
         id: '123',
         message: 'test',
         channel_id: '5',
+        type: '',
     };
 
     const baseProps = {
@@ -21,7 +22,6 @@ describe('components/delete_post_modal', () => {
         commentCount: 0,
         isRHS: false,
         actions: {
-            deletePost: jest.fn(),
             deleteAndRemovePost: jest.fn(),
         },
         onHide: jest.fn(),
