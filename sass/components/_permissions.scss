@@ -138,7 +138,7 @@
         border: 2px solid $dark-gray;
         display: flex;
         justify-content: space-around;
-        margin: 5px 5px 5px 0;
+        margin-right: 5px;
         min-height: 18px;
         min-width: 18px;
 
@@ -239,7 +239,7 @@
     .permission-row,
     .permission-group-row {
         align-items: center;
-        border-left: 2px solid $transparent;
+        border: 2px solid $transparent;
         display: flex;
         flex-direction: row;
         height: 34px;
