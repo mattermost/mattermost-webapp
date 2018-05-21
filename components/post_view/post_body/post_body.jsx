@@ -278,10 +278,17 @@ export default class PostBody extends React.PureComponent {
             ephemeralPostClass = 'post--ephemeral';
         }
 
+        let threadStyle;
+        if (post && post.root_id && post.root_id.length > 0) {
+
+            // id format is something like 8g48askid3bmuc1ucswgm1g5ir -> take last character, 12 is length of style classes
+            threadStyle = "post-threadstyle-"+post.root_id.substring(1).charCodeAt(0)%12;
+        }
+
         return (
             <div>
                 {comment}
-                <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass}`}>
+                <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${threadStyle}`}>
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionListContainer
