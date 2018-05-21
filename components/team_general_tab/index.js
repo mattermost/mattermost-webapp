@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {updateTeam, removeTeamIcon, setTeamIcon} from 'mattermost-redux/actions/teams';
+import {Permissions} from 'mattermost-redux/constants';
+import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import TeamGeneralTab from './team_general_tab.jsx';
 
@@ -13,9 +15,12 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const maxFileSize = parseInt(config.MaxFileSize, 10);
 
+    const canInviteTeamMembers = haveITeamPermission(state, {team: ownProps.team.id, permission: Permissions.INVITE_USER});
+
     return {
         ...ownProps,
         maxFileSize,
+        canInviteTeamMembers,
     };
 }
 

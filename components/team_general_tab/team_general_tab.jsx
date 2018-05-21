@@ -27,6 +27,7 @@ export default class GeneralTab extends React.Component {
             removeTeamIcon: PropTypes.func.isRequired,
             setTeamIcon: PropTypes.func.isRequired,
         }).isRequired,
+        canInviteTeamMembers: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -418,7 +419,7 @@ export default class GeneralTab extends React.Component {
 
         let inviteSection;
 
-        if (this.props.activeSection === 'invite_id') {
+        if (this.props.activeSection === 'invite_id' && this.props.canInviteTeamMembers) {
             const inputs = [];
 
             inputs.push(
@@ -479,7 +480,7 @@ export default class GeneralTab extends React.Component {
                     updateSection={this.handleUpdateSection}
                 />
             );
-        } else {
+        } else if (this.props.canInviteTeamMembers) {
             inviteSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
