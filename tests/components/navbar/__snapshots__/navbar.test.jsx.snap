@@ -1062,7 +1062,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               <Connect(TeamPermissionGate)
                 permissions={
                   Array [
-                    "manage_team",
+                    "convert_public_channel",
                   ]
                 }
                 teamId="team_id"
@@ -1708,7 +1708,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               <Connect(TeamPermissionGate)
                 permissions={
                   Array [
-                    "manage_team",
+                    "convert_public_channel",
                   ]
                 }
                 teamId="team_id"
@@ -2170,7 +2170,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               <Connect(TeamPermissionGate)
                 permissions={
                   Array [
-                    "manage_team",
+                    "convert_public_channel",
                   ]
                 }
                 teamId="team_id"

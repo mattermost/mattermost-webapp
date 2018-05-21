@@ -735,7 +735,7 @@ export default class ChannelHeader extends React.Component {
                 dropdownContents.push(
                     <TeamPermissionGate
                         teamId={teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
+                        permissions={[Permissions.CONVERT_PUBLIC_CHANNEL]}
                         key='convert_channel_permission'
                     >
                         <li

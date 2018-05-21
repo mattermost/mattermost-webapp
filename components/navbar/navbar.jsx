@@ -606,7 +606,7 @@ export default class Navbar extends React.Component {
                         convertChannelOption = (
                             <TeamPermissionGate
                                 teamId={teamId}
-                                permissions={[Permissions.MANAGE_TEAM]}
+                                permissions={[Permissions.CONVERT_PUBLIC_CHANNEL]}
                             >
                                 <li role='presentation'>
                                     <ToggleModalButton
