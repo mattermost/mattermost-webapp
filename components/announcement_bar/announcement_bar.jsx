@@ -40,6 +40,7 @@ export default class AnnouncementBar extends React.PureComponent {
         bannerText: PropTypes.string,
         allowBannerDismissal: PropTypes.bool.isRequired,
         enableBanner: PropTypes.bool.isRequired,
+        enablePreviewMode: PropTypes.bool.isRequired,
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
@@ -76,7 +77,7 @@ export default class AnnouncementBar extends React.PureComponent {
             if (this.props.canViewSystemErrors && this.props.siteURL === '') {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.SITE_URL});
                 return;
-            } else if (!this.props.sendEmailNotifications) {
+            } else if (!this.props.sendEmailNotifications && this.props.enablePreviewMode) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.PREVIEW_MODE});
                 return;
             }
