@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -11,10 +11,13 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 const PAGE_SIZE = 30;
+const PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE = 501;
 
 export default class PermissionSchemesSettings extends React.PureComponent {
     static propTypes = {
         schemes: PropTypes.array.isRequired,
+        jobsAreEnabled: PropTypes.bool,
+        clustedIsEnabled: PropTypes.bool,
         actions: PropTypes.shape({
             loadSchemes: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
@@ -27,6 +30,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             loading: true,
             loadingMore: false,
             page: 0,
+            phase2MigrationIsComplete: false,
         };
     }
 
@@ -34,14 +38,22 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: [],
     };
 
-    componentDidMount() {
-        this.props.actions.loadSchemes('team', 0, PAGE_SIZE).then((schemes) => {
+    async componentWillMount() {
+        let schemes;
+        let phase2MigrationIsComplete = true; // Assume migration is complete unless HTTP status code says otherwise.
+        try {
+            schemes = await this.props.actions.loadSchemes('team', 0, PAGE_SIZE);
+            if (schemes.error.status_code === PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE) {
+                phase2MigrationIsComplete = false;
+            }
             const promises = [];
             for (const scheme of schemes.data) {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
-            Promise.all(promises).then(() => this.setState({loading: false}));
-        });
+            Promise.all(promises).then(() => this.setState({loading: false, phase2MigrationIsComplete}));
+        } catch (err) {
+            this.setState({loading: false, phase2MigrationIsComplete});
+        }
     }
 
     loadMoreSchemes = () => {
@@ -55,6 +67,43 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         });
     }
 
+    // |RunJobs && !EnableCluster|(*App).IsPhase2MigrationCompleted|View                                                   |
+    // |-------------------------|---------------------------------|-------------------------------------------------------|
+    // |true                     |true                             |null                                                   |
+    // |false                    |true                             |null (Jobs were disabled after a successful migration.)|
+    // |false                    |false                            |On hold view.                                          |
+    // |true                     |false                            |In progress view.                                      |
+    teamOverrideSchemesMigrationView = () => {
+        if (this.state.phase2MigrationIsComplete) {
+            return null;
+        }
+
+        if (this.props.jobsAreEnabled && !this.props.clustedIsEnabled) {
+            return this.teamOverrideUnavalableView(
+                'admin.permissions.teamOverrideSchemesInProgress',
+                'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the <a href="https://docs.mattermost.com/administration/config-settings.html#jobs" target="_blank">documentation</a>.'
+            );
+        }
+
+        return this.teamOverrideUnavalableView(
+            'admin.permissions.teamOverrideSchemesNoJobsEnabled',
+            'Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the <a href="https://docs.mattermost.com/administration/config-settings.html#jobs" target="_blank">documentation</a>.'
+        );
+    }
+
+    teamOverrideUnavalableView = (id, defaultMsg) => {
+        return (
+            <div className='team-override-unavailable'>
+                <div className='team-override-unavailable__inner'>
+                    <FormattedHTMLMessage
+                        id={id}
+                        defaultMessage={defaultMsg}
+                    />
+                </div>
+            </div>
+        );
+    };
+
     render = () => {
         if (this.state.loading) {
             return (<LoadingScreen/>);
@@ -65,6 +114,8 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 key={scheme.id}
             />
         ));
+
+        const teamOverrideView = this.teamOverrideSchemesMigrationView();
 
         return (
             <div className='wrapper--fixed'>
@@ -136,6 +187,14 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                             <Link
                                 className='btn btn-primary'
                                 to='/admin_console/permissions/team-override-scheme'
+                                disabled={teamOverrideView !== null}
+                                onClick={(e) => {
+                                    if (teamOverrideView !== null) {
+                                        e.preventDefault();
+                                        return false;
+                                    }
+                                    return true;
+                                }}
                             >
                                 <FormattedMessage
                                     id='admin.permissions.teamOverrideSchemesNewButton'
@@ -144,13 +203,14 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                             </Link>
                         </div>
                     </div>
-                    {schemes.length === 0 &&
+                    {schemes.length === 0 && teamOverrideView === null &&
                         <div className='no-team-schemes'>
                             <FormattedMessage
                                 id='admin.permissions.teamOverrideSchemesNoSchemes'
                                 defaultMessage='No team override schemes created.'
                             />
-                        </div> }
+                        </div>}
+                    {teamOverrideView}
                     {schemes.length > 0 && schemes}
                     {!this.state.loadingMore && schemes.length === (PAGE_SIZE * (this.state.page + 1)) &&
                         <button
