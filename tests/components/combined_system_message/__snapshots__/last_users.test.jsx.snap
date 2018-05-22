@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/combined_system_message/LastUsers should match snapshot 1`] = `
+<React.Fragment>
+  <FormattedMessage
+    defaultMessage="{firstUser} and "
+    id="last_users_message.first"
+    values={
+      Object {
+        "firstUser": "user_2",
+      }
+    }
+  />
+  <a
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="{numOthers} others "
+      id="last_users_message.others"
+      values={
+        Object {
+          "numOthers": 2,
+        }
+      }
+    />
+  </a>
+  <FormattedHTMLMessage
+    defaultMessage="were <b>added to the channel</b> by {actor}."
+    id="last_users_message.added_to_channel.type"
+    values={
+      Object {
+        "actor": "user_1",
+      }
+    }
+  />
+</React.Fragment>
+`;
+
+exports[`components/post_view/combined_system_message/LastUsers should match snapshot, expanded 1`] = `
+<FormattedHTMLMessage
+  defaultMessage="{users} and {lastUser} <b>added to the channel</b> by {actor}."
+  id="combined_system_message.added_to_channel.many_expanded"
+  values={
+    Object {
+      "actor": "user_1",
+      "lastUser": "user_4 ",
+      "users": "user_2, user_3",
+    }
+  }
+/>
+`;

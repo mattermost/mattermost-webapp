@@ -3,9 +3,9 @@
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions} from 'mattermost-redux/constants';
@@ -59,11 +59,10 @@ export function getImageSrc(src, hasImageProxy) {
 
 export function getProfilePicSrcForPost(post, user) {
     const config = getConfig(store.getState());
-
     let src = '';
     if (user && user.id === post.user_id) {
         src = Utils.imageURLForUser(user);
-    } else {
+    } else if (post.user_id) {
         src = Utils.imageURLForUser(post.user_id);
     }
 

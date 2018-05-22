@@ -4,12 +4,15 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {General, Posts} from 'mattermost-redux/constants';
+
 import ChannelStore from 'stores/channel_store.jsx';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import {Constants, PostTypes} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import CombinedSystemMessage from 'components/post_view/combined_system_message';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 function renderUsername(value, options) {
@@ -298,19 +301,19 @@ function renderChannelDeletedMessage(post, options) {
 }
 
 const systemMessageRenderers = {
-    [PostTypes.JOIN_CHANNEL]: renderJoinChannelMessage,
-    [PostTypes.LEAVE_CHANNEL]: renderLeaveChannelMessage,
-    [PostTypes.ADD_TO_CHANNEL]: renderAddToChannelMessage,
-    [PostTypes.REMOVE_FROM_CHANNEL]: renderRemoveFromChannelMessage,
-    [PostTypes.JOIN_TEAM]: renderJoinTeamMessage,
-    [PostTypes.LEAVE_TEAM]: renderLeaveTeamMessage,
-    [PostTypes.ADD_TO_TEAM]: renderAddToTeamMessage,
-    [PostTypes.REMOVE_FROM_TEAM]: renderRemoveFromTeamMessage,
-    [PostTypes.HEADER_CHANGE]: renderHeaderChangeMessage,
-    [PostTypes.DISPLAYNAME_CHANGE]: renderDisplayNameChangeMessage,
-    [PostTypes.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
-    [PostTypes.PURPOSE_CHANGE]: renderPurposeChangeMessage,
-    [PostTypes.CHANNEL_DELETED]: renderChannelDeletedMessage,
+    [Posts.POST_TYPES.JOIN_CHANNEL]: renderJoinChannelMessage,
+    [Posts.POST_TYPES.LEAVE_CHANNEL]: renderLeaveChannelMessage,
+    [Posts.POST_TYPES.ADD_TO_CHANNEL]: renderAddToChannelMessage,
+    [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: renderRemoveFromChannelMessage,
+    [Posts.POST_TYPES.JOIN_TEAM]: renderJoinTeamMessage,
+    [Posts.POST_TYPES.LEAVE_TEAM]: renderLeaveTeamMessage,
+    [Posts.POST_TYPES.ADD_TO_TEAM]: renderAddToTeamMessage,
+    [Posts.POST_TYPES.REMOVE_FROM_TEAM]: renderRemoveFromTeamMessage,
+    [Posts.POST_TYPES.HEADER_CHANGE]: renderHeaderChangeMessage,
+    [Posts.POST_TYPES.DISPLAYNAME_CHANGE]: renderDisplayNameChangeMessage,
+    [Posts.POST_TYPES.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
+    [Posts.POST_TYPES.PURPOSE_CHANGE]: renderPurposeChangeMessage,
+    [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
 };
 
 export function renderSystemMessage(post, options) {
@@ -319,7 +322,7 @@ export function renderSystemMessage(post, options) {
         const isUserCanManageMembers = canManageMembers(channel);
         const isEphemeral = Utils.isPostEphemeral(post);
 
-        if ((channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.OPEN_CHANNEL) &&
+        if ((channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
             isUserCanManageMembers &&
             isEphemeral
         ) {
@@ -336,8 +339,17 @@ export function renderSystemMessage(post, options) {
         return null;
     } else if (systemMessageRenderers[post.type]) {
         return systemMessageRenderers[post.type](post, options);
-    } else if (post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL) {
+    } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post, options);
+    } else if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
+        const {allUserIds, messageData} = post.props.user_activity;
+
+        return (
+            <CombinedSystemMessage
+                allUserIds={allUserIds}
+                messageData={messageData}
+            />
+        );
     }
 
     return null;

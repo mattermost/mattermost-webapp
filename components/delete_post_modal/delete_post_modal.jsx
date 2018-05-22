@@ -55,13 +55,13 @@ export default class DeletePostModal extends React.PureComponent {
             teamName,
         } = this.props;
 
-        const {data} = await actions.deleteAndRemovePost(post);
+        const result = await actions.deleteAndRemovePost(post);
 
         if (post.id === focusedPostId && channelName) {
             browserHistory.push('/' + teamName + '/channels/' + channelName);
         }
 
-        if (data) {
+        if (result.data) {
             this.onHide();
         }
     }

@@ -45,7 +45,7 @@ class TeamImportTab extends React.Component {
 
     render() {
         const {formatMessage} = this.props.intl;
-        var uploadDocsLink = (
+        const uploadDocsLink = (
             <a
                 href='https://docs.mattermost.com/administration/migrating.html#migrating-from-slack'
                 target='_blank'
@@ -58,7 +58,7 @@ class TeamImportTab extends React.Component {
             </a>
         );
 
-        var uploadExportInstructions = (
+        const uploadExportInstructions = (
             <strong>
                 <FormattedMessage
                     id='team_import_tab.importHelpExportInstructions'
@@ -67,7 +67,7 @@ class TeamImportTab extends React.Component {
             </strong>
         );
 
-        var uploadExporterLink = (
+        const uploadExporterLink = (
             <a
                 href='https://github.com/grundleborg/slack-advanced-exporter'
                 target='_blank'
@@ -80,7 +80,20 @@ class TeamImportTab extends React.Component {
             </a>
         );
 
-        var uploadHelpText = (
+        const importCliLink = (
+            <a
+                href='https://docs.mattermost.com/administration/migrating.html#migrating-from-slack-using-the-mattermost-cli'
+                target='_blank'
+                rel='noopener noreferrer'
+            >
+                <FormattedMessage
+                    id='team_import_tab.importHelpCliDocsLink'
+                    defaultMessage='CLI tool for Slack import'
+                />
+            </a>
+        );
+
+        const uploadHelpText = (
             <div>
                 <p>
                     <FormattedMessage
@@ -107,10 +120,19 @@ class TeamImportTab extends React.Component {
                         }}
                     />
                 </p>
+                <p>
+                    <FormattedMessage
+                        id='team_import_tab.importHelpLine4'
+                        defaultMessage='For Slack teams with over 10,000 messages, we recommend using the {cliLink}.'
+                        values={{
+                            cliLink: importCliLink,
+                        }}
+                    />
+                </p>
             </div>
         );
 
-        var uploadSection = (
+        const uploadSection = (
             <SettingUpload
                 title={formatMessage(holders.importSlack)}
                 submit={this.doImportSlack}
@@ -119,7 +141,7 @@ class TeamImportTab extends React.Component {
             />
         );
 
-        var messageSection;
+        let messageSection;
         switch (this.state.status) {
         case 'ready':
             messageSection = '';
