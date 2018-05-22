@@ -2775,6 +2775,8 @@
   "team_import_tab.importHelpLine1": "Slack import to Mattermost supports importing of messages in your Slack team's public channels.",
   "team_import_tab.importHelpLine2": "To import a team from Slack, go to {exportInstructions}. See {uploadDocsLink} to learn more.",
   "team_import_tab.importHelpLine3": "To import posts with attached files, see {slackAdvancedExporterLink} for details.",
+  "team_import_tab.importHelpLine4": "For Slack teams with over 10,000 messages, we recommend using the {cliLink}.",
+  "team_import_tab.importHelpCliDocsLink": "CLI tool for Slack import",
   "team_import_tab.importSlack": "Import from Slack (Beta)",
   "team_import_tab.importing": " Importing...",
   "team_import_tab.successful": " Import successful: ",
