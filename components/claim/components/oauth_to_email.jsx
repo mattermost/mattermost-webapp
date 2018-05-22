@@ -30,11 +30,9 @@ export default class OAuthToEmail extends React.Component {
             return;
         }
 
-        const passwordErr = Utils.isValidPassword(password, this.props.passwordConfig);
-        if (passwordErr !== '') {
-            this.setState({
-                error: passwordErr,
-            });
+        const {valid, error} = Utils.isValidPassword(password, this.props.passwordConfig);
+        if (!valid && error) {
+            this.setState({error});
             return;
         }
 

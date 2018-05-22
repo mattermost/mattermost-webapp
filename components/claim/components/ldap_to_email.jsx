@@ -48,10 +48,10 @@ export default class LDAPToEmail extends React.Component {
             return;
         }
 
-        const passwordErr = Utils.isValidPassword(password, this.props.passwordConfig);
-        if (passwordErr !== '') {
+        const {valid, error} = Utils.isValidPassword(password, this.props.passwordConfig);
+        if (!valid && error) {
             this.setState({
-                passwordError: passwordErr,
+                passwordError: error,
             });
             return;
         }

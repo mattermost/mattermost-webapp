@@ -32,7 +32,10 @@ export default class SettingItemMax extends React.PureComponent {
         /**
          * Client error
          */
-        clientError: PropTypes.string,
+        clientError: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object,
+        ]),
 
         /**
          * Server error
