@@ -15,6 +15,7 @@ describe('components/AnnouncementBar', () => {
         licenseId: '',
         siteURL: '',
         sendEmailNotifications: true,
+        enablePreviewMode: false,
         bannerText: 'Banner text',
         allowBannerDismissal: true,
         enableBanner: true,

@@ -31,6 +31,7 @@ export default class EmailSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.EmailSettings.SendEmailNotifications = this.state.sendEmailNotifications;
+        config.EmailSettings.EnablePreviewModeBanner = this.state.enablePreviewModeBanner;
         config.EmailSettings.FeedbackName = this.state.feedbackName;
         config.EmailSettings.FeedbackEmail = this.state.feedbackEmail;
         config.EmailSettings.FeedbackOrganization = this.state.feedbackOrganization;
@@ -49,7 +50,7 @@ export default class EmailSettings extends AdminSettings {
     }
 
     handleSaved(newConfig) {
-        if (newConfig.EmailSettings.SendEmailNotifications) {
+        if (newConfig.EmailSettings.SendEmailNotifications || !newConfig.EmailSettings.EnablePreviewModeBanner) {
             ErrorStore.clearError(ErrorBarTypes.PREVIEW_MODE);
         }
     }
@@ -57,6 +58,7 @@ export default class EmailSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             sendEmailNotifications: config.EmailSettings.SendEmailNotifications,
+            enablePreviewModeBanner: config.EmailSettings.EnablePreviewModeBanner,
             feedbackName: config.EmailSettings.FeedbackName,
             feedbackEmail: config.EmailSettings.FeedbackEmail,
             feedbackOrganization: config.EmailSettings.FeedbackOrganization,
@@ -168,12 +170,31 @@ export default class EmailSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.email.notificationsDescription'
-                            defaultMessage='Typically set to true in production. When true, Mattermost attempts to send email notifications. Developers may set this field to false to skip email setup for faster development.<br />Setting this to true removes the Preview Mode banner (requires logging out and logging back in after setting is changed).'
+                            defaultMessage='Typically set to true in production. When true, Mattermost attempts to send email notifications. Developers may set this field to false to skip email setup for faster development.'
                         />
                     }
                     value={this.state.sendEmailNotifications}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('EmailSettings.SendEmailNotifications')}
+                />
+                <BooleanSetting
+                    id='enablePreviewModeBanner'
+                    label={
+                        <FormattedMessage
+                            id='admin.email.enablePreviewModeBannerTitle'
+                            defaultMessage='Enable Preview Mode Banner:'
+                        />
+                    }
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.email.enablePreviewModeBannerDescription'
+                            defaultMessage='When true, the Preview Mode banner is displayed so users are aware that email notifications are disabled. When false, the Preview Mode banner is not displayed to users.'
+                        />
+                    }
+                    value={this.state.enablePreviewModeBanner}
+                    onChange={this.handleChange}
+                    disabled={this.state.sendEmailNotifications}
+                    setByEnv={this.isSetByEnv('EmailSettings.EnablePreviewModeBanner')}
                 />
                 <BooleanSetting
                     id='enableEmailBatching'
