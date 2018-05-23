@@ -126,10 +126,10 @@ export default class SecurityTab extends React.Component {
             return;
         }
 
-        const passwordErr = Utils.isValidPassword(newPassword, this.props.passwordConfig);
-        if (passwordErr !== '') {
+        const {valid, error} = Utils.isValidPassword(newPassword, this.props.passwordConfig);
+        if (!valid && error) {
             this.setState({
-                passwordError: passwordErr,
+                passwordError: error,
                 serverError: '',
             });
             return;

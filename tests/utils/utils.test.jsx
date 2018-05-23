@@ -206,107 +206,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
 });
 
 describe('Utils.isValidPassword', function() {
-    test('Password min/max length enforced if no EE password requirements set', function() {
-        for (const data of [
-            {
-                password: 'four',
-                config: { // not EE, so password just has to be min < length < max
-                    isEnterprise: false,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // not EE, so password just has to be min < length < max
-                    isEnterprise: false,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thisisavalidpassword',
-                config: { // not EE, so password just has to be min < length < max
-                    isEnterprise: false,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
-                },
-                valid: true,
-            },
-            {
-                password: 'four',
-                config: { // not licensed, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: false,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // not licensed, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: false,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thisisavalidpassword',
-                config: { // not licensed, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: false,
-                    isPasswordRequirements: true,
-                },
-                valid: true,
-            },
-            {
-                password: 'four',
-                config: { // no password requirements, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: false,
-                },
-                valid: false,
-            },
-            {
-                password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // no password requirements, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: false,
-                },
-                valid: false,
-            },
-            {
-                password: 'thisisavalidpassword',
-                config: { // no password requirements, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: false,
-                },
-                valid: true,
-            },
-        ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
-        }
-    });
-
     test('Minimum length enforced', function() {
         for (const data of [
             {
                 password: 'tooshort',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 10,
                     requireLowercase: false,
                     requireUppercase: false,
@@ -318,9 +222,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'longenoughpassword',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 10,
                     requireLowercase: false,
                     requireUppercase: false,
@@ -330,12 +231,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -344,9 +241,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'UPPERCASE',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: false,
@@ -358,9 +252,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'SOMELowercase',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: false,
@@ -370,12 +261,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -384,9 +271,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'lowercase',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: false,
                     requireUppercase: true,
@@ -398,9 +282,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'SOMEUppercase',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: false,
                     requireUppercase: true,
@@ -410,12 +291,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -424,9 +301,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'NoNumbers',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -438,9 +312,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'S0m3Numb3rs',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -450,12 +321,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -464,9 +331,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'N0Symb0ls',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -478,9 +342,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'S0m3Symb0!s',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -490,12 +351,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 });

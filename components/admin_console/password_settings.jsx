@@ -35,42 +35,37 @@ export default class PasswordSettings extends AdminSettings {
         });
 
         // Update sample message from config settings
-        this.sampleErrorMsg = null;
-        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
-            let sampleErrorMsgId = 'user.settings.security.passwordError';
-            if (props.config.PasswordSettings.Lowercase) {
-                sampleErrorMsgId += 'Lowercase';
-            }
-            if (props.config.PasswordSettings.Uppercase) {
-                sampleErrorMsgId += 'Uppercase';
-            }
-            if (props.config.PasswordSettings.Number) {
-                sampleErrorMsgId += 'Number';
-            }
-            if (props.config.PasswordSettings.Symbol) {
-                sampleErrorMsgId += 'Symbol';
-            }
-            this.sampleErrorMsg = (
-                <FormattedMessage
-                    id={sampleErrorMsgId}
-                    default='Your password must contain between {min} and {max} characters.'
-                    values={{
-                        min: (this.state.passwordMinimumLength || Constants.MIN_PASSWORD_LENGTH),
-                        max: Constants.MAX_PASSWORD_LENGTH,
-                    }}
-                />
-            );
+        let sampleErrorMsgId = 'user.settings.security.passwordError';
+        if (props.config.PasswordSettings.Lowercase) {
+            sampleErrorMsgId += 'Lowercase';
         }
+        if (props.config.PasswordSettings.Uppercase) {
+            sampleErrorMsgId += 'Uppercase';
+        }
+        if (props.config.PasswordSettings.Number) {
+            sampleErrorMsgId += 'Number';
+        }
+        if (props.config.PasswordSettings.Symbol) {
+            sampleErrorMsgId += 'Symbol';
+        }
+        this.sampleErrorMsg = (
+            <FormattedMessage
+                id={sampleErrorMsgId}
+                default='Your password must contain between {min} and {max} characters.'
+                values={{
+                    min: (this.state.passwordMinimumLength || Constants.MIN_PASSWORD_LENGTH),
+                    max: Constants.MAX_PASSWORD_LENGTH,
+                }}
+            />
+        );
     }
 
     getConfigFromState(config) {
-        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
-            config.PasswordSettings.MinimumLength = this.parseIntNonZero(this.state.passwordMinimumLength, Constants.MIN_PASSWORD_LENGTH);
-            config.PasswordSettings.Lowercase = this.refs.lowercase.checked;
-            config.PasswordSettings.Uppercase = this.refs.uppercase.checked;
-            config.PasswordSettings.Number = this.refs.number.checked;
-            config.PasswordSettings.Symbol = this.refs.symbol.checked;
-        }
+        config.PasswordSettings.MinimumLength = this.parseIntNonZero(this.state.passwordMinimumLength, Constants.MIN_PASSWORD_LENGTH);
+        config.PasswordSettings.Lowercase = this.refs.lowercase.checked;
+        config.PasswordSettings.Uppercase = this.refs.uppercase.checked;
+        config.PasswordSettings.Number = this.refs.number.checked;
+        config.PasswordSettings.Symbol = this.refs.symbol.checked;
 
         config.ServiceSettings.MaximumLoginAttempts = this.parseIntNonZero(this.state.maximumLoginAttempts);
 
@@ -89,41 +84,37 @@ export default class PasswordSettings extends AdminSettings {
     }
 
     getSampleErrorMsg(minLength) {
-        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
-            if (this.props.config.PasswordSettings.MinimumLength > Constants.MAX_PASSWORD_LENGTH || this.props.config.PasswordSettings.MinimumLength < Constants.MIN_PASSWORD_LENGTH) {
-                return (
-                    <FormattedMessage
-                        id='user.settings.security.passwordMinLength'
-                        default='Invalid minimum length, cannot show preview.'
-                    />
-                );
-            }
-            let sampleErrorMsgId = 'user.settings.security.passwordError';
-            if (this.refs.lowercase.checked) {
-                sampleErrorMsgId += 'Lowercase';
-            }
-            if (this.refs.uppercase.checked) {
-                sampleErrorMsgId += 'Uppercase';
-            }
-            if (this.refs.number.checked) {
-                sampleErrorMsgId += 'Number';
-            }
-            if (this.refs.symbol.checked) {
-                sampleErrorMsgId += 'Symbol';
-            }
+        if (this.props.config.PasswordSettings.MinimumLength > Constants.MAX_PASSWORD_LENGTH || this.props.config.PasswordSettings.MinimumLength < Constants.MIN_PASSWORD_LENGTH) {
             return (
                 <FormattedMessage
-                    id={sampleErrorMsgId}
-                    default='Your password must contain between {min} and {max} characters.'
-                    values={{
-                        min: (minLength || Constants.MIN_PASSWORD_LENGTH),
-                        max: Constants.MAX_PASSWORD_LENGTH,
-                    }}
+                    id='user.settings.security.passwordMinLength'
+                    default='Invalid minimum length, cannot show preview.'
                 />
             );
         }
-
-        return null;
+        let sampleErrorMsgId = 'user.settings.security.passwordError';
+        if (this.refs.lowercase.checked) {
+            sampleErrorMsgId += 'Lowercase';
+        }
+        if (this.refs.uppercase.checked) {
+            sampleErrorMsgId += 'Uppercase';
+        }
+        if (this.refs.number.checked) {
+            sampleErrorMsgId += 'Number';
+        }
+        if (this.refs.symbol.checked) {
+            sampleErrorMsgId += 'Symbol';
+        }
+        return (
+            <FormattedMessage
+                id={sampleErrorMsgId}
+                default='Your password must contain between {min} and {max} characters.'
+                values={{
+                    min: (minLength || Constants.MIN_PASSWORD_LENGTH),
+                    max: Constants.MAX_PASSWORD_LENGTH,
+                }}
+            />
+        );
     }
 
     handlePasswordLengthChange(id, value) {
@@ -146,9 +137,8 @@ export default class PasswordSettings extends AdminSettings {
     }
 
     renderSettings() {
-        let passwordSettings = null;
-        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
-            passwordSettings = (
+        return (
+            <SettingsGroup>
                 <div>
                     <TextSetting
                         id='passwordMinimumLength'
@@ -254,12 +244,6 @@ export default class PasswordSettings extends AdminSettings {
                         </div>
                     </Setting>
                 </div>
-            );
-        }
-
-        return (
-            <SettingsGroup>
-                {passwordSettings}
                 <TextSetting
                     id='maximumLoginAttempts'
                     label={
