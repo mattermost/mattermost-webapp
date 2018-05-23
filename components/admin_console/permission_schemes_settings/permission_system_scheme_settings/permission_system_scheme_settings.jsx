@@ -5,8 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {Modal} from 'react-bootstrap';
 
-import {PermissionsScope} from 'utils/constants.jsx';
+import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import SaveButton from 'components/save_button.jsx';
@@ -28,6 +29,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            showResetDefaultModal: false,
             loaded: false,
             saving: false,
             saveNeeded: false,
@@ -40,28 +42,18 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 channel_admin: true,
             },
         };
+        this.rolesNeeded = ['system_admin', 'system_user', 'team_admin', 'team_user', 'channel_admin', 'channel_user'];
     }
 
     componentDidMount() {
-        this.props.actions.loadRolesIfNeeded(['system_admin', 'system_user', 'team_admin', 'team_user', 'channel_admin', 'channel_user']);
-        if (this.props.roles.system_user &&
-            this.props.roles.system_admin &&
-            this.props.roles.team_user &&
-            this.props.roles.team_admin &&
-            this.props.roles.channel_user &&
-            this.props.roles.channel_admin) {
+        this.props.actions.loadRolesIfNeeded(this.rolesNeeded);
+        if (this.rolesNeeded.every((roleName) => this.props.roles[roleName])) {
             this.loadRolesIntoState(this.props);
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!this.state.loaded &&
-            nextProps.roles.system_user &&
-            nextProps.roles.system_admin &&
-            nextProps.roles.team_user &&
-            nextProps.roles.team_admin &&
-            nextProps.roles.channel_user &&
-            nextProps.roles.channel_admin) {
+        if (!this.state.loaded && this.rolesNeeded.every((roleName) => nextProps.roles[roleName])) {
             this.loadRolesIntoState(nextProps);
         }
     }
@@ -177,6 +169,16 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         roles[roleId] = role;
 
         this.setState({roles, saveNeeded: true});
+    }
+
+    resetDefaults = () => {
+        const newRolesState = JSON.parse(JSON.stringify({...this.state.roles}));
+
+        Object.entries(DefaultRolePermissions).forEach(([roleName, permissions]) => {
+            newRolesState[roleName].permissions = permissions;
+        });
+
+        this.setState({roles: newRolesState, saveNeeded: true});
     }
 
     render = () => {
@@ -354,10 +356,69 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                             defaultMessage='Cancel'
                         />
                     </Link>
+                    <a
+                        onClick={() => this.setState({showResetDefaultModal: true})}
+                        className='cancel-button reset-defaults-btn'
+                    >
+                        <FormattedMessage
+                            id='admin.permissions.systemScheme.resetDefaultsButton'
+                            defaultMessage='Reset to Defaults'
+                        />
+                    </a>
                     <div className='error-message'>
                         <FormError error={this.state.serverError}/>
                     </div>
                 </div>
+
+                <Modal
+                    dialogClassName='admin-modal'
+                    show={this.state.showResetDefaultModal}
+                    onHide={() => this.setState({showResetDefaultModal: false})}
+                >
+                    <Modal.Header
+                        closeButton={true}
+                    >
+                        <h4 className='modal-title'>
+                            <FormattedMessage
+                                id='admin.permissions.systemScheme.resetDefaultsButtonModalTitle'
+                                defaultMessage='Reset to Default?'
+                            />
+                        </h4>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormattedMessage
+                            id='admin.permissions.systemScheme.resetDefaultsButtonModalBody'
+                            defaultMessage='This will reset all selections on this page to their default settings. Are you sure you want to reset?'
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button
+                            type='button'
+                            className='btn btn-cancel'
+                            onClick={() => this.setState({showResetDefaultModal: false})}
+                        >
+                            <FormattedMessage
+                                id='confirm_modal.cancel'
+                                defaultMessage='Cancel'
+                            />
+                        </button>
+                        <button
+                            id='linkModalCloseButton'
+                            type='button'
+                            className='btn btn-default'
+                            onClick={() => {
+                                this.resetDefaults();
+                                this.setState({showResetDefaultModal: false});
+                            }}
+                        >
+                            <FormattedMessage
+                                id='admin.permissions.systemScheme.resetDefaultsConfirmationButton'
+                                defaultMessage='Yes, Reset'
+                            />
+                        </button>
+                    </Modal.Footer>
+                </Modal>
+
             </div>
         );
     };

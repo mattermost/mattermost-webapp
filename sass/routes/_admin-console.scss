@@ -423,6 +423,12 @@
                 white-space: nowrap;
             }
         }
+        .reset-defaults-btn {
+            position: absolute;
+            right: 0; 
+            padding-right: 10px; 
+            padding-left: 10px;
+        }
     }
 
     .status-icon-unknown {
