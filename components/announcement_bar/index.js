@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     const licenseId = license.Id;
     const siteURL = config.SiteURL;
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
+    const enablePreviewMode = config.EnablePreviewModeBanner === 'true';
     const bannerText = config.BannerText;
     const allowBannerDismissal = config.AllowBannerDismissal === 'true';
     const enableBanner = config.EnableBanner === 'true';
@@ -35,6 +36,7 @@ function mapStateToProps(state) {
         bannerText,
         allowBannerDismissal,
         enableBanner,
+        enablePreviewMode,
         bannerColor,
         bannerTextColor,
         enableSignUpWithGitLab,

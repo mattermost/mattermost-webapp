@@ -1,0 +1,243 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/PluginManagement should match snapshot 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    <FormattedMessage
+      defaultMessage="Management"
+      id="admin.plugin.management.title"
+      values={Object {}}
+    />
+  </h3>
+  <form
+    className="form-horizontal"
+    role="form"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="control-label col-sm-4"
+      >
+        <FormattedMessage
+          defaultMessage="Upload Plugin: "
+          id="admin.plugin.uploadTitle"
+          values={Object {}}
+        />
+      </label>
+      <div
+        className="col-sm-8"
+      >
+        <div
+          className="file__upload"
+        >
+          <button
+            className="btn btn-primary"
+            disabled={false}
+          >
+            <FormattedMessage
+              defaultMessage="Choose File"
+              id="admin.plugin.choose"
+              values={Object {}}
+            />
+          </button>
+          <input
+            accept=".gz"
+            disabled={false}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <button
+          className="btn"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Upload"
+            id="admin.plugin.upload"
+            values={Object {}}
+          />
+        </button>
+        <div
+          className="help-text no-margin"
+        />
+        <p
+          className="help-text"
+        >
+          <FormattedHTMLMessage
+            defaultMessage="Upload a plugin for your Mattermost server. See <a href=\\"https://about.mattermost.com/default-plugin-uploads\\" target=\\"_blank\\">documentation</a> to learn more."
+            id="admin.plugin.uploadDesc"
+            values={Object {}}
+          />
+        </p>
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="control-label col-sm-4"
+      >
+        <FormattedMessage
+          defaultMessage="Installed Plugins: "
+          id="admin.plugin.installedTitle"
+          values={Object {}}
+        />
+      </label>
+      <div
+        className="col-sm-8"
+      >
+        <p
+          className="help-text"
+        >
+          <FormattedHTMLMessage
+            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be deactivated but not removed."
+            id="admin.plugin.installedDesc"
+            values={Object {}}
+          />
+        </p>
+        <br />
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/PluginManagement should match snapshot, disabled 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    <FormattedMessage
+      defaultMessage="Management"
+      id="admin.plugin.management.title"
+      values={Object {}}
+    />
+  </h3>
+  <Banner
+    description={
+      <FormattedHTMLMessage
+        defaultMessage="Plugins are disabled on your server. To enable them, go to <strong>Plugins > Configuration</strong>."
+        id="admin.plugin.management.banner"
+        values={Object {}}
+      />
+    }
+    title={<div />}
+  />
+</div>
+`;
+
+exports[`components/PluginManagement should match snapshot, upload disabled 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    <FormattedMessage
+      defaultMessage="Management"
+      id="admin.plugin.management.title"
+      values={Object {}}
+    />
+  </h3>
+  <form
+    className="form-horizontal"
+    role="form"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="control-label col-sm-4"
+      >
+        <FormattedMessage
+          defaultMessage="Upload Plugin: "
+          id="admin.plugin.uploadTitle"
+          values={Object {}}
+        />
+      </label>
+      <div
+        className="col-sm-8"
+      >
+        <div
+          className="file__upload"
+        >
+          <button
+            className="btn"
+            disabled={true}
+          >
+            <FormattedMessage
+              defaultMessage="Choose File"
+              id="admin.plugin.choose"
+              values={Object {}}
+            />
+          </button>
+          <input
+            accept=".gz"
+            disabled={true}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <button
+          className="btn"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Upload"
+            id="admin.plugin.upload"
+            values={Object {}}
+          />
+        </button>
+        <div
+          className="help-text no-margin"
+        />
+        <p
+          className="help-text"
+        >
+          <FormattedHTMLMessage
+            defaultMessage="To enable plugin uploads, go to <strong>Plugins > Configuration</strong>. See <a href=\\"https://about.mattermost.com/default-plugin-uploads\\" target=\\"_blank\\">documentation</a> to learn more."
+            id="admin.plugin.uploadDisabledDesc"
+            values={Object {}}
+          />
+        </p>
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="control-label col-sm-4"
+      >
+        <FormattedMessage
+          defaultMessage="Installed Plugins: "
+          id="admin.plugin.installedTitle"
+          values={Object {}}
+        />
+      </label>
+      <div
+        className="col-sm-8"
+      >
+        <p
+          className="help-text"
+        >
+          <FormattedHTMLMessage
+            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be deactivated but not removed."
+            id="admin.plugin.installedDesc"
+            values={Object {}}
+          />
+        </p>
+        <br />
+      </div>
+    </div>
+  </form>
+</div>
+`;

@@ -1346,9 +1346,6 @@ export function canCreateCustomEmoji(user) {
 
 export function getPasswordConfig(license, config) {
     return {
-        isEnterprise: config.BuildEnterpriseReady === 'true',
-        isLicensed: license.IsLicensed === 'true',
-        isPasswordRequirements: license.PasswordRequirements === 'true',
         minimumLength: parseInt(config.PasswordMinimumLength, 10),
         requireLowercase: config.PasswordRequireLowercase === 'true',
         requireUppercase: config.PasswordRequireUppercase === 'true',
@@ -1358,55 +1355,49 @@ export function getPasswordConfig(license, config) {
 }
 
 export function isValidPassword(password, passwordConfig) {
-    let errorMsg = '';
     let errorId = 'user.settings.security.passwordError';
-    let error = false;
-    let minimumLength = Constants.MIN_PASSWORD_LENGTH;
+    let valid = true;
+    const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
 
-    if (passwordConfig.isEnterprise && passwordConfig.isLicensed && passwordConfig.isPasswordRequirements) {
-        if (password.length < passwordConfig.minimumLength || password.length > Constants.MAX_PASSWORD_LENGTH) {
-            error = true;
-        }
-
-        if (passwordConfig.requireLowercase) {
-            if (!password.match(/[a-z]/)) {
-                error = true;
-            }
-
-            errorId += 'Lowercase';
-        }
-
-        if (passwordConfig.requireUppercase) {
-            if (!password.match(/[A-Z]/)) {
-                error = true;
-            }
-
-            errorId += 'Uppercase';
-        }
-
-        if (passwordConfig.requireNumber) {
-            if (!password.match(/[0-9]/)) {
-                error = true;
-            }
-
-            errorId += 'Number';
-        }
-
-        if (passwordConfig.requireSymbol) {
-            if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
-                error = true;
-            }
-
-            errorId += 'Symbol';
-        }
-
-        minimumLength = passwordConfig.minimumLength;
-    } else if (password.length < Constants.MIN_PASSWORD_LENGTH || password.length > Constants.MAX_PASSWORD_LENGTH) {
-        error = true;
+    if (password.length < minimumLength || password.length > Constants.MAX_PASSWORD_LENGTH) {
+        valid = false;
     }
 
-    if (error) {
-        errorMsg = (
+    if (passwordConfig.requireLowercase) {
+        if (!password.match(/[a-z]/)) {
+            valid = false;
+        }
+
+        errorId += 'Lowercase';
+    }
+
+    if (passwordConfig.requireUppercase) {
+        if (!password.match(/[A-Z]/)) {
+            valid = false;
+        }
+
+        errorId += 'Uppercase';
+    }
+
+    if (passwordConfig.requireNumber) {
+        if (!password.match(/[0-9]/)) {
+            valid = false;
+        }
+
+        errorId += 'Number';
+    }
+
+    if (passwordConfig.requireSymbol) {
+        if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
+            valid = false;
+        }
+
+        errorId += 'Symbol';
+    }
+
+    let error;
+    if (!valid) {
+        error = (
             <FormattedMessage
                 id={errorId}
                 default='Your password must contain between {min} and {max} characters.'
@@ -1418,7 +1409,7 @@ export function isValidPassword(password, passwordConfig) {
         );
     }
 
-    return errorMsg;
+    return {valid, error};
 }
 
 export function handleFormattedTextClick(e) {

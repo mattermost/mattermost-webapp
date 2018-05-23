@@ -17,9 +17,9 @@ import TeamStore from 'stores/team_store.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 
 import logoImage from 'images/logo.png';
 

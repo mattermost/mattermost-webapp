@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as PostUtils from 'utils/post_utils.jsx';
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
@@ -83,6 +83,6 @@ export default class PostMarkdown extends React.PureComponent {
         }
 
         const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
-        return PostUtils.messageHtmlToComponent(htmlFormattedText, this.props.isRHS);
+        return messageHtmlToComponent(htmlFormattedText, this.props.isRHS);
     }
 }
