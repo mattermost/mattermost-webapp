@@ -823,8 +823,8 @@ export function applyTheme(theme) {
 
             // Apply a background behind the file attachments to cover any overflowing text in a collapsed post
             changeCss(
-                '.app__body .post.current--user .post-image__columns, ' +
-                '.app__body .post.current--user .file-view--single, ' +
+                '.app__body .post.current--user:not(.post--compact) .post-image__columns, ' +
+                '.app__body .post.current--user:not(.post--compact) .file-view--single, ' +
                 '.app__body .post--root.post--thread .post-image__columns, ' +
                 '.app__body .post--root.post--thread .file-view--single',
                 `background:${ownPostBg}`
