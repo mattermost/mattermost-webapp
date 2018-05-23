@@ -352,7 +352,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.channel.help'
-                                        defaultMessage='Public channel to receive webhook payloads. Optional if at least one Trigger Word is specified.'
+                                        defaultMessage='Public channel that delivers payload to webhook. Optional if at least one Trigger Word is specified.'
                                     />
                                 </div>
                             </div>
