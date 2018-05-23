@@ -3,12 +3,12 @@
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
-import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';

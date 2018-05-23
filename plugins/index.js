@@ -7,9 +7,9 @@ import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import {getSiteURL} from 'utils/url.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
-import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 
 window.plugins = {};
 

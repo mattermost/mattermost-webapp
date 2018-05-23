@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PostUtils.containsAtChannel messageHtmlToComponent latex 1`] = `
+exports[`messageHtmlToComponent latex 1`] = `
 Array [
   <p>
     This is some latex!
@@ -23,7 +23,7 @@ Array [
 ]
 `;
 
-exports[`PostUtils.containsAtChannel messageHtmlToComponent plain text 1`] = `
+exports[`messageHtmlToComponent plain text 1`] = `
 Array [
   <p>
     Hello, world!

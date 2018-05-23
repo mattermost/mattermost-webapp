@@ -4,7 +4,6 @@
 import assert from 'assert';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('PostUtils.containsAtChannel', function() {
     test('should return correct @all (same for @channel)', function() {
@@ -170,30 +169,5 @@ describe('PostUtils.containsAtChannel', function() {
 
             assert.equal(containsAtChannel, data.result, data.text);
         }
-    });
-
-    describe('messageHtmlToComponent', () => {
-        test('plain text', () => {
-            const input = 'Hello, world!';
-            const html = TextFormatting.formatText(input);
-
-            expect(PostUtils.messageHtmlToComponent(html)).toMatchSnapshot();
-        });
-
-        test('latex', () => {
-            const input = `This is some latex!
-\`\`\`latex
-x^2 + y^2 = z^2
-\`\`\`
-
-\`\`\`latex
-F_m - 2 = F_0 F_1 \\dots F_{m-1}
-\`\`\`
-
-That was some latex!`;
-            const html = TextFormatting.formatText(input);
-
-            expect(PostUtils.messageHtmlToComponent(html)).toMatchSnapshot();
-        });
     });
 });
