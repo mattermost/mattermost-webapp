@@ -66,8 +66,6 @@ export default class SettingPicture extends Component {
         } else {
             this.props.onSubmit(e);
         }
-
-        this.setState({removeSrc: false});
     }
 
     handleRemoveSrc = (e) => {
@@ -227,7 +225,7 @@ export default class SettingPicture extends Component {
             fileInputDisabled = true;
         } else {
             let confirmButtonClass = 'btn btn-sm';
-            if (this.props.submitActive) {
+            if (this.props.submitActive || this.state.removeSrc) {
                 confirmButtonClass += ' btn-primary';
             } else {
                 confirmButtonClass += ' btn-inactive disabled';

@@ -70,7 +70,7 @@ describe('components/SettingItemMin', () => {
         expect(wrapper.state('removeSrc')).toEqual(false);
     });
 
-    test('should match state and call props.onRemove on handleSave', () => {
+    test('should call props.onRemove on handleSave', () => {
         const props = {...baseProps, onRemove: jest.fn()};
         const wrapper = shallow(
             <SettingPicture {...props}/>
@@ -81,9 +81,6 @@ describe('components/SettingItemMin', () => {
         wrapper.instance().handleSave(evt);
         expect(props.onRemove).toHaveBeenCalledTimes(1);
         expect(props.onRemove).toHaveBeenCalledWith(evt);
-
-        wrapper.update();
-        expect(wrapper.state('removeSrc')).toEqual(false);
     });
 
     test('should match state and call props.onSubmit on handleSave', () => {
