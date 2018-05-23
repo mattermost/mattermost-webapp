@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 import {batchActions} from 'redux-batched-actions';
-import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -285,6 +285,10 @@ function handleEvent(msg) {
 
     case SocketEvents.LICENSE_CHANGED:
         handleLicenseChanged(msg);
+        break;
+
+    case SocketEvents.PLUGIN_STATUSES_CHANGED:
+        handlePluginStatusesChangedEvent(msg);
         break;
 
     default:
@@ -701,4 +705,8 @@ function handleConfigChanged(msg) {
 
 function handleLicenseChanged(msg) {
     store.dispatch({type: GeneralTypes.CLIENT_LICENSE_RECEIVED, data: msg.data.license});
+}
+
+function handlePluginStatusesChangedEvent(msg) {
+    store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
 }
