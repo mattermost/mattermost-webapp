@@ -464,8 +464,10 @@ function handleUserAddedEvent(msg) {
         getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: msg.data.user_id},
-            id: msg.broadcast.channel_id,
+            data: {
+                id: msg.broadcast.channel_id,
+                user_id: msg.data.user_id,
+            },
         });
     }
 
@@ -503,8 +505,10 @@ function handleUserRemovedEvent(msg) {
         getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {user_id: msg.data.user_id},
-            id: msg.broadcast.channel_id,
+            data: {
+                id: msg.broadcast.channel_id,
+                user_id: msg.data.user_id,
+            },
         });
     }
 }
