@@ -57,14 +57,12 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         currentTeamName: 'current-team',
         currentUserId: 'user-id',
         showTutorialTip: false,
-        teamId: 'test-team-id',
         townSquareDisplayName: 'Town Square',
         offTopicDisplayName: 'Off-Topic',
         membersCount: 8,
         showUnreadForMsgs: true,
         shouldHideChannel: false,
         actions: {
-            addHiddenDefaultChannel: jest.fn(),
             savePreferences: jest.fn(),
             leaveChannel: jest.fn(),
             openLhs: jest.fn(),
@@ -84,21 +82,12 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(props.actions.openLhs).not.toBeCalled();
     });
 
-    test('should match snapshot and should call actions.addHiddenDefaultChannel on componentDidMount and componentWillReceiveProps', () => {
+    test('should match snapshot, on channel hide', () => {
         const props = {...defaultProps, shouldHideChannel: true};
         const wrapper = shallow(
             <SidebarChannel {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
-
-        // on componentDidMount
-        expect(props.actions.addHiddenDefaultChannel).toHaveBeenCalledTimes(1);
-        expect(props.actions.addHiddenDefaultChannel).toHaveBeenCalledWith(props.teamId, props.channelId);
-
-        // on componentWillReceiveProps
-        wrapper.setProps({unreadMentions: 1});
-        expect(props.actions.addHiddenDefaultChannel).toHaveBeenCalledTimes(1);
-        expect(props.actions.addHiddenDefaultChannel).toHaveBeenCalledWith(props.teamId, props.channelId);
     });
 
     test('should match snapshot, on fake channel show', () => {

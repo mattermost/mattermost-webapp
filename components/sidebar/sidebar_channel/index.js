@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {leaveChannel, addHiddenDefaultChannel} from 'mattermost-redux/actions/channels';
+import {leaveChannel} from 'mattermost-redux/actions/channels';
 
 import {
     getChannelsNameMapInCurrentTeam,
-    isChannelHidden,
     makeGetChannel,
+    shouldHideDefaultChannel,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -82,8 +82,15 @@ function makeMapStateToProps() {
             channelDisplayName = displayUsername(teammate, teammateNameDisplay);
         }
 
-        const shouldHideChannel = isChannelHidden(state, channel) && !ownProps.active &&
-            !isFavoriteChannel(state.entities.preferences.myPreferences, channel.id);
+        let shouldHideChannel = false;
+        if (
+            Constants.DEFAULT_CHANNEL &&
+            !ownProps.active &&
+            shouldHideDefaultChannel(state, channel) &&
+            !isFavoriteChannel(state.entities.preferences.myPreferences, channel.id)
+        ) {
+            shouldHideChannel = true;
+        }
 
         return {
             config,
@@ -102,7 +109,6 @@ function makeMapStateToProps() {
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
             showUnreadForMsgs,
-            teamId: channel.team_id || '',
             unreadMsgs,
             unreadMentions,
             membersCount,
@@ -114,10 +120,9 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            addHiddenDefaultChannel,
+            savePreferences,
             leaveChannel,
             openLhs,
-            savePreferences,
         }, dispatch),
     };
 }
