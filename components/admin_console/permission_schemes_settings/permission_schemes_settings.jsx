@@ -17,7 +17,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
     static propTypes = {
         schemes: PropTypes.array.isRequired,
         jobsAreEnabled: PropTypes.bool,
-        clustedIsEnabled: PropTypes.bool,
+        clusterIsEnabled: PropTypes.bool,
         actions: PropTypes.shape({
             loadSchemes: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
@@ -78,7 +78,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             return null;
         }
 
-        if (this.props.jobsAreEnabled && !this.props.clustedIsEnabled) {
+        if (this.props.jobsAreEnabled && !this.props.clusterIsEnabled) {
             return this.teamOverrideUnavalableView(
                 'admin.permissions.teamOverrideSchemesInProgress',
                 'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the <a href="https://docs.mattermost.com/administration/config-settings.html#jobs" target="_blank">documentation</a>.'

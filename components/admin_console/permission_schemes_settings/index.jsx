@@ -17,7 +17,7 @@ function mapStateToProps(state) {
     return {
         schemes: typeof schemes === 'object' ? [] : schemes,
         jobsAreEnabled: config.RunJobs === 'true',
-        clustedIsEnabled: config.EnableCluster === 'true',
+        clusterIsEnabled: config.EnableCluster === 'true',
     };
 }
 
