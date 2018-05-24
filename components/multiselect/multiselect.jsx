@@ -157,7 +157,7 @@ export default class MultiSelect extends React.Component {
 
         const memberCount = (
             <FormattedMessage
-                id='multiselect.numRemaining'
+                id='multiselect.numMembers'
                 defaultMessage='{memberOptions, number} of {totalCount, number} members'
                 values={{
                     memberOptions: this.props.users.length,

@@ -248,8 +248,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         });
     }
 
-    isRemovePreview(post, currentUser) {
-        if (post && post.props && currentUser.id === post.user_id) {
+    isRemovePreview(post) {
+        if (post && post.props) {
             return post.props[PostTypes.REMOVE_LINK_PREVIEW] && post.props[PostTypes.REMOVE_LINK_PREVIEW] === 'true';
         }
 
