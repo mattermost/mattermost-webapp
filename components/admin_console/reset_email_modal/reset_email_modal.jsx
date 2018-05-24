@@ -25,9 +25,6 @@ export default class ResetEmailModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.doSubmit = this.doSubmit.bind(this);
-        this.doCancel = this.doCancel.bind(this);
-
         this.state = {
             error: null,
         };
@@ -37,7 +34,7 @@ export default class ResetEmailModal extends React.Component {
         this.setState({error: null});
     }
 
-    doSubmit(e) {
+    doSubmit = (e) => {
         e.preventDefault();
 
         if (this.refs.email) {
@@ -72,14 +69,13 @@ export default class ResetEmailModal extends React.Component {
         );
     }
 
-    doCancel() {
+    doCancel = () => {
         this.setState({error: null});
         this.props.onModalDismissed();
     }
 
     render() {
-        const user = this.props.user;
-        if (user == null) {
+        if (!this.props.user) {
             return <div/>;
         }
 

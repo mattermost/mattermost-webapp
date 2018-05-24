@@ -63,7 +63,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     show={false}
     user={null}
   />
-  <Connect(ResetEmailModal)
+  <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
@@ -206,7 +206,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     show={false}
     user={null}
   />
-  <Connect(ResetEmailModal)
+  <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
@@ -379,7 +379,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
     show={false}
     user={null}
   />
-  <Connect(ResetEmailModal)
+  <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
