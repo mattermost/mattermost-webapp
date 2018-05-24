@@ -84,7 +84,7 @@ function makeMapStateToProps() {
 
         let shouldHideChannel = false;
         if (
-            Constants.DEFAULT_CHANNEL &&
+            channel.name === Constants.DEFAULT_CHANNEL &&
             !ownProps.active &&
             shouldHideDefaultChannel(state, channel) &&
             !isFavoriteChannel(state.entities.preferences.myPreferences, channel.id)
