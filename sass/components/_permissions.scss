@@ -82,6 +82,15 @@
         color: $gray;
         text-align: center;
     }
+    .team-override-unavailable {
+        padding: 20px;
+        color: #3333337d;
+        opacity: 50%;
+        .team-override-unavailable__inner {
+            padding: 20px;
+            background-color: $white;
+        }
+    }
 }
 
 .permissions-tree {
