@@ -54,6 +54,30 @@ describe('components/SettingItemMin', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, on loading picture', () => {
+        const props = {...baseProps, loadingPicture: true};
+        const wrapper = shallow(
+            <SettingPicture {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with active Save button', () => {
+        const props = {...baseProps, submitActive: true};
+        const wrapper = shallow(
+            <SettingPicture {...props}/>
+        );
+
+        wrapper.setState({removeSrc: false});
+        expect(wrapper).toMatchSnapshot();
+
+        wrapper.setProps({submitActive: false});
+        wrapper.setState({removeSrc: true});
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match state and call props.updateSection on handleCancel', () => {
         const props = {...baseProps, updateSection: jest.fn()};
         const wrapper = shallow(
