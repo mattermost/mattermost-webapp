@@ -22,6 +22,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel hide 1`] = `""`;
+
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show 1`] = `
 <li
   className=""
