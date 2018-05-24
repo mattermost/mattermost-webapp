@@ -11,10 +11,10 @@ describe('components/MoreChannels', () => {
         channels: [{id: 'channel_id_1'}],
         teamId: 'team_id',
         teamName: 'team_name',
-        onModalDismissed: () => {},  // eslint-disable-line no-empty-function
-        handleNewChannel: () => {},  // eslint-disable-line no-empty-function
+        onModalDismissed: () => {}, // eslint-disable-line no-empty-function
+        handleNewChannel: () => {}, // eslint-disable-line no-empty-function
         actions: {
-            getChannels: () => {},  // eslint-disable-line no-empty-function
+            getChannels: () => {}, // eslint-disable-line no-empty-function
         },
     };
 
