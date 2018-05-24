@@ -4,8 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TestHelper from 'tests/helpers/client-test-helper';
-
 import Textbox from 'components/textbox.jsx';
 
 describe('components/TextBox', () => {
@@ -31,8 +29,34 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         var gotError = false;
-        function handlePostError() {
-            gotError = true;
+        function handlePostError(msg) {
+            gotError = msg !== null;
+        }
+
+        const wrapper = shallow(
+            <Textbox
+                id='someid'
+                value='some test text that exceeds char limit'
+                onChange={emptyFunction}
+                onKeyPress={emptyFunction}
+                characterLimit={14}
+                createMessage='placeholder text'
+                supportsCommands={false}
+                handlePostError={handlePostError}
+            />
+        );
+
+        expect(gotError).toEqual(true);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should throw error when new property is too long', () => {
+        function emptyFunction() {} //eslint-disable-line no-empty-function
+
+        // this mock function should be called when the textbox value is too long
+        var gotError = false;
+        function handlePostError(msg) {
+            gotError = msg !== null;
         }
 
         const wrapper = shallow(
@@ -41,14 +65,15 @@ describe('components/TextBox', () => {
                 value='some test text'
                 onChange={emptyFunction}
                 onKeyPress={emptyFunction}
-                characterLimit={4000}
+                characterLimit={14}
                 createMessage='placeholder text'
                 supportsCommands={false}
                 handlePostError={handlePostError}
             />
         );
 
-        wrapper.find('#someid').value = TestHelper.randomString(4001);
+        wrapper.setProps({value: 'some test text that exceeds char limit'});
+        wrapper.update();
         expect(gotError).toEqual(true);
 
         expect(wrapper).toMatchSnapshot();

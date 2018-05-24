@@ -87,7 +87,6 @@ export default class Textbox extends React.Component {
     }
 
     handleChange = (e) => {
-        this.checkMessageLength(e.target.value);
         this.props.onChange(e);
     }
 
@@ -173,6 +172,9 @@ export default class Textbox extends React.Component {
                     providers[i] = new AtMentionProvider(nextProps.channelId);
                 }
             }
+        }
+        if (this.props.value !== nextProps.value) {
+            this.checkMessageLength(nextProps.value);
         }
     }
 
