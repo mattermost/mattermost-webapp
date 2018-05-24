@@ -92,21 +92,12 @@ export default class SearchResultsItem extends React.PureComponent {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
 
         /**
-        *  Function used for shrinking LHS
-        *  on click of jump to message in expanded mode
-        */
-        shrink: PropTypes.func,
-
-        /**
-        *  Function used for selecting a post to comment
-        */
-        onSelect: PropTypes.func,
-
-        /**
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
+            selectPost: PropTypes.func.isRequired,
+            setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -118,15 +109,9 @@ export default class SearchResultsItem extends React.PureComponent {
         };
     }
 
-    shrinkSidebar = () => {
-        setTimeout(() => {
-            this.props.shrink();
-        });
-    };
-
     handleFocusRHSClick = (e) => {
         e.preventDefault();
-        this.props.onSelect(this.props.post);
+        this.props.actions.selectPost(this.props.post);
     };
 
     handleJumpClick = () => {
@@ -134,7 +119,7 @@ export default class SearchResultsItem extends React.PureComponent {
             this.props.actions.closeRightHandSide();
         }
 
-        this.shrinkSidebar();
+        this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
 

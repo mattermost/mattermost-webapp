@@ -77,14 +77,14 @@ describe('components/SearchResultsItem', () => {
             currentTeamName: 'test',
             term: 'test',
             isMentionSearch: false,
-            shrink: mockFunc,
             isFlagged: true,
             isBusy: false,
             status: 'hello',
             enablePostUsernameOverride: false,
-            onSelect: mockFunc,
             actions: {
                 closeRightHandSide: mockFunc,
+                selectPost: mockFunc,
+                setRhsExpanded: mockFunc,
             },
         };
     });
@@ -153,10 +153,13 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('Check for comment icon click', () => {
-        const onSelect = jest.fn();
+        const selectPost = jest.fn();
         const props = {
             ...defaultProps,
-            onSelect,
+            actions: {
+                ...defaultProps.actions,
+                selectPost,
+            },
         };
 
         const wrapper = shallow(
@@ -164,15 +167,18 @@ describe('components/SearchResultsItem', () => {
         );
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenLastCalledWith(post);
+        expect(selectPost).toHaveBeenCalledTimes(1);
+        expect(selectPost).toHaveBeenLastCalledWith(post);
     });
 
     test('Check for jump to message', () => {
-        const shrink = jest.fn();
+        const setRhsExpanded = jest.fn();
         const props = {
             ...defaultProps,
-            shrink,
+            actions: {
+                ...defaultProps.actions,
+                setRhsExpanded,
+            },
         };
 
         const wrapper = shallow(
@@ -181,7 +187,8 @@ describe('components/SearchResultsItem', () => {
 
         wrapper.find('.search-item__jump').simulate('click');
         jest.runAllTimers();
-        expect(shrink).toHaveBeenCalledTimes(1);
+        expect(setRhsExpanded).toHaveBeenCalledTimes(1);
+        expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
     });
 });

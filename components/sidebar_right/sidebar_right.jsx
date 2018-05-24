@@ -18,6 +18,7 @@ import SearchResults from 'components/search_results';
 
 export default class SidebarRight extends React.Component {
     static propTypes = {
+        isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
         currentUser: PropTypes.object,
         channel: PropTypes.object,
@@ -37,10 +38,6 @@ export default class SidebarRight extends React.Component {
         super(props);
 
         this.plScrolledToBottom = true;
-
-        this.state = {
-            expanded: false,
-        };
     }
 
     componentDidMount() {
@@ -58,12 +55,6 @@ export default class SidebarRight extends React.Component {
         if (!isOpen && willOpen) {
             trackEvent('ui', 'ui_rhs_opened');
         }
-
-        if (!isOpen && willOpen) {
-            this.setState({
-                expanded: false,
-            });
-        }
     }
 
     componentDidUpdate(prevProps) {
@@ -72,7 +63,7 @@ export default class SidebarRight extends React.Component {
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
 
         if (isOpen && !wasOpen) {
-            setTimeout(() => postListScrollChange(), 0);
+            setTimeout(postListScrollChange, 0);
         }
     }
 
@@ -80,16 +71,6 @@ export default class SidebarRight extends React.Component {
         if (this.props.channel && this.props.isPinnedPosts) {
             this.props.actions.getPinnedPosts(this.props.channel.id);
         }
-    }
-
-    onShrink = () => {
-        this.setState({
-            expanded: false,
-        });
-    }
-
-    toggleSize = () => {
-        this.setState({expanded: !this.state.expanded});
     }
 
     render() {
@@ -107,7 +88,7 @@ export default class SidebarRight extends React.Component {
         let content = null;
         let expandedClass = '';
 
-        if (this.state.expanded) {
+        if (this.props.isExpanded) {
             expandedClass = 'sidebar--right--expanded';
         }
 

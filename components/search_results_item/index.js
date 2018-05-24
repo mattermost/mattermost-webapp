@@ -7,7 +7,11 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {closeRightHandSide} from 'actions/views/rhs';
+import {
+    closeRightHandSide,
+    selectPostFromRightHandSideSearch,
+    setRhsExpanded,
+} from 'actions/views/rhs';
 
 import SearchResultsItem from './search_results_item.jsx';
 
@@ -30,6 +34,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeRightHandSide,
+            selectPost: selectPostFromRightHandSideSearch,
+            setRhsExpanded,
         }, dispatch),
     };
 }
