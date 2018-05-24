@@ -276,7 +276,11 @@ export default class GeneralTab extends React.Component {
                 serverError: error.message,
             });
         } else {
-            this.setState({loadingIcon: false});
+            this.setState({
+                loadingIcon: false,
+                submitActive: false,
+            });
+            this.updateSection('');
         }
     }
 

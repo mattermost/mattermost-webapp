@@ -54,6 +54,30 @@ describe('components/SettingItemMin', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, on loading picture', () => {
+        const props = {...baseProps, loadingPicture: true};
+        const wrapper = shallow(
+            <SettingPicture {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with active Save button', () => {
+        const props = {...baseProps, submitActive: true};
+        const wrapper = shallow(
+            <SettingPicture {...props}/>
+        );
+
+        wrapper.setState({removeSrc: false});
+        expect(wrapper).toMatchSnapshot();
+
+        wrapper.setProps({submitActive: false});
+        wrapper.setState({removeSrc: true});
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match state and call props.updateSection on handleCancel', () => {
         const props = {...baseProps, updateSection: jest.fn()};
         const wrapper = shallow(
@@ -70,7 +94,7 @@ describe('components/SettingItemMin', () => {
         expect(wrapper.state('removeSrc')).toEqual(false);
     });
 
-    test('should match state and call props.onRemove on handleSave', () => {
+    test('should call props.onRemove on handleSave', () => {
         const props = {...baseProps, onRemove: jest.fn()};
         const wrapper = shallow(
             <SettingPicture {...props}/>
@@ -81,9 +105,6 @@ describe('components/SettingItemMin', () => {
         wrapper.instance().handleSave(evt);
         expect(props.onRemove).toHaveBeenCalledTimes(1);
         expect(props.onRemove).toHaveBeenCalledWith(evt);
-
-        wrapper.update();
-        expect(wrapper.state('removeSrc')).toEqual(false);
     });
 
     test('should match state and call props.onSubmit on handleSave', () => {
