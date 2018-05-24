@@ -42,6 +42,14 @@
     }
 }
 
+@media screen and (max-width: 1280px) {
+    .inner-wrap.move--left {
+        .post-collapse__show-more {
+            margin-left: 0;
+        }
+    }
+}
+
 @media screen and (max-width: 1140px) {
     .tip-overlay {
         &.tip-overlay--chat {

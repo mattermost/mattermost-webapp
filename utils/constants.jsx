@@ -122,6 +122,9 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_SEARCH_TERMS: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
+    SET_RHS_EXPANDED: null,
+    TOGGLE_RHS_EXPANDED: null,
+
     UPDATE_MOBILE_VIEW: null,
 
     SEARCH_FLAGGED_POSTS_REQUEST: null,

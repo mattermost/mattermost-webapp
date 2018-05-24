@@ -296,41 +296,38 @@ export default class Post extends React.PureComponent {
         return (
             <div
                 ref={this.getRef}
+                id={'post_' + post.id}
+                className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
             >
-                <div
-                    id={'post_' + post.id}
-                    className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
-                >
-                    <div className={'post__content ' + centerClass}>
-                        {profilePicContainer}
-                        <div>
-                            <PostHeader
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                handleDropdownOpened={this.handleDropdownOpened}
-                                user={this.props.user}
-                                currentUser={this.props.currentUser}
-                                compactDisplay={this.props.compactDisplay}
-                                status={this.props.status}
-                                isBusy={this.props.isBusy}
-                                lastPostCount={this.props.lastPostCount}
-                                isFirstReply={this.props.isFirstReply}
-                                replyCount={this.props.replyCount}
-                                showTimeWithoutHover={!hideProfilePicture}
-                                getPostList={this.props.getPostList}
-                                hover={this.state.hover}
-                            />
-                            <PostBody
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                compactDisplay={this.props.compactDisplay}
-                                lastPostCount={this.props.lastPostCount}
-                                isCommentMention={this.props.isCommentMention}
-                                isFirstReply={this.props.isFirstReply}
-                            />
-                        </div>
+                <div className={'post__content ' + centerClass}>
+                    {profilePicContainer}
+                    <div>
+                        <PostHeader
+                            post={post}
+                            handleCommentClick={this.handleCommentClick}
+                            handleDropdownOpened={this.handleDropdownOpened}
+                            user={this.props.user}
+                            currentUser={this.props.currentUser}
+                            compactDisplay={this.props.compactDisplay}
+                            status={this.props.status}
+                            isBusy={this.props.isBusy}
+                            lastPostCount={this.props.lastPostCount}
+                            isFirstReply={this.props.isFirstReply}
+                            replyCount={this.props.replyCount}
+                            showTimeWithoutHover={!hideProfilePicture}
+                            getPostList={this.props.getPostList}
+                            hover={this.state.hover}
+                        />
+                        <PostBody
+                            post={post}
+                            handleCommentClick={this.handleCommentClick}
+                            compactDisplay={this.props.compactDisplay}
+                            lastPostCount={this.props.lastPostCount}
+                            isCommentMention={this.props.isCommentMention}
+                            isFirstReply={this.props.isFirstReply}
+                        />
                     </div>
                 </div>
             </div>

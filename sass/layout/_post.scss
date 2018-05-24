@@ -784,6 +784,17 @@
             }
         }
 
+        .post-message--collapsed + .post-image__columns {
+            &:before {
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+        }
+
         .post__img {
             padding-top: 0;
         }
@@ -1254,7 +1265,7 @@
     .post__embed-container {
         @include single-transition(max-height, .5, ease);
         display: block;
-        margin-top: 5px;
+        padding-top: 5px;
         max-height: 1000px;
         overflow: hidden;
 
@@ -1729,4 +1740,96 @@
 .permalink-popover {
     margin-left: 50px !important;
     min-width: 320px;
+}
+
+.post-message {
+    overflow-y: hidden;
+    position: relative;
+}
+
+.post-collapse {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+
+    .post-collapse__gradient {
+        pointer-events: none;
+        position: relative;
+    }
+}
+
+.post-collapse__show-more {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    width: 100%;
+    z-index: 5;
+
+    .post-collapse__show-more-button {
+        @include single-transition(all, .15s, ease);
+        @include border-radius(2px);
+        border: 1px solid transparent;
+        display: inline-block;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 24px;
+        margin: 0 8px;
+        padding: 0 8px;
+        position: relative;
+
+        .fa {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-right: 5px;
+            position: relative;
+            top: 2px;
+
+            &.fa-angle-up {
+                top: 1px;
+            }
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .post-collapse__show-more-line {
+        display: inline-block;
+        flex-basis: 200px;
+        height: 1px;
+        margin-top: 12px;
+    }
+}
+
+.post-message--collapsed {
+    .post-message__text-container {
+        // If this max-height is changed, the MAX_POST_HEIGHT constant in
+        // components/post/post_message_view/post_message_view.jsx must
+        // be changed to match it
+        max-height: 600px;
+    }
+
+    .post-collapse__gradient {
+        height: 90px;
+    }
+
+    .post-collapse__show-more {
+        bottom: 10px;
+    }
+}
+
+.post-message--expanded {
+    .post-collapse {
+        position: relative;
+    }
+
+    .post-collapse__show-more {
+        position: relative;
+    }
+
+    .post-collapse__gradient {
+        height: 0;
+    }
 }

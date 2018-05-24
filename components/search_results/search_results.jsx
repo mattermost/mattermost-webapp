@@ -49,13 +49,10 @@ export default class SearchResults extends React.PureComponent {
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
-        toggleSize: PropTypes.func,
-        shrink: PropTypes.func,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
-        selectPost: PropTypes.func,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
     };
@@ -360,11 +357,9 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        shrink={this.props.shrink}
                         isFlagged={isFlagged}
                         isBusy={this.state.isBusy}
                         status={status}
-                        onSelect={this.props.selectPost}
                     />
                 );
             }, this);
@@ -374,8 +369,6 @@ export default class SearchResults extends React.PureComponent {
             <div className='sidebar-right__body'>
                 <SearchResultsHeader
                     isMentionSearch={this.props.isMentionSearch}
-                    toggleSize={this.props.toggleSize}
-                    shrink={this.props.shrink}
                     isFlaggedPosts={this.props.isFlaggedPosts}
                     isPinnedPosts={this.props.isPinnedPosts}
                     channelDisplayName={this.props.channelDisplayName}

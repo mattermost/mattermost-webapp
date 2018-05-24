@@ -134,6 +134,31 @@ function isSidebarOpen(state = false, action) {
     }
 }
 
+function isSidebarExpanded(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.SET_RHS_EXPANDED:
+        return action.expanded;
+    case ActionTypes.TOGGLE_RHS_EXPANDED:
+        return !state;
+    case ActionTypes.UPDATE_RHS_STATE:
+        return action.state ? state : false;
+    case ActionTypes.SELECT_POST:
+        return action.postId ? state : false;
+    case ActionTypes.TOGGLE_RHS_MENU:
+        return false;
+    case ActionTypes.OPEN_RHS_MENU:
+        return false;
+    case ActionTypes.TOGGLE_LHS:
+        return false;
+    case ActionTypes.OPEN_LHS:
+        return false;
+    case TeamTypes.SELECT_TEAM:
+        return false;
+    default:
+        return state;
+    }
+}
+
 function isMenuOpen(state = false, action) {
     switch (action.type) {
     case ActionTypes.TOGGLE_RHS_MENU:
@@ -164,5 +189,6 @@ export default combineReducers({
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,
+    isSidebarExpanded,
     isMenuOpen,
 });
