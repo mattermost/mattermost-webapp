@@ -381,10 +381,24 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <div
         className="team-override-unavailable__inner"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the <a href=\\"https://docs.mattermost.com/administration/config-settings.html#jobs\\" target=\\"_blank\\">documentation</a>."
+        <FormattedMessage
+          defaultMessage="Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}."
           id="admin.permissions.teamOverrideSchemesInProgress"
-          values={Object {}}
+          values={
+            Object {
+              "documentationLink": <Link
+                replace={false}
+                target="_blank"
+                to="https://docs.mattermost.com/administration/config-settings.html#jobs"
+              >
+                <FormattedMessage
+                  defaultMessage="documentation"
+                  id="admin.permissions.documentationLinkText"
+                  values={Object {}}
+                />
+              </Link>,
+            }
+          }
         />
       </div>
     </div>
@@ -535,10 +549,24 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <div
         className="team-override-unavailable__inner"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the <a href=\\"https://docs.mattermost.com/administration/config-settings.html#jobs\\" target=\\"_blank\\">documentation</a>."
+        <FormattedMessage
+          defaultMessage="Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}."
           id="admin.permissions.teamOverrideSchemesNoJobsEnabled"
-          values={Object {}}
+          values={
+            Object {
+              "documentationLink": <Link
+                replace={false}
+                target="_blank"
+                to="https://docs.mattermost.com/administration/config-settings.html#jobs"
+              >
+                <FormattedMessage
+                  defaultMessage="documentation"
+                  id="admin.permissions.documentationLinkText"
+                  values={Object {}}
+                />
+              </Link>,
+            }
+          }
         />
       </div>
     </div>

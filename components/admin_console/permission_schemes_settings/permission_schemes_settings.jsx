@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -78,26 +78,41 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             return null;
         }
 
+        const docLink = (
+            <Link
+                to='https://docs.mattermost.com/administration/config-settings.html#jobs'
+                target='_blank'
+            >
+                <FormattedMessage
+                    id='admin.permissions.documentationLinkText'
+                    defaultMessage='documentation'
+                />
+            </Link>
+        );
+
         if (this.props.jobsAreEnabled && !this.props.clusterIsEnabled) {
             return this.teamOverrideUnavalableView(
                 'admin.permissions.teamOverrideSchemesInProgress',
-                'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the <a href="https://docs.mattermost.com/administration/config-settings.html#jobs" target="_blank">documentation</a>.'
+                'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.',
+                docLink
             );
         }
 
         return this.teamOverrideUnavalableView(
             'admin.permissions.teamOverrideSchemesNoJobsEnabled',
-            'Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the <a href="https://docs.mattermost.com/administration/config-settings.html#jobs" target="_blank">documentation</a>.'
+            'Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}.',
+            docLink,
         );
     }
 
-    teamOverrideUnavalableView = (id, defaultMsg) => {
+    teamOverrideUnavalableView = (id, defaultMsg, documentationLink) => {
         return (
             <div className='team-override-unavailable'>
                 <div className='team-override-unavailable__inner'>
-                    <FormattedHTMLMessage
+                    <FormattedMessage
                         id={id}
                         defaultMessage={defaultMsg}
+                        values={{documentationLink}}
                     />
                 </div>
             </div>
