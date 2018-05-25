@@ -30,16 +30,12 @@ export default class ResetEmailModal extends React.Component {
         };
     }
 
-    componentWillUnmount() {
-        this.setState({error: null});
-    }
-
     doSubmit = (e) => {
         e.preventDefault();
 
         if (this.refs.email) {
             const email = this.refs.email.value;
-            if (email === '' || !Utils.isEmail(email)) {
+            if (!Utils.isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
                         id='user.settings.general.validEmail'
