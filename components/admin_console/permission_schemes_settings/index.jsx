@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     return {
-        schemes: typeof schemes === 'object' ? [] : schemes,
+        schemes,
         jobsAreEnabled: config.RunJobs === 'true',
         clusterIsEnabled: config.EnableCluster === 'true',
     };
