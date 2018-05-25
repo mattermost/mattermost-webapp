@@ -185,6 +185,8 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         let teamAdmin = roles.team_admin;
         let channelAdmin = roles.channel_admin;
         const allUsers = roles.all_users;
+        const schemeName = this.state.schemeName || (this.props.scheme && this.props.scheme.display_name) || '';
+        const schemeDescription = this.state.schemeDescription || (this.props.scheme && this.props.scheme.description) || '';
         let teamUser = null;
         let channelUser = null;
         let schemeId = null;
@@ -199,8 +201,8 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             teamUser = derived.team_user;
             channelUser = derived.channel_user;
             await this.props.actions.patchScheme(this.props.schemeId, {
-                display_name: this.state.schemeName || (this.props.scheme && this.props.scheme.display_name),
-                description: this.state.schemeDescription || (this.props.scheme && this.props.scheme.description),
+                display_name: schemeName,
+                description: schemeDescription,
             });
             schemeId = this.props.schemeId;
         } else {
@@ -212,8 +214,8 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             teamUser = derived.team_user;
             channelUser = derived.channel_user;
             const result = await this.props.actions.createScheme({
-                display_name: this.state.schemeName || (this.props.scheme && this.props.scheme.display_name),
-                description: this.state.schemeDescription || (this.props.scheme && this.props.scheme.description),
+                display_name: schemeName,
+                description: schemeDescription,
                 scope: 'team',
             });
             if (result.error) {
@@ -234,7 +236,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         const channelUserPromise = this.props.actions.editRole(channelUser);
 
         const teamEditPromises = [];
-        for (const team of (this.state.teams || this.props.teams)) {
+        for (const team of (this.state.teams || this.props.teams || [])) {
             teamEditPromises.push(this.props.actions.updateTeamScheme(team.id, schemeId));
         }
 
@@ -294,8 +296,9 @@ export default class PermissionTeamSchemeSettings extends React.Component {
     }
 
     addTeams = (teams) => {
+        const currentTeams = this.state.teams || this.props.teams || [];
         this.setState({
-            teams: [...(this.state.teams || this.props.teams), ...teams],
+            teams: [...currentTeams, ...teams],
             saveNeeded: true,
         });
     }
@@ -309,6 +312,9 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             return <LoadingScreen/>;
         }
         const roles = this.getStateRoles();
+        const teams = this.state.teams || this.props.teams || [];
+        const schemeName = this.state.schemeName || (this.props.scheme && this.props.scheme.display_name) || '';
+        const schemeDescription = this.state.schemeDescription || (this.props.scheme && this.props.scheme.description) || '';
         return (
             <div className='wrapper--fixed'>
                 {this.state.addTeamOpen &&
@@ -316,7 +322,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
                         currentSchemeId={this.props.schemeId}
-                        alreadySelected={(this.state.teams || this.props.teams).map((team) => team.id)}
+                        alreadySelected={teams.map((team) => team.id)}
                     />
                 }
                 <h3 className='admin-console-header with-back'>
@@ -373,7 +379,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 id='scheme-name'
                                 className='form-control'
                                 type='text'
-                                value={this.state.schemeName || (this.props.scheme && this.props.scheme.display_name)}
+                                value={schemeName}
                                 placeholder={localizeMessage('admin.permissions.teamScheme.schemeNamePlaceholder', 'Scheme Name')}
                                 onChange={this.handleNameChange}
                             />
@@ -392,7 +398,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 id='scheme-description'
                                 className='form-control'
                                 rows='5'
-                                value={this.state.schemeDescription || (this.props.scheme && this.props.scheme.description)}
+                                value={schemeDescription}
                                 placeholder={localizeMessage('admin.permissions.teamScheme.schemeDescriptionPlaceholder', 'Scheme Description')}
                                 onChange={this.handleDescriptionChange}
                             />
@@ -429,14 +435,14 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                         </div>
                     </div>
                     <div className='teams-list'>
-                        {(this.state.teams || this.props.teams).length === 0 &&
+                        {teams.length === 0 &&
                             <div className='no-team-schemes'>
                                 <FormattedMessage
                                     id='admin.permissions.teamScheme.noTeams'
                                     defaultMessage='No team selected. Please add teams to this list.'
                                 />
                             </div>}
-                        {(this.state.teams || this.props.teams).map((team) => (
+                        {teams.map((team) => (
                             <TeamInList
                                 key={team.id}
                                 team={team}

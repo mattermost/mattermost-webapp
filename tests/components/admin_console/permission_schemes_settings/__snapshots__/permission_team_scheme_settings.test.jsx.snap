@@ -788,7 +788,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           onChange={[Function]}
           placeholder="Scheme Name"
           type="text"
-          value={null}
+          value=""
         />
       </div>
       <div
@@ -810,7 +810,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           onChange={[Function]}
           placeholder="Scheme Description"
           rows="5"
-          value={null}
+          value=""
         />
       </div>
     </div>
@@ -1163,7 +1163,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           onChange={[Function]}
           placeholder="Scheme Name"
           type="text"
-          value={null}
+          value=""
         />
       </div>
       <div
@@ -1185,7 +1185,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           onChange={[Function]}
           placeholder="Scheme Description"
           rows="5"
-          value={null}
+          value=""
         />
       </div>
     </div>
