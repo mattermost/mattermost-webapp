@@ -91,6 +91,22 @@
             background-color: $white;
         }
     }
+    .teams-list {
+        padding: 20px;
+        .no-team-schemes {
+            margin: 0;
+        }
+        .team {
+            display: flex;
+            padding: 10px;
+            &:nth-child(even) {
+                background: rgba(255, 255, 255, .5);
+            }
+            .remove {
+                flex-grow: 0;
+            }
+        }
+    }
 }
 
 .permissions-tree {
@@ -344,4 +360,61 @@
 
 .permission-scheme-summary-error-message {
     color: $red;
+}
+
+.team-scheme-details {
+    padding: 20px 20px 5px 20px;
+    .form-group {
+        display: flex;
+        label {
+            width: 240px;
+        }
+    }
+}
+
+.team-info-block {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    .icon {
+        flex-grow: 0;
+        height: 43px;
+        width: 43px;
+        display: block;
+        .team-btn__image {
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: white;
+            background-repeat: round;
+            background-size: contain;
+            height: 100%;
+            width: 100%;
+        }
+        .team-btn__initials {
+            height: 100%;
+            width: 100%;
+            background: $gray;
+            color: $white;
+            height: 100%;
+            width: 100%;
+            border-radius: 4px;
+            padding: 4px;
+        }
+        .team-btn__content {
+            bottom: 4px;
+            font-size: 8.5px;
+            font-weight: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 31px;
+        }
+    }
+    .team-data {
+        flex-grow: 1;
+        padding: 0 0 0 10px;
+        .title {
+            font-weight: bold;
+        }
+    }
 }

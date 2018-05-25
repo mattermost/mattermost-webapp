@@ -15,6 +15,7 @@ import Audits from './audits';
 import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
+import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -544,6 +545,12 @@ export default {
                 schema: {
                     id: 'PermissionSystemScheme',
                     component: PermissionSystemSchemeSettings,
+                },
+            },
+            teamScheme: {
+                schema: {
+                    id: 'PermissionSystemScheme',
+                    component: PermissionTeamSchemeSettings,
                 },
             },
         },

@@ -37,7 +37,7 @@ export default class PermissionsSchemeSummary extends React.Component {
             <FormattedMessage
                 id='admin.permissions.permissionsSchemeSummary.deleteSchemeTitle'
                 defaultMessage='Delete {scheme} scheme?'
-                values={{scheme: this.props.scheme.name}}
+                values={{scheme: this.props.scheme.display_name}}
             />
         );
 
@@ -56,7 +56,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                     <FormattedMessage
                         id='admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion'
                         defaultMessage='The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?'
-                        values={{schemeName: this.props.scheme.name}}
+                        values={{schemeName: this.props.scheme.display_name}}
                     />
                 </p>
                 {serverError}
@@ -131,7 +131,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                 className='team'
                 key={team.id}
             >
-                {team.name}
+                {team.display_name}
             </span>
         )) : [];
 
@@ -177,7 +177,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                     className='permissions-scheme-summary--header'
                 >
                     <div className='title'>
-                        {scheme.name}
+                        {scheme.display_name}
                     </div>
                     <div className='actions'>
                         <Link

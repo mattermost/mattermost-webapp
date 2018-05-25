@@ -247,6 +247,22 @@ export default class AdminConsole extends React.Component {
                                             schema: AdminDefinition.settings.permissions.systemScheme.schema,
                                         }}
                                     />
+                                    <SCRoute
+                                        path={`${props.match.url}/team-override-scheme/:scheme_id`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.permissions.teamScheme.schema,
+                                        }}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/team-override-scheme`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.permissions.teamScheme.schema,
+                                        }}
+                                    />
                                 </Switch>
                             )}
                         />
