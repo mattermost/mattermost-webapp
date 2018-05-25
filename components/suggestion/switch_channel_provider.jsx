@@ -23,6 +23,7 @@ import {
     getUser,
     searchProfiles,
 } from 'mattermost-redux/selectors/entities/users';
+import * as ChannelActions from 'mattermost-redux/actions/channels';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -226,13 +227,12 @@ export default class SwitchChannelProvider extends Provider {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
         }
 
-        const channelsAsync = Client4.searchChannels(teamId, channelPrefix);
-
         let usersFromServer = [];
         let channelsFromServer = [];
         try {
             usersFromServer = await usersAsync;
-            channelsFromServer = await channelsAsync;
+            const {data} = await ChannelActions.searchChannels(teamId, channelPrefix)(store.dispatch, store.getState);
+            channelsFromServer = data;
         } catch (err) {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_ERROR,
