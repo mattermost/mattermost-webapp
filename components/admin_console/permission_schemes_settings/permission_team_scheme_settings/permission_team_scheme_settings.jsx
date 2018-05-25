@@ -146,7 +146,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             channelUser = this.props.roles.channel_user;
             channelAdmin = this.props.roles.channel_admin;
         } else {
-            return {};
+            return null;
         }
         return {
             team_admin: teamAdmin,
@@ -271,7 +271,14 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
     togglePermission = (roleId, permissions) => {
         const roles = {...this.getStateRoles()};
-        const role = {...roles[roleId]};
+        let role = null;
+        if (roles.team_admin.name === roleId) {
+            role = {...roles.team_admin};
+        } else if (roles.channel_admin.name === roleId) {
+            role = {...roles.channel_admin};
+        } else if (roles.all_users.name === roleId) {
+            role = {...roles.all_users};
+        }
         const newPermissions = [...role.permissions];
         for (const permission of permissions) {
             if (newPermissions.indexOf(permission) === -1) {
@@ -281,7 +288,13 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             }
         }
         role.permissions = newPermissions;
-        roles[roleId] = role;
+        if (roles.team_admin.name === roleId) {
+            roles.team_admin = role;
+        } else if (roles.channel_admin.name === roleId) {
+            roles.channel_admin = role;
+        } else if (roles.all_users.name === roleId) {
+            roles.all_users = role;
+        }
 
         this.setState({roles, saveNeeded: true});
     }
