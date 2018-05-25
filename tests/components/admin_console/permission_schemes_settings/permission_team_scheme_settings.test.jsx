@@ -64,6 +64,9 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             createScheme: jest.fn(),
             updateTeamScheme: jest.fn(),
         },
+        history: {
+            push: jest.fn(),
+        },
     };
 
     test('should match snapshot on new with default roles without permissions', (done) => {

@@ -253,6 +253,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         }
 
         this.setState({serverError, saving: false, saveNeeded});
+        this.props.history.push('/admin_console/permissions/schemes');
     }
 
     toggleRole = (roleId, scrollOnOpen = true) => {

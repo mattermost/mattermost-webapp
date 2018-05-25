@@ -9,7 +9,6 @@ import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 
 const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
@@ -120,7 +119,7 @@ export default class PermissionsSchemeSummary extends React.Component {
     }
 
     goToEdit = () => {
-        browserHistory.push('/admin_console/permissions/team-override-scheme/' + this.props.scheme.id);
+        this.props.history.push('/admin_console/permissions/team-override-scheme/' + this.props.scheme.id);
     }
 
     render = () => {
