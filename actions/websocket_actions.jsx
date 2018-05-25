@@ -6,6 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {
+    getChannel,
     getChannelAndMyMember,
     getChannelStats,
     viewChannel,
@@ -217,6 +218,9 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_CONVERTED:
+        handleChannelConvertedEvent(msg);
+        break;
+
     case SocketEvents.CHANNEL_UPDATED:
         handleChannelUpdatedEvent(msg);
         break;
@@ -299,6 +303,11 @@ function handleEvent(msg) {
 
     default:
     }
+}
+
+function handleChannelConvertedEvent(msg) {
+    const channelId = msg.data.channel_id;
+    dispatch(getChannel(channelId));
 }
 
 function handleChannelUpdatedEvent(msg) {
