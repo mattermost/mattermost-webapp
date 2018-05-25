@@ -21,7 +21,6 @@ function getNotificationsStateFromStores() {
 
     let desktop = NotificationLevels.MENTION;
     let sound = 'true';
-    let desktopDuration = '5';
     let comments = 'never';
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
@@ -38,9 +37,6 @@ function getNotificationsStateFromStores() {
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
-        }
-        if (user.notify_props.desktop_duration) {
-            desktopDuration = user.notify_props.desktop_duration;
         }
         if (user.notify_props.comments) {
             comments = user.notify_props.comments;
@@ -97,7 +93,6 @@ function getNotificationsStateFromStores() {
 
     return {
         desktopActivity: desktop,
-        desktopDuration,
         enableEmail,
         pushActivity,
         pushStatus,
@@ -135,7 +130,6 @@ export default class NotificationsTab extends React.Component {
         data.email = enableEmail;
         data.desktop_sound = this.state.desktopSound;
         data.desktop = this.state.desktopActivity;
-        data.desktop_duration = this.state.desktopDuration;
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
@@ -937,7 +931,6 @@ export default class NotificationsTab extends React.Component {
                     <DesktopNotificationSettings
                         activity={this.state.desktopActivity}
                         sound={this.state.desktopSound}
-                        duration={this.state.desktopDuration}
                         updateSection={this.updateSection}
                         setParentState={this.setStateValue}
                         submit={this.handleSubmit}

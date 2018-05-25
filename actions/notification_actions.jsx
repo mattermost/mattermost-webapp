@@ -113,11 +113,6 @@ export function sendDesktopNotification(post, msgProps) {
         body = username + Utils.localizeMessage('channel_loader.wrote', ' wrote: ') + notifyText;
     }
 
-    let duration = Constants.DEFAULT_NOTIFICATION_DURATION;
-    if (user.notify_props && user.notify_props.desktop_duration) {
-        duration = parseInt(user.notify_props.desktop_duration, 10) * 1000;
-    }
-
     //Play a sound if explicitly set in settings
     const sound = !user.notify_props || user.notify_props.desktop_sound === 'true';
 
@@ -128,7 +123,7 @@ export function sendDesktopNotification(post, msgProps) {
     const notify = (activeChannel && activeChannel.id !== channelId) || !NotificationStore.getFocus();
 
     if (notify) {
-        Utils.notifyMe(title, body, channel, teamId, duration, !sound);
+        Utils.notifyMe(title, body, channel, teamId, !sound);
 
         //Don't add extra sounds on native desktop clients
         if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
