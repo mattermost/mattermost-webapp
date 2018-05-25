@@ -121,14 +121,9 @@ export function isSystemAdmin(roles) {
 
 var requestedNotificationPermission = false;
 
-export function notifyMe(title, body, channel, teamId, duration, silent) {
+export function notifyMe(title, body, channel, teamId, silent) {
     if (!('Notification' in window)) {
         return;
-    }
-
-    let notificationDuration = Constants.DEFAULT_NOTIFICATION_DURATION;
-    if (duration != null) {
-        notificationDuration = duration;
     }
 
     if (Notification.permission === 'granted' || (Notification.permission === 'default' && !requestedNotificationPermission)) {
@@ -143,7 +138,7 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
                             icon = iconWS;
                         }
 
-                        const notification = new Notification(title, {body, tag: body, icon, requireInteraction: notificationDuration === 0, silent});
+                        const notification = new Notification(title, {body, tag: body, icon, requireInteraction: false, silent});
                         notification.onclick = () => {
                             window.focus();
                             if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
@@ -157,11 +152,9 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
                             }
                         };
 
-                        if (notificationDuration > 0) {
-                            setTimeout(() => {
-                                notification.close();
-                            }, notificationDuration);
-                        }
+                        setTimeout(() => {
+                            notification.close();
+                        }, Constants.DEFAULT_NOTIFICATION_DURATION);
                     } catch (e) {
                         console.error(e); //eslint-disable-line no-console
                     }

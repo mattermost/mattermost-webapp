@@ -82,6 +82,14 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(props.actions.openLhs).not.toBeCalled();
     });
 
+    test('should match snapshot, on channel hide', () => {
+        const props = {...defaultProps, shouldHideChannel: true};
+        const wrapper = shallow(
+            <SidebarChannel {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, on fake channel show', () => {
         const channel = {
             display_name: 'Channel display name',
