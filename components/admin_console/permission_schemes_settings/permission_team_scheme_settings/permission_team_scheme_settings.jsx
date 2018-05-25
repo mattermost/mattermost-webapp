@@ -99,7 +99,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             if (this.state.openRoles.all_users) {
                 selected.scrollIntoView({behavior: 'smooth', block: 'center'});
             } else {
-                this.toggleRole('all_users', false);
+                this.toggleRole('all_users');
 
                 // Give it time to open and show everything
                 setTimeout(() => {
@@ -270,17 +270,9 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         this.props.history.push('/admin_console/permissions/schemes');
     }
 
-    toggleRole = (roleId, scrollOnOpen = true) => {
+    toggleRole = (roleId) => {
         const newOpenRoles = {...this.state.openRoles};
         newOpenRoles[roleId] = !newOpenRoles[roleId];
-        if (newOpenRoles[roleId] && scrollOnOpen) {
-            const block = document.querySelector('.permissions-block.' + roleId);
-            if (block) {
-                setTimeout(() => {
-                    block.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }, 300);
-            }
-        }
         this.setState({openRoles: newOpenRoles});
     }
 
