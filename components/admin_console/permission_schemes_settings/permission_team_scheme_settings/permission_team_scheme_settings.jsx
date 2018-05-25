@@ -236,8 +236,22 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         const channelUserPromise = this.props.actions.editRole(channelUser);
 
         const teamEditPromises = [];
-        for (const team of (this.state.teams || this.props.teams || [])) {
-            teamEditPromises.push(this.props.actions.updateTeamScheme(team.id, schemeId));
+
+        const currentTeams = new Set((this.state.teams || this.props.teams || []).map((t) => t.id));
+        const serverTeams = new Set((this.props.teams || []).map((t) => t.id));
+
+        // Difference of sets (currentTeams - serverTeams)
+        const addedTeams = new Set([...currentTeams].filter((t) => !serverTeams.has(t)));
+
+        // Difference of sets (serverTeams - currentTeams)
+        const removedTeams = new Set([...serverTeams].filter((t) => !currentTeams.has(t)));
+
+        for (const teamId of addedTeams) {
+            teamEditPromises.push(this.props.actions.updateTeamScheme(teamId, schemeId));
+        }
+
+        for (const teamId of removedTeams) {
+            teamEditPromises.push(this.props.actions.updateTeamScheme(teamId, ''));
         }
 
         const results = await Promise.all([teamAdminPromise, channelAdminPromise, teamUserPromise, channelUserPromise, ...teamEditPromises]);
