@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/TeamSelectorModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="more-modal more-direct-channels team-selector-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedHTMLMessage
+        defaultMessage="Add Teams To <strong>Team Selection</strong> List"
+        id="add_teams_to_scheme.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <ConfirmModal
+      confirmButtonClass="btn btn-primary"
+      confirmButtonText={
+        <FormattedMessage
+          defaultMessage="Yes, Move Team"
+          id="add_teams_to_scheme.confirmation.accept"
+          values={Object {}}
+        />
+      }
+      message={
+        <FormattedMessage
+          defaultMessage="This team is already selected in another team scheme, are you sure you want to move it to this team scheme?"
+          id="add_teams_to_scheme.confirmation.message"
+          values={Object {}}
+        />
+      }
+      modalClass=""
+      onCancel={[Function]}
+      onConfirm={[Function]}
+      show={false}
+      title={
+        <FormattedMessage
+          defaultMessage="Team Override Scheme Change?"
+          id="add_teams_to_scheme.confirmation.title"
+          values={Object {}}
+        />
+      }
+    />
+    <MultiSelect
+      buttonSubmitText="Add"
+      handleAdd={[Function]}
+      handleDelete={[Function]}
+      handleInput={[Function]}
+      handlePageChange={[Function]}
+      handleSubmit={[Function]}
+      key="addTeamsToSchemeKey"
+      loading={true}
+      numRemainingText={
+        <FormattedMessage
+          defaultMessage="Use ↑↓ to browse, ↵ to select."
+          id="multiselect.selectTeams"
+          values={Object {}}
+        />
+      }
+      optionRenderer={[Function]}
+      options={
+        Array [
+          Object {
+            "delete_at": 0,
+            "display_name": "Team 3",
+            "id": "id3",
+            "scheme_id": "test",
+          },
+          Object {
+            "delete_at": 0,
+            "display_name": "Team 4",
+            "id": "id4",
+            "scheme_id": "",
+          },
+        ]
+      }
+      perPage={50}
+      saving={false}
+      valueKey="id"
+      valueRenderer={[Function]}
+      values={Array []}
+    />
+  </ModalBody>
+</Modal>
+`;

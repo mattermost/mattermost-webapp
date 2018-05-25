@@ -94,19 +94,19 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
   >
     <span
       className="team"
-      key="team-1"
+      key="xxx"
     >
       Team 1
     </span>
     <span
       className="team"
-      key="team-2"
+      key="yyy"
     >
       Team 2
     </span>
     <span
       className="team"
-      key="team-3"
+      key="zzz"
     >
       Team 3
     </span>
@@ -208,49 +208,49 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
   >
     <span
       className="team"
-      key="team-1"
+      key="aaa"
     >
       Team 1
     </span>
     <span
       className="team"
-      key="team-2"
+      key="bbb"
     >
       Team 2
     </span>
     <span
       className="team"
-      key="team-3"
+      key="ccc"
     >
       Team 3
     </span>
     <span
       className="team"
-      key="team-4"
+      key="ddd"
     >
       Team 4
     </span>
     <span
       className="team"
-      key="team-5"
+      key="eee"
     >
       Team 5
     </span>
     <span
       className="team"
-      key="team-6"
+      key="fff"
     >
       Team 6
     </span>
     <span
       className="team"
-      key="team-7"
+      key="ggg"
     >
       Team 7
     </span>
     <span
       className="team"
-      key="team-8"
+      key="hhh"
     >
       Team 8
     </span>
