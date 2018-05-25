@@ -11,13 +11,14 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
     const defaultProps = {
         scheme: {
             id: 'id',
-            name: 'Test',
+            name: 'xxxxxxxxxx',
+            display_name: 'Test',
             description: 'Test description',
         },
         teams: [
-            {id: 'team-1', name: 'Team 1'},
-            {id: 'team-2', name: 'Team 2'},
-            {id: 'team-3', name: 'Team 3'},
+            {id: 'xxx', name: 'team-1', display_name: 'Team 1'},
+            {id: 'yyy', name: 'team-2', display_name: 'Team 2'},
+            {id: 'zzz', name: 'team-3', display_name: 'Team 3'},
         ],
         actions: {
             loadSchemeTeams: jest.fn().mockReturnValueOnce(Promise.resolve()),
@@ -37,16 +38,16 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
             <PermissionsSchemeSummary
                 {...defaultProps}
                 teams={[
-                    {id: 'team-1', name: 'Team 1'},
-                    {id: 'team-2', name: 'Team 2'},
-                    {id: 'team-3', name: 'Team 3'},
-                    {id: 'team-4', name: 'Team 4'},
-                    {id: 'team-5', name: 'Team 5'},
-                    {id: 'team-6', name: 'Team 6'},
-                    {id: 'team-7', name: 'Team 7'},
-                    {id: 'team-8', name: 'Team 8'},
-                    {id: 'team-9', name: 'Team 9'},
-                    {id: 'team-10', name: 'Team 10'},
+                    {id: 'aaa', name: 'team-1', display_name: 'Team 1'},
+                    {id: 'bbb', name: 'team-2', display_name: 'Team 2'},
+                    {id: 'ccc', name: 'team-3', display_name: 'Team 3'},
+                    {id: 'ddd', name: 'team-4', display_name: 'Team 4'},
+                    {id: 'eee', name: 'team-5', display_name: 'Team 5'},
+                    {id: 'fff', name: 'team-6', display_name: 'Team 6'},
+                    {id: 'ggg', name: 'team-7', display_name: 'Team 7'},
+                    {id: 'hhh', name: 'team-8', display_name: 'Team 8'},
+                    {id: 'iii', name: 'team-9', display_name: 'Team 9'},
+                    {id: 'jjj', name: 'team-9', display_name: 'Team 10'},
                 ]}
             />
         );
