@@ -718,7 +718,7 @@
     top: 15px;
 }
 
-.filtered-user-list {
+.filtered-user-list, {
     display: flex;
     flex-direction: column;
     height: calc(90vh - 120px);
@@ -753,8 +753,67 @@
     }
 }
 
+.team-selector-modal {
+    .more-modal__row {
+        border: 0px;
+        &:nth-child(odd) {
+            background: rgba(0, 0, 0, .03);
+        }
+        &:hover {
+            background: rgba(0, 0, 0, .05);
+        }
+    }
+}
+
 .modal-invite-member {
   .btn:hover {
     text-decoration: underline;
   }
+}
+
+.team-selector-modal {
+    .modal-header {
+        background: $black;
+        color: $white;
+        .close {
+            color: $white;
+            opacity: 1;
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+    .modal-body {
+        padding: 15px 0;
+        .filter-row {
+            padding: 0 15px;
+        }
+        .more-modal__row--selected {
+            background-color: lighten($primary-color, 40%);
+            .more-modal__actions--round {
+                opacity: .5;
+            }
+        }
+        .no-channel-message {
+            width: 100%;
+            text-align: center;
+            font-size: 1.25em;
+            color: $gray;
+            margin-top: 40px;
+        }
+        .filter-row--full {
+            flex-grow: 0;
+        }
+    }
+    .filter-control {
+        color: $primary-color;
+        background: none;
+        border: none;
+        &:hover,&:focus,&:active {
+            color: $primary-color;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+    }
 }

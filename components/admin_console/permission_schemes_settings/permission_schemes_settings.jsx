@@ -15,7 +15,7 @@ const PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE = 501;
 
 export default class PermissionSchemesSettings extends React.PureComponent {
     static propTypes = {
-        schemes: PropTypes.array.isRequired,
+        schemes: PropTypes.object.isRequired,
         jobsAreEnabled: PropTypes.bool,
         clusterIsEnabled: PropTypes.bool,
         actions: PropTypes.shape({
@@ -35,7 +35,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
     }
 
     static defaultProps = {
-        schemes: [],
+        schemes: {},
     };
 
     async componentWillMount() {
