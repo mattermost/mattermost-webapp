@@ -25,7 +25,11 @@ export default function FileUploadOverlay(props) {
                         src={fileOverlayImage}
                         alt='Files'
                     />
-                    <span><i className='fa fa-upload'/>
+                    <span>
+                        <i
+                            className='fa fa-upload'
+                            title='Upload icon'
+                        />
                         <FormattedMessage
                             id='upload_overlay.info'
                             defaultMessage='Drop a file to upload it.'

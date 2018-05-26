@@ -30,7 +30,12 @@ class AtMentionSuggestion extends Suggestion {
                     defaultMessage='CAUTION: This mentions everyone in channel'
                 />
             );
-            icon = <i className='mention__image fa fa-users fa-2x'/>;
+            icon = (
+                <i
+                    className='mention__image fa fa-users fa-2x'
+                    title='Mention all icon'
+                />
+            );
         } else if (user.username === 'channel') {
             username = 'channel';
             description = (
@@ -39,7 +44,12 @@ class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Notifies everyone in the channel'
                 />
             );
-            icon = <i className='mention__image fa fa-users fa-2x'/>;
+            icon = (
+                <i
+                    className='mention__image fa fa-users fa-2x'
+                    title='Mention all icon'
+                />
+            );
         } else if (user.username === 'here') {
             username = 'here';
             description = (
@@ -48,7 +58,12 @@ class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Notifies everyone in the channel and online'
                 />
             );
-            icon = <i className='mention__image fa fa-users fa-2x'/>;
+            icon = (
+                <i
+                    className='mention__image fa fa-users fa-2x'
+                    title='Mention users here icon'
+                />
+            );
         } else {
             username = user.username;
 

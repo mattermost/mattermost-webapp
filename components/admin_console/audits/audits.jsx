@@ -85,7 +85,10 @@ export default class Audits extends React.PureComponent {
                             className='btn btn-link pull-right'
                             onClick={this.reload}
                         >
-                            <i className='fa fa-refresh'/>
+                            <i
+                                className='fa fa-refresh'
+                                title='Reload Icon'
+                            />
                             <FormattedMessage
                                 id='admin.audits.reload'
                                 defaultMessage='Reload User Activity Logs'

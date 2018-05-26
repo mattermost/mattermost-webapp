@@ -979,7 +979,10 @@ export default class ChannelHeader extends React.Component {
                         onClick={this.unmute}
                         className={'style--none color--link channel-header__mute inactive'}
                     >
-                        <i className={'icon fa fa-bell-slash-o'}/>
+                        <i
+                            className={'icon fa fa-bell-slash-o'}
+                            title='Muted icon'
+                        />
                     </button>
                 </OverlayTrigger>
             );
@@ -1044,6 +1047,7 @@ export default class ChannelHeader extends React.Component {
                                         <span
                                             id='channelHeaderDropdownIcon'
                                             className='fa fa-angle-down header-dropdown__icon'
+                                            title='Dropdown icon'
                                         />
                                     </button>
                                     <ul

@@ -31,7 +31,10 @@ export default class BackButton extends React.PureComponent {
                     onClick={this.props.onClick}
                     to={this.props.url}
                 >
-                    <span className='fa fa-chevron-left'/>
+                    <span
+                        className='fa fa-chevron-left'
+                        title='Back icon'
+                    />
                     <FormattedMessage
                         id='web.header.back'
                         defaultMessage='Back'

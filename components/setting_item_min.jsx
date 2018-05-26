@@ -80,7 +80,10 @@ export default class SettingItemMin extends React.PureComponent {
                         onClick={this.handleUpdateSection}
                         ref={this.getEdit}
                     >
-                        <i className='fa fa-pencil'/>
+                        <i
+                            className='fa fa-pencil'
+                            title='Edit icon'
+                        />
                         {this.props.describe}
                     </button>
                 </li>
@@ -94,7 +97,10 @@ export default class SettingItemMin extends React.PureComponent {
                         onClick={this.handleUpdateSection}
                         ref={this.getEdit}
                     >
-                        <i className='fa fa-pencil'/>
+                        <i
+                            className='fa fa-pencil'
+                            title='Edit icon'
+                        />
                         <FormattedMessage
                             id='setting_item_min.edit'
                             defaultMessage='Edit'

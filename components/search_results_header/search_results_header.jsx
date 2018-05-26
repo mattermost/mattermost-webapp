@@ -97,7 +97,10 @@ export default class SearchResultsHeader extends React.Component {
                             placement='top'
                             overlay={expandSidebarTooltip}
                         >
-                            <i className='fa fa-expand'/>
+                            <i
+                                className='fa fa-expand'
+                                title='Expand sidebar icon'
+                            />
                         </OverlayTrigger>
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
@@ -105,7 +108,10 @@ export default class SearchResultsHeader extends React.Component {
                             placement='top'
                             overlay={shrinkSidebarTooltip}
                         >
-                            <i className='fa fa-compress'/>
+                            <i
+                                className='fa fa-compress'
+                                title='Shrink sidebar icon'
+                            />
                         </OverlayTrigger>
                     </button>
                     <button
@@ -121,7 +127,10 @@ export default class SearchResultsHeader extends React.Component {
                             placement='top'
                             overlay={closeSidebarTooltip}
                         >
-                            <i className='fa fa-sign-out'/>
+                            <i
+                                className='fa fa-sign-out'
+                                title='Close sidebar icon'
+                            />
                         </OverlayTrigger>
                     </button>
                 </div>

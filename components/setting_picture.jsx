@@ -220,7 +220,10 @@ export default class SettingPicture extends Component {
                 />
             );
             selectButtonSpinner = (
-                <span className='icon fa fa-refresh icon--rotate'/>
+                <span
+                    className='icon fa fa-refresh icon--rotate'
+                    title='Loading icon'
+                />
             );
             fileInputDisabled = true;
         } else {

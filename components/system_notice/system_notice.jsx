@@ -97,7 +97,10 @@ export default class SystemNotice extends React.PureComponent {
         if (notice.adminOnly) {
             visibleMessage = (
                 <div className='system-notice__info'>
-                    <i className='fa fa-eye'/>
+                    <i
+                        className='fa fa-eye'
+                        title='Only visible to admin icon'
+                    />
                     <FormattedMessage
                         id='system_notice.adminVisible'
                         defaultMessage='Only visible to System Admins'

@@ -12,6 +12,8 @@ export default class StatusDndIcon extends React.PureComponent {
                     height='100%'
                     viewBox='0 0 20 20'
                     style={style}
+                    role='icon'
+                    aria-label='DND icon'
                 >
                     <path
                         className='dnd--icon'

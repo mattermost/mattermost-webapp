@@ -28,7 +28,12 @@ class SwitchTeamSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 className={className}
             >
-                <div className='status'><i className='fa fa-group'/></div>
+                <div className='status'>
+                    <i
+                        className='fa fa-group'
+                        title='Team icon'
+                    />
+                </div>
                 {item.display_name}
             </div>
         );

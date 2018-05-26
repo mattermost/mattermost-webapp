@@ -78,7 +78,10 @@ export default class ErrorPage extends React.PureComponent {
             <div className='container-fluid'>
                 <div className='error__container'>
                     <div className='error__icon'>
-                        <i className='fa fa-exclamation-triangle'/>
+                        <i
+                            className='fa fa-exclamation-triangle'
+                            title='Error icon'
+                        />
                     </div>
                     <h2>
                         <ErrorTitle

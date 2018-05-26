@@ -14,6 +14,8 @@ export default class MattermostLogo extends React.PureComponent {
                     y='0px'
                     viewBox='0 0 500 500'
                     style={style.background}
+                    role='icon'
+                    aria-label='Mattermost logo'
                 >
                     <g id='XMLID_1_'>
                         <g id='XMLID_3_'>

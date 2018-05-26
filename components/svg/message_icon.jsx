@@ -11,6 +11,8 @@ export default class MessageIcon extends React.PureComponent {
                     width='18px'
                     height='16px'
                     viewBox='0 0 18 16'
+                    role='icon'
+                    aria-label='Message icon'
                 >
                     <g
                         stroke='none'

@@ -126,7 +126,11 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                         <FormattedMessage
                             id='create_team.display_name.next'
                             defaultMessage='Next'
-                        /><i className='fa fa-chevron-right'/>
+                        />
+                        <i
+                            className='fa fa-chevron-right'
+                            title='Next step icon'
+                        />
                     </button>
                 </form>
             </div>

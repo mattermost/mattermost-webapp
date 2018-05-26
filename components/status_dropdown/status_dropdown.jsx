@@ -202,7 +202,10 @@ export default class StatusDropdown extends React.Component {
                         {profilePicture}
                         <StatusIcon status={this.props.status}/>
                         <span className={'status status-edit edit'}>
-                            <i className={'fa fa-caret-down'}/>
+                            <i
+                                className={'fa fa-caret-down'}
+                                title='Status selector icon'
+                            />
                         </span>
                     </div>
                 </BootstrapSpan>

@@ -266,7 +266,10 @@ class InviteMemberModal extends React.Component {
                                 className='btn btn-link remove__member'
                                 onClick={this.removeInviteFields.bind(this, index)}
                             >
-                                <span className='fa fa-trash'/>
+                                <span
+                                    className='fa fa-trash'
+                                    title='Remove member icon'
+                                />
                             </button>
                         </div>
                     );
@@ -393,7 +396,11 @@ class InviteMemberModal extends React.Component {
                 );
                 if (this.state.isSendingEmails) {
                     sendButtonLabel = (
-                        <span><i className='fa fa-spinner fa-spin'/>
+                        <span>
+                            <i
+                                className='fa fa-spinner fa-spin'
+                                title='Loading icon'
+                            />
                             <FormattedMessage
                                 id='invite_member.sending'
                                 defaultMessage=' Sending'

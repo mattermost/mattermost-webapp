@@ -75,7 +75,10 @@ export default class Logs extends React.PureComponent {
                         id='admin.logs.next'
                         defaultMessage='Next'
                     />
-                    <i className='fa fa-chevron-right margin-left'/>
+                    <i
+                        className='fa fa-chevron-right margin-left'
+                        title='Next page icon'
+                    />
                 </button>
             );
         }
@@ -86,7 +89,10 @@ export default class Logs extends React.PureComponent {
                     className='btn btn-default filter-control filter-control__prev'
                     onClick={this.previousPage}
                 >
-                    <i className='fa fa-angle-left'/>
+                    <i
+                        className='fa fa-angle-left'
+                        title='Previous page icon'
+                    />
                     <FormattedMessage
                         id='admin.logs.prev'
                         defaultMessage='Previous'

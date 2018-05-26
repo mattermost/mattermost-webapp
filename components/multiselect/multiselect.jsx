@@ -170,7 +170,12 @@ export default class MultiSelect extends React.Component {
         if (this.props.noteText) {
             noteTextContainer = (
                 <div className='multi-select__note'>
-                    <div className='note__icon'><span className='fa fa-info'/></div>
+                    <div className='note__icon'>
+                        <span
+                            className='fa fa-info'
+                            title='Info icon'
+                        />
+                    </div>
                     <div>{this.props.noteText}</div>
                 </div>
             );

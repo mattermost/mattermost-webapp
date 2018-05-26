@@ -12,6 +12,8 @@ export default class UnreadBelowIcon extends React.PureComponent {
                     height='10px'
                     viewBox='0 0 10 10'
                     style={style}
+                    role='icon'
+                    aria-label='Unread arrow icon'
                 >
                     <g transform='matrix(1,0,0,1,-20,-18)'>
                         <g transform='matrix(0.0330723,0,0,0.0322634,15.8132,12.3164)'>

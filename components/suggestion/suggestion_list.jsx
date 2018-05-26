@@ -117,7 +117,10 @@ export default class SuggestionList extends React.Component {
                 key={type + '-loading'}
                 className='suggestion-loader'
             >
-                <i className='fa fa-spinner fa-pulse fa-fw margin-bottom'/>
+                <i
+                    className='fa fa-spinner fa-pulse fa-fw margin-bottom'
+                    title='Loading icon'
+                />
             </div>
         );
     }

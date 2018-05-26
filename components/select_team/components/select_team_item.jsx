@@ -24,11 +24,17 @@ export default class SelectTeamItem extends React.PureComponent {
         let icon;
         if (this.props.loading) {
             icon = (
-                <span className='fa fa-refresh fa-spin right signup-team__icon'/>
+                <span
+                    className='fa fa-refresh fa-spin right signup-team__icon'
+                    title='Loading icon'
+                />
             );
         } else {
             icon = (
-                <span className='fa fa-angle-right right signup-team__icon'/>
+                <span
+                    className='fa fa-angle-right right signup-team__icon'
+                    title='Join team icon'
+                />
             );
         }
 

@@ -11,6 +11,8 @@ export default class LockIcon extends React.PureComponent {
                     width='12px'
                     height='13px'
                     viewBox='0 0 13 15'
+                    role='icon'
+                    aria-label='Private channel icon'
                 >
                     <g
                         stroke='none'

@@ -15,6 +15,8 @@ export default class StatusDndAvatarIcon extends React.PureComponent {
                     height='13px'
                     viewBox='-299 391 12 12'
                     style={style}
+                    role='icon'
+                    aria-label='Offline icon'
                 >
                     <g>
                         <g>

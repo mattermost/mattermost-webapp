@@ -36,7 +36,10 @@ class SearchUserSuggestion extends Suggestion {
                 className={className}
                 onClick={this.handleClick}
             >
-                <i className='fa fa fa-plus-square'/>
+                <i
+                    className='fa fa fa-plus-square'
+                    title='Select user icon'
+                />
                 <img
                     className='profile-img rounded'
                     src={Utils.imageURLForUser(item)}

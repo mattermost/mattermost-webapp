@@ -387,8 +387,14 @@ class CustomThemeChooser extends React.Component {
                             defaultMessage='Sidebar Styles'
                         />
                         <div className='header__icon'>
-                            <i className='fa fa-plus'/>
-                            <i className='fa fa-minus'/>
+                            <i
+                                className='fa fa-plus'
+                                title='Expand icon'
+                            />
+                            <i
+                                className='fa fa-minus'
+                                title='Collapse icon'
+                            />
                         </div>
                     </div>
                     <div
@@ -409,8 +415,14 @@ class CustomThemeChooser extends React.Component {
                             defaultMessage='Center Channel Styles'
                         />
                         <div className='header__icon'>
-                            <i className='fa fa-plus'/>
-                            <i className='fa fa-minus'/>
+                            <i
+                                className='fa fa-plus'
+                                title='Expand icon'
+                            />
+                            <i
+                                className='fa fa-minus'
+                                title='Collapse icon'
+                            />
                         </div>
                     </div>
                     <div
@@ -431,8 +443,14 @@ class CustomThemeChooser extends React.Component {
                             defaultMessage='Link and Button Styles'
                         />
                         <div className='header__icon'>
-                            <i className='fa fa-plus'/>
-                            <i className='fa fa-minus'/>
+                            <i
+                                className='fa fa-plus'
+                                title='Expand icon'
+                            />
+                            <i
+                                className='fa fa-minus'
+                                title='Collapse icon'
+                            />
                         </div>
                     </div>
                     <div

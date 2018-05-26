@@ -42,7 +42,10 @@ export default class MFAController extends React.Component {
                         className='style--none color--link'
                         onClick={this.handleOnClick}
                     >
-                        <span className='fa fa-chevron-left'/>
+                        <span
+                            className='fa fa-chevron-left'
+                            title='Logout icon'
+                        />
                         <FormattedMessage
                             id='web.header.logout'
                             defaultMessage='Logout'

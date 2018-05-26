@@ -314,6 +314,7 @@ export default class UserSettingsSidebar extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
+                                title='Collapse icon'
                                 onClick={this.props.collapseModal}
                             />
                         </div>

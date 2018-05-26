@@ -239,15 +239,15 @@ class UserSettingsModal extends React.Component {
         }
         var tabs = [];
 
-        tabs.push({name: 'general', uiName: formatMessage(holders.general), icon: 'icon fa fa-gear'});
-        tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock'});
-        tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle'});
-        tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye'});
+        tabs.push({name: 'general', uiName: formatMessage(holders.general), icon: 'icon fa fa-gear', iconTitle: 'General settings icon'});
+        tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: 'Security settings icon'});
+        tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: 'Notification settings icon'});
+        tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: 'Display settings icon'});
         if (this.props.closeUnusedDirectMessages ||
             this.props.experimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED) {
-            tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns'});
+            tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: 'Sidebar settings icon'});
         }
-        tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt'});
+        tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: 'Advanced settings icon'});
 
         return (
             <Modal

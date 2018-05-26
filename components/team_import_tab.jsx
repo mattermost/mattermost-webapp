@@ -148,7 +148,11 @@ class TeamImportTab extends React.Component {
             break;
         case 'in-progress':
             messageSection = (
-                <p className='confirm-import alert alert-warning'><i className='fa fa-spinner fa-pulse'/>
+                <p className='confirm-import alert alert-warning'>
+                    <i
+                        className='fa fa-spinner fa-pulse'
+                        title='Loading icon'
+                    />
                     <FormattedMessage
                         id='team_import_tab.importing'
                         defaultMessage=' Importing...'
@@ -159,7 +163,10 @@ class TeamImportTab extends React.Component {
         case 'done':
             messageSection = (
                 <p className='confirm-import alert alert-success'>
-                    <i className='fa fa-check'/>
+                    <i
+                        className='fa fa-check'
+                        title='Success icon'
+                    />
                     <FormattedMessage
                         id='team_import_tab.successful'
                         defaultMessage=' Import successful: '
@@ -179,7 +186,10 @@ class TeamImportTab extends React.Component {
         case 'fail':
             messageSection = (
                 <p className='confirm-import alert alert-warning'>
-                    <i className='fa fa-warning'/>
+                    <i
+                        className='fa fa-warning'
+                        title='Warning icon'
+                    />
                     <FormattedMessage
                         id='team_import_tab.failure'
                         defaultMessage=' Import failure: '
@@ -218,6 +228,7 @@ class TeamImportTab extends React.Component {
                             <i
                                 className='fa fa-angle-left'
                                 onClick={this.props.collapseModal}
+                                title='Back icon'
                             />
                         </div>
                         <FormattedMessage

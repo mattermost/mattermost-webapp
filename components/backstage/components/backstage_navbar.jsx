@@ -27,7 +27,10 @@ export default class BackstageNavbar extends React.Component {
                     className='backstage-navbar__back'
                     to={`/${this.props.team.name}/channels/${Constants.DEFAULT_CHANNEL}`}
                 >
-                    <i className='fa fa-angle-left'/>
+                    <i
+                        className='fa fa-angle-left'
+                        title='Back to app icon'
+                    />
                     <span>
                         <FormattedMessage
                             id='backstage_navbar.backToMattermost'

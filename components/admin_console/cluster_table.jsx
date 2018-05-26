@@ -115,7 +115,10 @@ export default class ClusterTable extends React.Component {
                         className='btn btn-link'
                         onClick={this.props.reload}
                     >
-                        <i className='fa fa-refresh'/>
+                        <i
+                            className='fa fa-refresh'
+                            title='Refresh icon'
+                        />
                         <FormattedMessage
                             id='admin.cluster.status_table.reload'
                             defaultMessage=' Reload Cluster Status'

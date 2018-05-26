@@ -39,7 +39,10 @@ export default class ShouldVerifyEmail extends React.Component {
                 <div>
                     <br/>
                     <p className='alert alert-success'>
-                        <i className='fa fa-check'/>
+                        <i
+                            className='fa fa-check'
+                            title='Success icon'
+                        />
                         <FormattedMessage
                             id='email_verify.sent'
                             defaultMessage=' Verification email sent.'
@@ -54,7 +57,10 @@ export default class ShouldVerifyEmail extends React.Component {
                 <div>
                     <br/>
                     <p className='alert alert-danger'>
-                        <i className='fa fa-times'/>
+                        <i
+                            className='fa fa-times'
+                            title='Vertification failed icon'
+                        />
                         <FormattedMessage id='email_verify.failed'/>
                     </p>
                 </div>

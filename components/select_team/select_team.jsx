@@ -263,7 +263,10 @@ export default class SelectTeam extends React.Component {
                         href='#'
                         onClick={this.handleLogoutClick}
                     >
-                        <span className='fa fa-chevron-left'/>
+                        <span
+                            className='fa fa-chevron-left'
+                            title='Logout icon'
+                        />
                         <FormattedMessage id='web.header.logout'/>
                     </a>
                 </div>

@@ -21,7 +21,10 @@ export default class BackstageHeader extends React.Component {
                         key={'divider' + index}
                         className='backstage-header__divider'
                     >
-                        <i className='fa fa-angle-right'/>
+                        <i
+                            className='fa fa-angle-right'
+                            title='Breadcrumb icon'
+                        />
                     </span>
                 );
             }

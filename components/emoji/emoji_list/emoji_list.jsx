@@ -197,7 +197,10 @@ export default class EmojiList extends React.Component {
                             id='filtered_user_list.next'
                             defaultMessage='Next'
                         />
-                        <i className='fa fa-chevron-right margin-left'/>
+                        <i
+                            className='fa fa-chevron-right margin-left'
+                            title='Next page icon'
+                        />
                     </span>
                 );
 
@@ -220,7 +223,10 @@ export default class EmojiList extends React.Component {
                         className='btn btn-link'
                         onClick={this.previousPage}
                     >
-                        <i className='fa fa-chevron-left margin-right'/>
+                        <i
+                            className='fa fa-chevron-left margin-right'
+                            title='Previous page icon'
+                        />
                         <FormattedMessage
                             id='filtered_user_list.prev'
                             defaultMessage='Previous'
@@ -234,7 +240,10 @@ export default class EmojiList extends React.Component {
             <div>
                 <div className='backstage-filters'>
                     <div className='backstage-filter__search'>
-                        <i className='fa fa-search'/>
+                        <i
+                            className='fa fa-search'
+                            title='Search icon'
+                        />
                         <input
                             type='search'
                             className='form-control'

@@ -12,6 +12,8 @@ export default class PinIcon extends React.PureComponent {
                     height='14px'
                     viewBox='0 0 16 16'
                     version='1.1'
+                    role='icon'
+                    aria-label='Pin icon'
                 >
                     <g
                         id='Symbols'

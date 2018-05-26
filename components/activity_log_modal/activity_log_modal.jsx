@@ -99,9 +99,11 @@ export default class ActivityLogModal extends React.Component {
         let deviceTypeId;
         let deviceTypeMessage;
         let devicePicture;
+        let deviceTitle;
 
         if (session.device_id.includes('apple')) {
             devicePicture = 'fa fa-apple';
+            deviceTitle = 'Apple icon';
             deviceTypeId = 'activity_log_modal.iphoneNativeClassicApp';
             deviceTypeMessage = 'iPhone Native Classic App';
 
@@ -111,6 +113,7 @@ export default class ActivityLogModal extends React.Component {
             }
         } else if (session.device_id.includes('android')) {
             devicePicture = 'fa fa-android';
+            deviceTitle = 'Android icon';
             deviceTypeId = 'activity_log_modal.androidNativeClassicApp';
             deviceTypeMessage = 'Android Native Classic App';
 
@@ -140,6 +143,7 @@ export default class ActivityLogModal extends React.Component {
             const firstAccessTime = new Date(currentSession.create_at);
             let devicePlatform = currentSession.props.platform;
             let devicePicture = '';
+            let deviceTitle = '';
 
             if (currentSession.props.type === 'UserAccessToken') {
                 continue;
@@ -147,6 +151,7 @@ export default class ActivityLogModal extends React.Component {
 
             if (currentSession.props.platform === 'Windows') {
                 devicePicture = 'fa fa-windows';
+                deviceTitle = 'Windows icon';
             } else if (this.isMobileSession(currentSession)) {
                 const sessionInfo = this.mobileSessionInfo(currentSession);
 
@@ -155,6 +160,7 @@ export default class ActivityLogModal extends React.Component {
             } else if (currentSession.props.platform === 'Macintosh' ||
                 currentSession.props.platform === 'iPhone') {
                 devicePicture = 'fa fa-apple';
+                deviceTitle = 'Apple icon';
             } else if (currentSession.props.platform === 'Linux') {
                 if (currentSession.props.os.indexOf('Android') >= 0) {
                     devicePlatform = (
@@ -164,11 +170,14 @@ export default class ActivityLogModal extends React.Component {
                         />
                     );
                     devicePicture = 'fa fa-android';
+                    deviceTitle = 'Android icon';
                 } else {
                     devicePicture = 'fa fa-linux';
+                    deviceTitle = 'Linux icon';
                 }
             } else if (currentSession.props.os.indexOf('Linux') !== -1) {
                 devicePicture = 'fa fa-linux';
+                deviceTitle = 'Linux icon';
             }
 
             if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
@@ -257,7 +266,12 @@ export default class ActivityLogModal extends React.Component {
                     className='activity-log__table'
                 >
                     <div className='activity-log__report'>
-                        <div className='report__platform'><i className={devicePicture}/>{devicePlatform}</div>
+                        <div className='report__platform'>
+                            <i
+                                className={devicePicture}
+                                title={deviceTitle}
+                            />{devicePlatform}
+                        </div>
                         <div className='report__info'>
                             <div>
                                 <FormattedMessage

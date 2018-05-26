@@ -935,7 +935,10 @@ export default class CreatePost extends React.Component {
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
-                                    <i className='fa fa-paper-plane'/>
+                                    <i
+                                        className='fa fa-paper-plane'
+                                        title='Send post icon'
+                                    />
                                 </a>
                             </span>
                         </div>

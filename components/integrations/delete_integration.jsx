@@ -29,7 +29,10 @@ export default class DeleteIntegration extends DeleteModalTrigger {
     get modalMessage() {
         return (
             <div className='alert alert-warning'>
-                <i className='fa fa-warning fa-margin--right'/>
+                <i
+                    className='fa fa-warning fa-margin--right'
+                    title='Warning icon'
+                />
                 <FormattedMessage
                     id={this.props.messageId}
                     defaultMessage='This action permanently deletes the integration and breaks any integrations using it. Are you sure you want to delete it?'
