@@ -125,6 +125,7 @@ export default class ActivityLogModal extends React.Component {
 
         return {
             devicePicture,
+            deviceTitle,
             devicePlatform: (
                 <FormattedMessage
                     id={deviceTypeId}
