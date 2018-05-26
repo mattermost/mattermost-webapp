@@ -47,13 +47,14 @@
                     background-color: alpha-color($black, .3);
                     border: 1px solid alpha-color($white, .2);
                     font-weight: bold;
-                    height: 36px;
+                    height: 44px;
                     letter-spacing: -.5px;
-                    line-height: 34px;
+                    line-height: 42px;
                     position: relative;
                     text-align: center;
+                    text-transform: capitalize;
                     vertical-align: top;
-                    width: 36px;
+                    width: 44px;
 
                     .team-btn__image {
                         @include border-radius(4px);
@@ -76,8 +77,8 @@
                     }
 
                     &.team-btn__add {
-                        font-size: 17px;
-                        line-height: 36px;
+                        font-size: 25px;
+                        line-height: 41px;
                         vertical-align: middle;
                     }
                 }
