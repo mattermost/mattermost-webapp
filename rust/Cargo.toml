@@ -1,0 +1,11 @@
+[package]
+name = "mattermost-client-rust"
+version = "0.1.0"
+authors = ["Christopher Speller <crspeller@gmail.com>"]
+
+[dependencies]
+pulldown-cmark = "0.1.2"
+wasm-bindgen = "0.2.22"
+
+[lib]
+crate-type = ["cdylib"]

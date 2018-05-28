@@ -9,3 +9,4 @@ tests/reports
 .DS_Store
 mattermost-webapp.iml
 .vscode/
+rust/target

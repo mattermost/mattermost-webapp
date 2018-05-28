@@ -81,6 +81,9 @@ export function formatText(text, inputOptions) {
 
     return output;
 }
+global.wasmDoFormatText = (text, options) => {
+    return doFormatText(text, options);
+};
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
 export function doFormatText(text, options) {

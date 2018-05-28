@@ -3,6 +3,9 @@
 
 import './entry.js';
 
+// Polyfill for TextEncode used in wasm bindings
+import 'fast-text-encoding';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
@@ -23,6 +26,8 @@ import loadRoot from 'bundle-loader?lazy!components/root';
 const Root = makeAsyncComponent(loadRoot);
 
 PDFJS.disableWorker = true;
+
+//import loadWasm from 'bundle-loader?lazy!rust/src/lib.rs';
 
 // This is for anything that needs to be done for ALL react components.
 // This runs before we start to render anything.

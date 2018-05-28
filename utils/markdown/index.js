@@ -7,14 +7,13 @@ import {convertEntityToCharacter} from 'utils/text_formatting.jsx';
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
 
 import Renderer from './renderer';
-
 const removeMarkdown = new RemoveMarkdown();
 
 export function format(text, options = {}) {
-    return formatWithRenderer(text, new Renderer(null, options));
+    return formatWithRenderer(text, new Renderer(null, options), options);
 }
 
-export function formatWithRenderer(text, renderer) {
+export function formatWithRenderer(text, renderer, options) {
     const markdownOptions = {
         renderer,
         sanitize: true,
@@ -23,7 +22,14 @@ export function formatWithRenderer(text, renderer) {
         mangle: false,
     };
 
-    return marked(text, markdownOptions);
+    let result = '';
+    if (window.wasmSupported) {
+        result = window.wasm.domarkdown('faces');//text, 'yourface');
+    } else {
+        result = marked(text, markdownOptions);
+    }
+
+    return result;
 }
 
 export function stripMarkdown(text) {

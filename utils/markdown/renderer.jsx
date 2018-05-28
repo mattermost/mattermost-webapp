@@ -8,6 +8,11 @@ import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getScheme, isUrlSafe} from 'utils/url.jsx';
 
+export function doHighlight(lang, code) {
+    return SyntaxHighlighting.highlight(lang, code);
+}
+global.doHighlight = doHighlight;
+
 export default class Renderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
         super(options);

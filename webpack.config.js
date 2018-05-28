@@ -233,13 +233,15 @@ var config = {
         modules: [
             'node_modules',
             'non_npm_dependencies',
+            'rust/output',
             path.resolve(__dirname),
         ],
         alias: {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
+            rust: 'rust/output',
         },
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.wasm'],
     },
     performance: {
         hints: 'warning',

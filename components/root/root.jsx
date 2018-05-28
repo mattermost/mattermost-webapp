@@ -80,6 +80,8 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
+const loadWasm = import('rust/mattermost_client_rust.js');
+
 export default class Root extends React.Component {
     static propTypes = {
         diagnosticsEnabled: PropTypes.bool,
@@ -140,7 +142,29 @@ export default class Root extends React.Component {
         // Loading page so reset connection failure count
         ErrorStore.setConnectionErrorCount(0);
 
+        window.wasmSupported = false;
+        try {
+            if (typeof WebAssembly === 'object' &&
+                typeof TextDecoder !== 'undefined') {
+                window.wasmSupported = true;
+            }
+        } catch (e) {
+            window.wasmSupported = false;
+        }
+
+        if (window.wasmSupported) {
+            loadWasm.then((mod) => {
+                window.wasm = {};
+                window.wasm.domarkdown = mod.domarkdown;
+                this.setState({wasmReady: true});
+            });
+        } else {
+            console.log("Your browser doesn't support webassembly! Please upgrade to a browser that supports webassembly for a faster experiance."); //eslint-disable-line no-console
+            this.setState({wasmReady: true});
+        }
+
         this.state = {
+            wasmReady: false,
             configLoaded: false,
         };
     }
@@ -242,7 +266,7 @@ export default class Root extends React.Component {
     }
 
     render() {
-        if (!this.state.configLoaded) {
+        if (this.state.translations == null || this.state.configLoaded === false || this.state.wasmReady === false) {
             return <div/>;
         }
 
