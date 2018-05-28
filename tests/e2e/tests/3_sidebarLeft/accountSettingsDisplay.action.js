@@ -44,9 +44,9 @@ module.exports = {
             waitForElementVisible('#clockFormatB', Constants.DEFAULT_WAIT).
             waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#Clock_DisplayCancel', Constants.DEFAULT_WAIT).
-            assert.containsText('#Clock_DisplayCancel', 'Cancel').
-            click('#Clock_DisplayCancel').
+            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            assert.containsText('#cancelSetting', 'Cancel').
+            click('#cancelSetting').
             assert.containsText('@clockDesc', '12-hour clock (example: 4:00 PM)');
 
         // save/change setting to 24-hour clock
@@ -89,9 +89,9 @@ module.exports = {
             waitForElementVisible('#linkpreviewFormatB', Constants.DEFAULT_WAIT).
             waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#Website_Link_PreviewsCancel', Constants.DEFAULT_WAIT).
-            assert.containsText('#Website_Link_PreviewsCancel', 'Cancel').
-            click('#Website_Link_PreviewsCancel').
+            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            assert.containsText('#cancelSetting', 'Cancel').
+            click('#cancelSetting').
             assert.containsText('@linkPreviewDesc', 'On');
 
         // save/change setting to Off link previews
@@ -134,9 +134,9 @@ module.exports = {
             waitForElementVisible('#collapseFormatB', Constants.DEFAULT_WAIT).
             waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#Default_appearance_of_image_link_previewsCancel', Constants.DEFAULT_WAIT).
-            assert.containsText('#Default_appearance_of_image_link_previewsCancel', 'Cancel').
-            click('#Default_appearance_of_image_link_previewsCancel').
+            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            assert.containsText('#cancelSetting', 'Cancel').
+            click('#cancelSetting').
             assert.containsText('@collapseDesc', 'Expanded');
 
         // save/change setting to Expanded
