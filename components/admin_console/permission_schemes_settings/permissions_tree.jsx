@@ -68,6 +68,7 @@ const GROUPS = [
             'manage_webhooks',
             'manage_oauth',
             'manage_slash_commands',
+            'manage_emojis',
         ],
     },
 ];
