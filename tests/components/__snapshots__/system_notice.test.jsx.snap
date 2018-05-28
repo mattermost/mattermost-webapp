@@ -45,7 +45,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
     >
       <FormattedMessage
         defaultMessage="Remind me later"
-        id="system_notice_remind_me"
+        id="system_notice.remind_me"
         values={Object {}}
       />
     </button>
@@ -56,7 +56,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
     >
       <FormattedMessage
         defaultMessage="Don't show again"
-        id="system_notice_dont_show"
+        id="system_notice.dont_show"
         values={Object {}}
       />
     </button>
@@ -97,7 +97,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
     >
       <FormattedMessage
         defaultMessage="Remind me later"
-        id="system_notice_remind_me"
+        id="system_notice.remind_me"
         values={Object {}}
       />
     </button>
@@ -108,7 +108,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
     >
       <FormattedMessage
         defaultMessage="Don't show again"
-        id="system_notice_dont_show"
+        id="system_notice.dont_show"
         values={Object {}}
       />
     </button>
@@ -149,7 +149,7 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
     >
       <FormattedMessage
         defaultMessage="Remind me later"
-        id="system_notice_remind_me"
+        id="system_notice.remind_me"
         values={Object {}}
       />
     </button>
@@ -160,7 +160,7 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
     >
       <FormattedMessage
         defaultMessage="Don't show again"
-        id="system_notice_dont_show"
+        id="system_notice.dont_show"
         values={Object {}}
       />
     </button>
@@ -209,7 +209,7 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
     >
       <FormattedMessage
         defaultMessage="Remind me later"
-        id="system_notice_remind_me"
+        id="system_notice.remind_me"
         values={Object {}}
       />
     </button>
@@ -220,7 +220,7 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
     >
       <FormattedMessage
         defaultMessage="Don't show again"
-        id="system_notice_dont_show"
+        id="system_notice.dont_show"
         values={Object {}}
       />
     </button>
