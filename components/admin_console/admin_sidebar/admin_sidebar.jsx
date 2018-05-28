@@ -494,26 +494,38 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                             </AdminSidebarSection>
-                            <AdminSidebarSection
-                                name='permissions'
-                                type='text'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.permissions'
-                                        defaultMessage='Permissions'
-                                    />
-                                }
-                            >
+                            {this.props.license.IsLicensed === 'true' &&
                                 <AdminSidebarSection
-                                    name='schemes'
+                                    name='permissions'
+                                    type='text'
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.schemes'
-                                            defaultMessage='Permission Schemes'
+                                            id='admin.sidebar.permissions'
+                                            defaultMessage='Permissions'
                                         />
                                     }
-                                />
-                            </AdminSidebarSection>
+                                >
+                                    {this.props.license.CustomPermissionsSchemes !== 'true' &&
+                                        <AdminSidebarSection
+                                            name='system-scheme'
+                                            title={
+                                                <FormattedMessage
+                                                    id='admin.sidebar.system-scheme'
+                                                    defaultMessage='System scheme'
+                                                />
+                                            }
+                                        />}
+                                    {this.props.license.CustomPermissionsSchemes === 'true' &&
+                                        <AdminSidebarSection
+                                            name='schemes'
+                                            title={
+                                                <FormattedMessage
+                                                    id='admin.sidebar.schemes'
+                                                    defaultMessage='Permission Schemes'
+                                                />
+                                            }
+                                        />}
+                                </AdminSidebarSection>}
                             <AdminSidebarSection
                                 name='authentication'
                                 type='text'

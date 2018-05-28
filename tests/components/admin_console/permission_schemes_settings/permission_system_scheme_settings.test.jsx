@@ -10,6 +10,10 @@ import {DefaultRolePermissions} from 'utils/constants.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
     const defaultProps = {
+        license: {
+            IsLicensed: 'true',
+            CustomPermissionsSchemes: 'true',
+        },
         location: {},
         roles: {
             system_user: {
@@ -43,6 +47,23 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         );
         defaultProps.actions.loadRolesIfNeeded().then(() => {
             expect(wrapper.state()).toMatchSnapshot();
+            done();
+        });
+    });
+
+    test('should match snapshot when the license doesnt have custom schemes', (done) => {
+        const license = {
+            IsLicensed: 'true',
+            CustomPermissionsSchemes: 'false',
+        };
+        const wrapper = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+            />
+        );
+        defaultProps.actions.loadRolesIfNeeded().then(() => {
+            expect(wrapper).toMatchSnapshot();
             done();
         });
     });
