@@ -4,7 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getUser, getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
@@ -21,7 +22,7 @@ function mapStateToProps(state, ownProps) {
         creatorDisplayName: getDisplayNameByUser(creator),
         creatorUsername: creator.username,
         currentUserId: getCurrentUserId(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
+        currentTeam: getCurrentTeam(state),
     };
 }
 
