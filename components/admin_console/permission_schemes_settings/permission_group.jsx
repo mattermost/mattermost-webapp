@@ -24,6 +24,7 @@ export default class PermissionGroup extends React.Component {
         selectRow: PropTypes.func.isRequired,
         root: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
+        additionalValues: PropTypes.object,
     };
 
     constructor(props) {
@@ -34,7 +35,7 @@ export default class PermissionGroup extends React.Component {
         };
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
         if (this.props.selected !== nextProps.selected) {
             if (this.getRecursivePermissions(this.props.permissions).indexOf(nextProps.selected) !== -1) {
                 this.setState({expanded: true});
@@ -128,7 +129,7 @@ export default class PermissionGroup extends React.Component {
         return true;
     }
 
-    renderPermission = (permission) => {
+    renderPermission = (permission, additionalValues) => {
         if (!this.isInScope(permission)) {
             return null;
         }
@@ -144,6 +145,7 @@ export default class PermissionGroup extends React.Component {
                 inherited={comesFromParent ? this.props.parentRole : null}
                 value={active ? 'checked' : ''}
                 onChange={this.toggleSelectRow}
+                additionalValues={additionalValues}
             />
         );
     }
@@ -157,6 +159,7 @@ export default class PermissionGroup extends React.Component {
                 selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly}
                 permissions={g.permissions}
+                additionalValues={this.props.additionalValues}
                 role={this.props.role}
                 parentRole={this.props.parentRole}
                 scope={this.props.scope}
@@ -223,13 +226,14 @@ export default class PermissionGroup extends React.Component {
     }
 
     render = () => {
-        const {id, permissions, readOnly, combined, root, selected} = this.props;
+        const {id, permissions, readOnly, combined, root, selected, additionalValues} = this.props;
         if (!this.hasPermissionsOnScope()) {
             return null;
         }
         const permissionsRows = permissions.map((group) => {
             if (typeof group === 'string') {
-                return this.renderPermission(group);
+                const addVals = additionalValues && additionalValues[group] ? additionalValues[group] : {};
+                return this.renderPermission(group, addVals);
             }
             return this.renderGroup(group);
         });
