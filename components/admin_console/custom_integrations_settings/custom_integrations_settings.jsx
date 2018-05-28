@@ -303,24 +303,25 @@ export class WebhookSettings extends AdminSettings {
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.EnableOAuthServiceProvider')}
                 />
-                <BooleanSetting
-                    id='enableOnlyAdminIntegrations'
-                    label={
-                        <FormattedMessage
-                            id='admin.service.integrationAdmin'
-                            defaultMessage='Restrict managing integrations to Admins:'
-                        />
-                    }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.service.integrationAdminDesc'
-                            defaultMessage='When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.'
-                        />
-                    }
-                    value={this.state.enableOnlyAdminIntegrations}
-                    onChange={this.handleChange}
-                    setByEnv={false}
-                />
+                {this.props.license.IsLicensed === 'false' &&
+                    <BooleanSetting
+                        id='enableOnlyAdminIntegrations'
+                        label={
+                            <FormattedMessage
+                                id='admin.service.integrationAdmin'
+                                defaultMessage='Restrict managing integrations to Admins:'
+                            />
+                        }
+                        helpText={
+                            <FormattedMessage
+                                id='admin.service.integrationAdminDesc'
+                                defaultMessage='When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.'
+                            />
+                        }
+                        value={this.state.enableOnlyAdminIntegrations}
+                        onChange={this.handleChange}
+                        setByEnv={false}
+                    />}
                 <BooleanSetting
                     id='enablePostUsernameOverride'
                     label={
