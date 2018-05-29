@@ -182,7 +182,12 @@ export default class TeamSidebar extends React.Component {
                                 defaultMessage='Create a New Team'
                             />
                         }
-                        content={'+'}
+                        content={
+                            <i
+                                className='fa fa-plus'
+                                title='Join other teams icon'
+                            />
+                        }
                     />
                 </SystemPermissionGate>
             );
