@@ -222,7 +222,7 @@ export default class SignupController extends React.Component {
                 <Link
                     className='btn btn-custom-login btn--full ldap'
                     key='ldap'
-                    to={'/signup_ldap' + window.location.search}
+                    to={'/login' + this.props.location.search}
                 >
                     <span>
                         <span className='icon fa fa-folder-open fa--margin-top'/>
@@ -278,7 +278,7 @@ export default class SignupController extends React.Component {
             if (this.props.enableSignUpWithEmail) {
                 return browserHistory.push('/signup_email' + window.location.search);
             } else if (this.props.isLicensed && this.props.enableLDAP) {
-                return browserHistory.push('/signup_ldap' + window.location.search);
+                return browserHistory.push('/login' + window.location.search);
             }
         }
 
