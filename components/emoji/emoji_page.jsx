@@ -21,8 +21,8 @@ export default class EmojiPage extends React.Component {
         siteName: PropTypes.string,
         scrollToTop: PropTypes.func.isRequired,
         actions: PropTypes.shape({
-            loadRolesIfNeeded: PropTypes.func.isRequired
-        }).isRequired
+            loadRolesIfNeeded: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
