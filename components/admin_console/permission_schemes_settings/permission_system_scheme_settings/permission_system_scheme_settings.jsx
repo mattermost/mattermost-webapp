@@ -20,6 +20,7 @@ import PermissionsTree from '../permissions_tree.jsx';
 export default class PermissionSystemSchemeSettings extends React.Component {
     static propTypes = {
         roles: PropTypes.object.isRequired,
+        license: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
@@ -182,19 +183,21 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     render = () => {
+        const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header with-back'>
-                    <Link
-                        to='/admin_console/permissions/schemes'
-                        className='fa fa-chevron-left back'
-                    />
+                <h3 className={'admin-console-header ' + (hasCustomSchemes ? 'with-back' : '')}>
+                    {hasCustomSchemes &&
+                        <Link
+                            to='/admin_console/permissions/schemes'
+                            className='fa fa-chevron-left back'
+                        />}
                     <FormattedMessage
-                        id='admin.permissions.permissionSchemes'
-                        defaultMessage='Permission Schemes'
+                        id='admin.permissions.systemScheme'
+                        defaultMessage='System Scheme'
                     />
                 </h3>
 
