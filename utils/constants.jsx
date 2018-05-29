@@ -562,6 +562,8 @@ export const PermissionsScope = {
     [Permissions.READ_USER_ACCESS_TOKEN]: 'system_scope',
     [Permissions.REVOKE_USER_ACCESS_TOKEN]: 'system_scope',
     [Permissions.MANAGE_JOBS]: 'system_scope',
+    [Permissions.MANAGE_EMOJIS]: 'team_scope',
+    [Permissions.MANAGE_OTHERS_EMOJIS]: 'team_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -593,6 +595,7 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
+        Permissions.MANAGE_EMOJIS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,

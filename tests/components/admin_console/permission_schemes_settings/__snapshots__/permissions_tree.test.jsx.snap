@@ -97,6 +97,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_webhooks",
               "manage_oauth",
               "manage_slash_commands",
+              "manage_emojis",
             ],
           },
         ]
@@ -213,6 +214,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_webhooks",
               "manage_oauth",
               "manage_slash_commands",
+              "manage_emojis",
             ],
           },
         ]
@@ -329,6 +331,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_webhooks",
               "manage_oauth",
               "manage_slash_commands",
+              "manage_emojis",
             ],
           },
         ]
@@ -445,6 +448,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_webhooks",
               "manage_oauth",
               "manage_slash_commands",
+              "manage_emojis",
             ],
           },
         ]
@@ -565,6 +569,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_webhooks",
               "manage_oauth",
               "manage_slash_commands",
+              "manage_emojis",
             ],
           },
         ]

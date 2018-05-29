@@ -171,6 +171,8 @@
   "admin.permissions.group.reactions.description": "Add and delete reactions on posts.",
   "admin.permissions.permission.manage_slash_commands.name": "Manage Slash Commands",
   "admin.permissions.permission.manage_slash_commands.description": "Create, edit and delete custom slash commands.",
+  "admin.permissions.permission.manage_emojis.name": "Manage Custom Emojis",
+  "admin.permissions.permission.manage_emojis.description": "Create and delete custom emojis.",
   "admin.permissions.permission.create_public_channel.name": "Create Channels",
   "admin.permissions.permission.create_public_channel.description": "Create new public channels.",
   "admin.permissions.permission.create_private_channel.name": "Create Channels",
