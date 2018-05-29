@@ -158,7 +158,12 @@ export default class TeamSidebar extends React.Component {
                             defaultMessage='Other teams you can join.'
                         />
                     }
-                    content={'+'}
+                    content={
+                        <i
+                            className='fa fa-plus'
+                            title='Join other teams icon'
+                        />
+                    }
                 />
             );
         } else {

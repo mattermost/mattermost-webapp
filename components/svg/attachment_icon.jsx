@@ -8,8 +8,8 @@ export default class AttachmentIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='18px'
-                    height='18px'
+                    width='16px'
+                    height='15px'
                     viewBox='0 0 18 15'
                     role='icon'
                     aria-label='Attachment icon'
