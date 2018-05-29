@@ -273,7 +273,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.channelLocked.help'
-                                        defaultMessage='If selected, the incoming web hook can only post to the selected channel above.'
+                                        defaultMessage='If set, the incoming webhook can only post to the channel selected above.'
                                     />
                                 </div>
                             </div>

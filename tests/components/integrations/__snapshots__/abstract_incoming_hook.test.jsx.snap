@@ -159,7 +159,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="If selected, the incoming web hook can only post to the selected channel above."
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
               id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
@@ -437,7 +437,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="If selected, the incoming web hook can only post to the selected channel above."
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
               id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
@@ -715,7 +715,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="If selected, the incoming web hook can only post to the selected channel above."
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
               id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
@@ -997,7 +997,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="If selected, the incoming web hook can only post to the selected channel above."
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
               id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
@@ -1240,7 +1240,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="If selected, the incoming web hook can only post to the selected channel above."
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
               id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
@@ -1483,7 +1483,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="If selected, the incoming web hook can only post to the selected channel above."
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
               id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
