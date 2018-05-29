@@ -21,6 +21,7 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
 >
   <i
     className="fa fa-refresh icon--rotate"
+    title="Loading Icon"
   />
    
   Uploading..
@@ -36,6 +37,7 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
 >
   <i
     className="fa fa-check"
+    title="Success Icon"
   />
    
   Uploaded!
@@ -51,6 +53,7 @@ exports[`components/admin_console/brand_image_setting/UploadButton should match 
 >
   <i
     className="fa fa-check"
+    title="Success Icon"
   />
    
   Uploaded!

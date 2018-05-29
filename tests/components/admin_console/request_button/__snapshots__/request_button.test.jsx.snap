@@ -129,6 +129,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           >
             <i
               className="fa fa-warning"
+              title="Warning Icon"
             />
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -264,6 +265,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           >
             <i
               className="fa fa-warning"
+              title="Warning Icon"
             />
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -395,6 +397,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           >
             <i
               className="fa fa-success"
+              title="Success Icon"
             />
             <FormattedMessage
               defaultMessage="Success Message"
