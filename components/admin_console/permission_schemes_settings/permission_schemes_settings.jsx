@@ -126,6 +126,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         const schemes = Object.values(this.props.schemes).map((scheme) => (
             <PermissionsSchemeSummary
                 scheme={scheme}
+                history={this.props.history}
                 key={scheme.id}
             />
         ));

@@ -99,7 +99,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             if (this.state.openRoles.all_users) {
                 selected.scrollIntoView({behavior: 'smooth', block: 'center'});
             } else {
-                this.toggleRole('all_users', false);
+                this.toggleRole('all_users');
 
                 // Give it time to open and show everything
                 setTimeout(() => {
@@ -146,7 +146,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             channelUser = this.props.roles.channel_user;
             channelAdmin = this.props.roles.channel_admin;
         } else {
-            return {};
+            return null;
         }
         return {
             team_admin: teamAdmin,
@@ -236,8 +236,22 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         const channelUserPromise = this.props.actions.editRole(channelUser);
 
         const teamEditPromises = [];
-        for (const team of (this.state.teams || this.props.teams || [])) {
-            teamEditPromises.push(this.props.actions.updateTeamScheme(team.id, schemeId));
+
+        const currentTeams = new Set((this.state.teams || this.props.teams || []).map((t) => t.id));
+        const serverTeams = new Set((this.props.teams || []).map((t) => t.id));
+
+        // Difference of sets (currentTeams - serverTeams)
+        const addedTeams = new Set([...currentTeams].filter((t) => !serverTeams.has(t)));
+
+        // Difference of sets (serverTeams - currentTeams)
+        const removedTeams = new Set([...serverTeams].filter((t) => !currentTeams.has(t)));
+
+        for (const teamId of addedTeams) {
+            teamEditPromises.push(this.props.actions.updateTeamScheme(teamId, schemeId));
+        }
+
+        for (const teamId of removedTeams) {
+            teamEditPromises.push(this.props.actions.updateTeamScheme(teamId, ''));
         }
 
         const results = await Promise.all([teamAdminPromise, channelAdminPromise, teamUserPromise, channelUserPromise, ...teamEditPromises]);
@@ -253,25 +267,25 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         }
 
         this.setState({serverError, saving: false, saveNeeded});
+        this.props.history.push('/admin_console/permissions/schemes');
     }
 
-    toggleRole = (roleId, scrollOnOpen = true) => {
+    toggleRole = (roleId) => {
         const newOpenRoles = {...this.state.openRoles};
         newOpenRoles[roleId] = !newOpenRoles[roleId];
-        if (newOpenRoles[roleId] && scrollOnOpen) {
-            const block = document.querySelector('.permissions-block.' + roleId);
-            if (block) {
-                setTimeout(() => {
-                    block.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }, 300);
-            }
-        }
         this.setState({openRoles: newOpenRoles});
     }
 
     togglePermission = (roleId, permissions) => {
         const roles = {...this.getStateRoles()};
-        const role = {...roles[roleId]};
+        let role = null;
+        if (roles.team_admin.name === roleId) {
+            role = {...roles.team_admin};
+        } else if (roles.channel_admin.name === roleId) {
+            role = {...roles.channel_admin};
+        } else if (roles.all_users.name === roleId) {
+            role = {...roles.all_users};
+        }
         const newPermissions = [...role.permissions];
         for (const permission of permissions) {
             if (newPermissions.indexOf(permission) === -1) {
@@ -281,7 +295,13 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             }
         }
         role.permissions = newPermissions;
-        roles[roleId] = role;
+        if (roles.team_admin.name === roleId) {
+            roles.team_admin = role;
+        } else if (roles.channel_admin.name === roleId) {
+            roles.channel_admin = role;
+        } else if (roles.all_users.name === roleId) {
+            roles.all_users = role;
+        }
 
         this.setState({roles, saveNeeded: true});
     }
