@@ -106,6 +106,8 @@
   "add_incoming_webhook.url": "<b>URL</b>: {url}",
   "add_incoming_webhook.username": "Username",
   "add_incoming_webhook.username.help": "Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \"-\", \"_\", and \".\" .",
+  "add_incoming_webhook.channelLocked": "Lock to this channel",
+  "add_incoming_webhook.channelLocked.help": "If set, the incoming webhook can only post to the channel selected above.",
   "add_oauth_app.callbackUrls.help": "The redirect URIs to which the service will redirect users after accepting or denying authorization of your application, and which will handle authorization codes or access tokens. Must be a valid URL and start with http:// or https://.",
   "add_oauth_app.callbackUrlsRequired": "One or more callback URLs are required",
   "add_oauth_app.clientId": "<b>Client ID</b>: {id}",
