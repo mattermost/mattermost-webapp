@@ -16,7 +16,6 @@ describe('/components/create_team', () => {
         currentChannel: {name: 'test-channel'},
         currentTeam: {name: 'test-team'},
         siteName: 'Mattermost',
-        isLicensed: true,
         customBrand: true,
         enableCustomBrand: true,
         customDescriptionText: 'Welcome to our custom branded site!',

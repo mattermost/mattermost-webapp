@@ -10,7 +10,6 @@ import SiteNameAndDescription from 'components/common/site_name_and_description.
 describe('/components/common/SiteNameAndDescription', () => {
     const baseProps = {
         customDescriptionText: '',
-        isLicensed: false,
         siteName: 'Mattermost',
     };
 
@@ -25,11 +24,6 @@ describe('/components/common/SiteNameAndDescription', () => {
         const props = {...baseProps, customDescriptionText: 'custom_description_text', siteName: 'other_site'};
         const wrapper = shallow(<SiteNameAndDescription {...props}/>);
 
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('h1').text()).toEqual(props.siteName);
-        expect(wrapper.find('h4').text()).not.toEqual(props.customDescriptionText);
-
-        wrapper.setProps({isLicensed: true});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('h1').text()).toEqual(props.siteName);
         expect(wrapper.find('h4').text()).toEqual(props.customDescriptionText);

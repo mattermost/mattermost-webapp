@@ -26,13 +26,10 @@ export default class SignupEmail extends React.Component {
     static get propTypes() {
         return {
             location: PropTypes.object,
-            isLicensed: PropTypes.bool.isRequired,
             enableSignUpWithEmail: PropTypes.bool.isRequired,
             siteName: PropTypes.string,
             termsOfServiceLink: PropTypes.string,
             privacyPolicyLink: PropTypes.string,
-            customBrand: PropTypes.bool.isRequired,
-            enableCustomBrand: PropTypes.bool.isRequired,
             customDescriptionText: PropTypes.string,
             passwordConfig: PropTypes.object,
         };
@@ -426,7 +423,6 @@ export default class SignupEmail extends React.Component {
         const {
             customDescriptionText,
             enableSignUpWithEmail,
-            isLicensed,
             location,
             privacyPolicyLink,
             siteName,
@@ -485,7 +481,6 @@ export default class SignupEmail extends React.Component {
                         />
                         <SiteNameAndDescription
                             customDescriptionText={customDescriptionText}
-                            isLicensed={isLicensed}
                             siteName={siteName}
                         />
                         <h4 className='color--light'>

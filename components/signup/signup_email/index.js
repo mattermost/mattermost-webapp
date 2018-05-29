@@ -12,23 +12,17 @@ function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
 
-    const isLicensed = license && license.IsLicensed === 'true';
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';
     const siteName = config.SiteName;
     const termsOfServiceLink = config.TermsOfServiceLink;
     const privacyPolicyLink = config.PrivacyPolicyLink;
-    const customBrand = license.CustomBrand === 'true';
-    const enableCustomBrand = config.EnableCustomBrand === 'true';
     const customDescriptionText = config.CustomDescriptionText;
 
     return {
-        isLicensed,
         enableSignUpWithEmail,
         siteName,
         termsOfServiceLink,
         privacyPolicyLink,
-        customBrand,
-        enableCustomBrand,
         customDescriptionText,
         passwordConfig: getPasswordConfig(config),
     };

@@ -25,7 +25,6 @@ jest.mock('utils/policy_roles_adapter', () => ({
 
 describe('components/select_team/SelectTeam', () => {
     const baseProps = {
-        isLicensed: true,
         currentUserRoles: 'system_admin',
         enableTeamCreation: true,
         isMemberOfTeam: true,

@@ -8,23 +8,20 @@ import {FormattedMessage} from 'react-intl';
 export default class SiteNameAndDescription extends React.PureComponent {
     static propTypes = {
         customDescriptionText: PropTypes.string,
-        isLicensed: PropTypes.bool,
         siteName: PropTypes.string,
     };
 
     static defaultProps = {
-        isLicensed: false,
         siteName: 'Mattermost',
     };
 
     render() {
         const {
             customDescriptionText,
-            isLicensed,
             siteName,
         } = this.props;
         let description = null;
-        if (isLicensed && customDescriptionText) {
+        if (customDescriptionText) {
             description = customDescriptionText;
         } else {
             description = (

@@ -10,7 +10,6 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const customBrand = license.CustomBrand === 'true';
     const isLicensed = license.IsLicensed === 'true';
 
     const customBrandText = config.CustomBrandText;
@@ -31,7 +30,6 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
 
     return {
-        customBrand,
         isLicensed,
         customBrandText,
         customDescriptionText,

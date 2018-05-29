@@ -124,7 +124,6 @@ export default class SignupLdap extends React.Component {
     render() {
         const {
             customDescriptionText,
-            isLicensed,
             siteName,
         } = this.props;
 
@@ -230,7 +229,6 @@ export default class SignupLdap extends React.Component {
                         />
                         <SiteNameAndDescription
                             customDescriptionText={customDescriptionText}
-                            isLicensed={isLicensed}
                             siteName={siteName}
                         />
                         <h4 className='color--light'>
