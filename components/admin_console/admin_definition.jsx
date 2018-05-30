@@ -9,13 +9,14 @@ import {ldapTest, invalidateAllCaches, reloadConfig, testS3Connection} from 'act
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 
-import SystemUsers from './system_users';
-import ServerLogs from './server_logs';
 import Audits from './audits';
+import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
 import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import SystemUsers from './system_users';
+import ServerLogs from './server_logs';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -1489,11 +1490,11 @@ export default {
                     ],
                 },
             },
-            link_previews: {
+            posts: {
                 schema: {
-                    id: 'LinkPreviewsSettings',
-                    name: 'admin.customization.linkPreviews',
-                    name_default: 'Link Previews',
+                    id: 'PostSettings',
+                    name: 'admin.customization.posts',
+                    name_default: 'Posts',
                     settings: [
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1502,6 +1503,11 @@ export default {
                             label_default: 'Enable Link Previews:',
                             help_text: 'admin.customization.enableLinkPreviewsDesc',
                             help_text_default: 'Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_CUSTOM,
+                            component: CustomUrlSchemesSetting,
+                            key: 'DisplaySettings.CustomUrlSchemes',
                         },
                     ],
                 },
