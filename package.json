@@ -25,7 +25,7 @@
     "key-mirror": "1.0.1",
     "localforage": "1.7.1",
     "localforage-observable": "1.4.0",
-    "marked": "mattermost/marked#4bc7e5f00c324d2eadec6b932224871497af6f7c",
+    "marked": "github:mattermost/marked#ed33baecd7d7fa97d479ba22dde9d226b083d67d",
     "mattermost-redux": "github:mattermost/mattermost-redux#b255c9dd400914eddc92faf4865f92baefa9f1b2",
     "moment-timezone": "0.5.17",
     "pdfjs-dist": "2.0.489",
