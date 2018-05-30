@@ -51,3 +51,9 @@ export function useSafeUrl(url, defaultUrl = '') {
 
     return defaultUrl;
 }
+
+export function getScheme(url) {
+    const match = (/([a-z0-9+.-]+):/i).exec(url);
+
+    return match && match[1];
+}

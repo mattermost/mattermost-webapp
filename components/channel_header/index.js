@@ -5,9 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {favoriteChannel, leaveChannel, unfavoriteChannel, updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
-import {General, Preferences} from 'mattermost-redux/constants';
+import {General} from 'mattermost-redux/constants';
 import {getChannel, getMyChannelMember, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
@@ -52,7 +51,6 @@ function mapStateToProps(state, ownProps) {
         currentUser: user,
         dmUser,
         dmUserStatus,
-        enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
         rhsState: getRhsState(state),
         isLicensed: license.IsLicensed === 'true',
         enableWebrtc: config.EnableWebrtc === 'true',

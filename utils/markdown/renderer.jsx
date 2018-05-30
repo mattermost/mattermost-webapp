@@ -6,7 +6,9 @@ import marked from 'marked';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
+import {getScheme, isUrlSafe} from 'utils/url.jsx';
+
+const defaultUrlSchemes = ['http', 'https', 'ftp', 'mailto', 'tel'];
 
 export default class Renderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
@@ -140,19 +142,26 @@ export default class Renderer extends marked.Renderer {
         return `<h${level} class="markdown__heading">${text}</h${level}>`;
     }
 
-    link(href, title, text) {
+    link(href, title, text, isUrl) {
         let outHref = href;
 
-        if (this.formattingOptions.linkFilter && !this.formattingOptions.linkFilter(outHref)) {
-            return text;
+        const scheme = getScheme(href);
+        if (!scheme) {
+            outHref = `http://${outHref}`;
+        } else if (isUrl) {
+            let isValidUrl = defaultUrlSchemes.indexOf(scheme) !== -1;
+
+            if (!isValidUrl && this.formattingOptions.customUrlSchemes) {
+                isValidUrl = this.formattingOptions.customUrlSchemes.indexOf(scheme) !== -1;
+            }
+
+            if (!isValidUrl) {
+                return text;
+            }
         }
 
         if (!isUrlSafe(unescapeHtmlEntities(href))) {
             return text;
-        }
-
-        if (!(/[a-z0-9+.-]+:/i).test(outHref)) {
-            outHref = `http://${outHref}`;
         }
 
         let output = '<a class="theme markdown__link';
