@@ -48,7 +48,7 @@ function local_setup {
 function add_test_users {
     message "Adding test users..."
     cd ../mattermost-server
-    PLATFORM_FILES=$( ls -1 ./cmd/platform/*.go | grep -v _test.go)
+    PLATFORM_FILES="./cmd/mattermost/main.go"
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true

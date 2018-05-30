@@ -88,6 +88,11 @@ module.exports = {
             assert.visible('@clockEdit').
             assert.visible('@clockDesc').
             assert.containsText('@clockDesc', '12-hour clock (example: 4:00 PM)').
+            assert.visible('@teammateNameDisplayTitle').
+            assert.containsText('@teammateNameDisplayTitle', 'Teammate Name Display').
+            assert.visible('@teammateNameDisplayEdit').
+            assert.visible('@teammateNameDisplayDesc').
+            assert.containsText('@teammateNameDisplayDesc', 'Show username').
             assert.visible('@linkPreviewTitle').
             assert.containsText('@linkPreviewTitle', 'Website Link Previews').
             assert.visible('@linkPreviewEdit').
