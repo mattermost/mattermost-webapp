@@ -32,6 +32,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
+import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 
 import * as WebrtcActions from './webrtc_actions.jsx';
@@ -311,7 +312,7 @@ function handleNewPostEvent(msg) {
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
 
-    if (post.user_id !== UserStore.getCurrentId()) {
+    if (post.user_id !== UserStore.getCurrentId() && !fromAutoResponder(post)) {
         UserStore.setStatus(post.user_id, UserStatuses.ONLINE);
     }
 }
