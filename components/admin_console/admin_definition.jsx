@@ -794,7 +794,7 @@ export default {
                             placeholder: 'admin.ldap.idAttrEx',
                             placeholder_default: 'E.g.: "objectGUID"',
                             help_text: 'admin.ldap.idAttrDesc',
-                            help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.<br><br>If you need to change this field after users have already logged in, use the <a href=\"https://about.mattermost.com/default-platform-ldap-idmigrate\" target='_blank'>platform ldap idmigrate</a> CLI tool.',
+                            help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.<br><br>If you need to change this field after users have already logged in, use the <a href="https://about.mattermost.com/default-mattermost-ldap-idmigrate" target="_blank">mattermost ldap idmigrate</a> CLI tool.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueEqual('LdapSettings.Enable', false),
                                 needsUtils.stateValueEqual('LdapSettings.EnableSync', false),
