@@ -220,7 +220,7 @@
   "admin.permissions.permission.delete_post.name": "Delete Own Posts",
   "admin.permissions.permission.delete_post.description": "Authors own posts can be deleted.",
   "admin.permissions.permission.delete_others_posts.name": "Delete Others Posts",
-  "admin.permissions.permission.delete_others_posts.description": "Any post can be deleted.",
+  "admin.permissions.permission.delete_others_posts.description": "Posts made by other uses can be deleted.",
   "admin.permissions.permission.remove_user_from_team.name": "Remove user from team",
   "admin.permissions.permission.remove_user_from_team.description": "Remove user from team",
   "admin.permissions.permission.create_team.name": "Create teams",
