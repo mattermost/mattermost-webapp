@@ -15,6 +15,17 @@ function modalSearch(state = '', action) {
     }
 }
 
+function systemUsersSearch(state = {}, action) {
+    switch (action.type) {
+    case SearchTypes.SET_SYSTEM_USERS_SEARCH: {
+        return action.data;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     modalSearch,
+    systemUsersSearch,
 });
