@@ -122,7 +122,7 @@
         }
 
         .post__header {
-            padding-right: 85px;
+            padding-right: 100px;
         }
 
         .search-channel__name {
@@ -144,13 +144,11 @@
 
 
     .search-item__jump {
+        @include border-radius(4px);
         font-size: 13px;
         position: relative;
-        top: 1px;
-    }
-
-    .search-item__comment {
-        margin-right: 5px;
+        padding: 2px 7px 0;
+        text-decoration: none;
     }
 }
 
