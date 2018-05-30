@@ -46,7 +46,7 @@ function mapStateToProps(state, ownProps) {
         enableSaml,
         enableSignUpWithOffice365,
         experimentalEnableAuthenticationTransfer,
-        passwordConfig: getPasswordConfig(license, config),
+        passwordConfig: getPasswordConfig(config),
     };
 }
 
