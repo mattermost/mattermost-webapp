@@ -779,7 +779,7 @@ export default {
                             label_default: 'Username Attribute:',
                             placeholder: 'admin.ldap.usernameAttrEx',
                             placeholder_default: 'E.g.: "sAMAccountName"',
-                            help_text: 'admin.ldap.uernameAttrDesc',
+                            help_text: 'admin.ldap.usernameAttrDesc',
                             help_text_default: 'The attribute in the AD/LDAP server used to populate the username field in Mattermost. This may be the same as the Login ID Attribute.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
