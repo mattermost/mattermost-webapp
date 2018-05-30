@@ -6,13 +6,7 @@ import {shallow} from 'enzyme';
 
 import {doPostAction} from 'actions/post_actions.jsx';
 
-import {formatText} from 'utils/text_formatting.jsx';
-
 import PostAttachment from 'components/post_view/post_attachment.jsx';
-
-jest.mock('utils/text_formatting.jsx', () => ({
-    formatText: jest.fn(),
-}));
 
 jest.mock('actions/post_actions.jsx', () => ({
     doPostAction: jest.fn(),
@@ -75,27 +69,24 @@ describe('components/post_view/PostAttachment', () => {
         expect(wrapper.instance().shouldCollapse()).toEqual(false);
     });
 
-    test('should call TextFormatting.formatText on getCollapsedTextHTML', () => {
+    test('getCollapsedText should return correct results', () => {
         const wrapper = shallow(<PostAttachment {...baseProps}/>);
         wrapper.setState({collapsed: true});
 
         let text = 'b'.repeat(30);
         wrapper.setProps({attachment: {text}});
-        wrapper.instance().getCollapsedTextHTML();
-        expect(formatText.mock.calls.length).toBe(4);
-        expect(formatText).toBeCalledWith(text);
+        let actual = wrapper.instance().getCollapsedText();
+        expect(actual).toBe(text);
 
         text = 'c'.repeat(701);
         wrapper.setProps({attachment: {text}});
-        wrapper.instance().getCollapsedTextHTML();
-        expect(formatText.mock.calls.length).toBe(6);
-        expect(formatText).toBeCalledWith('c'.repeat(300));
+        actual = wrapper.instance().getCollapsedText();
+        expect(actual).toBe('c'.repeat(300));
 
         text = 'd\n'.repeat(5);
         wrapper.setProps({attachment: {text}});
-        wrapper.instance().getCollapsedTextHTML();
-        expect(formatText.mock.calls.length).toBe(8);
-        expect(formatText).toBeCalledWith('d\nd\nd\nd\nd');
+        actual = wrapper.instance().getCollapsedText();
+        expect(actual).toBe('d\nd\nd\nd\nd');
     });
 
     test('should match value on getActionView', () => {
