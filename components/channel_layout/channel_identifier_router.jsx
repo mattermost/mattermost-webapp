@@ -30,7 +30,9 @@ function onChannelByIdentifierEnter({match, history}) {
         if (identifier.length === LENGTH_OF_ID) {
             // It's hard to tell an ID apart from a channel name of the same length, so check first if
             // the identifier matches a channel that we have
-            if (ChannelStore.getByName(identifier)) {
+            const channelsByName = ChannelStore.getByName(identifier);
+            const moreChannelsByName = ChannelStore.getMoreChannelsList().find((chan) => chan.name === identifier);
+            if (channelsByName || moreChannelsByName) {
                 goToChannelByChannelName(match, history);
             } else {
                 goToChannelByChannelId(match, history);
