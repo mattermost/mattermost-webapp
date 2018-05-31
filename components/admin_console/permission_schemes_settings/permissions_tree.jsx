@@ -7,6 +7,9 @@ import {FormattedMessage} from 'react-intl';
 
 import PermissionGroup from './permission_group.jsx';
 
+import EditPostTimeLimitButton from './edit_post_time_limit_button';
+import EditPostTimeLimitModal from './edit_post_time_limit_modal';
+
 const GROUPS = [
     {
         id: 'teams',
@@ -90,6 +93,22 @@ export default class PermissionsTree extends React.Component {
         },
     };
 
+    onClickEditPostTimeLimitButton = () => {
+        this.setState({editTimeLimitModalIsVisible: true});
+    }
+
+    constructor() {
+        super();
+        this.state = {
+            editTimeLimitModalIsVisible: false,
+        };
+        this.ADDITIONAL_VALUES = {
+            edit_post: {
+                editTimeLimitButton: <EditPostTimeLimitButton onClick={() => this.onClickEditPostTimeLimitButton()}/>,
+            },
+        };
+    }
+
     toggleGroup = (ids) => {
         if (this.props.readOnly) {
             return;
@@ -122,6 +141,7 @@ export default class PermissionsTree extends React.Component {
                         selectRow={this.props.selectRow}
                         readOnly={this.props.readOnly}
                         permissions={GROUPS}
+                        additionalValues={this.ADDITIONAL_VALUES}
                         role={this.props.role}
                         parentRole={this.props.parentRole}
                         scope={this.props.scope}
@@ -130,6 +150,10 @@ export default class PermissionsTree extends React.Component {
                         root={true}
                     />
                 </div>
+                <EditPostTimeLimitModal
+                    onClose={() => this.setState({editTimeLimitModalIsVisible: false})}
+                    show={this.state.editTimeLimitModalIsVisible}
+                />
             </div>
         );
     };

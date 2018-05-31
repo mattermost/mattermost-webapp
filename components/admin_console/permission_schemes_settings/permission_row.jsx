@@ -17,6 +17,7 @@ export default class PermissionRow extends React.Component {
         selectRow: PropTypes.func.isRequired,
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
+        additionalValues: PropTypes.object,
     };
 
     toggleSelect = () => {
@@ -27,7 +28,7 @@ export default class PermissionRow extends React.Component {
     }
 
     render = () => {
-        const {id, inherited, value, readOnly, selected} = this.props;
+        const {id, inherited, value, readOnly, selected, additionalValues} = this.props;
         let classes = 'permission-row';
         if (readOnly) {
             classes += ' read-only';
@@ -44,13 +45,16 @@ export default class PermissionRow extends React.Component {
             >
                 <PermissionCheckbox value={value}/>
                 <span className='permission-name'>
-                    <FormattedMessage id={'admin.permissions.permission.' + id + '.name'}/>
+                    <FormattedMessage
+                        id={'admin.permissions.permission.' + id + '.name'}
+                    />
                 </span>
                 <PermissionDescription
                     inherited={inherited}
                     id={id}
                     selectRow={this.props.selectRow}
                     rowType='permission'
+                    additionalValues={additionalValues}
                 />
             </div>
         );

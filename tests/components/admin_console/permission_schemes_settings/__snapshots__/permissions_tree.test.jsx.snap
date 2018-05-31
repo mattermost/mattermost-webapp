@@ -30,6 +30,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
+      additionalValues={
+        Object {
+          "edit_post": Object {
+            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+              onClick={[Function]}
+            />,
+          },
+        }
+      }
       combined={false}
       id="all"
       key="all"
@@ -114,6 +123,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       selectRow={[MockFunction]}
     />
   </div>
+  <Connect(EditPostTimeLimitModal)
+    onClose={[Function]}
+    show={false}
+  />
 </div>
 `;
 
@@ -147,6 +160,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
+      additionalValues={
+        Object {
+          "edit_post": Object {
+            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+              onClick={[Function]}
+            />,
+          },
+        }
+      }
       combined={false}
       id="all"
       key="all"
@@ -231,6 +253,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       selectRow={[MockFunction]}
     />
   </div>
+  <Connect(EditPostTimeLimitModal)
+    onClose={[Function]}
+    show={false}
+  />
 </div>
 `;
 
@@ -264,6 +290,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
+      additionalValues={
+        Object {
+          "edit_post": Object {
+            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+              onClick={[Function]}
+            />,
+          },
+        }
+      }
       combined={false}
       id="all"
       key="all"
@@ -348,6 +383,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       selectRow={[MockFunction]}
     />
   </div>
+  <Connect(EditPostTimeLimitModal)
+    onClose={[Function]}
+    show={false}
+  />
 </div>
 `;
 
@@ -381,6 +420,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
+      additionalValues={
+        Object {
+          "edit_post": Object {
+            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+              onClick={[Function]}
+            />,
+          },
+        }
+      }
       combined={false}
       id="all"
       key="all"
@@ -465,6 +513,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       selectRow={[MockFunction]}
     />
   </div>
+  <Connect(EditPostTimeLimitModal)
+    onClose={[Function]}
+    show={false}
+  />
 </div>
 `;
 
@@ -498,6 +550,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     className="permissions-tree--body"
   >
     <PermissionGroup
+      additionalValues={
+        Object {
+          "edit_post": Object {
+            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+              onClick={[Function]}
+            />,
+          },
+        }
+      }
       combined={false}
       id="all"
       key="all"
@@ -586,5 +647,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       selectRow={[MockFunction]}
     />
   </div>
+  <Connect(EditPostTimeLimitModal)
+    onClose={[Function]}
+    show={false}
+  />
 </div>
 `;

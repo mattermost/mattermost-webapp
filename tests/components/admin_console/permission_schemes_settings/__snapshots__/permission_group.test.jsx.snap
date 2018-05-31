@@ -34,6 +34,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -43,6 +44,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -89,6 +91,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions "
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -98,6 +101,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -144,6 +148,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -153,6 +158,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -199,6 +205,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -208,6 +215,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -254,6 +262,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -263,6 +272,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -309,6 +319,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={
         Object {
@@ -325,6 +336,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={
         Object {
@@ -378,6 +390,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -387,6 +400,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -433,6 +447,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -442,6 +457,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -488,6 +504,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={
         Object {
@@ -503,6 +520,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value="checked"
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -549,6 +567,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -558,6 +577,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -604,6 +624,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -613,6 +634,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
@@ -659,6 +681,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     className="permission-group-permissions open"
   >
     <PermissionRow
+      additionalValues={Object {}}
       id="invite_user"
       inherited={null}
       key="invite_user"
@@ -668,6 +691,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       value=""
     />
     <PermissionRow
+      additionalValues={Object {}}
       id="add_user_to_team"
       inherited={null}
       key="add_user_to_team"
