@@ -433,7 +433,7 @@
   "admin.customization.appDownloadLinkTitle": "Mattermost Apps Download Page Link:",
   "admin.customization.customBrand": "Custom Branding",
   "admin.customization.customUrlSchemes": "Custom URL Schemes:",
-  "admin.customization.customUrlSchemesDesc": "Allow message text to link if it begins with any of the URL schemes listed here. By default, the following schemes will create links: \"http\", \"https\", \"ftp\", \"tel\", and \"mailto\".",
+  "admin.customization.customUrlSchemesDesc": "Allows message text to link if it begins with any of the comma-separated URL schemes listed. By default, the following schemes will create links: \"http\", \"https\", \"ftp\", \"tel\", and \"mailto\".",
   "admin.customization.customUrlSchemesEx": "E.g.: \"git,smtp\"",
   "admin.customization.emoji": "Emoji",
   "admin.customization.enableCustomEmojiDesc": "Enable users to create custom emoji for use in messages. When enabled, Custom Emoji settings can be accessed by switching to a team and clicking the three dots above the channel sidebar, and selecting \"Custom Emoji\".",
