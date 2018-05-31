@@ -346,11 +346,12 @@ export function renderSystemMessage(post) {
     } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post);
     } else if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
-        const {allUserIds, messageData} = post.props.user_activity;
+        const {allUserIds, allUsernames, messageData} = post.props.user_activity;
 
         return (
             <CombinedSystemMessage
                 allUserIds={allUserIds}
+                allUsernames={allUsernames}
                 messageData={messageData}
             />
         );

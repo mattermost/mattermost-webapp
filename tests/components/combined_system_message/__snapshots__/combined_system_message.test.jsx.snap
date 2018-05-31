@@ -5,18 +5,7 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot 1`] = 
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "",
-            "firstUser": "",
-          }
-        }
-      />
-    </span>
+    <span />
     <br />
   </React.Fragment>
 </React.Fragment>

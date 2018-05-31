@@ -9,6 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {
     getDisplayNameByUserId,
+    getDisplayNameByUsername,
     localizeMessage,
 } from 'utils/utils.jsx';
 
@@ -153,18 +154,27 @@ const postTypeMessage = {
 export default class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
+        currentUsername: PropTypes.string.isRequired,
         messageData: PropTypes.array.isRequired,
         allUserIds: PropTypes.array.isRequired,
+        allUsernames: PropTypes.array.isRequired,
         actions: PropTypes.shape({
             getMissingProfilesByIds: PropTypes.func.isRequired,
+            getMissingProfilesByUsernames: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static defaultProps = {
+        allUserIds: [],
+        allUsernames: [],
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            missingProfiles: [],
+            missingProfilesOnIds: [],
+            missingProfilesOnUsernames: [],
         };
     }
 
@@ -176,24 +186,37 @@ export default class CombinedSystemMessage extends React.PureComponent {
         const {
             actions,
             allUserIds,
+            allUsernames,
         } = this.props;
-        const missingProfiles = await actions.getMissingProfilesByIds(allUserIds);
-        this.setState({missingProfiles});
+        let missingProfilesOnIds = [];
+        if (allUserIds.length > 0) {
+            missingProfilesOnIds = await actions.getMissingProfilesByIds(allUserIds);
+        }
+
+        let missingProfilesOnUsernames = [];
+        if (allUsernames.length > 0) {
+            missingProfilesOnUsernames = await actions.getMissingProfilesByUsernames(allUsernames);
+        }
+
+        this.setState({
+            missingProfilesOnIds,
+            missingProfilesOnUsernames,
+        });
     }
 
     getDisplayNameByIds = (userIds = []) => {
-        const {currentUserId} = this.props;
-
+        const {currentUserId, currentUsername} = this.props;
         const displayNames = userIds.
             filter((userId) => {
-                return userId !== currentUserId;
+                return userId !== currentUserId && userId !== currentUsername;
             }).
             map((userId) => {
-                return getDisplayNameByUserId(userId, true);
+                return getDisplayNameByUserId(userId, true) || getDisplayNameByUsername(userId, true);
+            }).filter((displayName) => {
+                return displayName && displayName !== '';
             });
 
-        const userInProp = userIds.includes(currentUserId);
-        if (userInProp) {
+        if (userIds.includes(currentUserId) || userIds.includes(currentUsername)) {
             displayNames.unshift(localizeMessage('combined_system_message.you', 'You'));
         }
 
@@ -201,9 +224,10 @@ export default class CombinedSystemMessage extends React.PureComponent {
     }
 
     renderFormattedMessage(postType, userIds, actorId) {
+        const {currentUserId, currentUsername} = this.props;
         const userDisplayNames = this.getDisplayNameByIds(userIds);
         let actor = actorId ? this.getDisplayNameByIds([actorId])[0] : '';
-        if (actorId === this.props.currentUserId) {
+        if (actorId === currentUserId || actorId === currentUsername) {
             actor = actor.toLowerCase();
         }
 
@@ -224,7 +248,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
             );
 
             if (
-                userIds[0] === this.props.currentUserId &&
+                (userIds[0] === this.props.currentUserId || userIds[0] === this.props.currentUsername) &&
                 postTypeMessage[postType].one_you
             ) {
                 formattedMessage = (
@@ -249,7 +273,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
                     }}
                 />
             );
-        } else {
+        } else if (numOthers > 1) {
             formattedMessage = (
                 <LastUsers
                     actor={actor}

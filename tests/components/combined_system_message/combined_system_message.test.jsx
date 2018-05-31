@@ -11,10 +11,13 @@ import CombinedSystemMessage from 'components/post_view/combined_system_message/
 describe('components/post_view/CombinedSystemMessage', () => {
     const baseProps = {
         currentUserId: 'current_user_id',
+        currentUsername: 'current_username',
         allUserIds: ['added_user_id_1', 'user_id_1'],
+        allUsernames: [],
         messageData: [{actorId: 'user_id_1', postType: Posts.POST_TYPES.ADD_TO_CHANNEL, userIds: ['added_user_id_1']}],
         actions: {
             getMissingProfilesByIds: () => {},  // eslint-disable-line
+            getMissingProfilesByUsernames: () => {},  // eslint-disable-line
         },
     };
 
