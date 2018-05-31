@@ -8,12 +8,12 @@ import * as Utils from 'utils/utils';
 
 import Setting from './setting';
 
-export default class TextSetting extends React.Component {
+export default class CustomUrlSchemesSetting extends React.Component {
     static get propTypes() {
         return {
             id: PropTypes.string.isRequired,
             value: PropTypes.array.isRequired,
-            onChange: PropTypes.func,
+            onChange: PropTypes.func.isRequired,
             disabled: PropTypes.bool,
             setByEnv: PropTypes.bool.isRequired,
         };
