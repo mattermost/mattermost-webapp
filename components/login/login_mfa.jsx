@@ -52,12 +52,6 @@ export default class LoginMfa extends React.PureComponent {
         e.preventDefault();
         const state = {};
 
-        if (!this.state.token) {
-            state.serverError = localizeMessage('login_mfa.tokenReq', 'Please enter an MFA token');
-            this.setState(state);
-            return;
-        }
-
         state.serverError = '';
         state.saving = true;
         this.setState(state);

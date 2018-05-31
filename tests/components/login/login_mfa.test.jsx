@@ -41,9 +41,10 @@ describe('components/login/LoginMfa', () => {
 
         wrapper.setState({token: '', serverError: '', saving: false});
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(wrapper.state('serverError')).toEqual('Please enter an MFA token');
-        expect(wrapper.state('saving')).toEqual(false);
-        expect(submit).not.toBeCalled();
+        expect(wrapper.state('serverError')).toEqual('');
+        expect(wrapper.state('saving')).toEqual(true);
+        expect(submit).toBeCalled(); // This is not a bug. See https://github.com/mattermost/mattermost-server/pull/8881
+        expect(submit).toBeCalledWith(props.loginId, props.password, '');
 
         wrapper.setState({token: '123456', serverError: ''});
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
