@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import ClaimController from './claim_controller.jsx';
 
 function mapStateToProps(state) {
-    const license = getLicense(state);
     const config = getConfig(state);
     const siteName = config.SiteName;
     const ldapLoginFieldName = config.LdapLoginFieldName;
@@ -17,7 +16,7 @@ function mapStateToProps(state) {
     return {
         siteName,
         ldapLoginFieldName,
-        passwordConfig: getPasswordConfig(license, config),
+        passwordConfig: getPasswordConfig(config),
     };
 }
 

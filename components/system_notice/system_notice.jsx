@@ -129,7 +129,7 @@ export default class SystemNotice extends React.PureComponent {
                         onClick={this.hideAndRemind}
                     >
                         <FormattedMessage
-                            id='system_notice_remind_me'
+                            id='system_notice.remind_me'
                             defaultMessage='Remind me later'
                         />
                     </button>
@@ -139,7 +139,7 @@ export default class SystemNotice extends React.PureComponent {
                         onClick={this.hideAndForget}
                     >
                         <FormattedMessage
-                            id='system_notice_dont_show'
+                            id='system_notice.dont_show'
                             defaultMessage="Don't show again"
                         />
                     </button>

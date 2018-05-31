@@ -1431,7 +1431,7 @@ export function canCreateCustomEmoji(user) {
     return true;
 }
 
-export function getPasswordConfig(license, config) {
+export function getPasswordConfig(config) {
     return {
         minimumLength: parseInt(config.PasswordMinimumLength, 10),
         requireLowercase: config.PasswordRequireLowercase === 'true',

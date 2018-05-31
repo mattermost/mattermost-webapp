@@ -30,7 +30,7 @@ function mapStateToProps(state) {
         customBrand,
         enableCustomBrand,
         customDescriptionText,
-        passwordConfig: getPasswordConfig(license, config),
+        passwordConfig: getPasswordConfig(config),
     };
 }
 
