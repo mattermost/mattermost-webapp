@@ -8,8 +8,6 @@ import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getScheme, isUrlSafe} from 'utils/url.jsx';
 
-const defaultUrlSchemes = ['http', 'https', 'ftp', 'mailto', 'tel'];
-
 export default class Renderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
         super(options);
@@ -148,12 +146,8 @@ export default class Renderer extends marked.Renderer {
         const scheme = getScheme(href);
         if (!scheme) {
             outHref = `http://${outHref}`;
-        } else if (isUrl) {
-            let isValidUrl = defaultUrlSchemes.indexOf(scheme) !== -1;
-
-            if (!isValidUrl && this.formattingOptions.customUrlSchemes) {
-                isValidUrl = this.formattingOptions.customUrlSchemes.indexOf(scheme) !== -1;
-            }
+        } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
+            const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(scheme) !== -1;
 
             if (!isValidUrl) {
                 return text;

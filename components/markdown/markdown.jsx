@@ -16,9 +16,10 @@ export default class Markdown extends React.PureComponent {
         channelNamesMap: PropTypes.object.isRequired,
 
         /*
-         * An array of custom URL schemes that should be turned into links
+         * An array of URL schemes that should be turned into links. Anything that looks
+         * like a link will be turned into a link if this is not provided.
          */
-        customUrlSchemes: PropTypes.array,
+        autolinkedUrlSchemes: PropTypes.array,
 
         /*
          * Whether or not to do Markdown rendering
@@ -78,7 +79,7 @@ export default class Markdown extends React.PureComponent {
         }
 
         const options = Object.assign({
-            customUrlSchemes: this.props.customUrlSchemes,
+            autolinkedUrlSchemes: this.props.autolinkedUrlSchemes,
             siteURL: this.props.siteURL,
             mentionKeys: this.props.mentionKeys,
             atMentions: true,
