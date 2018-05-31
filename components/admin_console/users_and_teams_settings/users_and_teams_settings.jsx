@@ -258,24 +258,25 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('TeamSetting.EnableUserCreation')}
                 />
-                <BooleanSetting
-                    id='enableTeamCreation'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.teamCreationTitle'
-                            defaultMessage='Enable Team Creation: '
-                        />
-                    }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.team.teamCreationDescription'
-                            defaultMessage='When false, only System Administrators can create teams.'
-                        />
-                    }
-                    value={this.state.enableTeamCreation}
-                    onChange={this.handleChange}
-                    setByEnv={false}
-                />
+                {this.props.license.IsLicensed === 'false' &&
+                    <BooleanSetting
+                        id='enableTeamCreation'
+                        label={
+                            <FormattedMessage
+                                id='admin.team.teamCreationTitle'
+                                defaultMessage='Enable Team Creation: '
+                            />
+                        }
+                        helpText={
+                            <FormattedMessage
+                                id='admin.team.teamCreationDescription'
+                                defaultMessage='When false, only System Administrators can create teams.'
+                            />
+                        }
+                        value={this.state.enableTeamCreation}
+                        onChange={this.handleChange}
+                        setByEnv={false}
+                    />}
                 <TextSetting
                     id='maxUsersPerTeam'
                     label={

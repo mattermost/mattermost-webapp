@@ -1,0 +1,705 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should expand and collapse correctly, expanded by default, collapsed and then expanded again 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value=""
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should expand and collapse correctly, expanded by default, collapsed and then expanded again 2`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow "
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value=""
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions "
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should expand and collapse correctly, expanded by default, collapsed and then expanded again 3`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value=""
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable with all permissions 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value="checked"
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable with all permissions and read-only 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row  read-only"
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value="checked"
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable with all permissions from parentRole 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row  read-only"
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value="checked"
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={
+        Object {
+          "permissions": Array [
+            "invite_user",
+            "add_user_to_team",
+          ],
+        }
+      }
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={
+        Object {
+          "permissions": Array [
+            "invite_user",
+            "add_user_to_team",
+          ],
+        }
+      }
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable with some permissions 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value="intermediate"
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable with some permissions and read-only 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row  read-only"
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value="intermediate"
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable with some permissions from parentRole 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value="intermediate"
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={
+        Object {
+          "permissions": Array [
+            "invite_user",
+          ],
+        }
+      }
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value="checked"
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={false}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable without every permission out of the scope 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value=""
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable without permissions 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row "
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value=""
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={null}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_group should match snapshot on editable without permissions and read-only 1`] = `
+<div
+  className="permission-group"
+>
+  <div
+    className="permission-group-row  read-only"
+    onClick={[Function]}
+  >
+    <div
+      className="fa fa-caret-right permission-arrow open"
+      onClick={[Function]}
+    />
+    <PermissionCheckbox
+      value=""
+    />
+    <span
+      className="permission-name"
+    >
+      <FormattedMessage
+        id="admin.permissions.group.name.name"
+        values={Object {}}
+      />
+    </span>
+    <InjectIntl(PermissionDescription)
+      id="name"
+      inherited={null}
+      rowType="group"
+      selectRow={[MockFunction]}
+    />
+  </div>
+  <div
+    className="permission-group-permissions open"
+  >
+    <PermissionRow
+      additionalValues={Object {}}
+      id="invite_user"
+      inherited={null}
+      key="invite_user"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value=""
+    />
+    <PermissionRow
+      additionalValues={Object {}}
+      id="add_user_to_team"
+      inherited={null}
+      key="add_user_to_team"
+      onChange={[Function]}
+      readOnly={true}
+      selectRow={[MockFunction]}
+      value=""
+    />
+  </div>
+</div>
+`;

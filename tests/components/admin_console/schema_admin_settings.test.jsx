@@ -155,6 +155,14 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the second bool field.',
                 },
                 {
+                    key: 'FirstSettings.settingm',
+                    label: 'label-m',
+                    label_default: 'Setting Thirteen',
+                    type: 'color',
+                    help_text: 'help-text-m',
+                    help_text_default: 'This is some help text for the color field.',
+                },
+                {
                     type: 'custom',
                     key: 'custom',
                     component: () => <p>{'Test'}</p>,

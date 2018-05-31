@@ -24,7 +24,6 @@ import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
-import PolicySettings from 'components/admin_console/policy_settings';
 import CustomIntegrationSettings from 'components/admin_console/custom_integrations_settings';
 import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings';
 
@@ -209,11 +208,6 @@ export default class AdminConsole extends React.Component {
                                         }}
                                     />
                                     <SCRoute
-                                        path={`${props.match.url}/policy`}
-                                        component={PolicySettings}
-                                        extraProps={extraProps}
-                                    />
-                                    <SCRoute
                                         path={`${props.match.url}/compliance`}
                                         component={SchemaAdminSettings}
                                         extraProps={{
@@ -230,6 +224,45 @@ export default class AdminConsole extends React.Component {
                                         }}
                                     />
                                     <Redirect to={`${props.match.url}/configuration`}/>
+                                </Switch>
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.url}/permissions`}
+                            render={(props) => (
+                                <Switch>
+                                    <SCRoute
+                                        path={`${props.match.url}/schemes`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.permissions.schemes.schema,
+                                        }}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/system-scheme`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.permissions.systemScheme.schema,
+                                        }}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/team-override-scheme/:scheme_id`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.permissions.teamScheme.schema,
+                                        }}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/team-override-scheme`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.permissions.teamScheme.schema,
+                                        }}
+                                    />
                                 </Switch>
                             )}
                         />
@@ -424,6 +457,14 @@ export default class AdminConsole extends React.Component {
                                         path={`${props.match.url}/custom_brand`}
                                         component={CustomBrandSettings}
                                         extraProps={extraProps}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/announcement`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.customization.announcement.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/emoji`}

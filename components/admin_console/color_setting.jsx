@@ -64,8 +64,9 @@ export default class ColorSetting extends React.PureComponent {
     togglePicker = () => {
         if (this.props.disabled) {
             this.setState({showPicker: false});
+        } else {
+            this.setState({showPicker: !this.state.showPicker});
         }
-        this.setState({showPicker: !this.state.showPicker});
     }
 
     closePicker = (e) => {

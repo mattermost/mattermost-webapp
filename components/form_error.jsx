@@ -75,7 +75,7 @@ export default class FormError extends React.Component {
         return (
             <div className='col-sm-12 has-error'>
                 <label className='control-label'>
-                    {message}
+                    <i className='fa fa-exclamation-circle'/> {message}
                 </label>
             </div>
         );

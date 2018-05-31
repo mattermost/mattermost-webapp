@@ -1,8 +1,9 @@
 @charset 'UTF-8';
 
 .admin-console__wrapper {
-    height: 100%;
+    height: calc(100% - 55px);
     overflow: auto;
+    margin-top: 55px;
 }
 
 .admin-console {
@@ -111,6 +112,11 @@
 
     .wrapper--fixed {
         max-width: 800px;
+        margin-bottom: 70px;
+    }
+
+    .wrapper--admin {
+        margin-bottom: 70px;
     }
 
     .form-horizontal {
@@ -345,7 +351,84 @@
     }
 
     .admin-console-header {
+        display: flex;
+        flex-direction: row;
         border-bottom: 1px solid alpha-color($black, .1);
+        background: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 60px;
+        width: calc(100% - 220px);
+        margin: 0 0 0 220px;
+        padding: 10px 20px;
+        font-size: 22px;
+        font-weight: normal;
+        z-index: 100;
+        align-items: center;
+        &.with-back {
+            padding: 0;
+            .back {
+                display: flex;
+                font-size: 1.3rem;
+                width: 60px;
+                height: 60px;
+                border-right: 1px solid alpha-color($black, .1);
+                margin-right: 10px;
+                align-items: center;
+                justify-content: space-around;
+                text-decoration: none;
+            }
+            span {
+            }
+         }
+    }
+
+    .admin-console-save {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid alpha-color($black, .1);
+        background: white;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 60px;
+        width: calc(100% - 220px);
+        margin: 0 0 0 220px;
+        padding: 13px 0;
+        z-index: 100;
+        .save-button {
+            min-width: 100px;
+            height: 34px;
+            margin: 0 10px 0 13px;
+        }
+        .cancel-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100px;
+            height: 34px;
+            margin: 0 10px 0 0;
+            text-decoration: none;
+            &:hover {
+                background-color: $light-gray;
+            }
+        }
+        .error-message {
+            overflow: hidden;
+            .control-label {
+                padding: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .reset-defaults-btn {
+            position: absolute;
+            right: 0; 
+            padding-right: 10px; 
+            padding-left: 10px;
+        }
     }
 
     .status-icon-unknown {
@@ -787,4 +870,10 @@
 
 .password__group-addon-space {
     margin-bottom: 20px;
+}
+
+#error-tooltip {
+    .tooltip-inner {
+        max-width: none;
+    }
 }

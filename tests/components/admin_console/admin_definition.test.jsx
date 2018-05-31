@@ -18,7 +18,7 @@ const baseShape = {
 const fieldShape = {
     ...baseShape,
     key: yup.string().required(),
-    help_text: yup.string().required(),
+    help_text: yup.string(),
     help_text_default: yup.string(),
     help_text_html: yup.boolean(),
     help_text_values: yup.object(),
@@ -43,6 +43,11 @@ const settingBool = yup.object().shape({
 
 const settingNumber = yup.object().shape({
     type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_NUMBER]),
+    ...fieldShape,
+});
+
+const settingColor = yup.object().shape({
+    type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_COLOR]),
     ...fieldShape,
 });
 
@@ -101,6 +106,7 @@ const setting = yup.mixed().test('is-setting', 'not a valid setting: ${path}', (
     valid = valid || settingBanner.isValidSync(value);
     valid = valid || settingBool.isValidSync(value);
     valid = valid || settingNumber.isValidSync(value);
+    valid = valid || settingColor.isValidSync(value);
     valid = valid || settingText.isValidSync(value);
     valid = valid || settingButton.isValidSync(value);
     valid = valid || settingLanguage.isValidSync(value);
@@ -150,7 +156,9 @@ var definition = yup.object().shape({
         }),
         plugins: yup.object().shape({}),
         files: yup.object().shape({}),
-        customization: yup.object().shape({}),
+        customization: yup.object().shape({
+            announcement: yup.object().shape({schema}),
+        }),
         compliance: yup.object().shape({}),
         advanced: yup.object().shape({}),
     }),

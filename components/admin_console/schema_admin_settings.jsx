@@ -17,6 +17,7 @@ import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import MultiSelectSetting from 'components/admin_console/multiselect_settings.jsx';
 import RadioSetting from 'components/admin_console/radio_setting.jsx';
+import ColorSetting from 'components/admin_console/color_setting.jsx';
 import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
 import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
@@ -28,6 +29,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         this.buildSettingFunctions = {
             [SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
             [SettingsTypes.TYPE_NUMBER]: this.buildTextSetting,
+            [SettingsTypes.TYPE_COLOR]: this.buildColorSetting,
             [SettingsTypes.TYPE_BOOL]: this.buildBoolSetting,
             [SettingsTypes.TYPE_DROPDOWN]: this.buildDropdownSetting,
             [SettingsTypes.TYPE_RADIO]: this.buildRadioSetting,
@@ -256,6 +258,21 @@ export default class SchemaAdminSettings extends AdminSettings {
                 value={this.state[setting.key] || ''}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
+                onChange={this.handleChange}
+            />
+        );
+    }
+
+    buildColorSetting = (setting) => {
+        return (
+            <ColorSetting
+                key={this.props.schema.id + '_text_' + setting.key}
+                id={setting.key}
+                label={this.renderLabel(setting)}
+                helpText={this.renderHelpText(setting)}
+                placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
+                value={this.state[setting.key] || ''}
+                disabled={this.isDisabled(setting)}
                 onChange={this.handleChange}
             />
         );

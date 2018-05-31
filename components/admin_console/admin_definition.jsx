@@ -13,6 +13,9 @@ import SystemUsers from './system_users';
 import ServerLogs from './server_logs';
 import Audits from './audits';
 import LicenseSettings from './license_settings';
+import PermissionSchemesSettings from './permission_schemes_settings';
+import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
+import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -57,6 +60,8 @@ const FILE_STORAGE_DRIVER_S3 = 'amazons3';
 // Bool Widget (extends from Setting Widget)
 //
 // Number Widget (extends from Setting Widget)
+//
+// Color Widget (extends from Setting Widget)
 //
 // Text Widget (extends from Setting Widget)
 //   - placeholder (and placeholder_default): Placeholder text to show in the input.
@@ -526,6 +531,26 @@ export default {
                             help_text_html: true,
                         },
                     ],
+                },
+            },
+        },
+        permissions: {
+            schemes: {
+                schema: {
+                    id: 'PermissionSchemes',
+                    component: PermissionSchemesSettings,
+                },
+            },
+            systemScheme: {
+                schema: {
+                    id: 'PermissionSystemScheme',
+                    component: PermissionSystemSchemeSettings,
+                },
+            },
+            teamScheme: {
+                schema: {
+                    id: 'PermissionSystemScheme',
+                    component: PermissionTeamSchemeSettings,
                 },
             },
         },
@@ -1413,6 +1438,55 @@ export default {
             },
         },
         customization: {
+            announcement: {
+                schema: {
+                    id: 'AnnouncementSettings',
+                    name: 'admin.customization.announcement',
+                    name_default: 'Announcement Banner',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'AnnouncementSettings.EnableBanner',
+                            label: 'admin.customization.announcement.enableBannerTitle',
+                            label_default: 'Enable Announcement Banner:',
+                            help_text: 'admin.customization.announcement.enableBannerDesc',
+                            help_text_default: 'Enable an announcement banner across all teams.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'AnnouncementSettings.BannerText',
+                            label: 'admin.customization.announcement.bannerTextTitle',
+                            label_default: 'Banner Text:',
+                            help_text: 'admin.customization.announcement.bannerTextDesc',
+                            help_text_default: 'Text that will appear in the announcement banner.',
+                            needs: [['EnableBanner', true]],
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_COLOR,
+                            key: 'AnnouncementSettings.BannerColor',
+                            label: 'admin.customization.announcement.bannerColorTitle',
+                            label_default: 'Banner Color:',
+                            needs: [['EnableBanner', true]],
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_COLOR,
+                            key: 'AnnouncementSettings.BannerTextColor',
+                            label: 'admin.customization.announcement.bannerTextColorTitle',
+                            label_default: 'Banner Text Color:',
+                            needs: [['EnableBanner', true]],
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'AnnouncementSettings.AllowBannerDismissal',
+                            label: 'admin.customization.announcement.allowBannerDismissalTitle',
+                            label_default: 'Allow Banner Dismissal:',
+                            help_text: 'admin.customization.announcement.allowBannerDismissalDesc',
+                            help_text_default: 'When true, users can dismiss the banner until its next update. When false, the banner is permanently visible until it is turned off by the System Admin.',
+                            needs: [['EnableBanner', true]],
+                        },
+                    ],
+                },
+            },
             link_previews: {
                 schema: {
                     id: 'LinkPreviewsSettings',

@@ -4,25 +4,24 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
+import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 
-import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+import {getTeamStats} from 'mattermost-redux/selectors/entities/teams';
 
-import PolicySettings from './policy_settings.jsx';
+import TeamInfo from './team_info.jsx';
 
 function mapStateToProps(state) {
     return {
-        roles: getRoles(state),
+        stats: getTeamStats(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadRolesIfNeeded,
-            editRole,
+            loadTeamStats,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PolicySettings);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamInfo);
