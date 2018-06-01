@@ -32,4 +32,22 @@ export default [
             />
         ),
     },
+    
+    {
+        name: 'advanced_permissions',
+        adminOnly: true,
+        title: (
+            <FormattedHTMLMessage
+                id='system_notice.title'
+                defaultMessage='<strong>Notice</strong> from Mattermost'
+            />
+        ),
+        icon: mattermostIcon,
+        body: (
+            <FormattedHTMLMessage
+                id='system_notice.body.permissions'
+                defaultMessage='Some policy and permission System Console settings have moved with the release of <a href="https://about.mattermost.com/default-advanced-permissions" target="_blank">advanced permissions</a>.'
+            />
+        ),
+    },
 ];
