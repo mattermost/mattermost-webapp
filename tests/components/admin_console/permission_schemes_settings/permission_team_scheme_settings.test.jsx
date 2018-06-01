@@ -121,7 +121,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_team_admin_role: 'bbb',
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
-            }
+            },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
         const wrapper = shallow(
@@ -166,7 +166,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_team_admin_role: 'bbb',
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
-            }
+            },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
         const wrapper = shallow(
