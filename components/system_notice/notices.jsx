@@ -32,7 +32,6 @@ export default [
             />
         ),
     },
-    
     {
         name: 'advanced_permissions',
         adminOnly: true,
