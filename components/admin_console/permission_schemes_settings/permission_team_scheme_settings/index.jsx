@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {loadRolesIfNeeded, editRole, getRole as loadRole} from 'mattermost-redux/actions/roles';
+import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 
-import {getRoles, getRolesById} from 'mattermost-redux/selectors/entities/roles';
+import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getScheme, makeGetSchemeTeams} from 'mattermost-redux/selectors/entities/schemes';
 
 import {getScheme as loadScheme, patchScheme, createScheme, getSchemeTeams as loadSchemeTeams} from 'mattermost-redux/actions/schemes';
@@ -24,7 +24,6 @@ function makeMapStateToProps() {
             scheme: schemeId ? getScheme(state, schemeId) : null,
             teams: schemeId ? getSchemeTeams(state, {schemeId}) : null,
             roles: getRoles(state),
-            rolesById: getRolesById(state),
             rolesRequest: state.requests.roles.getRolesByNames,
         };
     };
@@ -37,7 +36,6 @@ function mapDispatchToProps(dispatch) {
             loadScheme,
             loadSchemeTeams,
             editRole,
-            loadRole,
             patchScheme,
             updateTeamScheme,
             createScheme,

@@ -31,8 +31,6 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             channel_admin: {
                 permissions: [],
             },
-        },
-        rolesById: {
             aaa: {
                 permissions: [],
             },
@@ -116,7 +114,15 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
     test('should save each role on save clicked except system_admin role', (done) => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
-        const createScheme = jest.fn().mockImplementation(() => Promise.resolve({data: {id: '123'}}));
+        const createScheme = jest.fn().mockImplementation(() => Promise.resolve({
+            data: {
+                id: '123',
+                default_team_user_role: 'aaa',
+                default_team_admin_role: 'bbb',
+                default_channel_user_role: 'ccc',
+                default_channel_admin_role: 'ddd',
+            },
+        }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
         const wrapper = shallow(
             <PermissionTeamSchemeSettings
@@ -153,7 +159,15 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
     test('should show error if editRole fails', (done) => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
-        const createScheme = jest.fn().mockImplementation(() => Promise.resolve({data: {id: '123'}}));
+        const createScheme = jest.fn().mockImplementation(() => Promise.resolve({
+            data: {
+                id: '123',
+                default_team_user_role: 'aaa',
+                default_team_admin_role: 'bbb',
+                default_channel_user_role: 'ccc',
+                default_channel_admin_role: 'ddd',
+            },
+        }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
         const wrapper = shallow(
             <PermissionTeamSchemeSettings
@@ -232,7 +246,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
             },
-            rolesById: {
+            roles: {
                 aaa: {
                     permissions: ['invite_user'],
                 },
