@@ -46,7 +46,7 @@ export default [
         body: (
             <FormattedHTMLMessage
                 id='system_notice.body.permissions'
-                defaultMessage='Some policy and permission System Console settings have moved with the release of <a href="https://about.mattermost.com/default-advanced-permissions" target="_blank">advanced permissions</a>.'
+                defaultMessage='Some policy and permission System Console settings have moved with the release of <a href="https://about.mattermost.com/default-advanced-permissions" target="_blank">advanced permissions</a> in Enterprise E10 and E20.'
             />
         ),
     },
