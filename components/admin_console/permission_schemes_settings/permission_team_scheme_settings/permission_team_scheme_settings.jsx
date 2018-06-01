@@ -24,11 +24,9 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         schemeId: PropTypes.string,
         scheme: PropTypes.object,
         roles: PropTypes.object,
-        rolesById: PropTypes.object,
         teams: PropTypes.array,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
-            loadRole: PropTypes.func.isRequired,
             loadScheme: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
@@ -64,10 +62,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         this.props.actions.loadRolesIfNeeded(['team_admin', 'team_user', 'channel_admin', 'channel_user']);
         if (this.props.schemeId) {
             this.props.actions.loadScheme(this.props.schemeId).then((result) => {
-                this.props.actions.loadRole(result.data.default_team_user_role);
-                this.props.actions.loadRole(result.data.default_team_admin_role);
-                this.props.actions.loadRole(result.data.default_channel_user_role);
-                this.props.actions.loadRole(result.data.default_channel_admin_role);
+                this.props.actions.loadRolesIfNeeded([
+                    result.data.default_team_user_role,
+                    result.data.default_team_admin_role,
+                    result.data.default_channel_user_role,
+                    result.data.default_channel_admin_role,
+                ]);
             });
             this.props.actions.loadSchemeTeams(this.props.schemeId);
         }
@@ -77,10 +77,10 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         if (props.schemeId) {
             if (props.scheme !== null &&
                 props.teams !== null &&
-                props.rolesById[props.scheme.default_team_user_role] &&
-                props.rolesById[props.scheme.default_team_admin_role] &&
-                props.rolesById[props.scheme.default_channel_user_role] &&
-                props.rolesById[props.scheme.default_channel_admin_role]) {
+                props.roles[props.scheme.default_team_user_role] &&
+                props.roles[props.scheme.default_team_admin_role] &&
+                props.roles[props.scheme.default_channel_user_role] &&
+                props.roles[props.scheme.default_channel_admin_role]) {
                 return true;
             }
             return false;
@@ -135,10 +135,10 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
         if (this.props.schemeId) {
             if (this.isLoaded(this.props)) {
-                teamUser = this.props.rolesById[this.props.scheme.default_team_user_role];
-                teamAdmin = this.props.rolesById[this.props.scheme.default_team_admin_role];
-                channelUser = this.props.rolesById[this.props.scheme.default_channel_user_role];
-                channelAdmin = this.props.rolesById[this.props.scheme.default_channel_admin_role];
+                teamUser = this.props.roles[this.props.scheme.default_team_user_role];
+                teamAdmin = this.props.roles[this.props.scheme.default_team_admin_role];
+                channelUser = this.props.roles[this.props.scheme.default_channel_user_role];
+                channelAdmin = this.props.roles[this.props.scheme.default_channel_admin_role];
             }
         } else if (this.isLoaded(this.props)) {
             teamUser = this.props.roles.team_user;
@@ -194,8 +194,8 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         this.setState({saving: true});
         if (this.props.schemeId) {
             const derived = this.deriveRolesFromAllUsers(
-                this.props.rolesById[this.props.scheme.default_team_user_role],
-                this.props.rolesById[this.props.scheme.default_channel_user_role],
+                this.props.roles[this.props.scheme.default_team_user_role],
+                this.props.roles[this.props.scheme.default_channel_user_role],
                 allUsers
             );
             teamUser = derived.team_user;
@@ -224,10 +224,16 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             }
             const newScheme = result.data;
             schemeId = newScheme.id;
-            teamUser = {...teamUser, id: newScheme.default_team_user_role};
-            teamAdmin = {...teamAdmin, id: newScheme.default_team_admin_role};
-            channelUser = {...channelUser, id: newScheme.default_channel_user_role};
-            channelAdmin = {...channelAdmin, id: newScheme.default_channel_admin_role};
+            await this.props.actions.loadRolesIfNeeded([
+                newScheme.default_team_user_role,
+                newScheme.default_team_admin_role,
+                newScheme.default_channel_user_role,
+                newScheme.default_channel_admin_role,
+            ]);
+            teamUser = {...teamUser, id: this.props.roles[newScheme.default_team_user_role].id};
+            teamAdmin = {...teamAdmin, id: this.props.roles[newScheme.default_team_admin_role].id};
+            channelUser = {...channelUser, id: this.props.roles[newScheme.default_channel_user_role].id};
+            channelAdmin = {...channelAdmin, id: this.props.roles[newScheme.default_channel_admin_role].id};
         }
 
         const teamAdminPromise = this.props.actions.editRole(teamAdmin);
