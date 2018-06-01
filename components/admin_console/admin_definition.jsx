@@ -735,7 +735,7 @@ export default {
                             placeholder: 'admin.ldap.firstnameAttrEx',
                             placeholder_default: 'E.g.: "givenName"',
                             help_text: 'admin.ldap.firstnameAttrDesc',
-                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the first name of users in Mattermost.  When set, users will not be able to edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their own first name in Account Settings.',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
@@ -749,7 +749,7 @@ export default {
                             placeholder: 'admin.ldap.lastnameAttrEx',
                             placeholder_default: 'E.g.: "sn"',
                             help_text: 'admin.ldap.lastnameAttrDesc',
-                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the last name of users in Mattermost. When set, users will not be able to edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their own last name in Account Settings.',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
@@ -763,7 +763,7 @@ export default {
                             placeholder: 'admin.ldap.nicknameAttrEx',
                             placeholder_default: 'E.g.: "nickname"',
                             help_text: 'admin.ldap.nicknameAttrDesc',
-                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the nickname of users in Mattermost. When set, users will not be able to edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their own nickname in Account Settings.',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
@@ -777,7 +777,7 @@ export default {
                             placeholder: 'admin.ldap.positionAttrEx',
                             placeholder_default: 'E.g.: "title"',
                             help_text: 'admin.ldap.positionAttrDesc',
-                            help_text_default: '(Optional) The attribute in the AD/LDAP server that will be used to populate the position field in Mattermost.',
+                            help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in Account Settings.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
@@ -791,7 +791,7 @@ export default {
                             placeholder: 'admin.ldap.emailAttrEx',
                             placeholder_default: 'E.g.: "mail" or "userPrincipalName"',
                             help_text: 'admin.ldap.emailAttrDesc',
-                            help_text_default: 'The attribute in the AD/LDAP server that will be used to populate the email addresses of users in Mattermost.',
+                            help_text_default: 'The attribute in the AD/LDAP server used to populate the email address field in Mattermost.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
@@ -804,8 +804,8 @@ export default {
                             label_default: 'Username Attribute:',
                             placeholder: 'admin.ldap.usernameAttrEx',
                             placeholder_default: 'E.g.: "sAMAccountName"',
-                            help_text: 'admin.ldap.uernameAttrDesc',
-                            help_text_default: 'The attribute in the AD/LDAP server that will be used to populate the username field in Mattermost. This may be the same as the Login ID Attribute.',
+                            help_text: 'admin.ldap.usernameAttrDesc',
+                            help_text_default: 'The attribute in the AD/LDAP server used to populate the username field in Mattermost. This may be the same as the Login ID Attribute.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
@@ -819,7 +819,8 @@ export default {
                             placeholder: 'admin.ldap.idAttrEx',
                             placeholder_default: 'E.g.: "objectGUID"',
                             help_text: 'admin.ldap.idAttrDesc',
-                            help_text_default: 'The attribute in the AD/LDAP server that will be used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one. If you need to change this after users have already logged in, you can use the CLI tool "platform ldap idmigrate".',
+                            help_text_html: true,
+                            help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.<br /><br />If you need to change this field after users have already logged in, use the <a href="https://about.mattermost.com/default-mattermost-ldap-idmigrate" target="_blank">mattermost ldap idmigrate</a> CLI tool.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueEqual('LdapSettings.Enable', false),
                                 needsUtils.stateValueEqual('LdapSettings.EnableSync', false),
@@ -833,7 +834,8 @@ export default {
                             placeholder: 'admin.ldap.loginIdAttrEx',
                             placeholder_default: 'E.g.: "sAMAccountName"',
                             help_text: 'admin.ldap.loginAttrDesc',
-                            help_text_default: 'The attribute in the AD/LDAP server that will be used by AD/LDAP users to login to Mattermost. This is the value used to log in to Mattermost in the "AD/LDAP Username" field on the sign in page. Normally this attribute is the same as the "Username Attribute" field above. If your team typically uses domain\\username to sign in to other services with AD/LDAP, you may choose to put domain\\username in this field to maintain consistency between sites.',
+                            help_text_html: true,
+                            help_text_default: 'The attribute in the AD/LDAP server used to log in to Mattermost. Normally this attribute is the same as the "Username Attribute" field above.<br /><br />If your team typically uses domain\\username to log in to other services with AD/LDAP, you may enter domain\\username in this field to maintain consistency between sites.',
                             isDisabled: needsUtils.and(
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
