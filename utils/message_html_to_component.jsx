@@ -14,7 +14,7 @@ import PostEmoji from 'components/post_emoji';
  * The following options can be specified:
  * - mentions - If specified, mentions are replaced with the AtMention component. Defaults to true.
  * - emoji - If specified, emoji text is replaced with the PostEmoji component. Defaults to true.
- * - images - If specified, markdown images are replaced with the PostMarkdown component. Defaults to true.
+ * - images - If specified, markdown images are replaced with the MarkdownImage component. Defaults to true.
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {

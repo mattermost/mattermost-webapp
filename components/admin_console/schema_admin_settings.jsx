@@ -461,6 +461,11 @@ export default class SchemaAdminSettings extends AdminSettings {
         return (
             <CustomComponent
                 key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                id={setting.key}
+                value={this.state[setting.key] || ''}
+                disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
+                onChange={this.handleChange}
             />
         );
     }

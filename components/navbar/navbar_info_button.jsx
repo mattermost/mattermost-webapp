@@ -6,8 +6,10 @@ import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import MessageWrapper from 'components/message_wrapper.jsx';
+import Markdown from 'components/markdown';
 import InfoIcon from 'components/svg/info_icon';
+
+const headerMarkdownOptions = {singleline: true, mentionHighlight: false};
 
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
@@ -31,9 +33,9 @@ export default class NavbarInfoButton extends React.PureComponent {
         if (this.props.channel) {
             if (this.props.channel.header) {
                 popoverContent = (
-                    <MessageWrapper
+                    <Markdown
                         message={this.props.channel.header}
-                        options={{singleline: true, mentionHighlight: false}}
+                        options={headerMarkdownOptions}
                     />
                 );
             } else {

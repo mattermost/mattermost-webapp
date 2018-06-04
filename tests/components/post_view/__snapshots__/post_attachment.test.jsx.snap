@@ -6,7 +6,11 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
 >
   <div
     className="attachment__thumb-pretext"
-  />
+  >
+    <Connect(Markdown)
+      message="pretext"
+    />
+  </div>
   <div
     className="attachment__content"
   >
@@ -55,7 +59,11 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
         >
           <div
             className="attachment__text"
-          />
+          >
+            <Connect(Markdown)
+              message="short text"
+            />
+          </div>
           <img
             className="attachment__image"
             src="image_url"
@@ -98,7 +106,11 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
 >
   <div
     className="attachment__thumb-pretext"
-  />
+  >
+    <Connect(Markdown)
+      message="pretext"
+    />
+  </div>
   <div
     className="attachment__content"
   >
@@ -147,7 +159,11 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
         >
           <div
             className="attachment__text"
-          />
+          >
+            <Connect(Markdown)
+              message="short text"
+            />
+          </div>
           <img
             className="attachment__image"
             src="image_url"
@@ -225,7 +241,11 @@ exports[`components/post_view/PostAttachment should match value on getFieldsTabl
       <tr>
         <td
           className="attachment-field"
-        />
+        >
+          <Connect(Markdown)
+            message="value_1"
+          />
+        </td>
       </tr>
     </tbody>
   </table>
@@ -246,7 +266,11 @@ exports[`components/post_view/PostAttachment should match value on getFieldsTabl
       <tr>
         <td
           className="attachment-field"
-        />
+        >
+          <Connect(Markdown)
+            message="value_2"
+          />
+        </td>
       </tr>
     </tbody>
   </table>

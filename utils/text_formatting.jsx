@@ -32,6 +32,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 //      links to the relevant channel.
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
+// - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';

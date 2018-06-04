@@ -45,7 +45,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
         id="header-popover"
         placement="bottom"
       >
-        <MessageWrapper
+        <Connect(Markdown)
           message="channel header"
           options={
             Object {
