@@ -151,7 +151,7 @@
         .image-name {
             display: inline-block;
             font-size: 14px;
-            font-weight: bold; 
+            font-weight: bold;
         }
 
         .image-container {
@@ -179,6 +179,7 @@
             left: 0;
             max-height: 350px;
             max-width: 100%;
+            display: block;
             opacity: 0;
             overflow: hidden;
             position: absolute;

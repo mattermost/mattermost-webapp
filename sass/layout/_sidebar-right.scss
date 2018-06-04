@@ -289,11 +289,12 @@
     line-height: 0;
     padding-left: 1px;
     text-align: center;
-    width: 50px;
+    width: 45px;
     z-index: 5;
 
     .fa {
         position: relative;
         top: 18px;
+        right: 2px;
     }
 }
