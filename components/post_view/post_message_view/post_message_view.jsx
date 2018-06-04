@@ -6,9 +6,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
+import * as GlobalActions from 'actions/global_actions';
 import PostMarkdown from 'components/post_markdown';
-import * as PostUtils from 'utils/post_utils.jsx';
-import * as Utils from 'utils/utils.jsx';
+import * as PostUtils from 'utils/post_utils';
+import * as Utils from 'utils/utils';
 
 // This must match the max-height defined in CSS for the collapsed content div
 const MAX_POST_HEIGHT = 600;
@@ -80,6 +81,10 @@ export default class PostMessageView extends React.PureComponent {
             collapse: true,
             hasOverflow: false,
         };
+
+        this.imageProps = {
+            onHeightReceived: this.handleImageHeightReceived,
+        };
     }
 
     componentDidMount() {
@@ -107,6 +112,12 @@ export default class PostMessageView extends React.PureComponent {
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
+
+    handleImageHeightReceived = () => {
+        GlobalActions.postListScrollChange();
+
+        this.checkOverflow();
+    };
 
     handleResize = () => {
         this.checkOverflow();
@@ -257,6 +268,7 @@ export default class PostMessageView extends React.PureComponent {
                     >
                         <PostMarkdown
                             message={message}
+                            imageProps={this.imageProps}
                             isRHS={isRHS}
                             options={options}
                             post={post}

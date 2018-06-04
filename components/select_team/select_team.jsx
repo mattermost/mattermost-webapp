@@ -29,7 +29,6 @@ const TEAMS_PER_PAGE = 200;
 
 export default class SelectTeam extends React.Component {
     static propTypes = {
-        isLicensed: PropTypes.bool.isRequired,
         currentUserRoles: PropTypes.string,
         customDescriptionText: PropTypes.string,
         isMemberOfTeam: PropTypes.bool.isRequired,
@@ -122,7 +121,6 @@ export default class SelectTeam extends React.Component {
         const {
             currentUserRoles,
             customDescriptionText,
-            isLicensed,
             isMemberOfTeam,
             joinableTeams,
             siteName,
@@ -283,7 +281,6 @@ export default class SelectTeam extends React.Component {
                         />
                         <SiteNameAndDescription
                             customDescriptionText={customDescriptionText}
-                            isLicensed={isLicensed}
                             siteName={siteName}
                         />
                         {openContent}

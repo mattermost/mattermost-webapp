@@ -472,11 +472,11 @@ export default class AdminConsole extends React.Component {
                                         extraProps={extraProps}
                                     />
                                     <SCRoute
-                                        path={`${props.match.url}/link_previews`}
+                                        path={`${props.match.url}/posts`}
                                         component={SchemaAdminSettings}
                                         extraProps={{
                                             ...extraProps,
-                                            schema: AdminDefinition.settings.customization.link_previews.schema,
+                                            schema: AdminDefinition.settings.customization.posts.schema,
                                         }}
                                     />
                                     <SCRoute

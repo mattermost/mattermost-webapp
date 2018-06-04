@@ -5,7 +5,12 @@ import $ from 'jquery';
 import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
-import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
+import {
+    getChannel,
+    getChannelAndMyMember,
+    getChannelStats,
+    viewChannel,
+} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
@@ -212,6 +217,10 @@ function handleEvent(msg) {
         handleChannelDeletedEvent(msg);
         break;
 
+    case SocketEvents.CHANNEL_CONVERTED:
+        handleChannelConvertedEvent(msg);
+        break;
+
     case SocketEvents.CHANNEL_UPDATED:
         handleChannelUpdatedEvent(msg);
         break;
@@ -294,6 +303,11 @@ function handleEvent(msg) {
 
     default:
     }
+}
+
+function handleChannelConvertedEvent(msg) {
+    const channelId = msg.data.channel_id;
+    dispatch(getChannel(channelId));
 }
 
 function handleChannelUpdatedEvent(msg) {

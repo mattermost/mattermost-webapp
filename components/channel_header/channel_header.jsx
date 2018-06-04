@@ -15,13 +15,9 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
 
-import MessageWrapper from 'components/message_wrapper.jsx';
+import Markdown from 'components/markdown';
 import {Constants, NotificationLevels, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
-import messageHtmlToComponent from 'utils/message_html_to_component';
-import * as TextFormatting from 'utils/text_formatting.jsx';
-import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -48,6 +44,8 @@ import Pluggable from 'plugins/pluggable';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
+const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
+
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 export default class ChannelHeader extends React.Component {
@@ -73,7 +71,6 @@ export default class ChannelHeader extends React.Component {
         dmUser: PropTypes.object,
         dmUserStatus: PropTypes.object,
         dmUserIsInCall: PropTypes.bool,
-        enableFormatting: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool,
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates)
@@ -308,7 +305,6 @@ export default class ChannelHeader extends React.Component {
 
         const channel = this.props.channel;
 
-        const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
         const popoverContent = (
             <Popover
                 id='header-popover'
@@ -319,9 +315,9 @@ export default class ChannelHeader extends React.Component {
                 onMouseOver={this.handleOnMouseOver}
                 onMouseOut={this.handleOnMouseOut}
             >
-                <MessageWrapper
+                <Markdown
                     message={channel.header}
-                    options={textFormattingOptions}
+                    options={headerMarkdownOptions}
                 />
             </Popover>
         );
@@ -840,35 +836,6 @@ export default class ChannelHeader extends React.Component {
 
         let headerTextContainer;
         if (channel.header) {
-            let headerTextElement;
-            const formattedText = TextFormatting.formatText(channel.header, textFormattingOptions);
-            if (this.props.enableFormatting) {
-                headerTextElement = (
-                    <div
-                        id='channelHeaderDescription'
-                        className='channel-header__description'
-                    >
-                        {dmHeaderIconStatus}
-                        {dmHeaderTextStatus}
-                        <span onClick={Utils.handleFormattedTextClick}>
-                            {messageHtmlToComponent(formattedText, false, {mentions: false})}
-                        </span>
-                    </div>
-                );
-            } else {
-                headerTextElement = (
-                    <div
-                        id='channelHeaderDescription'
-                        onClick={Utils.handleFormattedTextClick}
-                        className='channel-header__description light'
-                    >
-                        {dmHeaderIconStatus}
-                        {dmHeaderTextStatus}
-                        {channel.header}
-                    </div>
-                );
-            }
-
             headerTextContainer = (
                 <OverlayTrigger
                     trigger={'click'}
@@ -877,7 +844,19 @@ export default class ChannelHeader extends React.Component {
                     overlay={popoverContent}
                     ref='headerOverlay'
                 >
-                    {headerTextElement}
+                    <div
+                        id='channelHeaderDescription'
+                        className='channel-header__description'
+                    >
+                        {dmHeaderIconStatus}
+                        {dmHeaderTextStatus}
+                        <span onClick={Utils.handleFormattedTextClick}>
+                            <Markdown
+                                message={channel.header}
+                                options={headerMarkdownOptions}
+                            />
+                        </span>
+                    </div>
                 </OverlayTrigger>
             );
         } else {

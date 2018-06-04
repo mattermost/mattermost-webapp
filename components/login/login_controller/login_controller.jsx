@@ -32,8 +32,6 @@ export default class LoginController extends React.Component {
     static get propTypes() {
         return {
             location: PropTypes.object.isRequired,
-
-            customBrand: PropTypes.bool.isRequired,
             isLicensed: PropTypes.bool.isRequired,
 
             customBrandText: PropTypes.string,
@@ -266,9 +264,7 @@ export default class LoginController extends React.Component {
     }
 
     createCustomLogin() {
-        if (this.props.isLicensed &&
-                this.props.customBrand &&
-                this.props.enableCustomBrand) {
+        if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
 
@@ -628,7 +624,6 @@ export default class LoginController extends React.Component {
     render() {
         const {
             customDescriptionText,
-            isLicensed,
             siteName,
         } = this.props;
 
@@ -666,7 +661,6 @@ export default class LoginController extends React.Component {
                         <div className='signup__content'>
                             <SiteNameAndDescription
                                 customDescriptionText={customDescriptionText}
-                                isLicensed={isLicensed}
                                 siteName={siteName}
                             />
                             {content}

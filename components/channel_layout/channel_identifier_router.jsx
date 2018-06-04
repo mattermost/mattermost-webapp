@@ -215,6 +215,7 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
         match: PropTypes.shape({
             params: PropTypes.shape({
                 identifier: PropTypes.string.isRequired,
+                team: PropTypes.string.isRequired,
             }).isRequired,
         }).isRequired,
     }
@@ -226,7 +227,8 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.params.identifier !== nextProps.match.params.identifier) {
+        if (this.props.match.params.team !== nextProps.match.params.team ||
+            this.props.match.params.identifier !== nextProps.match.params.identifier) {
             onChannelByIdentifierEnter(nextProps);
         }
     }

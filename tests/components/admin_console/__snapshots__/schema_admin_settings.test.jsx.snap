@@ -516,7 +516,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         value=""
       />
       <component
+        disabled={false}
+        id="custom"
         key="Config_userautocomplete_custom"
+        onChange={[Function]}
+        setByEnv={false}
+        value=""
       />
       <Connect(InjectIntl(JobTable))
         createJobButtonText={

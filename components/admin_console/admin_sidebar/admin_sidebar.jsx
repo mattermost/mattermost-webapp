@@ -246,22 +246,6 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
-        let customBranding = null;
-
-        if (this.props.license.IsLicensed === 'true') {
-            customBranding = (
-                <AdminSidebarSection
-                    name='custom_brand'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.customBrand'
-                            defaultMessage='Custom Branding'
-                        />
-                    }
-                />
-            );
-        }
-
         let otherCategory = null;
         if (license || audits) {
             otherCategory = (
@@ -727,7 +711,15 @@ export default class AdminSidebar extends React.Component {
                                     />
                                 }
                             >
-                                {customBranding}
+                                <AdminSidebarSection
+                                    name='custom_brand'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.customBrand'
+                                            defaultMessage='Custom Branding'
+                                        />
+                                    }
+                                />
                                 {announcement}
                                 <AdminSidebarSection
                                     name='emoji'
@@ -740,11 +732,11 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='link_previews'
+                                    name='posts'
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.linkPreviews'
-                                            defaultMessage='Link Previews'
+                                            id='admin.sidebar.posts'
+                                            defaultMessage='Posts'
                                         />
 
                                     }
