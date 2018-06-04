@@ -28,6 +28,10 @@ export function getSiteURL() {
     return window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
 }
 
+export function getRelativeChannelURL(teamName, channelName) {
+    return `/${teamName}/channels/${channelName}`;
+}
+
 export function isUrlSafe(url) {
     let unescaped;
 
