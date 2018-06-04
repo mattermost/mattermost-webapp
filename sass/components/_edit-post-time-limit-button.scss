@@ -1,7 +1,24 @@
 .edit-post-time-limit-button {
-    border-radius: 4px;
-    border-color: #333;
+    @include single-transition(all, .15s, ease);
+    border-radius: $border-rad;
+
+    i {
+        @include single-transition(all, .15s, ease);
+        color: #777;
+        margin-right: 4px;
+    }
+
     span {
         display: inline !important;
+    }
+
+    &:hover {
+        background: $primary-color;
+        border-color: $primary-color;
+        color: $white;
+
+        i {
+            color: $white;
+        }
     }
 }

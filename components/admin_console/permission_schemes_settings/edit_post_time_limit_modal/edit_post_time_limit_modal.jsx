@@ -95,7 +95,7 @@ export default class EditPostTimeLimitModal extends React.Component {
                         id='edit_post.time_limit_modal.description'
                         defaultMessage='Setting a time limit applies to all users who have the "Edit Post" permissions in any permission scheme.'
                     />
-                    <div>
+                    <div className='padding-top x2'>
                         <input
                             id='anytime'
                             type='radio'
@@ -128,6 +128,7 @@ export default class EditPostTimeLimitModal extends React.Component {
                         </label>
                         <input
                             type='number'
+                            className='form-control inline small'
                             min='0'
                             step='1'
                             max={INT32_MAX}
@@ -143,10 +144,12 @@ export default class EditPostTimeLimitModal extends React.Component {
                             />
                         </label>
                     </div>
-                    <FormattedMessage
-                        id='edit_post.time_limit_modal.subscript'
-                        defaultMessage='Set the length of time users have to edit their messages after posting.'
-                    />
+                    <div className='padding-top x2'>
+                        <FormattedMessage
+                            id='edit_post.time_limit_modal.subscript'
+                            defaultMessage='Set the length of time users have to edit their messages after posting.'
+                        />
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='edit-post-time-limit-modal__error'>

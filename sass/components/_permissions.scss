@@ -17,13 +17,15 @@
 }
 
 .permissions-block {
-    border: $border-gray;
+    @include border-radius($border-rad);
+    @include box-shadow(0 1px 2px 0 alpha-color($black, .5));
+    @include clearfix;
     font-size: .95em;
     margin: 2em 0;
     padding: 0;
 
-    &.simple {
-    }
+    // &.simple {
+    // }
 
     .more-schemes {
         width: 100%;
@@ -33,9 +35,9 @@
     }
 
     .header {
+        cursor: pointer;
         align-items: center;
         background: $white;
-        cursor: pointer;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -146,7 +148,7 @@
         align-items: center;
         display: flex;
         justify-content: space-around;
-        margin: 4px;
+        margin: 5px 7px 4px 6px;
         min-height: 10px;
         min-width: 10px;
         transition: transform 300ms;
@@ -155,6 +157,7 @@
             transform: rotate(90deg);
             transform-origin: 55% 50%;
             transition: transform 300ms;
+            margin-top: 6px
         }
     }
 
@@ -204,7 +207,7 @@
     .permission-group {
         .permission-group-row {
             .permission-name {
-                min-width: 272px;
+                min-width: 268px;
             }
         }
 
@@ -227,14 +230,14 @@
             }
 
             .permission-group-row {
-                padding: 0 0 0 30px;
+                padding: 0 0 0 25px;
 
                 &.combined {
                     padding: 0 0 0 48px;
                 }
 
                 .permission-name {
-                    min-width: 242px;
+                    min-width: 244px;
                 }
             }
 
@@ -243,7 +246,7 @@
                     padding: 0 0 0 78px;
 
                     .permission-name {
-                        min-width: 212px;
+                        min-width: 213px;
                     }
                 }
 
@@ -303,7 +306,6 @@
 .permissions-scheme-summary {
     margin: 0 20px;
     padding: 10px 20px 0 20px;
-    min-height: 110px;
     border-left: 2px solid $transparent;
     cursor: pointer;
     &:nth-child(2) {
@@ -337,17 +339,20 @@
         }
     }
     .permissions-scheme-summary--teams {
-        padding-top: 30px;
+        padding: 1.5em 0 0.5em;
+
         .team {
             margin-bottom: 10px;
             height: 25px;
             display: inline-flex;
             background: rgba(0, 0, 0, 0.05);
             border-radius: 13px;
-            padding: 5px 8px;
+            padding: 0 8px;
             margin-right: 10px;
             align-items: center;
             justify-content: center;
+            font-size: 11px;
+            color: alpha-color($black, .6);
         }
     }
 }

@@ -91,3 +91,14 @@
         }
     }
 }
+
+.form-control {
+    &.inline {
+        display: inline-block;
+        width: auto;
+    }
+
+    &.small {
+        height: 29px;
+    }
+}
