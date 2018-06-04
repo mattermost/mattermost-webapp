@@ -12,6 +12,11 @@ export default class PostMarkdown extends React.PureComponent {
     static propTypes = {
 
         /*
+         * Any extra props that should be passed into the MarkdownImage component
+         */
+        imageProps: PropTypes.object,
+
+        /*
          * Whether or not this text is part of the RHS
          */
         isRHS: PropTypes.bool,
@@ -44,6 +49,7 @@ export default class PostMarkdown extends React.PureComponent {
 
         return (
             <Markdown
+                imageProps={this.props.imageProps}
                 isRHS={this.props.isRHS}
                 message={this.props.message}
                 proxyImages={proxyImages}

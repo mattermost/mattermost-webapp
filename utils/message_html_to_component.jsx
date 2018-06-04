@@ -15,6 +15,7 @@ import PostEmoji from 'components/post_emoji';
  * - mentions - If specified, mentions are replaced with the AtMention component. Defaults to true.
  * - emoji - If specified, emoji text is replaced with the PostEmoji component. Defaults to true.
  * - images - If specified, markdown images are replaced with the MarkdownImage component. Defaults to true.
+ * - imageProps - If specified, any extra props that should be passed into the MarkdownImage component.
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
@@ -76,10 +77,12 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     class: className,
                     ...attribs
                 } = node.attribs;
+
                 const callMarkdownImage = (
                     <MarkdownImage
                         className={className}
                         {...attribs}
+                        {...options.imageProps}
                     />
                 );
                 return callMarkdownImage;
