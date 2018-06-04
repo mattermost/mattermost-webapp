@@ -1,11 +1,13 @@
 .edit-post-time-limit-button {
     @include single-transition(all, .15s, ease);
-    border-radius: $border-rad;
+    color: #5B6672;
+    border-color: #5B6672;
+    border-radius: $border-rad*2;
+    height: 26px;
+    padding: 0 8px;
 
     i {
-        @include single-transition(all, .15s, ease);
-        color: #777;
-        margin-right: 4px;
+        margin-right: 8px;
     }
 
     span {
@@ -16,9 +18,5 @@
         background: $primary-color;
         border-color: $primary-color;
         color: $white;
-
-        i {
-            color: $white;
-        }
     }
 }
