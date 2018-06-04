@@ -383,11 +383,21 @@
     display: flex;
     flex-grow: 1;
     align-items: center;
+
     .icon {
-        flex-grow: 0;
-        height: 43px;
-        width: 43px;
-        display: block;
+        @include border-radius(4px);
+        background-color: $primary-color;
+        color: $white;
+        font-weight: bold;
+        height: 44px;
+        letter-spacing: -.5px;
+        line-height: 42px;
+        position: relative;
+        text-align: center;
+        text-transform: capitalize;
+        vertical-align: top;
+        width: 44px;
+
         .team-btn__image {
             border-radius: 4px;
             overflow: hidden;
@@ -397,16 +407,7 @@
             height: 100%;
             width: 100%;
         }
-        .team-btn__initials {
-            height: 100%;
-            width: 100%;
-            background: $gray;
-            color: $white;
-            height: 100%;
-            width: 100%;
-            border-radius: 4px;
-            padding: 4px;
-        }
+
         .team-btn__content {
             bottom: 4px;
             font-size: 8.5px;
