@@ -2932,7 +2932,7 @@
   "suggestion.search.private": "Private Channels",
   "suggestion.search.public": "Public Channels",
   "system_notice.adminVisible": "Only visible to System Admins",
-  "system_notice.body.api3": "If you’ve created or installed integrations in the last two years, find out how <a href=\"https://about.mattermost.com/default-apiv3-deprecation-guide\" target=\"_blank\">upcoming changes</a> may affect them.",
+  "system_notice.body.api3": "If you’ve created or installed integrations in the last two years, find out how <a href=\"https://about.mattermost.com/default-apiv3-deprecation-guide\" target=\"_blank\">recent changes</a> may have affected them.",
   "system_notice.dont_show": "Don't show again",
   "system_notice.remind_me": "Remind me later",
   "system_notice.title": "<strong>Notice</strong><br>from Mattermost",
