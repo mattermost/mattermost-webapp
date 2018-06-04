@@ -11,14 +11,6 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import MoreChannels from './more_channels.jsx';
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getChannels,
-        }, dispatch),
-    };
-}
-
 function mapStateToProps(state) {
     const team = getCurrentTeam(state) || {};
 
@@ -26,6 +18,14 @@ function mapStateToProps(state) {
         channels: getOtherChannels(state) || [],
         teamId: team.id,
         teamName: team.name,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getChannels,
+        }, dispatch),
     };
 }
 
