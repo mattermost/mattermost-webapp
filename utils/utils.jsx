@@ -1144,10 +1144,6 @@ export function getDisplayNameByUserId(userId, usernameWithPrefix = false) {
     return getDisplayNameByUser(UserStore.getProfile(userId), usernameWithPrefix);
 }
 
-export function getDisplayNameByUsername(username, usernameWithPrefix = false) {
-    return getDisplayNameByUser(UserStore.getProfileByUsername(username), usernameWithPrefix);
-}
-
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
