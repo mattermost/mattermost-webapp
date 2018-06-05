@@ -3,11 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import TeamStore from 'stores/team_store.jsx';
-import { localizeMessage } from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import ChannelSelect from 'components/channel_select.jsx';
 import FormError from 'components/form_error.jsx';
@@ -159,7 +159,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
             description: this.state.description,
         };
 
-        this.props.action(hook).then(() => this.setState({ saving: false }));
+        this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
     updateDisplayName = (e) => {
