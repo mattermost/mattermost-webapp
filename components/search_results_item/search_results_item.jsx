@@ -251,7 +251,7 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             rhsControls = (
-                <div className='col__controls'>
+                <div className='col__controls col__reply'>
                     <DotMenu
                         idPrefix={Constants.SEARCH_POST}
                         idCount={this.props.lastPostCount}

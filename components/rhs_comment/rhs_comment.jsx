@@ -387,7 +387,7 @@ export default class RhsComment extends React.Component {
 
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
             react = (
-                <span>
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         onHide={this.toggleEmojiPicker}
@@ -410,7 +410,7 @@ export default class RhsComment extends React.Component {
                             <EmojiIcon className='icon icon--emoji'/>
                         </button>
                     </ChannelPermissionGate>
-                </span>
+                </div>
             );
         }
 

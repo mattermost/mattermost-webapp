@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .dropdown-menu {
-    border-radius: $border-rad;
+    @include border-radius(4px);
 
     &.colorpicker {
         min-width: 125px;

@@ -98,7 +98,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             />
           </div>
           <div
-            className="col__controls"
+            className="col__controls col__reply"
           >
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
@@ -288,7 +288,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             />
           </div>
           <div
-            className="col__controls"
+            className="col__controls col__reply"
           >
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}

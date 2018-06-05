@@ -16,52 +16,45 @@
             padding-top: 15px;
 
             .team-container {
-                display: table;
-                margin-bottom: 10px;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 16px;
                 position: relative;
                 text-align: center;
                 width: 100%;
 
                 a {
+                    @include opacity(.7);
                     display: block;
-                    margin-left: 11px;
+                    height: 100%;
                     text-decoration: none;
                 }
 
+                &.active {
+                    a {
+                        @include opacity(1);
+                    }
+                }
+
                 button {
-                    text-decoration: none;
-                    padding: 0;
                     border: none;
+                    padding: 0;
+                    text-decoration: none;
                 }
 
                 .team-btn {
                     @include border-radius(4px);
                     background-color: alpha-color($black, .3);
                     border: 1px solid alpha-color($white, .2);
-                    display: table-cell;
-                    font-size: 12px;
                     font-weight: bold;
-                    height: 43px;
-                    line-height: 1.3;
+                    height: 44px;
+                    letter-spacing: -.5px;
+                    line-height: 42px;
                     position: relative;
                     text-align: center;
+                    text-transform: capitalize;
                     vertical-align: top;
-                    width: 43px;
-
-                    .team-btn__initials {
-                        margin: 7px 5px 0;
-                        text-align: left;
-                    }
-
-                    .team-btn__content {
-                        bottom: 4px;
-                        font-size: 8.5px;
-                        font-weight: normal;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        width: 31px;
-                    }
+                    width: 44px;
 
                     .team-btn__image {
                         @include border-radius(4px);
@@ -84,6 +77,8 @@
                     }
 
                     &.team-btn__add {
+                        font-size: 25px;
+                        line-height: 41px;
                         vertical-align: middle;
                     }
                 }

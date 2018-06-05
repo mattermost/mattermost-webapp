@@ -1171,7 +1171,7 @@
     .post__header {
         display: flex;
         margin-bottom: 2px;
-        padding: 0 50px 0 0;
+        padding: 0 70px 0 0;
         white-space: nowrap;
         width: 100%;
 
@@ -1201,14 +1201,80 @@
         }
 
         .col__reply {
+            @include border-radius(4px);
             border: 1px solid transparent;
-            border-radius: 2px;
-            padding: 2px 5px 2px 6px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 4px;
             position: absolute;
             right: 0;
             top: -4px;
             white-space: normal;
             z-index: 6;
+
+            > div,
+            > button {
+                @include border-radius(4px);
+                display: flex;
+                flex: 1;
+                height: 24px;
+                top: 0;
+                width: 24px;
+            }
+
+            .comment-icon__container {
+                flex: 0;
+                justify-content: flex-end;
+                padding: 0 4px 0 0;
+                width: auto;
+            }
+
+            .dropdown {
+                > div {
+                    display: flex;
+                    flex: 1;
+                    justify-content: center;
+                }
+            }
+
+            .reacticon__container,
+            .icon {
+                display: flex;
+                flex: 1;
+                margin: 0;
+                top: 0;
+            }
+
+            .reacticon__container {
+                width: 28px;
+            }
+
+            &:hover {
+                @include border-radius(4px);
+                background: #f1f1f1;
+            }
+
+            > .open, > div {
+                display: flex;
+                flex: 1;
+                justify-content: center;
+            }
+
+            span {
+                svg {
+                    flex: 1;
+                    height: 16px;
+                    top: 0;
+                    width: 16px;
+                }
+            }
+
+            svg {
+                flex: 1;
+                height: 16px;
+                top: 0;
+                width: 16px;
+            }
 
             &.dot_small {
                 min-width: auto !important;
@@ -1276,7 +1342,6 @@
 
     .dropdown {
         display: inline-block;
-        margin-right: 5px;
         top: -1px;
         vertical-align: middle;
         visibility: hidden;
@@ -1303,13 +1368,18 @@
     }
 
     .post__dropdown {
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
         vertical-align: middle;
+        width: 100%;
 
         &:after {
-            content: '[...]';
+            content: '...';
             font-family: 'Open Sans', sans-serif;
             position: relative;
             top: -1px;
+            width: 100%;
         }
     }
 
@@ -1599,6 +1669,7 @@
         display: inline-block;
         fill: $primary-color;
         position: relative;
+        text-decoration: none;
         top: 1px;
         visibility: hidden;
 
