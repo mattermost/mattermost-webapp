@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {makeUserChannelAdmin, makeUserChannelMember, removeUserFromChannel} from 'actions/channel_actions.jsx';
+import {removeUserFromChannel} from 'actions/channel_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -21,6 +21,7 @@ export default class ChannelMembersDropdown extends React.Component {
         canRemoveMember: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired,
+            updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -57,35 +58,27 @@ export default class ChannelMembersDropdown extends React.Component {
         );
     }
 
-    handleMakeChannelMember = () => {
-        makeUserChannelMember(
-            this.props.channel.id,
-            this.props.user.id,
-            () => {
-                this.props.actions.getChannelStats(this.props.channel.id);
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+    handleMakeChannelMember = async () => {
+        const {error} = await this.props.actions.updateChannelMemberSchemeRoles(this.props.channel.id, this.props.user.id, true, false);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.props.actions.getChannelStats(this.props.channel.id);
+        }
     }
 
-    handleMakeChannelAdmin = () => {
-        makeUserChannelAdmin(
-            this.props.channel.id,
-            this.props.user.id,
-            () => {
-                this.props.actions.getChannelStats(this.props.channel.id);
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+    handleMakeChannelAdmin = async () => {
+        const {error} = await this.props.actions.updateChannelMemberSchemeRoles(this.props.channel.id, this.props.user.id, true, true);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.props.actions.getChannelStats(this.props.channel.id);
+        }
     }
 
     render() {
         const supportsChannelAdmin = this.props.isLicensed;
-        const isChannelAdmin = supportsChannelAdmin && Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles);
+        const isChannelAdmin = supportsChannelAdmin && (Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles) || this.props.channelMember.scheme_admin);
 
         let serverError = null;
         if (this.state.serverError) {
