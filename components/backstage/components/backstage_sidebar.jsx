@@ -7,8 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import * as Utils from 'utils/utils.jsx';
-
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
@@ -25,11 +23,12 @@ export default class BackstageSidebar extends React.Component {
             enableOutgoingWebhooks: PropTypes.bool.isRequired,
             enableCommands: PropTypes.bool.isRequired,
             enableOAuthServiceProvider: PropTypes.bool.isRequired,
+            canCreateCustomEmoji: PropTypes.bool.isRequired,
         };
     }
 
     renderCustomEmoji() {
-        if (!this.props.enableCustomEmoji || !Utils.canCreateCustomEmoji(this.props.user)) {
+        if (!this.props.enableCustomEmoji || !this.props.canCreateCustomEmoji) {
             return null;
         }
 

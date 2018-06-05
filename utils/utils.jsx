@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {
     blendColors,
@@ -1402,34 +1401,6 @@ export function mod(a, b) {
 }
 
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
-
-export function canCreateCustomEmoji(user) {
-    const state = store.getState();
-    const license = getLicense(state);
-    const config = getConfig(state);
-
-    if (license.IsLicensed !== 'true') {
-        return true;
-    }
-
-    if (isSystemAdmin(user.roles)) {
-        return true;
-    }
-
-    // already checked for system admin for both these cases
-    if (config.RestrictCustomEmojiCreation === 'system_admin') {
-        return false;
-    } else if (config.RestrictCustomEmojiCreation === 'admin') {
-        // check whether the user is an admin on any of their teams
-        if (TeamStore.isTeamAdminForAnyTeam()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    return true;
-}
 
 export function getPasswordConfig(config) {
     return {
