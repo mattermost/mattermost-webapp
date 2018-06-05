@@ -1151,6 +1151,7 @@
     }
 
     .post__content {
+        @include clearfix;
         display: table;
         margin: 0 auto;
         padding: 0 5px;
@@ -1249,10 +1250,6 @@
                 width: 28px;
             }
 
-            &:hover {
-                @include border-radius(4px);
-                background: #f1f1f1;
-            }
 
             > .open, > div {
                 display: flex;
@@ -1814,7 +1811,6 @@
 }
 
 .post-message {
-    overflow-y: hidden;
     position: relative;
 }
 
