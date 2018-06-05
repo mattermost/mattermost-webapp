@@ -315,7 +315,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help1'
-                                        defaultMessage='Choose the content type by which the response will be sent.'
+                                        defaultMessage='Choose the content type by which the request will be sent.'
                                     />
                                 </div>
                                 <div className='form__help'>
