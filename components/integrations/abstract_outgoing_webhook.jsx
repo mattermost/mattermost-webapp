@@ -3,11 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import TeamStore from 'stores/team_store.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import { localizeMessage } from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import ChannelSelect from 'components/channel_select.jsx';
 import FormError from 'components/form_error.jsx';
@@ -159,7 +159,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
             description: this.state.description,
         };
 
-        this.props.action(hook).then(() => this.setState({saving: false}));
+        this.props.action(hook).then(() => this.setState({ saving: false }));
     }
 
     updateDisplayName = (e) => {
@@ -321,13 +321,13 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help2'
-                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server assumes you will be encoding the parameters in a URL format.'
+                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server will encode the parameters in a URL format in the request body.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help3'
-                                        defaultMessage='If application/json is chosen, the server assumes you will posting JSON data.'
+                                        defaultMessage='If application/json is chosen, the server will format the request body as JSON.'
                                     />
                                 </div>
                             </div>
