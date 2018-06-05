@@ -784,6 +784,10 @@
             }
         }
 
+        .post-message {
+            overflow: initial;
+        }
+
         .post-message--collapsed + .post-image__columns {
             &:before {
                 content: '';
@@ -1509,6 +1513,8 @@
 
         .post-reaction-list {
             min-height: 30px;
+            position: relative;
+            z-index: 5;
 
             .post-add-reaction-emoji-picker-open {
                 display: inline-block;
@@ -1812,6 +1818,7 @@
 
 .post-message {
     position: relative;
+    overflow-y: hidden;
 }
 
 .post-collapse {
