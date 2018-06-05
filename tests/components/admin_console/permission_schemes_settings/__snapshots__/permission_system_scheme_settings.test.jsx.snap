@@ -7,9 +7,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -242,9 +241,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -252,7 +250,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
       onClick={[Function]}
@@ -650,9 +648,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -660,7 +657,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
       onClick={[Function]}
@@ -770,9 +767,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -987,9 +983,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -997,7 +992,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
       onClick={[Function]}

@@ -8,6 +8,8 @@ import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
+
 import PermissionSystemSchemeSettings from './permission_system_scheme_settings.jsx';
 
 function mapStateToProps(state) {
@@ -22,6 +24,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             loadRolesIfNeeded,
             editRole,
+            setNavigationBlocked,
         }, dispatch),
     };
 }

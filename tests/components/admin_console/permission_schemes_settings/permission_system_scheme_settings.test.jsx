@@ -38,6 +38,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         actions: {
             loadRolesIfNeeded: jest.fn().mockReturnValue(Promise.resolve()),
             editRole: jest.fn(),
+            setNavigationBlocked: jest.fn(),
         },
     };
 

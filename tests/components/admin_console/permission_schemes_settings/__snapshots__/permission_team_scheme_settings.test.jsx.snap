@@ -7,9 +7,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -319,9 +318,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -329,7 +327,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >
@@ -372,9 +370,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -671,9 +668,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -681,7 +677,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >
@@ -717,9 +713,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -1029,9 +1024,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -1039,7 +1033,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >
@@ -1092,9 +1086,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -1391,9 +1384,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -1401,7 +1393,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >

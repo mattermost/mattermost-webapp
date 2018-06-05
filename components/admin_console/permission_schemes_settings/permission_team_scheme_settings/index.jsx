@@ -10,7 +10,10 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getScheme, makeGetSchemeTeams} from 'mattermost-redux/selectors/entities/schemes';
 
 import {getScheme as loadScheme, patchScheme, createScheme, getSchemeTeams as loadSchemeTeams} from 'mattermost-redux/actions/schemes';
+
 import {updateTeamScheme} from 'mattermost-redux/actions/teams';
+
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
 import PermissionTeamSchemeSettings from './permission_team_scheme_settings.jsx';
 
@@ -39,6 +42,7 @@ function mapDispatchToProps(dispatch) {
             patchScheme,
             updateTeamScheme,
             createScheme,
+            setNavigationBlocked,
         }, dispatch),
     };
 }
