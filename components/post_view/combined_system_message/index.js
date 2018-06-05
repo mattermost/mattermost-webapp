@@ -4,21 +4,27 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesByIds, getProfilesByUsernames} from 'mattermost-redux/actions/users';
+
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import CombinedSystemMessage from './combined_system_message.jsx';
 
 function mapStateToProps(state) {
+    const currentUser = getCurrentUser(state);
     return {
-        currentUserId: getCurrentUserId(state),
+        currentUserId: currentUser.id,
+        currentUsername: currentUser.username,
+        teammateNameDisplay: getTeammateNameDisplaySetting(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getMissingProfilesByIds,
+            getProfilesByIds,
+            getProfilesByUsernames,
         }, dispatch),
     };
 }

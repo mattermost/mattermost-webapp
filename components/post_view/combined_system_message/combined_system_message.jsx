@@ -3,14 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, intlShape} from 'react-intl';
 
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {Posts} from 'mattermost-redux/constants';
-
-import {
-    getDisplayNameByUserId,
-    localizeMessage,
-} from 'utils/utils.jsx';
 
 import LastUsers from './last_users';
 
@@ -152,58 +148,119 @@ const postTypeMessage = {
 
 export default class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        messageData: PropTypes.array.isRequired,
         allUserIds: PropTypes.array.isRequired,
+        allUsernames: PropTypes.array.isRequired,
+        currentUserId: PropTypes.string.isRequired,
+        currentUsername: PropTypes.string.isRequired,
+        messageData: PropTypes.array.isRequired,
+        teammateNameDisplay: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            getMissingProfilesByIds: PropTypes.func.isRequired,
+            getProfilesByIds: PropTypes.func.isRequired,
+            getProfilesByUsernames: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static defaultProps = {
+        allUserIds: [],
+        allUsernames: [],
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            missingProfiles: [],
+            userProfiles: [],
         };
     }
 
     componentDidMount() {
-        this.loadMissingProfiles();
+        this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
     }
 
-    loadMissingProfiles = async () => {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        if (this.props.allUserIds !== nextProps.allUserIds || this.props.allUsernames !== nextProps.allUsernames) {
+            this.loadUserProfiles(nextProps.allUserIds, nextProps.allUsernames);
+        }
+    }
+
+    loadUserProfiles = async (allUserIds, allUsernames) => {
+        const {actions} = this.props;
+        const userProfiles = [];
+        if (allUserIds.length > 0) {
+            const {data} = await actions.getProfilesByIds(allUserIds);
+            if (data.length > 0) {
+                userProfiles.push(...data);
+            }
+        }
+
+        if (allUsernames.length > 0) {
+            const {data} = await actions.getProfilesByUsernames(allUsernames);
+            if (data.length > 0) {
+                userProfiles.push(...data);
+            }
+        }
+
+        this.setState({userProfiles});
+    }
+
+    getAllUsersDisplayName = () => {
+        const {userProfiles} = this.state;
         const {
-            actions,
             allUserIds,
+            allUsernames,
+            currentUserId,
+            currentUsername,
+            teammateNameDisplay,
         } = this.props;
-        const missingProfiles = await actions.getMissingProfilesByIds(allUserIds);
-        this.setState({missingProfiles});
+        const {formatMessage} = this.context.intl;
+        const usersDisplayName = userProfiles.reduce((acc, user) => {
+            const displayName = displayUsername(user, teammateNameDisplay, true);
+            acc[user.id] = displayName;
+            acc[user.username] = displayName;
+            return acc;
+        }, {});
+
+        const currentUserDisplayName = formatMessage({id: 'combined_system_message.you', defaultMessage: 'You'});
+        if (allUserIds.includes(currentUserId)) {
+            usersDisplayName[currentUserId] = currentUserDisplayName;
+        } else if (allUsernames.includes(currentUsername)) {
+            usersDisplayName[currentUsername] = currentUserDisplayName;
+        }
+
+        return usersDisplayName;
     }
 
     getDisplayNameByIds = (userIds = []) => {
-        const {currentUserId} = this.props;
-
+        const {currentUserId, currentUsername} = this.props;
+        const usersDisplayName = this.getAllUsersDisplayName();
         const displayNames = userIds.
             filter((userId) => {
-                return userId !== currentUserId;
+                return userId !== currentUserId && userId !== currentUsername;
             }).
             map((userId) => {
-                return getDisplayNameByUserId(userId, true);
+                return usersDisplayName[userId];
+            }).filter((displayName) => {
+                return displayName && displayName !== '';
             });
 
-        const userInProp = userIds.includes(currentUserId);
-        if (userInProp) {
-            displayNames.unshift(localizeMessage('combined_system_message.you', 'You'));
+        if (userIds.includes(currentUserId)) {
+            displayNames.unshift(usersDisplayName[currentUserId]);
+        } else if (userIds.includes(currentUsername)) {
+            displayNames.unshift(usersDisplayName[currentUsername]);
         }
 
         return displayNames;
     }
 
     renderFormattedMessage(postType, userIds, actorId) {
+        const {currentUserId, currentUsername} = this.props;
         const userDisplayNames = this.getDisplayNameByIds(userIds);
         let actor = actorId ? this.getDisplayNameByIds([actorId])[0] : '';
-        if (actorId === this.props.currentUserId) {
+        if (actor && (actorId === currentUserId || actorId === currentUsername)) {
             actor = actor.toLowerCase();
         }
 
@@ -224,7 +281,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
             );
 
             if (
-                userIds[0] === this.props.currentUserId &&
+                (userIds[0] === this.props.currentUserId || userIds[0] === this.props.currentUsername) &&
                 postTypeMessage[postType].one_you
             ) {
                 formattedMessage = (
@@ -249,7 +306,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
                     }}
                 />
             );
-        } else {
+        } else if (numOthers > 1) {
             formattedMessage = (
                 <LastUsers
                     actor={actor}
