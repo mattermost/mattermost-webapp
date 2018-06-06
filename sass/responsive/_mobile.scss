@@ -388,6 +388,14 @@
                 min-width: 45px;
                 top: -6px;
                 z-index: auto;
+
+                > div {
+                    width: auto;
+                }
+
+                .reacticon__container {
+                    display: none;
+                }
             }
 
             .col__name {
