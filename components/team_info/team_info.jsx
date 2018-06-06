@@ -39,9 +39,6 @@ export default class TeamInList extends React.Component {
             icon = (
                 <div className='team-btn__initials'>
                     {team.display_name ? team.display_name.replace(/\s/g, '').substring(0, 2) : '??'}
-                    <div className='team-btn__content'>
-                        {team.display_name}
-                    </div>
                 </div>
             );
         }

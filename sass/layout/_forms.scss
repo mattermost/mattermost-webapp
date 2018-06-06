@@ -91,3 +91,16 @@
         }
     }
 }
+
+.form-control {
+    &.inline {
+        display: inline-block;
+        width: auto;
+    }
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    background-color: #f9f9f9;
+}
