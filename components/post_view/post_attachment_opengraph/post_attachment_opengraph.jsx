@@ -290,7 +290,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             }
 
             body = (
-                <div>
+                <React.Fragment>
                     <div className={'attachment__body attachment__body--opengraph'}>
                         <div>
                             <div>
@@ -301,7 +301,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             {this.imageTag(imageUrl, true)}
                         </div>
                     </div>
-                </div>
+                </React.Fragment>
             );
         }
 
