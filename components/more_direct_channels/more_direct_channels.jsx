@@ -48,6 +48,7 @@ export default class MoreDirectChannels extends React.Component {
         actions: PropTypes.shape({
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired,
+            getStatusesByIds: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
@@ -83,6 +84,7 @@ export default class MoreDirectChannels extends React.Component {
 
     componentDidMount() {
         this.getUserProfiles();
+        this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -108,6 +110,23 @@ export default class MoreDirectChannels extends React.Component {
                     Constants.SEARCH_TIMEOUT_MILLISECONDS
                 );
             }
+        }
+
+        if (
+            this.props.users.length !== nextProps.users.length ||
+            Object.keys(this.props.statuses).length !== Object.keys(nextProps.statuses).length
+        ) {
+            this.loadProfilesMissingStatus(nextProps.users, nextProps.statuses);
+        }
+    }
+
+    loadProfilesMissingStatus = (users = [], statuses = {}) => {
+        const missingStatusByIds = users.
+            filter((user) => !statuses[user.id]).
+            map((user) => user.id);
+
+        if (missingStatusByIds.length > 0) {
+            this.props.actions.getStatusesByIds(missingStatusByIds);
         }
     }
 
@@ -282,7 +301,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmitImmediatelyOn = (value) => {
-        return value.id === this.props.currentUserId || value.delete_at;
+        return value.id === this.props.currentUserId || Boolean(value.delete_at);
     }
 
     render() {
