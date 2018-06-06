@@ -96,7 +96,9 @@ export default class TeamButton extends React.Component {
                 >
                     <div className={'team-btn ' + btnClass}>
                         {badge}
-                        {content}
+                        <div className='team-btn__content'>
+                            {content}
+                        </div>
                     </div>
                 </OverlayTrigger>
             );
