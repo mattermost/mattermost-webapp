@@ -55,15 +55,6 @@ export async function removeUserFromTeam(teamId, userId, success, error) {
     }
 }
 
-export async function updateTeamMemberRoles(teamId, userId, newRoles, success, error) {
-    const {data, error: err} = await TeamActions.updateTeamMemberRoles(teamId, userId, newRoles)(dispatch, getState);
-    if (data && success) {
-        success();
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export function addUserToTeamFromInvite(token, inviteId, success, error) {
     Client4.addToTeamFromInvite(token, inviteId).then(
         async (member) => {

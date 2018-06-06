@@ -43,6 +43,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <ManageTeamsModal
     onModalDismissed={[Function]}
     show={false}
+    updateTeamMemberSchemeRoles={[MockFunction]}
     user={null}
   />
   <Connect(ManageRolesModal)
@@ -178,6 +179,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <ManageTeamsModal
     onModalDismissed={[Function]}
     show={false}
+    updateTeamMemberSchemeRoles={[MockFunction]}
     user={null}
   />
   <Connect(ManageRolesModal)
@@ -343,6 +345,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <ManageTeamsModal
     onModalDismissed={[Function]}
     show={false}
+    updateTeamMemberSchemeRoles={[MockFunction]}
     user={null}
   />
   <Connect(ManageRolesModal)
