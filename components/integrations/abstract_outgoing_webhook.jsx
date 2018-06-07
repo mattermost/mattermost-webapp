@@ -315,19 +315,19 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help1'
-                                        defaultMessage='Choose the content type by which the response will be sent.'
+                                        defaultMessage='Choose the content type by which the request will be sent.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help2'
-                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server assumes you will be encoding the parameters in a URL format.'
+                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server will encode the parameters in a URL format in the request body.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help3'
-                                        defaultMessage='If application/json is chosen, the server assumes you will posting JSON data.'
+                                        defaultMessage='If application/json is chosen, the server will format the request body as JSON.'
                                     />
                                 </div>
                             </div>
