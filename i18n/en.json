@@ -605,7 +605,7 @@
   "admin.ldap.firstnameAttrDesc": "(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.",
   "admin.ldap.firstnameAttrEx": "E.g.: \"givenName\"",
   "admin.ldap.firstnameAttrTitle": "First Name Attribute:",
-  "admin.ldap.idAttrDesc": "The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user's ID Attribute changes, it will create a new Mattermost account unassociated with their old one.<br /><br />If you need to change this field after users have already logged in, use the <a href=\"https://about.mattermost.com/default-platform-ldap-idmigrate\" target='_blank'>platform ldap idmigrate</a> CLI tool.",
+  "admin.ldap.idAttrDesc": "The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user's ID Attribute changes, it will create a new Mattermost account unassociated with their old one.<br /><br />If you need to change this field after users have already logged in, use the <a href=\"https://about.mattermost.com/default-platform-ldap-idmigrate\" target='_blank'>mattermost ldap idmigrate</a> CLI tool.",
   "admin.ldap.idAttrEx": "E.g.: \"objectGUID\"",
   "admin.ldap.idAttrTitle": "ID Attribute: ",
   "admin.ldap.jobExtraInfo": "Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}",
