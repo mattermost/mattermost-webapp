@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {removeUserFromTeam, updateTeamMemberRoles} from 'actions/team_actions.jsx';
+import {removeUserFromTeam} from 'actions/team_actions.jsx';
 import {loadMyTeamMembers, updateActive} from 'actions/user_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -22,6 +22,7 @@ export default class TeamMembersDropdown extends React.Component {
             getUser: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
+            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -45,26 +46,20 @@ export default class TeamMembersDropdown extends React.Component {
         };
     }
 
-    handleMakeMember() {
+    async handleMakeMember() {
         const me = UserStore.getCurrentUser();
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user');
         } else {
-            updateTeamMemberRoles(
-                this.props.teamMember.team_id,
-                this.props.user.id,
-                'team_user',
-                () => {
-                    this.props.actions.getUser(this.props.user.id);
-
-                    if (this.props.user.id === me.id) {
-                        loadMyTeamMembers();
-                    }
-                },
-                (err) => {
-                    this.setState({serverError: err.message});
+            const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
+            if (error) {
+                this.setState({serverError: error.message});
+            } else {
+                this.props.actions.getUser(this.props.user.id);
+                if (this.props.user.id === me.id) {
+                    loadMyTeamMembers();
                 }
-            );
+            }
         }
     }
 
@@ -107,22 +102,17 @@ export default class TeamMembersDropdown extends React.Component {
         );
     }
 
-    handleMakeAdmin() {
+    async handleMakeAdmin() {
         const me = UserStore.getCurrentUser();
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user team_admin');
         } else {
-            updateTeamMemberRoles(
-                this.props.teamMember.team_id,
-                this.props.user.id,
-                'team_user team_admin',
-                () => {
-                    this.props.actions.getUser(this.props.user.id);
-                },
-                (err) => {
-                    this.setState({serverError: err.message});
-                }
-            );
+            const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, true);
+            if (error) {
+                this.setState({serverError: error.message});
+            } else {
+                this.props.actions.getUser(this.props.user.id);
+            }
         }
     }
 
@@ -146,25 +136,19 @@ export default class TeamMembersDropdown extends React.Component {
         });
     }
 
-    handleDemoteSubmit() {
-        updateTeamMemberRoles(
-            this.props.teamMember.team_id,
-            this.props.user.id,
-            this.state.newRole,
-            () => {
-                this.props.actions.getUser(this.props.user.id);
-
-                const teamUrl = TeamStore.getCurrentTeamUrl();
-                if (teamUrl) {
-                    browserHistory.push(teamUrl);
-                } else {
-                    browserHistory.push('/');
-                }
-            },
-            (err) => {
-                this.setState({serverError: err.message});
+    async handleDemoteSubmit() {
+        const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.props.actions.getUser(this.props.user.id);
+            const teamUrl = TeamStore.getCurrentTeamUrl();
+            if (teamUrl) {
+                browserHistory.push(teamUrl);
+            } else {
+                browserHistory.push('/');
             }
-        );
+        }
     }
 
     render() {
@@ -186,7 +170,7 @@ export default class TeamMembersDropdown extends React.Component {
             />
         );
 
-        if (teamMember.roles.length > 0 && Utils.isAdmin(teamMember.roles)) {
+        if ((teamMember.roles.length > 0 && Utils.isAdmin(teamMember.roles)) || teamMember.scheme_admin) {
             currentRoles = (
                 <FormattedMessage
                     id='team_members_dropdown.teamAdmin'
@@ -205,8 +189,8 @@ export default class TeamMembersDropdown extends React.Component {
         }
 
         const me = UserStore.getCurrentUser();
-        let showMakeMember = Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles);
-        let showMakeAdmin = !Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles);
+        let showMakeMember = (Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles)) || teamMember.scheme_admin;
+        let showMakeAdmin = !Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles) && !teamMember.scheme_admin;
         let showMakeActive = false;
         let showMakeNotActive = Utils.isSystemAdmin(user.roles);
 

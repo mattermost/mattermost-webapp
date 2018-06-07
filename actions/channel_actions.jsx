@@ -85,7 +85,7 @@ export function executeCommand(message, args, success, error) {
             return;
         } else if (
             channel.type === Constants.DM_CHANNEL ||
-            channel.type === Constants.GM_CHANNEL
+                channel.type === Constants.GM_CHANNEL
         ) {
             let name;
             let category;
@@ -167,24 +167,6 @@ export async function addUserToChannel(channelId, userId, success, error) {
 
 export async function removeUserFromChannel(channelId, userId, success, error) {
     const {data, error: err} = await ChannelActions.removeChannelMember(channelId, userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function makeUserChannelAdmin(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.updateChannelMemberRoles(channelId, userId, 'channel_user channel_admin')(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function makeUserChannelMember(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.updateChannelMemberRoles(channelId, userId, 'channel_user')(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

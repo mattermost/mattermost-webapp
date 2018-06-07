@@ -16,7 +16,6 @@ import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
@@ -37,6 +36,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
         enableCustomEmoji: PropTypes.bool.isRequired,
+        canCreateCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
@@ -213,7 +213,7 @@ export default class SidebarHeaderDropdown extends React.Component {
     }
 
     renderCustomEmojiLink() {
-        if (!this.props.enableCustomEmoji || !Utils.canCreateCustomEmoji(this.props.currentUser)) {
+        if (!this.props.enableCustomEmoji || !this.props.canCreateCustomEmoji) {
             return null;
         }
 

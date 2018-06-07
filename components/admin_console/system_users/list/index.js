@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getUser} from 'mattermost-redux/actions/users';
+import {updateTeamMemberSchemeRoles} from 'mattermost-redux/actions/teams';
 
 import SystemUsersList from './system_users_list.jsx';
 import {getUsers} from './selectors.jsx';
@@ -19,6 +20,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getUser,
+            updateTeamMemberSchemeRoles,
         }, dispatch),
     };
 }

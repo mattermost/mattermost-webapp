@@ -52,11 +52,6 @@ exports[`components/TeamInfo should match snapshot, without icon 1`] = `
       className="team-btn__initials"
     >
       Te
-      <div
-        className="team-btn__content"
-      >
-        Test team
-      </div>
     </div>
   </span>
   <div

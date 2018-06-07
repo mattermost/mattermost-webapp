@@ -3,7 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getProfiles, getProfilesInTeam, searchProfiles} from 'mattermost-redux/actions/users';
+import {
+    getProfiles,
+    getProfilesInTeam,
+    getStatusesByIds,
+    searchProfiles,
+} from 'mattermost-redux/actions/users';
 import {
     getCurrentUserId,
     getProfiles as selectProfiles,
@@ -62,6 +67,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getProfiles,
             getProfilesInTeam,
+            getStatusesByIds,
             searchProfiles,
             setModalSearchTerm,
         }, dispatch),
