@@ -784,10 +784,6 @@
             }
         }
 
-        .post-message {
-            overflow: initial;
-        }
-
         .post-message--collapsed + .post-image__columns {
             &:before {
                 content: '';
@@ -1155,7 +1151,6 @@
     }
 
     .post__content {
-        @include clearfix;
         display: table;
         margin: 0 auto;
         padding: 0 5px;

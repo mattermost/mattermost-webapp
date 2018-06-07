@@ -188,6 +188,15 @@
     .post {
         &.post--compact {
 
+            &.post--root {
+                .post-message {
+                    &.post-message--overflow {
+                        @include clearfix;
+                        margin-top: 22px;
+                    }
+                }
+            }
+
             .channel__wrap & {
                 .post__time {
                     font-size: .85em;
