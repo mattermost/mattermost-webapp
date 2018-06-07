@@ -6,7 +6,6 @@ import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {
-    getChannel,
     getChannelAndMyMember,
     getChannelStats,
     viewChannel,
@@ -19,6 +18,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -305,9 +305,18 @@ function handleEvent(msg) {
     }
 }
 
+// handleChannelConvertedEvent handles updating of channel which is converted from public to private
 function handleChannelConvertedEvent(msg) {
     const channelId = msg.data.channel_id;
-    dispatch(getChannel(channelId));
+    if (channelId) {
+        const channel = getChannel(getState(), channelId);
+        if (channel) {
+            dispatch({
+                type: ChannelTypes.RECEIVED_CHANNEL,
+                data: {...channel, type: General.PRIVATE_CHANNEL},
+            });
+        }
+    }
 }
 
 function handleChannelUpdatedEvent(msg) {
