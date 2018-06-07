@@ -25,6 +25,7 @@ describe('components/admin_console/system_users/list', () => {
         experimentalEnableAuthenticationTransfer: false,
         actions: {
             getUser: jest.fn(),
+            updateTeamMemberSchemeRoles: jest.fn(),
         },
     };
 

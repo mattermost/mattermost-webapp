@@ -156,7 +156,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         img.src = src;
     }
 
-    imageToggleAnchoreTag(imageUrl) {
+    imageToggleAnchorTag(imageUrl) {
         if (imageUrl && this.state.hasLargeImage) {
             return (
                 <a
@@ -282,6 +282,29 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             this.loadImage(imageUrl);
         }
 
+        let body;
+        if (data.description || imageUrl) {
+            let separator;
+            if (data.description && imageUrl) {
+                separator = ' &nbsp';
+            }
+
+            body = (
+                <React.Fragment>
+                    <div className={'attachment__body attachment__body--opengraph'}>
+                        <div>
+                            <div>
+                                {this.truncateText(data.description)}
+                                {separator}
+                                {this.imageToggleAnchorTag(imageUrl)}
+                            </div>
+                            {this.imageTag(imageUrl, true)}
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
+        }
+
         return (
             <div
                 className='attachment attachment--opengraph'
@@ -309,19 +332,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                                     {this.truncateText(data.title || data.url || this.props.link)}
                                 </a>
                             </h1>
-                            <div >
-                                <div
-                                    className={'attachment__body attachment__body--opengraph'}
-                                >
-                                    <div>
-                                        <div>
-                                            {this.truncateText(data.description)} &nbsp;
-                                            {this.imageToggleAnchoreTag(imageUrl)}
-                                        </div>
-                                        {this.imageTag(imageUrl, true)}
-                                    </div>
-                                </div>
-                            </div>
+                            {body}
                         </div>
                         {this.imageTag(imageUrl, false)}
                     </div>

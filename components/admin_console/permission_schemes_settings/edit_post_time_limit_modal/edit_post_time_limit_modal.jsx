@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants';
@@ -91,62 +91,67 @@ export default class EditPostTimeLimitModal extends React.Component {
                     </h4>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormattedMessage
+                    <FormattedHTMLMessage
                         id='edit_post.time_limit_modal.description'
-                        defaultMessage='Setting a time limit applies to all users who have the "Edit Post" permissions in any permission scheme.'
+                        defaultMessage='Setting a time limit <strong>applies to all users</strong> who have the "Edit Post" permissions in any permission scheme.'
                     />
-                    <div>
-                        <input
-                            id='anytime'
-                            type='radio'
-                            name='limit'
-                            value={Constants.ALLOW_EDIT_POST_ALWAYS}
-                            checked={this.state.postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT}
-                            onChange={this.handleOptionChange}
-                        />
-                        <label htmlFor='anytime'>
-                            <FormattedMessage
-                                id='edit_post.time_limit_modal.option_label_anytime'
-                                defaultMessage='Anytime'
+                    <div className='padding-left x2 padding-top padding-bottom'>
+                        <div className='padding-top x2'>
+                            <input
+                                id='anytime'
+                                type='radio'
+                                name='limit'
+                                value={Constants.ALLOW_EDIT_POST_ALWAYS}
+                                checked={this.state.postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT}
+                                onChange={this.handleOptionChange}
                             />
-                        </label>
+                            <label htmlFor='anytime'>
+                                <FormattedMessage
+                                    id='edit_post.time_limit_modal.option_label_anytime'
+                                    defaultMessage='Anytime'
+                                />
+                            </label>
+                        </div>
+                        <div className='padding-top'>
+                            <input
+                                id='timelimit'
+                                type='radio'
+                                name='limit'
+                                value={Constants.ALLOW_EDIT_POST_TIME_LIMIT}
+                                checked={this.state.postEditTimeLimit !== Constants.UNSET_POST_EDIT_TIME_LIMIT}
+                                onChange={this.handleOptionChange}
+                            />
+                            <label htmlFor='timelimit'>
+                                <FormattedMessage
+                                    id='edit_post.time_limit_modal.option_label_time_limit.preinput'
+                                    defaultMessage='Can edit for'
+                                />
+                            </label>
+                            <input
+                                type='number'
+                                className='form-control inline'
+                                min='0'
+                                step='1'
+                                max={INT32_MAX}
+                                id='editPostTimeLimit'
+                                readOnly={this.state.postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT}
+                                onChange={this.handleSecondsChange}
+                                value={this.state.postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT ? '' : this.state.postEditTimeLimit}
+                            />
+                            <label htmlFor='timelimit'>
+                                <FormattedMessage
+                                    id='edit_post.time_limit_modal.option_label_time_limit.postinput'
+                                    defaultMessage='seconds after posting'
+                                />
+                            </label>
+                        </div>
+                        <div className='padding-top x2 light'>
+                            <FormattedMessage
+                                id='edit_post.time_limit_modal.subscript'
+                                defaultMessage='Set the length of time users have to edit their messages after posting.'
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <input
-                            id='timelimit'
-                            type='radio'
-                            name='limit'
-                            value={Constants.ALLOW_EDIT_POST_TIME_LIMIT}
-                            checked={this.state.postEditTimeLimit !== Constants.UNSET_POST_EDIT_TIME_LIMIT}
-                            onChange={this.handleOptionChange}
-                        />
-                        <label htmlFor='timelimit'>
-                            <FormattedMessage
-                                id='edit_post.time_limit_modal.option_label_time_limit.preinput'
-                                defaultMessage='Can edit for'
-                            />
-                        </label>
-                        <input
-                            type='number'
-                            min='0'
-                            step='1'
-                            max={INT32_MAX}
-                            id='editPostTimeLimit'
-                            readOnly={this.state.postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT}
-                            onChange={this.handleSecondsChange}
-                            value={this.state.postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT ? '' : this.state.postEditTimeLimit}
-                        />
-                        <label htmlFor='timelimit'>
-                            <FormattedMessage
-                                id='edit_post.time_limit_modal.option_label_time_limit.postinput'
-                                defaultMessage='seconds after posting'
-                            />
-                        </label>
-                    </div>
-                    <FormattedMessage
-                        id='edit_post.time_limit_modal.subscript'
-                        defaultMessage='Set the length of time users have to edit their messages after posting.'
-                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='edit-post-time-limit-modal__error'>
