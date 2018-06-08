@@ -24,16 +24,25 @@
                 width: 100%;
 
                 a {
-                    @include opacity(.7);
                     display: block;
                     height: 100%;
                     text-decoration: none;
                 }
 
                 &.active {
-                    a {
+                    .team-btn__content {
                         @include opacity(1);
+                        background: transparent;
                     }
+                }
+
+                .team-btn__content {
+                    @include clearfix;
+                    @include border-radius(4px);
+                    @include opacity(.7);
+                    background-color: alpha-color($black, .3);
+                    border: 1px solid alpha-color($white, .2);
+                    height: 100%;
                 }
 
                 button {
@@ -44,8 +53,6 @@
 
                 .team-btn {
                     @include border-radius(4px);
-                    background-color: alpha-color($black, .3);
-                    border: 1px solid alpha-color($white, .2);
                     font-weight: bold;
                     height: 44px;
                     letter-spacing: -.5px;
@@ -57,7 +64,6 @@
                     width: 44px;
 
                     .team-btn__image {
-                        @include border-radius(4px);
                         @include clearfix;
                         background-color: $white;
                         background-repeat: round;
@@ -70,6 +76,7 @@
                         position: absolute;
                         right: -8px;
                         top: -6px;
+                        z-index: 5;
 
                         &.stroked {
                             border: 1px solid;
@@ -91,6 +98,7 @@
                 }
 
                 &.active:before {
+                    @include border-radius(4px);
                     background: $black;
                     content: '';
                     height: 100%;
