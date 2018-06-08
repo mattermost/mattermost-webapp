@@ -10,6 +10,7 @@ body {
 }
 
 body {
+    @include clearfix;
     background: $bg--gray;
     position: relative;
     width: 100%;

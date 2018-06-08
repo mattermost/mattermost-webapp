@@ -33,6 +33,7 @@ export default class LoggedIn extends React.Component {
         this.state = {
             user: UserStore.getCurrentUser(),
         };
+
         document.getElementById('root').className += ' channel-view';
     }
 
