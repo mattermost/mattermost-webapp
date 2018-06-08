@@ -55,7 +55,7 @@ export default class PostMarkdown extends React.PureComponent {
                 isRHS={this.props.isRHS}
                 message={this.props.message}
                 proxyImages={proxyImages}
-                searchTerm={this.props.options.searchTerm}
+                options={this.props.options}
             />
         );
     }

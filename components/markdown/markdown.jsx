@@ -70,8 +70,6 @@ export default class Markdown extends React.PureComponent {
          * Any extra props that should be passed into the MarkdownImage component
          */
         imageProps: PropTypes.object,
-
-        searchTerm: PropTypes.string,
     };
 
     static defaultProps = {
@@ -93,7 +91,6 @@ export default class Markdown extends React.PureComponent {
             channelNamesMap: this.props.channelNamesMap,
             proxyImages: this.props.hasImageProxy && this.props.proxyImages,
             team: this.props.team,
-            searchTerm: this.props.searchTerm,
         }, this.props.options);
 
         const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
