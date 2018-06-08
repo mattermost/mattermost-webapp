@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -20,18 +20,20 @@ function makeMapStateToProps() {
     const getPostsAroundPost = makeGetPostsAroundPost();
 
     return function mapStateToProps(state, ownProps) {
+        const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
+
         let posts;
         if (ownProps.focusedPostId) {
             posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
         } else {
-            posts = getPostsInChannel(state, ownProps.channelId);
+            posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
         }
 
         return {
             channel: getChannel(state, ownProps.channelId) || {},
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,
-            postVisibility: state.views.channel.postVisibility[ownProps.channelId],
+            postVisibility,
             loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
             focusedPostId: ownProps.focusedPostId,
             currentUserId: getCurrentUserId(state),

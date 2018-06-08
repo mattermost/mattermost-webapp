@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -40,7 +40,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
     const baseProps = {
         team: {name: 'test'},
         oauthApps,
-        isSystemAdmin: true,
+        canManageOauth: true,
         regenOAuthAppSecretRequest: {
             status: 'not_started',
             error: null,
@@ -73,7 +73,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
         expect(wrapper.find(BackstageList).props().addLink).toEqual('/test/integrations/oauth2-apps/add');
         expect(wrapper.find(BackstageList).props().addText).toEqual('Add OAuth 2.0 Application');
 
-        wrapper.setProps({isSystemAdmin: false});
+        wrapper.setProps({canManageOauth: false});
         expect(wrapper.find(BackstageList).props().addLink).toBeFalsy();
         expect(wrapper.find(BackstageList).props().addText).toBeFalsy();
     });

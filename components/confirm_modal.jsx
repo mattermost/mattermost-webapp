@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -63,6 +63,16 @@ export default class ConfirmModal extends React.Component {
          * Function called when the cancel button is pressed or the modal is hidden. Passes `true` if the checkbox is checked
          */
         onCancel: PropTypes.func.isRequired,
+
+        /**
+         * Function called when modal is dismissed
+         */
+        onExited: PropTypes.func,
+
+        /*
+         * Set to hide the cancel button
+         */
+        hideCancel: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -83,7 +93,7 @@ export default class ConfirmModal extends React.Component {
         document.removeEventListener('keypress', this.handleKeypress);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.show && !nextProps.show) {
             document.removeEventListener('keypress', this.handleKeypress);
         } else if (!this.props.show && nextProps.show) {
@@ -135,11 +145,25 @@ export default class ConfirmModal extends React.Component {
             );
         }
 
+        let cancelButton;
+        if (!this.props.hideCancel) {
+            cancelButton = (
+                <button
+                    type='button'
+                    className='btn btn-default'
+                    onClick={this.handleCancel}
+                >
+                    {cancelText}
+                </button>
+            );
+        }
+
         return (
             <Modal
                 className={'modal-confirm ' + this.props.modalClass}
                 show={this.props.show}
                 onHide={this.props.onCancel}
+                onExited={this.props.onExited}
             >
                 <Modal.Header closeButton={false}>
                     <Modal.Title>{this.props.title}</Modal.Title>
@@ -149,13 +173,7 @@ export default class ConfirmModal extends React.Component {
                     {checkbox}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-default'
-                        onClick={this.handleCancel}
-                    >
-                        {cancelText}
-                    </button>
+                    {cancelButton}
                     <button
                         type='button'
                         className={this.props.confirmButtonClass}

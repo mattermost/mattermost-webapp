@@ -1,5 +1,5 @@
-// Copyright (c) 2016 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import assert from 'assert';
 
@@ -19,7 +19,7 @@ describe('Actions.Posts', () => {
             store.getState().views.posts.editingPost,
             {
                 postId: '123',
-                commentsCount: 0,
+                commentCount: 0,
                 refocusId: 'test',
                 show: true,
                 title: 'title',
@@ -33,7 +33,7 @@ describe('Actions.Posts', () => {
             store.getState().views.posts.editingPost,
             {
                 postId: '456',
-                commentsCount: 3,
+                commentCount: 3,
                 refocusId: 'test2',
                 show: true,
                 title: 'title2',

@@ -1,34 +1,35 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
 import {createUserWithInvite, loadMe, loginById} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
+
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import logoImage from 'images/logo.png';
+
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 export default class SignupEmail extends React.Component {
     static get propTypes() {
         return {
             location: PropTypes.object,
-            isLicensed: PropTypes.bool.isRequired,
             enableSignUpWithEmail: PropTypes.bool.isRequired,
             siteName: PropTypes.string,
             termsOfServiceLink: PropTypes.string,
             privacyPolicyLink: PropTypes.string,
-            customBrand: PropTypes.bool.isRequired,
-            enableCustomBrand: PropTypes.bool.isRequired,
             customDescriptionText: PropTypes.string,
             passwordConfig: PropTypes.object,
         };
@@ -52,7 +53,7 @@ export default class SignupEmail extends React.Component {
 
     getInviteInfo() {
         let data = (new URLSearchParams(this.props.location.search)).get('d');
-        let hash = (new URLSearchParams(this.props.location.search)).get('h');
+        let token = (new URLSearchParams(this.props.location.search)).get('t');
         const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
         let email = '';
         let teamDisplayName = '';
@@ -62,7 +63,7 @@ export default class SignupEmail extends React.Component {
         const serverError = '';
         const noOpenServerError = false;
 
-        if (hash && hash.length > 0) {
+        if (token && token.length > 0) {
             const parsedData = JSON.parse(data);
             email = parsedData.email;
             teamDisplayName = parsedData.display_name;
@@ -101,12 +102,12 @@ export default class SignupEmail extends React.Component {
             );
 
             data = null;
-            hash = null;
+            token = null;
         }
 
         return {
             data,
-            hash,
+            token,
             email,
             teamDisplayName,
             teamName,
@@ -125,8 +126,8 @@ export default class SignupEmail extends React.Component {
             user.password,
             '',
             () => {
-                if (this.state.hash > 0) {
-                    BrowserStore.setGlobalItem(this.state.hash, JSON.stringify({usedBefore: true}));
+                if (this.state.token > 0) {
+                    BrowserStore.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
                 }
 
                 loadMe().then(
@@ -214,12 +215,12 @@ export default class SignupEmail extends React.Component {
         }
 
         const providedPassword = this.refs.password.value;
-        const pwdError = Utils.isValidPassword(providedPassword, this.props.passwordConfig);
-        if (pwdError) {
+        const {valid, error} = Utils.isValidPassword(providedPassword, this.props.passwordConfig);
+        if (!valid && error) {
             this.setState({
                 nameError: '',
                 emailError: '',
-                passwordError: pwdError,
+                passwordError: error,
                 serverError: '',
             });
             return false;
@@ -253,8 +254,7 @@ export default class SignupEmail extends React.Component {
             };
 
             createUserWithInvite(user,
-                this.state.data,
-                this.state.hash,
+                this.state.token,
                 this.state.inviteId,
                 this.handleSignupSuccess.bind(this, user),
                 (err) => {
@@ -420,6 +420,15 @@ export default class SignupEmail extends React.Component {
     }
 
     render() {
+        const {
+            customDescriptionText,
+            enableSignUpWithEmail,
+            location,
+            privacyPolicyLink,
+            siteName,
+            termsOfServiceLink,
+        } = this.props;
+
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
@@ -434,7 +443,7 @@ export default class SignupEmail extends React.Component {
         }
 
         let emailSignup;
-        if (this.props.enableSignUpWithEmail) {
+        if (enableSignUpWithEmail) {
             emailSignup = this.renderEmailSignup();
         } else {
             return null;
@@ -448,9 +457,9 @@ export default class SignupEmail extends React.Component {
                         id='create_team.agreement'
                         defaultMessage="By proceeding to create your account and use {siteName}, you agree to our <a href='{TermsOfServiceLink}'>Terms of Service</a> and <a href='{PrivacyPolicyLink}'>Privacy Policy</a>. If you do not agree, you cannot use {siteName}."
                         values={{
-                            siteName: this.props.siteName,
-                            TermsOfServiceLink: this.props.termsOfServiceLink,
-                            PrivacyPolicyLink: this.props.privacyPolicyLink,
+                            siteName,
+                            TermsOfServiceLink: termsOfServiceLink,
+                            PrivacyPolicyLink: privacyPolicyLink,
                         }}
                     />
                 </p>
@@ -459,18 +468,6 @@ export default class SignupEmail extends React.Component {
 
         if (this.state.noOpenServerError) {
             emailSignup = null;
-        }
-
-        let description = null;
-        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
-            description = this.props.customDescriptionText;
-        } else {
-            description = (
-                <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
-                />
-            );
         }
 
         return (
@@ -482,10 +479,10 @@ export default class SignupEmail extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{this.props.siteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
+                        <SiteNameAndDescription
+                            customDescriptionText={customDescriptionText}
+                            siteName={siteName}
+                        />
                         <h4 className='color--light'>
                             <FormattedMessage
                                 id='signup_user_completed.lets'
@@ -499,7 +496,7 @@ export default class SignupEmail extends React.Component {
                             />
                             {' '}
                             <Link
-                                to={'/login' + this.props.location.search}
+                                to={'/login' + location.search}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

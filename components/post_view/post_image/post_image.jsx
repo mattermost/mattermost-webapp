@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -48,11 +48,11 @@ export default class PostImageEmbed extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.loadImg(this.props.link);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.link !== this.props.link) {
             this.setState({
                 loaded: false,

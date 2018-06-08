@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,6 +15,8 @@ import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+
+import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
 
@@ -32,6 +34,11 @@ export default class TeamAnalytics extends React.Component {
          * Initial team to load analytics for
          */
         initialTeam: PropTypes.object,
+
+        /**
+         * The locale of the current user
+          */
+        locale: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
 
@@ -70,7 +77,7 @@ export default class TeamAnalytics extends React.Component {
         this.props.actions.getTeams(0, 1000);
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         if (nextState.team && nextState.team !== this.state.team) {
             this.getData(nextState.team.id);
         }
@@ -213,8 +220,8 @@ export default class TeamAnalytics extends React.Component {
             );
         }
 
-        const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers);
-        const newlyCreatedUsers = formatNewUsersData(this.state.newUsers);
+        const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers, this.props.locale);
+        const newlyCreatedUsers = formatNewUsersData(this.state.newUsers, this.props.locale);
 
         const teams = this.props.teams.map((team) => {
             return (
@@ -231,7 +238,7 @@ export default class TeamAnalytics extends React.Component {
             <div className='wrapper--fixed team_statistics'>
                 <div className='admin-console-header team-statistics__header-row'>
                     <div className='team-statistics__header'>
-                        <h3>
+                        <h3 className='admin-console-header'>
                             <FormattedMessage
                                 id='analytics.team.title'
                                 defaultMessage='Team Statistics for {team}'
@@ -257,7 +264,7 @@ export default class TeamAnalytics extends React.Component {
                         title={
                             <FormattedMessage
                                 id='analytics.team.totalUsers'
-                                defaultMessage='Total Users'
+                                defaultMessage='Total Active Users'
                             />
                         }
                         icon='fa-user'
@@ -312,7 +319,7 @@ export default class TeamAnalytics extends React.Component {
     }
 }
 
-export function formatRecentUsersData(data) {
+export function formatRecentUsersData(data, locale) {
     if (data == null) {
         return [];
     }
@@ -324,7 +331,7 @@ export function formatRecentUsersData(data) {
             <FormattedDate
                 value={user.last_activity_at}
                 day='numeric'
-                month='long'
+                month={getMonthLong(locale)}
                 year='numeric'
                 hour12={true}
                 hour='2-digit'
@@ -339,7 +346,7 @@ export function formatRecentUsersData(data) {
     return formattedData;
 }
 
-export function formatNewUsersData(data) {
+export function formatNewUsersData(data, locale) {
     if (data == null) {
         return [];
     }
@@ -351,7 +358,7 @@ export function formatNewUsersData(data) {
             <FormattedDate
                 value={user.create_at}
                 day='numeric'
-                month='long'
+                month={getMonthLong(locale)}
                 year='numeric'
                 hour12={true}
                 hour='2-digit'

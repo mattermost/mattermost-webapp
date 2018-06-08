@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {Route} from 'react-router-dom';
@@ -18,7 +18,7 @@ export const HFTRoute = ({component: Component, ...rest}) => (
             >
                 <Component {...props}/>
             </AsyncComponent>
-    )}
+        )}
     />
 );
 
@@ -37,6 +37,6 @@ export const LoggedInHFTRoute = ({component: Component, ...rest}) => (
                     <Component {...props}/>
                 </AsyncComponent>
             </AsyncComponent>
-    )}
+        )}
     />
 );

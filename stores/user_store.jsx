@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import EventEmitter from 'events';
 
@@ -22,8 +22,6 @@ const CHANGE_EVENT = 'change';
 const CHANGE_EVENT_SESSIONS = 'change_sessions';
 const CHANGE_EVENT_AUDITS = 'change_audits';
 const CHANGE_EVENT_STATUSES = 'change_statuses';
-
-var Utils;
 
 class UserStoreClass extends EventEmitter {
     constructor() {
@@ -330,8 +328,7 @@ class UserStoreClass extends EventEmitter {
     removeProfileFromTeam(teamId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
-            data: {user_id: userId},
-            id: teamId,
+            data: {id: teamId, user_id: userId},
         });
     }
 
@@ -366,8 +363,7 @@ class UserStoreClass extends EventEmitter {
     removeProfileNotInTeam(teamId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_TEAM,
-            data: {user_id: userId},
-            id: teamId,
+            data: {id: teamId, user_id: userId},
         });
     }
 
@@ -376,24 +372,21 @@ class UserStoreClass extends EventEmitter {
     saveProfileInChannel(channelId = ChannelStore.getCurrentId(), profile) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: profile.id},
-            id: channelId,
+            data: {id: channelId, user_id: profile.id},
         });
     }
 
     saveUserIdInChannel(channelId = ChannelStore.getCurrentId(), userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: userId},
-            id: channelId,
+            data: {id: channelId, user_id: userId},
         });
     }
 
     removeProfileInChannel(channelId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {user_id: userId},
-            id: channelId,
+            data: {id: channelId, user_id: userId},
         });
     }
 
@@ -406,16 +399,14 @@ class UserStoreClass extends EventEmitter {
     saveProfileNotInChannel(channelId = ChannelStore.getCurrentId(), profile) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {user_id: profile.id},
-            id: channelId,
+            data: {id: channelId, user_id: profile.id},
         });
     }
 
     removeProfileNotInChannel(channelId, userId) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
-            data: {user_id: userId},
-            id: channelId,
+            data: {id: channelId, user_id: userId},
         });
     }
 
@@ -459,18 +450,12 @@ class UserStoreClass extends EventEmitter {
         return this.getStatuses()[id] || UserStatuses.OFFLINE;
     }
 
-    isSystemAdminForCurrentUser() {
-        if (!Utils) {
-            Utils = require('utils/utils.jsx'); //eslint-disable-line global-require
-        }
+    getNoAccounts() {
+        return global.window.mm_config.NoAccounts === 'true';
+    }
 
-        var current = this.getCurrentUser();
-
-        if (current) {
-            return Utils.isSystemAdmin(current.roles);
-        }
-
-        return false;
+    setNoAccounts(noAccounts) {
+        this.noAccounts = noAccounts;
     }
 }
 

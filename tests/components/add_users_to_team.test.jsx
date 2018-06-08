@@ -1,40 +1,42 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import AddUsersToTeam from 'components/add_users_to_team/add_users_to_team.jsx';
-import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
 
 jest.useFakeTimers();
 
-jest.mock('stores/team_store.jsx', () => {
-    const original = require.requireActual('stores/team_store.jsx');
-    return {
-        ...original,
-        getCurrentId: jest.fn(() => 'current_team_id'),
-        getCurrent: jest.fn(() => {
-            return {display_name: 'display_name'};
-        }),
-    };
-});
-
-jest.mock('actions/team_actions.jsx');
-jest.mock('actions/user_actions.jsx', () => ({
-    searchUsersNotInTeam: jest.fn(() => {
-        return new Promise((resolve) => {
-            process.nextTick(() => resolve());
-        });
-    }),
+jest.mock('actions/status_actions.jsx', () => ({
+    loadStatusesForProfilesList: jest.fn(),
 }));
 
 describe('components/AddUsersToTeam', () => {
     const baseProps = {
+        currentTeamId: 'current_team_id',
+        currentTeamName: 'display_name',
+        searchTerm: '',
+        users: [{id: 'someid', username: 'somename', email: 'someemail'}],
         onModalDismissed: jest.fn(),
         actions: {
             getProfilesNotInTeam: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+            setModalSearchTerm: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+            searchProfiles: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+            addUsersToTeam: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
@@ -44,6 +46,7 @@ describe('components/AddUsersToTeam', () => {
 
     test('should match snapshot', () => {
         const actions = {
+            ...baseProps.actions,
             getProfilesNotInTeam: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
@@ -99,20 +102,28 @@ describe('components/AddUsersToTeam', () => {
     });
 
     test('should match state when handleSubmit is called', () => {
-        const {addUsersToTeam} = require.requireMock('actions/team_actions.jsx');
+        const actions = {
+            ...baseProps.actions,
+            addUsersToTeam: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+        };
+        const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddUsersToTeam {...baseProps}/>
+            <AddUsersToTeam {...props}/>
         );
 
         wrapper.setState({values: []});
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(addUsersToTeam).not.toBeCalled();
+        expect(actions.addUsersToTeam).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(addUsersToTeam).toBeCalled();
-        expect(addUsersToTeam).toHaveBeenCalledTimes(1);
+        expect(actions.addUsersToTeam).toBeCalled();
+        expect(actions.addUsersToTeam).toHaveBeenCalledTimes(1);
         expect(wrapper.state('saving')).toEqual(true);
     });
 
@@ -132,6 +143,7 @@ describe('components/AddUsersToTeam', () => {
 
     test('should match state when handlePageChange is called', () => {
         const actions = {
+            ...baseProps.actions,
             getProfilesNotInTeam: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
@@ -155,21 +167,28 @@ describe('components/AddUsersToTeam', () => {
     });
 
     test('should match state when search is called', () => {
+        const actions = {
+            ...baseProps.actions,
+            setModalSearchTerm: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+        };
+        const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddUsersToTeam {...baseProps}/>
+            <AddUsersToTeam {...props}/>
         );
 
         wrapper.instance().search('');
         jest.runAllTimers();
-        expect(searchUsersNotInTeam).not.toBeCalled();
+        expect(actions.setModalSearchTerm).toBeCalled();
 
         const searchTerm = 'term';
         wrapper.instance().search(searchTerm);
         expect(wrapper.state('loadingUsers')).toEqual(true);
         jest.runAllTimers();
-        expect(wrapper.instance().term).toEqual(searchTerm);
-        expect(searchUsersNotInTeam).toBeCalled();
-        expect(searchUsersNotInTeam).toHaveBeenCalledTimes(1);
+        expect(actions.setModalSearchTerm).toHaveBeenCalledTimes(2);
     });
 
     test('should match state when handleDelete is called', () => {

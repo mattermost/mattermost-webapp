@@ -41,6 +41,7 @@
 
         .modal-body {
             padding: 20px 25px 10px;
+            max-height: calc(100vh - 62px);
         }
 
         &.large {
@@ -76,6 +77,7 @@
 
         .about-modal__hash {
             @include opacity(.4);
+            overflow: hidden;
             font-size: .75em;
             text-align: right;
 

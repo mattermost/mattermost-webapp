@@ -40,6 +40,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   updateSection={[MockFunction]}
 >
   <SettingItemMax
+    containerStyle=""
     infoPosition="bottom"
     inputs={
       Array [
@@ -115,7 +116,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     updateSection={[Function]}
   >
     <ul
-      className="section-max form-horizontal"
+      className="section-max form-horizontal "
     >
       <li
         className="col-sm-12 section-title"
@@ -237,7 +238,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             </SaveButton>
             <button
               className="btn btn-sm cursor--pointer style--none"
-              id="Email_notificationsCancel"
+              id="cancelSetting"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -262,7 +263,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 <SettingItemMin
   describe={
     <FormattedMessage
-      defaultMessage="Disabled by System Administrator"
+      defaultMessage="Email notifications are not enabled"
       id="user.settings.notifications.email.disabled"
       values={Object {}}
     />
@@ -350,6 +351,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   updateSection={[MockFunction]}
 >
   <SettingItemMax
+    containerStyle=""
     infoPosition="bottom"
     inputs={
       Array [
@@ -476,7 +478,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     updateSection={[Function]}
   >
     <ul
-      className="section-max form-horizontal"
+      className="section-max form-horizontal "
     >
       <li
         className="col-sm-12 section-title"
@@ -661,7 +663,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             </SaveButton>
             <button
               className="btn btn-sm cursor--pointer style--none"
-              id="Email_notificationsCancel"
+              id="cancelSetting"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -684,6 +686,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, not send email notifications 1`] = `
 <SettingItemMax
+  containerStyle=""
   infoPosition="bottom"
   inputs={
     Array [
@@ -691,7 +694,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
         className="padding-top"
       >
         <FormattedMessage
-          defaultMessage="Email notifications have been disabled by your System Administrator."
+          defaultMessage="Email notifications have not been enabled by your System Administrator."
           id="user.settings.notifications.email.disabled_long"
           values={Object {}}
         />
@@ -707,6 +710,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, on serverError 1`] = `
 <SettingItemMax
+  containerStyle=""
   infoPosition="bottom"
   inputs={
     Array [

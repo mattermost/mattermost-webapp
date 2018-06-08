@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -39,7 +39,7 @@ export default class BrandImageSetting extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
             (resp) => {
                 if (resp.status === HTTP_STATUS_OK) {

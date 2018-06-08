@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 
@@ -8,8 +8,8 @@ export default class MentionsIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='20px'
-                    height='20px'
+                    width='14px'
+                    height='14px'
                     viewBox='0 0 20 20'
                     version='1.1'
                 >

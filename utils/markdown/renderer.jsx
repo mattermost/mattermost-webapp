@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import marked from 'marked';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
+import {getScheme, isUrlSafe} from 'utils/url.jsx';
 
 export default class Renderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
@@ -24,7 +24,7 @@ export default class Renderer extends marked.Renderer {
         usedLanguage = usedLanguage.toLowerCase();
 
         if (usedLanguage === 'tex' || usedLanguage === 'latex') {
-            return `<div data-latex="${TextFormatting.escapeHtml(code)}" />`;
+            return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
 
         // treat html as xml to prevent injection attacks
@@ -140,19 +140,22 @@ export default class Renderer extends marked.Renderer {
         return `<h${level} class="markdown__heading">${text}</h${level}>`;
     }
 
-    link(href, title, text) {
+    link(href, title, text, isUrl) {
         let outHref = href;
 
-        if (this.formattingOptions.linkFilter && !this.formattingOptions.linkFilter(outHref)) {
-            return text;
+        const scheme = getScheme(href);
+        if (!scheme) {
+            outHref = `http://${outHref}`;
+        } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
+            const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(scheme) !== -1;
+
+            if (!isValidUrl) {
+                return text;
+            }
         }
 
         if (!isUrlSafe(unescapeHtmlEntities(href))) {
             return text;
-        }
-
-        if (!(/[a-z0-9+.-]+:/i).test(outHref)) {
-            outHref = `http://${outHref}`;
         }
 
         let output = '<a class="theme markdown__link';
@@ -171,7 +174,7 @@ export default class Renderer extends marked.Renderer {
         // special case for team invite links, channel links, and permalinks that are inside the app
         let internalLink = false;
         if (this.formattingOptions.siteURL) {
-            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels|messages))\\/');
+            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/');
 
             internalLink = pattern.test(outHref);
         }

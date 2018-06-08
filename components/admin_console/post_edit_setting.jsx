@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -70,7 +70,7 @@ export default class PostEditSetting extends React.Component {
                         />
                         <input
                             type='text'
-                            value={this.props.timeLimitValue}
+                            value={this.props.timeLimitValue || ''}
                             className='form-control'
                             name={this.props.timeLimitId}
                             onChange={this.handleTimeLimitChange}
@@ -93,7 +93,7 @@ PostEditSetting.propTypes = {
     timeLimitId: PropTypes.string.isRequired,
     label: PropTypes.node.isRequired,
     value: PropTypes.string.isRequired,
-    timeLimitValue: PropTypes.number.isRequired,
+    timeLimitValue: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     helpText: PropTypes.node,

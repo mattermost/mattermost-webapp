@@ -139,6 +139,7 @@
 
 .file-view--single {
     margin: 5px 0;
+    position: relative;
 
     .file__image-loading {
         min-height: 100px;
@@ -146,6 +147,12 @@
 
     .file__image {
         @include legacy-pie-clearfix;
+
+        .image-name {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+        }
 
         .image-container {
             position: relative;
@@ -172,6 +179,7 @@
             left: 0;
             max-height: 350px;
             max-width: 100%;
+            display: block;
             opacity: 0;
             overflow: hidden;
             position: absolute;
@@ -219,6 +227,7 @@
 .post-image__columns {
     display: flex;
     flex-flow: wrap;
+    position: relative;
 }
 
 .post-image__column {

@@ -79,7 +79,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               eventTime={1502715365009}
               isPermalink={true}
               postId="id"
-              useMilitaryTime={true}
             />
             <span
               className="post__pinned-badge"
@@ -99,7 +98,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             />
           </div>
           <div
-            className="col__controls"
+            className="col__controls col__reply"
           >
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
@@ -279,7 +278,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               eventTime={1502715365009}
               isPermalink={true}
               postId="id"
-              useMilitaryTime={true}
             />
             <PostFlagIcon
               idCount={-1}
@@ -290,7 +288,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             />
           </div>
           <div
-            className="col__controls"
+            className="col__controls col__reply"
           >
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
@@ -466,7 +464,11 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className="bot-indicator"
           >
-            BOT
+            <FormattedMessage
+              defaultMessage="BOT"
+              id="post_info.bot"
+              values={Object {}}
+            />
           </div>
           <div
             className="col"
@@ -475,7 +477,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               eventTime={1502715365009}
               isPermalink={true}
               postId="id"
-              useMilitaryTime={true}
             />
           </div>
         </div>

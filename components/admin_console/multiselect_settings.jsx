@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,6 +10,25 @@ import FormError from 'components/form_error.jsx';
 import Setting from './setting.jsx';
 
 export default class MultiSelectSetting extends React.Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        values: PropTypes.array.isRequired,
+        label: PropTypes.node.isRequired,
+        selected: PropTypes.array.isRequired,
+        mustBePresent: PropTypes.string,
+        onChange: PropTypes.func.isRequired,
+        disabled: PropTypes.bool,
+        setByEnv: PropTypes.bool.isRequired,
+        helpText: PropTypes.node,
+        noResultText: PropTypes.node,
+        errorText: PropTypes.node,
+        notPresent: PropTypes.node,
+    };
+
+    static defaultProps = {
+        disabled: false,
+    };
+
     constructor(props) {
         super(props);
 
@@ -30,7 +49,7 @@ export default class MultiSelectSetting extends React.Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
         if (newProps.selected.length > 0 && newProps.mustBePresent && newProps.selected.join(',').indexOf(newProps.mustBePresent) === -1) {
             this.setState({error: this.props.notPresent});
         } else {
@@ -44,6 +63,7 @@ export default class MultiSelectSetting extends React.Component {
                 label={this.props.label}
                 inputId={this.props.id}
                 helpText={this.props.helpText}
+                setByEnv={this.props.setByEnv}
             >
                 <ReactSelect
                     id={this.props.id}
@@ -52,7 +72,7 @@ export default class MultiSelectSetting extends React.Component {
                     options={this.props.values}
                     joinValues={true}
                     clearable={false}
-                    disabled={this.props.disabled}
+                    disabled={this.props.disabled || this.props.setByEnv}
                     noResultsText={this.props.noResultText}
                     onChange={this.handleChange}
                     value={this.props.selected}
@@ -62,21 +82,3 @@ export default class MultiSelectSetting extends React.Component {
         );
     }
 }
-
-MultiSelectSetting.defaultProps = {
-    disabled: false,
-};
-
-MultiSelectSetting.propTypes = {
-    id: PropTypes.string.isRequired,
-    values: PropTypes.array.isRequired,
-    label: PropTypes.node.isRequired,
-    selected: PropTypes.array.isRequired,
-    mustBePresent: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    helpText: PropTypes.node,
-    noResultText: PropTypes.node,
-    errorText: PropTypes.node,
-    notPresent: PropTypes.node,
-};

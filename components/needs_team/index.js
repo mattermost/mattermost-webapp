@@ -1,9 +1,9 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {fetchMyChannelsAndMembers, getMyChannelMembers, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
+import {fetchMyChannelsAndMembers, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {withRouter} from 'react-router-dom';
@@ -30,7 +30,6 @@ function mapDispatchToProps(dispatch) {
             getMyTeamUnreads,
             viewChannel,
             markChannelAsRead,
-            getMyChannelMembers,
         }, dispatch),
     };
 }

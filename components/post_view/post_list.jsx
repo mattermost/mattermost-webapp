@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+
+import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
@@ -12,6 +14,7 @@ import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 
@@ -135,7 +138,7 @@ export default class PostList extends React.PureComponent {
         window.removeEventListener('resize', this.handleWindowResize);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         // Focusing on a new post so load posts around it
         if (nextProps.focusedPostId && this.props.focusedPostId !== nextProps.focusedPostId) {
             this.hasScrolledToFocusedPost = false;
@@ -164,7 +167,7 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    componentWillUpdate() {
+    UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
         if (this.refs.postlist) {
             this.previousScrollTop = this.refs.postlist.scrollTop;
             this.previousScrollHeight = this.refs.postlist.scrollHeight;
@@ -202,6 +205,7 @@ export default class PostList extends React.PureComponent {
                 const rect = element.getBoundingClientRect();
                 const listHeight = postList.clientHeight / 2;
                 postList.scrollTop += rect.top - listHeight;
+                this.atBottom = this.checkBottom();
             } else if (this.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
             }
@@ -266,16 +270,15 @@ export default class PostList extends React.PureComponent {
         }
 
         const messageSeparator = this.refs.newMessageSeparator;
-        if (messageSeparator) {
-            // Scroll to new message indicator since we have unread posts
+
+        // Scroll to new message indicator since we have unread posts and we can't show every new post in the screen
+        if (messageSeparator && (postList.scrollHeight - messageSeparator.offsetTop) > postList.clientHeight) {
             messageSeparator.scrollIntoView();
-            if (!this.checkBottom()) {
-                this.setUnreadsBelow(posts, this.props.currentUserId);
-            }
+            this.setUnreadsBelow(posts, this.props.currentUserId);
             return true;
         }
 
-        // Scroll to bottom since we don't have unread posts
+        // Scroll to bottom since we don't have unread posts or we can show every new post in the screen
         postList.scrollTop = postList.scrollHeight;
         this.atBottom = true;
         return true;
@@ -466,7 +469,8 @@ export default class PostList extends React.PureComponent {
 
             if (
                 post == null ||
-                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
+                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL ||
+                isUserActivityPost(post.type)
             ) {
                 continue;
             }

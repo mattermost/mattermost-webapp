@@ -2,9 +2,16 @@
 
 .post {
     .video-div {
+        @include border-radius(4px);
         margin-bottom: 8px;
         max-width: 480px;
+        overflow: hidden;
         position: relative;
+
+        iframe,
+        video {
+            display: block;
+        }
 
         .video-thumbnail {
             height: auto;
@@ -73,12 +80,17 @@
     }
 
     .img-div {
+        @include single-transition(all, .1s, linear);
         -moz-force-broken-image-icon: 1;
         border-radius: 5px;
         margin-bottom: 8px;
         max-height: 500px;
         max-width: 450px;
         position: relative;
+
+        &:hover {
+            @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
+        }
 
         &.placeholder {
             height: 500px;

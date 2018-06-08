@@ -5,7 +5,7 @@
         position: fixed;
         text-align: center;
         width: 65px;
-        z-index: 6;
+        z-index: 12;
 
         .team-wrapper {
             -webkit-overflow-scrolling: touch;
@@ -16,63 +16,67 @@
             padding-top: 15px;
 
             .team-container {
-                display: table;
-                margin-bottom: 10px;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 16px;
                 position: relative;
                 text-align: center;
                 width: 100%;
 
                 a {
                     display: block;
-                    margin-left: 11px;
+                    height: 100%;
                     text-decoration: none;
+                }
+
+                &.active {
+                    .team-btn__content {
+                        @include opacity(1);
+                        background: transparent;
+                    }
+                }
+
+                .team-btn__content {
+                    @include clearfix;
+                    @include border-radius(4px);
+                    @include opacity(.7);
+                    background-color: alpha-color($black, .3);
+                    border: 1px solid alpha-color($white, .2);
+                    height: 100%;
                 }
 
                 button {
-                    text-decoration: none;
-                    padding: 0;
                     border: none;
+                    padding: 0;
+                    text-decoration: none;
                 }
 
                 .team-btn {
-                    @include border-radius(2px);
-                    background-color: alpha-color($black, .3);
-                    border: 1px solid alpha-color($white, .2);
-                    display: table-cell;
-                    font-size: 12px;
+                    @include border-radius(4px);
                     font-weight: bold;
+                    height: 44px;
+                    letter-spacing: -.5px;
+                    line-height: 42px;
                     position: relative;
                     text-align: center;
+                    text-transform: capitalize;
                     vertical-align: top;
-                    width: 43px;
-                    height: 39px;
-
-                    .team-btn__initials {
-                        text-align: left;
-                        margin: 4px 5px;
-                    }
-
-                    .team-btn__content {
-                        bottom: 4px;
-                        font-size: 8.5px;
-                        font-weight: normal;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        width: 31px;
-                    }
+                    width: 44px;
 
                     .team-btn__image {
-                        height: 100%;
-                        background-size: contain;
+                        @include clearfix;
+                        background-color: $white;
                         background-repeat: round;
+                        background-size: contain;
+                        height: 100%;
                     }
 
                     .badge {
                         font-size: 10px;
                         position: absolute;
-                        right: -6px;
-                        top: -3px;
+                        right: -8px;
+                        top: -6px;
+                        z-index: 5;
 
                         &.stroked {
                             border: 1px solid;
@@ -80,6 +84,8 @@
                     }
 
                     &.team-btn__add {
+                        font-size: 25px;
+                        line-height: 41px;
                         vertical-align: middle;
                     }
                 }
@@ -92,6 +98,7 @@
                 }
 
                 &.active:before {
+                    @include border-radius(4px);
                     background: $black;
                     content: '';
                     height: 100%;

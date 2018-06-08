@@ -1,9 +1,9 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {clearUserAccessTokens, createUserAccessToken, getMe, getUserAccessTokensForUser, revokeUserAccessToken, enableUserAccessToken, disableUserAccessToken} from 'mattermost-redux/actions/users';
+import {getMe} from 'mattermost-redux/actions/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
@@ -30,10 +30,9 @@ function mapStateToProps(state, ownProps) {
     const enableLdap = config.EnableLdap === 'true';
     const enableSaml = config.EnableSaml === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
-    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer !== 'false';
+    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     return {
-        userAccessTokens: state.entities.users.myUserAccessTokens,
         canUseAccessTokens: tokensEnabled && userHasTokenRole,
         isLicensed,
         mfaLicensed,
@@ -47,7 +46,7 @@ function mapStateToProps(state, ownProps) {
         enableSaml,
         enableSignUpWithOffice365,
         experimentalEnableAuthenticationTransfer,
-        passwordConfig: getPasswordConfig(license, config),
+        passwordConfig: getPasswordConfig(config),
     };
 }
 
@@ -55,12 +54,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getMe,
-            getUserAccessTokensForUser,
-            createUserAccessToken,
-            revokeUserAccessToken,
-            enableUserAccessToken,
-            disableUserAccessToken,
-            clearUserAccessTokens,
         }, dispatch),
     };
 }

@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -10,7 +10,6 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const customBrand = license.CustomBrand === 'true';
     const isLicensed = license.IsLicensed === 'true';
 
     const customBrandText = config.CustomBrandText;
@@ -31,7 +30,6 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
 
     return {
-        customBrand,
         isLicensed,
         customBrandText,
         customDescriptionText,

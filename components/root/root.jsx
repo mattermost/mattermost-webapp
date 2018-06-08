@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 require('perfect-scrollbar/jquery')($);
@@ -13,6 +13,7 @@ import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
+import {setLocalizeFunction} from 'mattermost-redux/utils/i18n_utils.js';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -26,6 +27,7 @@ import {loadMeAndConfig} from 'actions/user_actions.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
+import {localizeMessage} from 'utils/utils.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import NeedsTeam from 'components/needs_team';
@@ -38,7 +40,6 @@ import loadPasswordResetSendLink from 'bundle-loader?lazy!components/password_re
 import loadPasswordResetForm from 'bundle-loader?lazy!components/password_reset_form';
 import loadSignupController from 'bundle-loader?lazy!components/signup/signup_controller';
 import loadSignupEmail from 'bundle-loader?lazy!components/signup/signup_email';
-import loadSignupLdap from 'bundle-loader?lazy!components/signup/signup_ldap';
 import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_email';
 import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
 import loadClaimController from 'bundle-loader?lazy!components/claim';
@@ -60,7 +61,6 @@ const PasswordResetSendLink = makeAsyncComponent(loadPasswordResetSendLink);
 const PasswordResetForm = makeAsyncComponent(loadPasswordResetForm);
 const SignupController = makeAsyncComponent(loadSignupController);
 const SignupEmail = makeAsyncComponent(loadSignupEmail);
-const SignupLdap = makeAsyncComponent(loadSignupLdap);
 const ShouldVerifyEmail = makeAsyncComponent(loadShouldVerifyEmail);
 const DoVerifyEmail = makeAsyncComponent(loadDoVerifyEmail);
 const ClaimController = makeAsyncComponent(loadClaimController);
@@ -78,7 +78,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
             <LoggedIn {...props}>
                 <Component {...props}/>
             </LoggedIn>
-    )}
+        )}
     />
 );
 
@@ -172,6 +172,7 @@ export default class Root extends React.Component {
         const afterIntl = () => {
             initializePlugins();
             I18n.doAddLocaleData();
+            setLocalizeFunction(localizeMessage);
 
             // Setup localization listener
             LocalizationStore.addChangeListener(this.localizationChanged);
@@ -220,7 +221,7 @@ export default class Root extends React.Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
         this.redirectIfNecessary(newProps);
     }
 
@@ -269,10 +270,6 @@ export default class Root extends React.Component {
                     <HFTRoute
                         path={'/signup_email'}
                         component={SignupEmail}
-                    />
-                    <HFTRoute
-                        path={'/signup_ldap'}
-                        component={SignupLdap}
                     />
                     <HFTRoute
                         path={'/should_verify_email'}

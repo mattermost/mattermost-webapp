@@ -126,8 +126,41 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelLocked"
+        >
+          <FormattedMessage
+            defaultMessage="Lock to this channel"
+            id="add_incoming_webhook.channelLocked"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={false}
+            id="channelLocked"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
+              id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
           </div>
@@ -371,8 +404,41 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelLocked"
+        >
+          <FormattedMessage
+            defaultMessage="Lock to this channel"
+            id="add_incoming_webhook.channelLocked"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={false}
+            id="channelLocked"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
+              id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
           </div>
@@ -616,8 +682,41 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelLocked"
+        >
+          <FormattedMessage
+            defaultMessage="Lock to this channel"
+            id="add_incoming_webhook.channelLocked"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={false}
+            id="channelLocked"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
+              id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
           </div>
@@ -865,8 +964,41 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelLocked"
+        >
+          <FormattedMessage
+            defaultMessage="Lock to this channel"
+            id="add_incoming_webhook.channelLocked"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={false}
+            id="channelLocked"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
+              id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
           </div>
@@ -1075,8 +1207,41 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelLocked"
+        >
+          <FormattedMessage
+            defaultMessage="Lock to this channel"
+            id="add_incoming_webhook.channelLocked"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={false}
+            id="channelLocked"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
+              id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
           </div>
@@ -1285,8 +1450,41 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              defaultMessage="The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelLocked"
+        >
+          <FormattedMessage
+            defaultMessage="Lock to this channel"
+            id="add_incoming_webhook.channelLocked"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={false}
+            id="channelLocked"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="If set, the incoming webhook can only post to the channel selected above."
+              id="add_incoming_webhook.channelLocked.help"
               values={Object {}}
             />
           </div>

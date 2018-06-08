@@ -1,7 +1,9 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {joinChannel} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 
@@ -28,7 +30,9 @@ function onChannelByIdentifierEnter({match, history}) {
         if (identifier.length === LENGTH_OF_ID) {
             // It's hard to tell an ID apart from a channel name of the same length, so check first if
             // the identifier matches a channel that we have
-            if (ChannelStore.getByName(identifier)) {
+            const channelsByName = ChannelStore.getByName(identifier);
+            const moreChannelsByName = ChannelStore.getMoreChannelsList().find((chan) => chan.name === identifier);
+            if (channelsByName || moreChannelsByName) {
                 goToChannelByChannelName(match, history);
             } else {
                 goToChannelByChannelId(match, history);
@@ -203,14 +207,28 @@ function handleError(match, history) {
 }
 
 export default class ChannelIdentifierRouter extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                identifier: PropTypes.string.isRequired,
+                team: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
         onChannelByIdentifierEnter(props);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.match.params.identifier !== nextProps.match.params.identifier) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        if (this.props.match.params.team !== nextProps.match.params.team ||
+            this.props.match.params.identifier !== nextProps.match.params.identifier) {
             onChannelByIdentifierEnter(nextProps);
         }
     }

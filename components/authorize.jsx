@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -26,7 +26,7 @@ export default class Authorize extends React.Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
         if (!(/^[a-z0-9]+$/.test(clientId))) {
             return;

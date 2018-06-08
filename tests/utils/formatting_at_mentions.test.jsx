@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import assert from 'assert';
 
@@ -53,6 +53,34 @@ describe('TextFormatting.AtMentions', function() {
         assert.equal(
             TextFormatting.autolinkAtMentions('user@email.com', new Map()),
             'user@email.com'
+        );
+    });
+
+    it('Highlighted at mentions', function() {
+        assert.equal(
+            TextFormatting.formatText('@user', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="user">@user</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@channel', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="channel">@channel</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@all', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="all">@all</span></span></p>',
+        );
+
+        assert.equal(
+            TextFormatting.formatText('@USER', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="USER">@USER</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@CHanNEL', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="CHanNEL">@CHanNEL</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@ALL', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="ALL">@ALL</span></span></p>',
         );
     });
 });

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
-import Autolinker from 'autolinker';
 import twemoji from 'twemoji';
 import XRegExp from 'xregexp';
 
@@ -33,6 +32,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 //      links to the relevant channel.
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
+// - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -122,38 +122,33 @@ export function sanitizeHtml(text) {
     return output;
 }
 
+// Copied from our fork of commonmark.js
+var emailAlphaNumericChars = '\\p{L}\\p{Nd}';
+var emailSpecialCharacters = '!#$%&\'*+\\-\\/=?^_`{|}~';
+var emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
+var emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
+var emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
+var emailStartPattern = '(?:[' + emailValidCharacters + '](?:[' + emailValidCharacters + ']|\\.(?!\\.|@))*|\\"[' + emailValidRestrictedCharacters + '.]+\\")@';
+var reEmail = XRegExp.cache('(^|[^\\pL\\d])(' + emailStartPattern + '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))', 'g');
+
 // Convert emails into tokens
 function autolinkEmails(text, tokens) {
-    function replaceEmailWithToken(match) {
-        const linkText = match.getMatchedText();
-        let url = linkText;
-
-        if (match.getType() === 'email') {
-            url = `mailto:${url}`;
-        }
-
+    function replaceEmailWithToken(fullMatch, prefix, email) {
         const index = tokens.size;
         const alias = `$MM_EMAIL${index}`;
 
         tokens.set(alias, {
-            value: `<a class="theme" href="${url}">${linkText}</a>`,
-            originalText: linkText,
+            value: `<a class="theme" href="mailto:${email}">${email}</a>`,
+            originalText: email,
         });
 
-        return alias;
+        return prefix + alias;
     }
 
-    // we can't just use a static autolinker because we need to set replaceFn
-    const autolinker = new Autolinker({
-        urls: false,
-        email: true,
-        phone: false,
-        mention: false,
-        hashtag: false,
-        replaceFn: replaceEmailWithToken,
-    });
+    let output = text;
+    output = XRegExp.replace(text, reEmail, replaceEmailWithToken);
 
-    return autolinker.link(text);
+    return output;
 }
 
 export function autolinkAtMentions(text, tokens) {
@@ -253,7 +248,9 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     // look for any existing tokens which are self mentions and should be highlighted
     var newTokens = new Map();
     for (const [alias, token] of tokens) {
-        if (mentionKeys.findIndex((key) => key.key === token.originalText) !== -1) {
+        const tokenTextLower = token.originalText.toLowerCase();
+
+        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}`;
 
@@ -293,7 +290,9 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             flags += 'i';
         }
 
-        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags), replaceCurrentMentionWithToken);
+        const pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags);
+
+        output = output.replace(pattern, replaceCurrentMentionWithToken);
     }
 
     return output;
@@ -412,7 +411,7 @@ function convertSearchTermToRegex(term) {
     if (cjkPattern.test(term)) {
         // term contains Chinese, Japanese, or Korean characters so don't mark word boundaries
         pattern = '()(' + escapeRegex(term.replace(/\*/g, '')) + ')';
-    } else if (term.endsWith('*')) {
+    } else if (/[^\s][*]$/.test(term)) {
         pattern = '\\b()(' + escapeRegex(term.substring(0, term.length - 1)) + ')';
     } else if (term.startsWith('@') || term.startsWith('#')) {
         // needs special handling of the first boundary because a word boundary doesn't work before a symbol

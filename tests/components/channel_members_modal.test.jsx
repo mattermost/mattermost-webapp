@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -11,8 +11,8 @@ describe('components/ChannelMembersModal', () => {
     const baseProps = {
         channel: {id: 'channel_id', display_name: 'channel_display_name'},
         canManageChannelMembers: true,
-        onModalDismissed: () => {},         //eslint-disable-line no-empty-function
-        showInviteModal: () => {},           //eslint-disable-line no-empty-function
+        onModalDismissed: () => {}, //eslint-disable-line no-empty-function
+        showInviteModal: () => {}, //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot', () => {

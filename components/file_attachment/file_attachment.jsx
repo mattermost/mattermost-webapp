@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -58,7 +58,7 @@ export default class FileAttachment extends React.PureComponent {
         this.loadFiles();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.fileInfo.id !== this.props.fileInfo.id) {
             const extension = nextProps.fileInfo.extension;
 

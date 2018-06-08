@@ -1,13 +1,11 @@
-
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
-//
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
 
-describe('Utils.displayUsernameForUser', function() {
+describe('Utils.getDisplayNameByUser', function() {
     afterEach(() => {
         store.dispatch({
             type: GeneralTypes.CLIENT_CONFIG_RESET,
@@ -35,7 +33,7 @@ describe('Utils.displayUsernameForUser', function() {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.displayUsernameForUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
         });
     });
 
@@ -59,7 +57,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 
@@ -83,7 +81,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
         }
     });
 });
@@ -96,16 +94,28 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         });
     });
 
-    const userA = {status: 'dnd', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
-    const userB = {status: 'away', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
-    const userC = {status: 'offline', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
-    const userD = {status: 'online', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
-    const userE = {status: 'online', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
-    const userF = {status: 'online', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
-    const userG = {status: 'dnd', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
-    const userH = {status: 'away', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
-    const userI = {status: 'offline', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
-    const userJ = {status: 'online', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const userA = {id: 'a', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
+    const userB = {id: 'b', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
+    const userC = {id: 'c', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
+    const userD = {id: 'd', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
+    const userE = {id: 'e', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
+    const userF = {id: 'f', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
+    const userG = {id: 'g', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
+    const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
+    const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
+    const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const statusesByUserId = {
+        a: 'dnd',
+        b: 'away',
+        c: 'offline',
+        d: 'online',
+        e: 'online',
+        f: 'online',
+        g: 'dnd',
+        h: 'away',
+        i: 'offline',
+        j: 'online',
+    };
 
     test('Users sort by status and displayname, TeammateNameDisplay set to username', function() {
         store.dispatch({
@@ -129,7 +139,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
                 result: [userD, userE, userF, userJ],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -158,7 +168,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
                 result: [userJ, userF, userE, userD],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -187,7 +197,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
                 result: [userD, userF, userE, userJ],
             },
         ]) {
-            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -196,107 +206,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
 });
 
 describe('Utils.isValidPassword', function() {
-    test('Password min/max length enforced if no EE password requirements set', function() {
-        for (const data of [
-            {
-                password: 'four',
-                config: { // not EE, so password just has to be min < length < max
-                    isEnterprise: false,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // not EE, so password just has to be min < length < max
-                    isEnterprise: false,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thisisavalidpassword',
-                config: { // not EE, so password just has to be min < length < max
-                    isEnterprise: false,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
-                },
-                valid: true,
-            },
-            {
-                password: 'four',
-                config: { // not licensed, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: false,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // not licensed, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: false,
-                    isPasswordRequirements: true,
-                },
-                valid: false,
-            },
-            {
-                password: 'thisisavalidpassword',
-                config: { // not licensed, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: false,
-                    isPasswordRequirements: true,
-                },
-                valid: true,
-            },
-            {
-                password: 'four',
-                config: { // no password requirements, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: false,
-                },
-                valid: false,
-            },
-            {
-                password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // no password requirements, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: false,
-                },
-                valid: false,
-            },
-            {
-                password: 'thisisavalidpassword',
-                config: { // no password requirements, so password just has to be min < length < max
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: false,
-                },
-                valid: true,
-            },
-        ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
-        }
-    });
-
     test('Minimum length enforced', function() {
         for (const data of [
             {
                 password: 'tooshort',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 10,
                     requireLowercase: false,
                     requireUppercase: false,
@@ -308,9 +222,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'longenoughpassword',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 10,
                     requireLowercase: false,
                     requireUppercase: false,
@@ -320,12 +231,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -334,9 +241,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'UPPERCASE',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: false,
@@ -348,9 +252,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'SOMELowercase',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: false,
@@ -360,12 +261,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -374,9 +271,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'lowercase',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: false,
                     requireUppercase: true,
@@ -388,9 +282,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'SOMEUppercase',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: false,
                     requireUppercase: true,
@@ -400,12 +291,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -414,9 +301,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'NoNumbers',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -428,9 +312,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'S0m3Numb3rs',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -440,12 +321,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 
@@ -454,9 +331,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'N0Symb0ls',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -468,9 +342,6 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'S0m3Symb0!s',
                 config: {
-                    isEnterprise: true,
-                    isLicensed: true,
-                    isPasswordRequirements: true,
                     minimumLength: 5,
                     requireLowercase: true,
                     requireUppercase: true,
@@ -480,12 +351,8 @@ describe('Utils.isValidPassword', function() {
                 valid: true,
             },
         ]) {
-            const errorMsg = Utils.isValidPassword(data.password, data.config);
-            if (data.valid) {
-                expect(errorMsg).toEqual('');
-            } else {
-                expect(errorMsg).not.toEqual('');
-            }
+            const {valid} = Utils.isValidPassword(data.password, data.config);
+            expect(data.valid).toEqual(valid);
         }
     });
 });

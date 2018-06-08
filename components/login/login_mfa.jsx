@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -51,12 +51,6 @@ export default class LoginMfa extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
         const state = {};
-
-        if (!this.state.token) {
-            state.serverError = localizeMessage('login_mfa.tokenReq', 'Please enter an MFA token');
-            this.setState(state);
-            return;
-        }
 
         state.serverError = '';
         state.saving = true;

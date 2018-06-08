@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -14,9 +14,9 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         expand: false,
         memberNotificationLevel: NotificationLevels.ALL,
         globalNotificationLevel: NotificationLevels.DEFAULT,
-        onChange: () => {},         //eslint-disable-line no-empty-function
-        onSubmit: () => {},         //eslint-disable-line no-empty-function
-        onUpdateSection: () => {},  //eslint-disable-line no-empty-function
+        onChange: () => {}, //eslint-disable-line no-empty-function
+        onSubmit: () => {}, //eslint-disable-line no-empty-function
+        onUpdateSection: () => {}, //eslint-disable-line no-empty-function
         serverError: '',
     };
 

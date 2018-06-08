@@ -1,8 +1,10 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
+import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 
@@ -18,6 +20,7 @@ describe('components/CreateComment', () => {
     const baseProps = {
         channelId,
         rootId,
+        rootDeleted: false,
         channelMembersCount: 3,
         draft: {
             message: 'Test message',
@@ -39,6 +42,7 @@ describe('components/CreateComment', () => {
         readOnlyChannel: false,
         enableEmojiPicker: true,
         enableConfirmNotificationsToChannel: true,
+        maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -579,5 +583,16 @@ describe('components/CreateComment', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('check for handleFileUploadChange callback for focus', () => {
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.focusTextbox = jest.fn();
+
+        instance.handleFileUploadChange();
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
     });
 });

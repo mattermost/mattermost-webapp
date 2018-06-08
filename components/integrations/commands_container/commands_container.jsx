@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -36,11 +36,6 @@ export default class CommandsContainer extends React.PureComponent {
         user: PropTypes.object,
 
         /**
-        * Set if user is admin
-        */
-        isAdmin: PropTypes.bool,
-
-        /**
         * The users collection
         */
         users: PropTypes.object,
@@ -49,6 +44,13 @@ export default class CommandsContainer extends React.PureComponent {
         * Installed slash commands to display
         */
         commands: PropTypes.array,
+
+        /**
+        * Object from react-router
+        */
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
 
         actions: PropTypes.shape({
 
@@ -86,7 +88,6 @@ export default class CommandsContainer extends React.PureComponent {
             users: this.props.users,
             team: this.props.team,
             user: this.props.user,
-            isAdmin: this.props.isAdmin,
         };
         return (
             <div>

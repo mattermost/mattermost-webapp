@@ -1,0 +1,13 @@
+.edit-post-time-limit-modal {
+    label {
+        margin-left: 7px;
+        margin-right: 7px;
+        font-weight: normal;
+    }
+    .edit-post-time-limit-modal__error {
+        display: inline-block;
+        width: 65%;
+        color: red;
+        text-align: left;
+    }
+}

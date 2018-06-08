@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -41,9 +41,10 @@ describe('components/login/LoginMfa', () => {
 
         wrapper.setState({token: '', serverError: '', saving: false});
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(wrapper.state('serverError')).toEqual('Please enter an MFA token');
-        expect(wrapper.state('saving')).toEqual(false);
-        expect(submit).not.toBeCalled();
+        expect(wrapper.state('serverError')).toEqual('');
+        expect(wrapper.state('saving')).toEqual(true);
+        expect(submit).toBeCalled(); // This is not a bug. See https://github.com/mattermost/mattermost-server/pull/8881
+        expect(submit).toBeCalledWith(props.loginId, props.password, '');
 
         wrapper.setState({token: '123456', serverError: ''});
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});

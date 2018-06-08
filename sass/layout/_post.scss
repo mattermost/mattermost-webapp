@@ -784,6 +784,21 @@
             }
         }
 
+        .post-message {
+            overflow: initial;
+        }
+
+        .post-message--collapsed + .post-image__columns {
+            &:before {
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+        }
+
         .post__img {
             padding-top: 0;
         }
@@ -814,6 +829,10 @@
             }
         }
 
+        .auto-responder {
+            background: alpha-color($white, .7);
+        }
+
         .status-wrapper {
             cursor: auto;
             height: 14px;
@@ -839,16 +858,18 @@
         }
 
         blockquote {
+            display: flex;
             font-size: 1em;
-            margin-left: 0;
-            margin-top: 1.3em;
-            padding: 3px 0 0 25px;
+            padding: 0;
             vertical-align: top;
 
             &:before {
+                display: inline-block;
                 font-size: 15px;
-                left: 4px;
-                top: 2px;
+                left: 0;
+                margin-right: 5px;
+                position: relative;
+                top: 0;
             }
         }
 
@@ -908,7 +929,7 @@
 
             .post-image__column {
                 margin: 3px 10px 3px 0;
-                padding: 0 5px;
+                padding: 0;
             }
         }
 
@@ -917,8 +938,9 @@
             font-size: .9em;
             height: 26px;
             line-height: 25px;
+            max-width: 250px;
+            min-width: 150px;
             padding: 0 7px;
-            width: 250px;
 
             .post-image__thumbnail {
                 display: none;
@@ -958,8 +980,10 @@
                 @include clearfix;
                 display: block;
                 margin: 0;
+                padding: 0 5px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                width: 100%;
 
                 i {
                     font-size: .9em;
@@ -1131,6 +1155,7 @@
     }
 
     .post__content {
+        @include clearfix;
         display: table;
         margin: 0 auto;
         padding: 0 5px;
@@ -1151,7 +1176,7 @@
     .post__header {
         display: flex;
         margin-bottom: 2px;
-        padding: 0 50px 0 0;
+        padding: 0 70px 0 0;
         white-space: nowrap;
         width: 100%;
 
@@ -1181,15 +1206,80 @@
         }
 
         .col__reply {
+            @include border-radius(4px);
             border: 1px solid transparent;
-            border-radius: 2px;
-            min-width: 70px;
-            padding: 2px 5px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 4px;
             position: absolute;
             right: 0;
-            top: -4px;
+            top: -8px;
             white-space: normal;
             z-index: 6;
+
+            > div,
+            > button {
+                @include border-radius(4px);
+                display: flex;
+                flex: 1;
+                height: 24px;
+                top: 0;
+                width: 24px;
+            }
+
+            .comment-icon__container {
+                flex: 0;
+                justify-content: flex-end;
+                padding: 0 4px 0 0;
+                width: auto;
+            }
+
+            .dropdown {
+                > div {
+                    display: flex;
+                    flex: 1;
+                    justify-content: center;
+                }
+            }
+
+            .reacticon__container,
+            .icon {
+                display: flex;
+                flex: 1;
+                margin: 0;
+                top: 0;
+            }
+
+            .reacticon__container {
+                width: 28px;
+            }
+
+
+            > .open, > div {
+                display: flex;
+                flex: 1;
+                justify-content: center;
+            }
+
+            span {
+                svg {
+                    flex: 1;
+                    height: 16px;
+                    top: 0;
+                    width: 16px;
+                }
+            }
+
+            svg {
+                flex: 1;
+                height: 16px;
+                top: 0;
+                width: 16px;
+            }
+
+            &.dot_small {
+                min-width: auto !important;
+            }
         }
 
         .col__remove {
@@ -1242,7 +1332,7 @@
     .post__embed-container {
         @include single-transition(max-height, .5, ease);
         display: block;
-        margin-top: 5px;
+        padding-top: 5px;
         max-height: 1000px;
         overflow: hidden;
 
@@ -1256,6 +1346,10 @@
         top: -1px;
         vertical-align: middle;
         visibility: hidden;
+
+        &:last-child {
+            margin-right: 0;
+        }
 
         .dropdown-menu {
             left: auto;
@@ -1275,13 +1369,18 @@
     }
 
     .post__dropdown {
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
         vertical-align: middle;
+        width: 100%;
 
         &:after {
-            content: '[...]';
+            content: '...';
             font-family: 'Open Sans', sans-serif;
             position: relative;
             top: -1px;
+            width: 100%;
         }
     }
 
@@ -1414,6 +1513,8 @@
 
         .post-reaction-list {
             min-height: 30px;
+            position: relative;
+            z-index: 5;
 
             .post-add-reaction-emoji-picker-open {
                 display: inline-block;
@@ -1571,6 +1672,7 @@
         display: inline-block;
         fill: $primary-color;
         position: relative;
+        text-decoration: none;
         top: 1px;
         visibility: hidden;
 
@@ -1609,7 +1711,6 @@
         display: inline-block;
         fill: $primary-color;
         font-size: 16px;
-        margin-left: 5px;
         vertical-align: top;
         visibility: hidden;
 
@@ -1713,4 +1814,96 @@
 .permalink-popover {
     margin-left: 50px !important;
     min-width: 320px;
+}
+
+.post-message {
+    position: relative;
+    overflow-y: hidden;
+}
+
+.post-collapse {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+
+    .post-collapse__gradient {
+        pointer-events: none;
+        position: relative;
+    }
+}
+
+.post-collapse__show-more {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    width: 100%;
+    z-index: 5;
+
+    .post-collapse__show-more-button {
+        @include single-transition(all, .15s, ease);
+        @include border-radius(2px);
+        border: 1px solid transparent;
+        display: inline-block;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 24px;
+        margin: 0 8px;
+        padding: 0 8px;
+        position: relative;
+
+        .fa {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-right: 5px;
+            position: relative;
+            top: 2px;
+
+            &.fa-angle-up {
+                top: 1px;
+            }
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .post-collapse__show-more-line {
+        display: inline-block;
+        flex-basis: 200px;
+        height: 1px;
+        margin-top: 12px;
+    }
+}
+
+.post-message--collapsed {
+    .post-message__text-container {
+        // If this max-height is changed, the MAX_POST_HEIGHT constant in
+        // components/post/post_message_view/post_message_view.jsx must
+        // be changed to match it
+        max-height: 600px;
+    }
+
+    .post-collapse__gradient {
+        height: 90px;
+    }
+
+    .post-collapse__show-more {
+        bottom: 10px;
+    }
+}
+
+.post-message--expanded {
+    .post-collapse {
+        position: relative;
+    }
+
+    .post-collapse__show-more {
+        position: relative;
+    }
+
+    .post-collapse__gradient {
+        height: 0;
+    }
 }

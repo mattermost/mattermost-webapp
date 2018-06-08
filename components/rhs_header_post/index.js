@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -10,6 +10,7 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     closeRightHandSide,
+    toggleRhsExpanded,
 } from 'actions/views/rhs';
 
 import RhsHeaderPost from './rhs_header_post.jsx';
@@ -22,6 +23,7 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             showPinnedPosts,
             closeRightHandSide,
+            toggleRhsExpanded,
         }, dispatch),
     };
 }

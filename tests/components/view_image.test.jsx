@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -197,6 +197,15 @@ describe('components/ViewImageModal', () => {
         wrapper.instance().onModalHidden();
         expect(wrapper).toMatchSnapshot();
         wrapper.instance().onModalShown(nextProps);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for external file', () => {
+        const fileInfos = [
+            {extension: 'png'},
+        ];
+        const props = {...requiredProps, fileInfos};
+        const wrapper = shallow(<ViewImageModal {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 

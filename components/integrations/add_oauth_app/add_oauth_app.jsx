@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -22,11 +22,6 @@ export default class AddOAuthApp extends React.PureComponent {
         * The request state for addOAuthApp action. Contains status and error
         */
         addOAuthAppRequest: PropTypes.object.isRequired,
-
-        /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -63,7 +58,6 @@ export default class AddOAuthApp extends React.PureComponent {
         return (
             <AbstractOAuthApp
                 team={this.props.team}
-                isSystemAdmin={this.props.isSystemAdmin}
                 header={HEADER}
                 footer={FOOTER}
                 renderExtra={''}

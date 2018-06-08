@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,7 +11,7 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -21,9 +21,10 @@ import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
-import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -124,6 +125,15 @@ export default class CreatePost extends React.Component {
          */
         enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
 
+        /**
+         * The maximum length of a post
+         */
+        maxPostSize: PropTypes.number.isRequired,
+
+        /**
+         * Whether to display a confirmation modal to reset status.
+         */
+        userIsOutOfOffice: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -175,6 +185,11 @@ export default class CreatePost extends React.Component {
              *  func called for opening the last replayable post in the RHS
              */
             selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired,
+
+            /**
+             * Function to open a modal
+             */
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -196,7 +211,7 @@ export default class CreatePost extends React.Component {
         this.lastBlurAt = 0;
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const enableSendButton = this.handleEnableSendButton(this.state.message, this.props.draft.fileInfos);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
@@ -216,7 +231,7 @@ export default class CreatePost extends React.Component {
         document.addEventListener('keydown', this.showShortcuts);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.currentChannel.id !== this.props.currentChannel.id) {
             const draft = nextProps.draft;
 
@@ -339,13 +354,45 @@ export default class CreatePost extends React.Component {
         this.setState({showConfirmModal: true});
     }
 
+    getStatusFromSlashCommand = () => {
+        const {message} = this.state;
+        const tokens = message.split(' ');
+
+        if (tokens.length > 0) {
+            return tokens[0].substring(1);
+        }
+        return '';
+    };
+
+    isStatusSlashCommand = (command) => {
+        return command === 'online' || command === 'away' ||
+            command === 'dnd' || command === 'offline';
+    };
+
     handleSubmit = (e) => {
-        const updateChannel = this.props.currentChannel;
+        const {
+            currentChannel: updateChannel,
+            userIsOutOfOffice,
+        } = this.props;
 
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             PostUtils.containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
+            return;
+        }
+
+        const status = this.getStatusFromSlashCommand();
+        if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
+            const resetStatusModalData = {
+                ModalId: ModalIdentifiers.RESET_STATUS,
+                dialogType: ResetStatusModal,
+                dialogProps: {newStatus: status},
+            };
+
+            this.props.actions.openModal(resetStatusModalData);
+
+            this.setState({message: ''});
             return;
         }
 
@@ -448,7 +495,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox(true);
+        this.focusTextbox();
     }
 
     handleUploadStart = (clientIds, channelId) => {
@@ -632,6 +679,10 @@ export default class CreatePost extends React.Component {
     replyToLastPost = (e) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
+        const replyBox = document.getElementById('reply_textbox');
+        if (replyBox) {
+            replyBox.focus();
+        }
         if (latestReplyablePostId) {
             this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
         }
@@ -869,6 +920,7 @@ export default class CreatePost extends React.Component {
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
+                                characterLimit={this.props.maxPostSize}
                             />
                             <span
                                 ref='createPostControls'

@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -66,6 +66,7 @@ export default class AbstractIncomingWebhook extends React.Component {
             displayName: hook.display_name || '',
             description: hook.description || '',
             channelId: hook.channel_id || '',
+            channelLocked: hook.channel_locked || false,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
             saving: false,
@@ -103,6 +104,7 @@ export default class AbstractIncomingWebhook extends React.Component {
 
         const hook = {
             channel_id: this.state.channelId,
+            channel_locked: this.state.channelLocked,
             display_name: this.state.displayName,
             description: this.state.description,
             username: this.state.username,
@@ -127,6 +129,12 @@ export default class AbstractIncomingWebhook extends React.Component {
     updateChannelId = (e) => {
         this.setState({
             channelId: e.target.value,
+        });
+    }
+
+    updateChannelLocked = (e) => {
+        this.setState({
+            channelLocked: e.target.checked,
         });
     }
 
@@ -240,7 +248,32 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.channel.help'
-                                        defaultMessage='Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.'
+                                        defaultMessage='The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                                htmlFor='channelLocked'
+                            >
+                                <FormattedMessage
+                                    id='add_incoming_webhook.channelLocked'
+                                    defaultMessage='Lock to this channel'
+                                />
+                            </label>
+                            <div className='col-md-5 col-sm-8 checkbox'>
+                                <input
+                                    id='channelLocked'
+                                    type='checkbox'
+                                    checked={this.state.channelLocked}
+                                    onChange={this.updateChannelLocked}
+                                />
+                                <div className='form__help'>
+                                    <FormattedMessage
+                                        id='add_incoming_webhook.channelLocked.help'
+                                        defaultMessage='If set, the incoming webhook can only post to the channel selected above.'
                                     />
                                 </div>
                             </div>

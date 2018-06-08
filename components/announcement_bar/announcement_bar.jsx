@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+
 import {ErrorBarTypes, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
@@ -29,12 +29,18 @@ export default class AnnouncementBar extends React.PureComponent {
          */
         isLoggedIn: PropTypes.bool.isRequired,
 
+        /*
+         * Set if the user can view system errors
+         */
+        canViewSystemErrors: PropTypes.bool.isRequired,
+        canViewAPIv3Banner: PropTypes.bool.isRequired,
         licenseId: PropTypes.string,
         siteURL: PropTypes.string,
         sendEmailNotifications: PropTypes.bool.isRequired,
         bannerText: PropTypes.string,
         allowBannerDismissal: PropTypes.bool.isRequired,
         enableBanner: PropTypes.bool.isRequired,
+        enablePreviewMode: PropTypes.bool.isRequired,
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
@@ -51,52 +57,56 @@ export default class AnnouncementBar extends React.PureComponent {
 
         this.setInitialError();
 
-        this.state = this.getState();
+        this.state = this.getState(props);
     }
 
-    setInitialError() {
-        let isSystemAdmin = false;
-        const user = UserStore.getCurrentUser();
-        if (user) {
-            isSystemAdmin = Utils.isSystemAdmin(user.roles);
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        if (nextProps.enableBanner !== this.props.enableBanner ||
+                nextProps.bannerText !== this.props.bannerText ||
+                nextProps.bannerColor !== this.props.bannerColor ||
+                nextProps.bannerTextColor !== this.props.bannerTextColor ||
+                nextProps.allowBannerDismissal !== this.props.allowBannerDismissal) {
+            this.setState(this.getState(nextProps));
         }
+    }
 
+    setInitialError = () => {
         const errorIgnored = ErrorStore.getIgnoreNotification();
 
         if (!errorIgnored) {
-            if (isSystemAdmin && this.props.siteURL === '') {
+            if (this.props.canViewSystemErrors && this.props.siteURL === '') {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.SITE_URL});
                 return;
-            } else if (!this.props.sendEmailNotifications) {
+            } else if (!this.props.sendEmailNotifications && this.props.enablePreviewMode) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.PREVIEW_MODE});
                 return;
             }
         }
 
         if (isLicensePastGracePeriod()) {
-            if (isSystemAdmin) {
+            if (this.props.canViewSystemErrors) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
             } else {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_PAST_GRACE, type: BAR_CRITICAL_TYPE});
             }
-        } else if (isLicenseExpired() && isSystemAdmin) {
+        } else if (isLicenseExpired() && this.props.canViewSystemErrors) {
             ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
-        } else if (isLicenseExpiring() && isSystemAdmin) {
+        } else if (isLicenseExpiring() && this.props.canViewSystemErrors) {
             ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRING, type: BAR_CRITICAL_TYPE});
         }
     }
 
-    getState() {
+    getState(props = this.props) {
         const error = ErrorStore.getLastError();
         if (error && error.message) {
             return {message: error.message, color: null, textColor: null, type: error.type, allowDismissal: true};
         }
 
-        const bannerText = this.props.bannerText || '';
-        const allowDismissal = this.props.allowBannerDismissal;
-        const bannerDismissed = localStorage.getItem(StoragePrefixes.ANNOUNCEMENT + this.props.bannerText);
+        const bannerText = props.bannerText || '';
+        const allowDismissal = props.allowBannerDismissal;
+        const bannerDismissed = localStorage.getItem(StoragePrefixes.ANNOUNCEMENT + props.bannerText);
 
-        if (this.props.enableBanner &&
+        if (props.enableBanner &&
             bannerText.length > 0 &&
             (!bannerDismissed || !allowDismissal)
         ) {
@@ -104,8 +114,8 @@ export default class AnnouncementBar extends React.PureComponent {
             Utils.removePrefixFromLocalStorage(StoragePrefixes.ANNOUNCEMENT);
             return {
                 message: bannerText,
-                color: this.props.bannerColor,
-                textColor: this.props.bannerTextColor,
+                color: props.bannerColor,
+                textColor: props.bannerTextColor,
                 type: BAR_ANNOUNCEMENT_TYPE,
                 allowDismissal,
             };

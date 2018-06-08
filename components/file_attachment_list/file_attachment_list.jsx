@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +8,7 @@ import Constants, {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
-import SingleImageView from 'components/single_image_view.jsx';
+import SingleImageView from 'components/single_image_view';
 import ViewImageModal from 'components/view_image';
 
 export default class FileAttachmentList extends React.Component {
@@ -33,6 +33,8 @@ export default class FileAttachmentList extends React.Component {
          * Set to render compactly
          */
         compactDisplay: PropTypes.bool,
+
+        isEmbedVisible: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -76,10 +78,12 @@ export default class FileAttachmentList extends React.Component {
                     return (
                         <SingleImageView
                             fileInfo={fileInfos[0]}
+                            isEmbedVisible={this.props.isEmbedVisible}
+                            post={this.props.post}
                         />
                     );
                 }
-            } else if (fileCount === 1) {
+            } else if (fileCount === 1 && this.props.isEmbedVisible) {
                 return (
                     <div style={style.minHeightPlaceholder}/>
                 );
@@ -117,7 +121,7 @@ export default class FileAttachmentList extends React.Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
                 <div className='post-image__columns clearfix'>
                     {postFiles}
                 </div>
@@ -127,7 +131,7 @@ export default class FileAttachmentList extends React.Component {
                     startIndex={this.state.startImgIndex}
                     fileInfos={sortedFileInfos}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }

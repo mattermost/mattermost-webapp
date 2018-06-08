@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
-import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {
+    isPostEphemeral,
+    isPostPendingOrFailed,
+} from 'mattermost-redux/utils/post_utils';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -16,25 +20,25 @@ import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import PostMessageContainer from 'components/post_view/post_message_view';
 import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import MattermostLogo from 'components/svg/mattermost_logo';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
 import UserProfile from 'components/user_profile.jsx';
 
 export default class RhsComment extends React.Component {
     static propTypes = {
         post: PropTypes.object,
+        teamId: PropTypes.string.isRequired,
         lastPostCount: PropTypes.number,
         user: PropTypes.object,
         currentUser: PropTypes.object.isRequired,
         compactDisplay: PropTypes.bool,
-        useMilitaryTime: PropTypes.bool.isRequired,
         isFlagged: PropTypes.bool,
         status: PropTypes.string,
         isBusy: PropTypes.bool,
@@ -44,6 +48,8 @@ export default class RhsComment extends React.Component {
         isEmbedVisible: PropTypes.bool,
         enableEmojiPicker: PropTypes.bool.isRequired,
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+        isReadOnly: PropTypes.bool.isRequired,
+        pluginPostTypes: PropTypes.object,
     };
 
     constructor(props) {
@@ -66,10 +72,6 @@ export default class RhsComment extends React.Component {
         }
 
         if (nextProps.compactDisplay !== this.props.compactDisplay) {
-            return true;
-        }
-
-        if (nextProps.useMilitaryTime !== this.props.useMilitaryTime) {
             return true;
         }
 
@@ -137,13 +139,12 @@ export default class RhsComment extends React.Component {
 
         const isPermalink = !(isEphemeral ||
             Posts.POST_DELETED === post.state ||
-            ReduxPostUtils.isPostPendingOrFailed(post));
+            isPostPendingOrFailed(post));
 
         return (
             <PostTime
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
-                useMilitaryTime={this.props.useMilitaryTime}
                 postId={post.id}
             />
         );
@@ -203,15 +204,16 @@ export default class RhsComment extends React.Component {
     };
 
     render() {
-        const post = this.props.post;
+        const {post, isReadOnly} = this.props;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
             idCount = this.props.lastPostCount;
         }
 
-        const isEphemeral = Utils.isPostEphemeral(post);
+        const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         let status = this.props.status;
         if (post.props && post.props.from_webhook === 'true') {
@@ -248,7 +250,34 @@ export default class RhsComment extends React.Component {
                 );
             }
 
-            botIndicator = <div className='col col__name bot-indicator'>{'BOT'}</div>;
+            botIndicator = (
+                <div className='col col__name bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
+        } else if (fromAutoResponder) {
+            userProfile = (
+                <span className='auto-responder'>
+                    <UserProfile
+                        user={this.props.user}
+                        status={status}
+                        isBusy={this.props.isBusy}
+                        isRHS={true}
+                        hasMention={true}
+                    />
+                </span>
+            );
+            botIndicator = (
+                <div className='col col__name bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.auto_responder'
+                        defaultMessage='AUTOMATIC REPLY'
+                    />
+                </div>
+            );
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
@@ -307,6 +336,14 @@ export default class RhsComment extends React.Component {
                     height='36'
                 />
             );
+        } else if (fromAutoResponder) {
+            profilePic = (
+                <ProfilePicture
+                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
+                    width='36'
+                    height='36'
+                />
+            );
         } else if (isSystemMessage) {
             profilePic = (
                 <MattermostLogo className='icon'/>
@@ -348,9 +385,9 @@ export default class RhsComment extends React.Component {
 
         let react;
 
-        if (!isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
             react = (
-                <span>
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         onHide={this.toggleEmojiPicker}
@@ -360,15 +397,20 @@ export default class RhsComment extends React.Component {
                         spaceRequiredAbove={342}
                         spaceRequiredBelow={342}
                     />
-                    <button
-                        className='reacticon__container reaction color--link style--none'
-                        onClick={this.toggleEmojiPicker}
-                        ref={'rhs_reacticon_' + post.id}
+                    <ChannelPermissionGate
+                        channelId={post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
                     >
-                        <EmojiIcon className='icon icon--emoji'/>
-                    </button>
-                </span>
-
+                        <button
+                            className='reacticon__container reaction color--link style--none'
+                            onClick={this.toggleEmojiPicker}
+                            ref={'rhs_reacticon_' + post.id}
+                        >
+                            <EmojiIcon className='icon icon--emoji'/>
+                        </button>
+                    </ChannelPermissionGate>
+                </div>
             );
         }
 
@@ -388,6 +430,7 @@ export default class RhsComment extends React.Component {
                     post={this.props.post}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
+                    isReadOnly={isReadOnly}
                 />
             );
 
@@ -411,30 +454,6 @@ export default class RhsComment extends React.Component {
                         defaultMessage='Pinned'
                     />
                 </span>
-            );
-        }
-
-        const messageWrapper = (
-            <PostMessageContainer
-                post={post}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
-        let messageWithAdditionalContent;
-        if (this.props.post.state === Posts.POST_DELETED) {
-            messageWithAdditionalContent = messageWrapper;
-        } else {
-            messageWithAdditionalContent = (
-                <PostBodyAdditionalContent
-                    post={post}
-                    previewCollapsed={this.props.previewCollapsed}
-                    previewEnabled={this.props.previewEnabled}
-                    isEmbedVisible={this.props.isEmbedVisible}
-                >
-                    {messageWrapper}
-                </PostBodyAdditionalContent>
             );
         }
 
@@ -468,10 +487,19 @@ export default class RhsComment extends React.Component {
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                {messageWithAdditionalContent}
+                                <MessageWithAdditionalContent
+                                    post={post}
+                                    previewCollapsed={this.props.previewCollapsed}
+                                    previewEnabled={this.props.previewEnabled}
+                                    isEmbedVisible={this.props.isEmbedVisible}
+                                    pluginPostTypes={this.props.pluginPostTypes}
+                                />
                             </div>
                             {fileAttachment}
-                            <ReactionListContainer post={post}/>
+                            <ReactionListContainer
+                                post={post}
+                                isReadOnly={isReadOnly}
+                            />
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -315,19 +315,19 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help1'
-                                        defaultMessage='Choose the content type by which the response will be sent.'
+                                        defaultMessage='Choose the content type by which the request will be sent.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help2'
-                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server assumes you will be encoding the parameters in a URL format.'
+                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server will encode the parameters in a URL format in the request body.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help3'
-                                        defaultMessage='If application/json is chosen, the server assumes you will posting JSON data.'
+                                        defaultMessage='If application/json is chosen, the server will format the request body as JSON.'
                                     />
                                 </div>
                             </div>
@@ -352,7 +352,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.channel.help'
-                                        defaultMessage='Public channel to receive webhook payloads. Optional if at least one Trigger Word is specified.'
+                                        defaultMessage='Public channel that delivers payload to webhook. Optional if at least one Trigger Word is specified.'
                                     />
                                 </div>
                             </div>
@@ -441,7 +441,21 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.callbackUrls.help'
-                                        defaultMessage='The URL that messages will be sent to.'
+                                        defaultMessage='The URL that messages will be sent to. If the URL is private, add it as a {link}.'
+                                        values={{
+                                            link: (
+                                                <a
+                                                    href='https://about.mattermost.com/default-allow-internal-connections-settings-documentation/'
+                                                    target='_blank'
+                                                    rel='noopener noreferrer'
+                                                >
+                                                    <FormattedMessage
+                                                        id='add_outgoing_webhook.callbackUrls.helpLinkText'
+                                                        defaultMessage='trusted internal connection'
+                                                    />
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </div>
                             </div>

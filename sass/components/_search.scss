@@ -23,9 +23,9 @@
 }
 
 .search__icon {
-    left: 10px;
+    left: 9px;
     position: absolute;
-    top: 8px;
+    top: 6px;
 }
 
 .sidebar__search-clear {
@@ -40,15 +40,20 @@
     width: 40px;
 }
 
+.search-bar__container {
+    padding-left: 8px;
+}
+
 .search__form {
-    padding: 0 30px 0 40px;
+    padding: 0 30px;
     position: relative;
 
     .search-bar__container & {
         @include border-radius(50px);
+        @include single-transition(all, .3s, ease-out);
         border: 1px solid $light-gray;
-        margin: 17px 10px 0 0;
-        width: 296px;
+        margin: 16px 0 0;
+        width: 180px;
     }
 
     .sidebar--right & {
@@ -60,21 +65,22 @@
         border: none;
         box-shadow: none;
         font-size: 14px;
-        height: 35px;
+        height: 28px;
         outline: none;
+        padding-bottom: 2px;
         width: 100%;
     }
 
     .fa-spin {
         @include opacity(0.5);
-        font-size: 1.2em;
+        font-size: 1em;
         position: absolute;
         right: 27px;
         top: 27px;
 
         .search-bar__container & {
-            right: 12px;
-            top: 10px;
+            right: 7px;
+            top: 7px;
         }
     }
 }
@@ -116,7 +122,7 @@
         }
 
         .post__header {
-            padding-right: 70px;
+            padding-right: 100px;
         }
 
         .search-channel__name {
@@ -138,13 +144,11 @@
 
 
     .search-item__jump {
+        @include border-radius(4px);
         font-size: 13px;
         position: relative;
-        top: 1px;
-    }
-
-    .search-item__comment {
-        margin-right: 5px;
+        padding: 2px 7px 0;
+        text-decoration: none;
     }
 }
 

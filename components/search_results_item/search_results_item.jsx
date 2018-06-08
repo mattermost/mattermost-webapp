@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -62,11 +62,6 @@ export default class SearchResultsItem extends React.PureComponent {
         term: PropTypes.string,
 
         /**
-        *  Flag for determining time format
-        */
-        useMilitaryTime: PropTypes.bool.isRequired,
-
-        /**
         *  Flag for determining result flag state
         */
         isFlagged: PropTypes.bool,
@@ -97,21 +92,12 @@ export default class SearchResultsItem extends React.PureComponent {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
 
         /**
-        *  Function used for shrinking LHS
-        *  on click of jump to message in expanded mode
-        */
-        shrink: PropTypes.func,
-
-        /**
-        *  Function used for selecting a post to comment
-        */
-        onSelect: PropTypes.func,
-
-        /**
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
+            selectPost: PropTypes.func.isRequired,
+            setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -123,15 +109,9 @@ export default class SearchResultsItem extends React.PureComponent {
         };
     }
 
-    shrinkSidebar = () => {
-        setTimeout(() => {
-            this.props.shrink();
-        });
-    };
-
     handleFocusRHSClick = (e) => {
         e.preventDefault();
-        this.props.onSelect(this.props.post);
+        this.props.actions.selectPost(this.props.post);
     };
 
     handleJumpClick = () => {
@@ -139,7 +119,7 @@ export default class SearchResultsItem extends React.PureComponent {
             this.props.actions.closeRightHandSide();
         }
 
-        this.shrinkSidebar();
+        this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
 
@@ -159,7 +139,6 @@ export default class SearchResultsItem extends React.PureComponent {
             <PostTime
                 isPermalink={isPermalink}
                 eventTime={post.create_at}
-                useMilitaryTime={this.props.useMilitaryTime}
                 postId={post.id}
             />
         );
@@ -193,7 +172,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         id='search_item.direct'
                         defaultMessage='Direct Message (with {username})'
                         values={{
-                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id)),
+                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
                         }}
                     />
                 );
@@ -212,7 +191,14 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let botIndicator;
         if (post.props && post.props.from_webhook) {
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            botIndicator = (
+                <div className='bot-indicator'>
+                    <FormattedMessage
+                        id='post_info.bot'
+                        defaultMessage='BOT'
+                    />
+                </div>
+            );
         }
 
         const profilePic = (
@@ -265,7 +251,7 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             rhsControls = (
-                <div className='col__controls'>
+                <div className='col__controls col__reply'>
                     <DotMenu
                         idPrefix={Constants.SEARCH_POST}
                         idCount={this.props.lastPostCount}

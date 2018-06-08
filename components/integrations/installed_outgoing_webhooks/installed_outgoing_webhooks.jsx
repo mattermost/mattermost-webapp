@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -26,7 +26,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         /**
         *  Data used for checking modification privileges
         */
-        isAdmin: PropTypes.bool,
+        canManageOthersWebhooks: PropTypes.bool,
 
         /**
         * Data used in passing down as props for showing webhook details
@@ -128,7 +128,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
 
     render() {
         const outgoingWebhooks = this.props.outgoingWebhooks.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
-            const canChange = this.props.isAdmin || this.props.user.id === outgoingWebhook.creator_id;
+            const canChange = this.props.canManageOthersWebhooks || this.props.user.id === outgoingWebhook.creator_id;
             const channel = this.props.channels[outgoingWebhook.channel_id];
             return (
                 <InstalledOutgoingWebhook

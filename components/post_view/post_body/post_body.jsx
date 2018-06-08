@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -87,6 +87,15 @@ export default class PostBody extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * Set not to allow edits on post
+         */
+        isReadOnly: PropTypes.bool,
+    }
+
+    static defaultProps = {
+        isReadOnly: false,
     }
 
     constructor(props) {
@@ -115,7 +124,7 @@ export default class PostBody extends React.PureComponent {
         this.sendingAction.cancel();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         const post = nextProps.post;
         if (post && post.id !== post.pending_post_id) {
             this.sendingAction.cancel();
@@ -136,7 +145,7 @@ export default class PostBody extends React.PureComponent {
             let apostrophe = '';
             let name = '...';
             if (profile != null) {
-                let username = Utils.displayUsernameForUser(profile);
+                let username = Utils.getDisplayNameByUser(profile);
                 if (parentPost.props &&
                         parentPost.props.from_webhook &&
                         parentPost.props.override_username &&
@@ -225,11 +234,7 @@ export default class PostBody extends React.PureComponent {
         }
 
         const messageWrapper = (
-            <div
-                key={`${post.id}_message`}
-                id={`${post.id}_message`}
-                className={postClass}
-            >
+            <React.Fragment>
                 {failedOptions}
                 {sending}
                 <PostMessageView
@@ -238,7 +243,7 @@ export default class PostBody extends React.PureComponent {
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
                 />
-            </div>
+            </React.Fragment>
         );
 
         const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
@@ -272,10 +277,16 @@ export default class PostBody extends React.PureComponent {
         return (
             <div>
                 {comment}
-                <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass}`}>
+                <div
+                    id={`${post.id}_message`}
+                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
+                >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionListContainer post={post}/>
+                    <ReactionListContainer
+                        post={post}
+                        isReadOnly={this.props.isReadOnly}
+                    />
                 </div>
             </div>
         );

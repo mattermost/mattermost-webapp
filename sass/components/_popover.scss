@@ -33,6 +33,16 @@
         text-overflow: ellipsis;
     }
 
+    hr {
+        &.divider {
+            margin: 8px 0;
+        }
+
+        &.divider--expanded {
+            margin: 8px -15px;
+        }
+    }
+
     .popover-content {
         word-break: break-word;
 
@@ -49,7 +59,7 @@
 
         &.first {
             border-top: 1px solid transparent;
-            margin-top: 9px;
+            margin-top: 4px;
         }
 
         > a {
@@ -84,7 +94,7 @@
 
 .user-popover__image {
     @include border-radius(128px);
-    margin: 0 0 10px;
+    margin: 5px 0;
 }
 
 .user-popover__email {

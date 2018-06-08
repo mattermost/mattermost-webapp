@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] = `<div />`;
+
+exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
+<div
+  className="error-bar"
+  style={
+    Object {
+      "backgroundColor": "green",
+      "color": "black",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Banner text</p>",
+        }
+      }
+    />
+  </span>
+  <a
+    className="error-bar__close"
+    href="#"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "black",
+      }
+    }
+  >
+    ×
+  </a>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, bar showing, no dismissal 1`] = `
+<div
+  className="error-bar error-bar--fixed"
+  style={
+    Object {
+      "backgroundColor": "green",
+      "color": "black",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Banner text</p>",
+        }
+      }
+    />
+  </span>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
+<div
+  className="error-bar"
+  style={
+    Object {
+      "backgroundColor": "green",
+      "color": "black",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Banner text</p>",
+        }
+      }
+    />
+  </span>
+  <a
+    className="error-bar__close"
+    href="#"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "black",
+      }
+    }
+  >
+    ×
+  </a>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `<div />`;
+
+exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `<div />`;
+
+exports[`components/AnnouncementBar should match snapshot, dismissal 4`] = `
+<div
+  className="error-bar"
+  style={
+    Object {
+      "backgroundColor": "yellow",
+      "color": "red",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Some new text</p>",
+        }
+      }
+    />
+  </span>
+  <a
+    className="error-bar__close"
+    href="#"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "red",
+      }
+    }
+  >
+    ×
+  </a>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
+<div
+  className="error-bar"
+  style={
+    Object {
+      "backgroundColor": "green",
+      "color": "black",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Banner text</p>",
+        }
+      }
+    />
+  </span>
+  <a
+    className="error-bar__close"
+    href="#"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "black",
+      }
+    }
+  >
+    ×
+  </a>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
+<div
+  className="error-bar"
+  style={
+    Object {
+      "backgroundColor": "yellow",
+      "color": "red",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Banner text</p>",
+        }
+      }
+    />
+  </span>
+  <a
+    className="error-bar__close"
+    href="#"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "red",
+      }
+    }
+  >
+    ×
+  </a>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
+<div
+  className="error-bar error-bar--fixed"
+  style={
+    Object {
+      "backgroundColor": "yellow",
+      "color": "red",
+    }
+  }
+>
+  <span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p class=\\"markdown__paragraph-inline\\">Banner text</p>",
+        }
+      }
+    />
+  </span>
+</div>
+`;
+
+exports[`components/AnnouncementBar should match snapshot, props change 4`] = `<div />`;

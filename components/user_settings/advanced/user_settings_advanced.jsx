@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -30,7 +30,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
     }
 
     getStateFromStores = () => {
-        let preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
         const advancedSettings = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS);
         const settings = {
             send_on_ctrl_enter: PreferenceStore.get(
@@ -50,12 +49,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
             ),
         };
 
-        const webrtcEnabled = this.props.enableWebrtc;
-
-        if (!webrtcEnabled) {
-            preReleaseFeaturesKeys = preReleaseFeaturesKeys.filter((f) => f !== 'WEBRTC_PREVIEW');
-        }
-
+        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
         let enabledFeatures = 0;
         for (const [name, value] of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
@@ -335,13 +329,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     defaultMessage='Show markdown preview option in message input box'
                 />
             );
-        case 'WEBRTC_PREVIEW':
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.webrtc_preview'
-                    defaultMessage='Enable the ability to make and receive one-on-one WebRTC calls'
-                />
-            );
         default:
             return null;
         }
@@ -574,14 +561,11 @@ export default class AdvancedSettingsDisplay extends React.Component {
 }
 
 AdvancedSettingsDisplay.propTypes = {
-    user: PropTypes.object,
     updateSection: PropTypes.func,
-    updateTab: PropTypes.func,
     activeSection: PropTypes.string,
     prevActiveSection: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
-    enableWebrtc: PropTypes.bool,
     enablePreviewFeatures: PropTypes.bool,
     buildEnterpriseReady: PropTypes.bool,
     isLicensed: PropTypes.bool,

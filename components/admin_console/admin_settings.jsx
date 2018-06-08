@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {saveConfig} from 'actions/admin_actions.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
+import Constants from 'utils/constants.jsx';
 
 export default class AdminSettings extends React.Component {
     static propTypes = {
@@ -16,6 +18,11 @@ export default class AdminSettings extends React.Component {
          * Object representing the config file
          */
         config: PropTypes.object,
+
+        /*
+         * Object containing config fields that have been set through environment variables
+         */
+        environmentConfig: PropTypes.object,
 
         /*
          * Action for whether a save is needed
@@ -30,7 +37,18 @@ export default class AdminSettings extends React.Component {
             saveNeeded: false,
             saving: false,
             serverError: null,
+            errorTooltip: false,
         });
+    }
+
+    closeTooltip = () => {
+        this.setState({errorTooltip: false});
+    }
+
+    openTooltip = (e) => {
+        const elm = e.currentTarget.querySelector('.control-label');
+        const isElipsis = elm.offsetWidth < elm.scrollWidth;
+        this.setState({errorTooltip: isElipsis});
     }
 
     handleChange = (id, value) => {
@@ -82,6 +100,7 @@ export default class AdminSettings extends React.Component {
                 this.setState({
                     saving: false,
                     serverError: err.message,
+                    serverErrorId: err.id,
                 });
 
                 if (callback) {
@@ -121,6 +140,40 @@ export default class AdminSettings extends React.Component {
         return n;
     };
 
+    getConfigValue(config, path) {
+        const pathParts = path.split('.');
+
+        return pathParts.reduce((obj, pathPart) => {
+            if (!obj) {
+                return null;
+            }
+
+            return obj[pathPart];
+        }, config);
+    }
+
+    setConfigValue(config, path, value) {
+        function setValue(obj, pathParts) {
+            const part = pathParts[0];
+
+            if (pathParts.length === 1) {
+                obj[part] = value;
+            } else {
+                if (obj[part] == null) {
+                    obj[part] = {};
+                }
+
+                setValue(obj[part], pathParts.slice(1));
+            }
+        }
+
+        setValue(config, path.split('.'));
+    }
+
+    isSetByEnv = (path) => {
+        return Boolean(this.getConfigValue(this.props.environmentConfig, path));
+    };
+
     render() {
         return (
             <div className='wrapper--fixed'>
@@ -133,18 +186,31 @@ export default class AdminSettings extends React.Component {
                     onSubmit={this.handleSubmit}
                 >
                     {this.renderSettings()}
-                    <div className='form-group'>
-                        <FormError error={this.state.serverError}/>
-                    </div>
-                    <div className='form-group'>
-                        <div className='col-sm-12'>
-                            <SaveButton
-                                saving={this.state.saving}
-                                disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
-                                onClick={this.handleSubmit}
-                                savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
-                            />
+                    <div className='admin-console-save'>
+                        <SaveButton
+                            saving={this.state.saving}
+                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                            onClick={this.handleSubmit}
+                            savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
+                        />
+                        <div
+                            className='error-message'
+                            ref='errorMessage'
+                            onMouseOver={this.openTooltip}
+                            onMouseOut={this.closeTooltip}
+                        >
+                            <FormError error={this.state.serverError}/>
                         </div>
+                        <Overlay
+                            show={this.state.errorTooltip}
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='top'
+                            target={this.refs.errorMessage}
+                        >
+                            <Tooltip id='error-tooltip' >
+                                {this.state.serverError}
+                            </Tooltip>
+                        </Overlay>
                     </div>
                 </form>
             </div>

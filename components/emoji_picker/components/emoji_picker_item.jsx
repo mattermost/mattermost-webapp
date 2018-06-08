@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -32,7 +32,7 @@ export default class EmojiPickerItem extends React.Component {
         this.emojiItem = emojiItem;
     };
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.props.isSelected && nextProps.isSelected) {
             const topOfTheEmojiItem = this.emojiItem.offsetTop;
             const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;

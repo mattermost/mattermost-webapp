@@ -1,0 +1,276 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AtMention should match snapshot when mentioning all 1`] = `
+<React.Fragment>
+  (at)-all
+</React.Fragment>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning all with mixed case 1`] = `
+<React.Fragment>
+  (at)-aLL
+</React.Fragment>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning current user 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc1/image"
+          user={
+            Object {
+              "first_name": "First",
+              "id": "abc1",
+              "last_name": "Last",
+              "username": "currentuser",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link mention--highlight"
+    >
+      @First Last
+    </a>
+  </OverlayTrigger>
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning user 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc2/image"
+          user={
+            Object {
+              "first_name": "Other",
+              "id": "abc2",
+              "last_name": "User",
+              "nickname": "Nick",
+              "username": "user1",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link"
+    >
+      @Nick
+    </a>
+  </OverlayTrigger>
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning user containing and followed by punctuation 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc3/image"
+          user={
+            Object {
+              "first_name": "Dot",
+              "id": "abc3",
+              "last_name": "Matrix",
+              "username": "userdot.",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link"
+    >
+      @Dot Matrix
+    </a>
+  </OverlayTrigger>
+  .
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning user containing punctuation 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc3/image"
+          user={
+            Object {
+              "first_name": "Dot",
+              "id": "abc3",
+              "last_name": "Matrix",
+              "username": "userdot.",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link"
+    >
+      @Dot Matrix
+    </a>
+  </OverlayTrigger>
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning user followed by punctuation 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc2/image"
+          user={
+            Object {
+              "first_name": "Other",
+              "id": "abc2",
+              "last_name": "User",
+              "nickname": "Nick",
+              "username": "user1",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link"
+    >
+      @Nick
+    </a>
+  </OverlayTrigger>
+  ...
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning user with different teammate name display setting 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc2/image"
+          user={
+            Object {
+              "first_name": "Other",
+              "id": "abc2",
+              "last_name": "User",
+              "nickname": "Nick",
+              "username": "user1",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link"
+    >
+      @user1
+    </a>
+  </OverlayTrigger>
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning user with mixed case 1`] = `
+<span>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(Pluggable)>
+        <FakeProfilePopover
+          hasMention={false}
+          hide={[Function]}
+          isRHS={false}
+          src="/api/v4/users/abc2/image"
+          user={
+            Object {
+              "first_name": "Other",
+              "id": "abc2",
+              "last_name": "User",
+              "nickname": "Nick",
+              "username": "user1",
+            }
+          }
+        />
+      </Connect(Pluggable)>
+    }
+    placement="left"
+    rootClose={true}
+    trigger="click"
+  >
+    <a
+      className="mention-link"
+    >
+      @Nick
+    </a>
+  </OverlayTrigger>
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when not mentioning a user 1`] = `
+<React.Fragment>
+  (at)-notauser
+</React.Fragment>
+`;
+
+exports[`components/AtMention should match snapshot when not mentioning a user with mixed case 1`] = `
+<React.Fragment>
+  (at)-NOTAuser
+</React.Fragment>
+`;

@@ -1,12 +1,12 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Dropdown, MenuItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {removeUserFromTeam, updateTeamMemberRoles} from 'actions/team_actions.jsx';
+import {removeUserFromTeam} from 'actions/team_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class ManageTeamsDropdown extends React.Component {
@@ -16,6 +16,7 @@ export default class ManageTeamsDropdown extends React.Component {
         onError: PropTypes.func.isRequired,
         onMemberChange: PropTypes.func.isRequired,
         onMemberRemove: PropTypes.func.isRequired,
+        updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -23,8 +24,6 @@ export default class ManageTeamsDropdown extends React.Component {
 
         this.toggleDropdown = this.toggleDropdown.bind(this);
 
-        this.makeTeamAdmin = this.makeTeamAdmin.bind(this);
-        this.makeMember = this.makeMember.bind(this);
         this.removeFromTeam = this.removeFromTeam.bind(this);
 
         this.handleMemberChange = this.handleMemberChange.bind(this);
@@ -41,25 +40,23 @@ export default class ManageTeamsDropdown extends React.Component {
         });
     }
 
-    makeTeamAdmin() {
-        updateTeamMemberRoles(
-            this.props.teamMember.team_id,
-            this.props.user.id,
-            'team_user team_admin',
-            this.handleMemberChange,
-            this.props.onError
-        );
-    }
+    makeTeamAdmin = async () => {
+        const {error} = await this.props.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, true);
+        if (error) {
+            this.props.onError(error.message);
+        } else {
+            this.handleMemberChange();
+        }
+    };
 
-    makeMember() {
-        updateTeamMemberRoles(
-            this.props.teamMember.team_id,
-            this.props.user.id,
-            'team_user',
-            this.handleMemberChange,
-            this.props.onError
-        );
-    }
+    makeMember = async () => {
+        const {error} = await this.props.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
+        if (error) {
+            this.props.onError(error.message);
+        } else {
+            this.handleMemberChange();
+        }
+    };
 
     removeFromTeam() {
         removeUserFromTeam(
@@ -79,7 +76,7 @@ export default class ManageTeamsDropdown extends React.Component {
     }
 
     render() {
-        const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles);
+        const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;
 
         let title;
         if (isTeamAdmin) {

@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import assert from 'assert';
 
@@ -513,4 +513,86 @@ describe('Markdown.Links', function() {
 
         done();
     });
+
+    describe('autolinkedUrlSchemes', () => {
+        test('all links are rendered when not provided', () => {
+            expect(Markdown.format('http://example.com').trim()).toBe(`<p>${link('http://example.com')}</p>`);
+
+            expect(Markdown.format('https://example.com').trim()).toBe(`<p>${link('https://example.com')}</p>`);
+
+            expect(Markdown.format('ftp://ftp.example.com').trim()).toBe(`<p>${link('ftp://ftp.example.com')}</p>`);
+
+            expect(Markdown.format('tel:1-555-123-4567').trim()).toBe(`<p>${link('tel:1-555-123-4567')}</p>`);
+
+            expect(Markdown.format('mailto:test@example.com').trim()).toBe(`<p>${link('mailto:test@example.com')}</p>`);
+
+            expect(Markdown.format('git://git.example.com').trim()).toBe(`<p>${link('git://git.example.com')}</p>`);
+
+            expect(Markdown.format('test:test').trim()).toBe(`<p>${link('test:test')}</p>`);
+        });
+
+        test('no links are rendered when no schemes are provided', () => {
+            const options = {
+                autolinkedUrlSchemes: [],
+            };
+
+            expect(Markdown.format('http://example.com', options).trim()).toBe('<p>http://example.com</p>');
+
+            expect(Markdown.format('https://example.com', options).trim()).toBe('<p>https://example.com</p>');
+
+            expect(Markdown.format('ftp://ftp.example.com', options).trim()).toBe('<p>ftp://ftp.example.com</p>');
+
+            expect(Markdown.format('tel:1-555-123-4567', options).trim()).toBe('<p>tel:1-555-123-4567</p>');
+
+            expect(Markdown.format('mailto:test@example.com', options).trim()).toBe('<p>mailto:test@example.com</p>');
+
+            expect(Markdown.format('git://git.example.com', options).trim()).toBe('<p>git://git.example.com</p>');
+
+            expect(Markdown.format('test:test', options).trim()).toBe('<p>test:test</p>');
+        });
+
+        test('only matching links are rendered when schemes are provided', () => {
+            const options = {
+                autolinkedUrlSchemes: ['https', 'git', 'test'],
+            };
+
+            expect(Markdown.format('http://example.com', options).trim()).toBe('<p>http://example.com</p>');
+
+            expect(Markdown.format('https://example.com', options).trim()).toBe(`<p>${link('https://example.com')}</p>`);
+
+            expect(Markdown.format('ftp://ftp.example.com', options).trim()).toBe('<p>ftp://ftp.example.com</p>');
+
+            expect(Markdown.format('tel:1-555-123-4567', options).trim()).toBe('<p>tel:1-555-123-4567</p>');
+
+            expect(Markdown.format('mailto:test@example.com', options).trim()).toBe('<p>mailto:test@example.com</p>');
+
+            expect(Markdown.format('git://git.example.com', options).trim()).toBe(`<p>${link('git://git.example.com')}</p>`);
+
+            expect(Markdown.format('test:test', options).trim()).toBe(`<p>${link('test:test')}</p>`);
+        });
+
+        test('explicit links are not affected by this setting', () => {
+            const options = {
+                autolinkedUrlSchemes: [],
+            };
+
+            expect(Markdown.format('www.example.com', options).trim()).toBe(`<p>${link('http://www.example.com', 'www.example.com')}</p>`);
+
+            expect(Markdown.format('[link](git://git.example.com)', options).trim()).toBe(`<p>${link('git://git.example.com', 'link')}</p>`);
+
+            expect(Markdown.format('<http://example.com>', options).trim()).toBe(`<p>${link('http://example.com')}</p>`);
+        });
+    });
 });
+
+function link(href, text, title) {
+    let out = `<a class="theme markdown__link" href="${href}" rel="noreferrer" target="_blank"`;
+
+    if (title) {
+        out += ` title="${title}"`;
+    }
+
+    out += `>${text || href}</a>`;
+
+    return out;
+}

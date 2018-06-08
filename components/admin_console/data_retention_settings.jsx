@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -193,6 +193,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     }
                     value={this.state.messageRetentionDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.MessageRetentionDays')}
                 />
             );
         }
@@ -212,6 +213,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     }
                     value={this.state.fileRetentionDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.FileRetentionDays')}
                 />
             );
         }
@@ -260,6 +262,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     }
                     value={this.state.enableMessageDeletion}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.EnableMessageDeletion')}
                 />
                 {messageRetentionDaysSetting}
                 <DropdownSetting
@@ -279,6 +282,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     }
                     value={this.state.enableFileDeletion}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.EnableFileDeletion')}
                 />
                 {fileRetentionDaysSetting}
                 <TextSetting
@@ -298,6 +302,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     }
                     value={this.state.deletionJobStartTime}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.DeletionJobStartTime')}
                 />
                 <JobsTable
                     jobType={JobTypes.DATA_RETENTION}

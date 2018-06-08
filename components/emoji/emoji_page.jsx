@@ -1,37 +1,28 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
 import * as Utils from 'utils/utils.jsx';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import EmojiList from './emoji_list';
 
 export default class EmojiPage extends React.Component {
     static propTypes = {
-
-        /**
-         * Non-UI team name for the current team.
-         */
+        teamId: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,
-
-        /**
-         * UI team name for the current team.
-         */
         teamDisplayName: PropTypes.string.isRequired,
-
-        /**
-         * Title of the app or site.
-         */
         siteName: PropTypes.string,
-
-        /**
-         * Function to scroll list to top.
-         */
         scrollToTop: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            loadRolesIfNeeded: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -42,13 +33,14 @@ export default class EmojiPage extends React.Component {
 
     componentDidMount() {
         this.updateTitle();
+        this.props.actions.loadRolesIfNeeded(['system_admin', 'team_admin', 'system_user', 'team_user']);
     }
 
     updateTitle = (props = this.props) => {
         document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + props.teamDisplayName + ' ' + props.siteName;
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.siteName !== nextProps.siteName) {
             this.updateTitle(nextProps);
         }
@@ -64,20 +56,25 @@ export default class EmojiPage extends React.Component {
                             defaultMessage='Custom Emoji'
                         />
                     </h1>
-                    <Link
-                        className='add-link'
-                        to={'/' + this.props.teamName + '/emoji/add'}
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_EMOJIS]}
                     >
-                        <button
-                            type='button'
-                            className='btn btn-primary'
+                        <Link
+                            className='add-link'
+                            to={'/' + this.props.teamName + '/emoji/add'}
                         >
-                            <FormattedMessage
-                                id='emoji_list.add'
-                                defaultMessage='Add Custom Emoji'
-                            />
-                        </button>
-                    </Link>
+                            <button
+                                type='button'
+                                className='btn btn-primary'
+                            >
+                                <FormattedMessage
+                                    id='emoji_list.add'
+                                    defaultMessage='Add Custom Emoji'
+                                />
+                            </button>
+                        </Link>
+                    </TeamPermissionGate>
                     <EmojiList scrollToTop={this.props.scrollToTop}/>
                 </div>
             </div>

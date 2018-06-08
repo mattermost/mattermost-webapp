@@ -1,207 +1,108 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {searchProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
-import {loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+import {loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList} from 'actions/user_actions.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
+
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 
 const USERS_PER_PAGE = 50;
 
-export default class MemberListChannel extends React.Component {
+export default class MemberListChannel extends React.PureComponent {
     static propTypes = {
+        currentTeamId: PropTypes.string.isRequired,
+        currentChannelId: PropTypes.string.isRequired,
+        searchTerm: PropTypes.string.isRequired,
+        usersToDisplay: PropTypes.arrayOf(PropTypes.object).isRequired,
+        actionUserProps: PropTypes.object.isRequired,
+        totalChannelMembers: PropTypes.number.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
+            searchProfiles: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.onStatsChange = this.onStatsChange.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.loadComplete = this.loadComplete.bind(this);
-
         this.searchTimeoutId = 0;
-        this.term = '';
-
-        const stats = ChannelStore.getCurrentStats();
 
         this.state = {
-            users: UserStore.getProfileListInChannel(ChannelStore.getCurrentId(), false, true),
-            teamMembers: Object.assign({}, TeamStore.getMembersInTeam()),
-            channelMembers: Object.assign({}, ChannelStore.getMembersInChannel()),
-            total: stats.member_count,
             loading: true,
-            actionUserProps: {},
-            usersToDisplay: [],
         };
     }
 
     componentDidMount() {
-        UserStore.addInChannelChangeListener(this.onChange);
-        UserStore.addStatusesChangeListener(this.onChange);
-        TeamStore.addChangeListener(this.onChange);
-        ChannelStore.addChangeListener(this.onChange);
-        ChannelStore.addStatsChangeListener(this.onStatsChange);
-
-        loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, TeamStore.getCurrentId(), ChannelStore.getCurrentId(), this.loadComplete);
-        this.props.actions.getChannelStats(ChannelStore.getCurrentId());
+        loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId, this.props.currentChannelId, this.loadComplete);
+        this.props.actions.getChannelStats(this.props.currentChannelId);
     }
 
     componentWillUnmount() {
-        UserStore.removeInTeamChangeListener(this.onChange);
-        UserStore.removeStatusesChangeListener(this.onChange);
-        TeamStore.removeChangeListener(this.onChange);
-        ChannelStore.removeChangeListener(this.onChange);
-        ChannelStore.removeStatsChangeListener(this.onStatsChange);
+        this.props.actions.setModalSearchTerm('');
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.loading !== this.state.loading) {
-            return true;
-        }
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        if (this.props.searchTerm !== nextProps.searchTerm) {
+            clearTimeout(this.searchTimeoutId);
+            const searchTerm = nextProps.searchTerm;
 
-        if (nextState.total !== this.state.total) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextState.usersToDisplay, this.state.usersToDisplay)) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextState.actionUserProps, this.state.actionUserProps)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    componentWillUpdate(_, nextState) {
-        if (!nextState.loading) {
-            const {
-                users,
-                teamMembers,
-                channelMembers,
-            } = nextState;
-
-            this.setUsersDisplayAndActionProps(users, teamMembers, channelMembers);
-        }
-    }
-
-    setUsersDisplayAndActionProps(users, teamMembers, channelMembers) {
-        const actionUserProps = {};
-        const usersToDisplay = [];
-
-        for (let i = 0; i < users.length; i++) {
-            const user = users[i];
-
-            if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
-                const status = UserStore.getStatus(user.id);
-                usersToDisplay.push({...user, status});
-
-                actionUserProps[user.id] = {
-                    channel: this.props.channel,
-                    teamMember: teamMembers[user.id],
-                    channelMember: channelMembers[user.id],
-                };
+            if (searchTerm === '') {
+                this.loadComplete();
+                this.searchTimeoutId = '';
+                return;
             }
+
+            const searchTimeoutId = setTimeout(
+                async () => {
+                    const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId, in_channel_id: nextProps.currentChannelId});
+
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+
+                    this.setState({loading: true});
+
+                    loadStatusesForProfilesList(data);
+                    loadTeamMembersAndChannelMembersForProfilesList(data, nextProps.currentTeamId, nextProps.currentChannelId, this.loadComplete);
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS
+            );
+
+            this.searchTimeoutId = searchTimeoutId;
         }
-
-        usersToDisplay.sort(Utils.sortUsersByStatusAndDisplayName);
-
-        this.setState({
-            usersToDisplay,
-            actionUserProps,
-        });
     }
 
-    loadComplete() {
+    loadComplete = () => {
         this.setState({loading: false});
-    }
-
-    onChange() {
-        let users;
-        if (this.term) {
-            users = searchProfilesInCurrentChannel(store.getState(), this.term);
-        } else {
-            users = UserStore.getProfileListInChannel(ChannelStore.getCurrentId(), false, true);
-        }
-
-        const teamMembers = Object.assign({}, TeamStore.getMembersInTeam());
-        const channelMembers = Object.assign({}, ChannelStore.getMembersInChannel());
-
-        this.setState({
-            users,
-            teamMembers,
-            channelMembers,
-        });
-
-        this.setUsersDisplayAndActionProps(users, teamMembers, channelMembers);
-    }
-
-    onStatsChange() {
-        const stats = ChannelStore.getCurrentStats();
-        this.setState({total: stats.member_count});
     }
 
     nextPage(page) {
         loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE);
     }
 
-    handleSearch(term) {
-        clearTimeout(this.searchTimeoutId);
-        this.term = term;
-
-        if (term === '') {
-            this.setState({loading: false});
-            this.searchTimeoutId = '';
-            this.onChange();
-            return;
-        }
-
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(term, '', {in_channel_id: ChannelStore.getCurrentId()},
-                    (users) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
-
-                        this.setState({loading: true});
-
-                        loadTeamMembersAndChannelMembersForProfilesList(users, TeamStore.getCurrentId(), ChannelStore.getCurrentId(), this.loadComplete);
-                    }
-                );
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
-
-        this.searchTimeoutId = searchTimeoutId;
+    handleSearch = (term) => {
+        this.props.actions.setModalSearchTerm(term);
     }
 
     render() {
         return (
             <SearchableUserList
-                users={this.state.usersToDisplay}
+                users={this.props.usersToDisplay}
                 usersPerPage={USERS_PER_PAGE}
-                total={this.state.total}
+                total={this.props.totalChannelMembers}
                 nextPage={this.nextPage}
                 search={this.handleSearch}
                 actions={[ChannelMembersDropdown]}
-                actionUserProps={this.state.actionUserProps}
+                actionUserProps={this.props.actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
             />
         );

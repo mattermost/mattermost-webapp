@@ -1,9 +1,10 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Switch, Route} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Messaging from './components/messaging';
 import Composing from './components/composing';
@@ -13,7 +14,7 @@ import Attaching from './components/attaching';
 import Commands from './components/commands';
 
 export default class HelpController extends React.Component {
-    componentWillUpdate() {
+    UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
         ReactDOM.findDOMNode(this).scrollIntoView();
     }
 
@@ -52,3 +53,13 @@ export default class HelpController extends React.Component {
         );
     }
 }
+
+HelpController.propTypes = {
+
+    /*
+     * Object from react-router
+     */
+    match: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+    }).isRequired,
+};

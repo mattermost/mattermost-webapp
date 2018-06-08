@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
@@ -31,7 +33,7 @@ describe('components/analytics/doughnut_chart.jsx', () => {
             />
         );
 
-        expect(Chart).toBeCalledWith(null, {data, options: {}, type: 'doughnut'});
+        expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -51,7 +53,7 @@ describe('components/analytics/doughnut_chart.jsx', () => {
                 data={data}
             />
         );
-        expect(Chart).toBeCalledWith(null, {data, options: {}, type: 'doughnut'});
+        expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
         expect(wrapper).toMatchSnapshot();
     });
 

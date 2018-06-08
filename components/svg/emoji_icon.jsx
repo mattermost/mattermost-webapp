@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 
@@ -8,9 +8,11 @@ export default class EmojiIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='15px'
-                    height='15px'
+                    width='16px'
+                    height='16px'
                     viewBox='0 0 15 15'
+                    role='icon'
+                    aria-label='Emoji icon'
                 >
                     <g
                         stroke='none'

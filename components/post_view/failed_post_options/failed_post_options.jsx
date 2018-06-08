@@ -1,64 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {createPost} from 'actions/post_actions.jsx';
-
 export default class FailedPostOptions extends React.PureComponent {
     static propTypes = {
-
-        /*
-         * The failed post
-         */
         post: PropTypes.object.isRequired,
         actions: PropTypes.shape({
-
-            /**
-             * The function to delete the post
-             */
+            createPost: PropTypes.func.isRequired,
             removePost: PropTypes.func.isRequired,
         }).isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.retryPost = this.retryPost.bind(this);
-        this.cancelPost = this.cancelPost.bind(this);
-
-        this.submitting = false;
-    }
-
-    retryPost(e) {
+    retryPost = (e) => {
         e.preventDefault();
-
-        if (this.submitting) {
-            return;
-        }
-
-        this.submitting = true;
 
         const post = {...this.props.post};
         Reflect.deleteProperty(post, 'id');
-        createPost(post,
-            () => {
-                this.submitting = false;
-            },
-            (err) => {
-                if (err && err.id && err.id === 'api.post.create_post.root_id.app_error') {
-                    this.showPostDeletedModal();
-                }
-
-                this.submitting = false;
-            }
-        );
+        this.props.actions.createPost(post);
     }
 
-    cancelPost(e) {
+    cancelPost = (e) => {
         e.preventDefault();
+
         this.props.actions.removePost(this.props.post);
     }
 

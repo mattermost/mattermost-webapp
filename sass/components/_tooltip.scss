@@ -2,8 +2,10 @@
 
 .tooltip {
     word-wrap: break-word;
+    max-width: 220px;
 
     .tooltip-inner {
+        max-width: 100%;
         font-size: 13px;
         font-weight: 500;
         padding: 3px 10px 4px;

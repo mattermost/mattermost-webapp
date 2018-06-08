@@ -39,6 +39,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
+        setByEnv={false}
         type="input"
         value="setting_default"
       />
@@ -60,6 +61,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_bool_settingb"
         label="Setting Two"
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -81,6 +83,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_dropdown_settingc"
         label="Setting Three"
         onChange={[Function]}
+        setByEnv={false}
         value="option1"
         values={
           Array [
@@ -107,10 +110,10 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </span>
         }
         id="settingd"
-        isDisabled={false}
         key="testplugin_radio_settingd"
         label="Setting Four"
         onChange={[Function]}
+        setByEnv={false}
         value="option2"
         values={
           Array [
@@ -149,6 +152,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
+        setByEnv={false}
         value=""
       />
       <UserAutocompleteSetting
@@ -176,29 +180,40 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
     </SettingsGroup>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
-      <FormError
-        error={null}
-        errors={Array []}
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
       />
-    </div>
-    <div
-      className="form-group"
-    >
       <div
-        className="col-sm-12"
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
-        <SaveButton
-          btnClass="btn-primary"
-          defaultMessage="Save"
-          disabled={true}
-          extraClasses=""
-          onClick={[Function]}
-          saving={false}
-          savingMessage="Saving Config..."
+        <FormError
+          error={null}
+          errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -222,29 +237,40 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       show={true}
     />
     <div
-      className="form-group"
+      className="admin-console-save"
     >
-      <FormError
-        error={null}
-        errors={Array []}
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
       />
-    </div>
-    <div
-      className="form-group"
-    >
       <div
-        className="col-sm-12"
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
-        <SaveButton
-          btnClass="btn-primary"
-          defaultMessage="Save"
-          disabled={true}
-          extraClasses=""
-          onClick={[Function]}
-          saving={false}
-          savingMessage="Saving Config..."
+        <FormError
+          error={null}
+          errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -289,8 +315,9 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
+        setByEnv={false}
         type="input"
-        value="setting_default"
+        value="fsdsdg"
       />
       <BooleanSetting
         disabled={false}
@@ -310,6 +337,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_bool_settingb"
         label="Setting Two"
         onChange={[Function]}
+        setByEnv={false}
         trueText={
           <FormattedMessage
             defaultMessage="true"
@@ -317,7 +345,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        value={true}
+        value={false}
       />
       <DropdownSetting
         disabled={false}
@@ -331,7 +359,8 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         key="testplugin_dropdown_settingc"
         label="Setting Three"
         onChange={[Function]}
-        value="option1"
+        setByEnv={false}
+        value="option3"
         values={
           Array [
             Object {
@@ -357,11 +386,11 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </span>
         }
         id="settingd"
-        isDisabled={false}
         key="testplugin_radio_settingd"
         label="Setting Four"
         onChange={[Function]}
-        value="option2"
+        setByEnv={false}
+        value="option1"
         values={
           Array [
             Object {
@@ -399,7 +428,8 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             values={Object {}}
           />
         }
-        value=""
+        setByEnv={false}
+        value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
       />
       <UserAutocompleteSetting
         disabled={false}
@@ -413,7 +443,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         label="Setting Six"
         onChange={[Function]}
         placeholder="Type a username here"
-        value=""
+        value="3xz3r6n7dtbbmgref3yw4zg7sr"
       />
       <div
         className="banner"
@@ -426,29 +456,40 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       />
     </SettingsGroup>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
-      <FormError
-        error={null}
-        errors={Array []}
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
       />
-    </div>
-    <div
-      className="form-group"
-    >
       <div
-        className="col-sm-12"
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
-        <SaveButton
-          btnClass="btn-primary"
-          defaultMessage="Save"
-          disabled={true}
-          extraClasses=""
-          onClick={[Function]}
-          saving={false}
-          savingMessage="Saving Config..."
+        <FormError
+          error={null}
+          errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>

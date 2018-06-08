@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -81,7 +81,7 @@ export default class AdminSidebar extends React.Component {
 
         let license = null;
         let audits = null;
-        let policy = null;
+        let announcement = null;
 
         if (this.props.buildEnterpriseReady) {
             license = (
@@ -207,14 +207,13 @@ export default class AdminSidebar extends React.Component {
                     }
                 />
             );
-
-            policy = (
+            announcement = (
                 <AdminSidebarSection
-                    name='policy'
+                    name='announcement'
                     title={
                         <FormattedMessage
-                            id='admin.sidebar.policy'
-                            defaultMessage='Policy'
+                            id='admin.sidebar.announcement'
+                            defaultMessage='Announcement Banner'
                         />
                     }
                 />
@@ -241,22 +240,6 @@ export default class AdminSidebar extends React.Component {
                         <FormattedMessage
                             id='admin.sidebar.audits'
                             defaultMessage='Complaince and Auditing'
-                        />
-                    }
-                />
-            );
-        }
-
-        let customBranding = null;
-
-        if (this.props.license.IsLicensed === 'true') {
-            customBranding = (
-                <AdminSidebarSection
-                    name='custom_brand'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.customBrand'
-                            defaultMessage='Custom Branding'
                         />
                     }
                 />
@@ -475,7 +458,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {policy}
                                 <AdminSidebarSection
                                     name='privacy'
                                     title={
@@ -496,6 +478,38 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                             </AdminSidebarSection>
+                            {this.props.license.IsLicensed === 'true' &&
+                                <AdminSidebarSection
+                                    name='permissions'
+                                    type='text'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.permissions'
+                                            defaultMessage='Permissions'
+                                        />
+                                    }
+                                >
+                                    {this.props.license.CustomPermissionsSchemes !== 'true' &&
+                                        <AdminSidebarSection
+                                            name='system-scheme'
+                                            title={
+                                                <FormattedMessage
+                                                    id='admin.sidebar.system-scheme'
+                                                    defaultMessage='System scheme'
+                                                />
+                                            }
+                                        />}
+                                    {this.props.license.CustomPermissionsSchemes === 'true' &&
+                                        <AdminSidebarSection
+                                            name='schemes'
+                                            title={
+                                                <FormattedMessage
+                                                    id='admin.sidebar.schemes'
+                                                    defaultMessage='Permission Schemes'
+                                                />
+                                            }
+                                        />}
+                                </AdminSidebarSection>}
                             <AdminSidebarSection
                                 name='authentication'
                                 type='text'
@@ -697,7 +711,16 @@ export default class AdminSidebar extends React.Component {
                                     />
                                 }
                             >
-                                {customBranding}
+                                <AdminSidebarSection
+                                    name='custom_brand'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.customBrand'
+                                            defaultMessage='Custom Branding'
+                                        />
+                                    }
+                                />
+                                {announcement}
                                 <AdminSidebarSection
                                     name='emoji'
                                     title={
@@ -709,11 +732,11 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='link_previews'
+                                    name='posts'
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.linkPreviews'
-                                            defaultMessage='Link Previews'
+                                            id='admin.sidebar.posts'
+                                            defaultMessage='Posts'
                                         />
 
                                     }

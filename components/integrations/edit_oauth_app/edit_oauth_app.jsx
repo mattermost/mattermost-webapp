@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -20,11 +20,6 @@ export default class EditOAuthApp extends React.PureComponent {
         * The current team
         */
         team: PropTypes.object.isRequired,
-
-        /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool,
 
         /**
         * The id of the OAuthApp to edit
@@ -158,7 +153,6 @@ export default class EditOAuthApp extends React.PureComponent {
         return (
             <AbstractOAuthApp
                 team={this.props.team}
-                isSystemAdmin={this.props.isSystemAdmin}
                 header={HEADER}
                 footer={FOOTER}
                 renderExtra={this.renderExtra()}

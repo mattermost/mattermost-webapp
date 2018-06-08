@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {shallow} from 'enzyme';
@@ -117,7 +119,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{patchCHannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -146,7 +148,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{patchCHannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );

@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {latinise} from 'utils/latinise.jsx';
 
@@ -28,6 +28,10 @@ export function getSiteURL() {
     return window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
 }
 
+export function getRelativeChannelURL(teamName, channelName) {
+    return `/${teamName}/channels/${channelName}`;
+}
+
 export function isUrlSafe(url) {
     let unescaped;
 
@@ -50,4 +54,10 @@ export function useSafeUrl(url, defaultUrl = '') {
     }
 
     return defaultUrl;
+}
+
+export function getScheme(url) {
+    const match = (/([a-z0-9+.-]+):/i).exec(url);
+
+    return match && match[1];
 }

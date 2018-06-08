@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,6 +21,7 @@ export default class ManageTeamsModal extends React.Component {
         onModalDismissed: PropTypes.func.isRequired,
         show: PropTypes.bool.isRequired,
         user: PropTypes.object,
+        updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -39,7 +40,7 @@ export default class ManageTeamsModal extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         const userId = this.props.user ? this.props.user.id : '';
         const nextUserId = nextProps.user ? nextProps.user.id : '';
 
@@ -134,6 +135,7 @@ export default class ManageTeamsModal extends React.Component {
                             onError={this.handleError}
                             onMemberChange={this.handleMemberChange}
                             onMemberRemove={this.handleMemberRemove}
+                            updateTeamMemberSchemeRoles={this.props.updateTeamMemberSchemeRoles}
                         />
                     );
                 }

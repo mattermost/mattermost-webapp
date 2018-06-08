@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -7,7 +7,11 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {closeRightHandSide} from 'actions/views/rhs';
+import {
+    closeRightHandSide,
+    selectPostFromRightHandSideSearch,
+    setRhsExpanded,
+} from 'actions/views/rhs';
 
 import SearchResultsItem from './search_results_item.jsx';
 
@@ -30,6 +34,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeRightHandSide,
+            selectPost: selectPostFromRightHandSideSearch,
+            setRhsExpanded,
         }, dispatch),
     };
 }

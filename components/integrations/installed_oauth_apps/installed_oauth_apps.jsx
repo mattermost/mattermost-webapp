@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -23,9 +23,9 @@ export default class InstalledOAuthApps extends React.PureComponent {
         oauthApps: PropTypes.object,
 
         /**
-        * Set if user is admin
+        * Set if user can manage oath
         */
-        isSystemAdmin: PropTypes.bool,
+        canManageOauth: PropTypes.bool,
 
         /**
         * The request state for regenOAuthAppSecret action. Contains status and error
@@ -110,8 +110,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             );
         });
 
-        const integrationsEnabled = (this.props.enableOAuthServiceProvider &&
-            (this.props.isSystemAdmin || !this.props.enableOnlyAdminIntegrations));
+        const integrationsEnabled = this.props.enableOAuthServiceProvider && this.props.canManageOauth;
         let props;
         if (integrationsEnabled) {
             props = {

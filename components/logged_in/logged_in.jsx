@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 
 const dispatch = store.dispatch;
@@ -32,6 +33,7 @@ export default class LoggedIn extends React.Component {
         this.state = {
             user: UserStore.getCurrentUser(),
         };
+
         document.getElementById('root').className += ' channel-view';
     }
 
@@ -42,6 +44,7 @@ export default class LoggedIn extends React.Component {
     onUserChanged() {
         // Grab the current user
         const user = UserStore.getCurrentUser();
+
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
                 user,
@@ -49,13 +52,17 @@ export default class LoggedIn extends React.Component {
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         ErrorStore.clearLastError();
     }
 
     componentDidMount() {
         // Initialize websocket
         WebSocketActions.initialize();
+
+        if (this.props.enableTimezone) {
+            this.props.actions.autoUpdateTimezone(getBrowserTimezone());
+        }
 
         // Make sure the websockets close and reset version
         $(window).on('beforeunload',
@@ -92,11 +99,11 @@ export default class LoggedIn extends React.Component {
 
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--after');
-                $(this).parent('div').next('.date-separator, .new-separator').addClass('hovered--before');
+                $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
+                $(this).next('.date-separator, .new-separator').addClass('hovered--before');
             } else {
-                $(this).parent('div').prev('.date-separator, .new-separator').removeClass('hovered--after');
-                $(this).parent('div').next('.date-separator, .new-separator').removeClass('hovered--before');
+                $(this).prev('.date-separator, .new-separator').removeClass('hovered--after');
+                $(this).next('.date-separator, .new-separator').removeClass('hovered--before');
             }
         });
 
@@ -112,11 +119,11 @@ export default class LoggedIn extends React.Component {
 
         $('body').on('mouseenter mouseleave', '.post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--comment');
-                $(this).parent('div').next('.date-separator, .new-separator').addClass('hovered--comment');
+                $(this).prev('.date-separator, .new-separator').addClass('hovered--comment');
+                $(this).next('.date-separator, .new-separator').addClass('hovered--comment');
             } else {
-                $(this).parent('div').prev('.date-separator, .new-separator').removeClass('hovered--comment');
-                $(this).parent('div').next('.date-separator, .new-separator').removeClass('hovered--comment');
+                $(this).prev('.date-separator, .new-separator').removeClass('hovered--comment');
+                $(this).next('.date-separator, .new-separator').removeClass('hovered--comment');
             }
         });
 
@@ -169,4 +176,8 @@ export default class LoggedIn extends React.Component {
 LoggedIn.propTypes = {
     children: PropTypes.object,
     mfaRequired: PropTypes.bool.isRequired,
+    enableTimezone: PropTypes.bool.isRequired,
+    actions: PropTypes.shape({
+        autoUpdateTimezone: PropTypes.func.isRequired,
+    }).isRequired,
 };

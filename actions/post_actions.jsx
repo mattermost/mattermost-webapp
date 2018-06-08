@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
 import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
@@ -8,7 +8,6 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 import {comparePosts} from 'mattermost-redux/utils/post_utils';
 
-import {browserHistory} from 'utils/browser_history';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -16,7 +15,6 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
 import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
@@ -202,46 +200,6 @@ export function emitEmojiPosted(emoji) {
     });
 }
 
-export async function deletePost(channelId, post, success) {
-    const {currentUserId} = getState().entities.users;
-
-    let hardDelete = false;
-    if (post.user_id === currentUserId) {
-        hardDelete = true;
-    }
-
-    await PostActions.deletePost(post, hardDelete)(dispatch, getState);
-
-    if (post.id === getSelectedPostId(getState())) {
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: '',
-            channelId: '',
-        });
-    }
-
-    dispatch({
-        type: PostTypes.REMOVE_POST,
-        data: post,
-    });
-
-    // Needed for search store
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.REMOVE_POST,
-        post,
-    });
-
-    const {focusedPostId} = getState().views.channel;
-    const channel = getState().entities.channels.channels[post.channel_id];
-    if (post.id === focusedPostId && channel) {
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-    }
-
-    if (success) {
-        success();
-    }
-}
-
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 // Returns true if there are more posts to load
@@ -321,7 +279,7 @@ export function doPostAction(postId, actionId) {
     PostActions.doPostAction(postId, actionId)(dispatch, getState);
 }
 
-export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', title = '', isRHS = false) {
+export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
 
@@ -345,7 +303,7 @@ export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', t
         if (canEditNow) {
             doDispatch({
                 type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, commentsCount, refocusId, title, isRHS},
+                data: {postId, commentCount, refocusId, title, isRHS},
             }, doGetState);
         }
 
@@ -356,5 +314,42 @@ export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', t
 export function hideEditPostModal() {
     return {
         type: ActionTypes.HIDE_EDIT_POST_MODAL,
+    };
+}
+
+export function deleteAndRemovePost(post) {
+    return async (doDispatch, doGetState) => {
+        const {currentUserId} = doGetState().entities.users;
+
+        let hardDelete = false;
+        if (post.user_id === currentUserId) {
+            hardDelete = true;
+        }
+
+        const {error} = await doDispatch(PostActions.deletePost(post, hardDelete));
+        if (error) {
+            return {error};
+        }
+
+        if (post.id === getSelectedPostId(doGetState())) {
+            dispatch({
+                type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: '',
+            });
+        }
+
+        doDispatch({
+            type: PostTypes.REMOVE_POST,
+            data: post,
+        });
+
+        // Needed for search store
+        AppDispatcher.handleViewAction({
+            type: Constants.ActionTypes.REMOVE_POST,
+            post,
+        });
+
+        return {data: true};
     };
 }

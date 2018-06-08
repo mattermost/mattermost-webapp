@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -42,7 +42,7 @@ export default class Logs extends React.Component {
         );
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         if (this.state.page !== nextState.page) {
             this.props.actions.getLogs(nextState.page, nextState.perPage).then(
                 () => this.setState({loadingLogs: false})
@@ -83,7 +83,7 @@ export default class Logs extends React.Component {
         }
 
         return (
-            <div>
+            <div className='wrapper--admin'>
                 <h3 className='admin-console-header'>
                     <FormattedMessage
                         id='admin.logs.title'

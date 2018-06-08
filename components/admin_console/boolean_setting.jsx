@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,6 +10,35 @@ import * as Utils from 'utils/utils.jsx';
 import Setting from './setting.jsx';
 
 export default class BooleanSetting extends React.Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        label: PropTypes.node.isRequired,
+        value: PropTypes.bool.isRequired,
+        onChange: PropTypes.func.isRequired,
+        trueText: PropTypes.node,
+        falseText: PropTypes.node,
+        disabled: PropTypes.bool.isRequired,
+        setByEnv: PropTypes.bool.isRequired,
+        disabledText: PropTypes.node,
+        helpText: PropTypes.node.isRequired,
+    };
+
+    static defaultProps = {
+        trueText: (
+            <FormattedMessage
+                id='admin.true'
+                defaultMessage='true'
+            />
+        ),
+        falseText: (
+            <FormattedMessage
+                id='admin.false'
+                defaultMessage='false'
+            />
+        ),
+        disabled: false,
+    };
+
     constructor(props) {
         super(props);
 
@@ -39,7 +68,9 @@ export default class BooleanSetting extends React.Component {
             <Setting
                 label={this.props.label}
                 helpText={helpText}
+                setByEnv={this.props.setByEnv}
             >
+                <a name={this.props.id}/>
                 <label className='radio-inline'>
                     <input
                         type='radio'
@@ -48,7 +79,7 @@ export default class BooleanSetting extends React.Component {
                         name={this.props.id}
                         checked={this.props.value}
                         onChange={this.handleChange}
-                        disabled={this.props.disabled}
+                        disabled={this.props.disabled || this.props.setByEnv}
                     />
                     {this.props.trueText}
                 </label>
@@ -60,7 +91,7 @@ export default class BooleanSetting extends React.Component {
                         name={this.props.id}
                         checked={!this.props.value}
                         onChange={this.handleChange}
-                        disabled={this.props.disabled}
+                        disabled={this.props.disabled || this.props.setByEnv}
                     />
                     {this.props.falseText}
                 </label>
@@ -68,30 +99,3 @@ export default class BooleanSetting extends React.Component {
         );
     }
 }
-BooleanSetting.defaultProps = {
-    trueText: (
-        <FormattedMessage
-            id='admin.true'
-            defaultMessage='true'
-        />
-    ),
-    falseText: (
-        <FormattedMessage
-            id='admin.false'
-            defaultMessage='false'
-        />
-    ),
-    disabled: false,
-};
-
-BooleanSetting.propTypes = {
-    id: PropTypes.string.isRequired,
-    label: PropTypes.node.isRequired,
-    value: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    trueText: PropTypes.node,
-    falseText: PropTypes.node,
-    disabled: PropTypes.bool.isRequired,
-    disabledText: PropTypes.node,
-    helpText: PropTypes.node.isRequired,
-};

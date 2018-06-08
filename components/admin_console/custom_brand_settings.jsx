@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -14,21 +14,11 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class CustomBrandSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
-    }
-
     getConfigFromState(config) {
         config.TeamSettings.SiteName = this.state.siteName;
-        if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
-            config.TeamSettings.customDescriptionText = this.state.customDescriptionText;
-            config.TeamSettings.EnableCustomBrand = this.state.enableCustomBrand;
-            config.TeamSettings.CustomBrandText = this.state.customBrandText;
-        }
+        config.TeamSettings.CustomDescriptionText = this.state.customDescriptionText;
+        config.TeamSettings.EnableCustomBrand = this.state.enableCustomBrand;
+        config.TeamSettings.CustomBrandText = this.state.customBrandText;
 
         return config;
     }
@@ -52,9 +42,28 @@ export default class CustomBrandSettings extends AdminSettings {
     }
 
     renderSettings() {
-        const enterpriseSettings = [];
-        if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
-            enterpriseSettings.push(
+        return (
+            <SettingsGroup>
+                <TextSetting
+                    id='siteName'
+                    label={
+                        <FormattedMessage
+                            id='admin.team.siteNameTitle'
+                            defaultMessage='Site Name:'
+                        />
+                    }
+                    maxLength={Constants.MAX_SITENAME_LENGTH}
+                    placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'E.g.: "Mattermost"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.team.siteNameDescription'
+                            defaultMessage='Name of service shown in login screens and UI.'
+                        />
+                    }
+                    value={this.state.siteName}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.SiteName')}
+                />
                 <TextSetting
                     key='customDescriptionText'
                     id='customDescriptionText'
@@ -73,10 +82,8 @@ export default class CustomBrandSettings extends AdminSettings {
                     value={this.state.customDescriptionText}
                     placeholder={Utils.localizeMessage('web.root.signup_info', 'All team communication in one place, searchable and accessible anywhere')}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.CustomDescriptionText')}
                 />
-            );
-
-            enterpriseSettings.push(
                 <BooleanSetting
                     key='enableCustomBrand'
                     id='enableCustomBrand'
@@ -94,17 +101,12 @@ export default class CustomBrandSettings extends AdminSettings {
                     }
                     value={this.state.enableCustomBrand}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.EnableCustomBrand')}
                 />
-            );
-
-            enterpriseSettings.push(
                 <BrandImageSetting
                     key='customBrandImage'
                     disabled={!this.state.enableCustomBrand}
                 />
-            );
-
-            enterpriseSettings.push(
                 <TextSetting
                     key='customBrandText'
                     id='customBrandText'
@@ -124,32 +126,8 @@ export default class CustomBrandSettings extends AdminSettings {
                     value={this.state.customBrandText}
                     onChange={this.handleChange}
                     disabled={!this.state.enableCustomBrand}
+                    setByEnv={this.isSetByEnv('TeamSettings.CustomBrandText')}
                 />
-            );
-        }
-
-        return (
-            <SettingsGroup>
-                <TextSetting
-                    id='siteName'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.siteNameTitle'
-                            defaultMessage='Site Name:'
-                        />
-                    }
-                    maxLength={Constants.MAX_SITENAME_LENGTH}
-                    placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'Ex "Mattermost"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.team.siteNameDescription'
-                            defaultMessage='Name of service shown in login screens and UI.'
-                        />
-                    }
-                    value={this.state.siteName}
-                    onChange={this.handleChange}
-                />
-                {enterpriseSettings}
             </SettingsGroup>
         );
     }

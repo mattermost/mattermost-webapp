@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -9,7 +9,14 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import PostStore from 'stores/post_store';
 import {getPinnedPosts, getFlaggedPosts} from 'actions/views/rhs';
-import {getRhsState, getSelectedPostId, getSelectedChannelId, getPreviousRhsState} from 'selectors/rhs';
+import {
+    getIsRhsExpanded,
+    getIsRhsOpen,
+    getRhsState,
+    getSelectedPostId,
+    getSelectedChannelId,
+    getPreviousRhsState,
+} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants.jsx';
 
 import SidebarRight from './sidebar_right.jsx';
@@ -35,6 +42,8 @@ function mapStateToProps(state) {
     }
 
     return {
+        isExpanded: getIsRhsExpanded(state),
+        isOpen: getIsRhsOpen(state),
         channel,
         currentUser: getCurrentUser(state),
         postRightVisible: Boolean(getSelectedPostId(state)),

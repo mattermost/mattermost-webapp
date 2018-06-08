@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -37,7 +37,7 @@ export default class FilePreview extends React.PureComponent {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
         if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
             this.setState({
                 fileInfos: [...newProps.fileInfos],

@@ -75,7 +75,30 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       >
         <div
           className="more-modal__list"
-        />
+        >
+          <PopoverListMembersItem
+            key="member_id_1"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="online"
+            user={
+              Object {
+                "id": "member_id_1",
+              }
+            }
+          />
+          <PopoverListMembersItem
+            key="member_id_2"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="offline"
+            user={
+              Object {
+                "id": "member_id_2",
+              }
+            }
+          />
+        </div>
       </div>
       <div
         className="more-modal__button"
@@ -172,7 +195,30 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
       >
         <div
           className="more-modal__list"
-        />
+        >
+          <PopoverListMembersItem
+            key="member_id_1"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="online"
+            user={
+              Object {
+                "id": "member_id_1",
+              }
+            }
+          />
+          <PopoverListMembersItem
+            key="member_id_2"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="offline"
+            user={
+              Object {
+                "id": "member_id_2",
+              }
+            }
+          />
+        </div>
       </div>
       <div
         className="more-modal__button"
@@ -269,7 +315,30 @@ exports[`components/PopoverListMembers should match state when showMembersModal 
       >
         <div
           className="more-modal__list"
-        />
+        >
+          <PopoverListMembersItem
+            key="member_id_1"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="online"
+            user={
+              Object {
+                "id": "member_id_1",
+              }
+            }
+          />
+          <PopoverListMembersItem
+            key="member_id_2"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="offline"
+            user={
+              Object {
+                "id": "member_id_2",
+              }
+            }
+          />
+        </div>
       </div>
       <div
         className="more-modal__button"

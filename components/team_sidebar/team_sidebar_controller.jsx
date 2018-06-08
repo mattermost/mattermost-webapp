@@ -1,21 +1,26 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import Permissions from 'mattermost-redux/constants/permissions';
+import classNames from 'classnames';
 
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+
 import * as Utils from 'utils/utils.jsx';
+
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import TeamButton from './components/team_button.jsx';
 
 export default class TeamSidebar extends React.Component {
     static propTypes = {
+        isOpen: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         enableTeamCreation: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -98,7 +103,6 @@ export default class TeamSidebar extends React.Component {
         }
 
         const myTeams = [];
-        const isSystemAdmin = Utils.isSystemAdmin(UserStore.getCurrentUser().roles);
         const isAlreadyMember = new Map();
         let moreTeams = false;
 
@@ -154,29 +158,33 @@ export default class TeamSidebar extends React.Component {
                             defaultMessage='Other teams you can join.'
                         />
                     }
-                    content={<i className='fa fa-plus'/>}
+                    content={'+'}
                 />
             );
-        } else if (this.props.enableTeamCreation || isSystemAdmin) {
+        } else {
             teams.push(
-                <TeamButton
-                    btnClass='team-btn__add'
+                <SystemPermissionGate
+                    permissions={[Permissions.CREATE_TEAM]}
                     key='more_teams'
-                    url='/create_team'
-                    isMobile={this.state.isMobile}
-                    tip={
-                        <FormattedMessage
-                            id='navbar_dropdown.create'
-                            defaultMessage='Create a New Team'
-                        />
-                    }
-                    content={<i className='fa fa-plus'/>}
-                />
+                >
+                    <TeamButton
+                        btnClass='team-btn__add'
+                        url='/create_team'
+                        isMobile={this.state.isMobile}
+                        tip={
+                            <FormattedMessage
+                                id='navbar_dropdown.create'
+                                defaultMessage='Create a New Team'
+                            />
+                        }
+                        content={'+'}
+                    />
+                </SystemPermissionGate>
             );
         }
 
         return (
-            <div className='team-sidebar'>
+            <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>
                 <div className='team-wrapper'>
                     {teams}
                 </div>

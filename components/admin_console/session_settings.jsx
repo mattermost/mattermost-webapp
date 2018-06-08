@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -68,7 +68,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Idle Timeout (minutes):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'Ex "60"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'E.g.: "60"')}
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.sessionIdleTimeoutDesc'
@@ -77,6 +77,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionIdleTimeoutInMinutes}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionIdleTimeoutInMinutes')}
                 />
             );
         }
@@ -91,7 +92,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Length AD/LDAP and Email (days):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.webSessionDaysDesc'
@@ -100,6 +101,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionLengthWebInDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthWebInDays')}
                 />
                 <TextSetting
                     id='sessionLengthMobileInDays'
@@ -109,7 +111,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Length Mobile (days):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.mobileSessionDaysDesc'
@@ -118,6 +120,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionLengthMobileInDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthMobileInDays')}
                 />
                 <TextSetting
                     id='sessionLengthSSOInDays'
@@ -127,7 +130,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Length SSO (days):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.ssoSessionDaysDesc'
@@ -136,6 +139,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionLengthSSOInDays}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthSSOInDays')}
                 />
                 <TextSetting
                     id='sessionCacheInMinutes'
@@ -145,7 +149,7 @@ export default class SessionSettings extends AdminSettings {
                             defaultMessage='Session Cache (minutes):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
                     helpText={
                         <FormattedMessage
                             id='admin.service.sessionCacheDesc'
@@ -154,6 +158,7 @@ export default class SessionSettings extends AdminSettings {
                     }
                     value={this.state.sessionCacheInMinutes}
                     onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionCacheInMinutes')}
                 />
                 {idleTimeout}
             </SettingsGroup>

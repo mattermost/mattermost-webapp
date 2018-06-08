@@ -1,9 +1,9 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-import {deletePreferences, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
+import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -22,7 +22,7 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -183,26 +183,6 @@ export function loadChannelMembersForProfilesList(profiles, channelId = ChannelS
     getChannelMembersForUserIds(channelId, list, success, error);
 }
 
-function populateDMChannelsWithProfiles(userIds) {
-    const currentUserId = UserStore.getCurrentId();
-
-    for (let i = 0; i < userIds.length; i++) {
-        const channelName = Utils.getDirectChannelName(currentUserId, userIds[i]);
-        const channel = ChannelStore.getByName(channelName);
-        const profilesInChannel = Selectors.getUserIdsInChannels(getState())[channel.id] || new Set();
-        if (channel && !profilesInChannel.has(userIds[i])) {
-            UserStore.saveUserIdInChannel(channel.id, userIds[i]);
-        }
-    }
-}
-
-function populateChannelWithProfiles(channelId, users) {
-    for (let i = 0; i < users.length; i++) {
-        UserStore.saveUserIdInChannel(channelId, users[i].id);
-    }
-    UserStore.emitInChannelChange();
-}
-
 export async function loadNewDMIfNeeded(channelId) {
     function checkPreference(channel) {
         const userId = Utils.getUserIdFromChannelName(channel);
@@ -289,9 +269,7 @@ export async function loadProfilesForGM() {
             });
         }
 
-        UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)(dispatch, getState).then(({data}) => {
-            populateChannelWithProfiles(channel.id, data);
-        });
+        await dispatch(UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)); //eslint-disable-line no-await-in-loop
     }
 
     if (newPreferences.length > 0) {
@@ -343,7 +321,6 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
-    populateDMChannelsWithProfiles(profileIds);
 }
 
 export async function saveTheme(teamId, theme, cb) {
@@ -385,7 +362,7 @@ function onThemeSaved(teamId, theme, onSuccess) {
     if (toDelete.length > 0) {
         // we're saving a new global theme so delete any team-specific ones
         const currentUserId = UserStore.getCurrentId();
-        deletePreferences(currentUserId, toDelete)(dispatch, getState);
+        deletePreferencesRedux(currentUserId, toDelete)(dispatch, getState);
     }
 
     onSuccess();
@@ -393,15 +370,6 @@ function onThemeSaved(teamId, theme, onSuccess) {
 
 export async function searchUsers(term, teamId = TeamStore.getCurrentId(), options = {}, success) {
     const {data} = await UserActions.searchProfiles(term, {team_id: teamId, ...options})(dispatch, getState);
-    loadStatusesForProfilesList(data);
-
-    if (success) {
-        success(data);
-    }
-}
-
-export async function searchUsersNotInTeam(term, teamId = TeamStore.getCurrentId(), options = {}, success) {
-    const {data} = await UserActions.searchProfiles(term, {not_in_team_id: teamId, ...options})(dispatch, getState);
     loadStatusesForProfilesList(data);
 
     if (success) {
@@ -578,8 +546,8 @@ export async function loginById(userId, password, mfaToken, success, error) {
     }
 }
 
-export async function createUserWithInvite(user, data, emailHash, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, data, emailHash, inviteId)(dispatch, getState);
+export async function createUserWithInvite(user, token, inviteId, success, error) {
+    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
     if (resp && success) {
         success(resp);
     } else if (err && error) {
@@ -691,6 +659,11 @@ export async function savePreference(category, name, value) {
     return savePreferencesRedux(currentUserId, [{user_id: currentUserId, category, name, value}])(dispatch, getState);
 }
 
+export function deletePreferences(prefs) {
+    const currentUserId = UserStore.getCurrentId();
+    return deletePreferencesRedux(currentUserId, prefs)(dispatch, getState);
+}
+
 export function autoResetStatus() {
     return async (doDispatch, doGetState) => {
         const {currentUserId} = getState().entities.users;
@@ -700,7 +673,11 @@ export function autoResetStatus() {
             return userStatus;
         }
 
-        const autoReset = getBool(getState(), PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, false);
+        let autoReset = getBool(getState(), PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, false);
+        const userIsOutOfOffice = Selectors.getStatusForUserId(getState(), currentUserId) === UserStatuses.OUT_OF_OFFICE;
+        if (userIsOutOfOffice) {
+            autoReset = false;
+        }
 
         if (autoReset) {
             UserActions.setStatus({user_id: currentUserId, status: 'online'})(doDispatch, doGetState);

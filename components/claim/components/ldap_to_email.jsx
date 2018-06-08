@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -48,10 +48,10 @@ export default class LDAPToEmail extends React.Component {
             return;
         }
 
-        const passwordErr = Utils.isValidPassword(password, this.props.passwordConfig);
-        if (passwordErr !== '') {
+        const {valid, error} = Utils.isValidPassword(password, this.props.passwordConfig);
+        if (!valid && error) {
             this.setState({
-                passwordError: passwordErr,
+                passwordError: error,
             });
             return;
         }

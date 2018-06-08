@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,7 +10,6 @@ import Constants from 'utils/constants';
 import {getShortenedURL, cleanUpUrlable} from 'utils/url';
 
 export default class ChangeURLModal extends React.PureComponent {
-
     static propTypes = {
 
         /**
@@ -76,7 +75,7 @@ export default class ChangeURLModal extends React.PureComponent {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         // This check prevents the url being deleted when we re-render
         // because of user status check
         if (!this.state.userEdit) {
@@ -106,29 +105,29 @@ export default class ChangeURLModal extends React.PureComponent {
 
         if (url.length < 2) {
             error.push(
-              this.formattedError('error1', 'change_url.longer', 'URL must be two or more characters.')
+                this.formattedError('error1', 'change_url.longer', 'URL must be two or more characters.')
             );
         }
         if (url.charAt(0) === '-' || url.charAt(0) === '_') {
             error.push(
-              this.formattedError('error2', 'change_url.startWithLetter', 'URL must start with a letter or number.')
+                this.formattedError('error2', 'change_url.startWithLetter', 'URL must start with a letter or number.')
             );
         }
         if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
             error.push(
-              this.formattedError('error3', 'change_url.endWithLetter', 'URL must end with a letter or number.')
+                this.formattedError('error3', 'change_url.endWithLetter', 'URL must end with a letter or number.')
             );
         }
         if (url.indexOf('__') > -1) {
             error.push(
-              this.formattedError('error4', 'change_url.noUnderscore', 'URL can not contain two underscores in a row.')
+                this.formattedError('error4', 'change_url.noUnderscore', 'URL can not contain two underscores in a row.')
             );
         }
 
         // In case of error we don't detect
         if (error.length === 0) {
             error.push(
-              this.formattedError('errorlast', 'change_url.invalidUrl', 'Invalid URL')
+                this.formattedError('errorlast', 'change_url.invalidUrl', 'Invalid URL')
             );
         }
         return error;

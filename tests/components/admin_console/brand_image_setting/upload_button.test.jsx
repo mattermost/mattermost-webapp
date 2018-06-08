@@ -1,5 +1,5 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
@@ -12,7 +12,7 @@ describe('components/admin_console/brand_image_setting/UploadButton', () => {
         status: UploadStatuses.DEFAULT,
         primaryClass: 'btn btn-primary',
         disabled: false,
-        onClick: () => {},         //eslint-disable-line no-empty-function
+        onClick: () => {}, //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot', () => {

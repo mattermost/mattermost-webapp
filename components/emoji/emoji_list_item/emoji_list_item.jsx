@@ -1,51 +1,24 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Permissions from 'mattermost-redux/constants/permissions';
 import {Client4} from 'mattermost-redux/client';
 
 import DeleteEmoji from 'components/emoji/delete_emoji_modal.jsx';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 export default class EmojiListItem extends React.Component {
     static propTypes = {
-
-        /*
-         * Emoji to display.
-         */
         emoji: PropTypes.object.isRequired,
-
-        /*
-         * Logged in user's ID.
-         */
         currentUserId: PropTypes.string.isRequired,
-
-        /*
-         * Emoji creator name to display.
-         */
         creatorDisplayName: PropTypes.string.isRequired,
-
-        /*
-         * Emoji creator username to display if different from creatorDisplayName.
-         */
         creatorUsername: PropTypes.string,
-
-        /*
-         * Set if logged in user is system admin.
-         */
-        isSystemAdmin: PropTypes.bool,
-
-        /*
-         * Function to call when emoji is deleted.
-         */
+        currentTeam: PropTypes.object,
         onDelete: PropTypes.func,
-
         actions: PropTypes.shape({
-
-            /**
-             * Delete a custom emoji.
-             */
             deleteCustomEmoji: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -53,8 +26,8 @@ export default class EmojiListItem extends React.Component {
     static defaultProps = {
         emoji: {},
         currentUserId: '',
+        currentTeam: {},
         creatorDisplayName: '',
-        isSystemAdmin: false,
     }
 
     handleDelete = () => {
@@ -75,9 +48,28 @@ export default class EmojiListItem extends React.Component {
         }
 
         let deleteButton = null;
-        if (this.props.isSystemAdmin || emoji.creator_id === this.props.currentUserId) {
+        if (emoji.creator_id === this.props.currentUserId) {
             deleteButton = (
-                <DeleteEmoji onDelete={this.handleDelete}/>
+                <TeamPermissionGate
+                    teamId={this.props.currentTeam.id}
+                    permissions={[Permissions.MANAGE_EMOJIS]}
+                >
+                    <DeleteEmoji onDelete={this.handleDelete}/>
+                </TeamPermissionGate>
+            );
+        } else {
+            deleteButton = (
+                <TeamPermissionGate
+                    teamId={this.props.currentTeam.id}
+                    permissions={[Permissions.MANAGE_EMOJIS]}
+                >
+                    <TeamPermissionGate
+                        teamId={this.props.currentTeam.id}
+                        permissions={[Permissions.MANAGE_OTHERS_EMOJIS]}
+                    >
+                        <DeleteEmoji onDelete={this.handleDelete}/>
+                    </TeamPermissionGate>
+                </TeamPermissionGate>
             );
         }
 

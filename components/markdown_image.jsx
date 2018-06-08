@@ -1,10 +1,8 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import {postListScrollChange} from 'actions/global_actions.jsx';
 
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
@@ -15,6 +13,11 @@ export default class MarkdownImage extends React.PureComponent {
          * The href of the image to be loaded
          */
         href: PropTypes.string,
+
+        /*
+         * A callback that is called as soon as the image component has a height value
+         */
+        onHeightReceived: PropTypes.func,
     }
 
     constructor(props) {
@@ -39,7 +42,9 @@ export default class MarkdownImage extends React.PureComponent {
 
     waitForHeight = () => {
         if (this.refs.image.height) {
-            setTimeout(postListScrollChange, 0);
+            if (this.props.onHeightReceived) {
+                this.props.onHeightReceived(this.refs.image.height);
+            }
 
             this.heightTimeout = 0;
         } else {
@@ -55,10 +60,13 @@ export default class MarkdownImage extends React.PureComponent {
     }
 
     render() {
+        const props = {...this.props};
+        Reflect.deleteProperty(props, 'onHeightReceived');
+
         return (
             <img
-                {...this.props}
                 ref='image'
+                {...props}
                 onLoad={this.stopWaitingForHeight}
                 onError={this.stopWaitingForHeight}
             />

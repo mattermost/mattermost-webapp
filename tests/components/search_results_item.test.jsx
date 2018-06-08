@@ -1,11 +1,11 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
 
 import {browserHistory} from 'utils/browser_history';
-import {displayUsernameForUser, getDirectTeammate} from 'utils/utils.jsx';
+import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
 import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
 
 jest.useFakeTimers();
@@ -17,7 +17,7 @@ jest.mock('utils/browser_history', () => ({
 }));
 
 jest.mock('utils/utils.jsx', () => ({
-    displayUsernameForUser: jest.fn().mockReturnValue('Other guy'),
+    getDisplayNameByUser: jest.fn().mockReturnValue('Other guy'),
     getDirectTeammate: jest.fn().mockReturnValue({}),
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true),
     getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
@@ -77,15 +77,14 @@ describe('components/SearchResultsItem', () => {
             currentTeamName: 'test',
             term: 'test',
             isMentionSearch: false,
-            useMilitaryTime: true,
-            shrink: mockFunc,
             isFlagged: true,
             isBusy: false,
             status: 'hello',
             enablePostUsernameOverride: false,
-            onSelect: mockFunc,
             actions: {
                 closeRightHandSide: mockFunc,
+                selectPost: mockFunc,
+                setRhsExpanded: mockFunc,
             },
         };
     });
@@ -138,7 +137,7 @@ describe('components/SearchResultsItem', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
-        expect(displayUsernameForUser).toHaveBeenCalledWith({});
+        expect(getDisplayNameByUser).toHaveBeenCalledWith({});
     });
 
     test('Check for dotmenu dropdownOpened state', () => {
@@ -154,10 +153,13 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('Check for comment icon click', () => {
-        const onSelect = jest.fn();
+        const selectPost = jest.fn();
         const props = {
             ...defaultProps,
-            onSelect,
+            actions: {
+                ...defaultProps.actions,
+                selectPost,
+            },
         };
 
         const wrapper = shallow(
@@ -165,15 +167,18 @@ describe('components/SearchResultsItem', () => {
         );
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenLastCalledWith(post);
+        expect(selectPost).toHaveBeenCalledTimes(1);
+        expect(selectPost).toHaveBeenLastCalledWith(post);
     });
 
     test('Check for jump to message', () => {
-        const shrink = jest.fn();
+        const setRhsExpanded = jest.fn();
         const props = {
             ...defaultProps,
-            shrink,
+            actions: {
+                ...defaultProps.actions,
+                setRhsExpanded,
+            },
         };
 
         const wrapper = shallow(
@@ -182,7 +187,8 @@ describe('components/SearchResultsItem', () => {
 
         wrapper.find('.search-item__jump').simulate('click');
         jest.runAllTimers();
-        expect(shrink).toHaveBeenCalledTimes(1);
+        expect(setRhsExpanded).toHaveBeenCalledTimes(1);
+        expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
     });
 });

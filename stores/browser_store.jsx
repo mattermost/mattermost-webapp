@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import {browserHistory} from 'utils/browser_history';
 import * as Selectors from 'selectors/storage';

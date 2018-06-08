@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -149,3 +151,21 @@ export const WEBSERVER_MODE_HELP_TEXT = (
         </p>
     </div>
 );
+
+export const LOG_LEVEL_OPTIONS = [
+    {
+        value: 'DEBUG',
+        display_name: 'DEBUG',
+        display_name_default: 'DEBUG',
+    },
+    {
+        value: 'INFO',
+        display_name: 'INFO',
+        display_name_default: 'INFO',
+    },
+    {
+        value: 'ERROR',
+        display_name: 'ERROR',
+        display_name_default: 'ERROR',
+    },
+];

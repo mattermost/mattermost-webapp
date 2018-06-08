@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import EventEmitter from 'events';
 
@@ -115,6 +115,10 @@ class SuggestionStore extends EventEmitter {
         const suggestion = this.getSuggestions(id);
 
         suggestion.selection = '';
+    }
+
+    suggestionBoxExists(id) {
+        return this.suggestions.has(id);
     }
 
     hasSuggestions(id) {
@@ -249,6 +253,10 @@ class SuggestionStore extends EventEmitter {
 
     handleEventPayload(payload) {
         const {type, id, ...other} = payload.action;
+
+        if (id && !this.suggestionBoxExists(id)) {
+            return;
+        }
 
         switch (type) {
         case ActionTypes.SUGGESTION_PRETEXT_CHANGED:

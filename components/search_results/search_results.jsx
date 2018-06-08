@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -49,14 +49,10 @@ export default class SearchResults extends React.PureComponent {
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
-        useMilitaryTime: PropTypes.bool.isRequired,
-        toggleSize: PropTypes.func,
-        shrink: PropTypes.func,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
-        selectPost: PropTypes.func,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
     };
@@ -78,7 +74,7 @@ export default class SearchResults extends React.PureComponent {
         UserStore.addStatusesChangeListener(this.onStatusChange);
         WebrtcStore.addBusyListener(this.onBusy);
 
-        this.resize();
+        this.scrollToTop();
         window.addEventListener('resize', this.handleResize);
     }
 
@@ -92,7 +88,7 @@ export default class SearchResults extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.searchTerms !== prevProps.searchTerms) {
-            this.resize();
+            this.scrollToTop();
         }
     }
 
@@ -115,7 +111,7 @@ export default class SearchResults extends React.PureComponent {
         this.setState({statuses: Object.assign({}, UserStore.getStatuses())});
     }
 
-    resize = () => {
+    scrollToTop = () => {
         $('#search-items-container').scrollTop(0);
     }
 
@@ -361,12 +357,9 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        useMilitaryTime={this.props.useMilitaryTime}
-                        shrink={this.props.shrink}
                         isFlagged={isFlagged}
                         isBusy={this.state.isBusy}
                         status={status}
-                        onSelect={this.props.selectPost}
                     />
                 );
             }, this);
@@ -376,8 +369,6 @@ export default class SearchResults extends React.PureComponent {
             <div className='sidebar-right__body'>
                 <SearchResultsHeader
                     isMentionSearch={this.props.isMentionSearch}
-                    toggleSize={this.props.toggleSize}
-                    shrink={this.props.shrink}
                     isFlaggedPosts={this.props.isFlaggedPosts}
                     isPinnedPosts={this.props.isPinnedPosts}
                     channelDisplayName={this.props.channelDisplayName}

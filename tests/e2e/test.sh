@@ -18,13 +18,13 @@ function selenium_install {
       message "Installing selenium..."
       fi
 
-      yarn run selenium-install
+      npm run selenium-install
       mkdir -p tests/reports/
     fi
 }
 
 function selenium_start {
-    nohup yarn run selenium-start > ./tests/reports/selenium.log 2>&1&
+    nohup npm run selenium-start > ./tests/reports/selenium.log 2>&1&
 }
 
 function local_cleanup {
@@ -48,7 +48,7 @@ function local_setup {
 function add_test_users {
     message "Adding test users..."
     cd ../mattermost-server
-    PLATFORM_FILES=$( ls -1 ./cmd/platform/*.go | grep -v _test.go)
+    PLATFORM_FILES="./cmd/mattermost/main.go"
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true

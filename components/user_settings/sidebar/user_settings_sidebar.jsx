@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -45,7 +45,6 @@ export default class UserSettingsSidebar extends React.Component {
          */
         showUnreadOption: PropTypes.bool.isRequired,
         updateSection: PropTypes.func,
-        updateTab: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,

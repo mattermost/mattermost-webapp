@@ -54,10 +54,9 @@
     border: 1px solid;
     display: flex;
     flex-direction: column;
-    height: 362px;
     margin-right: 3px;
     position: absolute;
-    width: 278px;
+    width: 288px;
     z-index: 10;
 
     .app__content & {
@@ -120,10 +119,9 @@
 .emoji-picker__items {
     border-top-style: solid;
     border-top-width: 1px;
-    height: 300px; // overwritten in jsx file
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 0 8px 8px 8px;
+    padding: 8px;
     position: relative;
     width: 100%;
 
@@ -156,6 +154,7 @@
             display: inline-block;
             height: 26px;
             margin: 0;
+            overflow: hidden;
             padding: 2px;
             position: relative;
             vertical-align: middle;
@@ -168,6 +167,11 @@
                     left: -21px;
                     position: relative;
                     top: -21px;
+
+                    &.emoji-shipit {
+                        left: -26px;
+                        top: -28px;
+                    }
 
                     &.emoji-category--custom {
                         @include transform(scale(1));
@@ -220,7 +224,6 @@
     flex-shrink: 0;
     height: 50px;
     justify-content: flex-start;
-    margin-top: -15px;
     padding: 7px 10px 0;
     position: relative;
     vertical-align: middle;

@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -59,10 +59,9 @@ export default class UserSettings extends React.Component {
                         activeSection={this.props.activeSection}
                         prevActiveSection={this.props.prevActiveSection}
                         updateSection={this.props.updateSection}
-                        updateTab={this.props.updateTab}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
-                        setEnforceFocus={this.props.setEnforceFocus}
+                        setRequireConfirm={this.props.setRequireConfirm}
                     />
                 </div>
             );
@@ -74,7 +73,6 @@ export default class UserSettings extends React.Component {
                         activeSection={this.props.activeSection}
                         prevActiveSection={this.props.prevActiveSection}
                         updateSection={this.props.updateSection}
-                        updateTab={this.props.updateTab}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
                     />
@@ -88,7 +86,6 @@ export default class UserSettings extends React.Component {
                         activeSection={this.props.activeSection}
                         prevActiveSection={this.props.prevActiveSection}
                         updateSection={this.props.updateSection}
-                        updateTab={this.props.updateTab}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
                         setEnforceFocus={this.props.setEnforceFocus}
@@ -103,7 +100,6 @@ export default class UserSettings extends React.Component {
                         activeSection={this.props.activeSection}
                         prevActiveSection={this.props.prevActiveSection}
                         updateSection={this.props.updateSection}
-                        updateTab={this.props.updateTab}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
                     />
@@ -113,11 +109,9 @@ export default class UserSettings extends React.Component {
             return (
                 <div>
                     <AdvancedTab
-                        user={this.state.user}
                         activeSection={this.props.activeSection}
                         prevActiveSection={this.props.prevActiveSection}
                         updateSection={this.props.updateSection}
-                        updateTab={this.props.updateTab}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
                     />

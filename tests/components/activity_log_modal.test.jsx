@@ -1,11 +1,13 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 import $ from 'jquery';
 require('perfect-scrollbar/jquery')($);
+
+import {General} from 'mattermost-redux/constants';
 
 import ActivityLogModal from 'components/activity_log_modal/activity_log_modal.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -17,6 +19,7 @@ describe('components/ActivityLogModal', () => {
             getSessions: jest.fn(),
             revokeSession: jest.fn(),
         },
+        locale: General.DEFAULT_LOCALE,
     };
 
     test('should match snapshot', () => {

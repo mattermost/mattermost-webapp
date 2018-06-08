@@ -1,79 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugins/PostMessageView should match snapshot with extended post type 1`] = `
-<Provider
-  intl={
+<PostMessageView
+  currentUser={
     Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "textComponent": "span",
+      "username": "username",
     }
   }
-  store={
+  emojis={
     Object {
-      "dispatch": [Function],
-      "getState": [Function],
-      "liftedStore": Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
+      "name": "smile",
+    }
+  }
+  enableFormatting={true}
+  isRHS={false}
+  options={Object {}}
+  pluginPostTypes={
+    Object {
+      "testtype": Object {
+        "component": [Function],
       },
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-      Symbol(observable): [Function],
+    }
+  }
+  post={
+    Object {
+      "message": "this is some text",
+      "type": "testtype",
+    }
+  }
+  team={
+    Object {
+      "name": "team_name",
+    }
+  }
+  theme={
+    Object {
+      "id": "theme_id",
     }
   }
 >
-  <PostMessageView
-    currentUser={
-      Object {
-        "username": "username",
-      }
-    }
-    emojis={
-      Object {
-        "name": "smile",
-      }
-    }
-    enableFormatting={true}
+  <PostTypePlugin
     isRHS={false}
-    options={Object {}}
-    pluginPostTypes={
-      Object {
-        "testtype": Object {
-          "component": [Function],
-        },
-      }
-    }
     post={
       Object {
         "message": "this is some text",
         "type": "testtype",
-      }
-    }
-    team={
-      Object {
-        "name": "team_name",
       }
     }
     theme={
@@ -82,150 +53,44 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
       }
     }
   >
-    <PostTypePlugin
-      isRHS={false}
-      post={
-        Object {
-          "message": "this is some text",
-          "type": "testtype",
-        }
-      }
-      theme={
-        Object {
-          "id": "theme_id",
-        }
-      }
+    <span
+      id="pluginId"
     >
-      <span
-        id="pluginId"
-      >
-        PostTypePlugin
-      </span>
-    </PostTypePlugin>
-  </PostMessageView>
-</Provider>
+      PostTypePlugin
+    </span>
+  </PostTypePlugin>
+</PostMessageView>
 `;
 
 exports[`plugins/PostMessageView should match snapshot with no extended post type 1`] = `
-<Provider
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "textComponent": "span",
-    }
-  }
-  store={
-    Object {
-      "dispatch": [Function],
-      "getState": [Function],
-      "liftedStore": Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      },
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-      Symbol(observable): [Function],
-    }
-  }
+<div
+  className="post-message post-message--collapsed"
 >
-  <PostMessageView
-    currentUser={
-      Object {
-        "username": "username",
-      }
-    }
-    emojis={
-      Object {
-        "name": "smile",
-      }
-    }
-    enableFormatting={true}
-    isRHS={false}
-    options={Object {}}
-    pluginPostTypes={Object {}}
-    post={
-      Object {
-        "message": "this is some text",
-        "type": "testtype",
-      }
-    }
-    team={
-      Object {
-        "name": "team_name",
-      }
-    }
-    theme={
-      Object {
-        "id": "theme_id",
-      }
-    }
+  <div
+    className="post-message__text-container"
   >
-    <div>
-      <span
-        className="post-message__text"
-        id={null}
-        onClick={[Function]}
-      >
-        <Connect(PostMarkdown)
-          isRHS={false}
-          message="this is some text"
-          options={Object {}}
-          post={
-            Object {
-              "message": "this is some text",
-              "type": "testtype",
-            }
+    <div
+      className="post-message__text"
+      id={null}
+      onClick={[Function]}
+    >
+      <PostMarkdown
+        imageProps={
+          Object {
+            "onHeightReceived": [Function],
           }
-        >
-          <PostMarkdown
-            channelNamesMap={Object {}}
-            dispatch={[Function]}
-            hasImageProxy={false}
-            isRHS={false}
-            mentionKeys={Array []}
-            message="this is some text"
-            options={Object {}}
-            post={
-              Object {
-                "message": "this is some text",
-                "type": "testtype",
-              }
-            }
-            siteURL="http://localhost:8065"
-          >
-            <p
-              key="0"
-            >
-              this is some text
-            </p>
-            
-
-          </PostMarkdown>
-        </Connect(PostMarkdown)>
-      </span>
+        }
+        isRHS={false}
+        message="this is some text"
+        options={Object {}}
+        post={
+          Object {
+            "message": "this is some text",
+            "type": "testtype",
+          }
+        }
+      />
     </div>
-  </PostMessageView>
-</Provider>
+  </div>
+</div>
 `;

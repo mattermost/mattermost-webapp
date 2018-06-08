@@ -1,0 +1,230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/TeamSettings hide invite code if no permissions for team inviting 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <i
+          className="fa fa-angle-left"
+          onClick={[Function]}
+        />
+      </div>
+      <FormattedMessage
+        defaultMessage="General Settings"
+        id="general_tab.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="General Settings"
+        id="general_tab.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      focused={false}
+      section="name"
+      title="Team Name"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Click 'Edit' to add a team description."
+          id="general_tab.emptyDescription"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="description"
+      title="Team Description"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingPicture
+      clientError=""
+      file={null}
+      imageContext="team"
+      loadingPicture={false}
+      onFileChange={[Function]}
+      onRemove={[Function]}
+      onSubmit={[Function]}
+      serverError=""
+      src={null}
+      submitActive={false}
+      title="Team Icon"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe="No"
+      focused={false}
+      section="open_invite"
+      title="Allow any user with an account on this server to join this team"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe="Click 'Edit' to regenerate Invite Code."
+      focused={false}
+      section="invite_id"
+      title="Invite Code"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/TeamSettings hide invite code if no permissions for team inviting 2`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <i
+          className="fa fa-angle-left"
+          onClick={[Function]}
+        />
+      </div>
+      <FormattedMessage
+        defaultMessage="General Settings"
+        id="general_tab.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="General Settings"
+        id="general_tab.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      focused={false}
+      section="name"
+      title="Team Name"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Click 'Edit' to add a team description."
+          id="general_tab.emptyDescription"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="description"
+      title="Team Description"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingPicture
+      clientError=""
+      file={null}
+      imageContext="team"
+      loadingPicture={false}
+      onFileChange={[Function]}
+      onRemove={[Function]}
+      onSubmit={[Function]}
+      serverError=""
+      src={null}
+      submitActive={false}
+      title="Team Icon"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe="No"
+      focused={false}
+      section="open_invite"
+      title="Allow any user with an account on this server to join this team"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-dark"
+    />
+  </div>
+</div>
+`;

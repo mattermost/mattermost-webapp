@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,17 +14,22 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
+import ManageAutoResponder from './manage_auto_responder.jsx';
 
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
 
     let desktop = NotificationLevels.MENTION;
     let sound = 'true';
-    let desktopDuration = '5';
     let comments = 'never';
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.AWAY;
+    let autoResponderActive = false;
+    let autoResponderMessage = Utils.localizeMessage(
+        'user.settings.notifications.autoResponderDefault',
+        'Hello, I am out of office and unable to respond to messages.'
+    );
 
     if (user.notify_props) {
         if (user.notify_props.desktop) {
@@ -32,9 +37,6 @@ function getNotificationsStateFromStores() {
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
-        }
-        if (user.notify_props.desktop_duration) {
-            desktopDuration = user.notify_props.desktop_duration;
         }
         if (user.notify_props.comments) {
             comments = user.notify_props.comments;
@@ -47,6 +49,14 @@ function getNotificationsStateFromStores() {
         }
         if (user.notify_props.push_status) {
             pushStatus = user.notify_props.push_status;
+        }
+
+        if (user.notify_props.auto_responder_active) {
+            autoResponderActive = user.notify_props.auto_responder_active === 'true';
+        }
+
+        if (user.notify_props.auto_responder_message) {
+            autoResponderMessage = user.notify_props.auto_responder_message;
         }
     }
 
@@ -83,7 +93,6 @@ function getNotificationsStateFromStores() {
 
     return {
         desktopActivity: desktop,
-        desktopDuration,
         enableEmail,
         pushActivity,
         pushStatus,
@@ -93,6 +102,8 @@ function getNotificationsStateFromStores() {
         customKeysChecked: customKeys.length > 0,
         firstNameKey,
         channelKey,
+        autoResponderActive,
+        autoResponderMessage,
         notifyCommentsLevel: comments,
         isSaving: false,
     };
@@ -119,10 +130,18 @@ export default class NotificationsTab extends React.Component {
         data.email = enableEmail;
         data.desktop_sound = this.state.desktopSound;
         data.desktop = this.state.desktopActivity;
-        data.desktop_duration = this.state.desktopDuration;
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
+        data.auto_responder_active = this.state.autoResponderActive.toString();
+        data.auto_responder_message = this.state.autoResponderMessage;
+
+        if (!data.auto_responder_message || data.auto_responder_message === '') {
+            data.auto_responder_message = Utils.localizeMessage(
+                'user.settings.notifications.autoResponderDefault',
+                'Hello, I am out of office and unable to respond to messages.'
+            );
+        }
 
         const mentionKeys = [];
         if (this.state.usernameKey) {
@@ -422,7 +441,7 @@ export default class NotificationsTab extends React.Component {
                     >
                         <FormattedMessage
                             id='user.settings.push_notification.disabled_long'
-                            defaultMessage='Push Notifications are not enabled. Contact your System Administrator.'
+                            defaultMessage='Push notifications have not been enabled by your System Administrator.'
                         />
                     </div>
                 );
@@ -498,7 +517,7 @@ export default class NotificationsTab extends React.Component {
             describe = (
                 <FormattedMessage
                     id='user.settings.push_notification.disabled'
-                    defaultMessage='Disabled by System Administrator'
+                    defaultMessage='Push notifications are not enabled'
                 />
             );
         }
@@ -621,6 +640,7 @@ export default class NotificationsTab extends React.Component {
                         type='text'
                         defaultValue={this.state.customKeys}
                         onChange={this.onCustomChange}
+                        onFocus={Utils.moveCursorToEnd}
                     />
                 </div>
             );
@@ -816,6 +836,56 @@ export default class NotificationsTab extends React.Component {
             );
         }
 
+        let autoResponderSection;
+        if (this.props.enableAutoResponder) {
+            if (this.props.activeSection === 'auto-responder') {
+                autoResponderSection = (
+                    <div>
+                        <ManageAutoResponder
+                            autoResponderActive={this.state.autoResponderActive}
+                            autoResponderMessage={this.state.autoResponderMessage}
+                            updateSection={this.updateSection}
+                            setParentState={this.setStateValue}
+                            submit={this.handleSubmit}
+                            error={this.state.serverError}
+                            saving={this.state.isSaving}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            } else {
+                const describe = this.state.autoResponderActive ? (
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderEnabled'
+                        defaultMessage='Enabled'
+                    />
+                ) : (
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderDisabled'
+                        defaultMessage='Disabled'
+                    />
+                );
+
+                autoResponderSection = (
+                    <div>
+                        <SettingItemMin
+                            title={
+                                <FormattedMessage
+                                    id='user.settings.notifications.autoResponder'
+                                    defaultMessage='Automatic Direct Message Replies'
+                                />
+                            }
+                            width='medium'
+                            describe={describe}
+                            section={'auto-responder'}
+                            updateSection={this.updateSection}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            }
+        }
+
         const pushNotificationSection = this.createPushNotificationSection();
         const enableEmail = this.state.enableEmail === 'true';
 
@@ -861,7 +931,6 @@ export default class NotificationsTab extends React.Component {
                     <DesktopNotificationSettings
                         activity={this.state.desktopActivity}
                         sound={this.state.desktopSound}
-                        duration={this.state.desktopDuration}
                         updateSection={this.updateSection}
                         setParentState={this.setStateValue}
                         submit={this.handleSubmit}
@@ -892,6 +961,8 @@ export default class NotificationsTab extends React.Component {
                     {keysSection}
                     <div className='divider-light'/>
                     {commentsSection}
+                    <div className='divider-light'/>
+                    {autoResponderSection}
                     <div className='divider-dark'/>
                 </div>
             </div>
@@ -903,16 +974,15 @@ export default class NotificationsTab extends React.Component {
 NotificationsTab.propTypes = {
     user: PropTypes.object,
     updateSection: PropTypes.func,
-    updateTab: PropTypes.func,
     activeSection: PropTypes.string,
     prevActiveSection: PropTypes.string,
-    activeTab: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
     sendEmailNotifications: PropTypes.bool,
     enableEmailBatching: PropTypes.bool,
     siteName: PropTypes.string,
     sendPushNotifications: PropTypes.bool,
+    enableAutoResponder: PropTypes.bool,
 };
 
 NotificationsTab.defaultProps = {

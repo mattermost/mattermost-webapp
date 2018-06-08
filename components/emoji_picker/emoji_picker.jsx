@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -155,7 +155,7 @@ export default class EmojiPicker extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         if (this.props.customEmojiPage === 0) {
             this.loadMoreCustomEmojis();
         }
@@ -171,7 +171,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         if (this.state.divTopOffset === nextState.divTopOffset) {
             return;
         }
@@ -196,7 +196,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.emojiMap !== nextProps.emojiMap) {
             this.getEmojis(nextProps);
         }

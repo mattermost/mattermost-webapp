@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import exif2css from 'exif2css';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
+import {Constants} from 'utils/constants.jsx';
 
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
-
     static defaultProps = {
         imageContext: 'profile',
     };
@@ -22,7 +24,8 @@ export default class SettingPicture extends Component {
         file: PropTypes.object,
         loadingPicture: PropTypes.bool,
         submitActive: PropTypes.bool,
-        submit: PropTypes.func,
+        onRemove: PropTypes.func,
+        onSubmit: PropTypes.func,
         title: PropTypes.string,
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
@@ -34,10 +37,11 @@ export default class SettingPicture extends Component {
 
         this.state = {
             image: null,
+            removeSrc: false,
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.file !== this.props.file) {
             this.setState({image: null});
 
@@ -49,6 +53,29 @@ export default class SettingPicture extends Component {
         if (this.previewBlob) {
             URL.revokeObjectURL(this.previewBlob);
         }
+    }
+
+    handleCancel = (e) => {
+        this.setState({removeSrc: false});
+        this.props.updateSection(e);
+    }
+
+    handleSave = (e) => {
+        if (this.state.removeSrc) {
+            this.props.onRemove(e);
+        } else {
+            this.props.onSubmit(e);
+        }
+    }
+
+    handleRemoveSrc = (e) => {
+        e.preventDefault();
+        this.setState({removeSrc: true});
+    }
+
+    handleFileChange = (e) => {
+        this.setState({removeSrc: false});
+        this.props.onFileChange(e);
     }
 
     setPicture = (file) => {
@@ -128,21 +155,58 @@ export default class SettingPicture extends Component {
             };
 
             img = (
-                <div
-                    className={`${imageContext}-img-preview`}
-                    alt={`${imageContext} image preview`}
-                    style={imageStyles}
-                />
+                <div className={`${imageContext}-img-preview`}>
+                    <div className='img-preview__image'>
+                        <div
+                            alt={`${imageContext} image preview`}
+                            style={imageStyles}
+                            className={`${imageContext}-img-preview`}
+                        />
+                    </div>
+                </div>
             );
-        } else if (this.props.src) {
+        } else if (this.props.src && !this.state.removeSrc) {
             img = (
                 <img
-                    ref='image'
                     className={`${imageContext}-img`}
                     alt={`${imageContext} image`}
                     src={this.props.src}
                 />
             );
+
+            if (this.props.onRemove) {
+                img = (
+                    <div className={`${imageContext}-img__container`}>
+                        <div className='img-preview__image'>
+                            <img
+                                className={`${imageContext}-img`}
+                                alt={`${imageContext} image`}
+                                src={this.props.src}
+                            />
+                        </div>
+                        <OverlayTrigger
+                            trigger={['hover', 'focus']}
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='right'
+                            overlay={(
+                                <Tooltip id='removeIcon'>
+                                    <FormattedMessage
+                                        id='setting_picture.remove'
+                                        defaultMessage='Remove this icon'
+                                    />
+                                </Tooltip>
+                            )}
+                        >
+                            <a
+                                className={`${imageContext}-img__remove`}
+                                onClick={this.handleRemoveSrc}
+                            >
+                                <span>{'×'}</span>
+                            </a>
+                        </OverlayTrigger>
+                    </div>
+                );
+            }
         }
 
         let confirmButton;
@@ -161,7 +225,7 @@ export default class SettingPicture extends Component {
             fileInputDisabled = true;
         } else {
             let confirmButtonClass = 'btn btn-sm';
-            if (this.props.submitActive) {
+            if (this.props.submitActive || this.state.removeSrc) {
                 confirmButtonClass += ' btn-primary';
             } else {
                 confirmButtonClass += ' btn-inactive disabled';
@@ -170,13 +234,30 @@ export default class SettingPicture extends Component {
             confirmButton = (
                 <a
                     className={confirmButtonClass}
-                    onClick={this.props.submit}
+                    onClick={this.handleSave}
                 >
                     <FormattedMessage
                         id='setting_picture.save'
                         defaultMessage='Save'
                     />
                 </a>
+            );
+        }
+
+        let helpText;
+        if (imageContext === 'team') {
+            helpText = (
+                <FormattedHTMLMessage
+                    id={'setting_picture.help.team'}
+                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended.'
+                />
+            );
+        } else {
+            helpText = (
+                <FormattedMessage
+                    id={'setting_picture.help.profile'}
+                    defaultMessage='Upload a picture in BMP, JPG or PNG format.'
+                />
             );
         }
 
@@ -187,10 +268,7 @@ export default class SettingPicture extends Component {
                     <ul className='setting-list'>
                         {img ? <li className='setting-list-item'> {img} </li> : ''}
                         <li className='setting-list-item padding-top x2'>
-                            <FormattedMessage
-                                id={`setting_picture.help.${imageContext}`}
-                                defaultMessage='Upload a picture in BMP, JPG, JPEG or PNG format.'
-                            />
+                            {helpText}
                         </li>
                         <li className='setting-list-item'>
                             <hr/>
@@ -211,7 +289,7 @@ export default class SettingPicture extends Component {
                                     ref='input'
                                     accept='.jpg,.png,.bmp'
                                     type='file'
-                                    onChange={this.props.onFileChange}
+                                    onChange={this.handleFileChange}
                                     disabled={fileInputDisabled}
                                 />
                             </div>
@@ -219,7 +297,7 @@ export default class SettingPicture extends Component {
                             <a
                                 className='btn btn-sm theme'
                                 href='#'
-                                onClick={this.props.updateSection}
+                                onClick={this.handleCancel}
                             >
                                 <FormattedMessage
                                     id='setting_picture.cancel'

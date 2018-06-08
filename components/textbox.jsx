@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ export default class Textbox extends React.Component {
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
         popoverMentionKeyClick: PropTypes.bool,
-        characterLimit: PropTypes.number,
+        characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
     };
 
@@ -45,7 +45,6 @@ export default class Textbox extends React.Component {
         supportsCommands: true,
         isRHS: false,
         popoverMentionKeyClick: false,
-        characterLimit: Constants.CHARACTER_LIMIT,
     };
 
     constructor(props) {
@@ -69,7 +68,7 @@ export default class Textbox extends React.Component {
         ErrorStore.addChangeListener(this.onReceivedError);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.checkMessageLength(this.props.value);
     }
 
@@ -88,7 +87,6 @@ export default class Textbox extends React.Component {
     }
 
     handleChange = (e) => {
-        this.checkMessageLength(e.target.value);
         this.props.onChange(e);
     }
 
@@ -165,7 +163,7 @@ export default class Textbox extends React.Component {
         this.setState({preview: false});
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.channelId !== this.props.channelId) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
@@ -174,6 +172,9 @@ export default class Textbox extends React.Component {
                     providers[i] = new AtMentionProvider(nextProps.channelId);
                 }
             }
+        }
+        if (this.props.value !== nextProps.value) {
+            this.checkMessageLength(nextProps.value);
         }
     }
 

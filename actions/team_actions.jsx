@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
@@ -55,17 +55,8 @@ export async function removeUserFromTeam(teamId, userId, success, error) {
     }
 }
 
-export async function updateTeamMemberRoles(teamId, userId, newRoles, success, error) {
-    const {data, error: err} = await TeamActions.updateTeamMemberRoles(teamId, userId, newRoles)(dispatch, getState);
-    if (data && success) {
-        success();
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
-    Client4.addToTeamFromInvite(hash, data, inviteId).then(
+export function addUserToTeamFromInvite(token, inviteId, success, error) {
+    Client4.addToTeamFromInvite(token, inviteId).then(
         async (member) => {
             const {data: team} = await TeamActions.getTeam(member.team_id)(dispatch, getState);
             dispatch({
@@ -91,14 +82,18 @@ export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
     );
 }
 
-export async function addUsersToTeam(teamId, userIds, success, error) {
-    const {data: teamMembers, error: err} = await TeamActions.addUsersToTeam(teamId, userIds)(dispatch, getState);
-    getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
-    if (teamMembers && success) {
-        success(teamMembers);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+export function addUsersToTeam(teamId, userIds) {
+    return async (doDispatch, doGetState) => {
+        const {data, error} = await doDispatch(TeamActions.addUsersToTeam(teamId, userIds));
+
+        if (error) {
+            return {error};
+        }
+
+        doDispatch(getChannelStats(doGetState().entities.channels.currentChannelId));
+
+        return {data};
+    };
 }
 
 export function getInviteInfo(inviteId, success, error) {

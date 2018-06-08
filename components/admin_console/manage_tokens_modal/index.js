@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -11,8 +11,7 @@ function mapStateToProps(state, ownProps) {
     const userId = ownProps.user ? ownProps.user.id : '';
 
     return {
-        ...ownProps,
-        userAccessTokens: state.entities.admin.userAccessTokens[userId],
+        userAccessTokens: state.entities.admin.userAccessTokensByUser[userId],
     };
 }
 

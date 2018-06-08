@@ -1,10 +1,11 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {deletePreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {Client4} from 'mattermost-redux/client';
-import {getMyChannelMemberships, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -57,7 +58,7 @@ export function executeCommand(message, args, success, error) {
         cmdLength = msg.length;
     }
     const cmd = msg.substring(0, cmdLength).toLowerCase();
-    msg = cmd + msg.substring(cmdLength, msg.length);
+    msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
 
     switch (cmd) {
     case '/search':
@@ -84,7 +85,7 @@ export function executeCommand(message, args, success, error) {
             return;
         } else if (
             channel.type === Constants.DM_CHANNEL ||
-            channel.type === Constants.GM_CHANNEL
+                channel.type === Constants.GM_CHANNEL
         ) {
             let name;
             let category;
@@ -166,24 +167,6 @@ export async function addUserToChannel(channelId, userId, success, error) {
 
 export async function removeUserFromChannel(channelId, userId, success, error) {
     const {data, error: err} = await ChannelActions.removeChannelMember(channelId, userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function makeUserChannelAdmin(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.updateChannelMemberRoles(channelId, userId, 'channel_user channel_admin')(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function makeUserChannelMember(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.updateChannelMemberRoles(channelId, userId, 'channel_user')(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -321,15 +304,6 @@ export async function autocompleteChannels(term, success, error) {
     const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateChannelNotifyProps(data, options, success, error) {
-    const {data: result, error: err} = await ChannelActions.updateChannelNotifyProps(data.user_id, data.channel_id, Object.assign({}, data, options))(dispatch, getState);
-    if (result && success) {
-        success(result);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }

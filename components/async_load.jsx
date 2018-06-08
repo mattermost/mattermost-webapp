@@ -1,5 +1,5 @@
-// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {PropTypes} from 'prop-types';
@@ -21,11 +21,11 @@ export class AsyncComponent extends React.Component {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.load(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.doLoad !== this.props.doLoad) {
             this.load(nextProps);
         }
@@ -43,8 +43,10 @@ export class AsyncComponent extends React.Component {
 }
 
 export function makeAsyncComponent(loadComponent) {
-    return (props) => (<AsyncComponent
-        doLoad={loadComponent}
-        {...props}
-                       />);
+    return (props) => (
+        <AsyncComponent
+            doLoad={loadComponent}
+            {...props}
+        />
+    );
 }

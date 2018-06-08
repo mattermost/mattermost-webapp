@@ -19,7 +19,7 @@
     }
 
     &.sidebar--right--expanded {
-        z-index: 10;
+        z-index: 15;
     }
 
     .sidebar--right__bg {
@@ -44,16 +44,16 @@
 
         > div:not(.sidebar-collapse__container) {
             display: table-cell;
+            vertical-align: top;
 
             &:last-child {
                 .channel-header__icon {
-                    margin-right: 10px;
+                    margin-right: 16px;
                 }
             }
         }
 
         .search-form__container {
-            padding-right: 10px;
             width: 100%;
         }
     }
@@ -289,11 +289,12 @@
     line-height: 0;
     padding-left: 1px;
     text-align: center;
-    width: 50px;
+    width: 45px;
     z-index: 5;
 
     .fa {
         position: relative;
         top: 18px;
+        right: 2px;
     }
 }

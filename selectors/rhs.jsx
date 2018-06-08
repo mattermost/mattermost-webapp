@@ -1,5 +1,5 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -55,6 +55,10 @@ export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }
 
+export function getSearchResultsTerms(state) {
+    return state.views.rhs.searchResultsTerms;
+}
+
 export function getIsSearchingTerm(state) {
     return state.views.rhs.isSearchingTerm;
 }
@@ -96,4 +100,16 @@ export function makeGetPostsEmbedVisibleObj() {
             return postsEmbedVisibleObj;
         }
     );
+}
+
+export function getIsRhsOpen(state) {
+    return state.views.rhs.isSidebarOpen;
+}
+
+export function getIsRhsMenuOpen(state) {
+    return state.views.rhs.isMenuOpen;
+}
+
+export function getIsRhsExpanded(state) {
+    return state.views.rhs.isSidebarExpanded;
 }

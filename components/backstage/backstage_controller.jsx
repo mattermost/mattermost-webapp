@@ -1,5 +1,5 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
 import Integrations from 'components/integrations';
 import Emoji from 'components/emoji';
 import AddEmoji from 'components/emoji/add_emoji';
@@ -51,9 +52,11 @@ export default class BackstageController extends React.Component {
         team: PropTypes.object,
 
         /**
-         * Set to indicate user is system admin or a team admin for current team.
+         * Object from react-router
          */
-        isAdmin: PropTypes.bool,
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
 
         siteName: PropTypes.string,
         enableCustomEmoji: PropTypes.bool.isRequired,
@@ -61,7 +64,7 @@ export default class BackstageController extends React.Component {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableCommands: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
+        canCreateCustomEmoji: PropTypes.bool.isRequired,
     }
 
     scrollToTop = () => {
@@ -81,12 +84,12 @@ export default class BackstageController extends React.Component {
         const extraProps = {
             team: this.props.team,
             user: this.props.user,
-            isAdmin: this.props.isAdmin,
             scrollToTop: this.scrollToTop,
         };
         return (
             <div className='backstage'>
                 <AnnouncementBar/>
+                <SystemNotice/>
                 <BackstageNavbar
                     team={this.props.team}
                     siteName={this.props.siteName}
@@ -104,7 +107,7 @@ export default class BackstageController extends React.Component {
                         enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
                         enableCommands={this.props.enableCommands}
                         enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
-                        enableOnlyAdminIntegrations={this.props.enableOnlyAdminIntegrations}
+                        canCreateCustomEmoji={this.props.canCreateCustomEmoji}
                     />
                     <Switch>
                         <BackstageRoute

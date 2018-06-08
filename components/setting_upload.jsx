@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ export default class SettingsUpload extends React.Component {
         };
     }
 
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() { // eslint-disable-line camelcase
         this.setState({
             clientError: this.props.clientError,
             serverError: this.props.serverError,

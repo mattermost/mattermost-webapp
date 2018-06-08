@@ -1,11 +1,11 @@
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {NotificationLevels} from 'utils/constants.jsx';
+import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
@@ -29,7 +29,6 @@ export default class DesktopNotificationSettings extends React.Component {
 
     buildMaximizedSetting = () => {
         const inputs = [];
-        let extraInfo = null;
 
         const activityRadio = [false, false, false];
         if (this.props.activity === NotificationLevels.MENTION) {
@@ -41,7 +40,6 @@ export default class DesktopNotificationSettings extends React.Component {
         }
 
         let soundSection;
-        let durationSection;
         if (this.props.activity !== NotificationLevels.NONE) {
             const soundRadio = [false, false];
             if (this.props.sound === 'false') {
@@ -124,118 +122,6 @@ export default class DesktopNotificationSettings extends React.Component {
                     </div>
                 );
             }
-
-            const durationRadio = [false, false, false, false];
-            if (this.props.duration === '3') {
-                durationRadio[0] = true;
-            } else if (this.props.duration === '10') {
-                durationRadio[2] = true;
-            } else if (this.props.duration === '0') {
-                durationRadio[3] = true;
-            } else {
-                durationRadio[1] = true;
-            }
-
-            durationSection = (
-                <div>
-                    <hr/>
-                    <label>
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.duration'
-                            defaultMessage='Notification duration'
-                        />
-                    </label>
-                    <br/>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='soundDuration3'
-                                type='radio'
-                                name='desktopDuration'
-                                checked={durationRadio[0]}
-                                data-key={'desktopDuration'}
-                                data-value={'3'}
-                                onChange={this.handleOnChange}
-                            />
-                            <FormattedMessage
-                                id='user.settings.notifications.desktop.seconds'
-                                defaultMessage='{seconds} seconds'
-                                values={{
-                                    seconds: '3',
-                                }}
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='soundDuration5'
-                                type='radio'
-                                name='desktopDuration'
-                                checked={durationRadio[1]}
-                                data-key={'desktopDuration'}
-                                data-value={'5'}
-                                onChange={this.handleOnChange}
-                            />
-                            <FormattedMessage
-                                id='user.settings.notifications.desktop.seconds'
-                                defaultMessage='{seconds} seconds'
-                                values={{
-                                    seconds: '5',
-                                }}
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='soundDuration10'
-                                type='radio'
-                                name='desktopDuration'
-                                checked={durationRadio[2]}
-                                data-key={'desktopDuration'}
-                                data-value={'10'}
-                                onChange={this.handleOnChange}
-                            />
-                            <FormattedMessage
-                                id='user.settings.notifications.desktop.seconds'
-                                defaultMessage='{seconds} seconds'
-                                values={{
-                                    seconds: '10',
-                                }}
-                            />
-                        </label>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='soundDurationUnlimited'
-                                type='radio'
-                                name='desktopDuration'
-                                checked={durationRadio[3]}
-                                data-key={'desktopDuration'}
-                                data-value={'0'}
-                                onChange={this.handleOnChange}
-                            />
-                            <FormattedMessage
-                                id='user.settings.notifications.desktop.unlimited'
-                                defaultMessage='Unlimited'
-                            />
-                        </label>
-                    </div>
-                </div>
-            );
-
-            extraInfo = (
-                <span>
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop.durationInfo'
-                        defaultMessage='Sets how long desktop notifications will remain on screen when using Firefox or Chrome. Desktop notifications in Edge, Safari and Mattermost Desktop Apps can only stay on screen for a maximum of 5 seconds.'
-                    />
-                </span>
-            );
         }
 
         inputs.push(
@@ -308,14 +194,12 @@ export default class DesktopNotificationSettings extends React.Component {
                     />
                 </span>
                 {soundSection}
-                {durationSection}
             </div>
         );
 
         return (
             <SettingItemMax
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
-                extraInfo={extraInfo}
                 inputs={inputs}
                 submit={this.props.submit}
                 saving={this.props.saving}
@@ -329,62 +213,35 @@ export default class DesktopNotificationSettings extends React.Component {
         let describe = '';
         if (this.props.activity === NotificationLevels.MENTION) {
             if (Utils.hasSoundOptions() && this.props.sound !== 'false') {
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundForever'
-                            defaultMessage='For mentions and direct messages, with sound, shown indefinitely'
-                        />
-                    );
-                } else {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundTimed'
-                            defaultMessage='For mentions and direct messages, with sound, shown for {seconds} seconds'
-                            values={{
-                                seconds: this.props.duration,
-                            }}
-                        />
-                    );
-                }
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.notifications.desktop.mentionsSoundTimed'
+                        defaultMessage='For mentions and direct messages, with sound, shown for {seconds} seconds'
+                        values={{
+                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
+                        }}
+                    />
+                );
             } else if (Utils.hasSoundOptions() && this.props.sound === 'false') {
-                if (this.props.duration === '0') {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsNoSoundForever'
-                            defaultMessage='For mentions and direct messages, without sound, shown indefinitely'
-                        />
-                    );
-                } else {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsNoSoundTimed'
-                            defaultMessage='For mentions and direct messages, without sound, shown for {seconds} seconds'
-                            values={{
-                                seconds: this.props.duration,
-                            }}
-                        />
-                    );
-                }
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.notifications.desktop.mentionsNoSoundTimed'
+                        defaultMessage='For mentions and direct messages, without sound, shown for {seconds} seconds'
+                        values={{
+                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
+                        }}
+                    />
+                );
             } else {
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundHiddenForever'
-                            defaultMessage='For mentions and direct messages, shown indefinitely'
-                        />
-                    );
-                } else {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundHiddenTimed'
-                            defaultMessage='For mentions and direct messages, shown for {seconds} seconds'
-                            values={{
-                                seconds: this.props.duration,
-                            }}
-                        />
-                    );
-                }
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.notifications.desktop.mentionsSoundHiddenTimed'
+                        defaultMessage='For mentions and direct messages, shown for {seconds} seconds'
+                        values={{
+                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
+                        }}
+                    />
+                );
             }
         } else if (this.props.activity === NotificationLevels.NONE) {
             describe = (
@@ -395,62 +252,35 @@ export default class DesktopNotificationSettings extends React.Component {
             );
         } else {
             if (Utils.hasSoundOptions() && this.props.sound !== 'false') { //eslint-disable-line no-lonely-if
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundForever'
-                            defaultMessage='For all activity, with sound, shown indefinitely'
-                        />
-                    );
-                } else {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundTimed'
-                            defaultMessage='For all activity, with sound, shown for {seconds} seconds'
-                            values={{
-                                seconds: this.props.duration,
-                            }}
-                        />
-                    );
-                }
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.notifications.desktop.allSoundTimed'
+                        defaultMessage='For all activity, with sound, shown for {seconds} seconds'
+                        values={{
+                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
+                        }}
+                    />
+                );
             } else if (Utils.hasSoundOptions() && this.props.sound === 'false') {
-                if (this.props.duration === '0') {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.allNoSoundForever'
-                            defaultMessage='For all activity, without sound, shown indefinitely'
-                        />
-                    );
-                } else {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.allNoSoundTimed'
-                            defaultMessage='For all activity, without sound, shown for {seconds} seconds'
-                            values={{
-                                seconds: this.props.duration,
-                            }}
-                        />
-                    );
-                }
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.notifications.desktop.allNoSoundTimed'
+                        defaultMessage='For all activity, without sound, shown for {seconds} seconds'
+                        values={{
+                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
+                        }}
+                    />
+                );
             } else {
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundHiddenForever'
-                            defaultMessage='For all activity, shown indefinitely'
-                        />
-                    );
-                } else {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundHiddenTimed'
-                            defaultMessage='For all activity, shown for {seconds} seconds'
-                            values={{
-                                seconds: this.props.duration,
-                            }}
-                        />
-                    );
-                }
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.notifications.desktop.allSoundHiddenTimed'
+                        defaultMessage='For all activity, shown for {seconds} seconds'
+                        values={{
+                            seconds: Constants.DEFAULT_NOTIFICATION_DURATION / 1000,
+                        }}
+                    />
+                );
             }
         }
 
@@ -477,7 +307,6 @@ export default class DesktopNotificationSettings extends React.Component {
 DesktopNotificationSettings.propTypes = {
     activity: PropTypes.string.isRequired,
     sound: PropTypes.string.isRequired,
-    duration: PropTypes.string.isRequired,
     updateSection: PropTypes.func,
     setParentState: PropTypes.func,
     submit: PropTypes.func,

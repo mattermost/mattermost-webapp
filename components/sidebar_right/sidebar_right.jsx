@@ -1,14 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -19,6 +18,8 @@ import SearchResults from 'components/search_results';
 
 export default class SidebarRight extends React.Component {
     static propTypes = {
+        isExpanded: PropTypes.bool.isRequired,
+        isOpen: PropTypes.bool.isRequired,
         currentUser: PropTypes.object,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
@@ -37,91 +38,39 @@ export default class SidebarRight extends React.Component {
         super(props);
 
         this.plScrolledToBottom = true;
-
-        this.state = {
-            expanded: false,
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
-        };
     }
 
     componentDidMount() {
         PostStore.addPostPinnedChangeListener(this.onPostPinnedChange);
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
-        this.doStrangeThings();
     }
 
     componentWillUnmount() {
         PostStore.removePostPinnedChangeListener(this.onPostPinnedChange);
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
         const willOpen = nextProps.searchVisible || nextProps.postRightVisible;
 
         if (!isOpen && willOpen) {
             trackEvent('ui', 'ui_rhs_opened');
         }
-
-        if (!isOpen && willOpen) {
-            this.setState({
-                expanded: false,
-            });
-        }
-    }
-
-    doStrangeThings = () => {
-        // We should have a better way to do this stuff
-        // Hence the function name.
-        $('.app__body .inner-wrap').removeClass('.move--right');
-        $('.app__body .inner-wrap').addClass('move--left');
-        $('.app__body .sidebar--left').removeClass('move--right');
-        $('.multi-teams .team-sidebar').removeClass('move--right');
-        $('.app__body .sidebar--right').addClass('move--left');
-
-        if (!this.props.searchVisible && !this.props.postRightVisible) {
-            $('.app__body .inner-wrap').removeClass('move--left').removeClass('move--right');
-            $('.app__body .sidebar--right').removeClass('move--left');
-            return (
-                <div/>
-            );
-        }
-
-        return null;
     }
 
     componentDidUpdate(prevProps) {
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
-        WebrtcStore.emitRhsChanged(isOpen);
-        this.doStrangeThings();
 
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
 
         if (isOpen && !wasOpen) {
-            setTimeout(() => postListScrollChange(), 0);
+            setTimeout(postListScrollChange, 0);
         }
-    }
-
-    onPreferenceChange = () => {
-        this.setState({
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
-        });
     }
 
     onPostPinnedChange = () => {
         if (this.props.channel && this.props.isPinnedPosts) {
             this.props.actions.getPinnedPosts(this.props.channel.id);
         }
-    }
-
-    onShrink = () => {
-        this.setState({
-            expanded: false,
-        });
-    }
-
-    toggleSize = () => {
-        this.setState({expanded: !this.state.expanded});
     }
 
     render() {
@@ -136,12 +85,10 @@ export default class SidebarRight extends React.Component {
             searchVisible,
         } = this.props;
 
-        const {useMilitaryTime} = this.state;
-
         let content = null;
         let expandedClass = '';
 
-        if (this.state.expanded) {
+        if (this.props.isExpanded) {
             expandedClass = 'sidebar--right--expanded';
         }
 
@@ -167,7 +114,6 @@ export default class SidebarRight extends React.Component {
                         isMentionSearch={isMentionSearch}
                         isFlaggedPosts={isFlaggedPosts}
                         isPinnedPosts={isPinnedPosts}
-                        useMilitaryTime={useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
@@ -183,7 +129,6 @@ export default class SidebarRight extends React.Component {
                         previousRhsState={previousRhsState}
                         isWebrtc={WebrtcStore.isBusy()}
                         currentUser={currentUser}
-                        useMilitaryTime={useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
@@ -197,7 +142,7 @@ export default class SidebarRight extends React.Component {
 
         return (
             <div
-                className={'sidebar--right ' + expandedClass}
+                className={classNames('sidebar--right', expandedClass, {'move--left': this.props.isOpen})}
                 id='sidebar-right'
             >
                 <div

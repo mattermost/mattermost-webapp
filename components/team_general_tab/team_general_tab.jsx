@@ -1,5 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// See LICENSE.txt for license information.
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -12,8 +12,9 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 
-export default class GeneralTab extends React.Component {
+const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
+export default class GeneralTab extends React.Component {
     static propTypes = {
         updateSection: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
@@ -23,8 +24,10 @@ export default class GeneralTab extends React.Component {
         maxFileSize: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             updateTeam: PropTypes.func.isRequired,
+            removeTeamIcon: PropTypes.func.isRequired,
             setTeamIcon: PropTypes.func.isRequired,
         }).isRequired,
+        canInviteTeamMembers: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -72,7 +75,7 @@ export default class GeneralTab extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         this.setState({
             name: nextProps.team.display_name,
             description: nextProps.team.description,
@@ -235,13 +238,37 @@ export default class GeneralTab extends React.Component {
         }
 
         this.setState({
+            loadingIcon: true,
             clientError: '',
             serverError: '',
         });
 
-        this.setState({loadingIcon: true});
-
         const {error} = await this.props.actions.setTeamIcon(this.props.team.id, this.state.teamIconFile);
+
+        if (error) {
+            this.setState({
+                loadingIcon: false,
+                serverError: error.message,
+            });
+        } else {
+            this.setState({
+                loadingIcon: false,
+                submitActive: false,
+            });
+            this.updateSection('');
+        }
+    }
+
+    handleTeamIconRemove = async (e) => {
+        e.preventDefault();
+
+        this.setState({
+            loadingIcon: true,
+            clientError: '',
+            serverError: '',
+        });
+
+        const {error} = await this.props.actions.removeTeamIcon(this.props.team.id);
 
         if (error) {
             this.setState({
@@ -281,13 +308,13 @@ export default class GeneralTab extends React.Component {
         if (e && e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
 
-            if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+            if (!ACCEPTED_TEAM_IMAGE_TYPES.includes(file.type)) {
                 this.setState({
-                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons'),
+                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only BMP, JPG or PNG images may be used for team icons'),
                 });
             } else if (file.size > this.props.maxFileSize) {
                 this.setState({
-                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons'),
+                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Unable to upload team icon. File is too large.'),
                 });
             } else {
                 this.setState({
@@ -396,7 +423,7 @@ export default class GeneralTab extends React.Component {
 
         let inviteSection;
 
-        if (this.props.activeSection === 'invite_id') {
+        if (this.props.activeSection === 'invite_id' && this.props.canInviteTeamMembers) {
             const inputs = [];
 
             inputs.push(
@@ -412,6 +439,7 @@ export default class GeneralTab extends React.Component {
                                 onChange={this.updateInviteId}
                                 value={this.state.invite_id}
                                 maxLength='32'
+                                onFocus={Utils.moveCursorToEnd}
                             />
                             <div className='padding-top x2'>
                                 <button
@@ -456,7 +484,7 @@ export default class GeneralTab extends React.Component {
                     updateSection={this.handleUpdateSection}
                 />
             );
-        } else {
+        } else if (this.props.canInviteTeamMembers) {
             inviteSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
@@ -497,6 +525,7 @@ export default class GeneralTab extends React.Component {
                             maxLength={Constants.MAX_TEAMNAME_LENGTH.toString()}
                             onChange={this.updateName}
                             value={this.state.name}
+                            onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
                 </div>
@@ -558,6 +587,7 @@ export default class GeneralTab extends React.Component {
                             maxLength={Constants.MAX_TEAMDESCRIPTION_LENGTH.toString()}
                             onChange={this.updateDescription}
                             value={this.state.description}
+                            onFocus={Utils.moveCursorToEnd}
                         />
                     </div>
                 </div>
@@ -615,7 +645,8 @@ export default class GeneralTab extends React.Component {
                         e.preventDefault();
                     }}
                     onFileChange={this.updateTeamIcon}
-                    submit={this.handleTeamIconSubmit}
+                    onSubmit={this.handleTeamIconSubmit}
+                    onRemove={this.handleTeamIconRemove}
                 />
             );
         } else {
