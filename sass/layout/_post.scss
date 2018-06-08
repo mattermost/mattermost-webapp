@@ -784,6 +784,10 @@
             }
         }
 
+        .post-message {
+            overflow: inherit;
+        }
+
         .post-message--collapsed + .post-image__columns {
             &:before {
                 content: '';
@@ -1813,6 +1817,7 @@
 
 .post-message {
     position: relative;
+    overflow-y: hidden;
 }
 
 .post-collapse {
