@@ -2,27 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 import marked from 'marked';
 
 const UNESCAPED_TAGS = ['BR'];
 const TARGET_BLANK_URL_PREFIX = '!';
 
-class FormattedMarkdownMessage extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.renderer = new marked.Renderer();
-        this.renderer.link = FormattedMarkdownMessage.linkF;
-    }
-
-    static linkF(href, title, text) {
+class MarkdownRenderer extends marked.Renderer {
+    link(href, title, text) {
         if (href[0] === TARGET_BLANK_URL_PREFIX) {
             return `<a href="${href.substring(1, href.length)}" target="_blank">${text}</a>`;
         }
         return `<a href="${href}">${text}</a>`;
     }
+}
 
+class FormattedMarkdownMessage extends React.PureComponent {
     static get propTypes() {
         return {
             intl: intlShape.isRequired,
@@ -56,17 +52,14 @@ class FormattedMarkdownMessage extends React.PureComponent {
             id: this.props.id,
             defaultMessage: this.props.defaultMessage,
         }, this.props.values);
-        return (
-            <FormattedHTMLMessage
-                id='00000000-0000-0000-0000-000000000000' // Some id that will never match.
-                defaultMessage={marked(origMsg, {
-                    sanitize: true,
-                    sanitizer: FormattedMarkdownMessage.sanitizer,
-                    renderer: this.renderer,
-                })}
-                values={this.props.values}
-            />
-        );
+
+        const markedUpMessage = marked(origMsg, {
+            sanitize: true,
+            sanitizer: FormattedMarkdownMessage.sanitizer,
+            renderer: new MarkdownRenderer(),
+        });
+
+        return (<span dangerouslySetInnerHTML={{__html: markedUpMessage}}/>);
     }
 }
 
