@@ -210,6 +210,7 @@ export default class TeamSelectorModal extends React.Component {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
             teams = teams.filter((team) => this.props.alreadySelected.indexOf(team.id) === -1);
+            teams.sort((a, b) => a.display_name.toUpperCase() > b.display_name.toUpperCase());
         }
 
         return (

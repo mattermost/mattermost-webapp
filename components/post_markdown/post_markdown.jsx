@@ -30,6 +30,8 @@ export default class PostMarkdown extends React.PureComponent {
          * The optional post for which this message is being rendered
          */
         post: PropTypes.object,
+
+        options: PropTypes.object,
     };
 
     static defaultProps = {
@@ -46,6 +48,7 @@ export default class PostMarkdown extends React.PureComponent {
 
         // Proxy images if we have an image proxy and the server hasn't already rewritten the post's image URLs.
         const proxyImages = !this.props.post || !this.props.post.message_source || this.props.post.message === this.props.post.message_source;
+        const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         return (
             <Markdown
@@ -53,6 +56,8 @@ export default class PostMarkdown extends React.PureComponent {
                 isRHS={this.props.isRHS}
                 message={this.props.message}
                 proxyImages={proxyImages}
+                options={this.props.options}
+                channelNamesMap={channelNamesMap}
             />
         );
     }
