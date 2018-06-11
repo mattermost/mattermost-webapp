@@ -18,7 +18,7 @@ import Markdown from './markdown';
 function makeGetChannelNamesMap() {
     return createSelector(
         getChannelsNameMapInCurrentTeam,
-        (state, props) => props && props.channel_mentions,
+        (state, props) => props && props.channelNamesMap,
         (channelNamesMap, channelMentions) => {
             if (channelMentions) {
                 return Object.assign({}, channelMentions, channelNamesMap);

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/PostMarkdown should render properly with a post 1`] = `
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
+    }
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  message="message"
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown should render properly with an empty post 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  message="message"
+  proxyImages={true}
+/>
+`;
