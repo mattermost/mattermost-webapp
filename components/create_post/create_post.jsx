@@ -644,7 +644,10 @@ export default class CreatePost extends React.Component {
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
         if (ctrlEnterKeyCombo) {
-            this.postMsgKeyPress(e);
+            e.persist();
+            setTimeout(() => {
+                this.postMsgKeyPress(e);
+            }, 0);
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
