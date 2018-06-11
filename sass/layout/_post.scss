@@ -785,7 +785,7 @@
         }
 
         .post-message {
-            overflow: initial;
+            overflow: inherit;
         }
 
         .post-message--collapsed + .post-image__columns {
@@ -1155,7 +1155,6 @@
     }
 
     .post__content {
-        @include clearfix;
         display: table;
         margin: 0 auto;
         padding: 0 5px;
