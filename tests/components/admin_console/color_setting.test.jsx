@@ -52,4 +52,21 @@ describe('components/ColorSetting', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, clicked on color setting', () => {
+        function emptyFunction() {} //eslint-disable-line no-empty-function
+
+        const wrapper = shallow(
+            <ColorSetting
+                id='id'
+                label='label'
+                helpText='helptext'
+                value='#fff'
+                onChange={emptyFunction}
+                disabled={false}
+            />
+        );
+        wrapper.find('.picker-id').first().simulate('click');
+        expect(wrapper).toMatchSnapshot();
+    });
 });

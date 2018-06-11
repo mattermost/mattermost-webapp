@@ -785,7 +785,7 @@
         }
 
         .post-message {
-            overflow: initial;
+            overflow: inherit;
         }
 
         .post-message--collapsed + .post-image__columns {

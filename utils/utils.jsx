@@ -650,7 +650,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post .post-image__columns, .app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
+        changeCss('.app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
 
         changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__gradient, ' +
