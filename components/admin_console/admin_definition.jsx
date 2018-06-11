@@ -1388,7 +1388,7 @@ export default {
                             isHidden: needsUtils.not(needsUtils.hasLicense),
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
                             key: 'FileSettings.MaxFileSize',
                             label: 'admin.image.maxFileSizeTitle',
                             label_default: 'Maximum File Size:',
