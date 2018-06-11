@@ -33,7 +33,7 @@
                 "path": "./tests/reports/screenshots"
             },
             "desiredCapabilities": {
-                "browserName": "firefox",
+                "browserName": "chrome",
                 "unexpectedAlertBehaviour": "dismiss",
                 "javascriptEnabled": true,
                 "acceptSslCerts": true,
@@ -41,6 +41,7 @@
             }
         },
         "chrome": {
+            "resolution": "1920x1080",
             "desiredCapabilities": {
                 "browserName": "chrome",
                 "javascriptEnabled": true,
@@ -51,6 +52,7 @@
             }
         },
         "firefox": {
+            "resolution": "1920x1080",
             "desiredCapabilities": {
                 "browserName": "firefox",
                 "unexpectedAlertBehaviour": "dismiss",

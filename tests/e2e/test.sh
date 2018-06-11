@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+PLATFORM_FILES="./cmd/mattermost/main.go"
+
 function message {
     echo ""
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
@@ -41,14 +43,21 @@ function local_setup {
     trap local_cleanup EXIT
     selenium_start
     sleep 5
+}
 
-    add_test_users
+function reset_db {
+    cd ../mattermost-server
+
+    echo "reset the database"
+    go run $PLATFORM_FILES reset --confirm true
+
+    cd ../mattermost-webapp
+    sleep 5
 }
 
 function add_test_users {
     message "Adding test users..."
     cd ../mattermost-server
-    PLATFORM_FILES="./cmd/mattermost/main.go"
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true
@@ -85,6 +94,8 @@ function local_tests {
         skip_tutorial
         nightwatch -e chrome --suiteRetries 1 --tag $1
     else
+        reset_db
+        add_test_users
         message "E2E full local chrome starts..."
         nightwatch -e chrome --suiteRetries 1
 

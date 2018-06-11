@@ -99,7 +99,7 @@ module.exports = {
             assert.visible('@linkPreviewDesc').
             assert.containsText('@linkPreviewDesc', 'On').
             assert.visible('@collapseTitle').
-            assert.containsText('@collapseTitle', 'Default appearance of image link previews').
+            assert.containsText('@collapseTitle', 'Default appearance of image previews').
             assert.visible('@collapseEdit').
             assert.visible('@collapseDesc').
             assert.containsText('@collapseDesc', 'Expanded').
