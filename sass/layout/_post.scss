@@ -695,18 +695,20 @@
     word-wrap: break-word;
 
     .browser--ie & {
-        .col__reply {
-            .comment-icon__container {
-                flex: 0 1 auto;
-                align-items: center;
-            }
+        .post__header {
+            .col__reply {
+                .comment-icon__container {
+                    flex: 0 1 auto;
+                    align-items: center;
+                }
 
-            > .open, > div {
-                flex: 0 1 30px;
-                align-items: center;
+                > .open, > div {
+                    flex: 0 1 30px;
+                    align-items: center;
 
-                &:first-child {
-                    flex: 0 1 25px;
+                    &:first-child {
+                        flex: 0 1 25px;
+                    }
                 }
             }
         }
