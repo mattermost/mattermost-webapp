@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {debounce} from 'mattermost-redux/actions/helpers';
 import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {PostTypes} from 'utils/constants.jsx';
@@ -176,6 +177,8 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        this.loadPostsToFillScreenIfNecessary();
+
         // Do not update scrolling unless posts, visibility or intro message change
         if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd) {
             return;
@@ -253,6 +256,29 @@ export default class PostList extends React.PureComponent {
             }
         }
     }
+
+    loadPostsToFillScreenIfNecessary = () => {
+        if (this.props.focusedPostId) {
+            return;
+        }
+
+        if (this.state.isDoingInitialLoad) {
+            // Should already be loading posts
+            return;
+        }
+
+        if (this.state.atEnd || !this.refs.postListContent || !this.refs.postlist) {
+            // No posts to load
+            return;
+        }
+
+        if (this.refs.postListContent.scrollHeight >= this.refs.postlist.clientHeight) {
+            // Screen is full
+            return;
+        }
+
+        this.loadMorePosts();
+    };
 
     // Scroll to new message indicator or bottom on first load. Returns true
     // if we just scrolled for the initial load.
@@ -367,13 +393,13 @@ export default class PostList extends React.PureComponent {
             this.hasScrolledToNewMessageSeparator = true;
         }
 
-        this.setState({isDoingInitialLoad: false});
-        if (posts && posts.order.length < POSTS_PER_PAGE) {
-            this.setState({atEnd: true});
-        }
+        this.setState({
+            isDoingInitialLoad: false,
+            atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
+        });
     }
 
-    loadMorePosts = (e) => {
+    loadMorePosts = debounce((e) => {
         if (e) {
             e.preventDefault();
         }
@@ -381,7 +407,7 @@ export default class PostList extends React.PureComponent {
         this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
             this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
         });
-    }
+    }, 100);
 
     handleScroll = () => {
         // Only count as user scroll if we've already performed our first load scroll
@@ -621,7 +647,7 @@ export default class PostList extends React.PureComponent {
                     <div className='post-list__table'>
                         <div
                             id='postListContent'
-                            ref='postlistcontent'
+                            ref='postListContent'
                             className='post-list__content'
                         >
                             {topRow}
