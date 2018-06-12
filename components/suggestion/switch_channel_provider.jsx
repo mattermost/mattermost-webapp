@@ -416,8 +416,14 @@ export default class SwitchChannelProvider extends Provider {
             if (channel.type === Constants.GM_CHANNEL) {
                 wrappedChannel.name = getChannelDisplayName(channel);
             } else if (channel.type === Constants.DM_CHANNEL) {
+                const user = getUser(getState(), Utils.getUserIdFromChannelId(channel.name));
+
+                if (!user) {
+                    continue;
+                }
+
                 wrappedChannel = this.userWrappedChannel(
-                    getUser(getState(), Utils.getUserIdFromChannelId(channel.name)),
+                    user,
                     channel
                 );
             }
