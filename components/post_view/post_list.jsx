@@ -27,7 +27,7 @@ import CreateChannelIntroMessage from './channel_intro_message';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
-const MAX_EXTRA_PAGES_INITIALLY_LOADED = 10;
+const MAX_EXTRA_PAGES_LOADED = 10;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -116,7 +116,7 @@ export default class PostList extends React.PureComponent {
         this.previousClientHeight = 0;
         this.atBottom = false;
 
-        this.extraPagesInitiallyLoaded = 0;
+        this.extraPagesLoaded = 0;
 
         this.state = {
             atEnd: false,
@@ -163,7 +163,7 @@ export default class PostList extends React.PureComponent {
                 this.hasScrolledToNewMessageSeparator = false;
                 this.atBottom = false;
 
-                this.extraPagesInitiallyLoaded = 0;
+                this.extraPagesLoaded = 0;
 
                 this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts, unViewedCount: 0});
 
@@ -283,7 +283,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (this.extraPagesInitiallyLoaded > MAX_EXTRA_PAGES_INITIALLY_LOADED) {
+        if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             return;
         }
@@ -292,7 +292,7 @@ export default class PostList extends React.PureComponent {
     };
 
     doLoadPostsToFillScreen = debounce(() => {
-        this.extraPagesInitiallyLoaded += 1;
+        this.extraPagesLoaded += 1;
 
         this.loadMorePosts();
     }, 100);
