@@ -27,6 +27,7 @@ import CreateChannelIntroMessage from './channel_intro_message';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
+const MAX_EXTRA_PAGES_INITIALLY_LOADED = 10;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -115,6 +116,8 @@ export default class PostList extends React.PureComponent {
         this.previousClientHeight = 0;
         this.atBottom = false;
 
+        this.extraPagesInitiallyLoaded = 0;
+
         this.state = {
             atEnd: false,
             unViewedCount: 0,
@@ -159,6 +162,9 @@ export default class PostList extends React.PureComponent {
                 this.hasScrolledToFocusedPost = false;
                 this.hasScrolledToNewMessageSeparator = false;
                 this.atBottom = false;
+
+                this.extraPagesInitiallyLoaded = 0;
+
                 this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts, unViewedCount: 0});
 
                 if (nextChannel.id) {
@@ -277,8 +283,19 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        this.loadMorePosts();
+        if (this.extraPagesInitiallyLoaded > MAX_EXTRA_PAGES_INITIALLY_LOADED) {
+            // Prevent this from loading a lot of pages in a channel with only hidden messages
+            return;
+        }
+
+        this.doLoadPostsToFillScreen();
     };
+
+    doLoadPostsToFillScreen = debounce(() => {
+        this.extraPagesInitiallyLoaded += 1;
+
+        this.loadMorePosts();
+    }, 100);
 
     // Scroll to new message indicator or bottom on first load. Returns true
     // if we just scrolled for the initial load.
@@ -399,7 +416,7 @@ export default class PostList extends React.PureComponent {
         });
     }
 
-    loadMorePosts = debounce((e) => {
+    loadMorePosts = (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -407,7 +424,7 @@ export default class PostList extends React.PureComponent {
         this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
             this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
         });
-    }, 100);
+    }
 
     handleScroll = () => {
         // Only count as user scroll if we've already performed our first load scroll
