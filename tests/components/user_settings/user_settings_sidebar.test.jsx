@@ -13,8 +13,15 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         closeUnusedDirectMessages: 'after_seven_days',
         displayUnreadSection: 'true',
         showUnusedOption: false,
-        showUnreadOption: true,
         channelSwitcherOption: 'true',
+        showGroupSortOptions: true,
+        showChannelOrganization: true,
+        sidebarPreference: {
+            grouping: 'by_type',
+            sorting: 'alpha',
+            unreadsAtTop: 'true',
+            favoriteAtTop: 'true',
+        },
         user: {
             id: 'someuserid',
         },
@@ -33,8 +40,11 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         expect(wrapper.state('isSaving')).toEqual(false);
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: defaultProps.displayUnreadSection,
             channel_switcher_section: defaultProps.channelSwitcherOption,
+            grouping: defaultProps.sidebarPreference.grouping,
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
     });
 
@@ -52,22 +62,93 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         expect(newUpdateSection).toHaveBeenCalledWith(updateArg);
     });
 
-    test('should pass handleChange', () => {
-        const props = {...defaultProps, activeSection: 'unreadChannels'};
+    test('should pass handleChange for channel grouping', () => {
+        const props = {...defaultProps, activeSection: 'groupChannels'};
         const wrapper = mountWithIntl(<UserSettingsSidebar {...props}/>);
-        wrapper.find('#unreadSectionNever').simulate('change');
 
+        wrapper.find('#noneOption').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: 'false',
-            channel_switcher_section: defaultProps.channelSwitcherOption,
+            grouping: 'none',
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
 
-        wrapper.find('#unreadSectionEnabled').simulate('change');
+        wrapper.find('#byTypeOption').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: 'true',
+            grouping: 'by_type',
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+        });
+
+        wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: false}});
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            grouping: 'by_type',
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: 'false',
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+        });
+
+        wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: true}});
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            grouping: 'by_type',
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: 'true',
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+        });
+
+        wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: false}});
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            grouping: 'by_type',
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: 'false',
+        });
+
+        wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: true}});
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            grouping: 'by_type',
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: 'true',
+        });
+    });
+
+    test('should pass handleChange for channel grouping', () => {
+        const props = {
+            ...defaultProps,
+            activeSection: 'groupChannels',
+            sidebarPreference: {
+                ...defaultProps.sidebarPreference,
+                grouping: 'none',
+            }};
+        const wrapper = mountWithIntl(<UserSettingsSidebar {...props}/>);
+
+        wrapper.find('#recentSectionEnabled').simulate('change');
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             channel_switcher_section: defaultProps.channelSwitcherOption,
+            grouping: 'none',
+            sorting: 'recent',
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+        });
+
+        wrapper.find('#alphaSectionEnabled').simulate('change');
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
+            grouping: 'none',
+            sorting: 'alpha',
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
     });
 });

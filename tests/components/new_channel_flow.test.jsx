@@ -26,6 +26,8 @@ describe('components/NewChannelFlow', () => {
         },
         show: true,
         channelType: Constants.OPEN_CHANNEL,
+        canCreatePublicChannel: true,
+        canCreatePrivateChannel: true,
         onModalDismissed: jest.fn(),
         currentTeamId: 'garbage',
     };
@@ -86,12 +88,12 @@ describe('components/NewChannelFlow', () => {
         );
 
         wrapper.setState({channelType: Constants.OPEN_CHANNEL, serverError: 'server error'});
-        wrapper.instance().typeSwitched({preventDefault: jest.fn()});
+        wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL);
         expect(wrapper.state('channelType')).toEqual(Constants.PRIVATE_CHANNEL);
         expect(wrapper.state('serverError')).toEqual('');
 
         wrapper.setState({channelType: Constants.PRIVATE_CHANNEL, serverError: 'server error'});
-        wrapper.instance().typeSwitched({preventDefault: jest.fn()});
+        wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL);
         expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
         expect(wrapper.state('serverError')).toEqual('');
     });
@@ -102,7 +104,7 @@ describe('components/NewChannelFlow', () => {
         );
 
         wrapper.setState({channelType: Constants.PRIVATE_CHANNEL});
-        wrapper.instance().typeSwitched({preventDefault: jest.fn()});
+        wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL);
         expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
     });
 
@@ -111,7 +113,7 @@ describe('components/NewChannelFlow', () => {
             <NewChannelFlow {...baseProps}/>
         );
 
-        wrapper.instance().typeSwitched({preventDefault: jest.fn()});
+        wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL);
         expect(wrapper.state('channelType')).toEqual(Constants.PRIVATE_CHANNEL);
     });
 
