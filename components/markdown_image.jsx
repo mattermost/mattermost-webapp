@@ -56,8 +56,25 @@ export default class MarkdownImage extends React.PureComponent {
         if (this.heightTimeout !== 0) {
             clearTimeout(this.heightTimeout);
             this.heightTimeout = 0;
+
+            return true;
         }
+
+        return false;
     }
+
+    handleLoad = () => {
+        const wasWaiting = this.stopWaitingForHeight();
+
+        // The image loaded before we caught its layout event, so we still need to notify that its height changed
+        if (wasWaiting && this.props.onHeightReceived) {
+            this.props.onHeightReceived(this.refs.image.height);
+        }
+    };
+
+    handleError = () => {
+        this.stopWaitingForHeight();
+    };
 
     render() {
         const props = {...this.props};
@@ -67,8 +84,8 @@ export default class MarkdownImage extends React.PureComponent {
             <img
                 ref='image'
                 {...props}
-                onLoad={this.stopWaitingForHeight}
-                onError={this.stopWaitingForHeight}
+                onLoad={this.handleLoad}
+                onError={this.handleError}
             />
         );
     }
