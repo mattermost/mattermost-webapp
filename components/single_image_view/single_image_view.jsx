@@ -180,12 +180,6 @@ export default class SingleImageView extends React.PureComponent {
             </div>
         );
 
-        const fileType = getFileType(fileInfo.extension);
-        let svgClass = '';
-        if (fileType === FileTypes.SVG) {
-            svgClass = 'post-image normal';
-        }
-
         const loading = localizeMessage('view_image.loading', 'Loading');
 
         let viewImageModal;
@@ -202,11 +196,21 @@ export default class SingleImageView extends React.PureComponent {
             width = PREVIEW_IMAGE_MIN_DIMENSION;
         }
 
+        const fileType = getFileType(fileInfo.extension);
+        let svgClass = '';
         let imageStyle = {height};
         let imageLoadedStyle = {height};
         let imageContainerStyle = {};
         if (width < viewPortWidth && height === PREVIEW_IMAGE_MAX_HEIGHT) {
             imageContainerStyle = {width};
+        } else if (fileType === FileTypes.SVG) {
+            svgClass = 'post-image normal';
+            imageStyle = {};
+            imageLoadedStyle = {};
+            imageContainerStyle = {
+                width: viewPortWidth < PREVIEW_IMAGE_MAX_HEIGHT ? viewPortWidth : PREVIEW_IMAGE_MAX_HEIGHT,
+                height: PREVIEW_IMAGE_MAX_HEIGHT,
+            };
         }
 
         if (loaded) {
@@ -221,6 +225,10 @@ export default class SingleImageView extends React.PureComponent {
             fadeInClass = 'image-fade-in';
             imageStyle = {cursor: 'pointer'};
             imageLoadedStyle = {};
+
+            if (fileType === FileTypes.SVG) {
+                imageContainerStyle = {width: viewPortWidth < PREVIEW_IMAGE_MAX_HEIGHT ? viewPortWidth : PREVIEW_IMAGE_MAX_HEIGHT};
+            }
         } else if (this.props.isEmbedVisible) {
             loadingImagePreview = (
                 <LoadingImagePreview
