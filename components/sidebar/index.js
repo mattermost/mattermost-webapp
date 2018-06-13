@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {createSelector} from 'reselect';
+
 import {Preferences} from 'mattermost-redux/constants/index';
 import {
     getSortedPublicChannelWithUnreadsIds,
@@ -17,7 +19,11 @@ import {
     getSortedFavoriteChannelIds,
     getSortedPublicChannelIds,
     getSortedPrivateChannelIds,
+    getMyChannels,
 } from 'mattermost-redux/selectors/entities/channels';
+
+import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -29,14 +35,33 @@ import {getIsLhsOpen} from 'selectors/lhs';
 
 import Sidebar from './sidebar.jsx';
 
+const getSortedRecentlyChannelIds = createSelector(
+    getMyChannels,
+    getLastPostPerChannel,
+    (channels, lastPosts) => {
+        const recentChannelIds = channels.sort((a, b) => {
+            const aLastPostAt = (lastPosts[a.id] && lastPosts[a.id].update_at) || a.last_post_at;
+            const bLastPostAt = (lastPosts[b.id] && lastPosts[b.id].update_at) || b.last_post_at;
+
+            const aDate = new Date(aLastPostAt);
+            const bDate = new Date(bLastPostAt);
+
+            return bDate.getTime() - aDate.getTime();
+        });
+
+        return recentChannelIds.map((c) => c.id);
+    }
+);
+
 function mapStateToProps(state) {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = currentChannel && currentChannel.teammate_id && getCurrentChannel(state, currentChannel.teammate_id);
-    let publicChannelIds;
-    let privateChannelIds;
-    let favoriteChannelIds;
-    let directAndGroupChannelIds;
+    let recentChannelIds = [];
+    let publicChannelIds = [];
+    let privateChannelIds = [];
+    let favoriteChannelIds = [];
+    let directAndGroupChannelIds = [];
 
     const showUnreadSection = config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED && getBoolPreference(
         state,
@@ -45,9 +70,18 @@ function mapStateToProps(state) {
         config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON
     );
 
+    const showRecentSection = getBoolPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'show_recent_section',
+        false
+    );
+
     const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;
 
-    if (showUnreadSection) {
+    if (showRecentSection) {
+        recentChannelIds = getSortedRecentlyChannelIds(state);
+    } else if (showUnreadSection) {
         publicChannelIds = getSortedPublicChannelIds(state, keepChannelIdAsUnread);
         privateChannelIds = getSortedPrivateChannelIds(state, keepChannelIdAsUnread);
         favoriteChannelIds = getSortedFavoriteChannelIds(state, keepChannelIdAsUnread);
@@ -62,7 +96,9 @@ function mapStateToProps(state) {
     return {
         config,
         isOpen: getIsLhsOpen(state),
+        showRecentSection,
         showUnreadSection,
+        recentChannelIds,
         publicChannelIds,
         privateChannelIds,
         favoriteChannelIds,

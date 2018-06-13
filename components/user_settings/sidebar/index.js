@@ -17,19 +17,47 @@ import UserSettingsSidebar from './user_settings_sidebar.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
 
+    const closeUnusedDirectMessages = getPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'close_unused_direct_messages',
+        'after_seven_days'
+    );
+
+    let displayRecentSection = getPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'show_recent_section',
+        null
+    );
+
+    const displayUnreadSection = getPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'show_unread_section',
+        (config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON).toString()
+    );
+
+    let displayDefaultSection = getPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'show_default_section',
+        null
+    );
+
+    const backportSidebarOptions = !displayRecentSection && !displayDefaultSection;
+
+    // We must backport new sidebar settings to previous implementation
+    if (backportSidebarOptions) {
+        displayRecentSection = 'false';
+        displayDefaultSection = displayUnreadSection === 'false' ? 'true' : 'false';
+    }
+
     return {
-        closeUnusedDirectMessages: getPreference(
-            state,
-            Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            'close_unused_direct_messages',
-            'after_seven_days'
-        ),
-        displayUnreadSection: getPreference(
-            state,
-            Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            'show_unread_section',
-            (config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON).toString()
-        ),
+        closeUnusedDirectMessages,
+        displayUnreadSection,
+        displayRecentSection,
+        displayDefaultSection,
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         showUnreadOption: config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED,
         user: getCurrentUser(state),
