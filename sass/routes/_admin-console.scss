@@ -437,11 +437,10 @@
         }
         .error-message {
             overflow: hidden;
+
             .control-label {
                 padding: 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+                @include text-clamp(2, 20);
             }
         }
         .reset-defaults-btn {
