@@ -47,7 +47,7 @@ export default class NeedsTeam extends React.Component {
          */
         match: PropTypes.shape({
             params: PropTypes.shape({
-                team: PropTypes.string.isRequired,
+                team: PropTypes.string,
             }).isRequired,
         }).isRequired,
     };
