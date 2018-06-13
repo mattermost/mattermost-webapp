@@ -1759,7 +1759,7 @@
   "edit_post.editPost": "Edit the post...",
   "edit_post.save": "Save",
   "edit_post.time_limit_button.for_n_seconds": "⚙ For {n} seconds",
-  "edit_post.time_limit_button.no_limit": "⚙ Anytime",
+  "edit_post.time_limit_button.no_limit": "Anytime",
   "edit_post.time_limit_modal.description": "Setting a time limit applies to all users who have the \"Edit Post\" permissions in any permission scheme.",
   "edit_post.time_limit_modal.invalid_time_limit": "Invalid time limit",
   "edit_post.time_limit_modal.option_label_anytime": "Anytime",
