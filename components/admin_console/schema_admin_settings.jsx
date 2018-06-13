@@ -59,7 +59,13 @@ export default class SchemaAdminSettings extends AdminSettings {
                     return;
                 }
 
-                this.setConfigValue(config, setting.key, this.getSettingValue(setting));
+                let value = this.getSettingValue(setting);
+
+                if (setting.onConfigSave) {
+                    value = setting.onConfigSave(value);
+                }
+
+                this.setConfigValue(config, setting.key, value);
             });
         }
 
@@ -76,7 +82,11 @@ export default class SchemaAdminSettings extends AdminSettings {
                     return;
                 }
 
-                const value = this.getConfigValue(config, setting.key);
+                let value = this.getConfigValue(config, setting.key);
+
+                if (setting.onConfigLoad) {
+                    value = setting.onConfigLoad(value);
+                }
 
                 state[setting.key] = value == null ? setting.default : value;
             });
