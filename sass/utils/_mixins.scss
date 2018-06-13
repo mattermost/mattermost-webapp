@@ -36,3 +36,17 @@
         }
     }
 }
+
+// From https://gist.github.com/kaelig/7528069
+@mixin text-clamp($lines: 2, $line-height: false) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+
+    // Fallback for non-Webkit browsers
+    // (won't show `…` at the end of the block)
+    @if $line-height {
+        max-height: $line-height * $lines * 1px;
+    }
+}
