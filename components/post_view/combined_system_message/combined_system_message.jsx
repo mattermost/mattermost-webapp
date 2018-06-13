@@ -153,6 +153,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         currentUsername: PropTypes.string.isRequired,
         messageData: PropTypes.array.isRequired,
+        showJoinLeave: PropTypes.bool.isRequired,
         teammateNameDisplay: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getProfilesByIds: PropTypes.func.isRequired,
@@ -323,18 +324,39 @@ export default class CombinedSystemMessage extends React.PureComponent {
     render() {
         const {messageData} = this.props;
 
+        const content = [];
+        for (const message of messageData) {
+            const {
+                postType,
+                actorId,
+            } = message;
+            let userIds = message.userIds;
+
+            if (!this.props.showJoinLeave && actorId !== this.props.currentUserId) {
+                const affectsCurrentUser = userIds.indexOf(this.props.currentUserId) !== -1;
+
+                if (affectsCurrentUser) {
+                    // Only show the message that the current user was added, etc
+                    userIds = [this.props.currentUserId];
+                } else {
+                    // Not something the current user did or was affected by
+                    continue;
+                }
+            }
+
+            content.push(
+                <React.Fragment key={postType + actorId}>
+                    <span>
+                        {this.renderFormattedMessage(postType, userIds, actorId)}
+                    </span>
+                    <br/>
+                </React.Fragment>
+            );
+        }
+
         return (
             <React.Fragment>
-                {messageData.map(({postType, userIds, actorId}) => {
-                    return (
-                        <React.Fragment key={postType + actorId}>
-                            <span>
-                                {this.renderFormattedMessage(postType, userIds, actorId)}
-                            </span>
-                            <br/>
-                        </React.Fragment>
-                    );
-                })}
+                {content}
             </React.Fragment>
         );
     }

@@ -5,7 +5,89 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot 1`] = 
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span />
+    <span>
+      <FormattedHTMLMessage
+        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
+        id="combined_system_message.added_to_channel.one"
+        values={
+          Object {
+            "actor": "@User1",
+            "firstUser": "@AddedUser1",
+          }
+        }
+      />
+    </span>
+    <br />
+  </React.Fragment>
+  <React.Fragment
+    key="system_add_to_channeluser_id_1"
+  >
+    <span>
+      <FormattedHTMLMessage
+        defaultMessage="You were <b>added to the channel</b> by {actor}."
+        id="combined_system_message.added_to_channel.one_you"
+        values={
+          Object {
+            "actor": "@User1",
+          }
+        }
+      />
+    </span>
+    <br />
+  </React.Fragment>
+  <React.Fragment
+    key="system_add_to_channelcurrent_user_id"
+  >
+    <span>
+      <FormattedHTMLMessage
+        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
+        id="combined_system_message.added_to_channel.one"
+        values={
+          Object {
+            "actor": "you",
+            "firstUser": "@AddedUser2",
+          }
+        }
+      />
+    </span>
+    <br />
+  </React.Fragment>
+</React.Fragment>
+`;
+
+exports[`components/post_view/CombinedSystemMessage should match snapshot when join leave messages are turned off 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="system_add_to_channeluser_id_1"
+  >
+    <span>
+      <FormattedHTMLMessage
+        defaultMessage="You were <b>added to the channel</b> by {actor}."
+        id="combined_system_message.added_to_channel.one_you"
+        values={
+          Object {
+            "actor": "@User1",
+          }
+        }
+      />
+    </span>
+    <br />
+  </React.Fragment>
+  <React.Fragment
+    key="system_add_to_channelcurrent_user_id"
+  >
+    <span>
+      <FormattedHTMLMessage
+        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
+        id="combined_system_message.added_to_channel.one"
+        values={
+          Object {
+            "actor": "you",
+            "firstUser": "@AddedUser2",
+          }
+        }
+      />
+    </span>
     <br />
   </React.Fragment>
 </React.Fragment>
