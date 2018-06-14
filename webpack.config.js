@@ -3,6 +3,7 @@
 
 const childProcess = require('child_process');
 const path = require('path');
+const url = require('url');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
@@ -130,11 +131,21 @@ var MYSTATS = {
     warningsFilter: '',
 };
 
+let publicPath = '/static/';
+
+// Allow overriding the publicPath in dev from the exported SiteURL.
+if (DEV) {
+    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || ''; //eslint-disable-line no-process-env
+    if (siteURL) {
+        publicPath = path.join(new url.URL(siteURL).pathname, 'static') + '/';
+    }
+}
+
 var config = {
     entry: ['babel-polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
-        publicPath: '/static/',
+        publicPath,
         filename: '[name].[hash].js',
         chunkFilename: '[name].[chunkhash].js',
     },
@@ -289,14 +300,17 @@ if (!DEV) {
     config.plugins.push(
         new webpack.optimize.OccurrenceOrderPlugin(true)
     );
-    config.plugins.push(
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production'),
-            },
-        })
-    );
 }
+
+const env = {};
+if (DEV) {
+    env.PUBLIC_PATH = JSON.stringify(publicPath);
+} else {
+    env.NODE_ENV = JSON.stringify('production');
+}
+config.plugins.push(new webpack.DefinePlugin({
+    'process.env': env,
+}));
 
 // Test mode configuration
 if (TEST) {
