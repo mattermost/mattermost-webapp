@@ -24,10 +24,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -387,10 +386,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -730,10 +728,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -1103,10 +1100,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>

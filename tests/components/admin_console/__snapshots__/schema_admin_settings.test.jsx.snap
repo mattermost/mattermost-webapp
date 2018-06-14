@@ -15,6 +15,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
         "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
         "settingg": 7,
+        "settingh": 100,
       },
     }
   }
@@ -226,6 +227,25 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         setByEnv={false}
         type="number"
         value={7}
+      />
+      <TextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the number field."
+            id="help-text-h"
+            values={Object {}}
+          />
+        }
+        id="SecondSettings.settingh"
+        key="Config_text_SecondSettings.settingh"
+        label="Setting Eight"
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="e.g. some setting"
+        setByEnv={false}
+        type="number"
+        value={10}
       />
       <div
         className="banner undefined"
