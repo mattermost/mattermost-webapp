@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {PermissionsScope} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -14,6 +14,8 @@ import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 import FormError from 'components/form_error.jsx';
 import TeamSelectorModal from 'components/team_selector_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import PermissionsTree from '../permissions_tree.jsx';
 
@@ -373,9 +375,9 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 <div className={'banner info'}>
                     <div className='banner__content'>
                         <span>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='admin.permissions.teamScheme.introBanner'
-                                defaultMessage='Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href="/admin_console/permissions/system-scheme">System Scheme</a>.'
+                                defaultMessage='[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
                             />
                         </span>
                     </div>
