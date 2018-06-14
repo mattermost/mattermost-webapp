@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// EXPERIMENTAL - SUBJECT TO CHANGE
-
 import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
@@ -10,6 +8,7 @@ import {ActionTypes} from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {getSiteURL} from 'utils/url.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
+import PluginRegistry from 'plugins/registry';
 
 window.plugins = {};
 
@@ -20,35 +19,6 @@ window.redux = require('redux');
 window['react-redux'] = require('react-redux');
 window['react-bootstrap'] = require('react-bootstrap');
 window['post-utils'] = {formatText, messageHtmlToComponent};
-
-export function registerComponents(id, components = {}, postTypes = {}, mainMenuActions = []) {
-    const wrappedComponents = {};
-    Object.keys(components).forEach((name) => {
-        wrappedComponents[name] = {component: components[name], id};
-    });
-
-    store.dispatch({
-        type: ActionTypes.RECEIVED_PLUGIN_COMPONENTS,
-        data: wrappedComponents,
-    });
-
-    const wrappedPostTypes = {};
-    Object.keys(postTypes).forEach((type) => {
-        wrappedPostTypes[type] = {component: postTypes[type], id};
-    });
-
-    store.dispatch({
-        type: ActionTypes.RECEIVED_PLUGIN_POST_TYPES,
-        data: wrappedPostTypes,
-    });
-
-    const wrappedMainMenuActions = mainMenuActions.map((action) => ({id, ...action}));
-
-    store.dispatch({
-        type: ActionTypes.RECEIVED_PLUGIN_MENU_ACTIONS,
-        data: wrappedMainMenuActions,
-    });
-}
 
 export async function initializePlugins() {
     if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
@@ -90,7 +60,8 @@ export function loadPlugin(manifest) {
         // Initialize the plugin
         console.log('Registering ' + manifest.id + ' plugin...'); //eslint-disable-line no-console
         const plugin = window.plugins[manifest.id];
-        plugin.initialize(registerComponents.bind(null, manifest.id), store);
+        const registry = new PluginRegistry(manifest.id);
+        plugin.initialize(registry);
         console.log('...done'); //eslint-disable-line no-console
     }
 

@@ -1,5 +1,183 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`plugins/Pluggable should match snapshot with extended component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Pluggable
+    components={
+      Object {
+        "PopoverSection1": Array [
+          Object {
+            "component": [Function],
+          },
+        ],
+      }
+    }
+    pluggableName="PopoverSection1"
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <ProfilePopoverPlugin
+      key="PopoverSection1undefined"
+      theme={
+        Object {
+          "id": "theme_id",
+        }
+      }
+    >
+      <span
+        id="pluginId"
+      >
+        ProfilePopoverPlugin
+      </span>
+    </ProfilePopoverPlugin>
+  </Pluggable>
+</Provider>
+`;
+
+exports[`plugins/Pluggable should match snapshot with extended component with pluggableName 1`] = `
+<Pluggable
+  components={
+    Object {
+      "PopoverSection1": Array [
+        Object {
+          "component": [Function],
+        },
+      ],
+    }
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  pluggableName="PopoverSection1"
+  theme={
+    Object {
+      "id": "theme_id",
+    }
+  }
+>
+  <ProfilePopoverPlugin
+    intl={
+      Object {
+        "defaultFormats": Object {},
+        "defaultLocale": "en",
+        "formatDate": [Function],
+        "formatHTMLMessage": [Function],
+        "formatMessage": [Function],
+        "formatNumber": [Function],
+        "formatPlural": [Function],
+        "formatRelative": [Function],
+        "formatTime": [Function],
+        "formats": Object {},
+        "formatters": Object {
+          "getDateTimeFormat": [Function],
+          "getMessageFormat": [Function],
+          "getNumberFormat": [Function],
+          "getPluralFormat": [Function],
+          "getRelativeFormat": [Function],
+        },
+        "locale": "en",
+        "messages": Object {},
+        "now": [Function],
+        "textComponent": "span",
+      }
+    }
+    key="PopoverSection1undefined"
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <span
+      id="pluginId"
+    >
+      ProfilePopoverPlugin
+    </span>
+  </ProfilePopoverPlugin>
+</Pluggable>
+`;
+
+exports[`plugins/Pluggable should match snapshot with no extended component 1`] = `
+<Provider
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Pluggable
+    components={Object {}}
+    theme={Object {}}
+  />
+</Provider>
+`;
+
 exports[`plugins/Pluggable should match snapshot with no overridden component 1`] = `
 <Provider
   intl={
@@ -110,6 +288,102 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 src="src"
                 width="128"
               />
+              <Connect(Pluggable)
+                key="profilePopoverPluggable1"
+                pluggableName="PopoverSection1"
+                user={
+                  Object {
+                    "name": "name",
+                  }
+                }
+              >
+                <Pluggable
+                  components={Object {}}
+                  dispatch={[Function]}
+                  pluggableName="PopoverSection1"
+                  theme={
+                    Object {
+                      "awayIndicator": "#ffbc42",
+                      "buttonBg": "#166de0",
+                      "buttonColor": "#ffffff",
+                      "centerChannelBg": "#ffffff",
+                      "centerChannelColor": "#3d3c40",
+                      "codeTheme": "github",
+                      "dndIndicator": "#f74343",
+                      "errorTextColor": "#fd5960",
+                      "linkColor": "#2389d7",
+                      "mentionBj": "#ffffff",
+                      "mentionColor": "#145dbf",
+                      "mentionHighlightBg": "#ffe577",
+                      "mentionHighlightLink": "#166de0",
+                      "newMessageSeparator": "#ff8800",
+                      "onlineIndicator": "#06d6a0",
+                      "sidebarBg": "#145dbf",
+                      "sidebarHeaderBg": "#1153ab",
+                      "sidebarHeaderTextColor": "#ffffff",
+                      "sidebarText": "#ffffff",
+                      "sidebarTextActiveBorder": "#579eff",
+                      "sidebarTextActiveColor": "#ffffff",
+                      "sidebarTextHoverBg": "#4578bf",
+                      "sidebarUnreadText": "#ffffff",
+                      "type": "Mattermost",
+                    }
+                  }
+                  user={
+                    Object {
+                      "name": "name",
+                    }
+                  }
+                />
+              </Connect(Pluggable)>
+              <Connect(Pluggable)
+                key="profilePopoverPluggable2"
+                pluggableName="PopoverSection2"
+                user={
+                  Object {
+                    "name": "name",
+                  }
+                }
+              >
+                <Pluggable
+                  components={Object {}}
+                  dispatch={[Function]}
+                  pluggableName="PopoverSection2"
+                  theme={
+                    Object {
+                      "awayIndicator": "#ffbc42",
+                      "buttonBg": "#166de0",
+                      "buttonColor": "#ffffff",
+                      "centerChannelBg": "#ffffff",
+                      "centerChannelColor": "#3d3c40",
+                      "codeTheme": "github",
+                      "dndIndicator": "#f74343",
+                      "errorTextColor": "#fd5960",
+                      "linkColor": "#2389d7",
+                      "mentionBj": "#ffffff",
+                      "mentionColor": "#145dbf",
+                      "mentionHighlightBg": "#ffe577",
+                      "mentionHighlightLink": "#166de0",
+                      "newMessageSeparator": "#ff8800",
+                      "onlineIndicator": "#06d6a0",
+                      "sidebarBg": "#145dbf",
+                      "sidebarHeaderBg": "#1153ab",
+                      "sidebarHeaderTextColor": "#ffffff",
+                      "sidebarText": "#ffffff",
+                      "sidebarTextActiveBorder": "#579eff",
+                      "sidebarTextActiveColor": "#ffffff",
+                      "sidebarTextHoverBg": "#4578bf",
+                      "sidebarUnreadText": "#ffffff",
+                      "type": "Mattermost",
+                    }
+                  }
+                  user={
+                    Object {
+                      "name": "name",
+                    }
+                  }
+                />
+              </Connect(Pluggable)>
               <div
                 className="popover__row first"
                 data-toggle="tooltip"
@@ -134,6 +408,54 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                   </FormattedMessage>
                 </a>
               </div>
+              <Connect(Pluggable)
+                key="profilePopoverPluggable3"
+                pluggableName="PopoverSection3"
+                user={
+                  Object {
+                    "name": "name",
+                  }
+                }
+              >
+                <Pluggable
+                  components={Object {}}
+                  dispatch={[Function]}
+                  pluggableName="PopoverSection3"
+                  theme={
+                    Object {
+                      "awayIndicator": "#ffbc42",
+                      "buttonBg": "#166de0",
+                      "buttonColor": "#ffffff",
+                      "centerChannelBg": "#ffffff",
+                      "centerChannelColor": "#3d3c40",
+                      "codeTheme": "github",
+                      "dndIndicator": "#f74343",
+                      "errorTextColor": "#fd5960",
+                      "linkColor": "#2389d7",
+                      "mentionBj": "#ffffff",
+                      "mentionColor": "#145dbf",
+                      "mentionHighlightBg": "#ffe577",
+                      "mentionHighlightLink": "#166de0",
+                      "newMessageSeparator": "#ff8800",
+                      "onlineIndicator": "#06d6a0",
+                      "sidebarBg": "#145dbf",
+                      "sidebarHeaderBg": "#1153ab",
+                      "sidebarHeaderTextColor": "#ffffff",
+                      "sidebarText": "#ffffff",
+                      "sidebarTextActiveBorder": "#579eff",
+                      "sidebarTextActiveColor": "#ffffff",
+                      "sidebarTextHoverBg": "#4578bf",
+                      "sidebarUnreadText": "#ffffff",
+                      "type": "Mattermost",
+                    }
+                  }
+                  user={
+                    Object {
+                      "name": "name",
+                    }
+                  }
+                />
+              </Connect(Pluggable)>
             </div>
           </div>
         </Popover>
@@ -159,9 +481,11 @@ exports[`plugins/Pluggable should match snapshot with overridden component 1`] =
   <Pluggable
     components={
       Object {
-        "ProfilePopover": Object {
-          "component": [Function],
-        },
+        "ProfilePopover": Array [
+          Object {
+            "component": [Function],
+          },
+        ],
       }
     }
     theme={
@@ -171,6 +495,7 @@ exports[`plugins/Pluggable should match snapshot with overridden component 1`] =
     }
   >
     <ProfilePopoverPlugin
+      key="ProfilePopoverundefined"
       src="src"
       theme={
         Object {
@@ -191,92 +516,4 @@ exports[`plugins/Pluggable should match snapshot with overridden component 1`] =
     </ProfilePopoverPlugin>
   </Pluggable>
 </Provider>
-`;
-
-exports[`plugins/Pluggable should match snapshot with overridden component with pluggableName 1`] = `
-<Pluggable
-  components={
-    Object {
-      "ProfilePopover": Object {
-        "component": [Function],
-      },
-    }
-  }
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "textComponent": "span",
-    }
-  }
-  pluggableName="ProfilePopover"
-  theme={
-    Object {
-      "id": "theme_id",
-    }
-  }
->
-  <ProfilePopoverPlugin
-    intl={
-      Object {
-        "defaultFormats": Object {},
-        "defaultLocale": "en",
-        "formatDate": [Function],
-        "formatHTMLMessage": [Function],
-        "formatMessage": [Function],
-        "formatNumber": [Function],
-        "formatPlural": [Function],
-        "formatRelative": [Function],
-        "formatTime": [Function],
-        "formats": Object {},
-        "formatters": Object {
-          "getDateTimeFormat": [Function],
-          "getMessageFormat": [Function],
-          "getNumberFormat": [Function],
-          "getPluralFormat": [Function],
-          "getRelativeFormat": [Function],
-        },
-        "locale": "en",
-        "messages": Object {},
-        "now": [Function],
-        "textComponent": "span",
-      }
-    }
-    src="src"
-    theme={
-      Object {
-        "id": "theme_id",
-      }
-    }
-    user={
-      Object {
-        "name": "name",
-      }
-    }
-  >
-    <span
-      id="pluginId"
-    >
-      ProfilePopoverPlugin
-    </span>
-  </ProfilePopoverPlugin>
-</Pluggable>
 `;

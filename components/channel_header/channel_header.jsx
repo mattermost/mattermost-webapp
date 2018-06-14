@@ -40,7 +40,7 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import Pluggable from 'plugins/pluggable';
+import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
@@ -1066,9 +1066,10 @@ export default class ChannelHeader extends React.Component {
                     <div className='flex-child'>
                         {popoverListMembers}
                     </div>
-                    <div className='flex-child'>
-                        <Pluggable pluggableName='ChannelHeaderButton'/>
-                    </div>
+                    <ChannelHeaderPlug
+                        channel={this.props.channel}
+                        channelMember={this.props.channelMember}
+                    />
                     <HeaderIconWrapper
                         iconComponent={
                             <PinIcon

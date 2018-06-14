@@ -81,6 +81,11 @@
         }
     }
 
+    .channel-header_plugin-dropdown {
+        width: 200px;
+        overflow: hidden;
+    }
+
     .channel-header__icon {
         @include border-radius(50%);
         border: 1px solid;
@@ -93,6 +98,7 @@
         text-align: center;
         width: 30px;
         z-index: 5;
+        color: #B1B1B3;
 
         &.wide {
             @include border-radius(37px);
@@ -145,6 +151,10 @@
 
         .icon__pin {
             top: 1px;
+        }
+
+        .icon__ellipsis {
+            padding-top: 5px;
         }
 
         .icon__members {

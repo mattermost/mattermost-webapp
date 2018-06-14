@@ -41,7 +41,7 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import Pluggable from 'plugins/pluggable';
+import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
 import NavbarInfoButton from './navbar_info_button.jsx';
 
@@ -742,6 +742,10 @@ export default class Navbar extends React.Component {
                             {deleteChannelOption}
                             {leaveChannelOption}
                             {toggleFavoriteOption}
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={true}
+                            />
                             <div
                                 className='close visible-xs-block'
                                 onClick={this.hideHeaderOverlay}
@@ -977,7 +981,10 @@ export default class Navbar extends React.Component {
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                                 isReadOnly={this.props.isReadOnly}
                             />
-                            <Pluggable pluggableName='MobileChannelHeaderButton'/>
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={false}
+                            />
                             {channelMenuDropdown}
                         </div>
                     </div>

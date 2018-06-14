@@ -303,7 +303,6 @@ export default class SidebarRightMenu extends React.Component {
         );
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
-            const MenuIcon = item.mobile_icon;
             return (
                 <li key={item.id + '_pluginrightmenuitem'}>
                     <a
@@ -311,7 +310,7 @@ export default class SidebarRightMenu extends React.Component {
                         href='#'
                         onClick={item.action}
                     >
-                        {MenuIcon ? <MenuIcon/> : <i className='icon fa fa-plus-square'/>}
+                        <span className='icon'>{item.mobileIcon}</span>
                         {item.text}
                     </a>
                 </li>
