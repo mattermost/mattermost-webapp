@@ -24,19 +24,6 @@ exports[`components/TeamInfo should match snapshot, with icon 1`] = `
     >
       Test team
     </div>
-    <div
-      className="members"
-    >
-      <FormattedMessage
-        defaultMessage="{count} {count, plural, one {Member} other {Members}}"
-        id="admin.team_info.numMembers"
-        values={
-          Object {
-            "count": 5,
-          }
-        }
-      />
-    </div>
   </div>
 </div>
 `;
@@ -61,19 +48,6 @@ exports[`components/TeamInfo should match snapshot, without icon 1`] = `
       className="title"
     >
       Test team
-    </div>
-    <div
-      className="members"
-    >
-      <FormattedMessage
-        defaultMessage="{count} {count, plural, one {Member} other {Members}}"
-        id="admin.team_info.numMembers"
-        values={
-          Object {
-            "count": 5,
-          }
-        }
-      />
     </div>
   </div>
 </div>
