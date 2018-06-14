@@ -151,6 +151,7 @@ function renderHeaderChangeMessage(post) {
 
     const headerOptions = {
         singleline: true,
+        channelNamesMap: post.props && post.props.channel_mentions,
     };
 
     const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username);
@@ -243,9 +244,13 @@ function renderPurposeChangeMessage(post) {
         return null;
     }
 
+    const purposeOptions = {
+        channelNamesMap: post.props && post.props.channel_mentions,
+    };
+
     const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username);
-    const oldPurpose = post.props.old_purpose;
-    const newPurpose = post.props.new_purpose;
+    const oldPurpose = post.props.old_purpose ? renderFormattedText(post.props.old_purpose, purposeOptions) : null;
+    const newPurpose = post.props.new_purpose ? renderFormattedText(post.props.new_purpose, purposeOptions) : null;
 
     if (post.props.new_purpose) {
         if (post.props.old_purpose) {
