@@ -485,7 +485,7 @@ export default class AdminSidebar extends React.Component {
                                     title={
                                         <FormattedMessage
                                             id='admin.sidebar.permissions'
-                                            defaultMessage='Permissions'
+                                            defaultMessage='Advanced Permissions'
                                         />
                                     }
                                 >

@@ -51,8 +51,7 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
       <span
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<p>testing default message</p>
-",
+            "__html": "testing default message",
           }
         }
       />
@@ -112,8 +111,7 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
       <span
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<p>&lt;b&gt;hello&lt;/b&gt; &lt;script&gt;var malicious = true;&lt;/script&gt; world!</p>
-",
+            "__html": "&lt;b&gt;hello&lt;/b&gt; &lt;script&gt;var malicious = true;&lt;/script&gt; world!",
           }
         }
       />
@@ -173,8 +171,7 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
       <span
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<p><strong>bold</strong> <em>italic</em> <a href=\\"https://mattermost.com/\\">link</a> &lt;br/&gt; <a href=\\"https://mattermost.com/\\" target=\\"_blank\\">link target blank</a></p>
-",
+            "__html": "<strong>bold</strong> <em>italic</em> <a href=\\"https://mattermost.com/\\">link</a> &lt;br/&gt; <a href=\\"https://mattermost.com/\\" target=\\"_blank\\">link target blank</a>",
           }
         }
       />
@@ -244,8 +241,7 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
       <span
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<p><em>Hi</em> sweetie!</p>
-",
+            "__html": "<em>Hi</em> sweetie!",
           }
         }
       />
