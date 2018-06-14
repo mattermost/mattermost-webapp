@@ -15,6 +15,8 @@ import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 import FormError from 'components/form_error.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import PermissionsTree from '../permissions_tree.jsx';
 
 export default class PermissionSystemSchemeSettings extends React.Component {
@@ -208,9 +210,9 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 <div className={'banner info'}>
                     <div className='banner__content'>
                         <span>
-                            <FormattedMessage
+                            <FormattedMarkdownMessage
                                 id='admin.permissions.systemScheme.introBanner'
-                                defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a Team Override Scheme is applied in specific teams.'
+                                defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams.'
                             />
                         </span>
                     </div>

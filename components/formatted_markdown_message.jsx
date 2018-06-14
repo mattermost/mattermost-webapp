@@ -15,6 +15,10 @@ class CustomRenderer extends marked.Renderer {
         }
         return `<a href="${href}">${text}</a>`;
     }
+
+    paragraph(text) {
+        return text;
+    }
 }
 
 class FormattedMarkdownMessage extends React.PureComponent {
