@@ -295,6 +295,16 @@
             display: none;
         }
 
+        .browser--ie & {
+            .post__header {
+                .col__reply {
+                    .dropdown + div, {
+                        display: none;
+                    }
+                }
+            }
+        }
+
         .reacticon__container {
             display: none;
         }
