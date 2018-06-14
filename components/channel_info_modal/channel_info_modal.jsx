@@ -63,6 +63,8 @@ export default class ChannelInfoModal extends React.PureComponent {
             };
         }
 
+        const channelNamesMap = this.props.channel.props && this.props.channel.props.channel_mentions;
+
         if (channel.type === 'O') {
             channelIcon = (
                 <GlobeIcon className='icon icon__globe icon--body'/>
@@ -77,7 +79,12 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         let channelPurpose;
         if (channel.purpose) {
-            channelPurpose = channel.purpose;
+            channelPurpose = (
+                <Markdown
+                    message={channel.purpose}
+                    options={{...headerMarkdownOptions, channelNamesMap}}
+                />
+            );
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             channelPurpose = (
                 <FormattedMessage
@@ -115,7 +122,7 @@ export default class ChannelInfoModal extends React.PureComponent {
                     <div className='info__value'>
                         <Markdown
                             message={channel.header}
-                            options={headerMarkdownOptions}
+                            options={{...headerMarkdownOptions, channelNamesMap}}
                         />
                     </div>
                 </div>

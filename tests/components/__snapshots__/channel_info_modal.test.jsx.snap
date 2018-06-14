@@ -81,3 +81,147 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
   </ModalBody>
 </Modal>
 `;
+
+exports[`components/ChannelInfoModal should match snapshot with channel props 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="about-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="About"
+        id="channel_info.about"
+        values={Object {}}
+      />
+      <strong />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <FormattedMessage
+          defaultMessage="Purpose:"
+          id="channel_info.purpose"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        <Connect(Markdown)
+          message="And ~test too"
+          options={
+            Object {
+              "channelNamesMap": Object {
+                "test": Object {
+                  "display_name": "Test",
+                },
+              },
+              "mentionHighlight": false,
+              "singleline": false,
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <FormattedMessage
+          defaultMessage="Header:"
+          id="channel_info.header"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        <Connect(Markdown)
+          message="See ~test"
+          options={
+            Object {
+              "channelNamesMap": Object {
+                "test": Object {
+                  "display_name": "Test",
+                },
+              },
+              "mentionHighlight": false,
+              "singleline": false,
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <FormattedMessage
+          defaultMessage="URL:"
+          id="channel_info.url"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        http://localhost:8065/testteam/channels/testchannel
+      </div>
+    </div>
+    <div
+      className="about-modal__hash form-group padding-top x2"
+    >
+      <p>
+        <FormattedMessage
+          defaultMessage="ID: "
+          id="channel_info.id"
+          values={Object {}}
+        />
+      </p>
+    </div>
+  </ModalBody>
+</Modal>
+`;

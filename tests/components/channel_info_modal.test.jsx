@@ -9,7 +9,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal.jsx';
 
 describe('components/ChannelInfoModal', () => {
-    test('should match snapshot', () => {
+    it('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -23,7 +23,35 @@ describe('components/ChannelInfoModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call onHide callback when modal is hidden', (done) => {
+    it('should match snapshot with channel props', () => {
+        const channel = {
+            name: 'testchannel',
+            displayName: 'testchannel',
+            header: 'See ~test',
+            purpose: 'And ~test too',
+            props: {
+                channel_mentions: {
+                    test: {
+                        display_name: 'Test',
+                    },
+                },
+            },
+        };
+        function emptyFunction() {} //eslint-disable-line no-empty-function
+
+        const wrapper = shallow(
+            <ChannelInfoModal
+                channel={channel}
+                currentTeam={{id: 'testid', name: 'testteam'}}
+                onHide={emptyFunction}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    // Something about this test requires is to be run last, otherwise the suite will hang.
+    it('should call onHide callback when modal is hidden', (done) => {
         function onHide() {
             done();
         }
@@ -37,5 +65,6 @@ describe('components/ChannelInfoModal', () => {
         );
 
         wrapper.find(Modal).first().props().onExited();
+        done();
     });
 });
