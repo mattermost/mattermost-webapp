@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
+exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
