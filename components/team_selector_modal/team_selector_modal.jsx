@@ -10,7 +10,7 @@ import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import TeamInfo from 'components/team_info';
+import TeamInfo from 'components/team_info.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 const TEAMS_PER_PAGE = 50;
