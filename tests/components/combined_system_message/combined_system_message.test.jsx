@@ -58,6 +58,8 @@ describe('components/post_view/CombinedSystemMessage', () => {
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...baseProps}/>
         );
+
+        // Fake this state change since getProfilesByIds is called asynchronously
         wrapper.setState({userProfiles});
 
         expect(wrapper).toMatchSnapshot();
@@ -70,6 +72,8 @@ describe('components/post_view/CombinedSystemMessage', () => {
                 showJoinLeave={false}
             />
         );
+
+        // Fake this state change since getProfilesByIds is called asynchronously
         wrapper.setState({userProfiles});
 
         expect(wrapper).toMatchSnapshot();
