@@ -304,6 +304,7 @@ export default class ChannelHeader extends React.Component {
         }
 
         const channel = this.props.channel;
+        const channelNamesMap = this.props.channel.props && this.props.channel.props.channel_mentions;
 
         const popoverContent = (
             <Popover
@@ -317,7 +318,7 @@ export default class ChannelHeader extends React.Component {
             >
                 <Markdown
                     message={channel.header}
-                    options={headerMarkdownOptions}
+                    options={{...headerMarkdownOptions, channelNamesMap}}
                 />
             </Popover>
         );
@@ -853,7 +854,7 @@ export default class ChannelHeader extends React.Component {
                         <span onClick={Utils.handleFormattedTextClick}>
                             <Markdown
                                 message={channel.header}
-                                options={headerMarkdownOptions}
+                                options={{...headerMarkdownOptions, channelNamesMap}}
                             />
                         </span>
                     </div>
