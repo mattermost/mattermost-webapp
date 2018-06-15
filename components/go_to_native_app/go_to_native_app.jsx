@@ -22,6 +22,9 @@ export default class GoNativeApp extends PureComponent {
         let nativeLocation = window.location.href.replace('/vault#', '');
         nativeLocation = nativeLocation.replace(/^(http|https)/, 'mattermost');
 
+        //***** TESTING PURPOSE - REMOVE BEFORE MERGE ****
+        nativeLocation = nativeLocation.replace(/\/\/[^/]+/, '//pre-release.mattermost.com');
+
         safeOpenProtocol(nativeLocation,
             () => this.setState({protocolUnsupported: true}),
             () => setTimeout(redirectWeb, 3000),
