@@ -59,7 +59,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -140,7 +140,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -235,7 +235,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={true}
             onChange={[Function]}
             type="file"
@@ -333,7 +333,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -425,7 +425,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -529,7 +529,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={false}
             onChange={[Function]}
             type="file"
@@ -662,7 +662,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             values={Object {}}
           />
           <input
-            accept=".jpg,.png,.bmp"
+            accept=".jpg,.jpeg,.png,.bmp"
             disabled={false}
             onChange={[Function]}
             type="file"

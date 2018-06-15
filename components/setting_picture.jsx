@@ -287,7 +287,7 @@ export default class SettingPicture extends Component {
                                 />
                                 <input
                                     ref='input'
-                                    accept='.jpg,.png,.bmp'
+                                    accept='.jpg,.jpeg,.png,.bmp'
                                     type='file'
                                     onChange={this.handleFileChange}
                                     disabled={fileInputDisabled}
