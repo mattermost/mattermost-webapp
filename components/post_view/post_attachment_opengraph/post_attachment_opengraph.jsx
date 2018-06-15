@@ -10,6 +10,7 @@ import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
+import {isSystemMessage} from 'utils/post_utils.jsx';
 
 export default class PostAttachmentOpenGraph extends React.PureComponent {
     static propTypes = {
@@ -258,7 +259,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     render() {
         const data = this.props.openGraphData;
-        if (!data || !data.url || this.state.removePreview) {
+        if (!data || !data.url || this.state.removePreview || isSystemMessage(this.props.post || {})) {
             return null;
         }
 
