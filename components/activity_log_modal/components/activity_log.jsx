@@ -7,7 +7,7 @@ import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import {getMonthLong} from 'utils/i18n';
+import {getMonthLong, t} from 'utils/i18n';
 
 import MoreInfo from './more_info.jsx';
 
@@ -64,21 +64,21 @@ export default class ActivityLog extends React.PureComponent {
         if (session.device_id.includes('apple')) {
             devicePicture = 'fa fa-apple';
             deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
-            deviceTypeId = 'activity_log_modal.iphoneNativeClassicApp';
+            deviceTypeId = t('activity_log_modal.iphoneNativeClassicApp');
             deviceTypeMessage = 'iPhone Native Classic App';
 
             if (session.device_id.includes(General.PUSH_NOTIFY_APPLE_REACT_NATIVE)) {
-                deviceTypeId = 'activity_log_modal.iphoneNativeApp';
+                deviceTypeId = t('activity_log_modal.iphoneNativeApp');
                 deviceTypeMessage = 'iPhone Native App';
             }
         } else if (session.device_id.includes('android')) {
             devicePicture = 'fa fa-android';
             deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
-            deviceTypeId = 'activity_log_modal.androidNativeClassicApp';
+            deviceTypeId = t('activity_log_modal.androidNativeClassicApp');
             deviceTypeMessage = 'Android Native Classic App';
 
             if (session.device_id.includes(General.PUSH_NOTIFY_ANDROID_REACT_NATIVE)) {
-                deviceTypeId = 'activity_log_modal.androidNativeApp';
+                deviceTypeId = t('activity_log_modal.androidNativeApp');
                 deviceTypeMessage = 'Android Native App';
             }
         }

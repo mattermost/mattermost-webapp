@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {getSiteURL} from 'utils/url.jsx';
+import {t} from 'utils/i18n';
 
 import DeleteIntegration from './delete_integration.jsx';
 
@@ -124,7 +125,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId='installed_incoming_webhooks.delete.confirm'
+                        messageId={t('installed_incoming_webhooks.delete.confirm')}
                         onDelete={this.handleDelete}
                     />
                 </div>

@@ -15,6 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
@@ -367,25 +368,25 @@ export default class UserSettingsDisplay extends React.Component {
             value: this.state.collapseDisplay,
             defaultDisplay: 'false',
             title: {
-                id: 'user.settings.display.collapseDisplay',
+                id: t('user.settings.display.collapseDisplay'),
                 message: 'Default appearance of image previews',
             },
             firstOption: {
                 value: 'false',
                 radionButtonText: {
-                    id: 'user.settings.display.collapseOn',
+                    id: t('user.settings.display.collapseOn'),
                     message: 'On',
                 },
             },
             secondOption: {
                 value: 'true',
                 radionButtonText: {
-                    id: 'user.settings.display.collapseOff',
+                    id: t('user.settings.display.collapseOff'),
                     message: 'Off',
                 },
             },
             description: {
-                id: 'user.settings.display.collapseDesc',
+                id: t('user.settings.display.collapseDesc'),
                 message: 'Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.',
             },
         });
@@ -399,25 +400,25 @@ export default class UserSettingsDisplay extends React.Component {
                 value: this.state.linkPreviewDisplay,
                 defaultDisplay: 'true',
                 title: {
-                    id: 'user.settings.display.linkPreviewDisplay',
+                    id: t('user.settings.display.linkPreviewDisplay'),
                     message: 'Website Link Previews',
                 },
                 firstOption: {
                     value: 'true',
                     radionButtonText: {
-                        id: 'user.settings.display.linkPreviewOn',
+                        id: t('user.settings.display.linkPreviewOn'),
                         message: 'On',
                     },
                 },
                 secondOption: {
                     value: 'false',
                     radionButtonText: {
-                        id: 'user.settings.display.linkPreviewOff',
+                        id: t('user.settings.display.linkPreviewOff'),
                         message: 'Off',
                     },
                 },
                 description: {
-                    id: 'user.settings.display.linkPreviewDesc',
+                    id: t('user.settings.display.linkPreviewDesc'),
                     message: 'When available, the first web link in a message will show a preview of the website content below the message.',
                 },
             });
@@ -432,25 +433,25 @@ export default class UserSettingsDisplay extends React.Component {
             value: this.state.militaryTime,
             defaultDisplay: 'false',
             title: {
-                id: 'user.settings.display.clockDisplay',
+                id: t('user.settings.display.clockDisplay'),
                 message: 'Clock Display',
             },
             firstOption: {
                 value: 'false',
                 radionButtonText: {
-                    id: 'user.settings.display.normalClock',
+                    id: t('user.settings.display.normalClock'),
                     message: '12-hour clock (example: 4:00 PM)',
                 },
             },
             secondOption: {
                 value: 'true',
                 radionButtonText: {
-                    id: 'user.settings.display.militaryClock',
+                    id: t('user.settings.display.militaryClock'),
                     message: '24-hour clock (example: 16:00)',
                 },
             },
             description: {
-                id: 'user.settings.display.preferTime',
+                id: t('user.settings.display.preferTime'),
                 message: 'Select how you prefer time displayed.',
             },
         });
@@ -461,32 +462,32 @@ export default class UserSettingsDisplay extends React.Component {
             value: this.state.teammateNameDisplay,
             defaultDisplay: this.props.configTeammateNameDisplay,
             title: {
-                id: 'user.settings.display.teammateNameDisplayTitle',
+                id: t('user.settings.display.teammateNameDisplayTitle'),
                 message: 'Teammate Name Display',
             },
             firstOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
                 radionButtonText: {
-                    id: 'user.settings.display.teammateNameDisplayUsername',
+                    id: t('user.settings.display.teammateNameDisplayUsername'),
                     message: 'Show username',
                 },
             },
             secondOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
                 radionButtonText: {
-                    id: 'user.settings.display.teammateNameDisplayNicknameFullname',
+                    id: t('user.settings.display.teammateNameDisplayNicknameFullname'),
                     message: 'Show nickname if one exists, otherwise show first and last name',
                 },
             },
             thirdOption: {
                 value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME,
                 radionButtonText: {
-                    id: 'user.settings.display.teammateNameDisplayFullname',
+                    id: t('user.settings.display.teammateNameDisplayFullname'),
                     message: 'Show first and last name',
                 },
             },
             description: {
-                id: 'user.settings.display.teammateNameDisplayDescription',
+                id: t('user.settings.display.teammateNameDisplayDescription'),
                 message: 'Set how to display other user\'s names in posts and the Direct Messages list.',
             },
         });
@@ -535,29 +536,29 @@ export default class UserSettingsDisplay extends React.Component {
             value: this.state.messageDisplay,
             defaultDisplay: Preferences.MESSAGE_DISPLAY_CLEAN,
             title: {
-                id: 'user.settings.display.messageDisplayTitle',
+                id: t('user.settings.display.messageDisplayTitle'),
                 message: 'Message Display',
             },
             firstOption: {
                 value: Preferences.MESSAGE_DISPLAY_CLEAN,
                 radionButtonText: {
-                    id: 'user.settings.display.messageDisplayClean',
+                    id: t('user.settings.display.messageDisplayClean'),
                     message: 'Standard',
-                    moreId: 'user.settings.display.messageDisplayCleanDes',
+                    moreId: t('user.settings.display.messageDisplayCleanDes'),
                     moreMessage: 'Easy to scan and read.',
                 },
             },
             secondOption: {
                 value: Preferences.MESSAGE_DISPLAY_COMPACT,
                 radionButtonText: {
-                    id: 'user.settings.display.messageDisplayCompact',
+                    id: t('user.settings.display.messageDisplayCompact'),
                     message: 'Compact',
-                    moreId: 'user.settings.display.messageDisplayCompactDes',
+                    moreId: t('user.settings.display.messageDisplayCompactDes'),
                     moreMessage: 'Fit as many messages on the screen as we can.',
                 },
             },
             description: {
-                id: 'user.settings.display.messageDisplayDescription',
+                id: t('user.settings.display.messageDisplayDescription'),
                 message: 'Select how messages in a channel should be displayed.',
             },
         });
@@ -568,25 +569,25 @@ export default class UserSettingsDisplay extends React.Component {
             value: this.state.channelDisplayMode,
             defaultDisplay: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             title: {
-                id: 'user.settings.display.channelDisplayTitle',
+                id: t('user.settings.display.channelDisplayTitle'),
                 message: 'Channel Display Mode',
             },
             firstOption: {
                 value: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
                 radionButtonText: {
-                    id: 'user.settings.display.fullScreen',
+                    id: t('user.settings.display.fullScreen'),
                     message: 'Full width',
                 },
             },
             secondOption: {
                 value: Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
                 radionButtonText: {
-                    id: 'user.settings.display.fixedWidthCentered',
+                    id: t('user.settings.display.fixedWidthCentered'),
                     message: 'Fixed width, centered',
                 },
             },
             description: {
-                id: 'user.settings.display.channeldisplaymode',
+                id: t('user.settings.display.channeldisplaymode'),
                 message: 'Select the width of the center channel.',
             },
         });

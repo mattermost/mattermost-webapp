@@ -10,6 +10,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+import {t} from 'utils/i18n';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
@@ -215,17 +216,17 @@ export default class QuickSwitchModal extends React.PureComponent {
         let header;
         let renderDividers = true;
 
-        let channelShortcut = 'quick_switch_modal.channelsShortcut.windows';
+        let channelShortcut = t('quick_switch_modal.channelsShortcut.windows');
         let defaultChannelShortcut = 'CTRL+K';
         if (Utils.isMac()) {
-            channelShortcut = 'quick_switch_modal.channelsShortcut.mac';
+            channelShortcut = t('quick_switch_modal.channelsShortcut.mac');
             defaultChannelShortcut = 'CMD+K';
         }
 
-        let teamShortcut = 'quick_switch_modal.teamsShortcut.windows';
+        let teamShortcut = t('quick_switch_modal.teamsShortcut.windows');
         let defaultTeamShortcut = 'CTRL+ALT+K';
         if (Utils.isMac()) {
-            teamShortcut = 'quick_switch_modal.teamsShortcut.mac';
+            teamShortcut = t('quick_switch_modal.teamsShortcut.mac');
             defaultTeamShortcut = 'CMD+ALT+K';
         }
 

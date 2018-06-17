@@ -7,39 +7,41 @@ import {intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
+import {t} from 'utils/i18n';
+
 import Markdown from 'components/markdown';
 
 const typeMessage = {
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
-        id: 'last_users_message.added_to_channel.type',
+        id: t('last_users_message.added_to_channel.type'),
         defaultMessage: 'were **added to the channel** by {actor}.',
     },
     [Posts.POST_TYPES.JOIN_CHANNEL]: {
-        id: 'last_users_message.joined_channel.type',
+        id: t('last_users_message.joined_channel.type'),
         defaultMessage: '**joined the channel**.',
     },
     [Posts.POST_TYPES.LEAVE_CHANNEL]: {
-        id: 'last_users_message.left_channel.type',
+        id: t('last_users_message.left_channel.type'),
         defaultMessage: '**left the channel**.',
     },
     [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: {
-        id: 'last_users_message.removed_from_channel.type',
+        id: t('last_users_message.removed_from_channel.type'),
         defaultMessage: 'were **removed from the channel**.',
     },
     [Posts.POST_TYPES.ADD_TO_TEAM]: {
-        id: 'last_users_message.added_to_team.type',
+        id: t('last_users_message.added_to_team.type'),
         defaultMessage: 'were **added to the team** by {actor}.',
     },
     [Posts.POST_TYPES.JOIN_TEAM]: {
-        id: 'last_users_message.joined_team.type',
+        id: t('last_users_message.joined_team.type'),
         defaultMessage: '**joined the team**.',
     },
     [Posts.POST_TYPES.LEAVE_TEAM]: {
-        id: 'last_users_message.left_team.type',
+        id: t('last_users_message.left_team.type'),
         defaultMessage: '**left the team**.',
     },
     [Posts.POST_TYPES.REMOVE_FROM_TEAM]: {
-        id: 'last_users_message.removed_from_team.type',
+        id: t('last_users_message.removed_from_team.type'),
         defaultMessage: 'were **removed from the team**.',
     },
 };

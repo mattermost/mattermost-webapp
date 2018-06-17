@@ -8,6 +8,7 @@ import throttle from 'lodash/throttle';
 import EmojiStore from 'stores/emoji_store.jsx';
 import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
@@ -34,70 +35,70 @@ const CATEGORIES = {
     recent: {
         name: 'recent',
         className: 'fa fa-clock-o',
-        id: 'emoji_picker.recent',
+        id: t('emoji_picker.recent'),
         message: 'Recently Used',
         offset: 0,
     },
     people: {
         name: 'people',
         className: 'fa fa-smile-o',
-        id: 'emoji_picker.people',
+        id: t('emoji_picker.people'),
         message: 'People',
         offset: 0,
     },
     nature: {
         name: 'nature',
         className: 'fa fa-leaf',
-        id: 'emoji_picker.nature',
+        id: t('emoji_picker.nature'),
         message: 'Nature',
         offset: 0,
     },
     foods: {
         name: 'foods',
         className: 'fa fa-cutlery',
-        id: 'emoji_picker.foods',
+        id: t('emoji_picker.foods'),
         message: 'Foods',
         offset: 0,
     },
     activity: {
         name: 'activity',
         className: 'fa fa-futbol-o',
-        id: 'emoji_picker.activity',
+        id: t('emoji_picker.activity'),
         message: 'Activity',
         offset: 0,
     },
     places: {
         name: 'places',
         className: 'fa fa-plane',
-        id: 'emoji_picker.places',
+        id: t('emoji_picker.places'),
         message: 'Places',
         offset: 0,
     },
     objects: {
         name: 'objects',
         className: 'fa fa-lightbulb-o',
-        id: 'emoji_picker.objects',
+        id: t('emoji_picker.objects'),
         message: 'Objects',
         offset: 0,
     },
     symbols: {
         name: 'symbols',
         className: 'fa fa-heart-o',
-        id: 'emoji_picker.symbols',
+        id: t('emoji_picker.symbols'),
         message: 'Symbols',
         offset: 0,
     },
     flags: {
         name: 'flags',
         className: 'fa fa-flag-o',
-        id: 'emoji_picker.flags',
+        id: t('emoji_picker.flags'),
         message: 'Flags',
         offset: 0,
     },
     custom: {
         name: 'custom',
         className: 'fa fa-at',
-        id: 'emoji_picker.custom',
+        id: t('emoji_picker.custom'),
         message: 'Custom',
         offset: 0,
     },

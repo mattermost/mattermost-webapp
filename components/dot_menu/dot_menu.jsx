@@ -13,6 +13,7 @@ import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -226,7 +227,7 @@ export default class DotMenu extends Component {
                         key={'pin'}
                         menuItemText={
                             <FormattedMessage
-                                id={this.props.post.is_pinned ? 'post_info.unpin' : 'post_info.pin'}
+                                id={this.props.post.is_pinned ? t('post_info.unpin') : t('post_info.pin')}
                                 defaultMessage={'Pin'}
                             />
                         }

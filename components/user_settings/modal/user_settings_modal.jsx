@@ -12,6 +12,7 @@ import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {GroupUnreadChannels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 import loadUserSettings from 'bundle-loader?lazy!../user_settings.jsx';
@@ -19,27 +20,27 @@ import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
 
 const holders = defineMessages({
     general: {
-        id: 'user.settings.modal.general',
+        id: t('user.settings.modal.general'),
         defaultMessage: 'General',
     },
     security: {
-        id: 'user.settings.modal.security',
+        id: t('user.settings.modal.security'),
         defaultMessage: 'Security',
     },
     notifications: {
-        id: 'user.settings.modal.notifications',
+        id: t('user.settings.modal.notifications'),
         defaultMessage: 'Notifications',
     },
     display: {
-        id: 'user.settings.modal.display',
+        id: t('user.settings.modal.display'),
         defaultMessage: 'Display',
     },
     sidebar: {
-        id: 'user.settings.modal.sidebar',
+        id: t('user.settings.modal.sidebar'),
         defaultMessage: 'Sidebar',
     },
     advanced: {
-        id: 'user.settings.modal.advanced',
+        id: t('user.settings.modal.advanced'),
         defaultMessage: 'Advanced',
     },
     checkEmail: {
@@ -47,15 +48,15 @@ const holders = defineMessages({
         defaultMessage: 'Check your email at {email} to verify the address. Cannot find the email?',
     },
     confirmTitle: {
-        id: 'user.settings.modal.confirmTitle',
+        id: t('user.settings.modal.confirmTitle'),
         defaultMessage: 'Discard Changes?',
     },
     confirmMsg: {
-        id: 'user.settings.modal.confirmMsg',
+        id: t('user.settings.modal.confirmMsg'),
         defaultMessage: 'You have unsaved changes, are you sure you want to discard them?',
     },
     confirmBtns: {
-        id: 'user.settings.modal.confirmBtns',
+        id: t('user.settings.modal.confirmBtns'),
         defaultMessage: 'Yes, Discard',
     },
 });

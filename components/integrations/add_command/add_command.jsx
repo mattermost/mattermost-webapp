@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {browserHistory} from 'utils/browser_history';
+import {t} from 'utils/i18n';
 import AbstractCommand from '../abstract_command.jsx';
 
-const HEADER = {id: 'integrations.add', defaultMessage: 'Add'};
-const FOOTER = {id: 'add_command.save', defaultMessage: 'Save'};
+const HEADER = {id: t('integrations.add'), defaultMessage: 'Add'};
+const FOOTER = {id: t('add_command.save'), defaultMessage: 'Save'};
 
 export default class AddCommand extends React.PureComponent {
     static propTypes = {

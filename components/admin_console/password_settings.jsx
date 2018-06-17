@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import AdminSettings from './admin_settings.jsx';
 import Setting from './setting.jsx';
@@ -35,6 +36,22 @@ export default class PasswordSettings extends AdminSettings {
         });
 
         // Update sample message from config settings
+        t('user.settings.security.passwordErrorLowercase');
+        t('user.settings.security.passwordErrorLowercaseUppercase');
+        t('user.settings.security.passwordErrorLowercaseUppercaseNumber');
+        t('user.settings.security.passwordErrorLowercaseUppercaseNumberSymbol');
+        t('user.settings.security.passwordErrorLowercaseUppercaseSymbol');
+        t('user.settings.security.passwordErrorLowercaseNumber');
+        t('user.settings.security.passwordErrorLowercaseNumberSymbol');
+        t('user.settings.security.passwordErrorLowercaseSymbol');
+        t('user.settings.security.passwordErrorUppercase');
+        t('user.settings.security.passwordErrorUppercaseNumber');
+        t('user.settings.security.passwordErrorUppercaseNumberSymbol');
+        t('user.settings.security.passwordErrorUppercaseSymbol');
+        t('user.settings.security.passwordErrorNumber');
+        t('user.settings.security.passwordErrorNumberSymbol');
+        t('user.settings.security.passwordErrorSymbol');
+
         let sampleErrorMsgId = 'user.settings.security.passwordError';
         if (props.config.PasswordSettings.Lowercase) {
             sampleErrorMsgId += 'Lowercase';

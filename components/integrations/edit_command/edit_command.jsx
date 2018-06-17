@@ -6,12 +6,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
+import {t} from 'utils/i18n';
 import LoadingScreen from 'components/loading_screen.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import AbstractCommand from '../abstract_command.jsx';
 
-const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
-const FOOTER = {id: 'edit_command.save', defaultMessage: 'Update'};
+const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
+const FOOTER = {id: t('edit_command.save'), defaultMessage: 'Update'};
 
 export default class EditCommand extends React.PureComponent {
     static propTypes = {

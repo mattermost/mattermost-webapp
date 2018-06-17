@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 /**
  * A button which, when clicked, performs an action and displays
@@ -127,11 +128,11 @@ export default class RequestButton extends React.Component {
         showSuccessMessage: true,
         includeDetailedError: false,
         successMessage: {
-            id: 'admin.requestButton.requestSuccess',
+            id: t('admin.requestButton.requestSuccess'),
             defaultMessage: 'Test Successful',
         },
         errorMessage: {
-            id: 'admin.requestButton.requestFailure',
+            id: t('admin.requestButton.requestFailure'),
             defaultMessage: 'Test Failure: {error}',
         },
     }

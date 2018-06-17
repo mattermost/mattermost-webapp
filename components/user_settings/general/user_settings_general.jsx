@@ -13,65 +13,66 @@ import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
 
 const holders = defineMessages({
     usernameReserved: {
-        id: 'user.settings.general.usernameReserved',
+        id: t('user.settings.general.usernameReserved'),
         defaultMessage: 'This username is reserved, please choose a new one.',
     },
     usernameRestrictions: {
-        id: 'user.settings.general.usernameRestrictions',
+        id: t('user.settings.general.usernameRestrictions'),
         defaultMessage: "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'.",
     },
     validEmail: {
-        id: 'user.settings.general.validEmail',
+        id: t('user.settings.general.validEmail'),
         defaultMessage: 'Please enter a valid email address.',
     },
     emailMatch: {
-        id: 'user.settings.general.emailMatch',
+        id: t('user.settings.general.emailMatch'),
         defaultMessage: 'The new emails you entered do not match.',
     },
     validImage: {
-        id: 'user.settings.general.validImage',
+        id: t('user.settings.general.validImage'),
         defaultMessage: 'Only BMP, JPG or PNG images may be used for profile pictures',
     },
     imageTooLarge: {
-        id: 'user.settings.general.imageTooLarge',
+        id: t('user.settings.general.imageTooLarge'),
         defaultMessage: 'Unable to upload profile image. File is too large.',
     },
     uploadImage: {
-        id: 'user.settings.general.uploadImage',
+        id: t('user.settings.general.uploadImage'),
         defaultMessage: "Click 'Edit' to upload an image.",
     },
     uploadImageMobile: {
-        id: 'user.settings.general.mobile.uploadImage',
+        id: t('user.settings.general.mobile.uploadImage'),
         defaultMessage: 'Click to upload an image.',
     },
     fullName: {
-        id: 'user.settings.general.fullName',
+        id: t('user.settings.general.fullName'),
         defaultMessage: 'Full Name',
     },
     nickname: {
-        id: 'user.settings.general.nickname',
+        id: t('user.settings.general.nickname'),
         defaultMessage: 'Nickname',
     },
     username: {
-        id: 'user.settings.general.username',
+        id: t('user.settings.general.username'),
         defaultMessage: 'Username',
     },
     profilePicture: {
-        id: 'user.settings.general.profilePicture',
+        id: t('user.settings.general.profilePicture'),
         defaultMessage: 'Profile Picture',
     },
     close: {
-        id: 'user.settings.general.close',
+        id: t('user.settings.general.close'),
         defaultMessage: 'Close',
     },
     position: {
-        id: 'user.settings.general.position',
+        id: t('user.settings.general.position'),
         defaultMessage: 'Position',
     },
 });

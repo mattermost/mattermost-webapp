@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {browserHistory} from 'utils/browser_history';
+import {t} from 'utils/i18n';
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
-const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};
+const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
+const FOOTER = {id: t('update_incoming_webhook.update'), defaultMessage: 'Update'};
 
 export default class EditIncomingWebhook extends React.PureComponent {
     static propTypes = {

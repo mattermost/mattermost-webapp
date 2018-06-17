@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {t} from 'utils/i18n';
+
 import DeleteIntegration from './delete_integration.jsx';
 
 export default class InstalledCommand extends React.PureComponent {
@@ -126,7 +128,7 @@ export default class InstalledCommand extends React.PureComponent {
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId='installed_commands.delete.confirm'
+                        messageId={t('installed_commands.delete.confirm')}
                         onDelete={this.handleDelete}
                     />
                 </div>

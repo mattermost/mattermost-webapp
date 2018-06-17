@@ -17,6 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
@@ -26,27 +27,27 @@ const ActionTypes = Constants.ActionTypes;
 
 const holders = defineMessages({
     emailError: {
-        id: 'invite_member.emailError',
+        id: t('invite_member.emailError'),
         defaultMessage: 'Please enter a valid email address',
     },
     firstname: {
-        id: 'invite_member.firstname',
+        id: t('invite_member.firstname'),
         defaultMessage: 'First name',
     },
     lastname: {
-        id: 'invite_member.lastname',
+        id: t('invite_member.lastname'),
         defaultMessage: 'Last name',
     },
     modalTitle: {
-        id: 'invite_member.modalTitle',
+        id: t('invite_member.modalTitle'),
         defaultMessage: 'Discard Invitations?',
     },
     modalMessage: {
-        id: 'invite_member.modalMessage',
+        id: t('invite_member.modalMessage'),
         defaultMessage: 'You have unsent invitations, are you sure you want to discard them?',
     },
     modalButton: {
-        id: 'invite_member.modalButton',
+        id: t('invite_member.modalButton'),
         defaultMessage: 'Yes, Discard',
     },
 });

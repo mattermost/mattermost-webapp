@@ -26,6 +26,8 @@ import logoWebhook from 'images/webhook_icon.jpg';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {t} from 'utils/i18n';
+
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
 // eslint-disable-line import/order
@@ -477,14 +479,14 @@ export const AnnouncementBarTypes = {
 };
 
 export const AnnouncementBarMessages = {
-    EMAIL_VERIFICATION_REQUIRED: 'announcement_bar.error.email_verification_required',
-    EMAIL_VERIFIED: 'announcement_bar.notification.email_verified',
-    LICENSE_EXPIRED: 'announcement_bar.error.license_expired',
-    LICENSE_EXPIRING: 'announcement_bar.error.license_expiring',
-    LICENSE_PAST_GRACE: 'announcement_bar.error.past_grace',
-    PREVIEW_MODE: 'announcement_bar.error.preview_mode',
-    SITE_URL: 'announcement_bar.error.site_url',
-    WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
+    EMAIL_VERIFICATION_REQUIRED: t('announcement_bar.error.email_verification_required'),
+    EMAIL_VERIFIED: t('announcement_bar.notification.email_verified'),
+    LICENSE_EXPIRED: t('announcement_bar.error.license_expired'),
+    LICENSE_EXPIRING: t('announcement_bar.error.license_expiring'),
+    LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
+    PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
+    SITE_URL: t('announcement_bar.error.site_url'),
+    WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
 };
 
 export const VerifyEmailErrors = {

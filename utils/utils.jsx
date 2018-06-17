@@ -27,6 +27,7 @@ import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 import {getSiteURL} from 'utils/url';
+import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 export function isMac() {
@@ -1504,7 +1505,7 @@ export function getPasswordConfig(config) {
 }
 
 export function isValidPassword(password, passwordConfig) {
-    let errorId = 'user.settings.security.passwordError';
+    let errorId = t('user.settings.security.passwordError');
     let valid = true;
     const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
 

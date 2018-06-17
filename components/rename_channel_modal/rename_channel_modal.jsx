@@ -10,34 +10,35 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 const holders = defineMessages({
     required: {
-        id: 'rename_channel.required',
+        id: t('rename_channel.required'),
         defaultMessage: 'This field is required',
     },
     maxLength: {
-        id: 'rename_channel.maxLength',
+        id: t('rename_channel.maxLength'),
         defaultMessage: 'This field must be less than {maxLength, number} characters',
     },
     lowercase: {
-        id: 'rename_channel.lowercase',
+        id: t('rename_channel.lowercase'),
         defaultMessage: 'Must be lowercase alphanumeric characters',
     },
     url: {
-        id: 'rename_channel.url',
+        id: t('rename_channel.url'),
         defaultMessage: 'URL',
     },
     defaultError: {
-        id: 'rename_channel.defaultError',
+        id: t('rename_channel.defaultError'),
         defaultMessage: ' - Cannot be changed for the default channel',
     },
     displayNameHolder: {
-        id: 'rename_channel.displayNameHolder',
+        id: t('rename_channel.displayNameHolder'),
         defaultMessage: 'Enter display name',
     },
     handleHolder: {
-        id: 'rename_channel.handleHolder',
+        id: t('rename_channel.handleHolder'),
         defaultMessage: 'lowercase alphanumeric characters',
     },
 });
