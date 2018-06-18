@@ -1,11 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// Allow overriding the path used by webpack to dynamically resolve assets. This is driven by
-// an environment variable in development, or by a window variable defined in root.html in
-// production. The window variable is updated by the server after configuring SiteURL and
-// restarting or by running the `mattermost config subpath` command.
-__webpack_public_path__ = process.env.PUBLIC_PATH || window.publicPath || '/static/'; // eslint-disable-line camelcase, no-undef, no-process-env
+import './entry.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
