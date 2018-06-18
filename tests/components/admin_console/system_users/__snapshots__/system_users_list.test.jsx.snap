@@ -5,6 +5,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <SearchableUserList
     actionProps={
       Object {
+        "doEmailReset": [Function],
         "doManageRoles": [Function],
         "doManageTeams": [Function],
         "doManageTokens": [Function],
@@ -62,6 +63,12 @@ exports[`components/admin_console/system_users/list should match default snapsho
     show={false}
     user={null}
   />
+  <ResetEmailModal
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={null}
+  />
 </div>
 `;
 
@@ -70,6 +77,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <SearchableUserList
     actionProps={
       Object {
+        "doEmailReset": [Function],
         "doManageRoles": [Function],
         "doManageTeams": [Function],
         "doManageTokens": [Function],
@@ -198,6 +206,12 @@ exports[`components/admin_console/system_users/list should match default snapsho
     show={false}
     user={null}
   />
+  <ResetEmailModal
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={null}
+  />
 </div>
 `;
 
@@ -206,6 +220,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <SearchableUserList
     actionProps={
       Object {
+        "doEmailReset": [Function],
         "doManageRoles": [Function],
         "doManageTeams": [Function],
         "doManageTokens": [Function],
@@ -359,6 +374,12 @@ exports[`components/admin_console/system_users/list should match default snapsho
     user={null}
   />
   <Connect(ResetPasswordModal)
+    onModalDismissed={[Function]}
+    onModalSubmit={[Function]}
+    show={false}
+    user={null}
+  />
+  <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}

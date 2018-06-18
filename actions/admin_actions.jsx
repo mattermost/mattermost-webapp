@@ -87,6 +87,15 @@ export async function adminResetPassword(userId, currentPassword, password, succ
     }
 }
 
+export async function adminResetEmail(user, success, error) {
+    const {data, error: err} = await UserActions.patchUser(user)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export async function samlCertificateStatus(success, error) {
     const {data, error: err} = await AdminActions.getSamlCertificateStatus()(dispatch, getState);
     if (data && success) {
