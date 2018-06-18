@@ -46,6 +46,11 @@ export default class SystemUsersDropdown extends React.Component {
         doPasswordReset: PropTypes.func.isRequired,
 
         /*
+         * Function to open email reset, takes user as an argument
+         */
+        doEmailReset: PropTypes.func.isRequired,
+
+        /*
          * Function to open manage teams, takes user as an argument
          */
         doManageTeams: PropTypes.func.isRequired,
@@ -104,6 +109,11 @@ export default class SystemUsersDropdown extends React.Component {
     handleResetPassword = (e) => {
         e.preventDefault();
         this.props.doPasswordReset(this.props.user);
+    }
+
+    handleResetEmail = (e) => {
+        e.preventDefault();
+        this.props.doEmailReset(this.props.user);
     }
 
     handleResetMfa = (e) => {
@@ -488,6 +498,25 @@ export default class SystemUsersDropdown extends React.Component {
             );
         }
 
+        let emailReset;
+        if (!user.auth_service) {
+            emailReset = (
+                <li role='presentation'>
+                    <a
+                        id='resetEmail'
+                        role='menuitem'
+                        href='#'
+                        onClick={this.handleResetEmail}
+                    >
+                        <FormattedMessage
+                            id='admin.user_item.resetEmail'
+                            defaultMessage='Reset Email'
+                        />
+                    </a>
+                </li>
+            );
+        }
+
         let revokeSessions;
         if (showRevokeSessions) {
             revokeSessions = (
@@ -614,6 +643,7 @@ export default class SystemUsersDropdown extends React.Component {
                     {manageTokens}
                     {mfaReset}
                     {passwordReset}
+                    {emailReset}
                     {revokeSessions}
                 </ul>
                 {makeDemoteModal}
