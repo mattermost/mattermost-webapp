@@ -21,6 +21,20 @@ class CustomRenderer extends marked.Renderer {
     }
 }
 
+/*
+* Translations component with the same API as react-intl's <FormattedMessage> component except the message string
+* accepts markdown. It supports the following non-block-level markdown:
+* - **italic**
+* - *bold*
+* - `inline code`
+* - ~~strikethrough~~
+* - [link](http://example.com/)
+* - [link in new tab](!http://example.com/)
+* - line\nbreaks
+*
+* Note: Line breaks (\n) in a defaultMessage parameter string must be surrounded by curly brackets {} in JSX. Example:
+* <FormattedMarkdownMessage id='my.example' defaultMessage={'first line\nsecond line'} />
+*/
 class FormattedMarkdownMessage extends React.PureComponent {
     static get propTypes() {
         return {
