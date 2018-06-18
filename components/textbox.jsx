@@ -5,6 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
@@ -330,18 +331,18 @@ export default class Textbox extends React.Component {
                 <div className={'help__text ' + helpTextClass}>
                     {helpText}
                     {previewLink}
-                    <a
+                    <Link
                         id='helpTextLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        href='/help/messaging'
+                        to='/help/messaging'
                         className='textbox-help-link'
                     >
                         <FormattedMessage
                             id='textbox.help'
                             defaultMessage='Help'
                         />
-                    </a>
+                    </Link>
                 </div>
             </div>
         );
