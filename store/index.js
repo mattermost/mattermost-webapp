@@ -36,6 +36,26 @@ const setTransforms = [
     ...teamSetTransform,
 ];
 
+// This is a hack to get the whitelist to work with our storage keys
+// We will implement it properly when we eventually upgrade redux-persist
+const whitelist = {
+    keys: [], // add normal whitelist keys here
+    prefixes: ['storage'], // add any whitelist prefixes here
+    indexOf: function indexOf(key) {
+        if (this.keys.indexOf(key) !== -1) {
+            return 0;
+        }
+
+        for (let i = 0; i < this.prefixes.length; i++) {
+            if (key.startsWith(this.prefixes[i])) {
+                return 0;
+            }
+        }
+
+        return -1;
+    },
+};
+
 export default function configureStore(initialState) {
     const setTransformer = createTransform(
         (inboundState, key) => {
@@ -147,7 +167,7 @@ export default function configureStore(initialState) {
             autoRehydrate: {
                 log: false,
             },
-            blacklist: ['errors', 'offline', 'requests', 'entities', 'views', 'plugins'],
+            whitelist,
             debounce: 30,
             transforms: [
                 setTransformer,
