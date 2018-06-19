@@ -308,7 +308,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.team.maxChannelsDescription'
-                            defaultMessage='Maximum total number of channels per team, including both active and deleted channels.'
+                            defaultMessage='Maximum total number of channels per team, including both active and archived channels.'
                         />
                     }
                     value={this.state.maxChannelsPerTeam}
