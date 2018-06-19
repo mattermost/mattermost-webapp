@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import {getSiteURL} from 'utils/url.jsx';
 
 export default class ConfirmIntegration extends React.Component {
     static get propTypes() {
@@ -101,7 +102,7 @@ export default class ConfirmIntegration extends React.Component {
                             id='add_incoming_webhook.url'
                             defaultMessage='<b>URL</b>: {url}'
                             values={{
-                                url: window.location.origin + '/hooks/' + incomingHook.id,
+                                url: getSiteURL() + '/hooks/' + incomingHook.id,
                             }}
                         />
                     </p>
