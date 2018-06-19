@@ -1072,7 +1072,7 @@ export default {
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'ServiceSettings.AllowCorsFrom',
-                            label: 'min.service.corsTitle',
+                            label: 'admin.service.corsTitle',
                             label_default: 'Enable cross-origin requests from:',
                             placeholder: 'admin.service.corsEx',
                             placeholder_default: 'http://example.com',
