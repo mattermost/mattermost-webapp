@@ -170,7 +170,7 @@ export default class YoutubeVideo extends React.PureComponent {
         if (this.state.title) {
             header = (
                 <h4>
-                    <span className='video-type'>{'Youtube - '}</span>
+                    <span className='video-type'>{'YouTube - '}</span>
                     <span className='video-title'>
                         <a
                             href={this.props.link}
