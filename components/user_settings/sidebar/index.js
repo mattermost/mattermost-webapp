@@ -24,12 +24,18 @@ function mapStateToProps(state) {
         'after_seven_days'
     );
 
-    let displayRecentSection = getPreference(
+    let sidebarPreference = getPreference(
         state,
         Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        'show_recent_section',
-        null
+        '',
+        JSON.stringify({
+            grouping: 'by_type', // none, by_type
+            unreads_at_top: 'true',
+            favorite_at_top: 'true',
+            sorting: 'alpha',
+        })
     );
+    sidebarPreference = JSON.parse(sidebarPreference);
 
     const displayUnreadSection = getPreference(
         state,
@@ -38,26 +44,10 @@ function mapStateToProps(state) {
         (config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON).toString()
     );
 
-    let displayDefaultSection = getPreference(
-        state,
-        Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        'show_default_section',
-        null
-    );
-
-    const backportSidebarOptions = !displayRecentSection && !displayDefaultSection;
-
-    // We must backport new sidebar settings to previous implementation
-    if (backportSidebarOptions) {
-        displayRecentSection = 'false';
-        displayDefaultSection = displayUnreadSection === 'false' ? 'true' : 'false';
-    }
-
     return {
         closeUnusedDirectMessages,
         displayUnreadSection,
-        displayRecentSection,
-        displayDefaultSection,
+        sidebarPreference,
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         showUnreadOption: config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED,
         user: getCurrentUser(state),
