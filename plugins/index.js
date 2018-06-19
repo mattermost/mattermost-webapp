@@ -61,7 +61,7 @@ export function loadPlugin(manifest) {
         console.log('Registering ' + manifest.id + ' plugin...'); //eslint-disable-line no-console
         const plugin = window.plugins[manifest.id];
         const registry = new PluginRegistry(manifest.id);
-        plugin.initialize(registry);
+        plugin.initialize(registry, store);
         console.log('...done'); //eslint-disable-line no-console
     }
 

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import reducerRegistry from 'mattermost-redux/store/reducer_registry';
+
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {generateId} from 'utils/utils.jsx';
@@ -167,6 +169,7 @@ export default class PluginRegistry {
     // - text - A string or JSX element to display in the menu
     // - action - A function to trigger when component is clicked on
     // - mobileIcon - An icon to display in the menu in mobile view
+    // Returns a unique identifier.
     registerMainMenuAction = (text, action, mobileIcon) => {
         const id = generateId();
 
@@ -193,5 +196,12 @@ export default class PluginRegistry {
             type: ActionTypes.REMOVED_PLUGIN_COMPONENT,
             id: componentId,
         });
+    }
+
+    // Register a reducer against the Redux store. It will accessible in redux state
+    // under "state['plugins-<yourpluginid>']"
+    // Accepts a reducer. Returns undefined.
+    registerReducer = (reducer) => {
+        reducerRegistry.register('plugins-' + this.id, reducer);
     }
 }

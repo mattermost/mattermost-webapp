@@ -55,13 +55,17 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         channel={this.props.channel}
                         channelMember={this.props.channelMember}
                         theme={this.props.theme}
+                        key={'channelHeaderPlug' + plug.id}
                     />
                 );
                 return;
             }
 
             items.push(
-                <li role='presentation'>
+                <li
+                    role='presentation'
+                    key={'channelHeaderPlug' + plug.id}
+                >
                     <a
                         role='menuitem'
                         href='#'
