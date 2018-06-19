@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
+import * as UserAgent from 'utils/user_agent.jsx';
 import PermalinkView from 'components/permalink_view';
 import Navbar from 'components/navbar';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
@@ -26,6 +27,23 @@ export default class CenterChannel extends React.PureComponent {
         this.state = {
             returnTo: '',
         };
+    }
+
+    componentDidMount() {
+        document.body.classList.add('app__body');
+
+        // IE Detection
+        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
+            document.body.classList.add('browser--ie');
+        }
+    }
+
+    componentWillUnmount() {
+        document.body.classList.remove('app__body');
+
+        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
+            document.body.classList.remove('browser--ie');
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -65,7 +83,13 @@ export default class CenterChannel extends React.PureComponent {
                         />
                         <Route
                             path={'/:team/:path(channels|messages)/:identifier'}
-                            component={ChannelIdentifierRouter}
+                            render={(props, match, history) => (
+                                <ChannelIdentifierRouter
+                                    match={match}
+                                    history={history}
+                                    {...props}
+                                />
+                            )}
                         />
                         <Redirect to={lastChannelPath}/>
                     </Switch>
