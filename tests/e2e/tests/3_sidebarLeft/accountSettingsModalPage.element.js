@@ -4,7 +4,7 @@
 import {Constants} from '../../utils';
 
 module.exports = {
-    '@tags': ['account_settings', 'account_settings_display'],
+    '@tags': ['account_settings', 'account_settings_general', 'account_settings_display'],
     before: (client) => {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
@@ -60,6 +60,54 @@ module.exports = {
             assert.visible('@displayButton').
             assert.visible('@advancedLi').
             assert.visible('@advancedButton');
+
+        sidebarLeftPage.click('@sidebarHeaderDropdownButton');
+    },
+    'Account Settings Modal page, General section - element check': (client) => {
+        const sidebarLeftPage = client.page.sidebarLeftPage();
+        sidebarLeftPage.navigateToAccountSettingsModal();
+
+        const accountSettingsModalPage = client.page.accountSettingsModalPage();
+        accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
+
+        const accountSettingsModalSection = accountSettingsModalPage.section.accountSettingsModal;
+        accountSettingsModalSection.click('@generalButton');
+        accountSettingsModalSection.expect.section('@generalSettings').to.be.visible;
+
+        const generalSettingsSection = accountSettingsModalSection.section.generalSettings;
+        generalSettingsSection.
+            assert.visible('@generalSettingsTitle').
+            assert.containsText('@generalSettingsTitle', 'General Settings').
+            assert.visible('@nameTitle').
+            assert.containsText('@nameTitle', 'Full Name').
+            assert.visible('@nameEdit').
+            assert.visible('@nameDesc').
+            assert.containsText('@nameDesc', "Click 'Edit' to add your full name").
+            assert.visible('@usernameTitle').
+            assert.containsText('@usernameTitle', 'Username').
+            assert.visible('@usernameEdit').
+            assert.visible('@usernameDesc').
+            assert.containsText('@usernameDesc', Constants.USERS.test.username).
+            assert.visible('@nicknameTitle').
+            assert.containsText('@nicknameTitle', 'Nickname').
+            assert.visible('@nicknameEdit').
+            assert.visible('@nicknameDesc').
+            assert.containsText('@nicknameDesc', "Click 'Edit' to add a nickname").
+            assert.visible('@positionTitle').
+            assert.containsText('@positionTitle', 'Position').
+            assert.visible('@positionEdit').
+            assert.visible('@positionDesc').
+            assert.containsText('@positionDesc', "Click 'Edit' to add your job title / position").
+            assert.visible('@emailTitle').
+            assert.containsText('@emailTitle', 'Email').
+            assert.visible('@emailEdit').
+            assert.visible('@emailDesc').
+            assert.containsText('@emailDesc', 'test@test.com').
+            assert.visible('@pictureTitle').
+            assert.containsText('@pictureTitle', 'Profile Picture').
+            assert.visible('@pictureEdit').
+            assert.visible('@pictureDesc').
+            assert.containsText('@pictureDesc', "Click 'Edit' to upload an image.");
 
         sidebarLeftPage.click('@sidebarHeaderDropdownButton');
     },

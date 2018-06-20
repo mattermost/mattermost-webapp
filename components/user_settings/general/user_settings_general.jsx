@@ -1178,7 +1178,7 @@ class UserSettingsGeneralTab extends React.Component {
         }
 
         return (
-            <div>
+            <div id='generalSettings'>
                 <div className='modal-header'>
                     <button
                         id='closeUserSettings'
@@ -1207,7 +1207,10 @@ class UserSettingsGeneralTab extends React.Component {
                     </h4>
                 </div>
                 <div className='user-settings'>
-                    <h3 className='tab-header'>
+                    <h3
+                        id='generalSettingsTitle'
+                        className='tab-header'
+                    >
                         <FormattedMessage
                             id='user.settings.general.title'
                             defaultMessage='General Settings'
