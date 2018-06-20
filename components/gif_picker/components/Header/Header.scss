@@ -1,0 +1,35 @@
+.header-container {
+  z-index: 1;
+  width: 100%;
+
+  .nav-bar {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    position: relative;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .ic {
+      cursor: pointer;
+      vertical-align: middle;
+    }
+
+    a {
+      align-items: center;
+      display: flex;
+      flex-grow: 1;
+      height: 100%;
+      justify-content: space-around;
+
+      .header-text {
+        font-family: SFUIDisplay, sans-serif;
+      	font-size: 1.6rem;
+      	font-weight: 500;
+        padding-left: 1rem;
+        vertical-align: middle;
+      }
+    }
+  }
+}

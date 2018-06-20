@@ -16,7 +16,7 @@ import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
 const EMOJI_HEIGHT = 27;
-const EMOJI_CONTAINER_HEIGHT = 300;
+const EMOJI_CONTAINER_HEIGHT = 244;
 const EMOJI_CONTAINER_STYLE = {
     height: EMOJI_CONTAINER_HEIGHT,
 };
@@ -111,6 +111,7 @@ export default class EmojiPicker extends React.PureComponent {
         style: PropTypes.object,
         rightOffset: PropTypes.number,
         topOffset: PropTypes.number,
+        listHeight: PropTypes.number,
         placement: PropTypes.oneOf(['top', 'bottom', 'left']),
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
@@ -124,6 +125,7 @@ export default class EmojiPicker extends React.PureComponent {
     };
 
     static defaultProps = {
+        listHeight: 245,
         rightOffset: 0,
         topOffset: 0,
         customEmojiPage: 0,
@@ -585,13 +587,12 @@ export default class EmojiPicker extends React.PureComponent {
         }
         return (
             <div
-                className='emoji-picker'
                 style={pickerStyle}
             >
-                {this.emojiCategories()}
                 {this.emojiSearch()}
+                {this.emojiCategories()}
                 {this.emojiCurrentResults()}
-                <EmojiPickerPreview emoji={this.getCurrentEmojiByCursor(this.state.cursor)}/>
+                <EmojiPickerPreview emoji={this.state.selected}/>
             </div>
         );
     }

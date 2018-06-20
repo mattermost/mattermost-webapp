@@ -1817,7 +1817,7 @@
   "emoji_picker.people": "People",
   "emoji_picker.places": "Places",
   "emoji_picker.recent": "Recently Used",
-  "emoji_picker.search": "Search",
+  "emoji_picker.search": "Search Emoji",
   "emoji_picker.searchResults": "Search Results",
   "emoji_picker.symbols": "Symbols",
   "ent.cluster.save_config_with_roles.error": "The following configuration settings cannot be saved when High Availability is enabled and the System Console is in read-only mode: {keys}.",
