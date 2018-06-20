@@ -20,12 +20,31 @@ export function getShortenedURL(url = '', getLength = 27) {
     return url + '/';
 }
 
-export function getSiteURL() {
-    if (window.location.origin) {
-        return window.location.origin;
+export function getSiteURLFromWindowObject(obj) {
+    let siteURL = '';
+    if (obj.location.origin) {
+        siteURL = obj.location.origin;
+    } else {
+        siteURL = obj.location.protocol + '//' + obj.location.hostname + (obj.location.port ? ':' + obj.location.port : '');
     }
 
-    return window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    if (siteURL[siteURL.length - 1] === '/') {
+        siteURL = siteURL.substring(0, siteURL.length - 1);
+    }
+
+    if (obj.basename) {
+        siteURL += obj.basename;
+    }
+
+    if (siteURL[siteURL.length - 1] === '/') {
+        siteURL = siteURL.substring(0, siteURL.length - 1);
+    }
+
+    return siteURL;
+}
+
+export function getSiteURL() {
+    return getSiteURLFromWindowObject(window);
 }
 
 export function getRelativeChannelURL(teamName, channelName) {
