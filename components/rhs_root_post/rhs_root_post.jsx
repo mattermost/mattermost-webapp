@@ -217,21 +217,21 @@ export default class RhsRootPost extends React.Component {
 
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
             react = (
-                <div>
-                    <EmojiPickerOverlay
-                        show={this.state.showEmojiPicker}
-                        onHide={this.toggleEmojiPicker}
-                        target={this.getDotMenuRef}
-                        onEmojiClick={this.reactEmojiClick}
-                        rightOffset={15}
-                        spaceRequiredAbove={342}
-                        spaceRequiredBelow={342}
-                    />
-                    <ChannelPermissionGate
-                        channelId={post.channel_id}
-                        teamId={teamId}
-                        permissions={[Permissions.ADD_REACTION]}
-                    >
+                <ChannelPermissionGate
+                    channelId={post.channel_id}
+                    teamId={teamId}
+                    permissions={[Permissions.ADD_REACTION]}
+                >
+                    <div>
+                        <EmojiPickerOverlay
+                            show={this.state.showEmojiPicker}
+                            onHide={this.toggleEmojiPicker}
+                            target={this.getDotMenuRef}
+                            onEmojiClick={this.reactEmojiClick}
+                            rightOffset={15}
+                            spaceRequiredAbove={342}
+                            spaceRequiredBelow={342}
+                        />
                         <button
                             className='reacticon__container reaction color--link style--none'
                             onClick={this.toggleEmojiPicker}
@@ -239,9 +239,8 @@ export default class RhsRootPost extends React.Component {
                         >
                             <EmojiIcon className='icon icon--emoji'/>
                         </button>
-                    </ChannelPermissionGate>
-                </div>
-
+                    </div>
+                </ChannelPermissionGate>
             );
         }
 
