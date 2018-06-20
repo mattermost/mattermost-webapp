@@ -101,6 +101,10 @@ export default class UserSettingsSidebar extends React.Component {
                 sorting: this.state.settings.sorting,
             };
 
+            if (updatedSidebarSettings.grouping === 'by_type') {
+                updatedSidebarSettings.sorting = 'alpha';
+            }
+
             preferences.push({
                 user_id: user.id,
                 category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
@@ -244,6 +248,78 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
+    renderGroupLabel = () => {
+        const {
+            sidebarPreference: {
+                grouping,
+                unreads_at_top,
+                favorite_at_top,
+            },
+        } = this.props;
+
+        if (grouping === 'none') {
+            return (
+                <FormattedMessage
+                    id='user.settings.sidebar.never'
+                    defaultMessage='Never'
+                />
+            );
+        }
+
+        const messages = [];
+
+        messages.push(
+            <FormattedMessage
+                id='user.settings.sidebar.1'
+                defaultMessage='By Channel Type'
+            />
+        );
+
+        let atTop = null;
+        if (unreads_at_top === 'true' && favorite_at_top === 'false') {
+            atTop = 'Unreads';
+        } else if (favorite_at_top === 'true' && unreads_at_top === 'false') {
+            atTop = 'Favorites';
+        } else if (unreads_at_top === 'true' && favorite_at_top === 'true') {
+            atTop = 'Unreads and Favorites';
+        }
+
+        if (atTop !== null) {
+            messages.push(
+                <FormattedMessage
+                    id='user.settings.sidebar.1'
+                    defaultMessage={`, ${atTop} at the top`}
+                />
+            );
+        }
+
+        return messages;
+    };
+
+    renderSortLabel = () => {
+        const {
+            sidebarPreference: {
+                sorting,
+            },
+        } = this.props;
+
+        if (sorting === 'alpha') {
+            return (
+                <FormattedMessage
+                    id='user.settings.sidebar.1'
+                    defaultMessage='By Alphabetical Order'
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                id='user.settings.sidebar.1'
+                defaultMessage='By Recent Order'
+            />
+        );
+    };
+
     renderUnreadSection = () => {
         if (this.props.activeSection === 'unreadChannels') {
             return (
@@ -370,10 +446,10 @@ export default class UserSettingsSidebar extends React.Component {
                     </div>
                     <div>
                         <br/>
-                        <FormattedMessage
-                            id='user.settings.sidebar.recentSectionDesc'
-                            defaultMessage='Placeholder text for a hint'
-                        />
+                        {/*<FormattedMessage*/}
+                            {/*id='user.settings.sidebar.recentSectionDesc'*/}
+                            {/*defaultMessage='Placeholder text for a hint'*/}
+                        {/*/>*/}
                     </div>
                 </div>
             );
@@ -445,7 +521,7 @@ export default class UserSettingsSidebar extends React.Component {
                         defaultMessage='Group channels'
                     />
                 }
-                describe={this.renderUnreadLabel(this.state.settings.show_unread_section)}
+                describe={this.renderGroupLabel()}
                 section={'groupChannels'}
                 updateSection={this.updateSection}
             />
@@ -455,11 +531,13 @@ export default class UserSettingsSidebar extends React.Component {
     renderChannelSortingSection = () => {
         const {
             settings: {
+                grouping,
                 sorting,
             },
         } = this.state;
 
         if (this.props.activeSection === 'sortChannels') {
+            const disableSorting = grouping === 'by_type';
             const inputs = [];
 
             // radio
@@ -475,6 +553,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 type='radio'
                                 name='groupChannels'
                                 checked={sorting === 'recent'}
+                                disabled={disableSorting}
                                 onChange={this.updateSetting.bind(this, 'sorting', 'recent')}
                             />
                             <FormattedMessage
@@ -491,6 +570,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 type='radio'
                                 name='groupChannels'
                                 checked={sorting === 'alpha'}
+                                disabled={disableSorting}
                                 onChange={this.updateSetting.bind(this, 'sorting', 'alpha')}
                             />
                             <FormattedMessage
@@ -504,7 +584,7 @@ export default class UserSettingsSidebar extends React.Component {
                         <br/>
                         <FormattedMessage
                             id='user.settings.sidebar.recentSectionDesc'
-                            defaultMessage='Recent channels will be sorted by last post.'
+                            defaultMessage='Recent channels will be sorted by last post.  Otherwise, posts will be sorted alphabetically'
                         />
                     </div>
                 </div>
@@ -536,7 +616,7 @@ export default class UserSettingsSidebar extends React.Component {
                         defaultMessage='Sort channels'
                     />
                 }
-                describe={this.renderUnreadLabel(this.state.settings.show_unread_section)}
+                describe={this.renderSortLabel()}
                 section={'sortChannels'}
                 updateSection={this.updateSection}
             />
