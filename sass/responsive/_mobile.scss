@@ -701,30 +701,6 @@
                 text-align: left;
             }
 
-            .modal-image {
-                .modal-button-bar {
-                    line-height: 30px;
-                    padding: 5px;
-                }
-
-                .modal-image__wrapper {
-                    > div {
-                        font-size: 12px;
-                        max-width: 70%;
-                        min-width: 250px;
-                    }
-
-                    .modal-close {
-                        @include opacity(1);
-                    }
-                }
-
-                .modal-button-bar {
-                    @include opacity(1);
-                    padding-right: 10px;
-                }
-            }
-
             .modal-header {
                 .modal-action {
                     margin-top: 10px;
