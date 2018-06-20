@@ -1,3 +1,6 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 // This is a modified version of the code found in the gfycat-sdk project.
 // Supported values for options: timeout, method, url, file, payload
 export default function(options) {
