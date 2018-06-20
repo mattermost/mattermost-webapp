@@ -114,6 +114,7 @@ function createPost({
             enableTutorial={true}
             enableConfirmNotificationsToChannel={true}
             enableEmojiPicker={true}
+            enableGifPicker={true}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             userIsOutOfOffice={false}
         />
