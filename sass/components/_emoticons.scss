@@ -56,8 +56,12 @@
     flex-direction: column;
     margin-right: 3px;
     position: absolute;
-    width: 315px;
     z-index: 15;
+    width: 315px;
+
+    .browser--ie & {
+        width: 325px;
+    }
 
     .app__content & {
         margin-right: 0;
