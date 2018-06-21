@@ -32,6 +32,11 @@ export default class SearchResultsItem extends React.PureComponent {
         post: PropTypes.object,
 
         /**
+        * An array of strings in this post that were matched by the search
+        */
+        matches: PropTypes.array,
+
+        /**
         *  count used for passing down to PostFlagIcon, DotMenu and CommentIcon
         */
         lastPostCount: PropTypes.number,
@@ -284,6 +289,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         post={post}
                         options={{
                             searchTerm: this.props.term,
+                            searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
                     />

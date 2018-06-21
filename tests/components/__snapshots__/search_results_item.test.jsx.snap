@@ -177,6 +177,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                 options={
                   Object {
                     "mentionHighlight": false,
+                    "searchMatches": undefined,
                     "searchTerm": "test",
                   }
                 }
@@ -367,6 +368,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                 options={
                   Object {
                     "mentionHighlight": false,
+                    "searchMatches": undefined,
                     "searchTerm": "test",
                   }
                 }

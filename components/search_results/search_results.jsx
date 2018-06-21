@@ -42,6 +42,7 @@ export function renderThumbVertical(props) {
 export default class SearchResults extends React.PureComponent {
     static propTypes = {
         results: PropTypes.array,
+        matches: PropTypes.object,
         channels: PropTypes.object,
         searchTerms: PropTypes.string,
         isFlaggedByPostId: PropTypes.object,
@@ -55,6 +56,10 @@ export default class SearchResults extends React.PureComponent {
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
+    };
+
+    static defaultProps = {
+        matches: {},
     };
 
     constructor(props) {
@@ -327,7 +332,7 @@ export default class SearchResults extends React.PureComponent {
                 sortedResults = results;
             }
 
-            ctls = sortedResults.map(function searchResults(post, idx, arr) {
+            ctls = sortedResults.map((post, idx, arr) => {
                 let profile;
                 if (UserStore.getCurrentId() === post.user_id) {
                     profile = UserStore.getCurrentUser();
@@ -353,6 +358,7 @@ export default class SearchResults extends React.PureComponent {
                         channel={this.props.channels.get(post.channel_id)}
                         compactDisplay={this.props.compactDisplay}
                         post={post}
+                        matches={this.props.matches[post.id]}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         user={profile}
                         term={searchTerms}
