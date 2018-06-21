@@ -664,7 +664,7 @@ export default class Navbar extends React.Component {
                                 >
                                     <FormattedMessage
                                         id='channel_header.delete'
-                                        defaultMessage='Delete Channel'
+                                        defaultMessage='Archive Channel'
                                     />
                                 </ToggleModalButton>
                             </li>

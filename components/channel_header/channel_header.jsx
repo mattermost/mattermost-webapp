@@ -780,7 +780,7 @@ export default class ChannelHeader extends React.Component {
                             >
                                 <FormattedMessage
                                     id='channel_header.delete'
-                                    defaultMessage='Delete Channel'
+                                    defaultMessage='Archive Channel'
                                 />
                             </ToggleModalButtonRedux>
                         </li>
