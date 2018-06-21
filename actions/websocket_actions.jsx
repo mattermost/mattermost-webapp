@@ -79,6 +79,11 @@ export function initialize() {
         connUrl = connUrl.toString();
     }
 
+    // Strip any trailing slash before appending the pathname below.
+    if (connUrl.length > 0 && connUrl[connUrl.length - 1] == '/') {
+        connUrl = connUrl.substring(0, connUrl.length - 1);
+    }
+
     connUrl += Client4.getUrlVersion() + '/websocket';
 
     WebSocketClient.setEventCallback(handleEvent);
