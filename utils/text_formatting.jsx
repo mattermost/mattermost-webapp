@@ -20,6 +20,8 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // @mentions and ~channels to links by taking a user's message and returning a string of formatted html. Also takes
 // a number of options as part of the second parameter:
 // - searchTerm - If specified, this word is highlighted in the resulting html. Defaults to nothing.
+// - searchMatches - If specified, an array of words that will be highlighted. Defaults to nothing. If both
+//     this and searchTerm are specified, this takes precedence.
 // - mentionHighlight - Specifies whether or not to highlight mentions of the current user. Defaults to true.
 // - mentionKeys - A list of mention keys for the current user to highlight.
 // - singleline - Specifies whether or not to remove newlines. Defaults to false.
@@ -29,7 +31,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 //     links that can be handled by a special click handler.
 // - atMentions - Whether or not to render at mentions into spans with a data-mention attribute. Defaults to false.
 // - channelNamesMap - An object mapping channel display names to channels. If provided, ~channel mentions will be replaced with
-//      links to the relevant channel.
+//     links to the relevant channel.
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
 // - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
@@ -41,7 +43,12 @@ export function formatText(text, inputOptions) {
     let output = text;
 
     const options = Object.assign({}, inputOptions);
-    options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
+
+    if (options.searchMatches) {
+        options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
+    } else {
+        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
+    }
 
     if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
