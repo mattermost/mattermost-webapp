@@ -8,6 +8,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -31,7 +32,7 @@ class SwitchTeamSuggestion extends Suggestion {
                 <div className='status'>
                     <i
                         className='fa fa-group'
-                        title='Team icon'
+                        title={localizeMessage('general_tab.teamIcon', 'Team Icon')}
                     />
                 </div>
                 {item.display_name}

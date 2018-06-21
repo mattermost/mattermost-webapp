@@ -171,7 +171,7 @@ export default class SearchBar extends React.Component {
             isSearchingTerm = (
                 <span
                     className={'fa fa-spin fa-spinner'}
-                    title='Searching icon'
+                    title={Utils.localizeMessage('generic_icons.searching', 'Searching Icon')}
                 />
             );
         }
@@ -235,7 +235,7 @@ export default class SearchBar extends React.Component {
                     >
                         <span
                             className='fa fa-chevron-left'
-                            title='Back icon'
+                            title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
                         />
                     </div>
                 </div>

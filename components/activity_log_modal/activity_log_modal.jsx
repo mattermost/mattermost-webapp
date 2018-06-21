@@ -103,7 +103,7 @@ export default class ActivityLogModal extends React.Component {
 
         if (session.device_id.includes('apple')) {
             devicePicture = 'fa fa-apple';
-            deviceTitle = 'Apple icon';
+            deviceTitle = Utils.localizeMessage('device_icons.apple', 'Apple Icon');
             deviceTypeId = 'activity_log_modal.iphoneNativeClassicApp';
             deviceTypeMessage = 'iPhone Native Classic App';
 
@@ -113,7 +113,7 @@ export default class ActivityLogModal extends React.Component {
             }
         } else if (session.device_id.includes('android')) {
             devicePicture = 'fa fa-android';
-            deviceTitle = 'Android icon';
+            deviceTitle = Utils.localizeMessage('device_icons.android', 'Android Icon');
             deviceTypeId = 'activity_log_modal.androidNativeClassicApp';
             deviceTypeMessage = 'Android Native Classic App';
 
@@ -152,7 +152,7 @@ export default class ActivityLogModal extends React.Component {
 
             if (currentSession.props.platform === 'Windows') {
                 devicePicture = 'fa fa-windows';
-                deviceTitle = 'Windows icon';
+                deviceTitle = Utils.localizeMessage('device_icons.windows', 'Windows Icon');
             } else if (this.isMobileSession(currentSession)) {
                 const sessionInfo = this.mobileSessionInfo(currentSession);
 
@@ -161,7 +161,7 @@ export default class ActivityLogModal extends React.Component {
             } else if (currentSession.props.platform === 'Macintosh' ||
                 currentSession.props.platform === 'iPhone') {
                 devicePicture = 'fa fa-apple';
-                deviceTitle = 'Apple icon';
+                deviceTitle = Utils.localizeMessage('device_icons.apple', 'Apple Icon');
             } else if (currentSession.props.platform === 'Linux') {
                 if (currentSession.props.os.indexOf('Android') >= 0) {
                     devicePlatform = (
@@ -171,14 +171,14 @@ export default class ActivityLogModal extends React.Component {
                         />
                     );
                     devicePicture = 'fa fa-android';
-                    deviceTitle = 'Android icon';
+                    deviceTitle = Utils.localizeMessage('device_icons.android', 'Android Icon');
                 } else {
                     devicePicture = 'fa fa-linux';
-                    deviceTitle = 'Linux icon';
+                    deviceTitle = Utils.localizeMessage('device_icons.linux', 'Linux Icon');
                 }
             } else if (currentSession.props.os.indexOf('Linux') !== -1) {
                 devicePicture = 'fa fa-linux';
-                deviceTitle = 'Linux icon';
+                deviceTitle = Utils.localizeMessage('device_icons.linux', 'Linux Icon');
             }
 
             if (currentSession.props.browser.indexOf('Desktop App') !== -1) {

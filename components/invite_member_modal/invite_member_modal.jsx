@@ -268,7 +268,7 @@ class InviteMemberModal extends React.Component {
                             >
                                 <span
                                     className='fa fa-trash'
-                                    title='Remove member icon'
+                                    title={utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
                                 />
                             </button>
                         </div>
@@ -399,7 +399,7 @@ class InviteMemberModal extends React.Component {
                         <span>
                             <i
                                 className='fa fa-spinner fa-spin'
-                                title='Loading icon'
+                                title={utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
                             />
                             <FormattedMessage
                                 id='invite_member.sending'

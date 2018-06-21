@@ -1021,7 +1021,7 @@ export default class SecurityTab extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
-                                title='Collapse icon'
+                                title={Utils.localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>
@@ -1056,7 +1056,7 @@ export default class SecurityTab extends React.Component {
                     >
                         <i
                             className='fa fa-clock-o'
-                            title='Access history icon'
+                            title={Utils.localizeMessage('user.settings.security.viewHistory.icon', 'Access History Icon')}
                         />
                         <FormattedMessage
                             id='user.settings.security.viewHistory'
@@ -1069,7 +1069,7 @@ export default class SecurityTab extends React.Component {
                     >
                         <i
                             className='fa fa-clock-o'
-                            title='Active sessions icon'
+                            title={Utils.localizeMessage('user.settings.security.logoutActiveSessions.icon', 'Active Sessions Icon')}
                         />
                         <FormattedMessage
                             id='user.settings.security.logoutActiveSessions'

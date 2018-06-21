@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class LockIcon extends React.PureComponent {
     render() {
         return (
@@ -12,7 +14,7 @@ export default class LockIcon extends React.PureComponent {
                     height='13px'
                     viewBox='0 0 13 15'
                     role='icon'
-                    aria-label='Private channel icon'
+                    title={localizeMessage('generic_icons.channel.private', 'Private Channel Icon')}
                 >
                     <g
                         stroke='none'

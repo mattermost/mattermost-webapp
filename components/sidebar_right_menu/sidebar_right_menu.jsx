@@ -186,7 +186,7 @@ export default class SidebarRightMenu extends React.Component {
                             >
                                 <i
                                     className='icon fa fa-user-plus'
-                                    title='Send invite icon'
+                                    title={Utils.localizeMessage('sidebar_right_menu.inviteNew.icon', 'Send Email Invite Icon')}
                                 />
                                 <FormattedMessage
                                     id='sidebar_right_menu.inviteNew'
@@ -211,7 +211,7 @@ export default class SidebarRightMenu extends React.Component {
                         >
                             <i
                                 className='icon fa fa-user-plus'
-                                title='Add members icon'
+                                title={Utils.localizeMessage('sidebar_right_menu.addMemberToTeam.icon', 'Add Members to Team Icon')}
                             />
                             <FormattedMessage
                                 id='sidebar_right_menu.addMemberToTeam'
@@ -239,7 +239,7 @@ export default class SidebarRightMenu extends React.Component {
                                 >
                                     <i
                                         className='icon fa fa-link'
-                                        title='Team invite link icon'
+                                        title={Utils.localizeMessage('sidebar_right_menu.teamLink.icon', 'Get Team Invite Link Icon')}
                                     />
                                     <FormattedMessage
                                         id='sidebar_right_menu.teamLink'
@@ -271,7 +271,7 @@ export default class SidebarRightMenu extends React.Component {
                         <Link to='/select_team'>
                             <i
                                 className='icon fa fa-plus-square'
-                                title='Join another team icon'
+                                title={Utils.localizeMessage('navbar_dropdown.join.icon', 'Join Another Team Icon')}
                             />
                             <FormattedMessage
                                 id='navbar_dropdown.join'
@@ -293,7 +293,7 @@ export default class SidebarRightMenu extends React.Component {
                         >
                             <i
                                 className='icon fa fa-plus-square'
-                                title='Create a new team icon'
+                                title={Utils.localizeMessage('navbar_dropdown.create.icon', 'Create a New Team Icon')}
                             />
                             <FormattedMessage
                                 id='navbar_dropdown.create'
@@ -310,7 +310,7 @@ export default class SidebarRightMenu extends React.Component {
                 <ToggleModalButton dialogType={TeamMembersModal}>
                     <i
                         className='icon fa fa-users'
-                        title='View members icon'
+                        title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
                     />
                     <FormattedMessage
                         id='sidebar_right_menu.viewMembers'
@@ -329,7 +329,7 @@ export default class SidebarRightMenu extends React.Component {
                 menuIcon = (
                     <i
                         className='icon fa fa-plus-square'
-                        title='Add plugin icon'
+                        title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
                     />
                 );
             }
@@ -384,7 +384,7 @@ export default class SidebarRightMenu extends React.Component {
                     >
                         <i
                             className='icon fa fa-globe'
-                            title='Team settings icon'
+                            title={Utils.localizeMessage('generic_icons.settings', 'Settings Icon')}
                         />
                         <FormattedMessage
                             id='sidebar_right_menu.teamSettings'
@@ -405,7 +405,7 @@ export default class SidebarRightMenu extends React.Component {
                     >
                         <i
                             className='icon fa fa-users'
-                            title='Manage members icon'
+                            title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
                         />
                         <FormattedMessage
                             id='sidebar_right_menu.manageMembers'
@@ -426,7 +426,7 @@ export default class SidebarRightMenu extends React.Component {
                         >
                             <i
                                 className='icon fa fa-wrench'
-                                title='System console icon'
+                                title={Utils.localizeMessage('sidebar_right_menu.console', 'System Console Icon')}
                             />
                             <FormattedMessage
                                 id='sidebar_right_menu.console'
@@ -458,7 +458,7 @@ export default class SidebarRightMenu extends React.Component {
                     >
                         <i
                             className='icon fa fa-question'
-                            title='Help icon'
+                            title={Utils.localizeMessage('generic_icons.help', 'Help Icon')}
                         />
                         <FormattedMessage
                             id='sidebar_right_menu.help'
@@ -480,7 +480,7 @@ export default class SidebarRightMenu extends React.Component {
                     >
                         <i
                             className='icon fa fa-phone'
-                            title='Report a problem icon'
+                            title={Utils.localizeMessage('generic_icons.report', 'Report Icon')}
                         />
                         <FormattedMessage
                             id='sidebar_right_menu.report'
@@ -508,7 +508,7 @@ export default class SidebarRightMenu extends React.Component {
                     >
                         <i
                             className='icon fa fa-mobile'
-                            title='Download apps icon'
+                            title={Utils.localizeMessage('sidebar_right_menu.nativeApps.icon', 'Native Apps Icon')}
                         />
                         <FormattedMessage
                             id='sidebar_right_menu.nativeApps'
@@ -574,7 +574,7 @@ export default class SidebarRightMenu extends React.Component {
                             >
                                 <i
                                     className='icon fa fa-flag'
-                                    title='Flag icon'
+                                    title={Utils.localizeMessage('generic_icons.flag', 'Flag Icon')}
                                 />
                                 <FormattedMessage
                                     id='sidebar_right_menu.flagged'
@@ -590,7 +590,7 @@ export default class SidebarRightMenu extends React.Component {
                             >
                                 <i
                                     className='icon fa fa-cog'
-                                    title='Account Settings icon'
+                                    title={Utils.localizeMessage('generic_icons.settings', 'Settings Icon')}
                                 />
                                 <FormattedMessage
                                     id='sidebar_right_menu.accountSettings'
@@ -623,7 +623,7 @@ export default class SidebarRightMenu extends React.Component {
                             >
                                 <i
                                     className='icon fa fa-info'
-                                    title='About Mattermost icon'
+                                    title={Utils.localizeMessage('generic_icons.info', 'Info Icon')}
                                 />
                                 <FormattedMessage
                                     id='navbar_dropdown.about'
@@ -639,7 +639,7 @@ export default class SidebarRightMenu extends React.Component {
                             >
                                 <i
                                     className='icon fa fa-sign-out'
-                                    title='Logout icon'
+                                    title={Utils.localizeMessage('generic_icons.logout', 'Logout Icon')}
                                 />
                                 <FormattedMessage
                                     id='sidebar_right_menu.logout'

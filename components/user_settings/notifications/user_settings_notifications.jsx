@@ -908,7 +908,7 @@ export default class NotificationsTab extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
-                                title='Collapse icon'
+                                title={Utils.localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>

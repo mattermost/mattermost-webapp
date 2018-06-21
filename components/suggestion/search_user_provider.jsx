@@ -38,7 +38,7 @@ class SearchUserSuggestion extends Suggestion {
             >
                 <i
                     className='fa fa fa-plus-square'
-                    title='Select user icon'
+                    title={Utils.localizeMessage('generic_icons.select', 'Select Icon')}
                 />
                 <img
                     className='profile-img rounded'

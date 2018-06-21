@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 const NEXT_BUTTON_TIMEOUT = 500;
 
 export default class Logs extends React.PureComponent {
@@ -77,7 +79,7 @@ export default class Logs extends React.PureComponent {
                     />
                     <i
                         className='fa fa-chevron-right margin-left'
-                        title='Next page icon'
+                        title={localizeMessage('generic_icons.next', 'Next Icon')}
                     />
                 </button>
             );
@@ -91,7 +93,7 @@ export default class Logs extends React.PureComponent {
                 >
                     <i
                         className='fa fa-angle-left'
-                        title='Previous page icon'
+                        title={localizeMessage('generic_icons.previous', 'Previous Icon')}
                     />
                     <FormattedMessage
                         id='admin.logs.prev'

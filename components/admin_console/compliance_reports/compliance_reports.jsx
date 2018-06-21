@@ -380,7 +380,7 @@ export default class ComplianceReports extends React.PureComponent {
                     >
                         <i
                             className='fa fa-refresh'
-                            title='Reload Icon'
+                            title={Utils.localizeMessage('generic_icons.reload', 'Reload Icon')}
                         />
                         <FormattedMessage
                             id='admin.compliance_reports.reload'

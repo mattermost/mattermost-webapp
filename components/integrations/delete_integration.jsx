@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class DeleteIntegration extends DeleteModalTrigger {
     get triggerTitle() {
@@ -31,7 +32,7 @@ export default class DeleteIntegration extends DeleteModalTrigger {
             <div className='alert alert-warning'>
                 <i
                     className='fa fa-warning fa-margin--right'
-                    title='Warning icon'
+                    title={localizeMessage('generic_icons.warning', 'Warning Icon')}
                 />
                 <FormattedMessage
                     id={this.props.messageId}

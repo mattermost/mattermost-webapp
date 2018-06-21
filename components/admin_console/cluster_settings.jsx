@@ -83,7 +83,7 @@ export default class ClusterSettings extends AdminSettings {
                 >
                     <i
                         className='fa fa-warning'
-                        title='Warning icon'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
                     <FormattedHTMLMessage
                         id='admin.cluster.loadedFrom'
@@ -105,7 +105,7 @@ export default class ClusterSettings extends AdminSettings {
                 >
                     <i
                         className='fa fa-warning'
-                        title='Warning icon'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
                     <FormattedHTMLMessage
                         id='admin.cluster.should_not_change'

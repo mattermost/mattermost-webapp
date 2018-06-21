@@ -173,7 +173,7 @@ export default class MultiSelect extends React.Component {
                     <div className='note__icon'>
                         <span
                             className='fa fa-info'
-                            title='Info icon'
+                            title={localizeMessage('generic_icons.info', 'Info Icon')}
                         />
                     </div>
                     <div>{this.props.noteText}</div>

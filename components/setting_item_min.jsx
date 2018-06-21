@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile, localizeMessage} from 'utils/utils.jsx';
 
 export default class SettingItemMin extends React.PureComponent {
     static defaultProps = {
@@ -82,7 +82,7 @@ export default class SettingItemMin extends React.PureComponent {
                     >
                         <i
                             className='fa fa-pencil'
-                            title='Edit icon'
+                            title={localizeMessage('generic_icons.edit', 'Edit Icon')}
                         />
                         {this.props.describe}
                     </button>
@@ -99,7 +99,7 @@ export default class SettingItemMin extends React.PureComponent {
                     >
                         <i
                             className='fa fa-pencil'
-                            title='Edit icon'
+                            title={localizeMessage('generic_icons.edit', 'Edit Icon')}
                         />
                         <FormattedMessage
                             id='setting_item_min.edit'

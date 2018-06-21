@@ -204,7 +204,7 @@ export default class StatusDropdown extends React.Component {
                         <span className={'status status-edit edit'}>
                             <i
                                 className={'fa fa-caret-down'}
-                                title='Status selector icon'
+                                title={localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                             />
                         </span>
                     </div>

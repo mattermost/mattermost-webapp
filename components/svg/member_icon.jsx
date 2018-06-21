@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MemberIcon extends React.PureComponent {
     render() {
         return (
@@ -12,7 +14,7 @@ export default class MemberIcon extends React.PureComponent {
                     height='14px'
                     viewBox='0 0 16 16'
                     role='icon'
-                    aria-label='Member icon'
+                    aria-label={localizeMessage('generic_icons.member', 'Member Icon')}
                 >
                     <g
                         id='Symbols'

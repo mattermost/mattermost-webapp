@@ -180,7 +180,7 @@ export default class ChannelMembersDropdown extends React.Component {
                             <span>{role} </span>
                             <span
                                 className='fa fa-chevron-down'
-                                title='Dropdown icon'
+                                title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                             />
                         </button>
                         <ul

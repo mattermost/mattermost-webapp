@@ -117,7 +117,7 @@ export default class ClusterTable extends React.Component {
                     >
                         <i
                             className='fa fa-refresh'
-                            title='Refresh icon'
+                            title={Utils.localizeMessage('generic_icons.reload', 'Reload Icon')}
                         />
                         <FormattedMessage
                             id='admin.cluster.status_table.reload'

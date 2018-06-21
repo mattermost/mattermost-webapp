@@ -134,7 +134,7 @@ export default class SearchResults extends React.PureComponent {
                     <div className='sidebar--right__loading'>
                         <i
                             className='fa fa-spinner fa-spin'
-                            title='Searching icon'
+                            title={Utils.localizeMessage('generic_icons.searching', 'Searching Icon')}
                         />
                         <FormattedMessage
                             id='search_header.loading'

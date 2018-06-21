@@ -981,7 +981,7 @@ export default class ChannelHeader extends React.Component {
                     >
                         <i
                             className={'icon fa fa-bell-slash-o'}
-                            title='Muted icon'
+                            title={Utils.localizeMessage('generic_icons.muted', 'Muted Icon')}
                         />
                     </button>
                 </OverlayTrigger>
@@ -1047,7 +1047,7 @@ export default class ChannelHeader extends React.Component {
                                         <span
                                             id='channelHeaderDropdownIcon'
                                             className='fa fa-angle-down header-dropdown__icon'
-                                            title='Dropdown icon'
+                                            title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                                         />
                                     </button>
                                     <ul

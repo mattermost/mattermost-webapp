@@ -121,7 +121,7 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
     >
       <i
         className="fa fa-plus"
-        title="Add icon"
+        title="Add Icon"
       />
     </div>
   </div>
@@ -162,7 +162,7 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
     >
       <i
         className="fa fa-plus"
-        title="Add icon"
+        title="Add Icon"
       />
     </div>
   </div>

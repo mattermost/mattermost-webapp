@@ -47,7 +47,7 @@ export default class UploadButton extends React.PureComponent {
             buttonIcon = (
                 <i
                     className='fa fa-refresh icon--rotate'
-                    title='Loading Icon'
+                    title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
                 />
             );
             buttonText = Utils.localizeMessage('admin.team.uploading', 'Uploading..');
@@ -56,7 +56,7 @@ export default class UploadButton extends React.PureComponent {
             buttonIcon = (
                 <i
                     className='fa fa-check'
-                    title='Success Icon'
+                    title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
                 />
             );
             buttonText = Utils.localizeMessage('admin.team.uploaded', 'Uploaded!');

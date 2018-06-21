@@ -216,7 +216,7 @@ export default class ChannelInviteModal extends React.Component {
                     <div className='more-modal__actions--round'>
                         <i
                             className='fa fa-plus'
-                            title='Add member icon'
+                            title={localizeMessage('generic_icons.add', 'Add Icon')}
                         />
                     </div>
                 </div>

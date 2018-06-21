@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default function WebrtcHeader(props) {
     const title = (
@@ -64,7 +65,7 @@ export default function WebrtcHeader(props) {
                     >
                         <i
                             className='fa fa-expand'
-                            title='Expand sidebar icon'
+                            title={localizeMessage('rhs_header.expandSidebarTooltip.icon', 'Expand Sidebar Icon')}
                         />
                     </OverlayTrigger>
                     <OverlayTrigger
@@ -75,7 +76,7 @@ export default function WebrtcHeader(props) {
                     >
                         <i
                             className='fa fa-compress'
-                            title='Shrink sidebar icon'
+                            title={localizeMessage('rhs_header.expandTooltip.icon', 'Shrink Sidebar Icon')}
                         />
                     </OverlayTrigger>
                 </button>
@@ -93,7 +94,7 @@ export default function WebrtcHeader(props) {
                     >
                         <i
                             className='fa fa-sign-out'
-                            title='Close sidebar icon'
+                            title={localizeMessage('rhs_header.closeTooltip.icon', 'Close Sidebar Icon')}
                         />
                     </OverlayTrigger>
                 </button>

@@ -484,7 +484,7 @@ export default class UserAccessTokenSection extends React.Component {
                 >
                     <i
                         className='fa fa-warning margin-right'
-                        title='Warning icon'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
                     <FormattedMessage
                         id='user.settings.tokens.copy'

@@ -135,7 +135,7 @@ export default class AdminNavbarDropdown extends React.Component {
                     >
                         <i
                             className='fa fa-exchange'
-                            title='Select team icon'
+                            title={Utils.localizeMessage('select_team.icon', 'Select Team Icon')}
                         />
                         <FormattedMessage
                             id='admin.nav.switch'

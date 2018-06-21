@@ -937,7 +937,7 @@ export default class CreatePost extends React.Component {
                                 >
                                     <i
                                         className='fa fa-paper-plane'
-                                        title='Send post icon'
+                                        title={Utils.localizeMessage('create_post.icon', 'Send Post Icon')}
                                     />
                                 </a>
                             </span>

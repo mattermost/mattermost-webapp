@@ -675,7 +675,7 @@ export default class UserSettingsDisplay extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
-                                title='Back icon'
+                                title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>

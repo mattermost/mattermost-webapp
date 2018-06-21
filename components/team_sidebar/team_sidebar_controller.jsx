@@ -161,7 +161,7 @@ export default class TeamSidebar extends React.Component {
                     content={
                         <i
                             className='fa fa-plus'
-                            title='Join other teams icon'
+                            title={Utils.localizeMessage('generic_icons.join', 'Join Icon')}
                         />
                     }
                 />
@@ -185,7 +185,7 @@ export default class TeamSidebar extends React.Component {
                         content={
                             <i
                                 className='fa fa-plus'
-                                title='Join other teams icon'
+                                title={Utils.localizeMessage('generic_icons.join', 'Join Icon')}
                             />
                         }
                     />

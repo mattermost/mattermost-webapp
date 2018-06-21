@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class InfoIcon extends React.PureComponent {
     render() {
         return (
@@ -12,7 +14,7 @@ export default class InfoIcon extends React.PureComponent {
                     height='22px'
                     viewBox='0 0 22 22'
                     role='icon'
-                    aria-label='Info icon'
+                    aria-label={localizeMessage('generic_icons.info', 'Info Icon')}
                 >
                     <g
                         stroke='none'

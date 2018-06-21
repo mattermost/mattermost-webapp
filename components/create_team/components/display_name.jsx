@@ -10,6 +10,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class TeamSignupDisplayNamePage extends React.PureComponent {
     static propTypes = {
@@ -129,7 +130,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                         />
                         <i
                             className='fa fa-chevron-right'
-                            title='Next step icon'
+                            title={localizeMessage('generic_icons.next', 'Next Icon')}
                         />
                     </button>
                 </form>

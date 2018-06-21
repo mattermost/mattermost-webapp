@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants, {RHSStates} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
@@ -142,7 +143,7 @@ export default class RhsHeaderPost extends React.Component {
                     >
                         <i
                             className='fa fa-angle-left'
-                            title='Back to results icon'
+                            title={localizeMessage('generic_icons.back', 'Back Icon')}
                         />
                     </OverlayTrigger>
                 </a>
@@ -173,7 +174,7 @@ export default class RhsHeaderPost extends React.Component {
                         >
                             <i
                                 className='fa fa-expand'
-                                title='Expand sidebar icon'
+                                title={localizeMessage('rhs_header.expandSidebarTooltip.icon', 'Expand Sidebar Icon')}
                             />
                         </OverlayTrigger>
                         <OverlayTrigger
@@ -184,7 +185,7 @@ export default class RhsHeaderPost extends React.Component {
                         >
                             <i
                                 className='fa fa-compress'
-                                title='Shrink sidebar icon'
+                                title={localizeMessage('rhs_header.expandTooltip.icon', 'Shrink Sidebar Icon')}
                             />
                         </OverlayTrigger>
                     </button>
@@ -203,7 +204,7 @@ export default class RhsHeaderPost extends React.Component {
                         >
                             <i
                                 className='fa fa-sign-out'
-                                title='Close sidebar icon'
+                                title={localizeMessage('rhs_header.closeTooltip.icon', 'Close Sidebar Icon')}
                             />
                         </OverlayTrigger>
                     </button>

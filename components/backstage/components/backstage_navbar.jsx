@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Constants} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class BackstageNavbar extends React.Component {
     static get propTypes() {
@@ -29,7 +30,7 @@ export default class BackstageNavbar extends React.Component {
                 >
                     <i
                         className='fa fa-angle-left'
-                        title='Back to app icon'
+                        title={localizeMessage('generic_icons.back', 'Back Icon')}
                     />
                     <span>
                         <FormattedMessage

@@ -91,7 +91,7 @@ export default class BackstageList extends React.Component {
                     <div className='backstage-filter__search'>
                         <i
                             className='fa fa-search'
-                            title='Search icon'
+                            title={Utils.localizeMessage('generic_icons.search', 'Search Icon')}
                         />
                         <input
                             type='search'

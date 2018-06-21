@@ -28,7 +28,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[Function]}
-          title="Collapse icon"
+          title="Collapse Icon"
         />
       </div>
       <FormattedMessage

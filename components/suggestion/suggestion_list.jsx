@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import SuggestionStore from 'stores/suggestion_store.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class SuggestionList extends React.Component {
     static propTypes = {
@@ -119,7 +120,7 @@ export default class SuggestionList extends React.Component {
             >
                 <i
                     className='fa fa-spinner fa-pulse fa-fw margin-bottom'
-                    title='Loading icon'
+                    title={localizeMessage('generic_icons.loading', 'Loading Icon')}
                 />
             </div>
         );

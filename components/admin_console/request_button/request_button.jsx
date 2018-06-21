@@ -194,7 +194,7 @@ export default class RequestButton extends React.Component {
                     <div className='alert alert-warning'>
                         <i
                             className='fa fa-warning'
-                            title='Warning Icon'
+                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                         />
                         <FormattedMessage
                             id={this.props.errorMessage.id}
@@ -212,7 +212,7 @@ export default class RequestButton extends React.Component {
                     <div className='alert alert-success'>
                         <i
                             className='fa fa-success'
-                            title='Success Icon'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
                         />
                         <FormattedMessage
                             id={this.props.successMessage.id}
@@ -233,7 +233,7 @@ export default class RequestButton extends React.Component {
                 <span>
                     <span
                         className='fa fa-refresh icon--rotate'
-                        title='Loading Icon'
+                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
                     />
                     {loadingText}
                 </span>

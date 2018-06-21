@@ -33,7 +33,7 @@ class AtMentionSuggestion extends Suggestion {
             icon = (
                 <i
                     className='mention__image fa fa-users fa-2x'
-                    title='Mention all icon'
+                    title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
                 />
             );
         } else if (user.username === 'channel') {
@@ -47,7 +47,7 @@ class AtMentionSuggestion extends Suggestion {
             icon = (
                 <i
                     className='mention__image fa fa-users fa-2x'
-                    title='Mention all icon'
+                    title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
                 />
             );
         } else if (user.username === 'here') {
@@ -61,7 +61,7 @@ class AtMentionSuggestion extends Suggestion {
             icon = (
                 <i
                     className='mention__image fa fa-users fa-2x'
-                    title='Mention users here icon'
+                    title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
                 />
             );
         } else {

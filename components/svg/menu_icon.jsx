@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MenuIcon extends React.PureComponent {
     render() {
         return (
@@ -13,7 +15,7 @@ export default class MenuIcon extends React.PureComponent {
                     viewBox='0 0 16 10'
                     version='1.1'
                     role='icon'
-                    aria-label='Menu icon'
+                    title={localizeMessage('generic_icons.menu', 'Menu Icon')}
                 >
                     <g
                         stroke='none'

@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MessageIcon extends React.PureComponent {
     render() {
         return (
@@ -12,7 +14,7 @@ export default class MessageIcon extends React.PureComponent {
                     height='16px'
                     viewBox='0 0 18 16'
                     role='icon'
-                    aria-label='Message icon'
+                    aria-label={localizeMessage('generic_icons.message', 'Message Icon')}
                 >
                     <g
                         stroke='none'

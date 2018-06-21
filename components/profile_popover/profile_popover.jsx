@@ -244,7 +244,7 @@ class ProfilePopover extends React.Component {
                     >
                         <i
                             className='fa fa-video-camera'
-                            title='Webrtc icon'
+                            title={Utils.localizeMessage('webrtc.icon', 'Webrtc Icon')}
                         />
                         {webrtcMessage}
                     </a>
@@ -353,7 +353,7 @@ class ProfilePopover extends React.Component {
                     >
                         <i
                             className='fa fa-pencil-square-o'
-                            title='Edit account settings icon'
+                            title={Utils.localizeMessage('generic_icons.edit', 'Edit Icon')}
                         />
                         <FormattedMessage
                             id='user_profile.account.editSettings'
@@ -378,7 +378,7 @@ class ProfilePopover extends React.Component {
                     >
                         <i
                             className='fa fa-paper-plane'
-                            title='Send message icon'
+                            title={Utils.localizeMessage('user_profile.send.dm.icon', 'Send Message Icon')}
                         />
                         <FormattedMessage
                             id='user_profile.send.dm'

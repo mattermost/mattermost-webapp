@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class StatusDndIcon extends React.PureComponent {
     render() {
         return (
@@ -13,7 +15,7 @@ export default class StatusDndIcon extends React.PureComponent {
                     viewBox='0 0 20 20'
                     style={style}
                     role='icon'
-                    aria-label='DND icon'
+                    aria-label={localizeMessage('mobile.set_status.dnd.icon', 'Do Not Disturb Icon')}
                 >
                     <path
                         className='dnd--icon'

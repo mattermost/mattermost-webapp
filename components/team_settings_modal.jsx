@@ -88,8 +88,8 @@ class TeamSettingsModal extends React.Component {
     render() {
         const {formatMessage} = this.props.intl;
         const tabs = [];
-        tabs.push({name: 'general', uiName: formatMessage(holders.generalTab), icon: 'icon fa fa-cog', iconTitle: 'General team settings icon'});
-        tabs.push({name: 'import', uiName: formatMessage(holders.importTab), icon: 'icon fa fa-upload', iconTitle: 'Import icon'});
+        tabs.push({name: 'general', uiName: formatMessage(holders.generalTab), icon: 'icon fa fa-cog', iconTitle: Utils.localizeMessage('generic_icons.settings', 'Settings Icon')});
+        tabs.push({name: 'import', uiName: formatMessage(holders.importTab), icon: 'icon fa fa-upload', iconTitle: Utils.localizeMessage('generic_icons.upload', 'Upload Icon')});
 
         return (
             <Modal

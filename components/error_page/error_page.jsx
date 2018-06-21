@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {ErrorPageTypes} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import ErrorTitle from './error_title.jsx';
 import ErrorMessage from './error_message.jsx';
@@ -80,7 +81,7 @@ export default class ErrorPage extends React.PureComponent {
                     <div className='error__icon'>
                         <i
                             className='fa fa-exclamation-triangle'
-                            title='Error icon'
+                            title={localizeMessage('generic_icons.warning', 'Warning Icon')}
                         />
                     </div>
                     <h2>

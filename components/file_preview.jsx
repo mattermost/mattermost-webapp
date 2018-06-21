@@ -121,7 +121,7 @@ export default class FilePreview extends React.PureComponent {
                             >
                                 <i
                                     className='fa fa-remove'
-                                    title='Remove attachment'
+                                    title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
                                 />
                             </a>
                         </div>
@@ -148,7 +148,7 @@ export default class FilePreview extends React.PureComponent {
                     >
                         <i
                             className='fa fa-remove'
-                            title='Remove attachment'
+                            title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
                         />
                     </a>
                 </div>

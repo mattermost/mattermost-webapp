@@ -8,6 +8,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -28,7 +29,7 @@ class SearchChannelSuggestion extends Suggestion {
             >
                 <i
                     className='fa fa fa-plus-square'
-                    title='Select channel icon'
+                    title={localizeMessage('generic_icons.select', 'Select Icon')}
                 />{item.name}
             </div>
         );

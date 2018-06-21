@@ -246,7 +246,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                     >
                         <i
                             className='fa fa-user-plus'
-                            title='Invite members icon'
+                            title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
                         />
                         <FormattedMessage
                             id='intro_messages.inviteOthers'
@@ -437,7 +437,7 @@ function createInviteChannelMemberButton(channel, uiType) {
             >
                 <i
                     className='fa fa-user-plus'
-                    title='Invite members icon'
+                    title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
                 />
                 <FormattedMessage
                     id='intro_messages.invite'
@@ -460,7 +460,7 @@ function createSetHeaderButton(channel) {
         >
             <i
                 className='fa fa-pencil'
-                title='Set a header icon'
+                title={Utils.localizeMessage('generic_icons.edit', 'Edit Icon')}
 
             />
             <FormattedMessage

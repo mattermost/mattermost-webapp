@@ -359,7 +359,7 @@ export default class TeamMembersDropdown extends React.Component {
                     <span>{currentRoles} </span>
                     <span
                         className='fa fa-chevron-down'
-                        title='Dropdown icon'
+                        title={utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                     />
                 </button>
                 <ul

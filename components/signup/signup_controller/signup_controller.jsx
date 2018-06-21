@@ -18,6 +18,7 @@ import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 
 export default class SignupController extends React.Component {
@@ -149,7 +150,7 @@ export default class SignupController extends React.Component {
                     <span>
                         <span
                             className='icon fa fa-envelope'
-                            title='Email icon'
+                            title={localizeMessage('signup.email.icon', 'Email Icon')}
                         />
                         <FormattedMessage
                             id='signup.email'
@@ -230,7 +231,7 @@ export default class SignupController extends React.Component {
                     <span>
                         <span
                             className='icon fa fa-folder-open fa--margin-top'
-                            title='AD/LDAP icon'
+                            title={localizeMessage('signup.ldap.icon', 'AD/LDAP Icon')}
                         />
                         <span>
                             <FormattedMessage
@@ -260,7 +261,7 @@ export default class SignupController extends React.Component {
                     <span>
                         <span
                             className='icon fa fa-lock fa--margin-top'
-                            title='SAML icon'
+                            title={localizeMessage('signup.saml.icon', 'SAML Icon')}
                         />
                         <span>
                             {this.props.samlLoginButtonText}

@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MattermostLogo extends React.PureComponent {
     render() {
         return (
@@ -15,7 +17,7 @@ export default class MattermostLogo extends React.PureComponent {
                     viewBox='0 0 500 500'
                     style={style.background}
                     role='icon'
-                    aria-label='Mattermost logo'
+                    aria-label={localizeMessage('generic_icons.mattermost', 'Mattermost Logo')}
                 >
                     <g id='XMLID_1_'>
                         <g id='XMLID_3_'>

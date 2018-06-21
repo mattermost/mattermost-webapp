@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class AttachmentIcon extends React.PureComponent {
     render() {
         return (
@@ -12,7 +14,7 @@ export default class AttachmentIcon extends React.PureComponent {
                     height='15px'
                     viewBox='0 0 18 15'
                     role='icon'
-                    aria-label='Attachment icon'
+                    aria-label={localizeMessage('generic_icons.attach', 'Attachment Icon')}
                 >
                     <g
                         fill='inherit'

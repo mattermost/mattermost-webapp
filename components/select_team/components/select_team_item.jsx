@@ -26,14 +26,14 @@ export default class SelectTeamItem extends React.PureComponent {
             icon = (
                 <span
                     className='fa fa-refresh fa-spin right signup-team__icon'
-                    title='Loading icon'
+                    title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
                 />
             );
         } else {
             icon = (
                 <span
                     className='fa fa-angle-right right signup-team__icon'
-                    title='Join team icon'
+                    title={Utils.localizeMessage('select_team.join.icon', 'Join Team Icon')}
                 />
             );
         }

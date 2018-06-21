@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class SearchIcon extends React.PureComponent {
     render() {
         return (
@@ -12,7 +14,7 @@ export default class SearchIcon extends React.PureComponent {
                     height='14px'
                     viewBox='0 0 19 18'
                     role='icon'
-                    aria-label='Search icon'
+                    aria-label={localizeMessage('generic_icons.search', 'Search Icon')}
                 >
                     <g
                         stroke='inherit'

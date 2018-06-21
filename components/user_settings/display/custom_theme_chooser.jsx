@@ -7,6 +7,7 @@ import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants.jsx';
@@ -389,11 +390,11 @@ class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <i
                                 className='fa fa-plus'
-                                title='Expand icon'
+                                title={localizeMessage('generic_icons.expand', 'Expand Icon')}
                             />
                             <i
                                 className='fa fa-minus'
-                                title='Collapse icon'
+                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                             />
                         </div>
                     </div>
@@ -417,11 +418,11 @@ class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <i
                                 className='fa fa-plus'
-                                title='Expand icon'
+                                title={localizeMessage('generic_icons.expand', 'Expand Icon')}
                             />
                             <i
                                 className='fa fa-minus'
-                                title='Collapse icon'
+                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                             />
                         </div>
                     </div>
@@ -445,11 +446,11 @@ class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <i
                                 className='fa fa-plus'
-                                title='Expand icon'
+                                title={localizeMessage('generic_icons.expand', 'Expand Icon')}
                             />
                             <i
                                 className='fa fa-minus'
-                                title='Collapse icon'
+                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                             />
                         </div>
                     </div>

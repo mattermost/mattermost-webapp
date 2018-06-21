@@ -69,7 +69,7 @@ export default class EmailConnectionTestButton extends React.Component {
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
-                        title='Success Icon'
+                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
                     />
                     <FormattedMessage
                         id='admin.email.emailSuccess'
@@ -82,7 +82,7 @@ export default class EmailConnectionTestButton extends React.Component {
                 <div className='alert alert-warning'>
                     <i
                         className='fa fa-warning'
-                        title='Warning Icon'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
                     {this.state.fail}
                 </div>
@@ -95,7 +95,7 @@ export default class EmailConnectionTestButton extends React.Component {
                 <span>
                     <span
                         className='fa fa-refresh icon--rotate'
-                        title='Testing Icon'
+                        title={Utils.localizeMessage('generic_icons.testing', 'Testing Icon')}
                     />
                     {Utils.localizeMessage('admin.email.testing', 'Testing...')}
                 </span>

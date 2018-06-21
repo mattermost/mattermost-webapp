@@ -151,7 +151,7 @@ class TeamImportTab extends React.Component {
                 <p className='confirm-import alert alert-warning'>
                     <i
                         className='fa fa-spinner fa-pulse'
-                        title='Loading icon'
+                        title={utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
                     />
                     <FormattedMessage
                         id='team_import_tab.importing'
@@ -165,7 +165,7 @@ class TeamImportTab extends React.Component {
                 <p className='confirm-import alert alert-success'>
                     <i
                         className='fa fa-check'
-                        title='Success icon'
+                        title={utils.localizeMessage('generic_icons.success', 'Success Icon')}
                     />
                     <FormattedMessage
                         id='team_import_tab.successful'
@@ -188,7 +188,7 @@ class TeamImportTab extends React.Component {
                 <p className='confirm-import alert alert-warning'>
                     <i
                         className='fa fa-warning'
-                        title='Warning icon'
+                        title={utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
                     <FormattedMessage
                         id='team_import_tab.failure'
@@ -228,7 +228,7 @@ class TeamImportTab extends React.Component {
                             <i
                                 className='fa fa-angle-left'
                                 onClick={this.props.collapseModal}
-                                title='Back icon'
+                                title={utils.localizeMessage('generic_icons.back', 'Back Icon')}
                             />
                         </div>
                         <FormattedMessage

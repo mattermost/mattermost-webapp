@@ -334,7 +334,7 @@ export default class LoginController extends React.Component {
                     <div className='alert alert-success'>
                         <i
                             className='fa fa-check'
-                            title='Success icon'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
                         />
                         <FormattedMessage
                             id='login.changed'
@@ -347,7 +347,7 @@ export default class LoginController extends React.Component {
                     <div className='alert alert-success'>
                         <i
                             className='fa fa-check'
-                            title='Success icon'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
                         />
                         <FormattedMessage
                             id='login.verified'
@@ -360,7 +360,7 @@ export default class LoginController extends React.Component {
                     <div className='alert alert-warning'>
                         <i
                             className='fa fa-exclamation-triangle'
-                            title='Warning icon'
+                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                         />
                         <FormattedMessage
                             id='login.session_expired'
@@ -373,7 +373,7 @@ export default class LoginController extends React.Component {
                     <div className='alert alert-success'>
                         <i
                             className='fa fa-check'
-                            title='Success icon'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
                         />
                         <FormattedMessage
                             id='login.passwordChanged'
@@ -412,7 +412,7 @@ export default class LoginController extends React.Component {
                 (<span>
                     <span
                         className='fa fa-refresh icon--rotate'
-                        title='Signing in icon'
+                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
                     />
                     <FormattedMessage
                         id='login.signInLoading'

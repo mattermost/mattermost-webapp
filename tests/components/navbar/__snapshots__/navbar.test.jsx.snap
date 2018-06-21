@@ -94,7 +94,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
               </span>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
-                title="Dropdown icon"
+                title="Dropdown Icon"
               />
             </a>
             <ul
@@ -413,7 +413,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </span>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
-                title="Dropdown icon"
+                title="Dropdown Icon"
               />
             </a>
             <ul
@@ -844,7 +844,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </span>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
-                title="Dropdown icon"
+                title="Dropdown Icon"
               />
             </a>
             <ul
@@ -1305,7 +1305,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
               </span>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
-                title="Dropdown icon"
+                title="Dropdown Icon"
               />
             </a>
             <ul
@@ -1492,7 +1492,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </span>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
-                title="Dropdown icon"
+                title="Dropdown Icon"
               />
             </a>
             <ul
@@ -1955,7 +1955,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </span>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
-                title="Dropdown icon"
+                title="Dropdown Icon"
               />
             </a>
             <ul

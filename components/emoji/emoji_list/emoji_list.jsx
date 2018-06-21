@@ -199,7 +199,7 @@ export default class EmojiList extends React.Component {
                         />
                         <i
                             className='fa fa-chevron-right margin-left'
-                            title='Next page icon'
+                            title={localizeMessage('generic_icons.next', 'Next Icon')}
                         />
                     </span>
                 );
@@ -225,7 +225,7 @@ export default class EmojiList extends React.Component {
                     >
                         <i
                             className='fa fa-chevron-left margin-right'
-                            title='Previous page icon'
+                            title={localizeMessage('generic_icons.previous', 'Previous Icon')}
                         />
                         <FormattedMessage
                             id='filtered_user_list.prev'
@@ -242,7 +242,7 @@ export default class EmojiList extends React.Component {
                     <div className='backstage-filter__search'>
                         <i
                             className='fa fa-search'
-                            title='Search icon'
+                            title={localizeMessage('generic_icons.search', 'Search Icon')}
                         />
                         <input
                             type='search'

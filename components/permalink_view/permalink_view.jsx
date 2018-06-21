@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import ChannelHeader from 'components/channel_header';
+import {localizeMessage} from 'utils/utils.jsx';
 import PostView from 'components/post_view';
 import {emitPostFocusEvent} from 'actions/global_actions.jsx';
 
@@ -97,7 +98,7 @@ export default class PermalinkView extends React.PureComponent {
                         />
                         <i
                             className='fa fa-arrow-down'
-                            title='Jump to recent messages icon'
+                            title={localizeMessage('center_panel.recent.icon', 'Jump to recent messages Icon')}
                         />
                     </Link>
                 </div>

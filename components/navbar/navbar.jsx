@@ -725,7 +725,7 @@ export default class Navbar extends React.Component {
                             <span className='heading'><StatusIcon status={this.getTeammateStatus()}/>{channelTitle} </span>
                             <span
                                 className='fa fa-angle-down header-dropdown__icon'
-                                title='Dropdown icon'
+                                title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                             />
                         </a>
                         <ul

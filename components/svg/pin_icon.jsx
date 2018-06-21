@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class PinIcon extends React.PureComponent {
     render() {
         return (
@@ -13,7 +15,7 @@ export default class PinIcon extends React.PureComponent {
                     viewBox='0 0 16 16'
                     version='1.1'
                     role='icon'
-                    aria-label='Pin icon'
+                    aria-label={localizeMessage('generic_icons.pin', 'Pin Icon')}
                 >
                     <g
                         id='Symbols'
