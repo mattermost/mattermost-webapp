@@ -333,5 +333,37 @@ describe('components/permissions_gates', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
+
+        test('should match snapshot when user have permissions in DM and GM', () => {
+            const wrapper = mount(
+                <Provider store={store}>
+                    <ChannelPermissionGate
+                        channelId={'channel_id'}
+                        teamId={''}
+                        permissions={['test_channel_permission']}
+                    >
+                        <p>{'Valid permission (shown)'}</p>
+                    </ChannelPermissionGate>
+                </Provider>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should match snapshot when user does not have permissions in DM and GM', () => {
+            const wrapper = mount(
+                <Provider store={store}>
+                    <ChannelPermissionGate
+                        channelId={'channel_id'}
+                        teamId={''}
+                        permissions={['invalid_permission']}
+                    >
+                        <p>{'Invalid permission (not shown)'}</p>
+                    </ChannelPermissionGate>
+                </Provider>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });

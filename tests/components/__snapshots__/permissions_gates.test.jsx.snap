@@ -38,6 +38,44 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
 </Provider>
 `;
 
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user does not have permissions in DM and GM 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    permissions={
+      Array [
+        "invalid_permission",
+      ]
+    }
+    teamId=""
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPermission={false}
+      invert={false}
+      permissions={
+        Array [
+          "invalid_permission",
+        ]
+      }
+      teamId=""
+    />
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
 exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have at least on of the permissions 1`] = `
 <Provider
   store={
@@ -236,6 +274,48 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
         ]
       }
       teamId="team_id"
+    >
+      <p>
+        Valid permission (shown)
+      </p>
+    </ChannelPermissionGate>
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have permissions in DM and GM 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    permissions={
+      Array [
+        "test_channel_permission",
+      ]
+    }
+    teamId=""
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPermission={true}
+      invert={false}
+      permissions={
+        Array [
+          "test_channel_permission",
+        ]
+      }
+      teamId=""
     >
       <p>
         Valid permission (shown)
