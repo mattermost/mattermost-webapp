@@ -289,56 +289,8 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 width="128"
               />
               <Connect(Pluggable)
-                key="profilePopoverPluggable1"
-                pluggableName="PopoverSection1"
-                user={
-                  Object {
-                    "name": "name",
-                  }
-                }
-              >
-                <Pluggable
-                  components={Object {}}
-                  dispatch={[Function]}
-                  pluggableName="PopoverSection1"
-                  theme={
-                    Object {
-                      "awayIndicator": "#ffbc42",
-                      "buttonBg": "#166de0",
-                      "buttonColor": "#ffffff",
-                      "centerChannelBg": "#ffffff",
-                      "centerChannelColor": "#3d3c40",
-                      "codeTheme": "github",
-                      "dndIndicator": "#f74343",
-                      "errorTextColor": "#fd5960",
-                      "linkColor": "#2389d7",
-                      "mentionBj": "#ffffff",
-                      "mentionColor": "#145dbf",
-                      "mentionHighlightBg": "#ffe577",
-                      "mentionHighlightLink": "#166de0",
-                      "newMessageSeparator": "#ff8800",
-                      "onlineIndicator": "#06d6a0",
-                      "sidebarBg": "#145dbf",
-                      "sidebarHeaderBg": "#1153ab",
-                      "sidebarHeaderTextColor": "#ffffff",
-                      "sidebarText": "#ffffff",
-                      "sidebarTextActiveBorder": "#579eff",
-                      "sidebarTextActiveColor": "#ffffff",
-                      "sidebarTextHoverBg": "#4578bf",
-                      "sidebarUnreadText": "#ffffff",
-                      "type": "Mattermost",
-                    }
-                  }
-                  user={
-                    Object {
-                      "name": "name",
-                    }
-                  }
-                />
-              </Connect(Pluggable)>
-              <Connect(Pluggable)
                 key="profilePopoverPluggable2"
-                pluggableName="PopoverSection2"
+                pluggableName="PopoverUserAttributes"
                 user={
                   Object {
                     "name": "name",
@@ -348,7 +300,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 <Pluggable
                   components={Object {}}
                   dispatch={[Function]}
-                  pluggableName="PopoverSection2"
+                  pluggableName="PopoverUserAttributes"
                   theme={
                     Object {
                       "awayIndicator": "#ffbc42",
@@ -410,7 +362,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
               </div>
               <Connect(Pluggable)
                 key="profilePopoverPluggable3"
-                pluggableName="PopoverSection3"
+                pluggableName="PopoverUserActions"
                 user={
                   Object {
                     "name": "name",
@@ -420,7 +372,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 <Pluggable
                   components={Object {}}
                   dispatch={[Function]}
-                  pluggableName="PopoverSection3"
+                  pluggableName="PopoverUserActions"
                   theme={
                     Object {
                       "awayIndicator": "#ffbc42",
