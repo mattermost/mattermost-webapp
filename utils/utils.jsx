@@ -532,7 +532,7 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 768px){.app__body .search__icon svg', 'stroke:' + theme.sidebarText);
         changeCss('.app__body .sidebar--left .sidebar__switcher span', 'color:' + theme.sidebarText);
         changeCss('.app__body .sidebar--left .sidebar__switcher button svg', 'fill:' + theme.sidebarText);
-        changeCss('.app__body .sidebar__switcher button', 'background:' + changeOpacity(theme.sidebarText, 0.08));
+        changeCss('.channel-header .channel-header_plugin-dropdown a, .app__body .sidebar__switcher button', 'background:' + changeOpacity(theme.sidebarText, 0.08));
     }
 
     if (theme.sidebarUnreadText) {
@@ -896,9 +896,9 @@ export function applyTheme(theme) {
     }
 
     if (theme.linkColor) {
-        changeCss('.app__body .webrtc__header:not(.offline) button:hover, .app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
+        changeCss('.app__body .channel-header .channel-header__icon.active, .app__body .channel-header .channel-header__icon:hover, .app__body .webrtc__header:not(.offline) button:hover, .app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
-        changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
+        changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .flag-icon__container.visible, .app__body .post .reacticon__container, .app__body .post .comment-icon__container, .app__body .post .post__reply', 'fill:' + theme.linkColor);
         changeCss('@media(min-width: 768px){.app__body .search__form.focused .search__icon svg', 'stroke:' + theme.linkColor);
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .post .flag-icon__container.visible, .app__body .post .comment-icon__container, .app__body .post .post__reply', 'fill:' + theme.linkColor);
@@ -908,11 +908,11 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header .channel-header__icon:hover .icon--stroke svg', 'stroke:' + theme.linkColor);
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'background:' + changeOpacity(theme.linkColor, 0.1));
         changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .post-reaction.post-reaction--current-user', 'border-color:' + changeOpacity(theme.linkColor, 0.4));
-        changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover, .app__body .channel-header .channel-header__icon:hover, .app__body .channel-header .channel-header__icon.active, .app__body .search-bar__container .search__form.focused', 'border-color:' + theme.linkColor);
+        changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover, .app__body .channel-header .channel-header__icon:hover, .app__body .channel-header .channel-header__icon.active, .app__body .search-bar__container .search__form.focused', 'border-color:' + theme.linkColor);
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header .dropdown-toggle:hover .heading, .app__body .channel-header .dropdown-toggle:hover .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .heading', 'color:' + theme.linkColor);
         changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
-        changeCss('.sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
+        changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover .fa, .sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
     }

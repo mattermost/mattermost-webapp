@@ -69,9 +69,10 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         role='menuitem'
                         href='#'
+                        className='overflow--ellipsis'
                         onClick={plug.action}
                     >
-                        <span className='pull-left'>{plug.icon}</span>
+                        <span>{plug.icon}</span>
                         {plug.dropdownText}
                     </a>
                 </li>

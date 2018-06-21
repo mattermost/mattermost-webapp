@@ -82,8 +82,26 @@
     }
 
     .channel-header_plugin-dropdown {
-        width: 200px;
-        overflow: hidden;
+        min-width: 200px;
+        max-width: 300px;
+        padding: 0;
+
+        .fa {
+            text-align: center;
+            width: 20px;
+            margin-left: -5px;
+        }
+
+        a {
+            border-left: 3px solid transparent;
+            padding: 10px 16px;
+
+            &:hover {
+                .fa {
+                    @include opacity(1);
+                }
+            }
+        }
     }
 
     .channel-header__icon {
