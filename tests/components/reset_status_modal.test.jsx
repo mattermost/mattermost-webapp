@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import ResetStatusModal from 'components/reset_status_modal/reset_status_modal.jsx';
 
 describe('components/ResetStatusModal', () => {
-    const autoResetStatus = jest.genMockFunction().mockImplementation(
+    const autoResetStatus = jest.fn().mockImplementation(
         () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve({status: 'away'}));

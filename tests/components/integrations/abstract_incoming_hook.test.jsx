@@ -19,7 +19,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     const enablePostUsernameOverride = true;
     const enablePostIconOverride = true;
 
-    const action = jest.genMockFunction().mockImplementation(
+    const action = jest.fn().mockImplementation(
         () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());

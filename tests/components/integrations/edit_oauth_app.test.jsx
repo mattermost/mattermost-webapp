@@ -116,7 +116,7 @@ describe('components/integrations/EditOAuthApp', () => {
     });
 
     test('should have match when submitOAuthApp is called on success', async () => {
-        baseProps.actions.editOAuthApp = jest.genMockFunction().mockImplementation(
+        baseProps.actions.editOAuthApp = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve({
@@ -142,7 +142,7 @@ describe('components/integrations/EditOAuthApp', () => {
     });
 
     test('should have match when submitOAuthApp is called on error', async () => {
-        baseProps.actions.editOAuthApp = jest.genMockFunction().mockImplementation(
+        baseProps.actions.editOAuthApp = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve({
