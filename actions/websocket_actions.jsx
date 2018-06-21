@@ -80,7 +80,7 @@ export function initialize() {
     }
 
     // Strip any trailing slash before appending the pathname below.
-    if (connUrl.length > 0 && connUrl[connUrl.length - 1] == '/') {
+    if (connUrl.length > 0 && connUrl[connUrl.length - 1] === '/') {
         connUrl = connUrl.substring(0, connUrl.length - 1);
     }
 
