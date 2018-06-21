@@ -6,21 +6,42 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Dropdown} from 'react-bootstrap';
+import {RootCloseWrapper} from 'react-overlays';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 
 class CustomMenu extends React.PureComponent {
     static propTypes = {
+        open: PropTypes.bool,
         children: PropTypes.node,
+        onClose: PropTypes.func.isRequired,
+        rootCloseEvent: PropTypes.oneOf(['click', 'mousedown']),
+    }
+
+    handleRootClose = () => {
+        this.props.onClose();
     }
 
     render() {
-        const {children} = this.props;
+        const {
+            open,
+            rootCloseEvent,
+            children,
+        } = this.props;
 
         return (
-            <ul className='dropdown-menu channel-header_plugin-dropdown'>
-                {children}
-            </ul>
+            <RootCloseWrapper
+                disabled={!open}
+                onRootClose={this.handleRootClose}
+                event={rootCloseEvent}
+            >
+                <ul
+                    role='menu'
+                    className='dropdown-menu channel-header_plugin-dropdown'
+                >
+                    {children}
+                </ul>
+            </RootCloseWrapper>
         );
     }
 }
@@ -85,18 +106,16 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.setState({dropdownOpen});
     }
 
-    createButton = (plug) => {
-        if (plug.component) {
-            const PluginComponent = plug.buttonComponent;
-            return (
-                <PluginComponent
-                    channel={this.props.channel}
-                    channelMember={this.props.channelMember}
-                    theme={this.props.theme}
-                />
-            );
-        }
+    onClose = () => {
+        this.toggleDropdown(false);
+    }
 
+    fireActionAndClose = (action) => {
+        action();
+        this.onClose();
+    }
+
+    createButton = (plug) => {
         return (
             <HeaderIconWrapper
                 iconComponent={plug.icon}
@@ -108,18 +127,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     createDropdown = (plugs) => {
         const items = plugs.map((plug) => {
-            if (plug.dropdown_component) {
-                const PluginComponent = plug.dropdownComponent;
-                return (
-                    <PluginComponent
-                        channel={this.props.channel}
-                        channelMember={this.props.channelMember}
-                        theme={this.props.theme}
-                        key={'channelHeaderPlug' + plug.id}
-                    />
-                );
-            }
-
             return (
                 <li
                     key={'channelHeaderPlug' + plug.id}
@@ -127,7 +134,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         href='#'
                         className='overflow--ellipsis'
-                        onClick={plug.action}
+                        onClick={() => this.fireActionAndClose(plug.action)}
                     >
                         <span>{plug.icon}</span>
                         {plug.dropdownText}
@@ -139,8 +146,11 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         return (
             <div className='flex-child'>
                 <Dropdown
+                    ref='dropdown'
                     id='channelHeaderPlugDropdown'
                     onToggle={this.toggleDropdown}
+                    onSelect={this.onSelect}
+                    open={this.state.dropdownOpen}
                 >
                     <CustomToggle
                         dropdownOpen={this.state.dropdownOpen}
@@ -148,7 +158,11 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     >
                         <span className='fa fa-ellipsis-h icon__ellipsis'/>
                     </CustomToggle>
-                    <CustomMenu bsRole='menu'>
+                    <CustomMenu
+                        bsRole='menu'
+                        open={this.state.dropdownOpen}
+                        onClose={this.onClose}
+                    >
                         {items}
                     </CustomMenu>
                 </Dropdown>

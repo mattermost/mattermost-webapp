@@ -27,17 +27,6 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
     }
 
     createButton(plug) {
-        if (plug.component) {
-            const PluginComponent = plug.buttonComponent;
-            return (
-                <PluginComponent
-                    channel={this.props.channel}
-                    channelMember={this.props.channelMember}
-                    theme={this.props.theme}
-                />
-            );
-        }
-
         return (
             <div
                 className='navbar-toggle navbar-right__icon pull-right'
@@ -52,17 +41,6 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
 
     createList(plugs) {
         return plugs.map((plug) => {
-            if (plug.dropdown_component) {
-                const PluginComponent = plug.dropdownComponent;
-                return (
-                    <PluginComponent
-                        channel={this.props.channel}
-                        channelMember={this.props.channelMember}
-                        theme={this.props.theme}
-                    />
-                );
-            }
-
             return (
                 <li
                     key={'mobileChannelHeaderItem' + plug.id}
