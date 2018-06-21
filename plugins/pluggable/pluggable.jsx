@@ -51,11 +51,10 @@ export default class Pluggable extends React.PureComponent {
 
         // Override the default component with any registered plugin's component
         if (components.hasOwnProperty(componentName)) {
-            const content = [];
             const pluginComponents = components[componentName];
-            pluginComponents.forEach((p) => {
+            const content = pluginComponents.map((p) => {
                 const PluginComponent = p.component;
-                content.push(
+                return (
                     <PluginComponent
                         {...props}
                         theme={this.props.theme}

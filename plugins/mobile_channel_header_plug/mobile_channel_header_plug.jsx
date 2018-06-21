@@ -8,7 +8,7 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
     static propTypes = {
 
         /*
-         * Components or actions for to add as channel header buttons
+         * Components or actions to add as channel header buttons
          */
         components: PropTypes.array.isRequired,
 
@@ -51,22 +51,19 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
     }
 
     createList(plugs) {
-        const items = [];
-
-        plugs.forEach((plug) => {
+        return plugs.map((plug) => {
             if (plug.dropdown_component) {
                 const PluginComponent = plug.dropdownComponent;
-                items.push(
+                return (
                     <PluginComponent
                         channel={this.props.channel}
                         channelMember={this.props.channelMember}
                         theme={this.props.theme}
                     />
                 );
-                return;
             }
 
-            items.push(
+            return (
                 <li
                     key={'mobileChannelHeaderItem' + plug.id}
                     role='presentation'
@@ -81,8 +78,6 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
                 </li>
             );
         });
-
-        return items;
     }
 
     render() {

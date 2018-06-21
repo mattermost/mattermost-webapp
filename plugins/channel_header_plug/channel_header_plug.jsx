@@ -1,18 +1,69 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable react/no-multi-comp */
+
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Dropdown} from 'react-bootstrap';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
+
+class CustomMenu extends React.PureComponent {
+    static propTypes = {
+        children: PropTypes.node,
+    }
+
+    render() {
+        const {children} = this.props;
+
+        return (
+            <ul className='dropdown-menu channel-header_plugin-dropdown'>
+                {children}
+            </ul>
+        );
+    }
+}
+
+class CustomToggle extends React.PureComponent {
+    static propTypes = {
+        children: PropTypes.element,
+        dropdownOpen: PropTypes.bool,
+        onClick: PropTypes.func,
+    }
+
+    handleClick = (e) => {
+        this.props.onClick(e);
+    }
+
+    render() {
+        const {children} = this.props;
+
+        let activeClass = '';
+        if (this.props.dropdownOpen) {
+            activeClass = ' active';
+        }
+
+        return (
+            <button
+                id='pluginChannelHeaderButtonDropdown'
+                className={'channel-header__icon style--none' + activeClass}
+                type='button'
+                onClick={this.handleClick}
+            >
+                {children}
+            </button>
+        );
+    }
+}
 
 export default class ChannelHeaderPlug extends React.PureComponent {
     static propTypes = {
 
         /*
-         * Components or actions for to add as channel header buttons
+         * Components or actions to add as channel header buttons
          */
-        components: PropTypes.array.isRequired,
+        components: PropTypes.array,
 
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
@@ -23,7 +74,18 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         theme: PropTypes.object.isRequired,
     }
 
-    createButton(plug) {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dropdownOpen: false,
+        };
+    }
+
+    toggleDropdown = (dropdownOpen) => {
+        this.setState({dropdownOpen});
+    }
+
+    createButton = (plug) => {
         if (plug.component) {
             const PluginComponent = plug.buttonComponent;
             return (
@@ -44,13 +106,11 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
-    createDropdown(plugs) {
-        const items = [];
-
-        plugs.forEach((plug) => {
+    createDropdown = (plugs) => {
+        const items = plugs.map((plug) => {
             if (plug.dropdown_component) {
                 const PluginComponent = plug.dropdownComponent;
-                items.push(
+                return (
                     <PluginComponent
                         channel={this.props.channel}
                         channelMember={this.props.channelMember}
@@ -58,16 +118,13 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         key={'channelHeaderPlug' + plug.id}
                     />
                 );
-                return;
             }
 
-            items.push(
+            return (
                 <li
-                    role='presentation'
                     key={'channelHeaderPlug' + plug.id}
                 >
                     <a
-                        role='menuitem'
                         href='#'
                         className='overflow--ellipsis'
                         onClick={plug.action}
@@ -81,23 +138,20 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         return (
             <div className='flex-child'>
-                <div className='dropdown'>
-                    <button
-                        id='pluginChannelHeaderButtonDropdown'
-                        className='dropdown-toggle channel-header__icon icon--hidden style--none'
-                        type='button'
-                        data-toggle='dropdown'
-                        aria-expanded='true'
+                <Dropdown
+                    id='channelHeaderPlugDropdown'
+                    onToggle={this.toggleDropdown}
+                >
+                    <CustomToggle
+                        dropdownOpen={this.state.dropdownOpen}
+                        bsRole='toggle'
                     >
                         <span className='fa fa-ellipsis-h icon__ellipsis'/>
-                    </button>
-                    <ul
-                        className='dropdown-menu channel-header_plugin-dropdown'
-                        role='menu'
-                    >
+                    </CustomToggle>
+                    <CustomMenu bsRole='menu'>
                         {items}
-                    </ul>
-                </div>
+                    </CustomMenu>
+                </Dropdown>
             </div>
         );
     }
@@ -114,3 +168,5 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         return this.createDropdown(components);
     }
 }
+
+/* eslint-enable react/no-multi-comp */

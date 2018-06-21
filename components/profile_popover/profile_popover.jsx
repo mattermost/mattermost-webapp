@@ -280,15 +280,6 @@ class ProfilePopover extends React.Component {
             );
         }
 
-        dataContent.push(
-            <Pluggable
-                key='profilePopoverPluggable1'
-                pluggableName='PopoverSection1'
-                user={this.props.user}
-                status={this.props.status}
-            />
-        );
-
         if (this.props.user.position) {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
             dataContent.push(
@@ -335,7 +326,7 @@ class ProfilePopover extends React.Component {
         dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable2'
-                pluggableName='PopoverSection2'
+                pluggableName='PopoverUserAttributes'
                 user={this.props.user}
                 status={this.props.status}
             />
@@ -403,7 +394,7 @@ class ProfilePopover extends React.Component {
         dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable3'
-                pluggableName='PopoverSection3'
+                pluggableName='PopoverUserActions'
                 user={this.props.user}
                 status={this.props.status}
             />

@@ -5,6 +5,18 @@ import {combineReducers} from 'redux';
 
 import {ActionTypes} from 'utils/constants.jsx';
 
+function sortComponents(a, b) {
+    if (a.pluginId < b.pluginId) {
+        return -1;
+    }
+
+    if (a.pluginId > b.pluginId) {
+        return 1;
+    }
+
+    return 0;
+}
+
 function removePostPluginComponents(state, action) {
     if (!action.data) {
         return state;
@@ -125,6 +137,7 @@ function components(state = {}, action) {
         if (action.name && action.data) {
             const nextState = {...state};
             const nextArray = nextState[action.name] || [];
+            nextArray.sort(sortComponents);
             nextState[action.name] = [...nextArray, action.data];
             return nextState;
         }
@@ -144,6 +157,13 @@ function postTypes(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT: {
         if (action.data) {
+            // Skip saving the component if one already exists and the new plugin id
+            // is lower alphabetically
+            const currentPost = state[action.data.type];
+            if (currentPost && action.data.pluginId > currentPost.pluginId) {
+                return state;
+            }
+
             const nextState = {...state};
             nextState[action.data.type] = action.data;
             return nextState;

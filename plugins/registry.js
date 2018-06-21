@@ -32,45 +32,16 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('Root', this.id, component);
     }
 
-    // Register a component in the first section of the profile popover (hovercard), below the user's name.
+    // Register a component in the user attributes section of the profile popover (hovercard), below the default user attributes.
     // Accepts a React component. Returns a unique identifier.
-    registerPopoverSection1Component = (component) => {
-        return dispatchPluginComponentAction('PopoverSection1', this.id, component);
+    registerPopoverUserAttributesComponent = (component) => {
+        return dispatchPluginComponentAction('PopoverUserAttributes', this.id, component);
     }
 
-    // Register a component in the second section of the profile popover (hovercard), below the user's email.
+    // Register a component in the user actions of the profile popover (hovercard), below the default actions.
     // Accepts a React component. Returns a unique identifier.
-    registerPopoverSection2Component = (component) => {
-        return dispatchPluginComponentAction('PopoverSection2', this.id, component);
-    }
-
-    // Register a component in the third section of the profile popover (hovercard), below the send message button.
-    // Accepts a React component. Returns a unique identifier.
-    registerPopoverSection3Component = (component) => {
-        return dispatchPluginComponentAction('PopoverSection3', this.id, component);
-    }
-
-    // Register a custom button component to add to the channel header. If there are more than one
-    // buttons registered by any plugin, a dropdown menu is created to contain all the plugin buttons.
-    // Accepts the following:
-    // - buttonComponent - custom button component displayed in the channel header
-    // - dropdownComponent - custom dropdown item component displayed in the dropdown menu
-    // Returns a unique indentifier.
-    registerChannelHeaderButtonComponent = (buttonComponent, dropdownComponent) => {
-        const id = generateId();
-
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'ChannelHeaderButton',
-            data: {
-                id,
-                pluginId: this.id,
-                buttonComponent,
-                dropdownComponent,
-            },
-        });
-
-        return id;
+    registerPopoverUserActionsComponent = (component) => {
+        return dispatchPluginComponentAction('PopoverUserActions', this.id, component);
     }
 
     // Add a button to the channel header. If there are more than one buttons registered by any
@@ -82,63 +53,24 @@ export default class PluginRegistry {
     registerChannelHeaderButtonAction = (icon, action, dropdownText) => {
         const id = generateId();
 
+        const data = {
+            id,
+            pluginId: this.id,
+            icon,
+            action,
+            dropdownText,
+        };
+
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'ChannelHeaderButton',
-            data: {
-                id,
-                pluginId: this.id,
-                icon,
-                action,
-                dropdownText,
-            },
+            data,
         });
-
-        return id;
-    }
-
-    // Register a custom button component to add to the mobile channel header. If there are more than one
-    // buttons registered by any plugin, buttons will instead be added to the channel header dropdown.
-    // Accepts the following:
-    // - buttonComponent - custom button component displayed in the channel header
-    // - dropdownComponent - custom dropdown item component displayed in the dropdown menu
-    // Returns a unique indentifier.
-    registerMobileChannelHeaderButtonComponent = (buttonComponent, dropdownComponent) => {
-        const id = generateId();
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'MobileChannelHeaderButton',
-            data: {
-                id,
-                pluginId: this.id,
-                buttonComponent,
-                dropdownComponent,
-            },
-        });
-
-        return id;
-    }
-
-    // Add a button to the mobile channel header. If there are more than one buttons registered by any
-    // plugin, buttons will instead be added to the channel header dropdown.
-    // Accepts the following:
-    // - icon - JSX element to use as the button's icon
-    // - action - a function called when the button is clicked
-    // - dropdown_text - string or JSX element shown for the dropdown button description
-    registerMobileChannelHeaderButtonAction = (icon, action, dropdownText) => {
-        const id = generateId();
-
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'MobileChannelHeaderButton',
-            data: {
-                id,
-                pluginId: this.id,
-                icon,
-                action,
-                dropdownText,
-            },
+            data,
         });
 
         return id;
@@ -188,17 +120,17 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Deregister a component using the unique identifier returned after registration.
+    // Unregister a component using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.
-    deregisterComponent = (componentId) => {
+    unregisterComponent = (componentId) => {
         store.dispatch({
             type: ActionTypes.REMOVED_PLUGIN_COMPONENT,
             id: componentId,
         });
     }
 
-    // Register a reducer against the Redux store. It will accessible in redux state
+    // Register a reducer against the Redux store. It will be accessible in redux state
     // under "state['plugins-<yourpluginid>']"
     // Accepts a reducer. Returns undefined.
     registerReducer = (reducer) => {
