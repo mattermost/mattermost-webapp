@@ -657,7 +657,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     role="menuitem"
                   >
                     <FormattedMessage
-                      defaultMessage="Delete Channel"
+                      defaultMessage="Archive Channel"
                       id="channel_header.delete"
                       values={Object {}}
                     />
@@ -1117,7 +1117,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     role="menuitem"
                   >
                     <FormattedMessage
-                      defaultMessage="Delete Channel"
+                      defaultMessage="Archive Channel"
                       id="channel_header.delete"
                       values={Object {}}
                     />
@@ -1763,7 +1763,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     role="menuitem"
                   >
                     <FormattedMessage
-                      defaultMessage="Delete Channel"
+                      defaultMessage="Archive Channel"
                       id="channel_header.delete"
                       values={Object {}}
                     />
@@ -2225,7 +2225,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     role="menuitem"
                   >
                     <FormattedMessage
-                      defaultMessage="Delete Channel"
+                      defaultMessage="Archive Channel"
                       id="channel_header.delete"
                       values={Object {}}
                     />
