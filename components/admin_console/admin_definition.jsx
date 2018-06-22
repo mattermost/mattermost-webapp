@@ -153,10 +153,10 @@ export default {
                             label: 'admin.service.siteURL',
                             label_default: 'Site URL:',
                             help_text: 'admin.service.siteURLDescription',
-                            help_text_default: 'The URL that users will use to access Mattermost. Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required. For example: http://mattermost.example.com:8065. This setting is required.<br /><br />This setting allows hosting Mattermost at a subpath. For example: http://mattermost.example.com:8065/company/messaging. A restart is required before the server will work correctly.',
+                            help_text_default: 'The URL that users will use to access Mattermost. Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required. For example: http://example.com:8065. This setting is required.<br /><br />Mattermost may be hosted at a subpath. For example: http://example.com:8065/company/mattermost. A restart is required before the server will work correctly.',
                             help_text_html: true,
                             placeholder: 'admin.service.siteURLExample',
-                            placeholder_default: 'E.g.: "https://mattermost.example.com:1234"',
+                            placeholder_default: 'E.g.: "http://example.com:8065"',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
