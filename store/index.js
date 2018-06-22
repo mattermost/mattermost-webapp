@@ -15,6 +15,7 @@ import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
 import {detect} from 'utils/network.js';
 import {ActionTypes} from 'utils/constants.jsx';
+import {getBasePath} from 'selectors/general';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
@@ -118,12 +119,14 @@ export default function configureStore(initialState) {
                 // check to see if the logout request was successful
                 store.subscribe(() => {
                     const state = store.getState();
+                    const basePath = getBasePath(state);
+
                     if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
                         purging = true;
 
                         persistor.purge().then(() => {
                             document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            window.location.href = '/';
+                            window.location.href = basePath;
 
                             store.dispatch({
                                 type: General.OFFLINE_STORE_RESET,

@@ -186,7 +186,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
         const alias = `$MM_CHANNELMENTION${index}`;
         let href = '#';
         if (team) {
-            href = '/' + team.name + '/channels/' + channelName;
+            href = (window.basename || '') + '/' + team.name + '/channels/' + channelName;
         }
 
         tokens.set(alias, {

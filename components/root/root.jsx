@@ -51,6 +51,7 @@ import loadAuthorize from 'bundle-loader?lazy!components/authorize';
 import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
+import {getSiteURL} from 'utils/url.jsx';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -93,7 +94,8 @@ export default class Root extends React.Component {
         super(props);
 
         // Redux
-        setUrl(window.location.origin);
+        setUrl(getSiteURL());
+
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out

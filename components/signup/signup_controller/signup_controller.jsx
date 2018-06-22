@@ -253,10 +253,10 @@ export default class SignupController extends React.Component {
             }
 
             signupControls.push(
-                <a
+                <Link
                     className='btn btn-custom-login btn--full saml'
                     key='saml'
-                    href={'/login/sso/saml' + window.location.search + query}
+                    to={'/login/sso/saml' + window.location.search + query}
                 >
                     <span>
                         <span
@@ -267,7 +267,7 @@ export default class SignupController extends React.Component {
                             {this.props.samlLoginButtonText}
                         </span>
                     </span>
-                </a>
+                </Link>
             );
         }
 

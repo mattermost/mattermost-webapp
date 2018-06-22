@@ -176,7 +176,7 @@ export default class SecurityTab extends React.Component {
                 if (this.props.mfaLicensed &&
                         this.props.enableMultifactorAuthentication &&
                         this.props.enforceMultifactorAuthentication) {
-                    window.location.href = '/mfa/setup';
+                    browserHistory.push('/mfa/setup');
                     return;
                 }
 
