@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import Markdown from 'components/markdown';
 import GlobeIcon from 'components/svg/globe_icon';
@@ -41,6 +42,10 @@ export default class ChannelInfoModal extends React.PureComponent {
         this.onHide = this.onHide.bind(this);
 
         this.state = {show: true};
+
+        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
+            {...headerMarkdownOptions, channelNamesMap}
+        ));
     }
 
     onHide() {
@@ -82,7 +87,7 @@ export default class ChannelInfoModal extends React.PureComponent {
             channelPurpose = (
                 <Markdown
                     message={channel.purpose}
-                    options={{...headerMarkdownOptions, channelNamesMap}}
+                    options={this.getHeaderMarkdownOptions(channelNamesMap)}
                 />
             );
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
@@ -122,7 +127,7 @@ export default class ChannelInfoModal extends React.PureComponent {
                     <div className='info__value'>
                         <Markdown
                             message={channel.header}
-                            options={{...headerMarkdownOptions, channelNamesMap}}
+                            options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         />
                     </div>
                 </div>
