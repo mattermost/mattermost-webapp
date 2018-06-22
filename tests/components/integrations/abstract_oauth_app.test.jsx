@@ -24,7 +24,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         update_at: 1501365458934,
         callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
     };
-    const action = jest.genMockFunction().mockImplementation(
+    const action = jest.fn().mockImplementation(
         () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
