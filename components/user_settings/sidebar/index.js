@@ -36,6 +36,11 @@ function mapStateToProps(state) {
         })
     );
     sidebarPreference = JSON.parse(sidebarPreference);
+    sidebarPreference = {
+        ...sidebarPreference,
+        unreadsAtTop: sidebarPreference.unreads_at_top,
+        favoriteAtTop: sidebarPreference.favorite_at_top,
+    };
 
     const displayUnreadSection = getPreference(
         state,

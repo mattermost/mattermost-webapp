@@ -580,6 +580,35 @@
         }
     }
 
+    .modal-tabs .nav-tabs > li {
+        background: white;
+        margin-right: 0px;
+        width: 50%;
+        text-align: center;
+        border: none;
+        border-bottom: 2px $light-gray solid;
+    }
+
+
+    .modal-tabs .nav-tabs > li.active {
+        border-bottom: 2px $primary-color solid;
+    }
+
+    .modal-tabs .nav-tabs > li > a {
+        background: white;
+        color: $light-gray;
+        height: 56px;
+        outline: none;
+        border: none;
+        display: flex;
+        font-weight: 900;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-tabs .nav-tabs > li > a:active {
+        color: $primary-color;
+    }
 }
 
 .more-modal__button {

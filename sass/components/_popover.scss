@@ -356,3 +356,17 @@
         }
     }
 }
+
+.channel_search {
+    display: flex;
+
+    .search_input {
+        flex: 1;
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
+    .create_button {
+        margin-right: 16px;
+    }
+}

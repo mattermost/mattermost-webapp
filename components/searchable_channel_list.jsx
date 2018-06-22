@@ -181,10 +181,24 @@ export default class SearchableChannelList extends React.Component {
             }
         }
 
-        return (
-            <div className='filtered-user-list'>
-                <div className='filter-row'>
-                    <div className='col-sm-12'>
+        let input = (
+            <div className='filter-row filter-row--full'>
+                <div className='col-sm-12'>
+                    <QuickInput
+                        id='searchChannelsTextbox'
+                        ref='filter'
+                        className='form-control filter-textbox'
+                        placeholder={localizeMessage('filtered_channels_list.search', 'Search channels')}
+                        onInput={this.doSearch}
+                    />
+                </div>
+            </div>
+        );
+
+        if (this.props.createChannelButton) {
+            input = (
+                <div className='channel_search'>
+                    <div className='search_input'>
                         <QuickInput
                             id='searchChannelsTextbox'
                             ref='filter'
@@ -193,7 +207,16 @@ export default class SearchableChannelList extends React.Component {
                             onInput={this.doSearch}
                         />
                     </div>
+                    <div className='create_button'>
+                        {this.props.createChannelButton}
+                    </div>
                 </div>
+            );
+        }
+
+        return (
+            <div className='filtered-user-list'>
+                {input}
                 <div
                     ref='channelList'
                     className='more-modal__list'
@@ -224,4 +247,5 @@ SearchableChannelList.propTypes = {
     search: PropTypes.func.isRequired,
     handleJoin: PropTypes.func.isRequired,
     noResultsText: PropTypes.object,
+    createChannelButton: PropTypes.element,
 };

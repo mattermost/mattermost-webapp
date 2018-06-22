@@ -18,6 +18,7 @@ export default class ChannelCreate extends React.PureComponent {
         createPublicChannel: PropTypes.func.isRequired,
         createPrivateChannel: PropTypes.func.isRequired,
         createDirectMessage: PropTypes.func.isRequired,
+        createPublicDirectChannel: PropTypes.func.isRequired,
     };
 
     render() {
@@ -27,6 +28,7 @@ export default class ChannelCreate extends React.PureComponent {
             createPublicChannel,
             createPrivateChannel,
             createDirectMessage,
+            createPublicDirectChannel,
         } = this.props;
 
         let tooltipTriggers = ['hover', 'focus'];
@@ -114,6 +116,34 @@ export default class ChannelCreate extends React.PureComponent {
             </OverlayTrigger>
         );
 
+        const createPublicDirectChannelTooltip = (
+            <Tooltip
+                id='new-group-tooltip'
+                className='hidden-xs'
+            >
+                <FormattedMessage
+                    id='sidebar.createChannelDirectChannel'
+                    defaultMessage='Create new channel or direct message'
+                />
+            </Tooltip>
+        );
+
+        const createPublicDirectChannelIcon = (
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={createPublicDirectChannelTooltip}
+            >
+                <button
+                    className='add-channel-btn cursor--pointer style--none'
+                    onClick={createPublicDirectChannel}
+                >
+                    {'+'}
+                </button>
+            </OverlayTrigger>
+        );
+
         switch (channelType) {
         case 'public':
             return (
@@ -137,7 +167,7 @@ export default class ChannelCreate extends React.PureComponent {
             return createDirectMessageIcon;
         case 'recent':
         case 'alpha':
-            return createDirectMessageIcon;
+            return createPublicDirectChannelIcon;
         }
 
         return null;

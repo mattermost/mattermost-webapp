@@ -28,6 +28,7 @@ import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
 import ChannelCreate from './channel_create';
 import ChannelMore from './channel_more';
+import MorePublicDirectChannels from './more_public_direct_channels';
 
 export default class Sidebar extends React.PureComponent {
     static propTypes = {
@@ -114,6 +115,7 @@ export default class Sidebar extends React.PureComponent {
             newChannelModalType: '',
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
+            showMorePublicChannelsModal: false,
         };
     }
 
@@ -400,6 +402,15 @@ export default class Sidebar extends React.PureComponent {
         return false;
     }
 
+    showMorePublicDirectChannelsModal = () => {
+        this.setState({showMorePublicChannelsModal: true});
+        trackEvent('ui', 'ui_channels_more_public_direct');
+    }
+
+    hideMorePublicDirectChannelsModal = () => {
+        this.setState({showMorePublicChannelsModal: false});
+    }
+
     showMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: true});
         trackEvent('ui', 'ui_channels_more_public');
@@ -479,7 +490,7 @@ export default class Sidebar extends React.PureComponent {
                             <li>
                                 <h4 id='favoriteChannel'>
                                     <FormattedMessage
-                                        id='sidebar.dne'
+                                        id={`sidebar.types.${section.type}`}
                                         defaultMessage={section.name}
                                     />
                                     <ChannelCreate
@@ -488,6 +499,7 @@ export default class Sidebar extends React.PureComponent {
                                         createPublicChannel={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
                                         createPrivateChannel={this.showNewChannelModal.bind(this, Constants.PRIVATE_CHANNEL)}
                                         createDirectMessage={this.handleOpenMoreDirectChannelsModal}
+                                        createPublicDirectChannel={this.showMorePublicDirectChannelsModal}
                                     />
                                 </h4>
                             </li>
@@ -558,6 +570,20 @@ export default class Sidebar extends React.PureComponent {
             );
         }
 
+        let morePublicDirectChannelsModal;
+        if (this.state.showMorePublicChannelsModal) {
+            morePublicDirectChannelsModal = (
+                <MorePublicDirectChannels
+                    onModalDismissed={this.hideMorePublicDirectChannelsModal}
+                    handleNewChannel={() => {
+                        this.hideMorePublicDirectChannelsModal();
+                        this.showNewChannelModal(Constants.OPEN_CHANNEL);
+                    }}
+                    isExistingChannel={false}
+                />
+            );
+        }
+
         let quickSwitchTextShortcutId = 'quick_switch_modal.channelsShortcut.windows';
         let quickSwitchTextShortcutDefault = '- CTRL+K';
         if (Utils.isMac()) {
@@ -585,6 +611,7 @@ export default class Sidebar extends React.PureComponent {
                     channelType={this.state.newChannelModalType}
                     onModalDismissed={this.hideNewChannelModal}
                 />
+                {morePublicDirectChannelsModal}
                 {moreDirectChannelsModal}
                 {moreChannelsModal}
 

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -42,6 +42,32 @@ export default class UserSettingsSidebar extends React.Component {
         showUnusedOption: PropTypes.bool.isRequired,
 
         /**
+         * The preferences to display channels in sidebar
+         */
+        sidebarPreference: PropTypes.shape({
+
+            /**
+             * Group channels by type or none
+             */
+            grouping: PropTypes.string.isRequired,
+
+            /**
+             * Sort channels by recency or alphabetical order
+             */
+            sorting: PropTypes.string.isRequired,
+
+            /**
+             * Option for including unread channels at top
+             */
+            unreadsAtTop: PropTypes.string.isRequired,
+
+            /**
+             * Option for including favorite channels at top
+             */
+            favoriteAtTop: PropTypes.string.isRequired,
+        }).isRequired,
+
+        /**
          * Display the unread channels sections options
          */
         showUnreadOption: PropTypes.bool.isRequired,
@@ -63,9 +89,9 @@ export default class UserSettingsSidebar extends React.Component {
             displayUnreadSection,
             sidebarPreference: {
                 grouping,
-                favorite_at_top,
-                unreads_at_top,
                 sorting,
+                unreadsAtTop,
+                favoriteAtTop,
             },
         } = this.props;
 
@@ -74,8 +100,8 @@ export default class UserSettingsSidebar extends React.Component {
                 close_unused_direct_messages: closeUnusedDirectMessages,
                 show_unread_section: displayUnreadSection,
                 grouping,
-                unreads_at_top,
-                favorite_at_top,
+                unreads_at_top: unreadsAtTop,
+                favorite_at_top: favoriteAtTop,
                 sorting,
             },
             isSaving: false,
@@ -252,8 +278,8 @@ export default class UserSettingsSidebar extends React.Component {
         const {
             sidebarPreference: {
                 grouping,
-                unreads_at_top,
-                favorite_at_top,
+                unreadsAtTop,
+                favoriteAtTop,
             },
         } = this.props;
 
@@ -270,25 +296,33 @@ export default class UserSettingsSidebar extends React.Component {
 
         messages.push(
             <FormattedMessage
-                id='user.settings.sidebar.1'
+                id='user.settings.sidebar.channel_type'
                 defaultMessage='By Channel Type'
             />
         );
 
+        let id = null;
         let atTop = null;
-        if (unreads_at_top === 'true' && favorite_at_top === 'false') {
+        if (unreadsAtTop === 'true' && favoriteAtTop === 'false') {
+            id = 'unreads';
             atTop = 'Unreads';
-        } else if (favorite_at_top === 'true' && unreads_at_top === 'false') {
+        } else if (unreadsAtTop === 'false' && favoriteAtTop === 'true') {
+            id = 'favorites';
             atTop = 'Favorites';
-        } else if (unreads_at_top === 'true' && favorite_at_top === 'true') {
+        } else if (unreadsAtTop === 'true' && favoriteAtTop === 'true') {
+            id = 'unreadsFavorites';
             atTop = 'Unreads and Favorites';
         }
 
         if (atTop !== null) {
             messages.push(
+                <span>{', '}</span>
+            );
+
+            messages.push(
                 <FormattedMessage
-                    id='user.settings.sidebar.1'
-                    defaultMessage={`, ${atTop} at the top`}
+                    id={`user.settings.sidebar.${id}`}
+                    defaultMessage={`${atTop} at the top`}
                 />
             );
         }
@@ -306,7 +340,7 @@ export default class UserSettingsSidebar extends React.Component {
         if (sorting === 'alpha') {
             return (
                 <FormattedMessage
-                    id='user.settings.sidebar.1'
+                    id='user.settings.sidebar.byAlpha'
                     defaultMessage='By Alphabetical Order'
                 />
             );
@@ -314,7 +348,7 @@ export default class UserSettingsSidebar extends React.Component {
 
         return (
             <FormattedMessage
-                id='user.settings.sidebar.1'
+                id='user.settings.sidebar.byRecent'
                 defaultMessage='By Recent Order'
             />
         );
@@ -401,8 +435,6 @@ export default class UserSettingsSidebar extends React.Component {
         const {
             settings: {
                 grouping,
-                unreads_at_top,
-                favorite_at_top,
             },
         } = this.state;
 
@@ -411,7 +443,7 @@ export default class UserSettingsSidebar extends React.Component {
 
             // push default inputs [by_type, none]
             inputs.push(
-                <div key='unreadSectionSetting'>
+                <div key='groupingSectionSetting'>
                     <div className='radio'>
                         <label>
                             <input
@@ -422,7 +454,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 onChange={this.updateSetting.bind(this, 'grouping', 'by_type')}
                             />
                             <FormattedMessage
-                                id='user.settings.sidebar.byType'
+                                id='user.settings.sidebar.channel_type'
                                 defaultMessage='By Channel Type'
                             />
                         </label>
@@ -446,10 +478,15 @@ export default class UserSettingsSidebar extends React.Component {
                     </div>
                     <div>
                         <br/>
-                        {/*<FormattedMessage*/}
-                            {/*id='user.settings.sidebar.recentSectionDesc'*/}
-                            {/*defaultMessage='Placeholder text for a hint'*/}
-                        {/*/>*/}
+                        <FormattedMessage
+                            id='user.settings.sidebar.groupingByTypeHint'
+                            defaultMessage='By Channel Type: Group Public, Private and Direct Message channels separately, plus include Unreads and/or Favorites at top'
+                        />
+                        <br/>
+                        <FormattedMessage
+                            id='user.settings.sidebar.groupingNeverHint'
+                            defaultMessage='Never: Combine all channel types'
+                        />
                     </div>
                 </div>
             );
@@ -459,34 +496,34 @@ export default class UserSettingsSidebar extends React.Component {
                 inputs.push(
                     <div key='atTopOptions'>
                         <hr/>
-                        <div key='userNotificationChannelOption'>
+                        <div key='unreadOption'>
                             <div className='checkbox'>
                                 <label>
                                     <input
                                         id='unread'
                                         type='checkbox'
-                                        checked={unreads_at_top === 'true'}
+                                        checked={this.state.settings.unreads_at_top === 'true'}
                                         onChange={(e) => this.updateSetting('unreads_at_top', (e.target.checked).toString())}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.unreads'
-                                        defaultMessage='Unreads at top'
+                                        defaultMessage='Unreads at the top'
                                     />
                                 </label>
                             </div>
                         </div>
-                        <div key='userNotificationChannelOption'>
+                        <div key='favoriteOption'>
                             <div className='checkbox'>
                                 <label>
                                     <input
                                         id='favorite'
                                         type='checkbox'
-                                        checked={favorite_at_top === 'true'}
+                                        checked={this.state.settings.favorite_at_top === 'true'}
                                         onChange={(e) => this.updateSetting('favorite_at_top', (e.target.checked).toString())}
                                     />
                                     <FormattedMessage
-                                        id='user.settings.sidebar.favorite'
-                                        defaultMessage='Favorite at top'
+                                        id='user.settings.sidebar.favorites'
+                                        defaultMessage='Favorite at the top'
                                     />
                                 </label>
                             </div>
@@ -499,8 +536,8 @@ export default class UserSettingsSidebar extends React.Component {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.sidebar.groupChannelsSectionTitle'
-                            defaultMessage='Group channels'
+                            id='user.settings.sidebar.groupChannelsTitle'
+                            defaultMessage='Channel Grouping'
                         />
                     }
                     inputs={inputs}
@@ -517,8 +554,8 @@ export default class UserSettingsSidebar extends React.Component {
             <SettingItemMin
                 title={
                     <FormattedMessage
-                        id='user.settings.sidebar.groupChannels'
-                        defaultMessage='Group channels'
+                        id='user.settings.sidebar.groupChannelsTitle'
+                        defaultMessage='Channel Grouping'
                     />
                 }
                 describe={this.renderGroupLabel()}
@@ -583,7 +620,7 @@ export default class UserSettingsSidebar extends React.Component {
                     <div>
                         <br/>
                         <FormattedMessage
-                            id='user.settings.sidebar.recentSectionDesc'
+                            id='user.settings.sidebar.sortChannelsHint'
                             defaultMessage='Recent channels will be sorted by last post.  Otherwise, posts will be sorted alphabetically'
                         />
                     </div>
@@ -594,8 +631,8 @@ export default class UserSettingsSidebar extends React.Component {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.sidebar.sortChannelsSectionTitle'
-                            defaultMessage='Sort channels'
+                            id='user.settings.sidebar.sortChannelsTitle'
+                            defaultMessage='Channel Sorting'
                         />
                     }
                     inputs={inputs}
@@ -612,8 +649,8 @@ export default class UserSettingsSidebar extends React.Component {
             <SettingItemMin
                 title={
                     <FormattedMessage
-                        id='user.settings.sidebar.sortChannels'
-                        defaultMessage='Sort channels'
+                        id='user.settings.sidebar.sortChannelsTitle'
+                        defaultMessage='Channel Sorting'
                     />
                 }
                 describe={this.renderSortLabel()}
@@ -627,7 +664,7 @@ export default class UserSettingsSidebar extends React.Component {
         const {showUnusedOption, showUnreadOption} = this.props;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
 
-        const unreadSection = showUnreadOption ? this.renderUnreadSection() : null;
+        // TODO: refactor showUreadOptions to showGroupSortOptions
         const channelGroupSection = showUnreadOption ? this.renderChannelGroupSection() : null;
         const channelSortingSection = showUnreadOption ? this.renderChannelSortingSection() : null;
 
@@ -669,7 +706,6 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {/*{unreadSection}*/}
                     {channelGroupSection}
                     <div className='divider-dark'/>
                     {channelSortingSection}
