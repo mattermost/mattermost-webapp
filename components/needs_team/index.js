@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {fetchMyChannelsAndMembers, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
-import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {withRouter} from 'react-router-dom';
+
+import {fetchMyChannelsAndMembers, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
+import {getMyTeamUnreads, getTeams, joinTeam} from 'mattermost-redux/actions/teams';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {checkIfMFARequired} from 'utils/route';
@@ -30,6 +31,8 @@ function mapDispatchToProps(dispatch) {
             getMyTeamUnreads,
             viewChannel,
             markChannelAsRead,
+            getTeams,
+            joinTeam,
         }, dispatch),
     };
 }

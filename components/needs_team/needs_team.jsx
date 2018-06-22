@@ -29,6 +29,7 @@ let lastTime = (new Date()).getTime();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
+const TEAMS_PER_PAGE = 200;
 
 export default class NeedsTeam extends React.Component {
     static propTypes = {
@@ -38,6 +39,8 @@ export default class NeedsTeam extends React.Component {
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
+            getTeams: PropTypes.func.isRequired,
+            joinTeam: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -56,8 +59,6 @@ export default class NeedsTeam extends React.Component {
         super(params);
 
         this.shortcutKeyDown = (e) => this.onShortcutKeyDown(e);
-        this.updateCurrentTeam = this.updateCurrentTeam.bind(this);
-
         this.blurTime = new Date().getTime();
 
         if (this.props.mfaRequired) {
@@ -81,66 +82,23 @@ export default class NeedsTeam extends React.Component {
         this.state = {
             team,
             finishedFetchingChannels: false,
+            attemptingToJoinTeam: !team,
         };
+
+        if (!team) {
+            this.joinTeam(this.props);
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.match.params.team !== nextProps.match.params.team) {
-            this.setState({team: this.updateCurrentTeam(nextProps)});
-        }
-    }
-
-    updateCurrentTeam(props) {
-        // First check to make sure you're in the current team
-        // for the current url.
-        const teamName = props.match.params.team;
-        const team = TeamStore.getByName(teamName);
-
-        if (!team) {
-            props.history.push('/?redirect_to=' + encodeURIComponent(props.location.pathname));
-            return null;
-        }
-
-        // If current team is set, then this is not first load
-        // The first load action pulls team unreads
-        if (TeamStore.getCurrentId()) {
-            this.props.actions.getMyTeamUnreads();
-        }
-
-        TeamStore.saveMyTeam(team);
-        BrowserStore.setGlobalItem('team', team.id);
-        TeamStore.emitChange();
-        GlobalActions.emitCloseRightHandSide();
-
-        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
-            () => {
-                this.setState({
-                    finishedFetchingChannels: true,
-                });
-            }
-        );
-
-        loadStatusesForChannelAndSidebar();
-        loadProfilesForSidebar();
-
-        return team;
-    }
-
-    onShortcutKeyDown(e) {
-        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-            const sidebar = document.getElementById('sidebar-right');
-            if (sidebar) {
-                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
-                    const replyTextbox = document.getElementById('reply_textbox');
-                    if (replyTextbox) {
-                        replyTextbox.focus();
-                    }
-                } else {
-                    const postTextbox = document.getElementById('post_textbox');
-                    if (postTextbox) {
-                        postTextbox.focus();
-                    }
-                }
+            const team = this.updateCurrentTeam(nextProps);
+            this.setState({
+                team,
+                attemptingToJoinTeam: !team,
+            });
+            if (!team) {
+                this.joinTeam(nextProps);
             }
         }
     }
@@ -178,6 +136,13 @@ export default class NeedsTeam extends React.Component {
         document.addEventListener('keydown', this.shortcutKeyDown);
     }
 
+    componentDidUpdate(prevProps) {
+        const {theme} = this.props;
+        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
+            Utils.applyTheme(theme);
+        }
+    }
+
     componentWillUnmount() {
         $(window).off('focus');
         $(window).off('blur');
@@ -191,10 +156,77 @@ export default class NeedsTeam extends React.Component {
         document.removeEventListener('keydown', this.shortcutKeyDown);
     }
 
-    componentDidUpdate(prevProps) {
-        const {theme} = this.props;
-        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
-            Utils.applyTheme(theme);
+    joinTeam = async (props) => {
+        const openTeams = await this.props.actions.getTeams(0, TEAMS_PER_PAGE);
+        const team = openTeams.data.find((teamObj) => teamObj.name === props.match.params.team);
+
+        if (team === null) {
+            props.history.push('/error_page');
+        } else {
+            const {error} = await props.actions.joinTeam(team.invite_id, team.id);
+            if (error) {
+                props.history.push('/error_page');
+            } else {
+                this.setState({team, attemptingToJoinTeam: false});
+                this.initTeam(team);
+            }
+        }
+    }
+
+    initTeam = (team) => {
+        // If current team is set, then this is not first load
+        // The first load action pulls team unreads
+        if (TeamStore.getCurrentId()) {
+            this.props.actions.getMyTeamUnreads();
+        }
+
+        TeamStore.saveMyTeam(team);
+        BrowserStore.setGlobalItem('team', team.id);
+        TeamStore.emitChange();
+        GlobalActions.emitCloseRightHandSide();
+
+        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
+            () => {
+                this.setState({
+                    finishedFetchingChannels: true,
+                });
+            }
+        );
+
+        loadStatusesForChannelAndSidebar();
+        loadProfilesForSidebar();
+
+        return team;
+    }
+
+    updateCurrentTeam = (props) => {
+        // First check to make sure you're in the current team
+        // for the current url.
+        const teamName = props.match.params.team;
+        const team = TeamStore.getByName(teamName);
+        if (team) {
+            this.initTeam(team);
+            return team;
+        }
+        return null;
+    }
+
+    onShortcutKeyDown(e) {
+        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+            const sidebar = document.getElementById('sidebar-right');
+            if (sidebar) {
+                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
+                    const replyTextbox = document.getElementById('reply_textbox');
+                    if (replyTextbox) {
+                        replyTextbox.focus();
+                    }
+                } else {
+                    const postTextbox = document.getElementById('post_textbox');
+                    if (postTextbox) {
+                        postTextbox.focus();
+                    }
+                }
+            }
         }
     }
 
