@@ -67,7 +67,10 @@ export default class EmailConnectionTestButton extends React.Component {
         if (this.state.success) {
             testMessage = (
                 <div className='alert alert-success'>
-                    <i className='fa fa-check'/>
+                    <i
+                        className='fa fa-check'
+                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                    />
                     <FormattedMessage
                         id='admin.email.emailSuccess'
                         defaultMessage='No errors were reported while sending an email.  Please check your inbox to make sure.'
@@ -77,7 +80,10 @@ export default class EmailConnectionTestButton extends React.Component {
         } else if (this.state.fail) {
             testMessage = (
                 <div className='alert alert-warning'>
-                    <i className='fa fa-warning'/>
+                    <i
+                        className='fa fa-warning'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                    />
                     {this.state.fail}
                 </div>
             );
@@ -87,7 +93,10 @@ export default class EmailConnectionTestButton extends React.Component {
         if (this.state.testing) {
             contents = (
                 <span>
-                    <span className='fa fa-refresh icon--rotate'/>
+                    <span
+                        className='fa fa-refresh icon--rotate'
+                        title={Utils.localizeMessage('generic_icons.testing', 'Testing Icon')}
+                    />
                     {Utils.localizeMessage('admin.email.testing', 'Testing...')}
                 </span>
             );

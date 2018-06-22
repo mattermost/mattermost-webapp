@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class StatusOnlineAvatarIcon extends React.PureComponent {
     render() {
         return (
@@ -15,6 +17,8 @@ export default class StatusOnlineAvatarIcon extends React.PureComponent {
                     height='13px'
                     viewBox='-243 245 12 12'
                     style={style}
+                    role='icon'
+                    aria-label={localizeMessage('mobile.set_status.online.icon', 'Online Icon')}
                 >
                     <g>
                         <path

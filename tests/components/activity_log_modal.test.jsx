@@ -9,6 +9,7 @@ require('perfect-scrollbar/jquery')($);
 
 import {General} from 'mattermost-redux/constants';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import ActivityLogModal from 'components/activity_log_modal/activity_log_modal.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -122,16 +123,16 @@ describe('components/ActivityLogModal', () => {
 
         const mobileSessionInfo = wrapper.instance().mobileSessionInfo;
 
-        const apple = {devicePicture: 'fa fa-apple', devicePlatform: <FormattedMessage defaultMessage='iPhone Native Classic App' id='activity_log_modal.iphoneNativeClassicApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
+        const apple = {devicePicture: 'fa fa-apple', deviceTitle: localizeMessage('device_icons.apple', 'Apple Icon'), devicePlatform: <FormattedMessage defaultMessage='iPhone Native Classic App' id='activity_log_modal.iphoneNativeClassicApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
         expect(mobileSessionInfo({device_id: 'apple'})).toEqual(apple);
 
-        const android = {devicePicture: 'fa fa-android', devicePlatform: <FormattedMessage defaultMessage='Android Native Classic App' id='activity_log_modal.androidNativeClassicApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
+        const android = {devicePicture: 'fa fa-android', deviceTitle: localizeMessage('device_icons.android', 'Android Icon'), devicePlatform: <FormattedMessage defaultMessage='Android Native Classic App' id='activity_log_modal.androidNativeClassicApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
         expect(mobileSessionInfo({device_id: 'android'})).toEqual(android);
 
-        const appleRN = {devicePicture: 'fa fa-apple', devicePlatform: <FormattedMessage defaultMessage='iPhone Native App' id='activity_log_modal.iphoneNativeApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
+        const appleRN = {devicePicture: 'fa fa-apple', deviceTitle: localizeMessage('device_icons.apple', 'Apple Icon'), devicePlatform: <FormattedMessage defaultMessage='iPhone Native App' id='activity_log_modal.iphoneNativeApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
         expect(mobileSessionInfo({device_id: 'apple_rn'})).toEqual(appleRN);
 
-        const androidRN = {devicePicture: 'fa fa-android', devicePlatform: <FormattedMessage defaultMessage='Android Native App' id='activity_log_modal.androidNativeApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
+        const androidRN = {devicePicture: 'fa fa-android', deviceTitle: localizeMessage('device_icons.android', 'Android Icon'), devicePlatform: <FormattedMessage defaultMessage='Android Native App' id='activity_log_modal.androidNativeApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
         expect(mobileSessionInfo({device_id: 'android_rn'})).toEqual(androidRN);
     });
 });

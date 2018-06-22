@@ -26,6 +26,7 @@ exports[`components/PermalinkView should match snapshot 1`] = `
       />
       <i
         className="fa fa-arrow-down"
+        title="Jump to recent messages Icon"
       />
     </Link>
   </div>

@@ -244,7 +244,10 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                         className='intro-links color--link cursor--pointer'
                         onClick={GlobalActions.showGetTeamInviteLinkModal}
                     >
-                        <i className='fa fa-user-plus'/>
+                        <i
+                            className='fa fa-user-plus'
+                            title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
+                        />
                         <FormattedMessage
                             id='intro_messages.inviteOthers'
                             defaultMessage='Invite others to this team'
@@ -432,7 +435,10 @@ function createInviteChannelMemberButton(channel, uiType) {
                 dialogType={ChannelInviteModal}
                 dialogProps={{channel}}
             >
-                <i className='fa fa-user-plus'/>
+                <i
+                    className='fa fa-user-plus'
+                    title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
+                />
                 <FormattedMessage
                     id='intro_messages.invite'
                     defaultMessage='Invite others to this {type}'
@@ -452,7 +458,11 @@ function createSetHeaderButton(channel) {
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
-            <i className='fa fa-pencil'/>
+            <i
+                className='fa fa-pencil'
+                title={Utils.localizeMessage('generic_icons.edit', 'Edit Icon')}
+
+            />
             <FormattedMessage
                 id='intro_messages.setHeader'
                 defaultMessage='Set a Header'

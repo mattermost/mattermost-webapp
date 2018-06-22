@@ -45,13 +45,19 @@ export default class UploadButton extends React.PureComponent {
         switch (status) {
         case UploadStatuses.LOADING:
             buttonIcon = (
-                <i className='fa fa-refresh icon--rotate'/>
+                <i
+                    className='fa fa-refresh icon--rotate'
+                    title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                />
             );
             buttonText = Utils.localizeMessage('admin.team.uploading', 'Uploading..');
             break;
         case UploadStatuses.COMPLETE:
             buttonIcon = (
-                <i className='fa fa-check'/>
+                <i
+                    className='fa fa-check'
+                    title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                />
             );
             buttonText = Utils.localizeMessage('admin.team.uploaded', 'Uploaded!');
             break;

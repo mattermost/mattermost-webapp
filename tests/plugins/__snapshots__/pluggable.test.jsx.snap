@@ -122,6 +122,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 >
                   <i
                     className="fa fa-paper-plane"
+                    title="Send Message Icon"
                   />
                   <FormattedMessage
                     defaultMessage="Send Message"

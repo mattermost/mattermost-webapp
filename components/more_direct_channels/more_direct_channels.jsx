@@ -289,7 +289,10 @@ export default class MoreDirectChannels extends React.Component {
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
-                        <i className='fa fa-plus'/>
+                        <i
+                            className='fa fa-plus'
+                            title={localizeMessage('generic_icons.add', 'Add Icon')}
+                        />
                     </div>
                 </div>
             </div>

@@ -482,7 +482,10 @@ export default class UserAccessTokenSection extends React.Component {
                 <div
                     className='alert alert-warning'
                 >
-                    <i className='fa fa-warning margin-right'/>
+                    <i
+                        className='fa fa-warning margin-right'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                    />
                     <FormattedMessage
                         id='user.settings.tokens.copy'
                         defaultMessage="Please copy the access token below. You won't be able to see it again!"

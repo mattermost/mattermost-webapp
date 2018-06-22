@@ -28,6 +28,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
   >
     <i
       className="fa fa-eye"
+      title="Only visible to System Admins Icon"
     />
     <FormattedMessage
       defaultMessage="Only visible to System Admins"

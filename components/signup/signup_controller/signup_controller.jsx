@@ -18,6 +18,7 @@ import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 
 export default class SignupController extends React.Component {
@@ -147,7 +148,10 @@ export default class SignupController extends React.Component {
                     to={'/signup_email' + window.location.search}
                 >
                     <span>
-                        <span className='icon fa fa-envelope'/>
+                        <span
+                            className='icon fa fa-envelope'
+                            title={localizeMessage('signup.email.icon', 'Email Icon')}
+                        />
                         <FormattedMessage
                             id='signup.email'
                             defaultMessage='Email and Password'
@@ -225,7 +229,10 @@ export default class SignupController extends React.Component {
                     to={'/login' + this.props.location.search}
                 >
                     <span>
-                        <span className='icon fa fa-folder-open fa--margin-top'/>
+                        <span
+                            className='icon fa fa-folder-open fa--margin-top'
+                            title={localizeMessage('signup.ldap.icon', 'AD/LDAP Icon')}
+                        />
                         <span>
                             <FormattedMessage
                                 id='signup.ldap'
@@ -252,7 +259,10 @@ export default class SignupController extends React.Component {
                     href={'/login/sso/saml' + window.location.search + query}
                 >
                     <span>
-                        <span className='icon fa fa-lock fa--margin-top'/>
+                        <span
+                            className='icon fa fa-lock fa--margin-top'
+                            title={localizeMessage('signup.saml.icon', 'SAML Icon')}
+                        />
                         <span>
                             {this.props.samlLoginButtonText}
                         </span>

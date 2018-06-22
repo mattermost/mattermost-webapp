@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Route, Switch} from 'react-router-dom';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
 
@@ -42,7 +43,10 @@ export default class MFAController extends React.Component {
                         className='style--none color--link'
                         onClick={this.handleOnClick}
                     >
-                        <span className='fa fa-chevron-left'/>
+                        <span
+                            className='fa fa-chevron-left'
+                            title={localizeMessage('generic_icons.logout', 'Logout Icon')}
+                        />
                         <FormattedMessage
                             id='web.header.logout'
                             defaultMessage='Logout'

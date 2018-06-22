@@ -357,7 +357,10 @@ export default class TeamMembersDropdown extends React.Component {
                     aria-expanded='true'
                 >
                     <span>{currentRoles} </span>
-                    <span className='fa fa-chevron-down'/>
+                    <span
+                        className='fa fa-chevron-down'
+                        title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
+                    />
                 </button>
                 <ul
                     className='dropdown-menu member-menu'

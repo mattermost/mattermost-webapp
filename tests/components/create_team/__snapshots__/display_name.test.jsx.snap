@@ -55,6 +55,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       />
       <i
         className="fa fa-chevron-right"
+        title="Next Icon"
       />
     </button>
   </form>
