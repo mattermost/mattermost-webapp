@@ -664,7 +664,7 @@ export default class Navbar extends React.Component {
                                 >
                                     <FormattedMessage
                                         id='channel_header.delete'
-                                        defaultMessage='Delete Channel'
+                                        defaultMessage='Archive Channel'
                                     />
                                 </ToggleModalButton>
                             </li>
@@ -723,7 +723,10 @@ export default class Navbar extends React.Component {
                             aria-expanded='true'
                         >
                             <span className='heading'><StatusIcon status={this.getTeammateStatus()}/>{channelTitle} </span>
-                            <span className='fa fa-angle-down header-dropdown__icon'/>
+                            <span
+                                className='fa fa-angle-down header-dropdown__icon'
+                                title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
+                            />
                         </a>
                         <ul
                             className='dropdown-menu'

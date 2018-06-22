@@ -178,7 +178,10 @@ export default class ChannelMembersDropdown extends React.Component {
                             aria-expanded='true'
                         >
                             <span>{role} </span>
-                            <span className='fa fa-chevron-down'/>
+                            <span
+                                className='fa fa-chevron-down'
+                                title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
+                            />
                         </button>
                         <ul
                             className='dropdown-menu member-menu'

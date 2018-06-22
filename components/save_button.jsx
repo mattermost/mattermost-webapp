@@ -31,7 +31,10 @@ export default class SaveButton extends React.PureComponent {
         if (saving) {
             contents = (
                 <span>
-                    <span className='fa fa-refresh icon--rotate'/>
+                    <span
+                        className='fa fa-refresh icon--rotate'
+                        title={localizeMessage('generic_icons.loading', 'Loading Icon')}
+                    />
                     {savingMessage}
                 </span>
             );

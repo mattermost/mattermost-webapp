@@ -192,7 +192,10 @@ export default class RequestButton extends React.Component {
             message = (
                 <div>
                     <div className='alert alert-warning'>
-                        <i className='fa fa-warning'/>
+                        <i
+                            className='fa fa-warning'
+                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                        />
                         <FormattedMessage
                             id={this.props.errorMessage.id}
                             defaultMessage={this.props.errorMessage.defaultMessage}
@@ -207,7 +210,10 @@ export default class RequestButton extends React.Component {
             message = (
                 <div>
                     <div className='alert alert-success'>
-                        <i className='fa fa-success'/>
+                        <i
+                            className='fa fa-success'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                        />
                         <FormattedMessage
                             id={this.props.successMessage.id}
                             defaultMessage={this.props.successMessage.defaultMessage}
@@ -225,7 +231,10 @@ export default class RequestButton extends React.Component {
             }
             contents = (
                 <span>
-                    <span className='fa fa-refresh icon--rotate'/>
+                    <span
+                        className='fa fa-refresh icon--rotate'
+                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                    />
                     {loadingText}
                 </span>
             );

@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class BackButton extends React.PureComponent {
     static propTypes = {
 
@@ -31,7 +33,10 @@ export default class BackButton extends React.PureComponent {
                     onClick={this.props.onClick}
                     to={this.props.url}
                 >
-                    <span className='fa fa-chevron-left'/>
+                    <span
+                        className='fa fa-chevron-left'
+                        title={localizeMessage('generic_icons.back', 'Back Icon')}
+                    />
                     <FormattedMessage
                         id='web.header.back'
                         defaultMessage='Back'

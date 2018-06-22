@@ -33,7 +33,7 @@ describe('components/integrations/AbstractCommand', () => {
         name: 'test',
         id: command.team_id,
     };
-    const action = jest.genMockFunction().mockImplementation(
+    const action = jest.fn().mockImplementation(
         () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
@@ -154,7 +154,7 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should match state when handleSubmit is called', () => {
-        const newAction = jest.genMockFunction().mockImplementation(
+        const newAction = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());

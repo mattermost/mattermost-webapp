@@ -8,6 +8,7 @@ import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
@@ -220,7 +221,10 @@ export default class SettingPicture extends Component {
                 />
             );
             selectButtonSpinner = (
-                <span className='icon fa fa-refresh icon--rotate'/>
+                <span
+                    className='icon fa fa-refresh icon--rotate'
+                    title={localizeMessage('generic_icons.loading', 'Loading Icon')}
+                />
             );
             fileInputDisabled = true;
         } else {

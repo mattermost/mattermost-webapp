@@ -242,7 +242,10 @@ class ProfilePopover extends React.Component {
                         onClick={this.initWebrtc}
                         disabled={!isOnline}
                     >
-                        <i className='fa fa-video-camera'/>
+                        <i
+                            className='fa fa-video-camera'
+                            title={Utils.localizeMessage('webrtc.icon', 'Webrtc Icon')}
+                        />
                         {webrtcMessage}
                     </a>
                 </div>
@@ -348,7 +351,10 @@ class ProfilePopover extends React.Component {
                         href='#'
                         onClick={this.handleEditAccountSettings}
                     >
-                        <i className='fa fa-pencil-square-o'/>
+                        <i
+                            className='fa fa-pencil-square-o'
+                            title={Utils.localizeMessage('generic_icons.edit', 'Edit Icon')}
+                        />
                         <FormattedMessage
                             id='user_profile.account.editSettings'
                             defaultMessage='Edit Account Settings'
@@ -370,7 +376,10 @@ class ProfilePopover extends React.Component {
                         className='text-nowrap text-lowercase user-popover__email'
                         onClick={this.handleShowDirectChannel}
                     >
-                        <i className='fa fa-paper-plane'/>
+                        <i
+                            className='fa fa-paper-plane'
+                            title={Utils.localizeMessage('user_profile.send.dm.icon', 'Send Message Icon')}
+                        />
                         <FormattedMessage
                             id='user_profile.send.dm'
                             defaultMessage='Send Message'

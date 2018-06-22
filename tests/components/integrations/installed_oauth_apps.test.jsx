@@ -55,7 +55,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
     };
 
     test('should match snapshot', () => {
-        const newGetOAuthApps = jest.genMockFunction().mockImplementation(
+        const newGetOAuthApps = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());

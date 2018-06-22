@@ -228,6 +228,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         >
           <span
             className="icon fa fa-refresh icon--rotate"
+            title="Loading Icon"
           />
           <FormattedMessage
             defaultMessage="Select"

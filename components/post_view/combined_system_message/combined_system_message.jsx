@@ -155,9 +155,10 @@ export default class CombinedSystemMessage extends React.PureComponent {
         messageData: PropTypes.array.isRequired,
         showJoinLeave: PropTypes.bool.isRequired,
         teammateNameDisplay: PropTypes.string.isRequired,
+        userProfiles: PropTypes.array.isRequired,
         actions: PropTypes.shape({
-            getProfilesByIds: PropTypes.func.isRequired,
-            getProfilesByUsernames: PropTypes.func.isRequired,
+            getMissingProfilesByIds: PropTypes.func.isRequired,
+            getMissingProfilesByUsernames: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -170,14 +171,6 @@ export default class CombinedSystemMessage extends React.PureComponent {
         intl: intlShape,
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            userProfiles: [],
-        };
-    }
-
     componentDidMount() {
         this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
     }
@@ -188,34 +181,24 @@ export default class CombinedSystemMessage extends React.PureComponent {
         }
     }
 
-    loadUserProfiles = async (allUserIds, allUsernames) => {
-        const {actions} = this.props;
-        const userProfiles = [];
+    loadUserProfiles = (allUserIds, allUsernames) => {
         if (allUserIds.length > 0) {
-            const {data} = await actions.getProfilesByIds(allUserIds);
-            if (data.length > 0) {
-                userProfiles.push(...data);
-            }
+            this.props.actions.getMissingProfilesByIds(allUserIds);
         }
 
         if (allUsernames.length > 0) {
-            const {data} = await actions.getProfilesByUsernames(allUsernames);
-            if (data.length > 0) {
-                userProfiles.push(...data);
-            }
+            this.props.actions.getMissingProfilesByUsernames(allUsernames);
         }
-
-        this.setState({userProfiles});
     }
 
     getAllUsersDisplayName = () => {
-        const {userProfiles} = this.state;
         const {
             allUserIds,
             allUsernames,
             currentUserId,
             currentUsername,
             teammateNameDisplay,
+            userProfiles,
         } = this.props;
         const {formatMessage} = this.context.intl;
         const usersDisplayName = userProfiles.reduce((acc, user) => {

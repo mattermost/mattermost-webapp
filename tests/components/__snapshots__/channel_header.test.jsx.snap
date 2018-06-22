@@ -74,6 +74,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               <span
                 className="fa fa-angle-down header-dropdown__icon"
                 id="channelHeaderDropdownIcon"
+                title="Dropdown Icon"
               />
             </button>
             <ul
@@ -331,7 +332,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                     role="menuitem"
                   >
                     <FormattedMessage
-                      defaultMessage="Delete Channel"
+                      defaultMessage="Archive Channel"
                       id="channel_header.delete"
                       values={Object {}}
                     />
@@ -561,6 +562,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
               <span
                 className="fa fa-angle-down header-dropdown__icon"
                 id="channelHeaderDropdownIcon"
+                title="Dropdown Icon"
               />
             </button>
             <ul
@@ -850,7 +852,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                     role="menuitem"
                   >
                     <FormattedMessage
-                      defaultMessage="Delete Channel"
+                      defaultMessage="Archive Channel"
                       id="channel_header.delete"
                       values={Object {}}
                     />
@@ -888,7 +890,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
               bSize="large"
               bStyle="info"
               bsClass="popover"
-              className="description"
+              className="channel-header__popover"
               id="header-popover"
               onMouseOut={[Function]}
               onMouseOver={[Function]}
@@ -905,7 +907,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                       },
                     },
                     "mentionHighlight": false,
-                    "singleline": true,
+                    "singleline": false,
                   }
                 }
               />

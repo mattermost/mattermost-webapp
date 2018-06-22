@@ -32,6 +32,7 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
   <span>
     <span
       className="fa fa-refresh icon--rotate"
+      title="Loading Icon"
     />
     Saving
   </span>

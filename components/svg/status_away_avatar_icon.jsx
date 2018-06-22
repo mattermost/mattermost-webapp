@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class StatusAwayAvatarIcon extends React.PureComponent {
     render() {
         return (
@@ -12,6 +14,8 @@ export default class StatusAwayAvatarIcon extends React.PureComponent {
                     height='13px'
                     viewBox='0 0 12 12'
                     style={style}
+                    role='icon'
+                    aria-label={localizeMessage('mobile.set_status.away.icon', 'Away Icon')}
                 >
                     <path
                         className='away--icon'

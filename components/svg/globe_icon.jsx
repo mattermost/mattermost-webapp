@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class GlobeIcon extends React.PureComponent {
     render() {
         return (
@@ -11,6 +13,8 @@ export default class GlobeIcon extends React.PureComponent {
                     width='13px'
                     height='13px'
                     viewBox='0 0 14 14'
+                    role='icon'
+                    aria-label={localizeMessage('generic_icons.channel.public', 'Public Channel Icon')}
                 >
                     <g
                         stroke='none'

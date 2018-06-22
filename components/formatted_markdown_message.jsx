@@ -24,8 +24,8 @@ class CustomRenderer extends marked.Renderer {
 /*
 * Translations component with the same API as react-intl's <FormattedMessage> component except the message string
 * accepts markdown. It supports the following non-block-level markdown:
-* - **italic**
-* - *bold*
+* - *italic*
+* - **bold**
 * - `inline code`
 * - ~~strikethrough~~
 * - [link](http://example.com/)

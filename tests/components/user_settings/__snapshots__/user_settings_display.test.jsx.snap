@@ -30,6 +30,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -300,6 +301,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -570,6 +572,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -840,6 +843,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -1064,6 +1068,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -1262,6 +1267,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -1532,6 +1538,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -1822,6 +1829,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -2044,6 +2052,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -2266,6 +2275,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -2488,6 +2498,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -2721,6 +2732,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         <i
           className="fa fa-angle-left"
           onClick={[MockFunction]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage

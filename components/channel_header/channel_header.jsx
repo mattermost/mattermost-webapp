@@ -46,6 +46,7 @@ import Pluggable from 'plugins/pluggable';
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
+const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
@@ -100,6 +101,9 @@ export default class ChannelHeader extends React.Component {
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
+        ));
+        this.getPopoverMarkdownOptions = memoizeResult((channelNamesMap) => (
+            {...popoverMarkdownOptions, channelNamesMap}
         ));
     }
 
@@ -317,13 +321,13 @@ export default class ChannelHeader extends React.Component {
                 bStyle='info'
                 bSize='large'
                 placement='bottom'
-                className='description'
+                className='channel-header__popover'
                 onMouseOver={this.handleOnMouseOver}
                 onMouseOut={this.handleOnMouseOut}
             >
                 <Markdown
                     message={channel.header}
-                    options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                    options={this.getPopoverMarkdownOptions(channelNamesMap)}
                 />
             </Popover>
         );
@@ -785,7 +789,7 @@ export default class ChannelHeader extends React.Component {
                             >
                                 <FormattedMessage
                                     id='channel_header.delete'
-                                    defaultMessage='Delete Channel'
+                                    defaultMessage='Archive Channel'
                                 />
                             </ToggleModalButtonRedux>
                         </li>
@@ -984,7 +988,10 @@ export default class ChannelHeader extends React.Component {
                         onClick={this.unmute}
                         className={'style--none color--link channel-header__mute inactive'}
                     >
-                        <i className={'icon fa fa-bell-slash-o'}/>
+                        <i
+                            className={'icon fa fa-bell-slash-o'}
+                            title={Utils.localizeMessage('generic_icons.muted', 'Muted Icon')}
+                        />
                     </button>
                 </OverlayTrigger>
             );
@@ -1049,6 +1056,7 @@ export default class ChannelHeader extends React.Component {
                                         <span
                                             id='channelHeaderDropdownIcon'
                                             className='fa fa-angle-down header-dropdown__icon'
+                                            title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                                         />
                                     </button>
                                     <ul

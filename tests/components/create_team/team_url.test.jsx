@@ -53,7 +53,7 @@ describe('/components/create_team/components/display_name', () => {
     });
 
     test('should successfully submit', () => {
-        defaultProps.actions.checkIfTeamExists = jest.genMockFunction().mockImplementation(
+        defaultProps.actions.checkIfTeamExists = jest.fn().mockImplementation(
             () => {
                 defaultProps.actions.createTeam();
             }
