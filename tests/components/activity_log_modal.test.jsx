@@ -35,7 +35,7 @@ describe('components/ActivityLogModal', () => {
     });
 
     test('should match snapshot when submitRevoke is called', () => {
-        const revokeSession = jest.genMockFunction().mockImplementation(
+        const revokeSession = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());

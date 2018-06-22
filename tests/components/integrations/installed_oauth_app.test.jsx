@@ -65,7 +65,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
     });
 
     test('should call onRegenerateSecret function', () => {
-        const newOnRegenerateSecret = jest.genMockFunction().mockImplementation(
+        const newOnRegenerateSecret = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
@@ -111,7 +111,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
     });
 
     test('should match on handleRegenerate', () => {
-        const newOnRegenerateSecret = jest.genMockFunction().mockImplementation(
+        const newOnRegenerateSecret = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());

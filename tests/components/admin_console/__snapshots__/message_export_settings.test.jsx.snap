@@ -117,6 +117,10 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         values={
           Array [
             Object {
+              "text": "CSV",
+              "value": "csv",
+            },
+            Object {
               "text": "Actiance XML",
               "value": "actiance",
             },
@@ -302,6 +306,10 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         value="globalrelay"
         values={
           Array [
+            Object {
+              "text": "CSV",
+              "value": "csv",
+            },
             Object {
               "text": "Actiance XML",
               "value": "actiance",
@@ -599,6 +607,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         values={
           Array [
             Object {
+              "text": "CSV",
+              "value": "csv",
+            },
+            Object {
               "text": "Actiance XML",
               "value": "actiance",
             },
@@ -784,6 +796,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         value="globalrelay"
         values={
           Array [
+            Object {
+              "text": "CSV",
+              "value": "csv",
+            },
             Object {
               "text": "Actiance XML",
               "value": "actiance",

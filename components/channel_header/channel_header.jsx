@@ -45,6 +45,7 @@ import Pluggable from 'plugins/pluggable';
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
+const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
@@ -311,13 +312,13 @@ export default class ChannelHeader extends React.Component {
                 bStyle='info'
                 bSize='large'
                 placement='bottom'
-                className='description'
+                className='channel-header__popover'
                 onMouseOver={this.handleOnMouseOver}
                 onMouseOut={this.handleOnMouseOut}
             >
                 <Markdown
                     message={channel.header}
-                    options={headerMarkdownOptions}
+                    options={popoverMarkdownOptions}
                 />
             </Popover>
         );
@@ -779,7 +780,7 @@ export default class ChannelHeader extends React.Component {
                             >
                                 <FormattedMessage
                                     id='channel_header.delete'
-                                    defaultMessage='Delete Channel'
+                                    defaultMessage='Archive Channel'
                                 />
                             </ToggleModalButtonRedux>
                         </li>
