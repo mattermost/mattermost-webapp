@@ -4,7 +4,6 @@
 import React from 'react';
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import {flushPromises} from 'tests/helpers/promises';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import Constants from 'utils/constants.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal/edit_channel_header_modal.jsx';
@@ -33,13 +32,12 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('edit direct message channel', () => {
+    test('edit dirrect message channel', () => {
         const dmChannel = {
             ...channel,
             type: Constants.DM_CHANNEL,
@@ -51,7 +49,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -65,7 +63,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -84,7 +82,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -94,7 +92,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {getChannel: emptyFunction, patchChannel: emptyFunction},
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -112,7 +110,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -122,7 +120,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {getChannel: emptyFunction, patchChannel: emptyFunction},
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -140,7 +138,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -150,7 +148,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {getChannel: emptyFunction, patchChannel: emptyFunction},
+            actions: {patchChannel: emptyFunction},
         });
         wrapper.setProps({
             channel,
@@ -158,7 +156,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.STARTED,
             onHide: emptyFunction,
-            actions: {getChannel: emptyFunction, patchChannel: emptyFunction},
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -171,7 +169,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -180,7 +178,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.SUCCESS,
             onHide: emptyFunction,
-            actions: {getChannel: emptyFunction, patchChannel: emptyFunction},
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(
@@ -195,7 +193,7 @@ describe('components/EditChannelHeaderModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel: emptyFunction, patchChannel: emptyFunction}}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -207,36 +205,31 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('patch on save button click', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 channel={channel}
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />
         ).dive({disableLifecycleMethods: true});
 
         wrapper.find('.save-button').simulate('click');
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
     });
 
     test('patch on enter keypress event with ctrl', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -249,22 +242,18 @@ describe('components/EditChannelHeaderModal', () => {
             ctrlKey: true,
         });
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
     });
 
     test('patch on enter keypress', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 channel={channel}
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -277,22 +266,18 @@ describe('components/EditChannelHeaderModal', () => {
             ctrlKey: false,
         });
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
     });
 
     test('patch on enter keydown', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 channel={channel}
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -306,9 +291,6 @@ describe('components/EditChannelHeaderModal', () => {
             ctrlKey: true,
         });
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
     });
 });

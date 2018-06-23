@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getChannel, patchChannel} from 'mattermost-redux/actions/channels';
+import {patchChannel} from 'mattermost-redux/actions/channels';
 
 import Constants from 'utils/constants.jsx';
 
@@ -24,10 +24,9 @@ const mapStateToProps = createSelector(
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getChannel,
-            patchChannel,
-        }, dispatch),
+        actions: {
+            patchChannel: bindActionCreators(patchChannel, dispatch),
+        },
     };
 }
 

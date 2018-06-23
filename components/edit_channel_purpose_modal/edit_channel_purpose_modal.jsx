@@ -12,13 +12,40 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class EditChannelPurposeModal extends React.Component {
     static propTypes = {
+
+        /*
+         * Channel info object
+         */
         channel: PropTypes.object,
+
+        /*
+         * Check should we send purpose on CTRL + ENTER
+         */
         ctrlSend: PropTypes.bool.isRequired,
+
+        /*
+         * Info about patch serverError
+         */
         serverError: PropTypes.object,
+
+        /*
+         *  Status of patch info about channel request
+         */
         requestStatus: PropTypes.string.isRequired,
+
+        /*
+         * Callback to call on modal hide
+         */
         onModalDismissed: PropTypes.func.isRequired,
+
+        /*
+         * Object with redux action creators
+         */
         actions: PropTypes.shape({
-            getChannel: PropTypes.func.isRequired,
+
+            /*
+             * Action creator to patch current channel
+             */
             patchChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -87,13 +114,13 @@ export default class EditChannelPurposeModal extends React.Component {
     }
 
     handleSave = () => {
-        const {channel, actions: {getChannel, patchChannel}} = this.props;
+        const {channel, actions: {patchChannel}} = this.props;
         const {purpose} = this.state;
         if (!channel) {
             return;
         }
 
-        patchChannel(channel.id, {purpose}).then(() => getChannel(channel.id));
+        patchChannel(channel.id, {purpose});
     }
 
     handleChange = (e) => {

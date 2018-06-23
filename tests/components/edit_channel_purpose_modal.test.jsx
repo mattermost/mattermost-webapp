@@ -4,7 +4,6 @@ import React from 'react';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {shallow} from 'enzyme';
 
-import {flushPromises} from 'tests/helpers/promises';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
 import Constants from 'utils/constants.jsx';
 
@@ -21,7 +20,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -41,7 +40,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -61,7 +60,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -76,7 +75,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -91,7 +90,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -107,7 +106,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
             onModalDismissed: jest.fn(),
-            actions: {getChannel: jest.fn(), patchChannel: jest.fn()},
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -120,7 +119,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -136,7 +135,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
             onModalDismissed: jest.fn(),
-            actions: {getChannel: jest.fn(), patchChannel: jest.fn()},
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -149,7 +148,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -165,7 +164,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
             onModalDismissed: jest.fn(),
-            actions: {getChannel: jest.fn(), patchChannel: jest.fn()},
+            actions: {patchChannel: jest.fn()},
         });
 
         wrapper.setProps({
@@ -174,7 +173,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.STARTED,
             onModalDismissed: jest.fn(),
-            actions: {getChannel: jest.fn(), patchChannel: jest.fn()},
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -187,7 +186,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -210,7 +209,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel: jest.fn(), patchChannel: jest.fn()}}
+                actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -220,15 +219,14 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.SUCCESS,
             onModalDismissed: jest.fn(),
-            actions: {getChannel: jest.fn(), patchChannel: jest.fn()},
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper.state('show')).toBeFalsy();
     });
 
     it('submit on save button click', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
 
         const wrapper = shallow(
             <EditChannelPurposeModal
@@ -236,22 +234,18 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true}
         );
 
         wrapper.find('.save-button').simulate('click');
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
     });
 
     it('submit on ctrl + enter', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
 
         const wrapper = shallow(
             <EditChannelPurposeModal
@@ -259,7 +253,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={true}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -271,15 +265,11 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlKey: true,
         });
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
     });
 
     it('submit on enter', () => {
-        const patchChannel = jest.fn(() => Promise.resolve());
-        const getChannel = jest.fn(() => Promise.resolve());
+        const patchChannel = jest.fn();
 
         const wrapper = shallow(
             <EditChannelPurposeModal
@@ -287,7 +277,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onModalDismissed={jest.fn()}
-                actions={{getChannel, patchChannel}}
+                actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true}
         );
@@ -299,9 +289,6 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlKey: false,
         });
 
-        return flushPromises().then(() => {
-            expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
-            expect(getChannel).toBeCalledWith('fake-id');
-        });
+        expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
     });
 });
