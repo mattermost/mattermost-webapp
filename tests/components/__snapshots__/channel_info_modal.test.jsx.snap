@@ -146,20 +146,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <div
         className="info__value"
       >
-        <Connect(Markdown)
-          message="And ~test too"
-          options={
-            Object {
-              "channelNamesMap": Object {
-                "test": Object {
-                  "display_name": "Test",
-                },
-              },
-              "mentionHighlight": false,
-              "singleline": false,
-            }
-          }
-        />
+        And ~test too
       </div>
     </div>
     <div

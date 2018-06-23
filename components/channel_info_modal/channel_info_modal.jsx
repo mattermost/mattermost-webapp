@@ -84,12 +84,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         let channelPurpose;
         if (channel.purpose) {
-            channelPurpose = (
-                <Markdown
-                    message={channel.purpose}
-                    options={this.getHeaderMarkdownOptions(channelNamesMap)}
-                />
-            );
+            channelPurpose = channel.purpose;
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             channelPurpose = (
                 <FormattedMessage

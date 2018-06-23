@@ -64,27 +64,4 @@ describe('components/PostMarkdown', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should render purpose change properly', () => {
-        const props = {
-            ...baseProps,
-            post: {
-                type: Posts.POST_TYPES.PURPOSE_CHANGE,
-                props: {
-                    username: 'user',
-                    old_purpose: 'see ~test',
-                    new_purpose: 'now ~test',
-                    channel_mentions: {
-                        test: {
-                            display_name: 'Test',
-                        },
-                    },
-                },
-            },
-        };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
 });
