@@ -31,6 +31,7 @@ export default class DatabaseSettings extends AdminSettings {
         config.SqlSettings.AtRestEncryptKey = this.state.atRestEncryptKey;
         config.SqlSettings.Trace = this.state.trace;
         config.SqlSettings.QueryTimeout = this.parseIntNonZero(this.state.queryTimeout);
+        config.SqlSettings.ConnMaxLifetimeMilliseconds = this.parseIntNonNegative(this.state.connMaxLifetimeMilliseconds);
 
         return config;
     }
@@ -44,6 +45,7 @@ export default class DatabaseSettings extends AdminSettings {
             atRestEncryptKey: config.SqlSettings.AtRestEncryptKey,
             trace: config.SqlSettings.Trace,
             queryTimeout: config.SqlSettings.QueryTimeout,
+            connMaxLifetimeMilliseconds: config.SqlSettings.ConnMaxLifetimeMilliseconds,
         };
     }
 
@@ -198,6 +200,25 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.queryTimeout}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.QueryTimeout')}
+                />
+                <TextSetting
+                    id='connMaxLifetimeMilliseconds'
+                    label={
+                        <FormattedMessage
+                            id='admin.sql.connMaxLifetimeTitle'
+                            defaultMessage='Maximum Connection Lifetime:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.sql.connMaxLifetimeExample', 'E.g.: "3600000"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.sql.connMaxLifetimeDescription'
+                            defaultMessage='Maximum lifetime for a connection to the database in milliseconds.'
+                        />
+                    }
+                    value={this.state.connMaxLifetimeMilliseconds}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.ConnMaxLifetimeMilliseconds')}
                 />
                 <GeneratedSetting
                     id='atRestEncryptKey'
