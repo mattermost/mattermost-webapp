@@ -59,8 +59,6 @@ export default class NeedsTeam extends React.Component {
 
     constructor(params) {
         super(params);
-
-        this.shortcutKeyDown = (e) => this.onShortcutKeyDown(e);
         this.blurTime = new Date().getTime();
 
         if (this.props.mfaRequired) {
@@ -84,7 +82,6 @@ export default class NeedsTeam extends React.Component {
         this.state = {
             team,
             finishedFetchingChannels: false,
-            attemptingToJoinTeam: !team,
         };
 
         if (!team) {
@@ -97,7 +94,6 @@ export default class NeedsTeam extends React.Component {
             const team = this.updateCurrentTeam(nextProps);
             this.setState({
                 team,
-                attemptingToJoinTeam: !team,
             });
             if (!team) {
                 this.joinTeam(nextProps);
@@ -120,7 +116,7 @@ export default class NeedsTeam extends React.Component {
 
         window.addEventListener('focus', this.handleFocus);
         window.addEventListener('blur', this.handleBlur);
-        window.addEventListener('keydown', this.shortcutKeyDown);
+        window.addEventListener('keydown', this.onShortcutKeyDown);
     }
 
     componentDidUpdate(prevProps) {
@@ -131,6 +127,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     componentWillUnmount() {
+        window.isActive = false;
         stopPeriodicStatusUpdates();
         stopPeriodicSync();
         if (UserAgent.isIosSafari()) {
@@ -140,7 +137,7 @@ export default class NeedsTeam extends React.Component {
         clearInterval(wakeUpInterval);
         window.removeEventListener('focus', this.handleFocus);
         window.removeEventListener('blur', this.handleBlur);
-        window.removeEventListener('keydown', this.shortcutKeyDown);
+        window.removeEventListener('keydown', this.onShortcutKeyDown);
     }
 
     handleBlur = () => {
@@ -151,8 +148,8 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    handleFocus = async () => {
-        await this.props.actions.markChannelAsRead(this.props.currentChannelId);
+    handleFocus = () => {
+        this.props.actions.markChannelAsRead(this.props.currentChannelId);
         window.isActive = true;
 
         if (new Date().getTime() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
@@ -168,7 +165,7 @@ export default class NeedsTeam extends React.Component {
             if (error) {
                 props.history.push('/error_page');
             } else {
-                this.setState({team, attemptingToJoinTeam: false});
+                this.setState({team});
                 this.initTeam(team);
             }
         } else {
@@ -209,7 +206,7 @@ export default class NeedsTeam extends React.Component {
         return null;
     }
 
-    onShortcutKeyDown(e) {
+    onShortcutKeyDown = (e) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
             const sidebar = document.getElementById('sidebar-right');
             if (sidebar) {

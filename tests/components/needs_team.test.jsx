@@ -185,13 +185,11 @@ describe('components/needs_team', () => {
         );
 
         expect(wrapper.state().team).toEqual(null);
-        expect(wrapper.state().attemptingToJoinTeam).toEqual(true);
         await getTeams();
         await joinTeam();
 
         wrapper.update();
         expect(wrapper.state().team.name).toEqual('new');
-        expect(wrapper.state().attemptingToJoinTeam).toEqual(false);
         expect(selectTeam).toBeCalledWith(wrapper.state().team);
         expect(getMyTeamUnreads).toHaveBeenCalledTimes(1);
         expect(setGlobalItem).toBeCalledWith('team', wrapper.state().team.id);
@@ -205,7 +203,6 @@ describe('components/needs_team', () => {
         // team change and team exists
         wrapper.setProps({match: existingTeamMatch});
         wrapper.update();
-        expect(wrapper.state().attemptingToJoinTeam).toEqual(false);
 
         const newTeamMatch = {
             params: {
@@ -215,7 +212,6 @@ describe('components/needs_team', () => {
 
         wrapper.setProps({match: newTeamMatch});
         wrapper.update();
-        expect(wrapper.state().attemptingToJoinTeam).toEqual(true);
         expect(wrapper.state().team).toEqual(null);
     });
 });
