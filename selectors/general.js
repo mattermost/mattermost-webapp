@@ -13,3 +13,9 @@ export function areTimezonesEnabledAndSupported(state) {
     const config = getConfig(state);
     return config.ExperimentalTimezone === 'true';
 }
+
+export function getBasePath(state) {
+    const config = getConfig(state) || {};
+
+    return new URL(config.SiteURL || window.location.origin).pathname;
+}

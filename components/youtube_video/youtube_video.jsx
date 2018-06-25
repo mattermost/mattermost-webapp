@@ -190,7 +190,12 @@ export default class YoutubeVideo extends React.PureComponent {
                 <div>
                     <div className='video-thumbnail__container'>
                         <div className='video-thumbnail__error'>
-                            <div><i className='fa fa-warning fa-2x'/></div>
+                            <div>
+                                <i
+                                    className='fa fa-warning fa-2x'
+                                    title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                                />
+                            </div>
                             <div>{Utils.localizeMessage('youtube_video.notFound', 'Video not found')}</div>
                         </div>
                     </div>

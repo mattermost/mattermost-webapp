@@ -28,6 +28,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
         <i
           className="fa fa-angle-left"
           onClick={[Function]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage
@@ -146,6 +147,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
         <i
           className="fa fa-angle-left"
           onClick={[Function]}
+          title="Back Icon"
         />
       </div>
       <FormattedMessage

@@ -158,7 +158,12 @@ export default class TeamSidebar extends React.Component {
                             defaultMessage='Other teams you can join.'
                         />
                     }
-                    content={'+'}
+                    content={
+                        <i
+                            className='fa fa-plus'
+                            title={Utils.localizeMessage('generic_icons.join', 'Join Icon')}
+                        />
+                    }
                 />
             );
         } else {
@@ -177,7 +182,12 @@ export default class TeamSidebar extends React.Component {
                                 defaultMessage='Create a New Team'
                             />
                         }
-                        content={'+'}
+                        content={
+                            <i
+                                className='fa fa-plus'
+                                title={Utils.localizeMessage('generic_icons.join', 'Join Icon')}
+                            />
+                        }
                     />
                 </SystemPermissionGate>
             );

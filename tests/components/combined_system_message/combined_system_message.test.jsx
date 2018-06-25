@@ -11,6 +11,13 @@ import CombinedSystemMessage from 'components/post_view/combined_system_message/
 
 describe('components/post_view/CombinedSystemMessage', () => {
     function emptyFunc() {} // eslint-disable-line no-empty-function
+    const userProfiles = [
+        {id: 'added_user_id_1', username: 'AddedUser1'},
+        {id: 'added_user_id_2', username: 'AddedUser2'},
+        {id: 'current_user', username: 'CurrentUser'},
+        {id: 'user_id_1', username: 'User1'},
+    ];
+
     const baseProps = {
         currentUserId: 'current_user_id',
         currentUsername: 'current_username',
@@ -31,36 +38,17 @@ describe('components/post_view/CombinedSystemMessage', () => {
         }],
         showJoinLeave: true,
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+        userProfiles,
         actions: {
-            getProfilesByIds: emptyFunc,
-            getProfilesByUsernames: emptyFunc,
+            getMissingProfilesByIds: emptyFunc,
+            getMissingProfilesByUsernames: emptyFunc,
         },
     };
-
-    const userProfiles = [{
-        id: 'added_user_id_1',
-        username: 'AddedUser1',
-    },
-    {
-        id: 'added_user_id_2',
-        username: 'AddedUser2',
-    },
-    {
-        id: 'current_user',
-        username: 'CurrentUser',
-    },
-    {
-        id: 'user_id_1',
-        username: 'User1',
-    }];
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...baseProps}/>
         );
-
-        // Fake this state change since getProfilesByIds is called asynchronously
-        wrapper.setState({userProfiles});
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,9 +61,36 @@ describe('components/post_view/CombinedSystemMessage', () => {
             />
         );
 
-        // Fake this state change since getProfilesByIds is called asynchronously
-        wrapper.setState({userProfiles});
-
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call getMissingProfilesByIds and/or getMissingProfilesByUsernames on loadUserProfiles', () => {
+        const props = {
+            ...baseProps,
+            allUserIds: [],
+            actions: {
+                getMissingProfilesByIds: jest.fn(),
+                getMissingProfilesByUsernames: jest.fn(),
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <CombinedSystemMessage {...props}/>
+        );
+
+        wrapper.instance().loadUserProfiles([], []);
+        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(0);
+        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(0);
+
+        wrapper.instance().loadUserProfiles(['user_id_1'], []);
+        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
+        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledWith(['user_id_1']);
+        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(0);
+
+        wrapper.instance().loadUserProfiles(['user_id_1', 'user_id_2'], ['user1']);
+        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(2);
+        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledWith(['user_id_1', 'user_id_2']);
+        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(1);
+        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledWith(['user1']);
     });
 });

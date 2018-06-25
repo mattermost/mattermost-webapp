@@ -310,16 +310,21 @@
 
     .channel-header__description {
         font-size: 12px;
-        height: 18px;
         margin-bottom: 3px;
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
         width: calc(100% - 18px);
+        height: 20px;
+
+        span[data-emoticon] {
+            position: relative;
+            top: -1px;
+        }
 
         blockquote {
-            font-size: 14px;
-            padding: 0 0 0 23px;
+            font-size: 13px;
+            padding: 1px 0 0 23px;
 
             &:before {
                 font-size: 16px;

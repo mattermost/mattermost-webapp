@@ -378,7 +378,10 @@ export default class ComplianceReports extends React.PureComponent {
                         disabled={this.state.runningReport}
                         onClick={this.reload}
                     >
-                        <i className='fa fa-refresh'/>
+                        <i
+                            className='fa fa-refresh'
+                            title={Utils.localizeMessage('generic_icons.reload', 'Reload Icon')}
+                        />
                         <FormattedMessage
                             id='admin.compliance_reports.reload'
                             defaultMessage='Reload Completed Compliance Reports'

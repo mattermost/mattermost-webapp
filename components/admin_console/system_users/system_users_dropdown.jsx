@@ -16,6 +16,7 @@ import * as Utils from 'utils/utils.jsx';
 import {clientLogout} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import {browserHistory} from 'utils/browser_history';
 
 export default class SystemUsersDropdown extends React.Component {
     static propTypes = {
@@ -146,9 +147,9 @@ export default class SystemUsersDropdown extends React.Component {
         const teamUrl = TeamStore.getCurrentTeamUrl();
         if (teamUrl) {
             // the channel is added to the URL cause endless loading not being fully fixed
-            window.location.href = teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`;
+            browserHistory.push(teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
-            window.location.href = '/';
+            browserHistory.push('/');
         }
     }
 

@@ -81,7 +81,10 @@ export default class ClusterSettings extends AdminSettings {
                     style={style.configLoadedFromCluster}
                     className='alert alert-warning'
                 >
-                    <i className='fa fa-warning'/>
+                    <i
+                        className='fa fa-warning'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                    />
                     <FormattedHTMLMessage
                         id='admin.cluster.loadedFrom'
                         defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a> if you are accessing the System Console through a load balancer and experiencing issues.'
@@ -100,7 +103,10 @@ export default class ClusterSettings extends AdminSettings {
                     style={style.warning}
                     className='alert alert-warning'
                 >
-                    <i className='fa fa-warning'/>
+                    <i
+                        className='fa fa-warning'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                    />
                     <FormattedHTMLMessage
                         id='admin.cluster.should_not_change'
                         defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a> on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a>.'

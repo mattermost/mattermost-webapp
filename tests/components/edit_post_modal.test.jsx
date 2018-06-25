@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {shallow} from 'enzyme';
+import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -173,7 +174,8 @@ describe('components/EditPostModal', () => {
     });
 
     it('should add emoji to editText when an emoji is clicked', () => {
-        const wrapper = mountWithIntl(createEditPost());
+        const options = new ReactRouterEnzymeContext();
+        const wrapper = mountWithIntl(createEditPost(), options.get());
         wrapper.setState({editText: ''});
         wrapper.instance().handleEmojiClick(null);
         wrapper.instance().handleEmojiClick({});
@@ -194,7 +196,8 @@ describe('components/EditPostModal', () => {
     });
 
     it('should set the focus and recalculate the size of the edit box after entering', () => {
-        const wrapper = mountWithIntl(createEditPost());
+        const options = new ReactRouterEnzymeContext();
+        const wrapper = mountWithIntl(createEditPost(), options.get());
         const instance = wrapper.instance();
         const ref = wrapper.ref('editbox');
         ref.focus = jest.fn();
@@ -207,7 +210,8 @@ describe('components/EditPostModal', () => {
     });
 
     it('should hide the preview when exiting', () => {
-        const wrapper = mountWithIntl(createEditPost());
+        const options = new ReactRouterEnzymeContext();
+        const wrapper = mountWithIntl(createEditPost(), options.get());
         const instance = wrapper.instance();
         const ref = wrapper.ref('editbox');
         ref.hidePreview = jest.fn();
@@ -351,7 +355,8 @@ describe('components/EditPostModal', () => {
     });
 
     it('should handle edition on key down enter depending on the conditions', () => {
-        var wrapper = shallow(createEditPost({ctrlSend: true}));
+        const options = new ReactRouterEnzymeContext();
+        var wrapper = shallow(createEditPost({ctrlSend: true}), {context: options.get()});
         var instance = wrapper.instance();
         instance.handleEdit = jest.fn();
         instance.handleKeyDown({keyCode: 1, ctrlKey: true});
@@ -373,8 +378,9 @@ describe('components/EditPostModal', () => {
     });
 
     it('should handle edition on key press enter depending on the conditions', () => {
+        const options = new ReactRouterEnzymeContext();
         global.navigator = {userAgent: 'Android'};
-        var wrapper = mountWithIntl(createEditPost({ctrlSend: true}));
+        var wrapper = mountWithIntl(createEditPost({ctrlSend: true}), options.get());
         var instance = wrapper.instance();
         const preventDefault = jest.fn();
         instance.handleEdit = jest.fn();
@@ -389,7 +395,7 @@ describe('components/EditPostModal', () => {
         expect(preventDefault).toBeCalled();
 
         global.navigator = {userAgent: 'Chrome'};
-        wrapper = mountWithIntl(createEditPost({ctrlSend: false}));
+        wrapper = mountWithIntl(createEditPost({ctrlSend: false}), options.get());
         instance = wrapper.instance();
         preventDefault.mockClear();
         instance.handleEdit = jest.fn();

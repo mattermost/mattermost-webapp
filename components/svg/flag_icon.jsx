@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class FlagIcon extends React.PureComponent {
     render() {
         return (
@@ -11,6 +13,8 @@ export default class FlagIcon extends React.PureComponent {
                     width='14px'
                     height='14px'
                     viewBox='0 0 16 16'
+                    role='icon'
+                    aria-label={localizeMessage('generic_icons.flag', 'Flag Icon')}
                 >
                     <g
                         stroke='none'

@@ -231,6 +231,8 @@ export default class WebrtcNotification extends React.Component {
                     height='48'
                     viewBox='-10 -10 68 68'
                     onClick={this.handleAnswer}
+                    role='icon'
+                    aria-label={Utils.localizeMessage('webrtc.notification.answer.icon', 'Answer Icon')}
                 >
                     <circle
                         cx='24'
@@ -260,6 +262,8 @@ export default class WebrtcNotification extends React.Component {
                     height='48'
                     viewBox='-10 -10 68 68'
                     onClick={this.handleClose}
+                    role='icon'
+                    aria-label={Utils.localizeMessage('webrtc.cancel.icon', 'Cancel Call Icon')}
                 >
                     <circle
                         cx='24'
@@ -319,7 +323,10 @@ export default class WebrtcNotification extends React.Component {
                     className='webrtc__notification--rhs'
                     onClick={this.closeRightHandSide}
                 >
-                    <i className='fa fa-phone'/>
+                    <i
+                        className='fa fa-phone'
+                        aria-label={Utils.localizeMessage('webrtc.return.icon', 'Return to Call Icon')}
+                    />
                     <FormattedMessage
                         id='webrtc.notification.returnToCall'
                         defaultMessage='Return to ongoing call with {username}'

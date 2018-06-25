@@ -58,23 +58,30 @@ export function initialize() {
     if (config.WebsocketURL) {
         connUrl = config.WebsocketURL;
     } else {
-        connUrl = getSiteURL();
+        connUrl = new URL(getSiteURL());
 
         // replace the protocol with a websocket one
-        if (connUrl.startsWith('https:')) {
-            connUrl = connUrl.replace(/^https:/, 'wss:');
+        if (connUrl.protocol === 'https:') {
+            connUrl.protocol = 'wss:';
         } else {
-            connUrl = connUrl.replace(/^http:/, 'ws:');
+            connUrl.protocol = 'ws:';
         }
 
         // append a port number if one isn't already specified
-        if (!(/:\d+$/).test(connUrl)) {
-            if (connUrl.startsWith('wss:')) {
-                connUrl += ':' + config.WebsocketSecurePort;
+        if (!(/:\d+$/).test(connUrl.host)) {
+            if (connUrl.protocol === 'wss:') {
+                connUrl.host += ':' + config.WebsocketSecurePort;
             } else {
-                connUrl += ':' + config.WebsocketPort;
+                connUrl.host += ':' + config.WebsocketPort;
             }
         }
+
+        connUrl = connUrl.toString();
+    }
+
+    // Strip any trailing slash before appending the pathname below.
+    if (connUrl.length > 0 && connUrl[connUrl.length - 1] === '/') {
+        connUrl = connUrl.substring(0, connUrl.length - 1);
     }
 
     connUrl += Client4.getUrlVersion() + '/websocket';

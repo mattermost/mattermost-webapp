@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class BackstageHeader extends React.Component {
     static get propTypes() {
         return {
@@ -21,7 +23,10 @@ export default class BackstageHeader extends React.Component {
                         key={'divider' + index}
                         className='backstage-header__divider'
                     >
-                        <i className='fa fa-angle-right'/>
+                        <i
+                            className='fa fa-angle-right'
+                            title={localizeMessage('generic_icons.breadcrumb', 'Breadcrumb Icon')}
+                        />
                     </span>
                 );
             }

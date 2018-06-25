@@ -884,6 +884,8 @@ export default class WebrtcController extends React.Component {
                     height='48'
                     viewBox='-10 -10 68 68'
                     onClick={() => this.handleCancelOffer()}
+                    role='icon'
+                    aria-label={Utils.localizeMessage('webrtc.cancel.icon', 'Cancel Call Icon')}
                 >
                     <circle
                         cx='24'
@@ -915,6 +917,8 @@ export default class WebrtcController extends React.Component {
                     viewBox='-10 -10 68 68'
                     onClick={() => this.handleMakeOffer()}
                     disabled={UserStore.getStatus(this.props.userId) === 'offline'}
+                    role='icon'
+                    aria-label={Utils.localizeMessage('webrtc.call.icon', 'Call Icon')}
                 >
                     <circle
                         cx='24'
@@ -993,6 +997,8 @@ export default class WebrtcController extends React.Component {
                         height='48'
                         viewBox='-10 -10 68 68'
                         onClick={() => this.onToggleAudio()}
+                        role='icon'
+                        aria-label={Utils.localizeMessage('webrtc.mute_audio.icon', 'Mute Icon')}
                     >
                         <circle
                             cx='24'
@@ -1023,6 +1029,8 @@ export default class WebrtcController extends React.Component {
                         height='48'
                         viewBox='-10 -10 68 68'
                         onClick={() => this.onToggleVideo()}
+                        role='icon'
+                        aria-label={Utils.localizeMessage('webrtc.mute_audio.icon', 'Mute Icon')}
                     >
                         <circle
                             cx='24'
@@ -1053,6 +1061,8 @@ export default class WebrtcController extends React.Component {
                         height='48'
                         viewBox='-10 -10 68 68'
                         onClick={() => this.doHangup(false, true)}
+                        role='icon'
+                        aria-label={Utils.localizeMessage('webrtc.cancel.icon', 'Cancel Call Icon')}
                     >
                         <circle
                             cx='24'
@@ -1117,6 +1127,8 @@ export default class WebrtcController extends React.Component {
                         width='60'
                         height='60'
                         viewBox='-10 -10 68 68'
+                        role='icon'
+                        aria-label={Utils.localizeMessage('webrtc.mute_audio.icon', 'Mute Icon')}
                     >
                         <path
                             className='off'

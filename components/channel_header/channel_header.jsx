@@ -780,7 +780,7 @@ export default class ChannelHeader extends React.Component {
                             >
                                 <FormattedMessage
                                     id='channel_header.delete'
-                                    defaultMessage='Delete Channel'
+                                    defaultMessage='Archive Channel'
                                 />
                             </ToggleModalButtonRedux>
                         </li>
@@ -979,7 +979,10 @@ export default class ChannelHeader extends React.Component {
                         onClick={this.unmute}
                         className={'style--none color--link channel-header__mute inactive'}
                     >
-                        <i className={'icon fa fa-bell-slash-o'}/>
+                        <i
+                            className={'icon fa fa-bell-slash-o'}
+                            title={Utils.localizeMessage('generic_icons.muted', 'Muted Icon')}
+                        />
                     </button>
                 </OverlayTrigger>
             );
@@ -1044,6 +1047,7 @@ export default class ChannelHeader extends React.Component {
                                         <span
                                             id='channelHeaderDropdownIcon'
                                             className='fa fa-angle-down header-dropdown__icon'
+                                            title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                                         />
                                     </button>
                                     <ul
