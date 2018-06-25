@@ -122,6 +122,10 @@ export default class PluginRegistry {
         return id;
     }
 
+    registerBottomTeamSidebarComponent = (component) => {
+        return dispatchPluginComponentAction('BottomTeamSidebar', this.id, component);
+    }
+
     // Unregister a component using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.
