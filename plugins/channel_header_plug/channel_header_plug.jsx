@@ -118,6 +118,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     createButton = (plug) => {
         return (
             <HeaderIconWrapper
+                buttonClass='channel-header__icon style--none'
                 iconComponent={plug.icon}
                 onClick={plug.action}
                 buttonId={plug.id}
