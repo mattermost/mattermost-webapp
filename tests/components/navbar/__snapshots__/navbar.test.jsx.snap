@@ -66,8 +66,17 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "Town Square",
+              "id": "123",
+              "name": "town-square",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -263,6 +272,18 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                   />
                 </a>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "Town Square",
+                    "id": "123",
+                    "name": "town-square",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -384,8 +405,16 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "P",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -695,6 +724,17 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                   />
                 </a>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "P",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -814,8 +854,16 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -1155,6 +1203,17 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   />
                 </a>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -1275,8 +1334,17 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "name": "user_id_1__user_id_2",
+              "team_id": "team_id",
+              "type": "D",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -1339,6 +1407,18 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
                   />
                 </a>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "name": "user_id_1__user_id_2",
+                    "team_id": "team_id",
+                    "type": "D",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -1460,8 +1540,16 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -1801,6 +1889,17 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   />
                 </a>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -1922,8 +2021,16 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -2263,6 +2370,17 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   />
                 </a>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}

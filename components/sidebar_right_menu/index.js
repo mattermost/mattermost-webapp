@@ -47,7 +47,7 @@ function mapStateToProps(state) {
         reportAProblemLink,
         restrictTeamInvite,
         siteName,
-        pluginMenuItems: state.plugins.mainMenuActions,
+        pluginMenuItems: state.plugins.components.MainMenu,
     };
 }
 

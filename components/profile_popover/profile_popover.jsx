@@ -16,6 +16,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import Pluggable from 'plugins/pluggable';
 
 const UserStatuses = Constants.UserStatuses;
 
@@ -322,6 +323,15 @@ class ProfilePopover extends React.Component {
             );
         }
 
+        dataContent.push(
+            <Pluggable
+                key='profilePopoverPluggable2'
+                pluggableName='PopoverUserAttributes'
+                user={this.props.user}
+                status={this.props.status}
+            />
+        );
+
         if (this.props.enableTimezone && this.props.user.timezone) {
             dataContent.push(
                 <div
@@ -380,6 +390,15 @@ class ProfilePopover extends React.Component {
             );
             dataContent.push(webrtc);
         }
+
+        dataContent.push(
+            <Pluggable
+                key='profilePopoverPluggable3'
+                pluggableName='PopoverUserActions'
+                user={this.props.user}
+                status={this.props.status}
+            />
+        );
 
         let title = `@${this.props.user.username}`;
         if (this.props.hasMention) {
