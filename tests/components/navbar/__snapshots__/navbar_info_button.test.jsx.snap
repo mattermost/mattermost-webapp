@@ -42,6 +42,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       <Popover
         bsClass="popover"
         bsStyle="info"
+        className="navbar__popover"
         id="header-popover"
         placement="bottom"
       >
@@ -50,7 +51,6 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
           options={
             Object {
               "mentionHighlight": false,
-              "singleline": true,
             }
           }
         />
@@ -159,6 +159,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       <Popover
         bsClass="popover"
         bsStyle="info"
+        className="navbar__popover"
         id="header-popover"
         placement="bottom"
       >
