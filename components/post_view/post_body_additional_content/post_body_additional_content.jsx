@@ -132,7 +132,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     isLinkImage(link) {
-        let linkWithoutQuery = link;
+        let linkWithoutQuery = link.toLowerCase();
         if (link.indexOf('?') !== -1) {
             linkWithoutQuery = linkWithoutQuery.split('?')[0];
         }
