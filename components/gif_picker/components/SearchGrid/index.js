@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {saveSearchScrollPosition, sendEvent} from 'mattermost-redux/actions/gifs';
+import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 
 import SearchGrid from './SearchGrid';
 
@@ -18,7 +18,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps() {
     return {
         saveSearchScrollPosition,
-        sendEvent,
     };
 }
 

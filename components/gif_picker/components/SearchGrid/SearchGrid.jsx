@@ -5,10 +5,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {saveSearchScrollPosition, sendEvent} from 'mattermost-redux/actions/gifs';
+import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
 import store from 'stores/redux_store.jsx';
+
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
@@ -31,7 +33,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = ({
     saveSearchScrollPosition,
-    sendEvent,
 });
 
 const getStyle = makeStyleFromTheme((theme) => {
@@ -55,7 +56,6 @@ export class SearchGrid extends Component {
         numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
         saveSearchScrollPosition: PropTypes.func,
-        sendEvent: PropTypes.func,
     }
 
     constructor(props) {
@@ -116,14 +116,7 @@ export class SearchGrid extends Component {
         const {appProps, keyword, handleItemClick} = this.props;
         this.props.saveSearchScrollPosition(this.scrollPosition);
 
-        this.props.sendEvent({
-            event: appProps.shareEvent,
-            params: {
-                gfyid: gfyItem.gfyId,
-                app_id: appProps.appId,
-                keyword,
-            },
-        });
+        trackEvent('gfycat', 'shares', {gfyid: gfyItem.gfyId, keyword: keyword});
         handleItemClick(gfyItem);
     }
 

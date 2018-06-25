@@ -5,9 +5,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate, sendViewCountBatch} from 'mattermost-redux/actions/gifs';
+import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate} from 'mattermost-redux/actions/gifs';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 
@@ -31,7 +32,6 @@ const mapDispatchToProps = ({
     searchTextUpdate,
     requestCategoriesList,
     requestCategoriesListIfNeeded,
-    sendViewCountBatch,
 });
 
 const getStyle = makeStyleFromTheme((theme) => {
@@ -54,7 +54,6 @@ export class Categories extends Component {
         saveSearchBarText: PropTypes.func,
         saveSearchScrollPosition: PropTypes.func,
         searchTextUpdate: PropTypes.func,
-        sendViewCountBatch: PropTypes.func,
         searchBarText: PropTypes.string,
         tagsList: PropTypes.array,
     }
@@ -72,13 +71,7 @@ export class Categories extends Component {
         });
 
         if (gfycats.length) {
-            this.props.sendViewCountBatch({
-                gfycats,
-                params: {
-                    app_id: appProps.appId,
-                    context: 'category_list',
-                },
-            });
+            trackEvent('gfycat', 'views', {context: 'category_list', count: gfycats.length});
         }
     }
 
