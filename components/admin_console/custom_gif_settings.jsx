@@ -32,7 +32,7 @@ export default class CustomGifSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.customization.gif'
-                defaultMessage='GIF'
+                defaultMessage='GIF (Beta)'
             />
         );
     }
