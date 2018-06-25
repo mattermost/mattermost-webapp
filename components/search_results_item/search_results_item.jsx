@@ -11,7 +11,7 @@ import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
-import ProfilePicture from 'components/profile_picture.jsx';
+import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
@@ -207,13 +207,13 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         const profilePic = (
-            <ProfilePicture
-                src={PostUtils.getProfilePicSrcForPost(post, user)}
-                user={this.props.user}
+            <PostProfilePicture
+                compactDisplay={this.props.compactDisplay}
+                post={post}
+                user={user}
                 status={this.props.status}
                 isBusy={this.props.isBusy}
             />
-
         );
 
         const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
