@@ -12,6 +12,7 @@ function mapStateToProps(state) {
 
     return {
         enablePostIconOverride: config.EnablePostIconOverride === 'true',
+        hasImageProxy: config.HasImageProxy === 'true',
     };
 }
 

@@ -15,6 +15,7 @@ export default class PostProfilePicture extends React.PureComponent {
     static propTypes = {
         compactDisplay: PropTypes.bool.isRequired,
         enablePostIconOverride: PropTypes.bool.isRequired,
+        hasImageProxy: PropTypes.bool.isRequired,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         post: PropTypes.object.isRequired,
@@ -38,7 +39,7 @@ export default class PostProfilePicture extends React.PureComponent {
 
         if (!fromAutoResponder && fromWebhook && !post.props.use_user_icon && this.props.enablePostIconOverride) {
             if (post.props.override_icon_url) {
-                src = post.props.override_icon_url;
+                src = PostUtils.getImageSrc(post.props.override_icon_url, this.props.hasImageProxy);
             } else {
                 src = Constants.DEFAULT_WEBHOOK_LOGO;
             }
