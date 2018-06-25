@@ -32,11 +32,6 @@ export default class UserSettingsSidebar extends React.Component {
         closeUnusedDirectMessages: PropTypes.string.isRequired,
 
         /**
-         * The preferences to show the unread channels section in the sidebar
-         */
-        displayUnreadSection: PropTypes.string.isRequired,
-
-        /**
          * Display the close unused direct messages channels options
          */
         showUnusedOption: PropTypes.bool.isRequired,
@@ -68,9 +63,9 @@ export default class UserSettingsSidebar extends React.Component {
         }).isRequired,
 
         /**
-         * Display the unread channels sections options
+         * Display the group and sort channels sections options
          */
-        showUnreadOption: PropTypes.bool.isRequired,
+        showGroupSortOptions: PropTypes.bool.isRequired,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
@@ -86,7 +81,6 @@ export default class UserSettingsSidebar extends React.Component {
     getStateFromStores = () => {
         const {
             closeUnusedDirectMessages,
-            displayUnreadSection,
             sidebarPreference: {
                 grouping,
                 sorting,
@@ -98,7 +92,6 @@ export default class UserSettingsSidebar extends React.Component {
         return {
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
-                show_unread_section: displayUnreadSection,
                 grouping,
                 unreads_at_top: unreadsAtTop,
                 favorite_at_top: favoriteAtTop,
@@ -354,83 +347,6 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    renderUnreadSection = () => {
-        if (this.props.activeSection === 'unreadChannels') {
-            return (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.sidebar.unreadSectionTitle'
-                            defaultMessage='Group unread channels'
-                        />
-                    }
-                    inputs={[
-                        <div key='unreadSectionSetting'>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='unreadSectionEnabled'
-                                        type='radio'
-                                        name='unreadChannels'
-                                        checked={this.state.settings.show_unread_section === 'true'}
-                                        onChange={this.updateSetting.bind(this, 'show_unread_section', 'true')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.sidebar.showUnreadSection'
-                                        defaultMessage='At the top of the channel sidebar'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='unreadSectionNever'
-                                        type='radio'
-                                        name='unreadChannels'
-                                        checked={this.state.settings.show_unread_section === 'false'}
-                                        onChange={this.updateSetting.bind(this, 'show_unread_section', 'false')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.sidebar.never'
-                                        defaultMessage='Never'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div>
-                                <br/>
-                                <FormattedMessage
-                                    id='user.settings.sidebar.unreadSectionDesc'
-                                    defaultMessage='Unread channels will be sorted at the top of the channel sidebar until read.'
-                                />
-                            </div>
-                        </div>,
-                    ]}
-                    setting={'show_unread_section'}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.updateSection}
-                />
-            );
-        }
-
-        return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.sidebar.unreadSectionTitle'
-                        defaultMessage='Group unread channels'
-                    />
-                }
-                describe={this.renderUnreadLabel(this.state.settings.show_unread_section)}
-                section={'unreadChannels'}
-                updateSection={this.updateSection}
-            />
-        );
-    };
-
     renderChannelGroupSection = () => {
         const {
             settings: {
@@ -447,7 +363,7 @@ export default class UserSettingsSidebar extends React.Component {
                     <div className='radio'>
                         <label>
                             <input
-                                id='recentSectionEnabled'
+                                id='byTypeOption'
                                 type='radio'
                                 name='groupChannels'
                                 checked={grouping === 'by_type'}
@@ -463,7 +379,7 @@ export default class UserSettingsSidebar extends React.Component {
                     <div className='radio'>
                         <label>
                             <input
-                                id='unreadSectionNever'
+                                id='neverOption'
                                 type='radio'
                                 name='groupChannels'
                                 checked={grouping === 'none'}
@@ -500,7 +416,7 @@ export default class UserSettingsSidebar extends React.Component {
                             <div className='checkbox'>
                                 <label>
                                     <input
-                                        id='unread'
+                                        id='unreadAtTopOption'
                                         type='checkbox'
                                         checked={this.state.settings.unreads_at_top === 'true'}
                                         onChange={(e) => this.updateSetting('unreads_at_top', (e.target.checked).toString())}
@@ -516,7 +432,7 @@ export default class UserSettingsSidebar extends React.Component {
                             <div className='checkbox'>
                                 <label>
                                     <input
-                                        id='favorite'
+                                        id='favoriteAtTopOption'
                                         type='checkbox'
                                         checked={this.state.settings.favorite_at_top === 'true'}
                                         onChange={(e) => this.updateSetting('favorite_at_top', (e.target.checked).toString())}
@@ -577,10 +493,6 @@ export default class UserSettingsSidebar extends React.Component {
             const disableSorting = grouping === 'by_type';
             const inputs = [];
 
-            // radio
-            // by alphabetical, default
-            // by recent
-
             inputs.push(
                 <div key='sortingSectionSetting'>
                     <div className='radio'>
@@ -588,7 +500,7 @@ export default class UserSettingsSidebar extends React.Component {
                             <input
                                 id='recentSectionEnabled'
                                 type='radio'
-                                name='groupChannels'
+                                name='sortChannels'
                                 checked={sorting === 'recent'}
                                 disabled={disableSorting}
                                 onChange={this.updateSetting.bind(this, 'sorting', 'recent')}
@@ -603,9 +515,9 @@ export default class UserSettingsSidebar extends React.Component {
                     <div className='radio'>
                         <label>
                             <input
-                                id='unreadSectionNever'
+                                id='alphaSectionEnabled'
                                 type='radio'
-                                name='groupChannels'
+                                name='sortChannels'
                                 checked={sorting === 'alpha'}
                                 disabled={disableSorting}
                                 onChange={this.updateSetting.bind(this, 'sorting', 'alpha')}
@@ -661,12 +573,11 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     render() {
-        const {showUnusedOption, showUnreadOption} = this.props;
+        const {showUnusedOption, showGroupSortOptions} = this.props;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
 
-        // TODO: refactor showUreadOptions to showGroupSortOptions
-        const channelGroupSection = showUnreadOption ? this.renderChannelGroupSection() : null;
-        const channelSortingSection = showUnreadOption ? this.renderChannelSortingSection() : null;
+        const channelGroupSection = showGroupSortOptions ? this.renderChannelGroupSection() : null;
+        const channelSortingSection = showGroupSortOptions ? this.renderChannelSortingSection() : null;
 
         return (
             <div>
@@ -709,7 +620,7 @@ export default class UserSettingsSidebar extends React.Component {
                     {channelGroupSection}
                     <div className='divider-dark'/>
                     {channelSortingSection}
-                    {showUnreadOption && <div className='divider-light'/>}
+                    {showGroupSortOptions && <div className='divider-light'/>}
                     {autoCloseDMSection}
                     <div className='divider-dark'/>
                 </div>
