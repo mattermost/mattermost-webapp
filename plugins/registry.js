@@ -3,6 +3,8 @@
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
+import {registerPluginWebSocketEvent, unregisterPluginWebSocketEvent} from 'actions/websocket_actions.jsx';
+
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {generateId} from 'utils/utils.jsx';
@@ -135,5 +137,21 @@ export default class PluginRegistry {
     // Accepts a reducer. Returns undefined.
     registerReducer = (reducer) => {
         reducerRegistry.register('plugins-' + this.id, reducer);
+    }
+
+    // Register a handler for custom WebSocket events created by the server-side of your plugin.
+    // Accepts the following:
+    // - event - the event type, will automatically have "custom_<yourpluginid>_" prepended
+    // - handler - a function to handle the event, receives the event as an argument
+    // Returns undefined.
+    registerWebSocketEventHandler = (event, handler) => {
+        registerPluginWebSocketEvent('custom_' + this.id + '_' + event, handler);
+    }
+
+    // Unregister a handler for a custom WebSocket event.
+    // Accepts a string event type.
+    // Returns undefined.
+    unregisterWebSocketEventHandler = (event) => {
+        unregisterPluginWebSocketEvent('custom_' + this.id + '_' + event);
     }
 }
