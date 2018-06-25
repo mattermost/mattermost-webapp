@@ -33,6 +33,7 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     >
       <i
         className="fa fa-plus"
+        title="Add Icon"
       />
     </div>
   </div>

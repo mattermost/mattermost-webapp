@@ -119,7 +119,10 @@ export default class FilePreview extends React.PureComponent {
                                 className='file-preview__remove'
                                 onClick={this.handleRemove.bind(this, info.id)}
                             >
-                                <i className='fa fa-remove'/>
+                                <i
+                                    className='fa fa-remove'
+                                    title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
+                                />
                             </a>
                         </div>
                     </div>
@@ -143,7 +146,10 @@ export default class FilePreview extends React.PureComponent {
                         className='file-preview__remove'
                         onClick={this.handleRemove.bind(this, clientId)}
                     >
-                        <i className='fa fa-remove'/>
+                        <i
+                            className='fa fa-remove'
+                            title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
+                        />
                     </a>
                 </div>
             );

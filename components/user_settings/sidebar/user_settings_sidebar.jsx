@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
@@ -314,6 +315,7 @@ export default class UserSettingsSidebar extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
+                                title={localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>

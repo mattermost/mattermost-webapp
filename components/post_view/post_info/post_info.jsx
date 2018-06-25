@@ -207,28 +207,28 @@ export default class PostInfo extends React.PureComponent {
 
             if (hover && !isReadOnly && this.props.enableEmojiPicker) {
                 react = (
-                    <div>
-                        <EmojiPickerOverlay
-                            show={this.state.showEmojiPicker}
-                            container={this.props.getPostList}
-                            target={this.getDotMenu}
-                            onHide={this.hideEmojiPicker}
-                            onEmojiClick={this.reactEmojiClick}
-                            rightOffset={7}
-                        />
-                        <ChannelPermissionGate
-                            channelId={post.channel_id}
-                            teamId={this.props.teamId}
-                            permissions={[Permissions.ADD_REACTION]}
-                        >
+                    <ChannelPermissionGate
+                        channelId={post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
+                    >
+                        <div>
+                            <EmojiPickerOverlay
+                                show={this.state.showEmojiPicker}
+                                container={this.props.getPostList}
+                                target={this.getDotMenu}
+                                onHide={this.hideEmojiPicker}
+                                onEmojiClick={this.reactEmojiClick}
+                                rightOffset={7}
+                            />
                             <button
                                 className='reacticon__container color--link style--none'
                                 onClick={this.toggleEmojiPicker}
                             >
                                 <EmojiIcon className='icon icon--emoji'/>
                             </button>
-                        </ChannelPermissionGate>
-                    </div>
+                        </div>
+                    </ChannelPermissionGate>
                 );
             }
         }

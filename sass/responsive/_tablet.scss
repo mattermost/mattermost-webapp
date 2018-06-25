@@ -48,6 +48,33 @@
 }
 
 @media screen and (max-width: 960px) {
+    .app__body {
+        .modal {
+            .modal-image {
+                .modal-button-bar {
+                    line-height: 30px;
+                    padding: 5px;
+                }
+
+                .modal-image__wrapper {
+                    > div {
+                        font-size: 12px;
+                        min-width: 250px;
+                    }
+
+                    .modal-close {
+                        @include opacity(1);
+                    }
+                }
+
+                .modal-button-bar {
+                    @include opacity(1);
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
+
     .help__format-text {
         display: none;
     }

@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MentionsIcon extends React.PureComponent {
     render() {
         return (
@@ -12,6 +14,8 @@ export default class MentionsIcon extends React.PureComponent {
                     height='14px'
                     viewBox='0 0 20 20'
                     version='1.1'
+                    role='icon'
+                    aria-label={localizeMessage('generic_icons.mention', 'Mention Icon')}
                 >
                     <g
                         stroke='none'

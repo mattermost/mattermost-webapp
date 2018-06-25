@@ -332,7 +332,10 @@ export default class LoginController extends React.Component {
             if (extraParam === Constants.SIGNIN_CHANGE) {
                 extraBox = (
                     <div className='alert alert-success'>
-                        <i className='fa fa-check'/>
+                        <i
+                            className='fa fa-check'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                        />
                         <FormattedMessage
                             id='login.changed'
                             defaultMessage=' Sign-in method changed successfully'
@@ -342,7 +345,10 @@ export default class LoginController extends React.Component {
             } else if (extraParam === Constants.SIGNIN_VERIFIED) {
                 extraBox = (
                     <div className='alert alert-success'>
-                        <i className='fa fa-check'/>
+                        <i
+                            className='fa fa-check'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                        />
                         <FormattedMessage
                             id='login.verified'
                             defaultMessage=' Email Verified'
@@ -352,7 +358,10 @@ export default class LoginController extends React.Component {
             } else if (extraParam === Constants.SESSION_EXPIRED) {
                 extraBox = (
                     <div className='alert alert-warning'>
-                        <i className='fa fa-exclamation-triangle'/>
+                        <i
+                            className='fa fa-exclamation-triangle'
+                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                        />
                         <FormattedMessage
                             id='login.session_expired'
                             defaultMessage=' Your session has expired. Please login again.'
@@ -362,7 +371,10 @@ export default class LoginController extends React.Component {
             } else if (extraParam === Constants.PASSWORD_CHANGE) {
                 extraBox = (
                     <div className='alert alert-success'>
-                        <i className='fa fa-check'/>
+                        <i
+                            className='fa fa-check'
+                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                        />
                         <FormattedMessage
                             id='login.passwordChanged'
                             defaultMessage=' Password updated successfully'
@@ -398,7 +410,10 @@ export default class LoginController extends React.Component {
             if (this.state.loading) {
                 loginButton =
                 (<span>
-                    <span className='fa fa-refresh icon--rotate'/>
+                    <span
+                        className='fa fa-refresh icon--rotate'
+                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                    />
                     <FormattedMessage
                         id='login.signInLoading'
                         defaultMessage='Signing in...'
@@ -590,7 +605,10 @@ export default class LoginController extends React.Component {
                     href={'/login/sso/saml' + this.props.location.search}
                 >
                     <span>
-                        <span className='icon fa fa-lock fa--margin-top'/>
+                        <span
+                            className='icon fa fa-lock fa--margin-top'
+                            title='Saml icon'
+                        />
                         <span>
                             {this.props.samlLoginButtonText}
                         </span>

@@ -1178,7 +1178,7 @@ class UserSettingsGeneralTab extends React.Component {
         }
 
         return (
-            <div>
+            <div id='generalSettings'>
                 <div className='modal-header'>
                     <button
                         id='closeUserSettings'
@@ -1197,6 +1197,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
+                                title={Utils.localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>
@@ -1207,7 +1208,10 @@ class UserSettingsGeneralTab extends React.Component {
                     </h4>
                 </div>
                 <div className='user-settings'>
-                    <h3 className='tab-header'>
+                    <h3
+                        id='generalSettingsTitle'
+                        className='tab-header'
+                    >
                         <FormattedMessage
                             id='user.settings.general.title'
                             defaultMessage='General Settings'
