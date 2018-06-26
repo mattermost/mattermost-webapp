@@ -71,12 +71,6 @@ export default class CustomGifSettings extends AdminSettings {
                             defaultMessage='Gfycat API Key:'
                         />
                     }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.customization.gfycatApiKeyDescription'
-                            defaultMessage='The Gfycat API developer key.'
-                        />
-                    }
                     value={this.state.gfycatApiKey}
                     placeholder=''
                     onChange={this.handleChange}
@@ -93,7 +87,7 @@ export default class CustomGifSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.customization.gfycatApiSecretDescription'
-                            defaultMessage='The Gfycat API developer secret key.'
+                            defaultMessage='Obtain from Gfycat a client_id and client_secret at https://developers.gfycat.com/signup/#/keys. After requesting an API key this information will be emailed to you. Input that information here to enable GIFs for your team.'
                         />
                     }
                     value={this.state.gfycatApiSecret}
