@@ -8,7 +8,6 @@ import {connect} from 'react-redux';
 import {saveAppProps} from 'mattermost-redux/actions/gifs';
 
 import Header from 'components/gif_picker/components/Header';
-import gfycatSdk from 'components/gif_picker/utils/gfycatSdk';
 
 const mapDispatchToProps = ({
     saveAppProps,
@@ -30,7 +29,6 @@ export class App extends Component {
         super(props);
         const {appProps} = this.props;
         this.props.saveAppProps(appProps);
-        gfycatSdk.authenticate();
     }
 
     render() {
