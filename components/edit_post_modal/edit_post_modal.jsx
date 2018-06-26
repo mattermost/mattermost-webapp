@@ -278,8 +278,8 @@ export default class EditPostModal extends React.PureComponent {
                         onGifClick={this.handleGifClick}
                         enableGifPicker={
                             this.props.config.EnableGifPicker === 'true' &&
-                            this.props.config.GfycatApiKey != "" &&
-                            this.props.config.GfycatApiSecret != ""
+                            this.props.config.GfycatApiKey !== '' &&
+                            this.props.config.GfycatApiSecret !== ''
                         }
                         rightOffset={50}
                         topOffset={-20}

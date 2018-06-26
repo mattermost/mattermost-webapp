@@ -113,10 +113,10 @@ export class SearchGrid extends Component {
     }
 
     itemClickHandler = (gfyItem) => {
-        const {appProps, keyword, handleItemClick} = this.props;
+        const {keyword, handleItemClick} = this.props;
         this.props.saveSearchScrollPosition(this.scrollPosition);
 
-        trackEvent('gfycat', 'shares', {gfyid: gfyItem.gfyId, keyword: keyword});
+        trackEvent('gfycat', 'shares', {gfyid: gfyItem.gfyId, keyword});
         handleItemClick(gfyItem);
     }
 

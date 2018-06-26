@@ -65,7 +65,7 @@ export class Categories extends Component {
     }
 
     sendImpressions = () => {
-        const {tagsList, appProps} = this.props;
+        const {tagsList} = this.props;
         const gfycats = tagsList.map((tag) => {
             return {gfyId: tag.gfyId};
         });
