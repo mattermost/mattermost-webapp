@@ -14,6 +14,7 @@ import PermissionDescription from './permission_description.jsx';
 export default class PermissionGroup extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        uniqId: PropTypes.string.isRequired,
         permissions: PropTypes.array.isRequired,
         readOnly: PropTypes.bool,
         role: PropTypes.object,
@@ -139,6 +140,7 @@ export default class PermissionGroup extends React.Component {
             <PermissionRow
                 key={permission}
                 id={permission}
+                uniqId={this.props.uniqId + '-' + permission}
                 selected={this.props.selected}
                 selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly || comesFromParent}
@@ -155,6 +157,7 @@ export default class PermissionGroup extends React.Component {
             <PermissionGroup
                 key={g.id}
                 id={g.id}
+                uniqId={this.props.uniqId + '-' + g.id}
                 selected={this.props.selected}
                 selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly}
@@ -226,7 +229,7 @@ export default class PermissionGroup extends React.Component {
     }
 
     render = () => {
-        const {id, permissions, readOnly, combined, root, selected, additionalValues} = this.props;
+        const {id, uniqId, permissions, readOnly, combined, root, selected, additionalValues} = this.props;
         if (!this.hasPermissionsOnScope()) {
             return null;
         }
@@ -269,6 +272,7 @@ export default class PermissionGroup extends React.Component {
                     <div
                         className={'permission-group-row ' + classes}
                         onClick={this.toggleSelectGroup}
+                        id={uniqId}
                     >
                         {!combined &&
                             <div
