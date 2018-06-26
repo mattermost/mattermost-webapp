@@ -326,7 +326,7 @@
 
             .modal-image__content {
                 max-height: 95vh;
-                max-width: 95vw;
+                max-width: 96vw;
                 overflow-x: hidden;
                 overflow-y: visible;
             }
@@ -406,7 +406,7 @@
                 }
 
                 img {
-                    max-height: 100vh;
+                    max-height: calc(100vh - 50px);
                     max-width: 100%;
                 }
 
