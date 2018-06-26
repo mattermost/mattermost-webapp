@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import Markdown from 'components/markdown';
 import InfoIcon from 'components/svg/info_icon';
 
-const headerMarkdownOptions = {singleline: true, mentionHighlight: false};
+const headerMarkdownOptions = {mentionHighlight: false};
 
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
@@ -80,6 +80,7 @@ export default class NavbarInfoButton extends React.PureComponent {
             <Popover
                 bsStyle='info'
                 placement='bottom'
+                className='navbar__popover'
                 id='header-popover'
             >
                 {popoverContent}
