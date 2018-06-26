@@ -53,60 +53,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
-      describe={
-        Array [
-          <FormattedMessage
-            defaultMessage="By Channel Type"
-            id="user.settings.sidebar.channel_type"
-            values={Object {}}
-          />,
-          <span>
-            , 
-          </span>,
-          <FormattedMessage
-            defaultMessage="Unreads and Favorites at the top"
-            id="user.settings.sidebar.unreadsFavorites"
-            values={Object {}}
-          />,
-        ]
-      }
-      focused={false}
-      section="groupChannels"
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Grouping"
-          id="user.settings.sidebar.groupChannelsTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="By Alphabetical Order"
-          id="user.settings.sidebar.byAlpha"
-          values={Object {}}
-        />
-      }
-      focused={false}
-      section="sortChannels"
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Sorting"
-          id="user.settings.sidebar.sortChannelsTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-light"
-    />
     <div
       className="divider-dark"
     />
