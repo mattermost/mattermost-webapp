@@ -38,7 +38,9 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
-    const enableGifPicker = config.EnableGifPicker === 'true';
+    const enableGifPicker = config.EnableGifPicker === 'true' &&
+        config.GfycatApiKey != '' &&
+        config.GfycatApiSecret != '';
 
     return {
         draft,

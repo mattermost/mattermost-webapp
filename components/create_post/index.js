@@ -49,7 +49,9 @@ function mapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
-        const enableGifPicker = config.EnableGifPicker === 'true';
+        const enableGifPicker = config.EnableGifPicker === 'true' &&
+            config.GfycatApiKey != '' &&
+            config.GfycatApiSecret != '';
         const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
         const currentUserId = getCurrentUserId(state);
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
