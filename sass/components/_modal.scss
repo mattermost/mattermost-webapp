@@ -406,7 +406,7 @@
                 }
 
                 img {
-                    max-height: calc(100vh - 150px);
+                    max-height: 100vh;
                     max-width: 100%;
                 }
 
@@ -478,10 +478,9 @@
 
             .modal-button-bar {
                 @include single-transition(opacity, .6s);
-                @include border-radius(0 0 3px 3px);
                 @include opacity(0);
                 background-color: $black;
-                bottom: -40px;
+                bottom: 0;
                 left: 0;
                 line-height: 40px;
                 max-width: 100%;
