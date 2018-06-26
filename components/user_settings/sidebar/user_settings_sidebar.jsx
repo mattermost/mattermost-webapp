@@ -37,6 +37,11 @@ export default class UserSettingsSidebar extends React.Component {
         showUnusedOption: PropTypes.bool.isRequired,
 
         /**
+         * Display the channel grouping and sorting sections options
+         */
+        showSidebarChannelPreference: PropTypes.bool.isRequired,
+
+        /**
          * The preferences to display channels in sidebar
          */
         sidebarPreference: PropTypes.shape({
@@ -357,7 +362,6 @@ export default class UserSettingsSidebar extends React.Component {
         if (this.props.activeSection === 'groupChannels') {
             const inputs = [];
 
-            // push default inputs [by_type, none]
             inputs.push(
                 <div key='groupingSectionSetting'>
                     <div className='radio'>
@@ -573,11 +577,11 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     render() {
-        const {showUnusedOption, showGroupSortOptions} = this.props;
+        const {showUnusedOption, showSidebarChannelPreference} = this.props;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
 
-        const channelGroupSection = showGroupSortOptions ? this.renderChannelGroupSection() : null;
-        const channelSortingSection = showGroupSortOptions ? this.renderChannelSortingSection() : null;
+        const channelGroupSection = showSidebarChannelPreference ? this.renderChannelGroupSection() : null;
+        const channelSortingSection = showSidebarChannelPreference ? this.renderChannelSortingSection() : null;
 
         return (
             <div>
@@ -617,10 +621,14 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {channelGroupSection}
-                    <div className='divider-dark'/>
-                    {channelSortingSection}
-                    {showGroupSortOptions && <div className='divider-light'/>}
+                    {showSidebarChannelPreference && (
+                        <div>
+                            {channelGroupSection}
+                            <div className='divider-light'/>
+                            {channelSortingSection}
+                            <div className='divider-light'/>
+                        </div>
+                    )}
                     {autoCloseDMSection}
                     <div className='divider-dark'/>
                 </div>

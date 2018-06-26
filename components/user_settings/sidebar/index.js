@@ -9,8 +9,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-
-import {GroupUnreadChannels} from 'utils/constants.jsx';
+import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/sidebar';
 
 import UserSettingsSidebar from './user_settings_sidebar.jsx';
 
@@ -24,37 +23,18 @@ function mapStateToProps(state) {
         'after_seven_days'
     );
 
-    let sidebarPreference = getPreference(
-        state,
-        Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        '',
-        JSON.stringify({
-            grouping: 'by_type', // none, by_type
-            unreads_at_top: 'true',
-            favorite_at_top: 'true',
-            sorting: 'alpha',
-        })
-    );
-    sidebarPreference = JSON.parse(sidebarPreference);
+    let sidebarPreference = getSidebarPreferences(state);
     sidebarPreference = {
         ...sidebarPreference,
         unreadsAtTop: sidebarPreference.unreads_at_top,
         favoriteAtTop: sidebarPreference.favorite_at_top,
     };
 
-    const displayUnreadSection = getPreference(
-        state,
-        Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        'show_unread_section',
-        (config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON).toString()
-    );
-
     return {
         closeUnusedDirectMessages,
-        displayUnreadSection,
         sidebarPreference,
+        showSidebarChannelPreference: config.ExperimentalSidebarPreference === 'true',
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
-        showUnreadOption: config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED,
         user: getCurrentUser(state),
     };
 }

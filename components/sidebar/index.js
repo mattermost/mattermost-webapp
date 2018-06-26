@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {Preferences} from 'mattermost-redux/constants/index';
 import {
     getCurrentChannel,
     getUnreads,
@@ -13,11 +12,10 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool as getBoolPreference, get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/sidebar';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {GroupUnreadChannels} from 'utils/constants.jsx';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 
@@ -28,25 +26,7 @@ function mapStateToProps(state) {
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = currentChannel && currentChannel.teammate_id && getCurrentChannel(state, currentChannel.teammate_id);
 
-    const showUnreadSection = config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED && getBoolPreference(
-        state,
-        Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        'show_unread_section',
-        config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON
-    );
-
-    let sidebarPrefs = getPreference(
-        state,
-        Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        '',
-        JSON.stringify({
-            grouping: 'by_type', // none, by_type
-            unreads_at_top: 'true',
-            favorite_at_top: 'true',
-            sorting: 'alpha',
-        })
-    );
-    sidebarPrefs = JSON.parse(sidebarPrefs);
+    const sidebarPrefs = getSidebarPreferences(state);
 
     const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
 
@@ -59,11 +39,6 @@ function mapStateToProps(state) {
         sidebarPrefs.unreads_at_top === 'true',
         sidebarPrefs.favorite_at_top === 'true',
     );
-
-    // Support sidebarPreference for old implementation
-    if (!showUnreadSection && sidebarPrefs.unreads_at_top === 'true') {
-        sidebarPrefs.unreads_at_top = 'false';
-    }
 
     return {
         config,
