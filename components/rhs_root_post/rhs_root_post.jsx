@@ -18,12 +18,11 @@ import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
+import PostProfilePicture from 'components/post_profile_picture';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import MattermostLogo from 'components/svg/mattermost_logo';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
@@ -301,66 +300,10 @@ export default class RhsRootPost extends React.Component {
             );
         }
 
-        let status = this.props.status;
-        if (post.props && post.props.from_webhook === 'true') {
-            status = null;
-        }
-
-        let profilePic;
-        if (isSystemMessage) {
-            profilePic = (
-                <MattermostLogo className='icon'/>
-            );
-        } else if (post.props && post.props.from_webhook) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, user)}
-                    width='36'
-                    height='36'
-                />
-            );
-        } else {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, user)}
-                    status={status}
-                    width='36'
-                    height='36'
-                    user={this.props.user}
-                    isBusy={this.props.isBusy}
-                    isRHS={true}
-                    hasMention={true}
-                />
-            );
-        }
-
-        if (this.props.compactDisplay) {
-            if (post.props && post.props.from_webhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                    />
-                );
-            } else {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                        status={status}
-                        user={this.props.user}
-                        isBusy={this.props.isBusy}
-                        isRHS={true}
-                        hasMention={true}
-                    />
-                );
-            }
-        }
-
         let postClass = '';
         if (PostUtils.isEdited(this.props.post)) {
             postClass += ' post--edited';
         }
-
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
 
         let pinnedBadge;
         if (post.is_pinned) {
@@ -416,7 +359,16 @@ export default class RhsRootPost extends React.Component {
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div className='post__content'>
-                    {profilePicContainer}
+                    <div className='post__img'>
+                        <PostProfilePicture
+                            compactDisplay={this.props.compactDisplay}
+                            isBusy={this.props.isBusy}
+                            isRHS={true}
+                            post={post}
+                            status={this.props.status}
+                            user={this.props.user}
+                        />
+                    </div>
                     <div>
                         <div className='post__header'>
                             <div className='col__name'>{userProfile}</div>

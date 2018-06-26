@@ -19,13 +19,12 @@ import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
+import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
-import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import MattermostLogo from 'components/svg/mattermost_logo';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
@@ -315,64 +314,6 @@ export default class RhsComment extends React.Component {
             postClass += ' post--edited';
         }
 
-        let profilePic = (
-            <ProfilePicture
-                src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                status={status}
-                width='36'
-                height='36'
-                user={this.props.user}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
-        if (post.props && post.props.from_webhook) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    width='36'
-                    height='36'
-                />
-            );
-        } else if (fromAutoResponder) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    width='36'
-                    height='36'
-                />
-            );
-        } else if (isSystemMessage) {
-            profilePic = (
-                <MattermostLogo className='icon'/>
-            );
-        }
-
-        if (this.props.compactDisplay) {
-            if (post.props && post.props.from_webhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                    />
-                );
-            } else {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                        status={status}
-                        user={this.props.user}
-                        isBusy={this.props.isBusy}
-                        isRHS={true}
-                        hasMention={true}
-                    />
-                );
-            }
-        }
-
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
-
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
             fileAttachment = (
@@ -463,7 +404,16 @@ export default class RhsComment extends React.Component {
                 className={this.getClassName(post, isSystemMessage)}
             >
                 <div className='post__content'>
-                    {profilePicContainer}
+                    <div className='post__img'>
+                        <PostProfilePicture
+                            compactDisplay={this.props.compactDisplay}
+                            isBusy={this.props.isBusy}
+                            isRHS={true}
+                            post={post}
+                            status={this.props.status}
+                            user={this.props.user}
+                        />
+                    </div>
                     <div>
                         <div className='post__header'>
                             <div className='col col__name'>
