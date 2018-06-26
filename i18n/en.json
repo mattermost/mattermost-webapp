@@ -1398,6 +1398,8 @@
   "admin.webserverModeTitle": "Webserver Mode:",
   "admin.webserverModeUncompressed": "Uncompressed",
   "admin.webserverModeUncompressedDescription": "The Mattermost server will serve static files uncompressed.",
+  "admin.viewArchivedChannelsTitle": "Allow users to view archived channels:",
+  "admin.viewArchivedChannelsHelpText": "When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.",
   "analytics.chart.loading": "Loading...",
   "analytics.chart.meaningful": "Not enough data for a meaningful representation.",
   "analytics.system.activeUsers": "Active Users With Posts",

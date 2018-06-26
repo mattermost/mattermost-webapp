@@ -100,7 +100,8 @@ export class UsersAndTeamsSettings extends AdminSettings {
                 this.state.edited.teammateNameDisplay ||
                 this.state.edited.maxChannelsPerTeam ||
                 this.state.edited.maxNotificationsPerChannel ||
-                this.state.edited.enableConfirmNotificationsToChannel
+                this.state.edited.enableConfirmNotificationsToChannel ||
+                this.state.edited.viewArchivedChannels
             );
 
             if (configFieldEdited) {
@@ -168,6 +169,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                                     this.state.edited.maxChannelsPerTeam,
                                     this.state.edited.maxNotificationsPerChannel,
                                     this.state.edited.enableConfirmNotificationsToChannel,
+                                    this.state.edited.viewArchivedChannels,
                                 ].filter((v) => v).join(', '),
                             }}
                         />
@@ -209,6 +211,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
         config.TeamSettings.MaxChannelsPerTeam = this.parseIntNonZero(this.state.maxChannelsPerTeam, Constants.DEFAULT_MAX_CHANNELS_PER_TEAM);
         config.TeamSettings.MaxNotificationsPerChannel = this.parseIntNonZero(this.state.maxNotificationsPerChannel, Constants.DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL);
         config.TeamSettings.EnableConfirmNotificationsToChannel = this.state.enableConfirmNotificationsToChannel;
+        config.TeamSettings.ViewArchivedChannels = this.state.viewArchivedChannels;
         return config;
     };
 
@@ -222,6 +225,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
             maxChannelsPerTeam: config.TeamSettings.MaxChannelsPerTeam,
             maxNotificationsPerChannel: config.TeamSettings.MaxNotificationsPerChannel,
             enableConfirmNotificationsToChannel: config.TeamSettings.EnableConfirmNotificationsToChannel,
+            viewArchivedChannels: config.TeamSettings.ViewArchivedChannels,
         };
     }
 
@@ -415,6 +419,24 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     value={this.state.teammateNameDisplay}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('TeamSetting.TeammateNameDisplay')}
+                />
+                <BooleanSetting
+                    id='viewArchivedChannels'
+                    label={
+                        <FormattedMessage
+                            id='admin.viewArchivedChannelsTitle'
+                            defaultMessage='Allow users to view archived channels: '
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.viewArchivedChannelsHelpText'
+                            defaultMessage='When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.'
+                        />
+                    }
+                    value={this.state.viewArchivedChannels}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSetting.ViewArchivedChannels')}
                 />
             </SettingsGroup>
         );
