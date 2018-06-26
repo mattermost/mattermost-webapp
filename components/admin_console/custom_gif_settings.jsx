@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
+import TextSetting from './text_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 
 export default class CustomGifSettings extends AdminSettings {
@@ -19,12 +20,16 @@ export default class CustomGifSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.ServiceSettings.EnableGifPicker = this.state.enableGifPicker;
+        config.ServiceSettings.GfycatApiKey = this.state.gfycatApiKey;
+        config.ServiceSettings.GfycatApiSecret = this.state.gfycatApiSecret;
         return config;
     }
 
     getStateFromConfig(config) {
         return {
             enableGifPicker: config.ServiceSettings.EnableGifPicker,
+            gfycatApiKey: config.ServiceSettings.GfycatApiKey,
+            gfycatApiSecret: config.ServiceSettings.GfycatApiSecret,
         };
     }
 
@@ -57,6 +62,44 @@ export default class CustomGifSettings extends AdminSettings {
                     value={this.state.enableGifPicker}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('ServiceSettings.EnableGifPicker')}
+                />
+                <TextSetting
+                    id='gfycatApiKey'
+                    label={
+                        <FormattedMessage
+                            id='admin.customization.gfycatApiKey'
+                            defaultMessage='Gfycat API Key:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.customization.gfycatApiKeyDescription'
+                            defaultMessage='The Gfycat API developer key.'
+                        />
+                    }
+                    value={this.state.gfycatApiKey}
+                    placeholder=''
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.GfycatAPIKey')}
+                />
+                <TextSetting
+                    id='gfycatApiSecret'
+                    label={
+                        <FormattedMessage
+                            id='admin.customization.gfycatApiSecret'
+                            defaultMessage='Gfycat API Secret:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.customization.gfycatApiSecretDescription'
+                            defaultMessage='The Gfycat API developer secret key.'
+                        />
+                    }
+                    value={this.state.gfycatApiSecret}
+                    placeholder=''
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('ServiceSettings.GfycatAPISecret')}
                 />
             </SettingsGroup>
         );
