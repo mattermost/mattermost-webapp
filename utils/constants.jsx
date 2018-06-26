@@ -508,15 +508,6 @@ export const RHSStates = {
     PIN: 'pin',
 };
 
-export const SidebarOptions = {
-    BY_TYPE: 'by_type',
-    NONE: 'none',
-    FAVORITE: 'favorite',
-    UNREADS: 'unreads',
-    RECENT: 'recent',
-    ALPHABETICAL: 'alpha',
-};
-
 export const UploadStatuses = {
     LOADING: 'loading',
     COMPLETE: 'complete',
