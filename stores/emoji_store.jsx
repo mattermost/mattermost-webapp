@@ -212,7 +212,7 @@ class EmojiStore extends EventEmitter {
 
         const filename = emoji.filename || emoji.aliases[0];
 
-        return Constants.EMOJI_PATH + '/' + filename + '.png';
+        return (window.basename || '') + Constants.EMOJI_PATH + '/' + filename + '.png';
     }
 
     handleEventPayload(payload) {
