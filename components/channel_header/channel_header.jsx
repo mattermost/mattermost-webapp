@@ -6,6 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import 'bootstrap';
 
@@ -97,6 +98,13 @@ export default class ChannelHeader extends React.Component {
             showChannelNotificationsModal: false,
             isBusy: WebrtcStore.isBusy(),
         };
+
+        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
+            {...headerMarkdownOptions, channelNamesMap}
+        ));
+        this.getPopoverMarkdownOptions = memoizeResult((channelNamesMap) => (
+            {...popoverMarkdownOptions, channelNamesMap}
+        ));
     }
 
     componentDidMount() {
@@ -305,6 +313,7 @@ export default class ChannelHeader extends React.Component {
         }
 
         const channel = this.props.channel;
+        const channelNamesMap = this.props.channel.props && this.props.channel.props.channel_mentions;
 
         const popoverContent = (
             <Popover
@@ -318,7 +327,7 @@ export default class ChannelHeader extends React.Component {
             >
                 <Markdown
                     message={channel.header}
-                    options={popoverMarkdownOptions}
+                    options={this.getPopoverMarkdownOptions(channelNamesMap)}
                 />
             </Popover>
         );
@@ -854,7 +863,7 @@ export default class ChannelHeader extends React.Component {
                         <span onClick={Utils.handleFormattedTextClick}>
                             <Markdown
                                 message={channel.header}
-                                options={headerMarkdownOptions}
+                                options={this.getHeaderMarkdownOptions(channelNamesMap)}
                             />
                         </span>
                     </div>
