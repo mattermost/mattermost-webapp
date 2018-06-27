@@ -24,7 +24,6 @@ jest.mock('utils/utils.jsx', () => ({
 }));
 
 jest.mock('utils/post_utils.jsx', () => ({
-    getProfilePicSrcForPost: jest.fn().mockReturnValue('Some image path'),
     isEdited: jest.fn().mockReturnValue(true),
 }));
 

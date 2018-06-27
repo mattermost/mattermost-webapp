@@ -9,10 +9,9 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
-import ProfilePicture from 'components/profile_picture.jsx';
-import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class Post extends React.PureComponent {
     static propTypes = {
@@ -225,68 +224,27 @@ export default class Post extends React.PureComponent {
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
-        let status = this.props.status;
-        if (fromWebhook) {
-            status = null;
-        }
-
         let profilePic;
         const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0);
         if (!hideProfilePicture) {
             profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    status={status}
-                    user={this.props.user}
+                <PostProfilePicture
+                    compactDisplay={this.props.compactDisplay}
                     isBusy={this.props.isBusy}
-                    hasMention={true}
+                    post={post}
+                    status={this.props.status}
+                    user={this.props.user}
                 />
             );
 
-            if (fromWebhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    />
-                );
-            } else if (fromAutoResponder) {
+            if (fromAutoResponder) {
                 profilePic = (
                     <span className='auto-responder'>
-                        <ProfilePicture
-                            src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                            user={this.props.user}
-                            hasMention={true}
-                        />
+                        {profilePic}
                     </span>
                 );
-            } else if (isSystemMessage) {
-                profilePic = (
-                    <MattermostLogo className='icon'/>
-                );
-            }
-
-            if (this.props.compactDisplay) {
-                if (fromWebhook) {
-                    profilePic = (
-                        <ProfilePicture
-                            src=''
-                            status={status}
-                            isBusy={this.props.isBusy}
-                            user={this.props.user}
-                        />
-                    );
-                } else {
-                    profilePic = (
-                        <ProfilePicture
-                            src=''
-                            status={status}
-                        />
-                    );
-                }
             }
         }
-
-        const profilePicContainer = <div className='post__img'>{profilePic}</div>;
 
         let centerClass = '';
         if (this.props.center) {
@@ -302,7 +260,9 @@ export default class Post extends React.PureComponent {
                 onMouseLeave={this.unsetHover}
             >
                 <div className={'post__content ' + centerClass}>
-                    {profilePicContainer}
+                    <div className='post__img'>
+                        {profilePic}
+                    </div>
                     <div>
                         <PostHeader
                             post={post}

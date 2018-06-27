@@ -151,6 +151,7 @@ function renderHeaderChangeMessage(post) {
 
     const headerOptions = {
         singleline: true,
+        channelNamesMap: post.props && post.props.channel_mentions,
     };
 
     const username = renderUsernameForUserIdAndUsername(post.user_id, post.props.username);

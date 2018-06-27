@@ -49,32 +49,6 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
-export function getProfilePicSrcForPost(post, user) {
-    const config = getConfig(store.getState());
-    let src = '';
-    if (user && user.id === post.user_id) {
-        src = Utils.imageURLForUser(user);
-    } else if (post.user_id) {
-        src = Utils.imageURLForUser(post.user_id);
-    }
-
-    if (fromAutoResponder(post)) {
-        return src;
-    }
-
-    if (post.props && post.props.from_webhook && !post.props.use_user_icon && config.EnablePostIconOverride === 'true') {
-        if (post.props.override_icon_url) {
-            src = post.props.override_icon_url;
-        } else {
-            src = Constants.DEFAULT_WEBHOOK_LOGO;
-        }
-    } else if (isSystemMessage(post)) {
-        src = Constants.SYSTEM_MESSAGE_PROFILE_IMAGE;
-    }
-
-    return src;
-}
-
 export function canDeletePost(post) {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
