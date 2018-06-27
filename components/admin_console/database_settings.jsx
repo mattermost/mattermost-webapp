@@ -36,6 +36,7 @@ export default class DatabaseSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             driverName: config.SqlSettings.DriverName,
+            dataSource: config.SqlSettings.DataSource,
             maxIdleConns: config.SqlSettings.MaxIdleConns,
             maxOpenConns: config.SqlSettings.MaxOpenConns,
             trace: config.SqlSettings.Trace,
@@ -120,14 +121,16 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Driver Name:'
                         />
                     </label>
-                    helpText={
-                        <FormattedMessage
-                            id='admin.sql.driverNameDescription'
-                            defaultMessage='Set the database driver in the config.json file.'
-                        />
-                    }
                     <div className='col-sm-8'>
-                        <p className='help-text'>{this.state.driverName}</p>
+                        <div className='help-text'>
+                            {this.state.driverName}
+                        </div>
+                        <div className='help-text'>
+                            <FormattedMessage
+                                id='admin.sql.driverNameDescription'
+                                defaultMessage='Set the database driver in the config.json file.'
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className='form-group'>
