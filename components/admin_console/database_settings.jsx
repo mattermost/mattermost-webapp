@@ -122,9 +122,12 @@ export default class DatabaseSettings extends AdminSettings {
                         />
                     </label>
                     <div className='col-sm-8'>
-                        <div className='help-text'>
-                            {this.state.driverName}
-                        </div>
+                        <input
+                            type='text'
+                            className='form-control'
+                            value={this.state.driverName}
+                            disabled={true}
+                        />
                         <div className='help-text'>
                             <FormattedMessage
                                 id='admin.sql.driverNameDescription'
@@ -144,7 +147,18 @@ export default class DatabaseSettings extends AdminSettings {
                         />
                     </label>
                     <div className='col-sm-8'>
-                        <p className='help-text'>{dataSource}</p>
+                        <input
+                            type='text'
+                            className='form-control'
+                            value={dataSource}
+                            disabled={true}
+                        />
+                        <div className='help-text'>
+                            <FormattedMessage
+                                id='admin.sql.dataSourceDescription'
+                                defaultMessage='Set the database source in the config.json file.'
+                            />
+                        </div>
                     </div>
                 </div>
                 <TextSetting

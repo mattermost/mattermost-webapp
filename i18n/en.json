@@ -1224,6 +1224,7 @@
   "admin.sidebar.webrtc": "WebRTC (Beta)",
   "admin.sidebarHeader.systemConsole": "System Console",
   "admin.sql.dataSource": "Data Source:",
+  "admin.sql.dataSourceDescription": "Set the database source in the config.json file.",
   "admin.sql.driverName": "Driver Name:",
   "admin.sql.driverNameDescription": "Set the database driver in the config.json file.",
   "admin.sql.maxConnectionsDescription": "Maximum number of idle connections held open to the database.",
