@@ -139,7 +139,7 @@ export default class PluginRegistry {
         reducerRegistry.register('plugins-' + this.id, reducer);
     }
 
-    // Register a handler for custom WebSocket events created by the server-side of your plugin.
+    // Register a handler for WebSocket events.
     // Accepts the following:
     // - event - the event type, can be a regular server event or an event from plugins.
     // Plugin events will have "custom_<pluginid>_" prepended
