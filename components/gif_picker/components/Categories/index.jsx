@@ -11,6 +11,7 @@ import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_ut
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
+import * as PostUtils from 'utils/post_utils.jsx';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 
@@ -23,6 +24,7 @@ function mapStateToProps(state) {
         appProps: state.entities.gifs.app,
         searchText: state.entities.gifs.search.searchText,
         searchBarText: state.entities.gifs.search.searchBarText,
+        hasImageProxy: state.entities.general.config.HasImageProxy,
     };
 }
 
@@ -56,6 +58,7 @@ export class Categories extends PureComponent {
         searchTextUpdate: PropTypes.func,
         searchBarText: PropTypes.string,
         tagsList: PropTypes.array,
+        hasImageProxy: PropTypes.string,
     }
 
     componentDidMount() {
@@ -100,7 +103,7 @@ export class Categories extends PureComponent {
         const theme = 'theme--' in prefs ? JSON.parse(prefs['theme--'].value) : Constants.THEMES.default;
         const style = getStyle(theme);
 
-        const {hasMore, tagsList, gifs, onSearch, onTrending} = this.props;
+        const {hasMore, tagsList, gifs, onSearch, onTrending, hasImageProxy} = this.props;
 
         const content = tagsList && tagsList.length ? this.filterTagsList(tagsList).map((item, index) => {
             const {tagName, gfyId} = item;
@@ -111,8 +114,9 @@ export class Categories extends PureComponent {
 
             const gfyItem = gifs[gfyId];
             const {max1mbGif, avgColor} = gfyItem;
+            const url = PostUtils.getImageSrc(max1mbGif, hasImageProxy === 'true');
             const searchText = tagName.replace(/\s/g, '-');
-            const backgroundImage = {backgroundImage: `url(${max1mbGif}`};
+            const backgroundImage = {backgroundImage: `url(${url}`};
             const backgroundColor = {backgroundColor: avgColor};
             const props = this.props;
             function callback() {

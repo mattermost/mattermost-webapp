@@ -2,16 +2,27 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import './SearchItem.scss';
+import {connect} from 'react-redux';
 
-export default class SearchItem extends PureComponent {
+import PropTypes from 'prop-types';
+
+import './SearchItem.scss';
+import * as PostUtils from 'utils/post_utils.jsx';
+
+function mapStateToProps(state) {
+    return {
+        hasImageProxy: state.entities.general.config.HasImageProxy,
+    };
+}
+
+export class SearchItem extends PureComponent {
     static propTypes = {
         gfyItem: PropTypes.object,
         top: PropTypes.string,
         left: PropTypes.string,
         itemWidth: PropTypes.number,
         itemClickHandler: PropTypes.func,
+        hasImageProxy: PropTypes.string,
     }
 
     render() {
@@ -24,8 +35,10 @@ export default class SearchItem extends PureComponent {
         } = this.props;
 
         const {width, height, max1mbGif, avgColor} = gfyItem;
+        const {hasImageProxy} = this.props;
+        const url = PostUtils.getImageSrc(max1mbGif, hasImageProxy === 'true');
 
-        const backgroundImage = {backgroundImage: `url(${max1mbGif})`};
+        const backgroundImage = {backgroundImage: `url(${url})`};
         const backgroundColor = {backgroundColor: avgColor};
         const paddingBottom = {paddingBottom: ((itemWidth / width) * height) + 'px'};
 
@@ -43,3 +56,5 @@ export default class SearchItem extends PureComponent {
         );
     }
 }
+
+export default connect(mapStateToProps)(SearchItem);
