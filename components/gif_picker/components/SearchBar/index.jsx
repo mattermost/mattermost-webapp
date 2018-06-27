@@ -173,9 +173,9 @@ export class SearchBar extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return ((!nextProps.searchBarText && this.props.searchBarText)
-            || (nextProps.searchBarText && !this.props.searchBarText)
-            || (nextState.inputFocused !== this.state.inputFocused));
+        return ((!nextProps.searchBarText && this.props.searchBarText) ||
+            (nextProps.searchBarText && !this.props.searchBarText) ||
+            (nextState.inputFocused !== this.state.inputFocused));
     }
 
     render() {
