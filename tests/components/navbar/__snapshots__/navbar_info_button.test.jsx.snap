@@ -169,7 +169,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
             id="navbar.noHeader"
             values={Object {}}
           />
-          <React.Fragment>
+          <UNDEFINED>
             <br />
             <FormattedMessage
               defaultMessage="{clickHere} to add one."
@@ -189,7 +189,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
                 }
               }
             />
-          </React.Fragment>
+          </UNDEFINED>
         </div>
         <div
           className="close visible-xs-block"

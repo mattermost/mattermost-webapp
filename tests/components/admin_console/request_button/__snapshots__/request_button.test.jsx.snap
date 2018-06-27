@@ -90,12 +90,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           [Function],
         ],
       ],
-      "results": Array [
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
-      ],
     }
   }
   saveNeeded={false}
@@ -232,16 +226,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           [Function],
         ],
       ],
-      "results": Array [
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
-      ],
     }
   }
   saveNeeded={false}
@@ -374,12 +358,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           [Function],
         ],
       ],
-      "results": Array [
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
-      ],
     }
   }
   saveNeeded={false}
@@ -511,16 +489,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           [Function],
           [Function],
         ],
-      ],
-      "results": Array [
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
       ],
     }
   }

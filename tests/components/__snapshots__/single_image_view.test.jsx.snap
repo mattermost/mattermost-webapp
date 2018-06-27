@@ -7,19 +7,21 @@ exports[`components/SingleImageView should match snapshot 1`] = `
   <div
     className="file__image"
   >
-    <a
-      aria-label="Toggle Embed Visibility"
-      className="post__embed-visibility"
-      data-expanded={true}
-      key="toggle"
-      onClick={[Function]}
-    />
-     
     <div
       className="image-name"
-      onClick={[Function]}
     >
-      name
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
     </div>
     <div
       className="image-container"
@@ -63,19 +65,21 @@ exports[`components/SingleImageView should match snapshot 2`] = `
   <div
     className="file__image"
   >
-    <a
-      aria-label="Toggle Embed Visibility"
-      className="post__embed-visibility"
-      data-expanded={true}
-      key="toggle"
-      onClick={[Function]}
-    />
-     
     <div
       className="image-name"
-      onClick={[Function]}
     >
-      name
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
     </div>
     <div
       className="image-container"
@@ -127,19 +131,21 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
   <div
     className="file__image"
   >
-    <a
-      aria-label="Toggle Embed Visibility"
-      className="post__embed-visibility"
-      data-expanded={true}
-      key="toggle"
-      onClick={[Function]}
-    />
-     
     <div
       className="image-name"
-      onClick={[Function]}
     >
-      name_svg
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name_svg
+      </div>
     </div>
     <div
       className="image-container"
@@ -180,19 +186,21 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
   <div
     className="file__image"
   >
-    <a
-      aria-label="Toggle Embed Visibility"
-      className="post__embed-visibility"
-      data-expanded={true}
-      key="toggle"
-      onClick={[Function]}
-    />
-     
     <div
       className="image-name"
-      onClick={[Function]}
     >
-      name_svg
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name_svg
+      </div>
     </div>
     <div
       className="image-container"
