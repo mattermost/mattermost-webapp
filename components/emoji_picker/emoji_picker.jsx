@@ -166,7 +166,9 @@ export default class EmojiPicker extends React.PureComponent {
         // Delay taking focus because this briefly renders offscreen when using an Overlay
         // so focusing it immediately on mount can cause weird scrolling
         requestAnimationFrame(() => {
-            this.searchInput.focus();
+            if (this.searchInput) {
+                this.searchInput.focus();
+            }
         });
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
