@@ -47,6 +47,8 @@ const getState = store.getState;
 
 const MAX_WEBSOCKET_FAILS = 7;
 
+const pluginEventHandlers = {};
+
 export function initialize() {
     if (!window.WebSocket) {
         console.log('Browser does not support websocket'); //eslint-disable-line no-console
@@ -141,6 +143,14 @@ export function startPeriodicSync() {
 
 export function stopPeriodicSync() {
     clearInterval(intervalId);
+}
+
+export function registerPluginWebSocketEvent(event, action) {
+    pluginEventHandlers[event] = action;
+}
+
+export function unregisterPluginWebSocketEvent(event) {
+    Reflect.deleteProperty(pluginEventHandlers, event);
 }
 
 function handleFirstConnect() {
@@ -309,6 +319,10 @@ function handleEvent(msg) {
         break;
 
     default:
+    }
+
+    if (pluginEventHandlers.hasOwnProperty(msg.event) && typeof pluginEventHandlers[msg.event] === 'function') {
+        pluginEventHandlers[msg.event](msg);
     }
 }
 
