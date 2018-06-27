@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
@@ -42,7 +42,7 @@ const getStyle = makeStyleFromTheme((theme) => {
     };
 });
 
-export class Header extends Component {
+export class Header extends PureComponent {
     static propTypes = {
         action: PropTypes.string,
         appProps: PropTypes.object,

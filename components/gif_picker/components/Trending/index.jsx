@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
@@ -19,7 +19,7 @@ const mapDispatchToProps = ({
     saveSearchScrollPosition,
 });
 
-export class Trending extends Component {
+export class Trending extends PureComponent {
     static propTypes = {
         handleItemClick: PropTypes.func,
         onCategories: PropTypes.func,

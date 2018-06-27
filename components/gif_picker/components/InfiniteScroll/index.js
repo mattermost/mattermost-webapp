@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-export default class InfiniteScroll extends Component {
+export default class InfiniteScroll extends PureComponent {
     static propTypes = {
         children: PropTypes.array,
         element: PropTypes.string,
