@@ -87,7 +87,7 @@ export default class CustomGifSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.customization.gfycatApiSecretDescription'
-                            defaultMessage='Obtain from Gfycat a client_id and client_secret at https://developers.gfycat.com/signup/#/keys. After requesting an API key this information will be emailed to you. Input that information here to enable GIFs for your team.'
+                            defaultMessage='Obtain from Gfycat a custom client_id and client_secret at https://developers.gfycat.com/signup/#/keys. After requesting an API key this information will be emailed to you. Input that information here to enable GIFs for your team.'
                         />
                     }
                     value={this.state.gfycatApiSecret}
