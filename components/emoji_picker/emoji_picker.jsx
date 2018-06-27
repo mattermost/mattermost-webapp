@@ -592,7 +592,7 @@ export default class EmojiPicker extends React.PureComponent {
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}
-                <EmojiPickerPreview emoji={this.state.selected}/>
+                <EmojiPickerPreview emoji={this.getCurrentEmojiByCursor(this.state.cursor)}/>
             </div>
         );
     }
