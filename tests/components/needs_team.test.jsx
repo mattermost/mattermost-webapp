@@ -152,7 +152,7 @@ describe('components/needs_team', () => {
         expect(wrapper.state().team).toEqual(null);
         await getTeams();
         await joinTeam();
-        expect(history.push).toBeCalledWith('/error_page');
+        expect(history.push).toBeCalledWith('/error?type=team_not_found');
     });
 
     it('test for team join flow with new switch', async () => {

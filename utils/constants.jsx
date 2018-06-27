@@ -443,6 +443,8 @@ export const ErrorPageTypes = {
     OAUTH_MISSING_CODE: 'oauth_missing_code',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
+    TEAM_NOT_FOUND: 'team_not_found',
+    CHANNEL_NOT_FOUND: 'channel_not_found',
 };
 
 export const JobTypes = {

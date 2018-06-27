@@ -163,13 +163,13 @@ export default class NeedsTeam extends React.Component {
         if (team) {
             const {error} = await props.actions.joinTeam(team.invite_id, team.id);
             if (error) {
-                props.history.push('/error_page');
+                props.history.push('/error?type=team_not_found');
             } else {
                 this.setState({team});
                 this.initTeam(team);
             }
         } else {
-            props.history.push('/error_page');
+            props.history.push('/error?type=team_not_found');
         }
     }
 

@@ -67,7 +67,7 @@ async function goToChannelByChannelId(match, history) {
     if (!channel) {
         const {data, error} = await joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), channelId, null)(dispatch, getState);
         if (error) {
-            handleError(match, history);
+            handleChannelJoinError(match, history);
             return;
         }
         channel = data.channel;
@@ -90,7 +90,7 @@ async function goToChannelByChannelName(match, history) {
     if (!channel) {
         const {data, error} = await joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, channelName)(dispatch, getState);
         if (error) {
-            handleError(match, history);
+            handleChannelJoinError(match, history);
             return;
         }
         channel = data.channel;
@@ -204,6 +204,11 @@ function doChannelChange(channel) {
 function handleError(match, history) {
     const {team} = match.params;
     history.push(team ? `/${team}/channels/${Constants.DEFAULT_CHANNEL}` : '/');
+}
+
+function handleChannelJoinError(match, history) {
+    const {team} = match.params;
+    history.push(team ? `/error?type=channel_not_found&returnTo=/${team}/channels/${Constants.DEFAULT_CHANNEL}` : '/');
 }
 
 export default class ChannelIdentifierRouter extends React.PureComponent {
