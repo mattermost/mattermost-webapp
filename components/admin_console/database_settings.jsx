@@ -28,7 +28,6 @@ export default class DatabaseSettings extends AdminSettings {
 
         config.SqlSettings.MaxIdleConns = this.parseIntNonZero(this.state.maxIdleConns);
         config.SqlSettings.MaxOpenConns = this.parseIntNonZero(this.state.maxOpenConns);
-        config.SqlSettings.AtRestEncryptKey = this.state.atRestEncryptKey;
         config.SqlSettings.Trace = this.state.trace;
         config.SqlSettings.QueryTimeout = this.parseIntNonZero(this.state.queryTimeout);
 
@@ -38,10 +37,8 @@ export default class DatabaseSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             driverName: config.SqlSettings.DriverName,
-            dataSource: config.SqlSettings.DataSource,
             maxIdleConns: config.SqlSettings.MaxIdleConns,
             maxOpenConns: config.SqlSettings.MaxOpenConns,
-            atRestEncryptKey: config.SqlSettings.AtRestEncryptKey,
             trace: config.SqlSettings.Trace,
             queryTimeout: config.SqlSettings.QueryTimeout,
         };
@@ -124,6 +121,12 @@ export default class DatabaseSettings extends AdminSettings {
                             defaultMessage='Driver Name:'
                         />
                     </label>
+                    helpText={
+                        <FormattedMessage
+                            id='admin.sql.driverNameDescription'
+                            defaultMessage='Set the database driver in the config.json file.'
+                        />
+                    }
                     <div className='col-sm-8'>
                         <p className='help-text'>{this.state.driverName}</p>
                     </div>
@@ -199,31 +202,12 @@ export default class DatabaseSettings extends AdminSettings {
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.QueryTimeout')}
                 />
-                <GeneratedSetting
-                    id='atRestEncryptKey'
-                    label={
-                        <FormattedMessage
-                            id='admin.sql.keyTitle'
-                            defaultMessage='At Rest Encrypt Key:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.sql.keyExample', 'E.g.: "gxHVDcKUyP2y1eiyW8S8na1UYQAfq6J6"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.sql.keyDescription'
-                            defaultMessage='32-character salt available to encrypt and decrypt sensitive fields in database.'
-                        />
-                    }
-                    value={this.state.atRestEncryptKey}
-                    onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('SqlSettings.AtRestEncryptKey')}
-                />
                 <BooleanSetting
                     id='trace'
                     label={
                         <FormattedMessage
                             id='admin.sql.traceTitle'
-                            defaultMessage='Trace: '
+                            defaultMessage='SQL Statement Logging: '
                         />
                     }
                     helpText={
