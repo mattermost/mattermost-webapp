@@ -319,9 +319,10 @@ function handleEvent(msg) {
         break;
 
     default:
-        if (pluginEventHandlers.hasOwnProperty(msg.event) && typeof pluginEventHandlers[msg.event] === 'function') {
-            pluginEventHandlers[msg.event](msg);
-        }
+    }
+
+    if (pluginEventHandlers.hasOwnProperty(msg.event) && typeof pluginEventHandlers[msg.event] === 'function') {
+        pluginEventHandlers[msg.event](msg);
     }
 }
 

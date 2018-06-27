@@ -141,17 +141,18 @@ export default class PluginRegistry {
 
     // Register a handler for custom WebSocket events created by the server-side of your plugin.
     // Accepts the following:
-    // - event - the event type, will automatically have "custom_<yourpluginid>_" prepended
-    // - handler - a function to handle the event, receives the event as an argument
+    // - event - the event type, can be a regular server event or an event from plugins.
+    // Plugin events will have "custom_<pluginid>_" prepended
+    // - handler - a function to handle the event, receives the event message as an argument
     // Returns undefined.
     registerWebSocketEventHandler = (event, handler) => {
-        registerPluginWebSocketEvent('custom_' + this.id + '_' + event, handler);
+        registerPluginWebSocketEvent(event, handler);
     }
 
     // Unregister a handler for a custom WebSocket event.
     // Accepts a string event type.
     // Returns undefined.
     unregisterWebSocketEventHandler = (event) => {
-        unregisterPluginWebSocketEvent('custom_' + this.id + '_' + event);
+        unregisterPluginWebSocketEvent(event);
     }
 }
