@@ -1306,7 +1306,8 @@ export default {
                             label: 'admin.image.amazonS3IdTitle',
                             label_default: 'Amazon S3 Access Key ID:',
                             help_text: 'admin.image.amazonS3IdDescription',
-                            help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an <a target="_blank" href="https://about.mattermost.com/default-iam-role">IAM role</a>. Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                            help_text_html: true,
+                            help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an <a href="https://about.mattermost.com/default-iam-role" target="_blank">IAM role</a>. Enter the Access Key ID provided by your Amazon EC2 administrator.',
                             placeholder: 'admin.image.amazonS3IdExample',
                             placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                             isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
@@ -1337,6 +1338,7 @@ export default {
                             label: 'admin.image.amazonS3SSETitle',
                             label_default: 'Enable Server-Side Encryption for Amazon S3:',
                             help_text: 'admin.image.amazonS3SSEDescription',
+                            help_text_html: true,
                             help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <a href="https://about.mattermost.com/default-server-side-encryption" target="_blank">documentation</a> to learn more.',
                             isHidden: needsUtils.not(needsUtils.hasLicense),
                             isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
@@ -1407,7 +1409,7 @@ export default {
                             label: 'admin.image.proxyType',
                             label_default: 'Image Proxy Type:',
                             help_text: 'admin.image.proxyTypeDescription',
-                            help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See <a href="https://about.mattermost.com/default-image-proxy-documentation">documentation</a> to learn more.',
+                            help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See <a href="https://about.mattermost.com/default-image-proxy-documentation" target="_blank">documentation</a> to learn more.',
                             help_text_html: true,
                             options: [
                                 {
