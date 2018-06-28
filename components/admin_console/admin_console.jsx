@@ -21,7 +21,6 @@ import ElasticsearchSettings from 'components/admin_console/elasticsearch_settin
 import EmailSettings from 'components/admin_console/email_settings.jsx';
 import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
-import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
@@ -285,8 +284,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/oauth`}
-                                        component={OAuthSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.authentication.oauth.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/ldap`}
