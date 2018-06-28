@@ -199,15 +199,19 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
 
     const teamId = TeamStore.getCurrentId();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const setHeaderButton = (
-        <ChannelPermissionGate
-            teamId={teamId}
-            channelId={channel.id}
-            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-        >
-            {createSetHeaderButton(channel)}
-        </ChannelPermissionGate>
-    );
+    const children = createSetHeaderButton(channel);
+    let setHeaderButton = null;
+    if (children) {
+        setHeaderButton = (
+            <ChannelPermissionGate
+                teamId={teamId}
+                channelId={channel.id}
+                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            >
+                {children}
+            </ChannelPermissionGate>
+        );
+    }
 
     const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
 
@@ -265,15 +269,18 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
 
     let setHeaderButton = null;
     if (!isReadOnly) {
-        setHeaderButton = (
-            <ChannelPermissionGate
-                teamId={teamId}
-                channelId={channel.id}
-                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-            >
-                {createSetHeaderButton(channel)}
-            </ChannelPermissionGate>
-        );
+        const children = createSetHeaderButton(channel);
+        if (children) {
+            setHeaderButton = (
+                <ChannelPermissionGate
+                    teamId={teamId}
+                    channelId={channel.id}
+                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                >
+                    {children}
+                </ChannelPermissionGate>
+            );
+        }
     }
 
     return (
@@ -300,8 +307,11 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
     var creatorName = Utils.getDisplayNameByUserId(channel.creator_id);
     var uiType;
     var memberMessage;
+    const channelIsArchived = channel.delete_at !== 0;
 
-    if (channel.type === Constants.PRIVATE_CHANNEL) {
+    if (channelIsArchived) {
+        memberMessage = '';
+    } else if (channel.type === Constants.PRIVATE_CHANNEL) {
         uiType = (
             <FormattedMessage
                 id='intro_messages.group'
@@ -386,15 +396,19 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
 
     const teamId = TeamStore.getCurrentId();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const setHeaderButton = (
-        <ChannelPermissionGate
-            teamId={teamId}
-            channelId={channel.id}
-            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-        >
-            {createSetHeaderButton(channel)}
-        </ChannelPermissionGate>
-    );
+    let setHeaderButton = null;
+    const children = createSetHeaderButton(channel);
+    if (children) {
+        setHeaderButton = (
+            <ChannelPermissionGate
+                teamId={teamId}
+                channelId={channel.id}
+                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            >
+                {children}
+            </ChannelPermissionGate>
+        );
+    }
 
     const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
 
@@ -425,6 +439,10 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
 }
 
 function createInviteChannelMemberButton(channel, uiType) {
+    const channelIsArchived = channel.delete_at !== 0;
+    if (channelIsArchived) {
+        return null;
+    }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     return (
         <ChannelPermissionGate
@@ -454,6 +472,10 @@ function createInviteChannelMemberButton(channel, uiType) {
 }
 
 function createSetHeaderButton(channel) {
+    const channelIsArchived = channel.delete_at !== 0;
+    if (channelIsArchived) {
+        return null;
+    }
     return (
         <ToggleModalButton
             className='intro-links color--link'

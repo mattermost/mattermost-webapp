@@ -55,6 +55,10 @@ export function canDeletePost(post) {
     }
     const channel = getChannel(store.getState(), post.channel_id);
 
+    if (channel && channel.delete_at !== 0) {
+        return false;
+    }
+
     if (isPostOwner(post)) {
         return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
     }
@@ -70,6 +74,10 @@ export function canEditPost(post, editDisableAction) {
     const license = getLicense(store.getState());
     const config = getConfig(store.getState());
     const channel = getChannel(store.getState(), post.channel_id);
+
+    if (channel && channel.delete_at !== 0) {
+        return false;
+    }
 
     const isOwner = isPostOwner(post);
     canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});

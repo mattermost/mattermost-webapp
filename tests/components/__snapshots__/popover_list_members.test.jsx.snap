@@ -100,21 +100,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           />
         </div>
       </div>
-      <div
-        className="more-modal__button"
-        key="popover-member-more"
-      >
-        <button
-          className="btn btn-link"
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Manage Members"
-            id="members_popover.manageMembers"
-            values={Object {}}
-          />
-        </button>
-      </div>
     </Popover>
   </Overlay>
 </div>
@@ -220,21 +205,6 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
           />
         </div>
       </div>
-      <div
-        className="more-modal__button"
-        key="popover-member-more"
-      >
-        <button
-          className="btn btn-link"
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Manage Members"
-            id="members_popover.manageMembers"
-            values={Object {}}
-          />
-        </button>
-      </div>
     </Popover>
   </Overlay>
 </div>
@@ -339,21 +309,6 @@ exports[`components/PopoverListMembers should match state when showMembersModal 
             }
           />
         </div>
-      </div>
-      <div
-        className="more-modal__button"
-        key="popover-member-more"
-      >
-        <button
-          className="btn btn-link"
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Manage Members"
-            id="members_popover.manageMembers"
-            values={Object {}}
-          />
-        </button>
       </div>
     </Popover>
   </Overlay>

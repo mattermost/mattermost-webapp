@@ -130,6 +130,8 @@ export default class SidebarChannel extends React.PureComponent {
          */
         shouldHideChannel: PropTypes.bool.isRequired,
 
+        channelIsArchived: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
@@ -183,6 +185,9 @@ export default class SidebarChannel extends React.PureComponent {
     };
 
     render = () => {
+        if (this.props.channelIsArchived && !this.props.active) {
+            return null;
+        }
         if (!this.props.channelType) {
             return (<div/>);
         }
@@ -284,6 +289,7 @@ export default class SidebarChannel extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
+                    channelIsArchived={this.props.channelIsArchived}
                 />
                 {tutorialTip}
             </li>

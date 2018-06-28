@@ -15,6 +15,7 @@ describe('components/ChannelMembersModal', () => {
             header: '',
             name: 'testchannel',
             purpose: '',
+            delete_at: 0,
         },
         canManageChannelMembers: true,
         onModalDismissed: () => {}, // eslint-disable-line no-empty-function

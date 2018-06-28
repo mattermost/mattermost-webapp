@@ -25,40 +25,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           className="channel-header__title dropdown"
           id="channelHeaderTitle"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                bsClass="tooltip"
-                id="favoriteTooltip"
-                placement="right"
-              >
-                <FormattedMessage
-                  defaultMessage="Add to Favorites"
-                  id="channelHeader.addToFavorites"
-                  values={Object {}}
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="style--none color--link channel-header__favorites inactive"
-              id="toggleFavorite"
-              onClick={[Function]}
-            >
-              <i
-                className="icon fa fa-star-o"
-              />
-            </button>
-          </OverlayTrigger>
           <h2>
             <button
               aria-expanded="true"
@@ -70,7 +36,11 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               <strong
                 className="heading"
                 id="channelHeaderTitle"
-              />
+              >
+                <ArchiveIcon
+                  className="icon icon__archive icon channel-header-archived-icon"
+                />
+              </strong>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
                 id="channelHeaderDropdownIcon"
@@ -110,18 +80,18 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 </Connect(ModalToggleButtonRedux)>
               </li>
               <li
-                key="notification_preferences"
+                key="manage_members"
                 role="presentation"
               >
                 <button
                   className="style--none"
-                  id="channelNotificationsGroup"
+                  id="channelManageMembers"
                   onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
-                    defaultMessage="Notification Preferences"
-                    id="channel_header.notificationPreferences"
+                    defaultMessage="View Members"
+                    id="channel_header.viewMembers"
                     values={Object {}}
                   />
                 </button>
@@ -130,74 +100,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 className="divider"
                 key="divider-1"
               />
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="add_members_permission"
-                permissions={
-                  Array [
-                    "manage_public_channel_members",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  key="add_members"
-                  role="presentation"
-                >
-                  <Connect(ModalToggleButtonRedux)
-                    dialogProps={
-                      Object {
-                        "channel": Object {
-                          "id": "channel_id",
-                          "name": "Test",
-                          "team_id": "team_id",
-                        },
-                        "currentUser": Object {
-                          "id": "user_id",
-                        },
-                      }
-                    }
-                    dialogType={[Function]}
-                    id="channelAddMembers"
-                    modalId="channel_invite"
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Add Members"
-                      id="channel_header.addMembers"
-                      values={Object {}}
-                    />
-                  </Connect(ModalToggleButtonRedux)>
-                </li>
-              </Connect(ChannelPermissionGate)>
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="manage_members_permission"
-                permissions={
-                  Array [
-                    "manage_public_channel_members",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  key="manage_members"
-                  role="presentation"
-                >
-                  <button
-                    className="style--none"
-                    id="channelManageMembers"
-                    onClick={[Function]}
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Manage Members"
-                      id="channel_header.manageMembers"
-                      values={Object {}}
-                    />
-                  </button>
-                </li>
-              </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 invert={true}
@@ -227,135 +129,19 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   </button>
                 </li>
               </Connect(ChannelPermissionGate)>
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="set_channel_info_permission"
-                permissions={
-                  Array [
-                    "manage_public_channel_properties",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  className="divider"
-                  key="divider-2"
-                />
-                <li
-                  key="set_channel_header"
-                  role="presentation"
-                >
-                  <Connect(ModalToggleButtonRedux)
-                    dialogProps={
-                      Object {
-                        "channel": Object {
-                          "id": "channel_id",
-                          "name": "Test",
-                          "team_id": "team_id",
-                        },
-                      }
-                    }
-                    dialogType={[Function]}
-                    id="channelEditHeader"
-                    modalId="edit_channel_header"
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Edit Channel Header"
-                      id="channel_header.setHeader"
-                      values={Object {}}
-                    />
-                  </Connect(ModalToggleButtonRedux)>
-                </li>
-                <li
-                  key="set_channel_purpose"
-                  role="presentation"
-                >
-                  <button
-                    className="style--none"
-                    id="channelEditPurpose"
-                    onClick={[Function]}
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Edit Channel Purpose"
-                      id="channel_header.setPurpose"
-                      values={Object {}}
-                    />
-                  </button>
-                </li>
-                <li
-                  key="rename_channel"
-                  role="presentation"
-                >
-                  <button
-                    className="style--none"
-                    id="channelRename"
-                    onClick={[Function]}
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Rename Channel"
-                      id="channel_header.rename"
-                      values={Object {}}
-                    />
-                  </button>
-                </li>
-              </Connect(ChannelPermissionGate)>
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="delete_channel_permission"
-                permissions={
-                  Array [
-                    "delete_public_channel",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  key="delete_channel"
-                  role="presentation"
-                >
-                  <Connect(ModalToggleButtonRedux)
-                    dialogProps={
-                      Object {
-                        "channel": Object {
-                          "id": "channel_id",
-                          "name": "Test",
-                          "team_id": "team_id",
-                        },
-                      }
-                    }
-                    dialogType={[Function]}
-                    id="channelDelete"
-                    modalId="delete_channel"
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Archive Channel"
-                      id="channel_header.delete"
-                      values={Object {}}
-                    />
-                  </Connect(ModalToggleButtonRedux)>
-                </li>
-              </Connect(ChannelPermissionGate)>
               <li
-                className="divider"
-                key="divider-3"
-              />
-              <li
-                key="leave_channel"
+                key="close_channel"
                 role="presentation"
               >
                 <button
                   className="style--none"
-                  id="channelLeave"
+                  id="channelClose"
                   onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
-                    defaultMessage="Leave Channel"
-                    id="channel_header.leave"
+                    defaultMessage="Close Channel"
+                    id="center_panel.archived.closeChannel"
                     values={Object {}}
                   />
                 </button>
@@ -366,28 +152,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         <div
           className="channel-header__description light"
           id="channelHeaderDescription"
-        >
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId=""
-          >
-            <button
-              className="style--none"
-              onClick={[Function]}
-            >
-              <FormattedMessage
-                defaultMessage="Add a channel description"
-                id="channel_header.addChannelHeader"
-                values={Object {}}
-              />
-            </button>
-          </Connect(ChannelPermissionGate)>
-        </div>
+        />
       </div>
     </div>
     <div
@@ -521,40 +286,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
           className="channel-header__title dropdown"
           id="channelHeaderTitle"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                bsClass="tooltip"
-                id="favoriteTooltip"
-                placement="right"
-              >
-                <FormattedMessage
-                  defaultMessage="Add to Favorites"
-                  id="channelHeader.addToFavorites"
-                  values={Object {}}
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="style--none color--link channel-header__favorites inactive"
-              id="toggleFavorite"
-              onClick={[Function]}
-            >
-              <i
-                className="icon fa fa-star-o"
-              />
-            </button>
-          </OverlayTrigger>
           <h2>
             <button
               aria-expanded="true"
@@ -566,7 +297,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
               <strong
                 className="heading"
                 id="channelHeaderTitle"
-              />
+              >
+                <ArchiveIcon
+                  className="icon icon__archive icon channel-header-archived-icon"
+                />
+              </strong>
               <span
                 className="fa fa-angle-down header-dropdown__icon"
                 id="channelHeaderDropdownIcon"
@@ -614,18 +349,18 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 </Connect(ModalToggleButtonRedux)>
               </li>
               <li
-                key="notification_preferences"
+                key="manage_members"
                 role="presentation"
               >
                 <button
                   className="style--none"
-                  id="channelNotificationsGroup"
+                  id="channelManageMembers"
                   onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
-                    defaultMessage="Notification Preferences"
-                    id="channel_header.notificationPreferences"
+                    defaultMessage="View Members"
+                    id="channel_header.viewMembers"
                     values={Object {}}
                   />
                 </button>
@@ -634,82 +369,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 className="divider"
                 key="divider-1"
               />
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="add_members_permission"
-                permissions={
-                  Array [
-                    "manage_public_channel_members",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  key="add_members"
-                  role="presentation"
-                >
-                  <Connect(ModalToggleButtonRedux)
-                    dialogProps={
-                      Object {
-                        "channel": Object {
-                          "header": "See ~test",
-                          "id": "channel_id",
-                          "name": "Test",
-                          "props": Object {
-                            "channel_mentions": Object {
-                              "test": Object {
-                                "display_name": "Test",
-                              },
-                            },
-                          },
-                          "team_id": "team_id",
-                        },
-                        "currentUser": Object {
-                          "id": "user_id",
-                        },
-                      }
-                    }
-                    dialogType={[Function]}
-                    id="channelAddMembers"
-                    modalId="channel_invite"
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Add Members"
-                      id="channel_header.addMembers"
-                      values={Object {}}
-                    />
-                  </Connect(ModalToggleButtonRedux)>
-                </li>
-              </Connect(ChannelPermissionGate)>
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="manage_members_permission"
-                permissions={
-                  Array [
-                    "manage_public_channel_members",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  key="manage_members"
-                  role="presentation"
-                >
-                  <button
-                    className="style--none"
-                    id="channelManageMembers"
-                    onClick={[Function]}
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Manage Members"
-                      id="channel_header.manageMembers"
-                      values={Object {}}
-                    />
-                  </button>
-                </li>
-              </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
                 invert={true}
@@ -739,151 +398,19 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   </button>
                 </li>
               </Connect(ChannelPermissionGate)>
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="set_channel_info_permission"
-                permissions={
-                  Array [
-                    "manage_public_channel_properties",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  className="divider"
-                  key="divider-2"
-                />
-                <li
-                  key="set_channel_header"
-                  role="presentation"
-                >
-                  <Connect(ModalToggleButtonRedux)
-                    dialogProps={
-                      Object {
-                        "channel": Object {
-                          "header": "See ~test",
-                          "id": "channel_id",
-                          "name": "Test",
-                          "props": Object {
-                            "channel_mentions": Object {
-                              "test": Object {
-                                "display_name": "Test",
-                              },
-                            },
-                          },
-                          "team_id": "team_id",
-                        },
-                      }
-                    }
-                    dialogType={[Function]}
-                    id="channelEditHeader"
-                    modalId="edit_channel_header"
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Edit Channel Header"
-                      id="channel_header.setHeader"
-                      values={Object {}}
-                    />
-                  </Connect(ModalToggleButtonRedux)>
-                </li>
-                <li
-                  key="set_channel_purpose"
-                  role="presentation"
-                >
-                  <button
-                    className="style--none"
-                    id="channelEditPurpose"
-                    onClick={[Function]}
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Edit Channel Purpose"
-                      id="channel_header.setPurpose"
-                      values={Object {}}
-                    />
-                  </button>
-                </li>
-                <li
-                  key="rename_channel"
-                  role="presentation"
-                >
-                  <button
-                    className="style--none"
-                    id="channelRename"
-                    onClick={[Function]}
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Rename Channel"
-                      id="channel_header.rename"
-                      values={Object {}}
-                    />
-                  </button>
-                </li>
-              </Connect(ChannelPermissionGate)>
-              <Connect(ChannelPermissionGate)
-                channelId="channel_id"
-                key="delete_channel_permission"
-                permissions={
-                  Array [
-                    "delete_public_channel",
-                  ]
-                }
-                teamId=""
-              >
-                <li
-                  key="delete_channel"
-                  role="presentation"
-                >
-                  <Connect(ModalToggleButtonRedux)
-                    dialogProps={
-                      Object {
-                        "channel": Object {
-                          "header": "See ~test",
-                          "id": "channel_id",
-                          "name": "Test",
-                          "props": Object {
-                            "channel_mentions": Object {
-                              "test": Object {
-                                "display_name": "Test",
-                              },
-                            },
-                          },
-                          "team_id": "team_id",
-                        },
-                      }
-                    }
-                    dialogType={[Function]}
-                    id="channelDelete"
-                    modalId="delete_channel"
-                    role="menuitem"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Archive Channel"
-                      id="channel_header.delete"
-                      values={Object {}}
-                    />
-                  </Connect(ModalToggleButtonRedux)>
-                </li>
-              </Connect(ChannelPermissionGate)>
               <li
-                className="divider"
-                key="divider-3"
-              />
-              <li
-                key="leave_channel"
+                key="close_channel"
                 role="presentation"
               >
                 <button
                   className="style--none"
-                  id="channelLeave"
+                  id="channelClose"
                   onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
-                    defaultMessage="Leave Channel"
-                    id="channel_header.leave"
+                    defaultMessage="Close Channel"
+                    id="center_panel.archived.closeChannel"
                     values={Object {}}
                   />
                 </button>

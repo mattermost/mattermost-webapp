@@ -20,6 +20,7 @@ import TeamStore from 'stores/team_store.jsx';
 import Markdown from 'components/markdown';
 import {Constants, NotificationLevels, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {browserHistory} from 'utils/browser_history';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -37,6 +38,7 @@ import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
 import SearchIcon from 'components/svg/search_icon';
+import ArchiveIcon from 'components/svg/archive_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -148,6 +150,10 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.leaveChannel(this.props.channel.id);
         }
+    };
+
+    handleClose = () => {
+        browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
     };
 
     toggleFavorite = () => {
@@ -303,9 +309,10 @@ export default class ChannelHeader extends React.Component {
     };
 
     render() {
+        const channelIsArchived = this.props.channel.delete_at !== 0;
         if (Utils.isEmptyObject(this.props.channel) ||
-                Utils.isEmptyObject(this.props.channelMember) ||
-                Utils.isEmptyObject(this.props.currentUser)) {
+            Utils.isEmptyObject(this.props.channelMember) ||
+            Utils.isEmptyObject(this.props.currentUser)) {
             // Use an empty div to make sure the header's height stays constant
             return (
                 <div className='channel-header'/>
@@ -333,6 +340,10 @@ export default class ChannelHeader extends React.Component {
         );
 
         let channelTitle = channel.display_name;
+        let archivedIcon = null;
+        if (channelIsArchived) {
+            archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon'/>);
+        }
         const isDirect = (this.props.channel.type === Constants.DM_CHANNEL);
         const isGroup = (this.props.channel.type === Constants.GM_CHANNEL);
         const isPrivate = (this.props.channel.type === Constants.PRIVATE_CHANNEL);
@@ -540,7 +551,7 @@ export default class ChannelHeader extends React.Component {
                 </li>
             );
 
-            if (this.props.isDefault) {
+            if (this.props.isDefault || channelIsArchived) {
                 dropdownContents.push(
                     <li
                         key='manage_members'
@@ -561,24 +572,26 @@ export default class ChannelHeader extends React.Component {
                 );
             }
 
-            dropdownContents.push(
-                <li
-                    key='notification_preferences'
-                    role='presentation'
-                >
-                    <button
-                        className='style--none'
-                        id='channelNotificationsGroup'
-                        role='menuitem'
-                        onClick={this.showChannelNotificationsModal}
+            if (!channelIsArchived) {
+                dropdownContents.push(
+                    <li
+                        key='notification_preferences'
+                        role='presentation'
                     >
-                        <FormattedMessage
-                            id='channel_header.notificationPreferences'
-                            defaultMessage='Notification Preferences'
-                        />
-                    </button>
-                </li>
-            );
+                        <button
+                            className='style--none'
+                            id='channelNotificationsGroup'
+                            role='menuitem'
+                            onClick={this.showChannelNotificationsModal}
+                        >
+                            <FormattedMessage
+                                id='channel_header.notificationPreferences'
+                                defaultMessage='Notification Preferences'
+                            />
+                        </button>
+                    </li>
+                );
+            }
 
             if (!this.props.isDefault) {
                 dropdownContents.push(
@@ -588,58 +601,60 @@ export default class ChannelHeader extends React.Component {
                     />
                 );
 
-                dropdownContents.push(
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                        key='add_members_permission'
-                    >
-                        <li
-                            key='add_members'
-                            role='presentation'
+                if (!channelIsArchived) {
+                    dropdownContents.push(
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                            key='add_members_permission'
                         >
-                            <ToggleModalButtonRedux
-                                id='channelAddMembers'
-                                ref='channelInviteModalButton'
-                                role='menuitem'
-                                modalId={ModalIdentifiers.CHANNEL_INVITE}
-                                dialogType={ChannelInviteModal}
-                                dialogProps={{channel, currentUser: this.props.currentUser}}
+                            <li
+                                key='add_members'
+                                role='presentation'
                             >
-                                <FormattedMessage
-                                    id='channel_header.addMembers'
-                                    defaultMessage='Add Members'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-                    </ChannelPermissionGate>
-                );
-                dropdownContents.push(
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                        key='manage_members_permission'
-                    >
-                        <li
-                            key='manage_members'
-                            role='presentation'
+                                <ToggleModalButtonRedux
+                                    id='channelAddMembers'
+                                    ref='channelInviteModalButton'
+                                    role='menuitem'
+                                    modalId={ModalIdentifiers.CHANNEL_INVITE}
+                                    dialogType={ChannelInviteModal}
+                                    dialogProps={{channel, currentUser: this.props.currentUser}}
+                                >
+                                    <FormattedMessage
+                                        id='channel_header.addMembers'
+                                        defaultMessage='Add Members'
+                                    />
+                                </ToggleModalButtonRedux>
+                            </li>
+                        </ChannelPermissionGate>
+                    );
+                    dropdownContents.push(
+                        <ChannelPermissionGate
+                            channelId={channel.id}
+                            teamId={teamId}
+                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                            key='manage_members_permission'
                         >
-                            <button
-                                className='style--none'
-                                id='channelManageMembers'
-                                role='menuitem'
-                                onClick={this.showMembersModal}
+                            <li
+                                key='manage_members'
+                                role='presentation'
                             >
-                                <FormattedMessage
-                                    id='channel_header.manageMembers'
-                                    defaultMessage='Manage Members'
-                                />
-                            </button>
-                        </li>
-                    </ChannelPermissionGate>
-                );
+                                <button
+                                    className='style--none'
+                                    id='channelManageMembers'
+                                    role='menuitem'
+                                    onClick={this.showMembersModal}
+                                >
+                                    <FormattedMessage
+                                        id='channel_header.manageMembers'
+                                        defaultMessage='Manage Members'
+                                    />
+                                </button>
+                            </li>
+                        </ChannelPermissionGate>
+                    );
+                }
 
                 dropdownContents.push(
                     <ChannelPermissionGate
@@ -669,7 +684,7 @@ export default class ChannelHeader extends React.Component {
                 );
             }
 
-            if (!this.props.isReadOnly) {
+            if (!this.props.isReadOnly && !channelIsArchived) {
                 dropdownContents.push(
                     <ChannelPermissionGate
                         channelId={channel.id}
@@ -737,7 +752,7 @@ export default class ChannelHeader extends React.Component {
                 );
             }
 
-            if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
+            if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL && !channelIsArchived) {
                 dropdownContents.push(
                     <TeamPermissionGate
                         teamId={teamId}
@@ -768,7 +783,7 @@ export default class ChannelHeader extends React.Component {
                 );
             }
 
-            if (!this.props.isDefault) {
+            if (!this.props.isDefault && !channelIsArchived) {
                 dropdownContents.push(
                     <ChannelPermissionGate
                         channelId={channel.id}
@@ -803,20 +818,43 @@ export default class ChannelHeader extends React.Component {
                     />
                 );
 
+                if (!channelIsArchived) {
+                    dropdownContents.push(
+                        <li
+                            key='leave_channel'
+                            role='presentation'
+                        >
+                            <button
+                                className='style--none'
+                                id='channelLeave'
+                                role='menuitem'
+                                onClick={this.handleLeave}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.leave'
+                                    defaultMessage='Leave Channel'
+                                />
+                            </button>
+                        </li>
+                    );
+                }
+            }
+
+            if (channelIsArchived) {
                 dropdownContents.push(
                     <li
-                        key='leave_channel'
+                        key='close_channel'
                         role='presentation'
                     >
                         <button
                             className='style--none'
-                            id='channelLeave'
+                            id='channelClose'
                             role='menuitem'
-                            onClick={this.handleLeave}
+                            onClick={this.handleClose}
                         >
                             <FormattedMessage
-                                id='channel_header.leave'
-                                defaultMessage='Leave Channel'
+                                id='center_panel.archived.closeChannel'
+                                defaultMessage='Close Channel'
                             />
                         </button>
                     </li>
@@ -871,7 +909,7 @@ export default class ChannelHeader extends React.Component {
             );
         } else {
             let editMessage;
-            if (!this.props.isReadOnly) {
+            if (!this.props.isReadOnly && !channelIsArchived) {
                 if (isDirect || isGroup) {
                     editMessage = (
                         <button
@@ -927,42 +965,45 @@ export default class ChannelHeader extends React.Component {
         }
 
         let toggleFavoriteTooltip;
-        if (this.props.isFavorite) {
-            toggleFavoriteTooltip = (
-                <Tooltip id='favoriteTooltip'>
-                    <FormattedMessage
-                        id='channelHeader.removeFromFavorites'
-                        defaultMessage='Remove from Favorites'
-                    />
-                </Tooltip>
-            );
-        } else {
-            toggleFavoriteTooltip = (
-                <Tooltip id='favoriteTooltip'>
-                    <FormattedMessage
-                        id='channelHeader.addToFavorites'
-                        defaultMessage='Add to Favorites'
-                    />
-                </Tooltip>
+        let toggleFavorite = null;
+        if (!channelIsArchived) {
+            if (this.props.isFavorite) {
+                toggleFavoriteTooltip = (
+                    <Tooltip id='favoriteTooltip'>
+                        <FormattedMessage
+                            id='channelHeader.removeFromFavorites'
+                            defaultMessage='Remove from Favorites'
+                        />
+                    </Tooltip>
+                );
+            } else {
+                toggleFavoriteTooltip = (
+                    <Tooltip id='favoriteTooltip'>
+                        <FormattedMessage
+                            id='channelHeader.addToFavorites'
+                            defaultMessage='Add to Favorites'
+                        />
+                    </Tooltip>
+                );
+            }
+
+            toggleFavorite = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={toggleFavoriteTooltip}
+                >
+                    <button
+                        id='toggleFavorite'
+                        onClick={this.toggleFavorite}
+                        className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
+                    >
+                        <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
+                    </button>
+                </OverlayTrigger>
             );
         }
-
-        const toggleFavorite = (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='bottom'
-                overlay={toggleFavoriteTooltip}
-            >
-                <button
-                    id='toggleFavorite'
-                    onClick={this.toggleFavorite}
-                    className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
-                >
-                    <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
-                </button>
-            </OverlayTrigger>
-        );
 
         const channelMuted = isChannelMuted(this.props.channelMember);
         const channelMutedTooltip = (
@@ -1051,6 +1092,7 @@ export default class ChannelHeader extends React.Component {
                                             id='channelHeaderTitle'
                                             className='heading'
                                         >
+                                            {archivedIcon}
                                             {channelTitle}
                                         </strong>
                                         <span

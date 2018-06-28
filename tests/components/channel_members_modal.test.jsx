@@ -9,7 +9,7 @@ import ChannelMembersModal from 'components/channel_members_modal/channel_member
 
 describe('components/ChannelMembersModal', () => {
     const baseProps = {
-        channel: {id: 'channel_id', display_name: 'channel_display_name'},
+        channel: {id: 'channel_id', display_name: 'channel_display_name', delete_at: 0},
         canManageChannelMembers: true,
         onModalDismissed: () => {}, //eslint-disable-line no-empty-function
         showInviteModal: () => {}, //eslint-disable-line no-empty-function

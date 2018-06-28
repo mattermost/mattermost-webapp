@@ -46,6 +46,7 @@ export default class RhsRootPost extends React.Component {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
+        channelIsArchived: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -192,7 +193,7 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const {post, user, isReadOnly, teamId} = this.props;
+        const {post, user, isReadOnly, teamId, channelIsArchived} = this.props;
         var channel = ChannelStore.get(post.channel_id);
 
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -214,7 +215,7 @@ export default class RhsRootPost extends React.Component {
 
         let react;
 
-        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
             react = (
                 <ChannelPermissionGate
                     channelId={post.channel_id}
@@ -324,7 +325,7 @@ export default class RhsRootPost extends React.Component {
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
                 commentCount={this.props.commentCount}
-                isReadOnly={isReadOnly}
+                isReadOnly={isReadOnly || channelIsArchived}
             />
         );
 
@@ -393,7 +394,7 @@ export default class RhsRootPost extends React.Component {
                             {fileAttachment}
                             <ReactionListContainer
                                 post={post}
-                                isReadOnly={isReadOnly}
+                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>
