@@ -152,6 +152,15 @@
             display: inline-block;
             font-size: 14px;
             font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+
+            div {
+                display: inline;
+                margin-left: 5px;
+            }
         }
 
         .image-container {
@@ -179,7 +188,7 @@
             left: 0;
             max-height: 350px;
             max-width: 100%;
-            display: block;
+            display: inline-block;
             opacity: 0;
             overflow: hidden;
             position: absolute;

@@ -173,11 +173,11 @@ export default class SingleImageView extends React.PureComponent {
         );
 
         const fileHeader = (
-            <div
-                className='image-name'
-                onClick={this.handleImageClick}
-            >
-                {fileInfo.name}
+            <div className='image-name'>
+                {toggle}
+                <div onClick={this.handleImageClick}>
+                    {fileInfo.name}
+                </div>
             </div>
         );
 
@@ -260,7 +260,7 @@ export default class SingleImageView extends React.PureComponent {
                     ref={this.setViewPortRef}
                     className='file__image'
                 >
-                    {toggle} {fileHeader}
+                    {fileHeader}
                     {this.props.isEmbedVisible &&
                     <div
                         className='image-container'
