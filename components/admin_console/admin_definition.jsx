@@ -1633,8 +1633,8 @@ export default {
                             help_text_default: 'When true, APIs are throttled at rates specified below.',
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'RateSetting.PerSec',
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'RateLimitSettings.PerSec',
                             label: 'admin.rate.queriesTitle',
                             label_default: 'Maximum Queries per Second:',
                             placeholder: 'admin.rate.queriesExample',
@@ -1644,8 +1644,8 @@ export default {
                             isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'RateSetting.MaxBurst',
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'RateLimitSettings.MaxBurst',
                             label: 'admin.rate.maxBurst',
                             label_default: 'Maximum Burst Size:',
                             placeholder: 'admin.rate.maxBurstExample',
@@ -1655,8 +1655,8 @@ export default {
                             isDisabled: needsUtils.stateValueEqual('RateLimitSettings.Enable', false),
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'RateSetting.MemoryStoreSize',
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'RateLimitSettings.MemoryStoreSize',
                             label: 'admin.rate.memoryTitle',
                             label_default: 'Memory Store Size:',
                             placeholder: 'admin.rate.memoryExample',
@@ -1685,7 +1685,7 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
-                            key: 'RateSetting.VaryByHeader',
+                            key: 'RateLimitSettings.VaryByHeader',
                             label: 'admin.rate.httpHeaderTitle',
                             label_default: 'Vary rate limit by HTTP header:',
                             placeholder: 'admin.rate.httpHeaderExample',
