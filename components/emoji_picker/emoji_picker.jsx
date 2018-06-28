@@ -8,6 +8,7 @@ import throttle from 'lodash/throttle';
 import EmojiStore from 'stores/emoji_store.jsx';
 import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
+import imgTrans from 'images/img_trans.gif';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
@@ -530,7 +531,7 @@ export default class EmojiPicker extends React.PureComponent {
                         ref={ref}
                     >
                         <img
-                            src='/static/images/img_trans.gif'
+                            src={imgTrans}
                             className='emojisprite'
                         />
                     </div>

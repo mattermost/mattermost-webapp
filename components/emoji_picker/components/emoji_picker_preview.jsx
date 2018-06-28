@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import EmojiStore from 'stores/emoji_store.jsx';
+import imgTrans from 'images/img_trans.gif';
 
 export default class EmojiPickerPreview extends React.Component {
     static propTypes = {
@@ -28,7 +29,7 @@ export default class EmojiPickerPreview extends React.Component {
                 previewImage = (
                     <span className='sprite-preview'>
                         <img
-                            src='/static/images/img_trans.gif'
+                            src={imgTrans}
                             className={'emojisprite-preview emoji-category-' + emoji.category + '-' + emoji.batch + ' emoji-' + emoji.filename}
                         />
                     </span>
