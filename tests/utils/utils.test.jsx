@@ -438,13 +438,13 @@ describe('Utils.isKeyPressed', function() {
     test('Key match is used over keyCode if it exists', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55}),
-                key: ['/', 191],
+                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55, code: 'Slash'}),
+                key: ['/', 191, 'Slash'],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191}),
-                key: ['/', 191],
+                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191, code: 'KeyK'}),
+                key: ['/', 191, 'Slash'],
                 valid: false,
             },
         ]) {
@@ -452,17 +452,17 @@ describe('Utils.isKeyPressed', function() {
         }
     });
 
-    test('Key match works for uppercase letters, but it does not ignore case', function() {
+    test('Key match works for both uppercase and lower case', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65}),
-                key: ['a', 65],
+                event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65, code: 'KeyA'}),
+                key: ['a', 65, 'KeyA'],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65}),
-                key: ['A', 65],
-                valid: false,
+                event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65, code: 'KeyA'}),
+                key: ['a', 65, 'KeyA'],
+                valid: true,
             },
         ]) {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
@@ -499,22 +499,22 @@ describe('Utils.isKeyPressed', function() {
     test('KeyCode is used for unidentified keys', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: ['', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: ['not-used-field', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: [null, 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: [null, 2221],
                 valid: false,
             },
@@ -544,6 +544,23 @@ describe('Utils.isKeyPressed', function() {
                 event: {keyCode: 2221},
                 key: [null, 2222],
                 valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('code is used for determining if it exists', function() {
+        for (const data of [
+            {
+                event: {key: 'a', code: 'KeyA'},
+                key: ['', 2221, 'KeyA'],
+                valid: true,
+            },
+            {
+                event: {key: 'differentLanguage', code: 'KeyA'},
+                key: [null, 2222, 'KeyA'],
+                valid: true,
             },
         ]) {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
