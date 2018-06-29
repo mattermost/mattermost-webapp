@@ -7,7 +7,6 @@ import {
     getChannel,
     createDirectChannel,
     getChannelByNameAndTeamName,
-    getChannelAndMyMember,
     getChannelStats,
     getMyChannelMember,
     joinChannel,
@@ -515,18 +514,11 @@ export async function redirectUserToDefaultTeam() {
 
     const team = teams[teamId];
     if (team) {
-        const channelId = BrowserStore.getGlobalItem(teamId);
-        const channel = ChannelStore.getChannelById(channelId);
-        let channelName = Constants.DEFAULT_CHANNEL;
+        let channelName = BrowserStore.getGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, Constants.DEFAULT_CHANNEL);
+        const channel = ChannelStore.getChannelNamesMap()[channelName];
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
-        } else if (channelId) {
-            const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
-            if (data) {
-                dispatch(selectChannel(channelId));
-                channelName = data.channel.name;
-            }
         } else {
             const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
             if (data) {
