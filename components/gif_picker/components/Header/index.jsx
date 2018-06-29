@@ -6,16 +6,20 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
-
-import store from 'stores/redux_store.jsx';
-import Constants from 'utils/constants';
 
 import constants from 'components/gif_picker/utils/constants';
 import SearchBar from 'components/gif_picker/components/SearchBar';
 import GifTrendingIcon from 'components/svg/gif_trending_icon';
 import GifReactionsIcon from 'components/svg/gif_reactions_icon';
 import './Header.scss';
+
+function mapStateToProps(state) {
+    return {
+        theme: getTheme(state),
+    };
+}
 
 const mapDispatchToProps = ({
     saveSearchBarText,
@@ -48,6 +52,7 @@ export class Header extends PureComponent {
         appProps: PropTypes.object,
         saveSearchBarText: PropTypes.func,
         searchTextUpdate: PropTypes.func,
+        theme: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -58,9 +63,7 @@ export class Header extends PureComponent {
     }
 
     render() {
-        const prefs = store.getState().entities.preferences.myPreferences;
-        const theme = 'theme--' in prefs ? JSON.parse(prefs['theme--'].value) : Constants.THEMES.default;
-        const style = getStyle(theme);
+        const style = getStyle(this.props.theme);
 
         return (
             <header
@@ -127,4 +130,4 @@ export class Header extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -6,11 +6,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {saveSearchScrollPosition, saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
-
-import Constants from 'utils/constants';
-
-import store from 'stores/redux_store.jsx';
 
 import GifSearchIcon from 'components/svg/gif_search_icon';
 import GifSearchClearIcon from 'components/svg/gif_search_clear_icon';
@@ -21,6 +18,7 @@ function mapStateToProps(state) {
     return {
         ...state.entities.gifs.categories,
         ...state.entities.gifs.search,
+        theme: getTheme(state),
         appProps: state.entities.gifs.app,
     };
 }
@@ -56,6 +54,7 @@ export class SearchBar extends Component {
     static propTypes = {
         searchBarText: PropTypes.string,
         tagsList: PropTypes.array,
+        theme: PropTypes.object.isRequired,
         onTrending: PropTypes.func,
         onSearch: PropTypes.func,
         onCategories: PropTypes.func,
@@ -179,9 +178,7 @@ export class SearchBar extends Component {
     }
 
     render() {
-        const prefs = store.getState().entities.preferences.myPreferences;
-        const theme = 'theme--' in prefs ? JSON.parse(prefs['theme--'].value) : Constants.THEMES.default;
-        const style = getStyle(theme);
+        const style = getStyle(this.props.theme);
         const {searchBarText} = this.props;
         const clearSearchButton = searchBarText ?
             (

@@ -6,11 +6,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate} from 'mattermost-redux/actions/gifs';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import store from 'stores/redux_store.jsx';
-import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
@@ -21,6 +20,7 @@ function mapStateToProps(state) {
     return {
         ...state.entities.gifs.categories,
         ...state.entities.gifs.cache,
+        theme: getTheme(state),
         appProps: state.entities.gifs.app,
         searchText: state.entities.gifs.search.searchText,
         searchBarText: state.entities.gifs.search.searchBarText,
@@ -59,6 +59,7 @@ export class Categories extends PureComponent {
         searchBarText: PropTypes.string,
         tagsList: PropTypes.array,
         hasImageProxy: PropTypes.string,
+        theme: PropTypes.object.isRequired,
     }
 
     componentDidMount() {
@@ -99,9 +100,7 @@ export class Categories extends PureComponent {
     }
 
     render() {
-        const prefs = store.getState().entities.preferences.myPreferences;
-        const theme = 'theme--' in prefs ? JSON.parse(prefs['theme--'].value) : Constants.THEMES.default;
-        const style = getStyle(theme);
+        const style = getStyle(this.props.theme);
 
         const {hasMore, tagsList, gifs, onSearch, onTrending, hasImageProxy} = this.props;
 

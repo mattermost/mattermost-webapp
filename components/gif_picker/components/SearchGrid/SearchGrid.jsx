@@ -6,16 +6,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
-
-import store from 'stores/redux_store.jsx';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
 
-import Constants from 'utils/constants';
 import './SearchGrid.scss';
 
 const ITEMS_PADDING = 8;
@@ -27,6 +25,7 @@ function mapStateToProps(state) {
     return {
         ...state.entities.gifs.cache,
         ...state.entities.gifs.search,
+        theme: getTheme(state),
         appProps: state.entities.gifs.app,
     };
 }
@@ -56,6 +55,7 @@ export class SearchGrid extends PureComponent {
         numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
         saveSearchScrollPosition: PropTypes.func,
+        theme: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -148,9 +148,7 @@ export class SearchGrid extends PureComponent {
     }
 
     render() {
-        const prefs = store.getState().entities.preferences.myPreferences;
-        const theme = 'theme--' in prefs ? JSON.parse(prefs['theme--'].value) : Constants.THEMES.default;
-        const style = getStyle(theme);
+        const style = getStyle(this.props.theme);
         const {
             containerClassName,
             gifs,
