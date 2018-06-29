@@ -18,7 +18,7 @@ jest.mock('actions/global_actions.jsx', () => ({
 function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) {
     const ctrlSendProp = ctrlSend || false;
     const configProp = config || {
-        AllowEditPost: 'allways',
+        AllowEditPost: 'always',
         PostEditTimeLimit: 300,
         EnableEmojiPicker: 'true',
     };
@@ -63,7 +63,7 @@ describe('components/EditPostModal', () => {
 
     it('should match without emoji picker', () => {
         const config = {
-            AllowEditPost: 'allways',
+            AllowEditPost: 'always',
             PostEditTimeLimit: 300,
             EnableEmojiPicker: 'false',
         };
