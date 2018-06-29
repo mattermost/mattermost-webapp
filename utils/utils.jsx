@@ -67,6 +67,10 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
 }
 
 export function isKeyPressed(event, key) {
+    if (typeof event.code !== 'undefined' && event.code !== 'Unidentified' && key[2]) {
+        return typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
+    }
+
     if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
         return event.key === key[0] || event.key === key[0].toUpperCase();
     }
