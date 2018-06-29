@@ -1,0 +1,73 @@
+.search-bar {
+  position: relative;
+  width: 100%;
+  padding: .8rem .6rem 0;
+  box-sizing: border-box;
+
+  .search-input {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 2.7rem;
+    padding: 0 2.6rem;
+    font-size: 1.3rem;
+    border-radius: 1.4rem;
+    border-width: 1px;
+    border-style: solid;
+    outline: none;
+    box-shadow: none;
+    z-index: 1;
+    background-color: transparent;
+  }
+
+  // Hide IE input clear button
+  .search-input::-ms-clear {
+    display: none;
+  }
+
+  .search-input-bg {
+    position: absolute;
+    width: calc(100% - 2.4rem);
+    height: 3.3rem;
+    border-radius: .6rem;
+  }
+
+  .placeholder {
+    position: absolute;
+    top: 1.3rem;
+    left: 3.3rem;
+    font-size: 1.2rem;
+  }
+
+  .ic {
+    position: absolute;
+    top: calc(50% - .3rem);
+  }
+
+  .ic-clear-search, .ic-search {
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .ic-clear-search {
+    top: 1.1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .ic-search {
+    top: .7rem;
+    left: .7rem;
+    width: 2.5rem;
+    height: 3rem;
+  }
+}
+
+.search-form .submit-button {
+  display: none;
+}

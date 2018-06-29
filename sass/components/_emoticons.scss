@@ -66,11 +66,54 @@
     &.bottom {
         margin-top: 10px;
     }
+
+    .nav-tabs {
+        margin-bottom: 0px;
+
+        li {
+            width: 139px;
+
+            a {
+                border: 0;
+                border-bottom-width: 2px;
+                border-bottom-style: solid;
+                opacity: 0.7;
+                outline: none;
+                height: 34px;
+                margin-left: 5px;
+                margin-right: 5px;
+                padding-top: 9px;
+            }
+        }
+
+        li.active {
+            width: 139px;
+
+            a {
+                border: 0 !important;
+                border-bottom-width: 2px !important;
+                border-bottom-style: solid !important;
+                border-radius: 1px;
+                opacity: 1;
+                height: 34px;
+                margin-left: 5px;
+                margin-right: 5px;
+                padding-top: 9px;
+            }
+        }
+
+        svg {
+            top: 2px;
+        }
+    }
 }
 
 .emoji-picker__categories {
     flex-grow: 0;
     flex-shrink: 0;
+    height: 34px;
+    padding-left: 3px;
+    padding-top: 3px;
 
     .emoji-picker__category {
         color: #333333;
@@ -93,11 +136,13 @@
 
 .emoji-picker__search-container {
     position: relative;
-    border-top-style: solid;
-    border-top-width: 1px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 14px;
+    margin: 6px 5px 0px 5px;
 
     .emoji-picker__search-icon {
-        padding-left: 6px;
+        padding-left: 7px;
         padding-top: 6px;
         position: absolute;
         font-size: 13px;
@@ -105,7 +150,8 @@
 
     .emoji-picker__search {
         border-width: 0px;
-        padding: 2px 0 2px 25px;
+        border-radius: inherit;
+        padding: 2px 0 2px 26px;
         width: 100%;
         height: 25px;
         font-size: 12px;
@@ -223,14 +269,11 @@
     flex-grow: 0;
     flex-shrink: 0;
     height: 50px;
-    justify-content: flex-start;
-    padding: 7px 10px 0;
-    position: relative;
-    vertical-align: middle;
+    padding: 5px 10px;
     width: 278px;
 
     &.emoji-picker__preview-placeholder {
-        padding: 12px;
+        padding: 15px;
     }
 
     > div {
@@ -254,6 +297,7 @@
     }
 
     .emoji-picker__preview-image-box {
+        margin-top: 2px;
         display: flex;
         align-items: center;
         justify-content: center;

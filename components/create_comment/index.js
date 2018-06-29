@@ -38,6 +38,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+    const enableGifPicker = config.EnableGifPicker === 'true';
 
     return {
         draft,
@@ -49,6 +50,7 @@ function mapStateToProps(state, ownProps) {
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         enableConfirmNotificationsToChannel,
         enableEmojiPicker,
+        enableGifPicker,
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
     };
 }

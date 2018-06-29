@@ -121,6 +121,11 @@ export default class CreatePost extends React.Component {
         enableEmojiPicker: PropTypes.bool.isRequired,
 
         /**
+         * Whether to show the gif picker.
+         */
+        enableGifPicker: PropTypes.bool.isRequired,
+
+        /**
          * Whether to check with the user before notifying the whole channel.
          */
         enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
@@ -739,6 +744,17 @@ export default class CreatePost extends React.Component {
         this.focusTextbox();
     }
 
+    handleGifClick = (gif) => {
+        if (this.state.message === '') {
+            this.setState({message: gif});
+        } else {
+            const newMessage = (/\s+$/.test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
+            this.setState({message: newMessage});
+        }
+        this.setState({showEmojiPicker: false});
+        this.focusTextbox();
+    }
+
     createTutorialTip() {
         const screens = [];
 
@@ -879,6 +895,8 @@ export default class CreatePost extends React.Component {
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
+                        onGifClick={this.handleGifClick}
+                        enableGifPicker={this.props.enableGifPicker}
                         rightOffset={15}
                         topOffset={-7}
                     />
