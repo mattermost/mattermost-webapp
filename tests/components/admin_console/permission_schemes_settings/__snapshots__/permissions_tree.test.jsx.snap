@@ -121,6 +121,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       root={true}
       scope="channel_scope"
       selectRow={[MockFunction]}
+      uniqId="test"
     />
   </div>
   <Connect(EditPostTimeLimitModal)
@@ -251,6 +252,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       root={true}
       scope="channel_scope"
       selectRow={[MockFunction]}
+      uniqId="test"
     />
   </div>
   <Connect(EditPostTimeLimitModal)
@@ -381,6 +383,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       root={true}
       scope="system_scope"
       selectRow={[MockFunction]}
+      uniqId="test"
     />
   </div>
   <Connect(EditPostTimeLimitModal)
@@ -511,6 +514,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       root={true}
       scope="team_scope"
       selectRow={[MockFunction]}
+      uniqId="test"
     />
   </div>
   <Connect(EditPostTimeLimitModal)
@@ -645,6 +649,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       root={true}
       scope="system_scope"
       selectRow={[MockFunction]}
+      uniqId="test"
     />
   </div>
   <Connect(EditPostTimeLimitModal)

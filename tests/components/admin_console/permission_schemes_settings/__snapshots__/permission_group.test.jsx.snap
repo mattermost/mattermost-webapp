@@ -6,6 +6,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -41,6 +42,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value=""
     />
     <PermissionRow
@@ -51,6 +53,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -63,6 +66,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -98,6 +102,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value=""
     />
     <PermissionRow
@@ -108,6 +113,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -120,6 +126,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -155,6 +162,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value=""
     />
     <PermissionRow
@@ -165,6 +173,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -177,6 +186,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -212,6 +222,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value="checked"
     />
     <PermissionRow
@@ -222,6 +233,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value="checked"
     />
   </div>
@@ -234,6 +246,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row  read-only"
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -269,6 +282,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value="checked"
     />
     <PermissionRow
@@ -279,6 +293,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value="checked"
     />
   </div>
@@ -291,6 +306,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row  read-only"
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -333,6 +349,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value="checked"
     />
     <PermissionRow
@@ -350,6 +367,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value="checked"
     />
   </div>
@@ -362,6 +380,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -397,6 +416,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value="checked"
     />
     <PermissionRow
@@ -407,6 +427,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -419,6 +440,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row  read-only"
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -454,6 +476,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value="checked"
     />
     <PermissionRow
@@ -464,6 +487,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -476,6 +500,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -517,6 +542,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value="checked"
     />
     <PermissionRow
@@ -527,6 +553,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={false}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -539,6 +566,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -574,6 +602,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value=""
     />
     <PermissionRow
@@ -584,6 +613,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -596,6 +626,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row "
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -631,6 +662,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value=""
     />
     <PermissionRow
@@ -641,6 +673,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={null}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
@@ -653,6 +686,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
 >
   <div
     className="permission-group-row  read-only"
+    id="uniqId"
     onClick={[Function]}
   >
     <div
@@ -688,6 +722,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-invite_user"
       value=""
     />
     <PermissionRow
@@ -698,6 +733,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
       onChange={[Function]}
       readOnly={true}
       selectRow={[MockFunction]}
+      uniqId="uniqId-add_user_to_team"
       value=""
     />
   </div>
