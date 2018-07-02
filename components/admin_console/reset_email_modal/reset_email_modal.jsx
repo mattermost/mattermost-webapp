@@ -121,7 +121,7 @@ export default class ResetEmailModal extends React.Component {
                                         type='email'
                                         ref='email'
                                         className='form-control'
-                                        maxLength='22'
+                                        maxLength='128'
                                         autoFocus={true}
                                         tabIndex='1'
                                     />
