@@ -1607,9 +1607,11 @@
         font: normal normal normal 14px/1 FontAwesome;
         margin: 0;
         text-rendering: auto;
+        position: relative;
+        z-index: 5;
 
         &.pull-left {
-            margin: 5px 5px 0 0;
+            margin: 4px 5px 0 0;
         }
 
         &:hover {
