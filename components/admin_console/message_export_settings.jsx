@@ -60,6 +60,21 @@ export default class MessageExportSettings extends AdminSettings {
         return state;
     }
 
+    getJobDetails = (job) => {
+        if (job.data && job.data.messages_exported) {
+            return (
+                <FormattedMessage
+                    id='admin.complianceExport.messagesExportedCount'
+                    defaultMessage='{count} messages exported.'
+                    values={{
+                        count: job.data.messages_exported,
+                    }}
+                />
+            );
+        }
+        return null;
+    };
+
     renderTitle() {
         return (
             <FormattedMessage
@@ -275,6 +290,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='Initiates a Compliance Export job immediately.'
                         />
                     }
+                    getExtraInfoText={this.getJobDetails}
                 />
             </SettingsGroup>
         );
