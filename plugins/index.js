@@ -80,6 +80,10 @@ export function loadPlugin(manifest) {
 }
 
 export function removePlugin(manifest) {
+    const plugin = window.plugins[manifest.id];
+    if (plugin && plugin.deinitialize) {
+        plugin.deinitialize();
+    }
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {
         return;
