@@ -16,6 +16,7 @@ describe('components/DoVerifyEmail', () => {
         },
         siteName: 'Mattermost',
         actions: {verifyUserEmail: jest.fn()},
+        isLoggedIn: false,
     };
 
     test('should match snapshot', () => {

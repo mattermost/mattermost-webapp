@@ -16,6 +16,7 @@ import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 import loadUserSettings from 'bundle-loader?lazy!../user_settings.jsx';
 import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+import {resendVerification} from 'actions/user_actions.jsx';
 
 const holders = defineMessages({
     general: {
@@ -41,6 +42,10 @@ const holders = defineMessages({
     advanced: {
         id: 'user.settings.modal.advanced',
         defaultMessage: 'Advanced',
+    },
+    checkEmail: {
+        id: 'user.settings.general.checkEmail',
+        defaultMessage: 'Check your email at {email} to verify the address. Cannot find the email?',
     },
     confirmTitle: {
         id: 'user.settings.modal.confirmTitle',
@@ -77,6 +82,20 @@ class UserSettingsModal extends React.Component {
         // If set by a child, it will be called in place of showing the regular confirm
         // modal. It will be passed a function to call on modal confirm
         this.customConfirmAction = null;
+    }
+
+    handleResend = (email) => {
+        this.setState({resendStatus: 'sending'});
+
+        resendVerification(
+            email,
+            () => {
+                this.setState({resendStatus: 'success'});
+            },
+            () => {
+                this.setState({resendStatus: 'failure'});
+            }
+        );
     }
 
     onUserChanged = () => {
@@ -318,6 +337,8 @@ UserSettingsModal.propTypes = {
     intl: intlShape.isRequired,
     closeUnusedDirectMessages: PropTypes.bool,
     experimentalGroupUnreadChannels: PropTypes.string,
+    sendEmailNotifications: PropTypes.bool,
+    requireEmailVerification: PropTypes.bool,
 };
 
 export default injectIntl(UserSettingsModal);

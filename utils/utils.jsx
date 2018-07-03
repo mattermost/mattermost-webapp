@@ -1561,6 +1561,13 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
+export function isEmailVerified(user) {
+    if (user && user.email_verified) {
+        return true;
+    }
+    return false;
+}
+
 export function handleFormattedTextClick(e) {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');

@@ -11,10 +11,14 @@ function mapStateToProps(state) {
 
     const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
     const experimentalGroupUnreadChannels = config.ExperimentalGroupUnreadChannels;
+    const sendEmailNotifications = config.SendEmailNotifications === 'true';
+    const requireEmailVerification = config.RequireEmailVerification === 'true';
 
     return {
         closeUnusedDirectMessages,
         experimentalGroupUnreadChannels,
+        sendEmailNotifications,
+        requireEmailVerification,
     };
 }
 
