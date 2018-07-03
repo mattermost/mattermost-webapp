@@ -628,9 +628,9 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = Utils.isKeyPressed(e, KeyCodes.ENTER) &&
-            ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || (!this.props.ctrlSend && !ctrlOrMetaKeyPressed)) &&
-            !e.altKey && !e.shiftKey;
+        const enterPressed = Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.altKey && !e.shiftKey;
+        const ctrlPressedIfNecessary = (this.props.ctrlSend && ctrlOrMetaKeyPressed) || (!this.props.ctrlSend && !ctrlOrMetaKeyPressed);
+        const ctrlEnterKeyCombo = enterPressed && ctrlPressedIfNecessary;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
