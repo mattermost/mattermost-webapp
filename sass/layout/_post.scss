@@ -1037,13 +1037,6 @@
         position: relative;
     }
 
-    .post--edited {
-        .post-message__text > p:last-child {
-            display: inline-block;
-            width: auto;
-        }
-    }
-
     .post-edited__indicator {
         @include opacity(.6);
         font-size: .87em;
