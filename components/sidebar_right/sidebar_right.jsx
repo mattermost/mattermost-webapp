@@ -29,8 +29,9 @@ export default class SidebarRight extends React.Component {
         isPinnedPosts: PropTypes.bool,
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
-            getPinnedPosts: PropTypes.func,
-            getFlaggedPosts: PropTypes.func,
+            getPinnedPosts: PropTypes.func.isRequired,
+            getFlaggedPosts: PropTypes.func.isRequired,
+            setRhsExpanded: PropTypes.func.isRequired,
         }),
     }
 
@@ -72,6 +73,10 @@ export default class SidebarRight extends React.Component {
             this.props.actions.getPinnedPosts(this.props.channel.id);
         }
     }
+
+    onShrink = () => {
+        this.props.actions.setRhsExpanded(false);
+    };
 
     render() {
         const {
