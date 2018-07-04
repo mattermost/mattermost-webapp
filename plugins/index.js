@@ -81,6 +81,9 @@ export function loadPlugin(manifest) {
 
 export function removePlugin(manifest) {
     const script = document.getElementById('plugin_' + manifest.id);
+    if (!script) {
+        return;
+    }
     script.parentNode.removeChild(script);
     console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 }
