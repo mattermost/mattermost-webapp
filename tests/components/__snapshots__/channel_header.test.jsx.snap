@@ -406,13 +406,21 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       />
     </div>
-    <div
-      className="flex-child"
-    >
-      <Connect(Pluggable)
-        pluggableName="ChannelHeaderButton"
-      />
-    </div>
+    <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
     <HeaderIconWrapper
       buttonClass="style--none channel-header__icon"
       buttonId="channelHeaderPinButton"
@@ -968,13 +976,29 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       />
     </div>
-    <div
-      className="flex-child"
-    >
-      <Connect(Pluggable)
-        pluggableName="ChannelHeaderButton"
-      />
-    </div>
+    <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "header": "See ~test",
+          "id": "channel_id",
+          "name": "Test",
+          "props": Object {
+            "channel_mentions": Object {
+              "test": Object {
+                "display_name": "Test",
+              },
+            },
+          },
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
     <HeaderIconWrapper
       buttonClass="style--none channel-header__icon"
       buttonId="channelHeaderPinButton"
