@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
@@ -193,7 +195,7 @@ class UserSettingsGeneralTab extends React.Component {
             return;
         }
 
-        if (email === '' || !Utils.isEmail(email)) {
+        if (email === '' || !isEmail(email)) {
             this.setState({emailError: formatMessage(holders.validEmail), clientError: '', serverError: ''});
             return;
         }

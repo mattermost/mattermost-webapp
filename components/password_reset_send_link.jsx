@@ -7,6 +7,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
 import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import BackButton from 'components/common/back_button.jsx';
@@ -26,7 +28,7 @@ class PasswordResetSendLink extends React.Component {
         e.preventDefault();
 
         var email = ReactDOM.findDOMNode(this.refs.email).value.trim().toLowerCase();
-        if (!email || !Utils.isEmail(email)) {
+        if (!email || !isEmail(email)) {
             this.setState({
                 error: (
                     <FormattedMessage
