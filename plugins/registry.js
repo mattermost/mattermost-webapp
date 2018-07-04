@@ -50,7 +50,7 @@ export default class PluginRegistry {
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:
     // - icon - JSX element to use as the button's icon
-    // - action - a function called when the button is clicked
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or JSX element shown for the dropdown button description
     registerChannelHeaderButtonAction = (icon, action, dropdownText) => {
         const id = generateId();

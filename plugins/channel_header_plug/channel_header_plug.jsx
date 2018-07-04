@@ -111,7 +111,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     }
 
     fireActionAndClose = (action) => {
-        action();
+        action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
 
@@ -120,7 +120,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             <HeaderIconWrapper
                 buttonClass='channel-header__icon style--none'
                 iconComponent={plug.icon}
-                onClick={plug.action}
+                onClick={() => plug.action(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}
             />
         );
