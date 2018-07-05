@@ -20,6 +20,21 @@ import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
+//heretic rethread stuff:
+import {Client4} from 'mattermost-redux/client';
+import {bindClientFunc} from 'mattermost-redux/actions/helpers';
+
+function rethreadPostRedux(post) {
+    return bindClientFunc(
+        Client4.updatePost,
+        PostTypes.EDIT_POST_REQUEST,
+        [PostTypes.RECEIVED_POST, PostTypes.EDIT_POST_SUCCESS],
+        PostTypes.EDIT_POST_FAILURE,
+        post
+    );
+}
+//heresy ends here
+
 const dispatch = store.dispatch;
 const getState = store.getState;
 
@@ -192,6 +207,20 @@ export async function updatePost(post, success) {
         });
     }
 }
+
+export async function rethreadPost(post, success) {
+    const {data, error: err} = await rethreadPostRedux(post)(dispatch, getState);
+    if (data && success) {
+        success();
+    } else if (err) {
+        AppDispatcher.handleServerAction({
+            type: ActionTypes.RECEIVED_ERROR,
+            err: {id: err.server_error_id, ...err},
+            method: 'rethreadPost',
+        });
+    }
+}
+
 
 export function emitEmojiPosted(emoji) {
     AppDispatcher.handleServerAction({

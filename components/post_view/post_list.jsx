@@ -30,6 +30,7 @@ const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
 
+
 export default class PostList extends React.PureComponent {
     static propTypes = {
 
@@ -104,6 +105,11 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
+
+            /**
+             *Function to rethread stuff
+             */
+             rethreadPost: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -120,6 +126,7 @@ export default class PostList extends React.PureComponent {
         this.extraPagesLoaded = 0;
 
         this.state = {
+            rethreadTarget: null,
             atEnd: false,
             unViewedCount: 0,
             isDoingInitialLoad: true,
@@ -339,6 +346,31 @@ export default class PostList extends React.PureComponent {
         }, 0);
         this.setState({unViewedCount});
     }
+    
+    triggerRethreading = async (post) => {
+        const target = this.state.rethreadTarget
+        if(target && post.id !== target.id && target.user_id === this.props.currentUserId) {
+            console.log(post, "POST");
+            console.log(target, "TARGET")
+            const root_id = (post.root_id) ? post.root_id : post.id
+            const updatedPost = {"message": target.message, "channel_id": target.channel_id, "id": target.id, "root_id": root_id}
+            this.setState({rethreadTarget: null});
+            const data = await this.props.actions.rethreadPost(updatedPost);
+        }
+    }
+
+    handleRethreading = (post) => {
+        const target = this.state.rethreadTarget
+        if(post.user_id === this.props.currentUserId) {
+            if (target && target.id === post.id) {
+                this.setState({rethreadTarget: null})
+            } else {
+                this.setState({rethreadTarget: post})
+            }
+        } else {
+            this.setState({rethreadTarget: null})
+        }
+    }
 
     handleScrollStop = () => {
         this.setState({
@@ -526,6 +558,9 @@ export default class PostList extends React.PureComponent {
                     post={post}
                     lastPostCount={(i >= 0 && i < Constants.TEST_ID_COUNT) ? i : -1}
                     getPostList={this.getPostList}
+                    handleRethreading={this.handleRethreading}
+                    triggerRethreading={this.triggerRethreading}
+                    onClick={ () => { if(this.state.rethreadTarget) {console.log(post.id)}; this.setState({rethreadTarget: null}) }}
                 />
             );
 

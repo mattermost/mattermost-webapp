@@ -90,6 +90,10 @@ export default class Post extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
+        /**
+         * Function to handle rethreading select
+         */
+        handleRethreading: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -265,6 +269,7 @@ export default class Post extends React.PureComponent {
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
+                onClick={() => {this.props.triggerRethreading(post)}}
             >
                 <div className={'post__content ' + centerClass}>
                     <div className='post__img'>
@@ -285,6 +290,7 @@ export default class Post extends React.PureComponent {
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
                             getPostList={this.props.getPostList}
+                            handleRethreading={this.props.handleRethreading}
                             hover={this.state.hover}
                         />
                         <PostBody
