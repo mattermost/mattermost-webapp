@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/PostAttachment should match snapshot 1`] = `
+<div
+  className="post-message post-message--collapsed"
+>
+  <div
+    className="post-message__text-container"
+  >
+    <div
+      className="post-message__text"
+      id="lastPostMessageText1"
+      onClick={[Function]}
+    >
+      <PostMarkdown
+        imageProps={
+          Object {
+            "onHeightReceived": [Function],
+          }
+        }
+        isRHS={false}
+        message="post message"
+        options={Object {}}
+        post={
+          Object {
+            "id": "post_id",
+            "message": "post message",
+            "state": "",
+            "type": "",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on Show Less 1`] = `
+<div
+  className="post-message post-message--expanded post-message--overflow"
+>
+  <div
+    className="post-message__text-container"
+  >
+    <div
+      className="post-message__text"
+      id="lastPostMessageText1"
+      onClick={[Function]}
+    >
+      <PostMarkdown
+        imageProps={
+          Object {
+            "onHeightReceived": [Function],
+          }
+        }
+        isRHS={false}
+        message="post message"
+        options={Object {}}
+        post={
+          Object {
+            "id": "post_id",
+            "message": "post message",
+            "state": "",
+            "type": "",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="post-collapse"
+  >
+    <div
+      className="post-collapse__gradient"
+    />
+    <div
+      className="post-collapse__show-more"
+    >
+      <div
+        className="post-collapse__show-more-line"
+      />
+      <button
+        className="post-collapse__show-more-button"
+        onClick={[Function]}
+      >
+        <span
+          className="fa fa-angle-up"
+        />
+        Show Less
+      </button>
+      <div
+        className="post-collapse__show-more-line"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on Show More 1`] = `
+<div
+  className="post-message post-message--collapsed post-message--overflow"
+>
+  <div
+    className="post-message__text-container"
+  >
+    <div
+      className="post-message__text"
+      id="lastPostMessageText1"
+      onClick={[Function]}
+    >
+      <PostMarkdown
+        imageProps={
+          Object {
+            "onHeightReceived": [Function],
+          }
+        }
+        isRHS={false}
+        message="post message"
+        options={Object {}}
+        post={
+          Object {
+            "id": "post_id",
+            "message": "post message",
+            "state": "",
+            "type": "",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="post-collapse"
+  >
+    <div
+      className="post-collapse__gradient"
+    />
+    <div
+      className="post-collapse__show-more"
+    >
+      <div
+        className="post-collapse__show-more-line"
+      />
+      <button
+        className="post-collapse__show-more-button"
+        onClick={[Function]}
+      >
+        <span
+          className="fa fa-angle-down"
+        />
+        Show More
+      </button>
+      <div
+        className="post-collapse__show-more-line"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on deleted post 1`] = `
+<p>
+  <FormattedMessage
+    defaultMessage="(message deleted)"
+    id="post_body.deleted"
+    values={Object {}}
+  />
+</p>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on deleted post 2`] = `
+<p>
+  <FormattedMessage
+    defaultMessage="(message deleted)"
+    id="post_body.deleted"
+    values={Object {}}
+  />
+</p>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on edited post 1`] = `
+<div
+  className="post-message post-message--collapsed"
+>
+  <div
+    className="post-message__text-container"
+  >
+    <div
+      className="post-message__text"
+      id="lastPostMessageText1"
+      onClick={[Function]}
+    >
+      <PostMarkdown
+        imageProps={
+          Object {
+            "onHeightReceived": [Function],
+          }
+        }
+        isRHS={false}
+        message="post message"
+        options={Object {}}
+        post={
+          Object {
+            "edit_at": 1,
+            "id": "post_id",
+            "message": "post message",
+            "state": "",
+            "type": "",
+          }
+        }
+      />
+    </div>
+    <span
+      className="post-edited__indicator"
+    >
+      <FormattedMessage
+        defaultMessage="(edited)"
+        id="post_message_view.edited"
+        values={Object {}}
+      />
+    </span>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on edited post 2`] = `
+<span
+  className="post-edited__indicator"
+>
+  <FormattedMessage
+    defaultMessage="(edited)"
+    id="post_message_view.edited"
+    values={Object {}}
+  />
+</span>
+`;
+
+exports[`components/post_view/PostAttachment should match snapshot, on ephemeral post 1`] = `
+<div
+  className="post-message post-message--collapsed"
+>
+  <div
+    className="post-message__text-container"
+  >
+    <div
+      className="post-message__text"
+      id="lastPostMessageText1"
+      onClick={[Function]}
+    >
+      <PostMarkdown
+        imageProps={
+          Object {
+            "onHeightReceived": [Function],
+          }
+        }
+        isRHS={false}
+        message="post message"
+        options={Object {}}
+        post={
+          Object {
+            "id": "post_id",
+            "message": "post message",
+            "state": "",
+            "type": "system_ephemeral",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;
