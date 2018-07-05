@@ -143,38 +143,6 @@ export default class PostList extends React.PureComponent {
         window.removeEventListener('resize', this.handleWindowResize);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        // Focusing on a new post so load posts around it
-        if (nextProps.focusedPostId && this.props.focusedPostId !== nextProps.focusedPostId) {
-            this.hasScrolledToFocusedPost = false;
-            this.hasScrolledToNewMessageSeparator = false;
-            this.setState({atEnd: false, isDoingInitialLoad: !nextProps.posts});
-            this.loadPosts(nextProps.channel.id, nextProps.focusedPostId);
-            return;
-        }
-
-        const channel = this.props.channel || {};
-        const nextChannel = nextProps.channel || {};
-
-        if (nextProps.focusedPostId == null) {
-            // Channel changed so load posts for new channel
-            if (channel.id !== nextChannel.id) {
-                this.hasScrolled = false;
-                this.hasScrolledToFocusedPost = false;
-                this.hasScrolledToNewMessageSeparator = false;
-                this.atBottom = false;
-
-                this.extraPagesLoaded = 0;
-
-                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts, unViewedCount: 0});
-
-                if (nextChannel.id) {
-                    this.loadPosts(nextChannel.id);
-                }
-            }
-        }
-    }
-
     UNSAFE_componentWillUpdate() { // eslint-disable-line camelcase
         if (this.refs.postlist) {
             this.previousScrollTop = this.refs.postlist.scrollTop;
@@ -184,6 +152,23 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        if (this.props.focusedPostId && this.props.focusedPostId !== prevProps.focusedPostId) {
+            this.hasScrolledToFocusedPost = false;
+            this.hasScrolledToNewMessageSeparator = false;
+            this.loadPosts(this.props.channel.id, this.props.focusedPostId);
+        } else if (this.props.channel && (!prevProps.channel || this.props.channel.id !== prevProps.channel.id)) {
+            this.hasScrolled = false;
+            this.hasScrolledToFocusedPost = false;
+            this.hasScrolledToNewMessageSeparator = false;
+            this.atBottom = false;
+
+            this.extraPagesLoaded = 0;
+
+            this.setState({atEnd: false, lastViewed: this.props.lastViewedAt, isDoingInitialLoad: !this.props.posts, unViewedCount: 0}); // eslint-disable-line react/no-did-update-set-state
+
+            this.loadPosts(this.props.channel.id);
+        }
+
         this.loadPostsToFillScreenIfNecessary();
 
         // Do not update scrolling unless posts, visibility or intro message change
@@ -417,11 +402,7 @@ export default class PostList extends React.PureComponent {
         });
     }
 
-    loadMorePosts = (e) => {
-        if (e) {
-            e.preventDefault();
-        }
-
+    loadMorePosts = () => {
         this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
             this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
         });
