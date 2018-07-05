@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
+import DelayedAction from 'utils/delayed_action.jsx';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -18,6 +19,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
+import MessageIcon from 'components/svg/message_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 export default class PostInfo extends React.PureComponent {
@@ -115,10 +117,25 @@ export default class PostInfo extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.editDisableAction = new DelayedAction(this.handleEditDisable);
+
         this.state = {
             showEmojiPicker: false,
             reactionPickerOffset: 21,
+            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.post !== this.props.post) {
+            this.setState({
+                canEdit: PostUtils.canEditPost(nextProps.post, this.editDisableAction),
+            });
+        }
+    }
+
+    handleEditDisable = () => {
+        this.setState({canEdit: false});
     }
 
     toggleEmojiPicker = () => {
@@ -249,6 +266,18 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
+        let rethreading;
+        if (hover && !isReadOnly && canEdit) {
+            rethreading = (
+                <button
+                    className='reacticon__container color--link style--none'
+                    onClick={() => { this.props.handleRethreading(this.props.post)} }
+                >
+                    <MessageIcon className='icon icon--message'/>
+                </button>
+            );
+        }
+
         return (
             <div
                 ref='dotMenu'
@@ -257,6 +286,7 @@ export default class PostInfo extends React.PureComponent {
                 {dotMenu}
                 {react}
                 {comments}
+                {rethreading}
             </div>
         );
     };
