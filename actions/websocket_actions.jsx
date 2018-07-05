@@ -294,12 +294,12 @@ function handleEvent(msg) {
         handleChannelViewedEvent(msg);
         break;
 
-    case SocketEvents.PLUGIN_ACTIVATED:
-        handlePluginActivated(msg);
+    case SocketEvents.PLUGIN_ENABLED:
+        handlePluginEnabled(msg);
         break;
 
-    case SocketEvents.PLUGIN_DEACTIVATED:
-        handlePluginDeactivated(msg);
+    case SocketEvents.PLUGIN_DISABLED:
+        handlePluginDisabled(msg);
         break;
 
     case SocketEvents.USER_ROLE_UPDATED:
@@ -717,13 +717,13 @@ function handleChannelViewedEvent(msg) {
     }
 }
 
-function handlePluginActivated(msg) {
+function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
     store.dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
     loadPlugin(manifest);
 }
 
-function handlePluginDeactivated(msg) {
+function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
     store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
     removePlugin(manifest);
