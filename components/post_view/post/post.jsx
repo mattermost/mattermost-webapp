@@ -90,6 +90,7 @@ export default class Post extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
+<<<<<<< HEAD
 
         /**
          * Function to get the post to rethread.
@@ -105,6 +106,12 @@ export default class Post extends React.PureComponent {
          * Set to mark the post as selected for rethreading.
          */
         selected: PropTypes.bool,
+=======
+        /**
+         * Function to handle rethreading select
+         */
+        handleRethreading: PropTypes.func.isRequired,
+>>>>>>> rethreading initial commit
     }
 
     static defaultProps = {
