@@ -189,6 +189,7 @@ export default class PostHeader extends React.PureComponent {
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         getPostList={this.props.getPostList}
                         hover={this.props.hover}
+                        handleRethreading={this.props.handleRethreading}
                     />
                 </div>
             </div>
