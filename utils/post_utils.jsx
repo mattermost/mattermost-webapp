@@ -99,6 +99,22 @@ export function canEditPost(post, editDisableAction) {
     return canEdit;
 }
 
+export function canRethreadPost(post) {
+    if (isSystemMessage(post)) {
+        return false;
+    }
+
+    const channel = getChannel(store.getState(), post.channel_id);
+
+    const isOwner = isPostOwner(post);
+    const canRethread = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
+    const canRethreadOthers = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+    if (!isOwner && !canRethreadOthers) {
+        canRethread = false;
+    }
+    return canRethread;
+}
+
 export function shouldShowDotMenu(post) {
     if (Utils.isMobile()) {
         return true;

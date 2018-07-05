@@ -210,6 +210,10 @@ function handleEvent(msg) {
         handlePostDeleteEvent(msg);
         break;
 
+    case SocketEvents.POST_RETHREADED:
+        handlePostRethreadEvent(msg);
+        break;
+
     case SocketEvents.LEAVE_TEAM:
         handleLeaveTeamEvent(msg);
         break;
@@ -433,6 +437,22 @@ function handlePostDeleteEvent(msg) {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.POST_DELETED,
         post,
+    });
+}
+
+function handlePostRethreadEvent(msg) {
+    const post = JSON.parse(msg.data.post);
+    dispatch({
+        type: PostTypes.RETHREAD_POST_UPDATE,
+        data: {
+            order: [],
+            posts: {
+                [post.id]: post,
+            },
+            post,
+            original_root_id: msg.data.original_root_id,
+        },
+        channelId: post.channel_id,
     });
 }
 

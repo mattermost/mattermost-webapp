@@ -73,6 +73,11 @@ export default class PostList extends React.PureComponent {
          */
         fullWidth: PropTypes.bool,
 
+        /**
+         * Whether rethreading is enabled
+         */
+        rethreadingEnabled: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /**
@@ -104,11 +109,20 @@ export default class PostList extends React.PureComponent {
              * Function to check and set if app is in mobile view
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
+
+            /**
+             *Function to rethread stuff
+             */
+            rethreadPost: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
+        this.timer = null;
+        this.rethreadTarget = null;
+        this.rethreadHighlight = null;
 
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
@@ -264,6 +278,22 @@ export default class PostList extends React.PureComponent {
         }
     }
 
+    setRethreadHighlight = (target) => {
+        if (this.props.rethreadingEnabled) {
+            const highlight = this.state.rethreadHighlight;
+            clearTimeout(this.timer);
+            if (target) {
+                if (!highlight || highlight !== target.id) {
+                    this.setState({rethreadHighlight: target});
+                }
+            } else {
+                this.timer = setTimeout(() => {
+                    this.setState({rethreadHighlight: null});
+                }, 250);
+            }
+        }
+    }
+
     loadPostsToFillScreenIfNecessary = () => {
         if (this.props.focusedPostId) {
             return;
@@ -338,6 +368,83 @@ export default class PostList extends React.PureComponent {
             return count;
         }, 0);
         this.setState({unViewedCount});
+    }
+
+    triggerRethreading = async (post) => {
+        //post: a post in the thread which will be receiving the post to be rethreaded
+        //target: the post which will be rethreaded
+        const target = this.rethreadTarget;
+        if (this.props.rethreadingEnabled) {
+            if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
+                if (post.type === '') {
+                    const rootId = (post.root_id) ? post.root_id : post.id;
+                    const updatedPost = {
+                        data: target,
+                        channel_id: target.channel_id,
+                        id: target.id,
+                        root_id: rootId,
+                    };
+                    this.rethreadHighlight = null;
+                    await this.props.actions.rethreadPost(updatedPost);
+                }
+            }
+        }
+        this.rethreadTarget = null;
+    }
+
+    handleRethreading = (post) => {
+        this.rethreadTarget = post;
+    }
+
+    triggerRethreading = async (post) => {
+        const target = this.state.rethreadTarget;
+        if (target && post.id !== target.id) {
+            if (target.create_at > post.create_at && post.type === '') {
+                const rootId = (post.root_id) ? post.root_id : post.id;
+                const updatedPost = {
+                    channel_id: target.channel_id,
+                    id: target.id,
+                    root_id: rootId,
+                };
+                this.setState({rethreadTarget: null});
+                await this.props.actions.rethreadPost(updatedPost);
+            } else {
+                this.setState({rethreadTarget: null});
+            }
+        }
+    }
+
+    handleRethreading = (post) => {
+        const target = this.state.rethreadTarget;
+        if (target && target.id === post.id) {
+            this.setState({rethreadTarget: null});
+        } else {
+            this.setState({rethreadTarget: post});
+        }
+    }
+
+    triggerRethreading = async (post) => {
+        //post: a post in the thread which will be receiving the post to be rethreaded
+        //target: the post which will be rethreaded
+        const target = this.rethreadTarget;
+        if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
+            if (post.type === '') {
+                const rootId = (post.root_id) ? post.root_id : post.id;
+                const updatedPost = {
+                    data: target,
+                    channel_id: target.channel_id,
+                    id: target.id,
+                    root_id: rootId,
+                };
+                this.rethreadHighlight = null;
+                await this.props.actions.rethreadPost(updatedPost);
+            }
+        }
+        this.rethreadTarget = null;
+    }
+
+    handleRethreading = (post) => {
+        this.rethreadTarget = post;
     }
 
     handleScrollStop = () => {
@@ -520,6 +627,15 @@ export default class PostList extends React.PureComponent {
                 continue;
             }
 
+            let rethreadHighlight = false;
+            const rethreadTarget = this.rethreadTarget;
+            const postHighlight = this.state.rethreadHighlight;
+            if (this.props.rethreadingEnabled && rethreadTarget && post && postHighlight) {
+                if (postHighlight.id === post.root_id || (postHighlight.root_id === post.root_id && post.root_id.length) || postHighlight.root_id === post.id || post.id === postHighlight.id) {
+                    rethreadHighlight = true;
+                }
+            }
+
             const postCtl = (
                 <Post
                     ref={post.id}
@@ -527,6 +643,11 @@ export default class PostList extends React.PureComponent {
                     post={post}
                     lastPostCount={(i >= 0 && i < Constants.TEST_ID_COUNT) ? i : -1}
                     getPostList={this.getPostList}
+                    handleRethreading={this.handleRethreading}
+                    rethreadHighlight={rethreadHighlight}
+                    setRethreadHighlight={this.setRethreadHighlight}
+                    triggerRethreading={this.triggerRethreading}
+                    rethreadingEnabled={this.props.rethreadingEnabled}
                 />
             );
 

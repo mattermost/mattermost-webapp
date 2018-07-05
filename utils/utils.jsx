@@ -602,6 +602,10 @@ export function applyTheme(theme) {
         changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
     }
 
+    if (theme.postRethreadHighlight) {
+        changeCss('.post-rethreadHighlight *', 'background-color:' + theme.postRethreadHighlight + '!important;');
+    }
+
     let dndIndicator;
     if (theme.dndIndicator) {
         dndIndicator = theme.dndIndicator;

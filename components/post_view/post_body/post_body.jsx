@@ -277,6 +277,19 @@ export default class PostBody extends React.PureComponent {
             ephemeralPostClass = 'post--ephemeral';
         }
 
+<<<<<<< HEAD
+        let selected = '';
+        if (this.props.selected) {
+            selected = 'post-rethreadtarget';
+        }
+
+        let selected = '';
+        if (this.props.selected) {
+            selected = 'post-rethreadtarget';
+        }
+
+=======
+>>>>>>> ecf7bc81... rethreading now done via dragging
         return (
             <div>
                 {comment}
