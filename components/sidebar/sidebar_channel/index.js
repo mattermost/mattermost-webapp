@@ -77,6 +77,8 @@ function makeMapStateToProps() {
                 channelTeammateId = teammate.id;
                 channelTeammateDeletedAt = teammate.delete_at;
                 channelTeammateUsername = teammate.username;
+            } else {
+                channelTeammateId = channel.teammate_id;
             }
 
             channelDisplayName = displayUsername(teammate, teammateNameDisplay);
