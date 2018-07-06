@@ -200,7 +200,7 @@ export class SearchBar extends Component {
 
         return (
             <form
-                className='search-form'
+                className='gfycat-search'
                 method='get'
                 target='_top'
                 noValidate=''

@@ -172,7 +172,7 @@ export class SearchGrid extends PureComponent {
 
         // Item width in %
         //const itemWidth = this.numberOfColumns === NUMBER_OF_COLUMNS_PORTRAIT ? 100 / NUMBER_OF_COLUMNS_PORTRAIT : 100 / this.numberOfColumns;
-        const itemWidth = 122;
+        const itemWidth = 140;
 
         const searchItems = containerWidth && items.length ?
             items.map((item, index) => {
