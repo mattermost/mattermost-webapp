@@ -349,13 +349,15 @@ export default class PostList extends React.PureComponent {
     
     triggerRethreading = async (post) => {
         const target = this.state.rethreadTarget
-        if(target && post.id !== target.id && target.user_id === this.props.currentUserId) {
-            console.log(post, "POST");
-            console.log(target, "TARGET")
-            const root_id = (post.root_id) ? post.root_id : post.id
-            const updatedPost = {"message": target.message, "channel_id": target.channel_id, "id": target.id, "root_id": root_id}
-            this.setState({rethreadTarget: null});
-            const data = await this.props.actions.rethreadPost(updatedPost);
+        if(target && post.id !== target.id) {
+            if(target.user_id === this.props.currentUserId && target.create_at > post.create_at && post.type == "") {
+                const root_id = (post.root_id) ? post.root_id : post.id
+                const updatedPost = {"message": target.message, "channel_id": target.channel_id, "id": target.id, "root_id": root_id, "file_ids": target.file_ids}
+                this.setState({rethreadTarget: null});
+                const data = await this.props.actions.rethreadPost(updatedPost);
+            } else {
+                this.setState({rethreadTarget: null})
+            }
         }
     }
 
@@ -527,6 +529,7 @@ export default class PostList extends React.PureComponent {
         if (this.props.posts) {
             // iterate through posts starting at the bottom since users are more likely to be viewing newer posts
             for (let i = 0; i < this.props.posts.length; i++) {
+                
                 const post = this.props.posts[i];
                 const element = this.refs[post.id];
 
