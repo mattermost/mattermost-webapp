@@ -1298,6 +1298,8 @@
   "admin.team.noBrandImage": "No brand image uploaded",
   "admin.team.openServerDescription": "When true, anyone can signup for a user account on this server without the need to be invited.",
   "admin.team.openServerTitle": "Enable Open Server: ",
+  "admin.team.emailInvitationsDescription": "When true users can invite others to the system using email.",
+  "admin.team.emailInvitationsTitle": "Enable Email Invitations: ",
   "admin.team.restrictDescription": "Teams and user accounts can only be created from a specific domain (e.g. \"mattermost.org\") or list of comma-separated domains (e.g. \"corp.mattermost.com, mattermost.org\").",
   "admin.team.restrictDirectMessage": "Enable users to open Direct Message channels with:",
   "admin.team.restrictDirectMessageDesc": "'Any user on the Mattermost server' enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. 'Any member of the team' limits the ability in the Direct Messages 'More' menu to only open Direct Message channels with users who are in the same team.<br /><br />Note: This setting only affects the UI, not permissions on the server.",
