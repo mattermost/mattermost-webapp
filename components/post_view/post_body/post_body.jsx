@@ -276,13 +276,18 @@ export default class PostBody extends React.PureComponent {
         if (isEphemeral) {
             ephemeralPostClass = 'post--ephemeral';
         }
+        
+        let selected = '';
+        if(this.props.selected) {
+            selected = 'post-rethreadtarget';
+        }
 
         return (
             <div>
                 {comment}
                 <div
                     id={`${post.id}_message`}
-                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
+                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass} ${selected}`}
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
