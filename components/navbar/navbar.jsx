@@ -315,9 +315,8 @@ export default class Navbar extends React.Component {
             >
                 <button
                     role='menuitem'
-                    className='style--none'
                     onClick={this.initWebrtc}
-                    className={linkClass}
+                    className={'style--none ' + linkClass}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.webrtc.call'
