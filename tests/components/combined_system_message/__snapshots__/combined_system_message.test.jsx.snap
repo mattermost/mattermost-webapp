@@ -5,51 +5,103 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot 1`] = 
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "@User1",
-            "firstUser": "@AddedUser1",
-          }
-        }
-      />
+    <span
+      key="0"
+    >
+      <span
+        data-mention="AddedUser1"
+        key="0"
+      >
+        <Connect(AtMention)
+          hasMention={true}
+          isRHS={false}
+          mentionName="AddedUser1"
+        >
+          @AddedUser1
+        </Connect(AtMention)>
+      </span>
+       
+      <strong
+        key="2"
+      >
+        added to the channel
+      </strong>
+       by 
+      <span
+        data-mention="User1."
+        key="4"
+      >
+        <Connect(AtMention)
+          hasMention={true}
+          isRHS={false}
+          mentionName="User1."
+        >
+          @User1.
+        </Connect(AtMention)>
+      </span>
     </span>
+    
+
     <br />
   </React.Fragment>
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="You were <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one_you"
-        values={
-          Object {
-            "actor": "@User1",
-          }
-        }
-      />
+    <span
+      key="0"
+    >
+      You were 
+      <strong
+        key="1"
+      >
+        added to the channel
+      </strong>
+       by 
+      <span
+        data-mention="User1."
+        key="3"
+      >
+        <Connect(AtMention)
+          hasMention={true}
+          isRHS={false}
+          mentionName="User1."
+        >
+          @User1.
+        </Connect(AtMention)>
+      </span>
     </span>
+    
+
     <br />
   </React.Fragment>
   <React.Fragment
     key="system_add_to_channelcurrent_user_id"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "you",
-            "firstUser": "@AddedUser2",
-          }
-        }
-      />
+    <span
+      key="0"
+    >
+      <span
+        data-mention="AddedUser2"
+        key="0"
+      >
+        <Connect(AtMention)
+          hasMention={true}
+          isRHS={false}
+          mentionName="AddedUser2"
+        >
+          @AddedUser2
+        </Connect(AtMention)>
+      </span>
+       
+      <strong
+        key="2"
+      >
+        added to the channel
+      </strong>
+       by you.
     </span>
+    
+
     <br />
   </React.Fragment>
 </React.Fragment>
@@ -60,34 +112,61 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot when j
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="You were <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one_you"
-        values={
-          Object {
-            "actor": "@User1",
-          }
-        }
-      />
+    <span
+      key="0"
+    >
+      You were 
+      <strong
+        key="1"
+      >
+        added to the channel
+      </strong>
+       by 
+      <span
+        data-mention="User1."
+        key="3"
+      >
+        <Connect(AtMention)
+          hasMention={true}
+          isRHS={false}
+          mentionName="User1."
+        >
+          @User1.
+        </Connect(AtMention)>
+      </span>
     </span>
+    
+
     <br />
   </React.Fragment>
   <React.Fragment
     key="system_add_to_channelcurrent_user_id"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "you",
-            "firstUser": "@AddedUser2",
-          }
-        }
-      />
+    <span
+      key="0"
+    >
+      <span
+        data-mention="AddedUser2"
+        key="0"
+      >
+        <Connect(AtMention)
+          hasMention={true}
+          isRHS={false}
+          mentionName="AddedUser2"
+        >
+          @AddedUser2
+        </Connect(AtMention)>
+      </span>
+       
+      <strong
+        key="2"
+      >
+        added to the channel
+      </strong>
+       by you.
     </span>
+    
+
     <br />
   </React.Fragment>
 </React.Fragment>
