@@ -399,6 +399,10 @@
     padding: 15px;
 }
 
+.post-rethreadtarget {
+    background-color: LightSkyBlue !important;
+}
+
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;

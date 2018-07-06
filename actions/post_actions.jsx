@@ -208,17 +208,23 @@ export async function updatePost(post, success) {
     }
 }
 
-export async function rethreadPost(post, success) {
-    const {data, error: err} = await rethreadPostRedux(post)(dispatch, getState);
-    if (data && success) {
-        success();
-    } else if (err) {
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_ERROR,
-            err: {id: err.server_error_id, ...err},
-            method: 'rethreadPost',
-        });
-    }
+export function rethreadPost(post) {
+    return async (dispatch, getState) => {
+        const result = await rethreadPostRedux(post)(dispatch, getState);
+
+        if (result.error) {
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.RECEIVED_ERROR,
+                err: {
+                    id: result.error.server_error_id,
+                    ...result.error
+                },
+                method: 'rethreadPost',
+            });
+        }
+        
+        return result;
+    };
 }
 
 

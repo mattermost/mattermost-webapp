@@ -267,7 +267,7 @@ export default class PostInfo extends React.PureComponent {
         }
 
         let rethreading;
-        if (hover && !isReadOnly && canEdit) {
+        if (hover && !isReadOnly && this.state.canEdit && !this.props.post.root_id && this.props.replyCount === 0) {
             rethreading = (
                 <button
                     className='reacticon__container color--link style--none'
