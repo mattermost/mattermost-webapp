@@ -1122,6 +1122,7 @@ export const Constants = {
         OPEN_BRACKET: ['[', 219, 'BracketLeft'],
         BACK_SLASH: ['\\', 220, 'Backslash'],
         CLOSE_BRACKET: [']', 221, 'BracketRight'],
+        COMPOSING: ['Composing', 229],
     },
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
