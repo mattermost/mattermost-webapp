@@ -17,5 +17,9 @@ export function areTimezonesEnabledAndSupported(state) {
 export function getBasePath(state) {
     const config = getConfig(state) || {};
 
-    return new URL(config.SiteURL || window.location.origin).pathname;
+    if (config.SiteURL) {
+        return new URL(config.SiteURL).pathname;
+    }
+
+    return window.basename || window.location.origin;
 }

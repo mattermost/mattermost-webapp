@@ -518,7 +518,7 @@
 
             svg {
                 position: relative;
-                top: 2px;
+                top: 1px;
             }
         }
 
@@ -550,7 +550,7 @@
 
             svg {
                 position: relative;
-                top: 3px;
+                top: 2px;
             }
         }
     }
@@ -1035,13 +1035,6 @@
 
     .post--fail {
         position: relative;
-    }
-
-    .post--edited {
-        .post-message__text > p:last-child {
-            display: inline-block;
-            width: auto;
-        }
     }
 
     .post-edited__indicator {
@@ -1607,9 +1600,11 @@
         font: normal normal normal 14px/1 FontAwesome;
         margin: 0;
         text-rendering: auto;
+        position: relative;
+        z-index: 5;
 
         &.pull-left {
-            margin: 5px 5px 0 0;
+            margin: 4px 5px 0 0;
         }
 
         &:hover {

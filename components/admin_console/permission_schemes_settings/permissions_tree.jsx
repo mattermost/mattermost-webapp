@@ -137,6 +137,7 @@ export default class PermissionsTree extends React.Component {
                     <PermissionGroup
                         key='all'
                         id='all'
+                        uniqId={this.props.role.name}
                         selected={this.props.selected}
                         selectRow={this.props.selectRow}
                         readOnly={this.props.readOnly}

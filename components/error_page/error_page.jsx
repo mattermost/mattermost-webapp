@@ -8,7 +8,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes, Constants} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import ErrorTitle from './error_title.jsx';
@@ -58,6 +58,30 @@ export default class ErrorPage extends React.PureComponent {
                     <FormattedMessage
                         id='error.generic.link'
                         defaultMessage='Back to Mattermost'
+                    />
+                </Link>
+            );
+        } else if (type === ErrorPageTypes.TEAM_NOT_FOUND) {
+            backButton = (
+                <Link to='/'>
+                    <FormattedMessage
+                        id='error.generic.link'
+                        defaultMessage='Back to {siteName}'
+                        values={{
+                            siteName: this.props.siteName,
+                        }}
+                    />
+                </Link>
+            );
+        } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND) {
+            backButton = (
+                <Link to={params.get('returnTo')}>
+                    <FormattedMessage
+                        id='error.channelNotFound.link'
+                        defaultMessage='Back to {defaultChannelName}'
+                        values={{
+                            defaultChannelName: Constants.DEFAULT_CHANNEL_UI_NAME,
+                        }}
                     />
                 </Link>
             );

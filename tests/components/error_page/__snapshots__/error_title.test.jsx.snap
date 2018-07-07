@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/error_page/ErrorTitle should match snapshot, channel_not_found type 1`] = `
+<FormattedMessage
+  defaultMessage="Channel Not Found"
+  id="error.channel_not_found.title"
+  values={Object {}}
+/>
+`;
+
 exports[`components/error_page/ErrorTitle should match snapshot, local_storage type 1`] = `
 <FormattedMessage
   defaultMessage="Cannot Load Mattermost"
@@ -32,6 +40,14 @@ exports[`components/error_page/ErrorTitle should match snapshot, permalink_not_f
 <FormattedMessage
   defaultMessage="Message Not Found"
   id="permalink.error.title"
+  values={Object {}}
+/>
+`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, team_not_found type 1`] = `
+<FormattedMessage
+  defaultMessage="Team Not Found"
+  id="error.team_not_found.title"
   values={Object {}}
 />
 `;

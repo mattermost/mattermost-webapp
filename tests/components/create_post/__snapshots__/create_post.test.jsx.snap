@@ -49,7 +49,9 @@ exports[`components/create_post Show tutorial 1`] = `
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}
@@ -191,7 +193,9 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}
@@ -413,7 +417,9 @@ exports[`components/create_post should match snapshot when file upload disabled 
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}
@@ -538,7 +544,9 @@ exports[`components/create_post should match snapshot, init 1`] = `
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}

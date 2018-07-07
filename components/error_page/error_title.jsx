@@ -36,6 +36,22 @@ export default function ErrorTitle({type, title}) {
                 />
             );
             break;
+        case ErrorPageTypes.TEAM_NOT_FOUND:
+            errorTitle = (
+                <FormattedMessage
+                    id='error.team_not_found.title'
+                    defaultMessage='Team Not Found'
+                />
+            );
+            break;
+        case ErrorPageTypes.CHANNEL_NOT_FOUND:
+            errorTitle = (
+                <FormattedMessage
+                    id='error.channel_not_found.title'
+                    defaultMessage='Channel Not Found'
+                />
+            );
+            break;
         case ErrorPageTypes.PAGE_NOT_FOUND:
         default:
             errorTitle = (

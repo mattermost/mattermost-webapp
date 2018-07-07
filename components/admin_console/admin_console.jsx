@@ -14,6 +14,7 @@ import ClientVersionsSettings from 'components/admin_console/client_versions_set
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
 import CustomBrandSettings from 'components/admin_console/custom_brand_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
+import CustomGifSettings from 'components/admin_console/custom_gif_settings.jsx';
 import DataRetentionSettings from 'components/admin_console/data_retention_settings.jsx';
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
 import ElasticsearchSettings from 'components/admin_console/elasticsearch_settings.jsx';
@@ -469,6 +470,11 @@ export default class AdminConsole extends React.Component {
                                     <SCRoute
                                         path={`${props.match.url}/emoji`}
                                         component={CustomEmojiSettings}
+                                        extraProps={extraProps}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/gif`}
+                                        component={CustomGifSettings}
                                         extraProps={extraProps}
                                     />
                                     <SCRoute

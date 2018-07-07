@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
@@ -119,6 +118,11 @@ export default class CreatePost extends React.Component {
          * Whether to show the emoji picker.
          */
         enableEmojiPicker: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to show the gif picker.
+         */
+        enableGifPicker: PropTypes.bool.isRequired,
 
         /**
          * Whether to check with the user before notifying the whole channel.
@@ -464,16 +468,7 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
-            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
-                e.preventDefault();
-                ReactDOM.findDOMNode(this.refs.textbox).blur();
-                this.handleSubmit(e);
-            }
-        }
-
+    postMsgKeyPress = () => {
         GlobalActions.emitLocalUserTypingEvent(this.props.currentChannel.id, '');
     }
 
@@ -638,16 +633,15 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const enterPressed = Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.altKey && !e.shiftKey;
+        const ctrlPressedIfNecessary = (this.props.ctrlSend && ctrlOrMetaKeyPressed) || (!this.props.ctrlSend && !ctrlOrMetaKeyPressed);
+        const ctrlEnterKeyCombo = enterPressed && ctrlPressedIfNecessary;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
         if (ctrlEnterKeyCombo) {
-            e.persist();
-            setTimeout(() => {
-                this.postMsgKeyPress(e);
-            }, 0);
+            this.handleSubmit(e);
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
@@ -736,6 +730,17 @@ export default class CreatePost extends React.Component {
 
         this.setState({showEmojiPicker: false});
 
+        this.focusTextbox();
+    }
+
+    handleGifClick = (gif) => {
+        if (this.state.message === '') {
+            this.setState({message: gif});
+        } else {
+            const newMessage = (/\s+$/.test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
+            this.setState({message: newMessage});
+        }
+        this.setState({showEmojiPicker: false});
         this.focusTextbox();
     }
 
@@ -879,6 +884,8 @@ export default class CreatePost extends React.Component {
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
+                        onGifClick={this.handleGifClick}
+                        enableGifPicker={this.props.enableGifPicker}
                         rightOffset={15}
                         topOffset={-7}
                     />

@@ -732,6 +732,16 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                                 <AdminSidebarSection
+                                    name='gif'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.gif'
+                                            defaultMessage='GIF (Beta)'
+                                        />
+
+                                    }
+                                />
+                                <AdminSidebarSection
                                     name='posts'
                                     title={
                                         <FormattedMessage

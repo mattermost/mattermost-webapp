@@ -227,10 +227,10 @@ export default class PostMessageView extends React.PureComponent {
         let overflow = null;
         if (this.state.hasOverflow) {
             let icon = 'fa fa-angle-up';
-            let text = 'Show Less';
+            let text = Utils.localizeMessage('post_info.message.show_less', 'Show Less');
             if (this.state.collapse) {
                 icon = 'fa fa-angle-down';
-                text = 'Show More';
+                text = Utils.localizeMessage('post_info.message.show_more', 'Show More');
             }
 
             overflow = (

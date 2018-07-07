@@ -285,18 +285,13 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         let body;
         if (data.description || imageUrl) {
-            let separator;
-            if (data.description && imageUrl) {
-                separator = ' &nbsp';
-            }
-
             body = (
                 <React.Fragment>
                     <div className={'attachment__body attachment__body--opengraph'}>
                         <div>
                             <div>
                                 {this.truncateText(data.description)}
-                                {separator}
+                                {' '}
                                 {this.imageToggleAnchorTag(imageUrl)}
                             </div>
                             {this.imageTag(imageUrl, true)}

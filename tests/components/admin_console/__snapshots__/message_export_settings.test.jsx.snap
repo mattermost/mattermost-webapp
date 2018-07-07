@@ -147,6 +147,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         disabled={true}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>
@@ -447,6 +448,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         disabled={true}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>
@@ -637,6 +639,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         disabled={false}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>
@@ -937,6 +940,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         disabled={false}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>

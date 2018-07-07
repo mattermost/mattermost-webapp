@@ -132,6 +132,17 @@ export default class EditPostModal extends React.PureComponent {
         this.refs.editbox.focus();
     }
 
+    handleGifClick = (gif) => {
+        if (this.state.editText === '') {
+            this.setState({editText: gif});
+        } else {
+            const newMessage = (/\s+$/.test(this.state.editText)) ? this.state.editText + gif : this.state.editText + ' ' + gif;
+            this.setState({editText: newMessage});
+        }
+        this.setState({showEmojiPicker: false});
+        this.refs.editbox.focus();
+    }
+
     getEditPostControls = () => {
         return this.refs.editPostEmoji;
     }
@@ -264,6 +275,8 @@ export default class EditPostModal extends React.PureComponent {
                         target={this.getEditPostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
+                        onGifClick={this.handleGifClick}
+                        enableGifPicker={this.props.config.EnableGifPicker === 'true'}
                         rightOffset={50}
                         topOffset={-20}
                     />

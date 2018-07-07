@@ -53,6 +53,26 @@ export default function ErrorMessage({type, message, service}) {
                 </p>
             );
             break;
+        case ErrorPageTypes.TEAM_NOT_FOUND:
+            errorMessage = (
+                <p>
+                    <FormattedMessage
+                        id='error.team_not_found.message'
+                        defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+                    />
+                </p>
+            );
+            break;
+        case ErrorPageTypes.CHANNEL_NOT_FOUND:
+            errorMessage = (
+                <p>
+                    <FormattedMessage
+                        id='error.channel_not_found.message'
+                        defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+                    />
+                </p>
+            );
+            break;
         case ErrorPageTypes.OAUTH_MISSING_CODE:
             errorMessage = (
                 <div>
