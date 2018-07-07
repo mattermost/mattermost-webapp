@@ -16,6 +16,25 @@
         padding-top: 44px;
     }
 
+    .sidebar--left__icons {
+        display: flex;
+        height: 35px;
+        align-items: center;
+        border-bottom: 1px solid transparent;
+
+        > div {
+            @include single-transition(all, .15s, ease);
+            @include opacity(.6);
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                @include opacity(1);
+            }
+        }
+    }
+
     .sidebar-item {
         .icon {
             display: inline-block;
@@ -166,6 +185,16 @@
             svg {
                 @include transform(rotate(180deg));
             }
+        }
+    }
+
+    .sidebar--left__list {
+        .nav-pills__unread-indicator-top {
+            top: 120px;
+        }
+
+        .nav-pills__container {
+            height: calc(100vh - 145px);
         }
     }
 

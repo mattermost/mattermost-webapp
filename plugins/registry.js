@@ -122,6 +122,10 @@ export default class PluginRegistry {
         return id;
     }
 
+    registerLeftSidebarHeaderComponent = (component) => {
+        return dispatchPluginComponentAction('LeftSidebarHeader', this.id, component);
+    }
+
     registerBottomTeamSidebarComponent = (component) => {
         return dispatchPluginComponentAction('BottomTeamSidebar', this.id, component);
     }
