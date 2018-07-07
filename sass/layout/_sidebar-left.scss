@@ -17,22 +17,7 @@
     }
 
     .sidebar--left__icons {
-        display: flex;
-        height: 35px;
-        align-items: center;
         border-bottom: 1px solid transparent;
-
-        > div {
-            @include single-transition(all, .15s, ease);
-            @include opacity(.6);
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-
-            &:hover {
-                @include opacity(1);
-            }
-        }
     }
 
     .sidebar-item {

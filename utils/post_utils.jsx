@@ -19,6 +19,10 @@ export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
 }
 
+export function isEphemeral(post) {
+    return Boolean(post.type && post.type === Constants.PostTypes.EPHEMERAL);
+}
+
 export function fromAutoResponder(post) {
     return Boolean(post.type && (post.type === Constants.AUTO_RESPONDER));
 }

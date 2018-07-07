@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {PostTypes} from 'mattermost-redux/constants/posts';
+
 import ProfilePicture from 'components/profile_picture';
 import MattermostLogo from 'components/svg/mattermost_logo';
 
@@ -58,12 +60,13 @@ export default class PostProfilePicture extends React.PureComponent {
 
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        if (isSystemMessage && !this.props.compactDisplay) {
+        const isEphemeral = PostUtils.isEphemeral(this.props.post);
+        const fromWebhook = PostUtils.isFromWebhook(this.props.post);
+        if (isSystemMessage && !this.props.compactDisplay && isEphemeral && !fromWebhook) {
             return <MattermostLogo className='icon'/>;
         }
 
         const fromAutoResponder = PostUtils.fromAutoResponder(this.props.post);
-        const fromWebhook = PostUtils.isFromWebhook(this.props.post);
 
         const hasMention = !fromAutoResponder && !fromWebhook;
         const src = this.getProfilePicSrcForPost(fromAutoResponder, fromWebhook);
