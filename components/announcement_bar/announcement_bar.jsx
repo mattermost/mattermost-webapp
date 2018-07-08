@@ -15,6 +15,8 @@ import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGra
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 
 const BAR_DEVELOPER_TYPE = 'developer';
@@ -282,9 +284,9 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         } else if (message === ErrorBarTypes.WEBSOCKET_PORT_ERROR) {
             message = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id={ErrorBarTypes.WEBSOCKET_PORT_ERROR}
-                    defaultMessage='Please check connection, Mattermost unreachable. If issue persists, ask administrator to <a href="https://about.mattermost.com/default-websocket-port-help" target="_blank">check WebSocket port</a>.'
+                    defaultMessage={'Please check connection, Mattermost unreachable. If issue persists, ask administrator to [check WebSocket port](!https://about.mattermost.com/default-websocket-port-help).'}
                 />
             );
         } else if (message === ErrorBarTypes.SITE_URL) {

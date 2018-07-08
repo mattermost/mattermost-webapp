@@ -23,6 +23,8 @@ import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import JobsTable from 'components/admin_console/jobs';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 export default class SchemaAdminSettings extends AdminSettings {
     constructor(props) {
         super(props);
@@ -136,9 +138,9 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
 
         if (typeof setting.label === 'string') {
-            if (setting.label_html) {
+            if (setting.label_markdown) {
                 return (
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id={setting.label}
                         values={setting.label_values}
                         defaultMessage={setting.label_default}
@@ -166,22 +168,38 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
 
         let helpText;
+        // TODO: Remove isHTML?
         let isHTML;
+        let isMarkdown;
         let helpTextValues;
         let helpTextDefault;
         if (setting.disabled_help_text && this.isDisabled(setting)) {
             helpText = setting.disabled_help_text;
+            // TODO: Remove isHTML?
             isHTML = setting.disabled_help_text_html;
+            isMarkdown = setting.disabled_help_text_markdown;
             helpTextValues = setting.disabled_help_text_values;
             helpTextDefault = setting.disabled_help_text_default;
         } else {
             helpText = setting.help_text;
+            // TODO: Remove isHTML?
             isHTML = setting.help_text_html;
+            isMarkdown = setting.help_text_markdown;
             helpTextValues = setting.help_text_values;
             helpTextDefault = setting.help_text_default;
         }
 
         if (typeof helpText === 'string') {
+            if (isMarkdown) {
+                return (
+                    <FormattedMarkdownMessage
+                        id={helpText}
+                        values={helpTextValues}
+                        defaultMessage={helpTextDefault}
+                    />
+                );
+            }
+            // TODO: Remove isHTML?
             if (isHTML) {
                 return (
                     <FormattedHTMLMessage
