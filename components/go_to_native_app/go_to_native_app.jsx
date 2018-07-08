@@ -20,7 +20,7 @@ export default class GoNativeApp extends PureComponent {
         const {protocolUnsupported, browserUnsupported} = this.state;
 
         let nativeLocation = window.location.href.replace('/vault#', '');
-        nativeLocation = nativeLocation.replace(/^(http|https)/, 'mattermost');
+        nativeLocation = nativeLocation.replace(/^(https|http)/, 'mattermost');
 
         //***** TESTING PURPOSE - REMOVE BEFORE MERGE ****
         nativeLocation = nativeLocation.replace(/\/\/[^/]+/, '//pre-release.mattermost.com');
