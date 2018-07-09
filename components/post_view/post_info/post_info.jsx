@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
+
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
@@ -277,11 +278,8 @@ export default class PostInfo extends React.PureComponent {
         }
 
         let rethreading;
-<<<<<<< HEAD
         if (hover && !isReadOnly && this.state.canRethread && !this.props.post.root_id && this.props.replyCount === 0) {
-=======
-        if (hover && !isReadOnly && this.state.canEdit && !this.props.post.root_id && this.props.replyCount === 0) {
->>>>>>> rethreading basic requirements met
+
             rethreading = (
                 <div
                     className='reacticon__container color--link style--none'
