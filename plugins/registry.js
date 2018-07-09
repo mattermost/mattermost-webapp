@@ -3,7 +3,12 @@
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
-import {registerPluginWebSocketEvent, unregisterPluginWebSocketEvent} from 'actions/websocket_actions.jsx';
+import {
+    registerPluginWebSocketEvent,
+    unregisterPluginWebSocketEvent,
+    registerPluginReconnectHandler,
+    unregisterPluginReconnectHandler,
+} from 'actions/websocket_actions.jsx';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
@@ -167,5 +172,18 @@ export default class PluginRegistry {
     // Returns undefined.
     unregisterWebSocketEventHandler = (event) => {
         unregisterPluginWebSocketEvent(this.id, event);
+    }
+
+    // Register a handler that will be called when the app reconnects to the
+    // internet after previously disconnecting.
+    // Accepts a function to handle the event. Returns undefined.
+    registerReconnectHandler = (handler) => {
+        registerPluginReconnectHandler(this.id, handler);
+    }
+
+    // Unregister the a previously registered reconnect handler.
+    // Returns undefined.
+    unregisterReconnectHandler = () => {
+        unregisterPluginReconnectHandler(this.id);
     }
 }

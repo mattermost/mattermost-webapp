@@ -105,12 +105,28 @@ function reconnectWebSocket() {
     initialize();
 }
 
+const pluginReconnectHandlers = {};
+
+export function registerPluginReconnectHandler(pluginId, handler) {
+    pluginReconnectHandlers[pluginId] = handler;
+}
+
+export function unregisterPluginReconnectHandler(pluginId) {
+    Reflect.deleteProperty(pluginReconnectHandlers, pluginId);
+}
+
 export function reconnect(includeWebSocket = true) {
     if (includeWebSocket) {
         reconnectWebSocket();
     }
 
     loadPluginsIfNecessary();
+
+    Object.values(pluginReconnectHandlers).forEach((handler) => {
+        if (handler && typeof handler === 'function') {
+            handler();
+        }
+    });
 
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
