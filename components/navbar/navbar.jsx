@@ -313,17 +313,16 @@ export default class Navbar extends React.Component {
                 role='presentation'
                 className='webrtc__option'
             >
-                <a
+                <button
                     role='menuitem'
-                    href='#'
                     onClick={this.initWebrtc}
-                    className={linkClass}
+                    className={'style--none ' + linkClass}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.webrtc.call'
                         defaultMessage='Start Video Call'
                     />
-                </a>
+                </button>
             </li>
         );
     }
@@ -372,16 +371,16 @@ export default class Navbar extends React.Component {
             if (isDirect) {
                 setChannelHeaderOption = (
                     <li role='presentation'>
-                        <a
+                        <button
                             role='menuitem'
-                            href='#'
+                            className='style--none'
                             onClick={this.showEditChannelHeaderModal}
                         >
                             <FormattedMessage
                                 id='channel_header.channelHeader'
                                 defaultMessage='Edit Channel Header'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
 
@@ -389,31 +388,31 @@ export default class Navbar extends React.Component {
             } else if (isGroup) {
                 setChannelHeaderOption = (
                     <li role='presentation'>
-                        <a
+                        <button
                             role='menuitem'
-                            href='#'
+                            className='style--none'
                             onClick={this.showEditChannelHeaderModal}
                         >
                             <FormattedMessage
                                 id='channel_header.channelHeader'
                                 defaultMessage='Edit Channel Header'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
 
                 notificationPreferenceOption = (
                     <li role='presentation'>
-                        <a
+                        <button
                             role='menuitem'
-                            href='#'
+                            className='style--none'
                             onClick={this.showChannelNotificationsModal}
                         >
                             <FormattedMessage
                                 id='navbar.preferences'
                                 defaultMessage='Notification Preferences'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
 
@@ -453,16 +452,16 @@ export default class Navbar extends React.Component {
 
                 viewPinnedPostsOption = (
                     <li role='presentation'>
-                        <a
+                        <button
                             role='menuitem'
-                            href='#'
+                            className='style--none'
                             onClick={this.getPinnedPosts}
                         >
                             <FormattedMessage
                                 id='navbar.viewPinnedPosts'
                                 defaultMessage='View Pinned Posts'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
 
@@ -472,16 +471,16 @@ export default class Navbar extends React.Component {
                             key='view_members'
                             role='presentation'
                         >
-                            <a
+                            <button
                                 role='menuitem'
-                                href='#'
+                                className='style--none'
                                 onClick={this.showMembersModal}
                             >
                                 <FormattedMessage
                                     id='channel_header.viewMembers'
                                     defaultMessage='View Members'
                                 />
-                            </a>
+                            </button>
                         </li>
                     );
                 } else {
@@ -513,9 +512,9 @@ export default class Navbar extends React.Component {
                             key='manage_members'
                             role='presentation'
                         >
-                            <a
+                            <button
                                 role='menuitem'
-                                href='#'
+                                className='style--none'
                                 onClick={this.showMembersModal}
                             >
                                 <ChannelPermissionGate
@@ -539,23 +538,23 @@ export default class Navbar extends React.Component {
                                         defaultMessage='View Members'
                                     />
                                 </ChannelPermissionGate>
-                            </a>
+                            </button>
                         </li>
                     );
                 }
 
                 notificationPreferenceOption = (
                     <li role='presentation'>
-                        <a
+                        <button
                             role='menuitem'
-                            href='#'
+                            className='style--none'
                             onClick={this.showChannelNotificationsModal}
                         >
                             <FormattedMessage
                                 id='navbar.preferences'
                                 defaultMessage='Notification Preferences'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
 
@@ -567,16 +566,16 @@ export default class Navbar extends React.Component {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <li role='presentation'>
-                                <a
+                                <button
                                     role='menuitem'
-                                    href='#'
+                                    className='style--none'
                                     onClick={this.showEditChannelHeaderModal}
                                 >
                                     <FormattedMessage
                                         id='channel_header.setHeader'
                                         defaultMessage='Edit Channel Header'
                                     />
-                                </a>
+                                </button>
                             </li>
                         </ChannelPermissionGate>
                     );
@@ -588,16 +587,16 @@ export default class Navbar extends React.Component {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <li role='presentation'>
-                                <a
+                                <button
                                     role='menuitem'
-                                    href='#'
+                                    className='style--none'
                                     onClick={this.showChannelPurposeModal}
                                 >
                                     <FormattedMessage
                                         id='channel_header.setPurpose'
                                         defaultMessage='Edit Channel Purpose'
                                     />
-                                </a>
+                                </button>
                             </li>
                         </ChannelPermissionGate>
                     );
@@ -634,16 +633,16 @@ export default class Navbar extends React.Component {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <li role='presentation'>
-                                <a
+                                <button
                                     role='menuitem'
-                                    href='#'
+                                    className='style--none'
                                     onClick={this.showRenameChannelModal}
                                 >
                                     <FormattedMessage
                                         id='channel_header.rename'
                                         defaultMessage='Rename Channel'
                                     />
-                                </a>
+                                </button>
                             </li>
                         </ChannelPermissionGate>
                     );
@@ -673,16 +672,16 @@ export default class Navbar extends React.Component {
 
                     leaveChannelOption = (
                         <li role='presentation'>
-                            <a
+                            <button
                                 role='menuitem'
-                                href='#'
+                                className='style--none'
                                 onClick={this.handleLeave}
                             >
                                 <FormattedMessage
                                     id='channel_header.leave'
                                     defaultMessage='Leave Channel'
                                 />
-                            </a>
+                            </button>
                         </li>
                     );
                 }
@@ -693,9 +692,9 @@ export default class Navbar extends React.Component {
                     key='toggle_favorite'
                     role='presentation'
                 >
-                    <a
+                    <button
                         role='menuitem'
-                        href='#'
+                        className='style--none'
                         onClick={this.toggleFavorite}
                     >
                         {this.state.isFavorite ?
@@ -707,7 +706,7 @@ export default class Navbar extends React.Component {
                                 id='channelHeader.addToFavorites'
                                 defaultMessage='Add to Favorites'
                             />}
-                    </a>
+                    </button>
                 </li>
             );
 

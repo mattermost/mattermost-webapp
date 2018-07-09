@@ -5,6 +5,10 @@
     line-height: 33px;
     padding: 0 1em .2em;
     width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 5;
 
     .fa {
         margin-right: 5px;
@@ -42,7 +46,7 @@
     }
 
     &.padding--less {
-        padding-top: 50px;
+        padding-top: 70px;
     }
 
     .form-control:focus {

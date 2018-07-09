@@ -342,6 +342,10 @@
                 }
             }
 
+            .post-message--overflow {
+                @include clearfix;
+            }
+
             .status-wrapper {
                 &:after {
                     bottom: 3px;
