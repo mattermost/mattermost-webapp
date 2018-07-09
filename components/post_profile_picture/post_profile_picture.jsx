@@ -60,9 +60,8 @@ export default class PostProfilePicture extends React.PureComponent {
 
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isEphemeral = PostUtils.isEphemeral(this.props.post);
         const fromWebhook = PostUtils.isFromWebhook(this.props.post);
-        if (isSystemMessage && !this.props.compactDisplay && isEphemeral && !fromWebhook) {
+        if (isSystemMessage && !this.props.compactDisplay && !fromWebhook) {
             return <MattermostLogo className='icon'/>;
         }
 
