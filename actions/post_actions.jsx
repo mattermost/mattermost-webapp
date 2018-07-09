@@ -20,11 +20,10 @@ import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
-//heretic rethread stuff:
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
-function rethreadPostRedux(post) {
+function rethreadPostHelper(post) {
     return bindClientFunc(
         Client4.updatePost,
         PostTypes.EDIT_POST_REQUEST,
@@ -33,7 +32,6 @@ function rethreadPostRedux(post) {
         post
     );
 }
-//heresy ends here
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -210,7 +208,7 @@ export async function updatePost(post, success) {
 
 export function rethreadPost(post) {
     return async (dispatch, getState) => {
-        const result = await rethreadPostRedux(post)(dispatch, getState);
+        const result = await rethreadPostHelper(post)(dispatch, getState);
 
         if (result.error) {
             AppDispatcher.handleServerAction({
