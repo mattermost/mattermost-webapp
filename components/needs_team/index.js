@@ -10,7 +10,7 @@ import {getMyTeamUnreads, getTeams, joinTeam, selectTeam} from 'mattermost-redux
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {setGlobalItem} from 'actions/storage';
@@ -27,7 +27,7 @@ function mapStateToProps(state, ownProps) {
         mfaRequired: checkIfMFARequired(license, config, ownProps.match.url),
         currentUser: getCurrentUser(state),
         currentTeamId: getCurrentTeamId(state),
-        teamsList: getTeamsList(state),
+        teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
     };
 }
