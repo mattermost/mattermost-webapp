@@ -351,7 +351,17 @@ export default class PostList extends React.PureComponent {
         if(target && post.id !== target.id) {
             if(target.user_id === this.props.currentUserId && target.create_at > post.create_at && post.type == "") {
                 const root_id = (post.root_id) ? post.root_id : post.id
-                const updatedPost = {"message": target.message, "channel_id": target.channel_id, "id": target.id, "root_id": root_id, "file_ids": target.file_ids}
+                const has_reactions = (target.has_reactions) ? target.has_reactions : false
+                const is_pinned = (target.is_pinned) ? target.is_pinned : false
+                const updatedPost = {
+                    "message": target.message,
+                    "channel_id": target.channel_id,
+                    "id": target.id,
+                    "root_id": root_id,
+                    "file_ids": target.file_ids,
+                    "has_reactions": has_reactions,
+                    "is_pinned": is_pinned
+                }
                 this.setState({rethreadTarget: null});
                 const data = await this.props.actions.rethreadPost(updatedPost);
             } else {
