@@ -99,6 +99,11 @@ export default class PostInfo extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+        
+        /**
+         * Function to get the post to rethread
+         */
+        handleRethreading: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
 

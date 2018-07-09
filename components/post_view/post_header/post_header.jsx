@@ -87,6 +87,11 @@ export default class PostHeader extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+        
+        /**
+         * Function to get the post to rethread.
+         */
+        handleRethreading: PropTypes.func.isRequired,
     }
 
     render() {
