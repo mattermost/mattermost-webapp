@@ -8,6 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 import DelayedAction from 'utils/delayed_action.jsx';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -278,7 +279,18 @@ export default class PostInfo extends React.PureComponent {
                     className='reacticon__container color--link style--none'
                     onClick={() => { this.props.handleRethreading(this.props.post)} }
                 >
-                    <MessageIcon className='icon icon--message'/>
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={500}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='rethread__tooltip'>
+                                rethread this post
+                            </Tooltip>
+                        }
+                    >
+                        <MessageIcon className='icon icon--message'/>
+                    </OverlayTrigger>
                 </button>
             );
         }
