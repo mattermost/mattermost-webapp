@@ -1,6 +1,7 @@
 dist
 .npminstall
 .yarninstall
+.npminstall
 node_modules
 *.swp
 .idea
