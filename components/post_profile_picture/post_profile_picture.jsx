@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {PostTypes} from 'mattermost-redux/constants/posts';
-
 import ProfilePicture from 'components/profile_picture';
 import MattermostLogo from 'components/svg/mattermost_logo';
 

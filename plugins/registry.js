@@ -181,7 +181,7 @@ export default class PluginRegistry {
         registerPluginReconnectHandler(this.id, handler);
     }
 
-    // Unregister the a previously registered reconnect handler.
+    // Unregister a previously registered reconnect handler.
     // Returns undefined.
     unregisterReconnectHandler = () => {
         unregisterPluginReconnectHandler(this.id);
