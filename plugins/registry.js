@@ -46,6 +46,19 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('PopoverUserActions', this.id, component);
     }
 
+    // Register a component fixed to the top of the left-hand channel sidebar.
+    // Accepts a React component. Returns a unique identifier.
+    registerLeftSidebarHeaderComponent = (component) => {
+        return dispatchPluginComponentAction('LeftSidebarHeader', this.id, component);
+    }
+
+    // Register a component fixed to the bottom of the team sidebar. Does not render if
+    // user is only on one team and the team sidebar is not shown.
+    // Accepts a React component. Returns a unique identifier.
+    registerBottomTeamSidebarComponent = (component) => {
+        return dispatchPluginComponentAction('BottomTeamSidebar', this.id, component);
+    }
+
     // Add a button to the channel header. If there are more than one buttons registered by any
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:
@@ -122,14 +135,6 @@ export default class PluginRegistry {
         return id;
     }
 
-    registerLeftSidebarHeaderComponent = (component) => {
-        return dispatchPluginComponentAction('LeftSidebarHeader', this.id, component);
-    }
-
-    registerBottomTeamSidebarComponent = (component) => {
-        return dispatchPluginComponentAction('BottomTeamSidebar', this.id, component);
-    }
-
     // Unregister a component using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.
@@ -154,13 +159,13 @@ export default class PluginRegistry {
     // - handler - a function to handle the event, receives the event message as an argument
     // Returns undefined.
     registerWebSocketEventHandler = (event, handler) => {
-        registerPluginWebSocketEvent(event, handler);
+        registerPluginWebSocketEvent(this.id, event, handler);
     }
 
     // Unregister a handler for a custom WebSocket event.
     // Accepts a string event type.
     // Returns undefined.
     unregisterWebSocketEventHandler = (event) => {
-        unregisterPluginWebSocketEvent(event);
+        unregisterPluginWebSocketEvent(this.id, event);
     }
 }

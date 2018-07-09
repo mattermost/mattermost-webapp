@@ -145,12 +145,24 @@ export function stopPeriodicSync() {
     clearInterval(intervalId);
 }
 
-export function registerPluginWebSocketEvent(event, action) {
-    pluginEventHandlers[event] = action;
+export function registerPluginWebSocketEvent(pluginId, event, action) {
+    if (!pluginEventHandlers[pluginId]) {
+        pluginEventHandlers[pluginId] = {};
+    }
+    pluginEventHandlers[pluginId][event] = action;
 }
 
-export function unregisterPluginWebSocketEvent(event) {
-    Reflect.deleteProperty(pluginEventHandlers, event);
+export function unregisterPluginWebSocketEvent(pluginId, event) {
+    const events = pluginEventHandlers[pluginId];
+    if (!events) {
+        return;
+    }
+
+    Reflect.deleteProperty(events, event);
+}
+
+export function unregisterAllPluginWebSocketEvents(pluginId) {
+    Reflect.deleteProperty(pluginEventHandlers, pluginId);
 }
 
 function handleFirstConnect() {
@@ -321,9 +333,15 @@ function handleEvent(msg) {
     default:
     }
 
-    if (pluginEventHandlers.hasOwnProperty(msg.event) && typeof pluginEventHandlers[msg.event] === 'function') {
-        pluginEventHandlers[msg.event](msg);
-    }
+    Object.values(pluginEventHandlers).forEach((pluginEvents) => {
+        if (!pluginEvents) {
+            return;
+        }
+
+        if (pluginEvents.hasOwnProperty(msg.event) && typeof pluginEvents[msg.event] === 'function') {
+            pluginEvents[msg.event](msg);
+        }
+    });
 }
 
 // handleChannelConvertedEvent handles updating of channel which is converted from public to private
