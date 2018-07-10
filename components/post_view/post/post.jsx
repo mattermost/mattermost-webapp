@@ -90,17 +90,21 @@ export default class Post extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
-        
+
         /**
          * Function to get the post to rethread.
          */
         handleRethreading: PropTypes.func.isRequired,
-                
+
         /**
          * Function to get the trigger the rethreading once a rethread target has been chosen.
          */
         triggerRethreading: PropTypes.func.isRequired,
-        
+
+        /**
+         * Set to mark the post as selected for rethreding.
+         */
+        selected: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -267,7 +271,7 @@ export default class Post extends React.PureComponent {
         let centerClass = '';
         if (this.props.center) {
             centerClass = 'center';
-        }   
+        }
 
         return (
             <div
@@ -276,7 +280,7 @@ export default class Post extends React.PureComponent {
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                onClick={() => {this.props.triggerRethreading(post)}}
+                onClick={() => this.props.triggerRethreading(post)}
 
             >
                 <div className={'post__content ' + centerClass}>

@@ -7,13 +7,13 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
-import DelayedAction from 'utils/delayed_action.jsx';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import DelayedAction from 'utils/delayed_action.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -100,7 +100,7 @@ export default class PostInfo extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
-        
+
         /**
          * Function to get the post to rethread
          */
@@ -276,7 +276,7 @@ export default class PostInfo extends React.PureComponent {
             rethreading = (
                 <button
                     className='reacticon__container color--link style--none'
-                    onClick={() => { this.props.handleRethreading(this.props.post)} }
+                    onClick={() => this.props.handleRethreading(this.props.post)}
                 >
                     <OverlayTrigger
                         trigger={['hover', 'focus']}
@@ -284,7 +284,7 @@ export default class PostInfo extends React.PureComponent {
                         placement='top'
                         overlay={
                             <Tooltip id='rethread__tooltip'>
-                                rethread this post
+                                {'rethread this post'}
                             </Tooltip>
                         }
                     >
