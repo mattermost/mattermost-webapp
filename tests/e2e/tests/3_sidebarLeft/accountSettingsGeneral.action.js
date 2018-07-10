@@ -44,6 +44,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nameDesc', "Click 'Edit' to add your full name");
 
         // save/change full name
@@ -53,10 +54,12 @@ module.exports = {
             waitForElementVisible('#firstName', Constants.DEFAULT_WAIT).
             setValue('#firstName', 'F').
             click('#saveSetting').
+            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nameDesc', 'F').
             click('@nameEdit').
             waitForElementVisible('#lastName', Constants.DEFAULT_WAIT).
             setValue('#lastName', ['L', client.Keys.ENTER]).
+            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nameDesc', 'F L');
 
         generalSettingsSection.
@@ -65,8 +68,9 @@ module.exports = {
             waitForElementVisible('#firstName', Constants.DEFAULT_WAIT).
             waitForElementVisible('#lastName', Constants.DEFAULT_WAIT).
             waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
-            setValue('#firstName', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
+            setValue('#firstName', [client.Keys.BACK_SPACE]).
             setValue('#lastName', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
+            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nameDesc', "Click 'Edit' to add your full name");
     },
     'Test account settings display - Username': (client) => {
@@ -90,6 +94,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@usernameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@usernameDesc', Constants.USERS.test.username);
 
         // save/change username
@@ -99,10 +104,12 @@ module.exports = {
             waitForElementVisible('#username', Constants.DEFAULT_WAIT).
             setValue('#username', 'Z').
             click('#saveSetting').
+            waitForElementVisible('@usernameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@usernameDesc', 'testz').
             click('@usernameEdit').
             waitForElementVisible('#username', Constants.DEFAULT_WAIT).
             setValue('#username', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
+            waitForElementVisible('@usernameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@usernameDesc', 'test');
     },
     'Test account settings display - Nickname': (client) => {
@@ -126,6 +133,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@nicknameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nicknameDesc', "Click 'Edit' to add a nickname");
 
         // save/change nickname
@@ -135,10 +143,12 @@ module.exports = {
             waitForElementVisible('#nickname', Constants.DEFAULT_WAIT).
             setValue('#nickname', 'N').
             click('#saveSetting').
+            waitForElementVisible('@nicknameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nicknameDesc', 'N').
             click('@nicknameEdit').
             waitForElementVisible('#nickname', Constants.DEFAULT_WAIT).
             setValue('#nickname', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
+            waitForElementVisible('@nicknameDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@nicknameDesc', "Click 'Edit' to add a nickname");
     },
     'Test account settings display - Position': (client) => {
@@ -162,6 +172,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@positionDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@positionDesc', "Click 'Edit' to add your job title / position");
 
         // save/change position
@@ -171,10 +182,12 @@ module.exports = {
             waitForElementVisible('#position', Constants.DEFAULT_WAIT).
             setValue('#position', 'P').
             click('#saveSetting').
+            waitForElementVisible('@positionDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@positionDesc', 'P').
             click('@positionEdit').
             waitForElementVisible('#position', Constants.DEFAULT_WAIT).
             setValue('#position', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
+            waitForElementVisible('@positionDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@positionDesc', "Click 'Edit' to add your job title / position");
     },
     'Test account settings display - Email': (client) => {
@@ -201,6 +214,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@emailDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@emailDesc', Constants.USERS.test.email);
 
         // save/change email
@@ -212,6 +226,7 @@ module.exports = {
             setValue('#primaryEmail', Constants.USERS.test.email + 'E').
             setValue('#confirmEmail', Constants.USERS.test.email + 'E').
             click('#saveSetting').
+            waitForElementVisible('@emailDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@emailDesc', Constants.USERS.test.email + 'e').
             click('@emailEdit').
             waitForElementVisible('#primaryEmail', Constants.DEFAULT_WAIT).
@@ -219,6 +234,7 @@ module.exports = {
             assert.containsText('.setting-list-item', Constants.USERS.test.email + 'e').
             setValue('#primaryEmail', Constants.USERS.test.email).
             setValue('#confirmEmail', [Constants.USERS.test.email, client.Keys.ENTER]).
+            waitForElementVisible('@emailDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@emailDesc', Constants.USERS.test.email);
     },
 };
