@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
@@ -468,7 +469,16 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    postMsgKeyPress = () => {
+    postMsgKeyPress = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
+            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
+                e.preventDefault();
+                ReactDOM.findDOMNode(this.refs.textbox).blur();
+                this.handleSubmit(e);
+            }
+        }
+
         GlobalActions.emitLocalUserTypingEvent(this.props.currentChannel.id, '');
     }
 
@@ -633,15 +643,13 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const enterPressed = Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.altKey && !e.shiftKey;
-        const ctrlPressedIfNecessary = (this.props.ctrlSend && ctrlOrMetaKeyPressed) || (!this.props.ctrlSend && !ctrlOrMetaKeyPressed);
-        const ctrlEnterKeyCombo = enterPressed && ctrlPressedIfNecessary;
+        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
         if (ctrlEnterKeyCombo) {
-            this.handleSubmit(e);
+            this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
