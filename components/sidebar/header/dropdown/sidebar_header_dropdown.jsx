@@ -43,6 +43,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableTeamCreation: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
+        enableEmailInvitations: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
@@ -251,30 +252,32 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
 
         if (currentUser != null) {
-            inviteLink = (
-                <TeamPermissionGate
-                    teamId={this.props.teamId}
-                    permissions={[Permissions.INVITE_USER]}
-                >
+            if (this.props.enableEmailInvitations) {
+                inviteLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_USER_TO_TEAM]}
+                        permissions={[Permissions.INVITE_USER]}
                     >
-                        <li>
-                            <button
-                                className='style--none'
-                                id='sendEmailInvite'
-                                onClick={this.showInviteMemberModal}
-                            >
-                                <FormattedMessage
-                                    id='navbar_dropdown.inviteMember'
-                                    defaultMessage='Send Email Invite'
-                                />
-                            </button>
-                        </li>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_USER_TO_TEAM]}
+                        >
+                            <li>
+                                <button
+                                    className='style--none'
+                                    id='sendEmailInvite'
+                                    onClick={this.showInviteMemberModal}
+                                >
+                                    <FormattedMessage
+                                        id='navbar_dropdown.inviteMember'
+                                        defaultMessage='Send Email Invite'
+                                    />
+                                </button>
+                            </li>
+                        </TeamPermissionGate>
                     </TeamPermissionGate>
-                </TeamPermissionGate>
-            );
+                );
+            }
 
             addMemberToTeam = (
                 <TeamPermissionGate
