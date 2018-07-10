@@ -9,7 +9,8 @@ import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/se
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {increasePostVisibility, rethreadPost} from 'actions/post_actions.jsx';
+import {rethreadPost} from 'actions/views/rethread_post';
+import {increasePostVisibility} from 'actions/post_actions.jsx';
 import {checkAndSetMobileView} from 'actions/views/channel';
 import {Preferences} from 'utils/constants.jsx';
 

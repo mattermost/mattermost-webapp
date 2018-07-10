@@ -30,7 +30,6 @@ const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
 
-
 export default class PostList extends React.PureComponent {
     static propTypes = {
 
@@ -109,7 +108,7 @@ export default class PostList extends React.PureComponent {
             /**
              *Function to rethread stuff
              */
-             rethreadPost: PropTypes.func.isRequired,
+            rethreadPost: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -346,41 +345,41 @@ export default class PostList extends React.PureComponent {
         }, 0);
         this.setState({unViewedCount});
     }
-    
+
     triggerRethreading = async (post) => {
-        const target = this.state.rethreadTarget
-        if(target && post.id !== target.id) {
-            if(target.user_id === this.props.currentUserId && target.create_at > post.create_at && post.type == "") {
-                const root_id = (post.root_id) ? post.root_id : post.id
-                const has_reactions = (target.has_reactions) ? target.has_reactions : false
-                const is_pinned = (target.is_pinned) ? target.is_pinned : false
+        const target = this.state.rethreadTarget;
+        if (target && post.id !== target.id) {
+            if (target.user_id === this.props.currentUserId && target.create_at > post.create_at && post.type === '') {
+                const rootId = (post.root_id) ? post.root_id : post.id;
+                const hasReactions = (target.has_reactions) ? target.has_reactions : false;
+                const isPinned = (target.is_pinned) ? target.is_pinned : false;
                 const updatedPost = {
-                    "message": target.message,
-                    "channel_id": target.channel_id,
-                    "id": target.id,
-                    "root_id": root_id,
-                    "file_ids": target.file_ids,
-                    "has_reactions": has_reactions,
-                    "is_pinned": is_pinned
-                }
+                    message: target.message,
+                    channel_id: target.channel_id,
+                    id: target.id,
+                    root_id: rootId,
+                    file_ids: target.file_ids,
+                    has_reactions: hasReactions,
+                    is_pinned: isPinned,
+                };
                 this.setState({rethreadTarget: null});
-                const data = await this.props.actions.rethreadPost(updatedPost);
+                await this.props.actions.rethreadPost(updatedPost);
             } else {
-                this.setState({rethreadTarget: null})
+                this.setState({rethreadTarget: null});
             }
         }
     }
 
     handleRethreading = (post) => {
-        const target = this.state.rethreadTarget
-        if(post.user_id === this.props.currentUserId) {
+        const target = this.state.rethreadTarget;
+        if (post.user_id === this.props.currentUserId) {
             if (target && target.id === post.id) {
-                this.setState({rethreadTarget: null})
+                this.setState({rethreadTarget: null});
             } else {
-                this.setState({rethreadTarget: post})
+                this.setState({rethreadTarget: post});
             }
         } else {
-            this.setState({rethreadTarget: null})
+            this.setState({rethreadTarget: null});
         }
     }
 
@@ -512,7 +511,6 @@ export default class PostList extends React.PureComponent {
         if (this.props.posts) {
             // iterate through posts starting at the bottom since users are more likely to be viewing newer posts
             for (let i = 0; i < this.props.posts.length; i++) {
-                
                 const post = this.props.posts[i];
                 const element = this.refs[post.id];
 
@@ -563,12 +561,12 @@ export default class PostList extends React.PureComponent {
             ) {
                 continue;
             }
-            
+
             let selected = false;
             if (this.state.rethreadTarget && post.id === this.state.rethreadTarget.id) {
                 selected = true;
             }
-            
+
             const postCtl = (
                 <Post
                     ref={post.id}
