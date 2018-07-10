@@ -30,6 +30,7 @@ describe('components/post_view/PostInfo', () => {
 
     const requiredProps = {
         post,
+        handleRethreading: jest.fn(),
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,
