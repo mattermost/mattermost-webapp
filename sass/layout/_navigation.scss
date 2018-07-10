@@ -91,6 +91,13 @@
             }
         }
 
+        .navbar-plugin-button {
+            position: relative;
+            top: 8px;
+            left: 9px;
+            color: white;
+        }
+
         .navbar-info-button {
             @include border-radius(50px);
             cursor: pointer;

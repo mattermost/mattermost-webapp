@@ -7,6 +7,14 @@
         width: 65px;
         z-index: 12;
 
+        .team-sidebar-bottom-plugin {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
         .team-wrapper {
             -webkit-overflow-scrolling: touch;
             background-color: alpha-color($black, .2);

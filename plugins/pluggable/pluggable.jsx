@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// EXPERIMENTAL - SUBJECT TO CHANGE
-
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -53,12 +51,22 @@ export default class Pluggable extends React.PureComponent {
 
         // Override the default component with any registered plugin's component
         if (components.hasOwnProperty(componentName)) {
-            const PluginComponent = components[componentName].component;
+            const pluginComponents = components[componentName];
+            const content = pluginComponents.map((p) => {
+                const PluginComponent = p.component;
+                return (
+                    <PluginComponent
+                        {...props}
+                        theme={this.props.theme}
+                        key={componentName + p.id}
+                    />
+                );
+            });
+
             return (
-                <PluginComponent
-                    {...props}
-                    theme={this.props.theme}
-                />
+                <React.Fragment>
+                    {content}
+                </React.Fragment>
             );
         }
 

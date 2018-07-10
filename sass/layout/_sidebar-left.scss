@@ -16,6 +16,10 @@
         padding-top: 44px;
     }
 
+    .sidebar--left__icons {
+        border-bottom: 1px solid transparent;
+    }
+
     .sidebar-item {
         .icon {
             display: inline-block;
@@ -166,6 +170,16 @@
             svg {
                 @include transform(rotate(180deg));
             }
+        }
+    }
+
+    .sidebar--left__list {
+        .nav-pills__unread-indicator-top {
+            top: 120px;
+        }
+
+        .nav-pills__container {
+            height: calc(100vh - 145px);
         }
     }
 

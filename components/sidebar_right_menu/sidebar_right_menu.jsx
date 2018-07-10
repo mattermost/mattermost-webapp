@@ -184,10 +184,7 @@ export default class SidebarRightMenu extends React.Component {
                                 href='#'
                                 onClick={GlobalActions.showInviteMemberModal}
                             >
-                                <i
-                                    className='icon fa fa-user-plus'
-                                    title={Utils.localizeMessage('sidebar_right_menu.inviteNew.icon', 'Send Email Invite Icon')}
-                                />
+                                <i className='icon fa fa-user-plus'/>
                                 <FormattedMessage
                                     id='sidebar_right_menu.inviteNew'
                                     defaultMessage='Send Email Invite'
@@ -209,10 +206,7 @@ export default class SidebarRightMenu extends React.Component {
                             href='#'
                             onClick={this.showAddUsersToTeamModal}
                         >
-                            <i
-                                className='icon fa fa-user-plus'
-                                title={Utils.localizeMessage('sidebar_right_menu.addMemberToTeam.icon', 'Add Members to Team Icon')}
-                            />
+                            <i className='icon fa fa-user-plus'/>
                             <FormattedMessage
                                 id='sidebar_right_menu.addMemberToTeam'
                                 defaultMessage='Add Members to Team'
@@ -237,10 +231,7 @@ export default class SidebarRightMenu extends React.Component {
                                     href='#'
                                     onClick={GlobalActions.showGetTeamInviteLinkModal}
                                 >
-                                    <i
-                                        className='icon fa fa-link'
-                                        title={Utils.localizeMessage('sidebar_right_menu.teamLink.icon', 'Get Team Invite Link Icon')}
-                                    />
+                                    <i className='icon fa fa-link'/>
                                     <FormattedMessage
                                         id='sidebar_right_menu.teamLink'
                                         defaultMessage='Get Team Invite Link'
@@ -269,10 +260,7 @@ export default class SidebarRightMenu extends React.Component {
                 joinAnotherTeamLink = (
                     <li key='joinTeam_li'>
                         <Link to='/select_team'>
-                            <i
-                                className='icon fa fa-plus-square'
-                                title={Utils.localizeMessage('navbar_dropdown.join.icon', 'Join Another Team Icon')}
-                            />
+                            <i className='icon fa fa-plus-square'/>
                             <FormattedMessage
                                 id='navbar_dropdown.join'
                                 defaultMessage='Join Another Team'
@@ -291,10 +279,7 @@ export default class SidebarRightMenu extends React.Component {
                             to='/create_team'
                             onClick={this.handleClick}
                         >
-                            <i
-                                className='icon fa fa-plus-square'
-                                title={Utils.localizeMessage('navbar_dropdown.create.icon', 'Create a New Team Icon')}
-                            />
+                            <i className='icon fa fa-plus-square'/>
                             <FormattedMessage
                                 id='navbar_dropdown.create'
                                 defaultMessage='Create a New Team'
@@ -308,10 +293,7 @@ export default class SidebarRightMenu extends React.Component {
         manageLink = (
             <li>
                 <ToggleModalButton dialogType={TeamMembersModal}>
-                    <i
-                        className='icon fa fa-users'
-                        title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
-                    />
+                    <i className='icon fa fa-users'/>
                     <FormattedMessage
                         id='sidebar_right_menu.viewMembers'
                         defaultMessage='View Members'
@@ -321,19 +303,6 @@ export default class SidebarRightMenu extends React.Component {
         );
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
-            const MenuIconMobile = item.mobile_icon;
-            let menuIcon;
-            if (MenuIconMobile) {
-                menuIcon = (<MenuIconMobile/>);
-            } else {
-                menuIcon = (
-                    <i
-                        className='icon fa fa-plus-square'
-                        title={Utils.localizeMessage('generic_icons.add', 'Add Icon')}
-                    />
-                );
-            }
-
             return (
                 <li key={item.id + '_pluginrightmenuitem'}>
                     <a
@@ -341,7 +310,7 @@ export default class SidebarRightMenu extends React.Component {
                         href='#'
                         onClick={item.action}
                     >
-                        {menuIcon}
+                        <span className='icon'>{item.mobileIcon}</span>
                         {item.text}
                     </a>
                 </li>
@@ -382,10 +351,7 @@ export default class SidebarRightMenu extends React.Component {
                         href='#'
                         onClick={this.showTeamSettingsModal}
                     >
-                        <i
-                            className='icon fa fa-globe'
-                            title={Utils.localizeMessage('generic_icons.settings', 'Settings Icon')}
-                        />
+                        <i className='icon fa fa-globe'/>
                         <FormattedMessage
                             id='sidebar_right_menu.teamSettings'
                             defaultMessage='Team Settings'
@@ -403,10 +369,7 @@ export default class SidebarRightMenu extends React.Component {
                     <ToggleModalButton
                         dialogType={TeamMembersModal}
                     >
-                        <i
-                            className='icon fa fa-users'
-                            title={Utils.localizeMessage('generic_icons.member', 'Member Icon')}
-                        />
+                        <i className='icon fa fa-users'/>
                         <FormattedMessage
                             id='sidebar_right_menu.manageMembers'
                             defaultMessage='Manage Members'
@@ -424,10 +387,7 @@ export default class SidebarRightMenu extends React.Component {
                             to={'/admin_console'}
                             onClick={this.handleClick}
                         >
-                            <i
-                                className='icon fa fa-wrench'
-                                title={Utils.localizeMessage('sidebar_right_menu.console', 'System Console Icon')}
-                            />
+                            <i className='icon fa fa-wrench'/>
                             <FormattedMessage
                                 id='sidebar_right_menu.console'
                                 defaultMessage='System Console'
@@ -456,10 +416,7 @@ export default class SidebarRightMenu extends React.Component {
                         rel='noopener noreferrer'
                         to={this.props.helpLink}
                     >
-                        <i
-                            className='icon fa fa-question'
-                            title={Utils.localizeMessage('generic_icons.help', 'Help Icon')}
-                        />
+                        <i className='icon fa fa-question'/>
                         <FormattedMessage
                             id='sidebar_right_menu.help'
                             defaultMessage='Help'
@@ -478,10 +435,7 @@ export default class SidebarRightMenu extends React.Component {
                         rel='noopener noreferrer'
                         to={this.props.reportAProblemLink}
                     >
-                        <i
-                            className='icon fa fa-phone'
-                            title={Utils.localizeMessage('generic_icons.report', 'Report Icon')}
-                        />
+                        <i className='icon fa fa-phone'/>
                         <FormattedMessage
                             id='sidebar_right_menu.report'
                             defaultMessage='Report a Problem'
@@ -506,10 +460,7 @@ export default class SidebarRightMenu extends React.Component {
                         rel='noopener noreferrer'
                         to={useSafeUrl(this.props.appDownloadLink)}
                     >
-                        <i
-                            className='icon fa fa-mobile'
-                            title={Utils.localizeMessage('sidebar_right_menu.nativeApps.icon', 'Native Apps Icon')}
-                        />
+                        <i className='icon fa fa-mobile'/>
                         <FormattedMessage
                             id='sidebar_right_menu.nativeApps'
                             defaultMessage='Download Apps'
@@ -572,10 +523,7 @@ export default class SidebarRightMenu extends React.Component {
                                 href='#'
                                 onClick={this.getFlagged}
                             >
-                                <i
-                                    className='icon fa fa-flag'
-                                    title={Utils.localizeMessage('generic_icons.flag', 'Flag Icon')}
-                                />
+                                <i className='icon fa fa-flag'/>
                                 <FormattedMessage
                                     id='sidebar_right_menu.flagged'
                                     defaultMessage='Flagged Posts'
@@ -588,10 +536,7 @@ export default class SidebarRightMenu extends React.Component {
                                 href='#'
                                 onClick={this.showAccountSettingsModal}
                             >
-                                <i
-                                    className='icon fa fa-cog'
-                                    title={Utils.localizeMessage('generic_icons.settings', 'Settings Icon')}
-                                />
+                                <i className='icon fa fa-cog'/>
                                 <FormattedMessage
                                     id='sidebar_right_menu.accountSettings'
                                     defaultMessage='Account Settings'
@@ -621,10 +566,7 @@ export default class SidebarRightMenu extends React.Component {
                                 href='#'
                                 onClick={this.handleAboutModal}
                             >
-                                <i
-                                    className='icon fa fa-info'
-                                    title={Utils.localizeMessage('generic_icons.info', 'Info Icon')}
-                                />
+                                <i className='icon fa fa-info'/>
                                 <FormattedMessage
                                     id='navbar_dropdown.about'
                                     defaultMessage='About Mattermost'
@@ -637,10 +579,7 @@ export default class SidebarRightMenu extends React.Component {
                                 href='#'
                                 onClick={this.handleEmitUserLoggedOutEvent}
                             >
-                                <i
-                                    className='icon fa fa-sign-out'
-                                    title={Utils.localizeMessage('generic_icons.logout', 'Logout Icon')}
-                                />
+                                <i className='icon fa fa-sign-out'/>
                                 <FormattedMessage
                                     id='sidebar_right_menu.logout'
                                     defaultMessage='Logout'

@@ -193,18 +193,16 @@ export default class PostMessageView extends React.PureComponent {
         }
 
         const postType = post.type;
-        if (postType) {
-            if (pluginPostTypes.hasOwnProperty(postType)) {
-                const PluginComponent = pluginPostTypes[postType].component;
-                return (
-                    <PluginComponent
-                        post={post}
-                        compactDisplay={compactDisplay}
-                        isRHS={isRHS}
-                        theme={theme}
-                    />
-                );
-            }
+        if (pluginPostTypes.hasOwnProperty(postType)) {
+            const PluginComponent = pluginPostTypes[postType].component;
+            return (
+                <PluginComponent
+                    post={post}
+                    compactDisplay={compactDisplay}
+                    isRHS={isRHS}
+                    theme={theme}
+                />
+            );
         }
 
         let postId = null;

@@ -76,6 +76,39 @@
         }
     }
 
+    .channel-header_plugin-dropdown {
+        min-width: 200px;
+        max-width: 300px;
+        padding: 0;
+
+        .fa {
+            text-align: center;
+            width: 20px;
+            margin-left: -5px;
+        }
+
+        svg {
+            text-align: center;
+            width: 20px;
+            margin-left: -5px;
+            margin-right: 5px;
+        }
+
+        a {
+            border-left: 3px solid transparent;
+            padding: 10px 16px;
+
+            &:hover {
+                .fa {
+                    @include opacity(1);
+                }
+                svg {
+                    @include opacity(1);
+                }
+            }
+        }
+    }
+
     .channel-header__icon {
         @include border-radius(50%);
         border: 1px solid;
@@ -88,6 +121,7 @@
         text-align: center;
         width: 30px;
         z-index: 5;
+        color: #B1B1B3;
 
         &.wide {
             @include border-radius(37px);
@@ -140,6 +174,10 @@
 
         .icon__pin {
             top: 1px;
+        }
+
+        .icon__ellipsis {
+            padding-top: 5px;
         }
 
         .icon__members {

@@ -59,8 +59,8 @@ describe('components/PluginManagement', () => {
             uploadPlugin: jest.fn(),
             removePlugin: jest.fn(),
             getPluginStatuses: jest.fn().mockResolvedValue([]),
-            activatePlugin: jest.fn(),
-            deactivatePlugin: jest.fn(),
+            enablePlugin: jest.fn(),
+            disablePlugin: jest.fn(),
         },
     };
 

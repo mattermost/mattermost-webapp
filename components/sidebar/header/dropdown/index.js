@@ -56,7 +56,7 @@ function mapStateToProps(state) {
         helpLink,
         reportAProblemLink,
         restrictTeamInvite,
-        pluginMenuItems: state.plugins.mainMenuActions,
+        pluginMenuItems: state.plugins.components.MainMenu,
         canCreateCustomEmoji,
     };
 }
