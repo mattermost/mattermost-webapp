@@ -92,6 +92,11 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+
+        /**
+         * Set to mark the post as selected for rethreding
+         */
+        selected: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -273,9 +278,9 @@ export default class PostBody extends React.PureComponent {
         if (isEphemeral) {
             ephemeralPostClass = 'post--ephemeral';
         }
-        
+    
         let selected = '';
-        if(this.props.selected) {
+        if (this.props.selected) {
             selected = 'post-rethreadtarget';
         }
 
