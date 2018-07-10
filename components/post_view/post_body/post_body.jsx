@@ -281,9 +281,9 @@ export default class PostBody extends React.PureComponent {
         if (isEphemeral) {
             ephemeralPostClass = 'post--ephemeral';
         }
-        
+    
         let selected = '';
-        if(this.props.selected) {
+        if (this.props.selected) {
             selected = 'post-rethreadtarget';
         }
 

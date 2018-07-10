@@ -272,7 +272,7 @@ export default class Post extends React.PureComponent {
         let centerClass = '';
         if (this.props.center) {
             centerClass = 'center';
-        }   
+        }
 
         return (
             <div
@@ -282,7 +282,6 @@ export default class Post extends React.PureComponent {
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onClick={() => this.props.triggerRethreading(post)}
-
 
             >
                 <div className={'post__content ' + centerClass}>
