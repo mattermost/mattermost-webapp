@@ -44,8 +44,7 @@
         flex: 0;
         float: left;
         height: 20px;
-        margin: 0 8px 0 8px;
-        padding-top: 3px;
+        margin: 0 7px;
         position: relative;
         z-index: 1;
 
@@ -55,10 +54,6 @@
 
         &.active {
             @include opacity(1);
-        }
-
-        i {
-            font-size: 17px;
         }
     }
 

@@ -24,6 +24,7 @@ function mapStateToProps(state) {
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
     const enableTeamCreation = config.EnableTeamCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
+    const enableEmailInvitations = config.EnableEmailInvitations === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
@@ -50,6 +51,7 @@ function mapStateToProps(state) {
         enableOutgoingWebhooks,
         enableTeamCreation,
         enableUserCreation,
+        enableEmailInvitations,
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,

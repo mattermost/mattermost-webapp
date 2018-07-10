@@ -52,7 +52,7 @@ export default function GetIosApp({iosAppDownloadLink}) {
                     defaultMessage='Or {link}'
                     values={{
                         link: (
-                            <Link to='/switch_team'>
+                            <Link to='/'>
                                 <FormattedMessage
                                     id='get_app.continueWithBrowserLink'
                                     defaultMessage='continue with browser'
