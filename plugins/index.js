@@ -9,6 +9,7 @@ import messageHtmlToComponent from 'utils/message_html_to_component';
 import {getSiteURL} from 'utils/url.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 import PluginRegistry from 'plugins/registry';
+import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 
 window.plugins = {};
 
@@ -80,6 +81,12 @@ export function loadPlugin(manifest) {
 }
 
 export function removePlugin(manifest) {
+    const plugin = window.plugins[manifest.id];
+    if (plugin && plugin.deinitialize) {
+        plugin.deinitialize();
+    }
+    unregisterAllPluginWebSocketEvents(manifest.id);
+    unregisterPluginReconnectHandler(manifest.id);
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {
         return;

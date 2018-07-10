@@ -15,6 +15,7 @@ import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isFromWebhook} from 'utils/post_utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
@@ -538,7 +539,8 @@ export default class PostList extends React.PureComponent {
                 );
             }
 
-            if (post.user_id !== currentUserId &&
+            const isNotCurrentUser = post.user_id !== currentUserId || isFromWebhook(post);
+            if (isNotCurrentUser &&
                     lastViewed !== 0 &&
                     post.create_at > lastViewed &&
                     !Utils.isPostEphemeral(post) &&

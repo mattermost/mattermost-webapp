@@ -58,12 +58,12 @@ export default class PostProfilePicture extends React.PureComponent {
 
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        if (isSystemMessage && !this.props.compactDisplay) {
+        const fromWebhook = PostUtils.isFromWebhook(this.props.post);
+        if (isSystemMessage && !this.props.compactDisplay && !fromWebhook) {
             return <MattermostLogo className='icon'/>;
         }
 
         const fromAutoResponder = PostUtils.fromAutoResponder(this.props.post);
-        const fromWebhook = PostUtils.isFromWebhook(this.props.post);
 
         const hasMention = !fromAutoResponder && !fromWebhook;
         const src = this.getProfilePicSrcForPost(fromAutoResponder, fromWebhook);
