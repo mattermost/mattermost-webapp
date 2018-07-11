@@ -151,6 +151,7 @@ export default class MultiSelect extends React.Component {
         }
 
         let buttonSubmitText;
+        let buttonSubmitLoadingText;
         if (this.props.buttonSubmitText) {
             buttonSubmitText = this.props.buttonSubmitText;
         } else if (this.props.maxValues != null) {
@@ -160,6 +161,10 @@ export default class MultiSelect extends React.Component {
                     defaultMessage='Go'
                 />
             );
+        }
+
+        if (this.props.buttonSubmitLoadingText) {
+            buttonSubmitLoadingText = this.props.buttonSubmitLoadingText;
         }
 
         let optionsToDisplay = [];
@@ -258,6 +263,7 @@ export default class MultiSelect extends React.Component {
                             disabled={this.props.saving}
                             onClick={this.handleOnClick}
                             defaultMessage={buttonSubmitText}
+                            savingMessage={buttonSubmitLoadingText}
                         />
                     </div>
                     <div className='multi-select__help'>
@@ -301,6 +307,7 @@ MultiSelect.propTypes = {
     maxValues: PropTypes.number,
     numRemainingText: PropTypes.node,
     buttonSubmitText: PropTypes.node,
+    buttonSubmitLoadingText: PropTypes.node,
     submitImmediatelyOn: PropTypes.func,
     saving: PropTypes.bool,
     loading: PropTypes.bool,

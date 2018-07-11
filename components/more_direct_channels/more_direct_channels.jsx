@@ -328,6 +328,7 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         const buttonSubmitText = localizeMessage('multiselect.go', 'Go');
+        const buttonSubmitLoadingText = localizeMessage('multiselect.loading', 'Loading..');
 
         const numRemainingText = (
             <FormattedMessage
@@ -386,6 +387,7 @@ export default class MoreDirectChannels extends React.Component {
                         maxValues={MAX_SELECTABLE_VALUES}
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
+                        buttonSubmitLoadingText={buttonSubmitLoadingText}
                         submitImmediatelyOn={this.handleSubmitImmediatelyOn}
                         saving={this.state.saving}
                         loading={this.state.loadingUsers}
