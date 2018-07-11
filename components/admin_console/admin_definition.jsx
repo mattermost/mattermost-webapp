@@ -628,7 +628,7 @@ export default {
                             ),
                         },
                         {
-                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
                             key: 'LdapSettings.LdapPort',
                             label: 'admin.ldap.portTitle',
                             label_default: 'AD/LDAP Port:',
