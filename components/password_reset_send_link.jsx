@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -52,13 +52,14 @@ class PasswordResetSendLink extends React.Component {
                     error: null,
                     updateText: (
                         <div className='reset-form alert alert-success'>
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id='password_send.link'
-                                defaultMessage='If the account exists, a password reset email will be sent to: <br/><b>{email}</b><br/><br/>'
-                                values={{
-                                    email,
-                                }}
+                                defaultMessage='If the account exists, a password reset email will be sent to:'
                             />
+                            <div>
+                                <b>{email}</b>
+                            </div>
+                            <br/>
                             <FormattedMessage
                                 id='password_send.checkInbox'
                                 defaultMessage='Please check your inbox.'
