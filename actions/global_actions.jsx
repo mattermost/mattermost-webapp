@@ -128,7 +128,7 @@ export async function emitPostFocusEvent(postId, returnTo = '') {
     const {data} = await dispatch(getPostThread(postId));
 
     if (!data) {
-        browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+        browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
         return;
     }
 
@@ -139,14 +139,14 @@ export async function emitPostFocusEvent(postId, returnTo = '') {
     if (!channel) {
         const {data: channelData} = await dispatch(getChannel(channelId));
         if (!channelData) {
-            browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+            browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
             return;
         }
         channel = channelData;
     }
 
     if (channel.team_id && channel.team_id !== teamId) {
-        browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+        browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
         return;
     }
 
