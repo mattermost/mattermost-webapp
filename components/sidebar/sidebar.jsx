@@ -650,7 +650,7 @@ export default class Sidebar extends React.PureComponent {
                         className='nav-pills__container'
                         onScroll={this.onScroll}
                     >
-                        {this.renderChannels()}
+                        {this.renderOrderedChannels()}
                     </div>
                 </div>
                 <div className='sidebar__switcher'>
