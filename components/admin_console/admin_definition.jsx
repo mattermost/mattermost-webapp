@@ -352,7 +352,7 @@ export default {
                             label_default: 'Available Languages:',
                             help_text: 'admin.general.localization.availableLocalesDescription',
                             help_text_html: true,
-                            help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.',
+                            help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would you like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.',
                             multiple: true,
                             no_result: 'admin.general.localization.availableLocalesNoResults',
                             no_result_default: 'No results found',
