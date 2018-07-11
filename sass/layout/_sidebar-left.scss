@@ -1,6 +1,8 @@
 @charset 'UTF-8';
 
 .sidebar--left {
+    display: flex;
+    flex-direction: column;
     border-right: $border-gray;
     height: 100%;
     left: 0;
@@ -79,10 +81,10 @@
     }
 
     .sidebar__switcher {
+        flex: 0 0 45px;
         bottom: 0;
         display: block;
         padding-bottom: 0;
-        position: absolute;
         width: 100%;
 
         button {
@@ -139,11 +141,18 @@
         top: 8px;
     }
 
+    .sidebar--left__list {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
     .nav-pills__container {
         -webkit-overflow-scrolling: touch;
-        height: calc(100% - 100px);
         overflow: auto;
         position: relative;
+        width: 100%;
     }
 
     .nav-pills__unread-indicator {
@@ -173,13 +182,9 @@
         }
     }
 
-    .sidebar--left__list {
+    .sidebar--left__list--plugins {
         .nav-pills__unread-indicator-top {
             top: 120px;
-        }
-
-        .nav-pills__container {
-            height: calc(100vh - 145px);
         }
     }
 
