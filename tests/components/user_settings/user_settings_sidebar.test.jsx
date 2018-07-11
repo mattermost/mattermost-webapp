@@ -14,7 +14,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         displayUnreadSection: 'true',
         showUnusedOption: false,
         showGroupSortOptions: true,
-        showSidebarChannelPreference: true,
+        showChannelOrganization: true,
         sidebarPreference: {
             grouping: 'by_type',
             sorting: 'alpha',

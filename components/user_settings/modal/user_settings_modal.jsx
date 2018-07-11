@@ -243,7 +243,7 @@ class UserSettingsModal extends React.Component {
         tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
         tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
         tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
-        if (this.props.closeUnusedDirectMessages || this.props.experimentalSidebarPreference) {
+        if (this.props.closeUnusedDirectMessages || this.props.experimentalChannelOrganization) {
             tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
         }
         tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: Utils.localizeMessage('user.settings.advance.icon', 'Advanced Settings Icon')});
@@ -316,7 +316,7 @@ class UserSettingsModal extends React.Component {
 UserSettingsModal.propTypes = {
     intl: intlShape.isRequired,
     closeUnusedDirectMessages: PropTypes.bool,
-    experimentalSidebarPreference: PropTypes.bool,
+    experimentalChannelOrganization: PropTypes.bool,
 };
 
 export default injectIntl(UserSettingsModal);

@@ -39,7 +39,7 @@ export default class UserSettingsSidebar extends React.Component {
         /**
          * Display the channel grouping and sorting sections options
          */
-        showSidebarChannelPreference: PropTypes.bool.isRequired,
+        showChannelOrganization: PropTypes.bool.isRequired,
 
         /**
          * The preferences to display channels in sidebar
@@ -577,11 +577,11 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     render() {
-        const {showUnusedOption, showSidebarChannelPreference} = this.props;
+        const {showUnusedOption, showChannelOrganization} = this.props;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
 
-        const channelGroupSection = showSidebarChannelPreference ? this.renderChannelGroupSection() : null;
-        const channelSortingSection = showSidebarChannelPreference ? this.renderChannelSortingSection() : null;
+        const channelGroupSection = showChannelOrganization ? this.renderChannelGroupSection() : null;
+        const channelSortingSection = showChannelOrganization ? this.renderChannelSortingSection() : null;
 
         return (
             <div>
@@ -621,7 +621,7 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {showSidebarChannelPreference && (
+                    {showChannelOrganization && (
                         <div>
                             {channelGroupSection}
                             <div className='divider-light'/>

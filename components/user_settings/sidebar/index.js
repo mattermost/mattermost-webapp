@@ -33,7 +33,7 @@ function mapStateToProps(state) {
     return {
         closeUnusedDirectMessages,
         sidebarPreference,
-        showSidebarChannelPreference: config.ExperimentalSidebarPreference === 'true',
+        showChannelOrganization: config.ExperimentalChannelOrganization === 'true',
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         user: getCurrentUser(state),
     };

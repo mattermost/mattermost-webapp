@@ -10,11 +10,11 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
-    const experimentalSidebarPreference = config.ExperimentalSidebarPreference === 'true';
+    const experimentalChannelOrganization = config.ExperimentalChannelOrganization === 'true';
 
     return {
         closeUnusedDirectMessages,
-        experimentalSidebarPreference,
+        experimentalChannelOrganization,
     };
 }
 
