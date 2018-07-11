@@ -817,27 +817,27 @@ export default class ChannelHeader extends React.Component {
                         className='divider'
                     />
                 );
-
-                if (!channelIsArchived) {
-                    dropdownContents.push(
-                        <li
-                            key='leave_channel'
-                            role='presentation'
+            }
+            
+            if (!this.props.isDefault) {
+                dropdownContents.push(
+                    <li
+                        key='leave_channel'
+                        role='presentation'
+                    >
+                        <button
+                            className='style--none'
+                            id='channelLeave'
+                            role='menuitem'
+                            onClick={this.handleLeave}
                         >
-                            <button
-                                className='style--none'
-                                id='channelLeave'
-                                role='menuitem'
-                                onClick={this.handleLeave}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.leave'
-                                    defaultMessage='Leave Channel'
-                                />
-                            </button>
-                        </li>
-                    );
-                }
+                            <FormattedMessage
+                                id='channel_header.leave'
+                                defaultMessage='Leave Channel'
+                            />
+                        </button>
+                    </li>
+                );
             }
 
             if (channelIsArchived) {
