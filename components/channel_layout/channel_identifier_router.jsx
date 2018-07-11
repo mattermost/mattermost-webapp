@@ -24,7 +24,11 @@ const LENGTH_OF_GROUP_ID = 40;
 const LENGTH_OF_USER_ID_PAIR = 54;
 
 function onChannelByIdentifierEnter({match, history}) {
-    const {path, identifier} = match.params;
+    const {path, identifier, team} = match.params;
+
+    if (!TeamStore.getByName(team)) {
+        return;
+    }
 
     if (path === 'channels') {
         if (identifier.length === LENGTH_OF_ID) {
