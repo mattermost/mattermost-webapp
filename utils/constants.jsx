@@ -750,6 +750,7 @@ export const Constants = {
         'channel',
         'here',
         'matterbot',
+        'system',
     ],
     MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MAX_DMS: 20,
