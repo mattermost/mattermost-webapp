@@ -602,7 +602,7 @@ export default class LoginController extends React.Component {
                 <a
                     className='btn btn-custom-login saml'
                     key='saml'
-                    href={'/login/sso/saml' + this.props.location.search}
+                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location.search}
                 >
                     <span>
                         <span
