@@ -31,7 +31,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -354,7 +354,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -713,7 +713,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -1073,7 +1073,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -1396,7 +1396,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -1723,7 +1723,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -2046,7 +2046,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -2369,7 +2369,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
@@ -2692,7 +2692,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    className="sidebar--left__list sidebar--left__list--plugins"
   >
     <UnreadChannelIndicator
       content={
