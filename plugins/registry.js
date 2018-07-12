@@ -140,6 +140,34 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a post menu list item by providing some text and an action function.
+    // Accepts the following:
+    // - text - A string or JSX element to display in the menu
+    // - action - A function to trigger when component is clicked on
+    // Returns a unique identifier.
+    registerPostDropdownMenuAction = (text, action) => {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'PostDropdownMenu',
+            data: {
+                id,
+                pluginId: this.id,
+                text,
+                action,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component at the bottom of the post dropdown menu.
+    // Accepts a React component. Returns a unique identifier.
+    registerPostDropdownMenuComponent = (component) => {
+        return dispatchPluginComponentAction('PostDropdownMenuItem', this.id, component);
+    }
+
     // Unregister a component using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.

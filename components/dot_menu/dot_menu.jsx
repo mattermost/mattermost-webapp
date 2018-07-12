@@ -14,6 +14,8 @@ import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import Pluggable from 'plugins/pluggable';
+
 import DotMenuItem from './dot_menu_item.jsx';
 
 export default class DotMenu extends Component {
@@ -25,6 +27,7 @@ export default class DotMenu extends Component {
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
         isReadOnly: PropTypes.bool,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
 
         actions: PropTypes.shape({
 
@@ -65,6 +68,7 @@ export default class DotMenu extends Component {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
+        pluginMenuItems: [],
     }
 
     constructor(props) {
@@ -255,7 +259,21 @@ export default class DotMenu extends Component {
             );
         }
 
-        if (menuItems.length === 0) {
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <DotMenuItem
+                    key={item.id + '_pluginmenuitem'}
+                    menuItemText={item.text}
+                    handleMenuItemActivated={() => {
+                        if (item.action) {
+                            item.action();
+                        }
+                    }}
+                />
+            );
+        });
+
+        if (menuItems.length === 0 && pluginItems.length === 0) {
             return null;
         }
 
@@ -281,6 +299,8 @@ export default class DotMenu extends Component {
                             role='menu'
                         >
                             {menuItems}
+                            {pluginItems}
+                            <Pluggable pluggableName='PostDropdownMenuItem'/>
                         </ul>
                     </div>
                 </div>
