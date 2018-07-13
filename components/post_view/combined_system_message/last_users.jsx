@@ -7,8 +7,7 @@ import {intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import messageHtmlToComponent from 'utils/message_html_to_component';
-import {formatText} from 'utils/text_formatting.jsx';
+import Markdown from 'components/markdown';
 
 const typeMessage = {
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
@@ -73,9 +72,12 @@ export default class LastUsers extends React.PureComponent {
     }
 
     renderMessage = (formattedMessage) => {
-        const formattedText = formatText(formattedMessage, this.props.formatOptions).replace(/p>/g, 'span>');
-
-        return messageHtmlToComponent(formattedText, false, {mentions: true});
+        return (
+            <Markdown
+                message={formattedMessage}
+                options={this.props.formatOptions}
+            />
+        );
     }
 
     render() {

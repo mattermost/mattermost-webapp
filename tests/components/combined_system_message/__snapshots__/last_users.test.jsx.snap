@@ -2,52 +2,73 @@
 
 exports[`components/post_view/combined_system_message/LastUsers should match snapshot 1`] = `
 <span>
-  <span
-    key="0"
-  >
-    <span
-      data-mention="username2"
-      key="0"
-    >
-      <Connect(AtMention)
-        hasMention={true}
-        isRHS={false}
-        mentionName="username2"
-      >
-        @username2
-      </Connect(AtMention)>
-    </span>
-     and 
-  </span>
-  
-
+  <Connect(Markdown)
+    message="@username2 and "
+    options={
+      Object {
+        "atMentions": true,
+        "mentionHighlight": false,
+        "mentionKeys": Array [
+          Object {
+            "key": "@username2",
+          },
+          Object {
+            "key": "@username3",
+          },
+          Object {
+            "key": "@username4",
+          },
+        ],
+      }
+    }
+  />
   <a
     onClick={[Function]}
   >
     2 others 
   </a>
-  <span
-    key="0"
-  >
-    were 
-    <strong
-      key="1"
-    >
-      added to the channel
-    </strong>
-     by user_1.
-  </span>
-  
-
+  <Connect(Markdown)
+    message="were **added to the channel** by user_1."
+    options={
+      Object {
+        "atMentions": true,
+        "mentionHighlight": false,
+        "mentionKeys": Array [
+          Object {
+            "key": "@username2",
+          },
+          Object {
+            "key": "@username3",
+          },
+          Object {
+            "key": "@username4",
+          },
+        ],
+      }
+    }
+  />
 </span>
 `;
 
 exports[`components/post_view/combined_system_message/LastUsers should match snapshot, expanded 1`] = `
-Array [
-  <span
-    key="0"
-  />,
-  "
-",
-]
+<Connect(Markdown)
+  message="@username2, @username3 and @username4  **added to the channel** by user_1."
+  options={
+    Object {
+      "atMentions": true,
+      "mentionHighlight": false,
+      "mentionKeys": Array [
+        Object {
+          "key": "@username2",
+        },
+        Object {
+          "key": "@username3",
+        },
+        Object {
+          "key": "@username4",
+        },
+      ],
+    }
+  }
+/>
 `;

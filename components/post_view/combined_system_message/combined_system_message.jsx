@@ -7,8 +7,7 @@ import {intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import messageHtmlToComponent from 'utils/message_html_to_component';
-import {formatText} from 'utils/text_formatting.jsx';
+import Markdown from 'components/markdown';
 
 import LastUsers from './last_users';
 
@@ -256,6 +255,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
             atMentions: true,
             mentionKeys: [{key: firstUser}, {key: secondUser}, {key: actor}],
             mentionHighlight: false,
+            singleline: true,
         };
 
         if (numOthers > 1) {
@@ -294,9 +294,13 @@ export default class CombinedSystemMessage extends React.PureComponent {
         }
 
         const formattedMessage = formatMessage(localeHolder, {firstUser, secondUser, actor});
-        const formattedText = formatText(formattedMessage, options).replace(/p>/g, 'span>');
 
-        return messageHtmlToComponent(formattedText, false, {mentions: true});
+        return (
+            <Markdown
+                message={formattedMessage}
+                options={options}
+            />
+        );
     }
 
     render() {
