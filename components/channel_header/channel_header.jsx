@@ -818,7 +818,7 @@ export default class ChannelHeader extends React.Component {
                     />
                 );
             }
-            
+
             if (!this.props.isDefault) {
                 dropdownContents.push(
                     <li

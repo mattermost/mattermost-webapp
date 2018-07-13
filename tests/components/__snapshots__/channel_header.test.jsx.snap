@@ -130,6 +130,23 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 </li>
               </Connect(ChannelPermissionGate)>
               <li
+                key="leave_channel"
+                role="presentation"
+              >
+                <button
+                  className="style--none"
+                  id="channelLeave"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Leave Channel"
+                    id="channel_header.leave"
+                    values={Object {}}
+                  />
+                </button>
+              </li>
+              <li
                 key="close_channel"
                 role="presentation"
               >
@@ -398,6 +415,23 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   </button>
                 </li>
               </Connect(ChannelPermissionGate)>
+              <li
+                key="leave_channel"
+                role="presentation"
+              >
+                <button
+                  className="style--none"
+                  id="channelLeave"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Leave Channel"
+                    id="channel_header.leave"
+                    values={Object {}}
+                  />
+                </button>
+              </li>
               <li
                 key="close_channel"
                 role="presentation"
