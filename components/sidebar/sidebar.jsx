@@ -648,7 +648,7 @@ export default class Sidebar extends React.PureComponent {
         );
 
         let listClass = 'sidebar--left__list';
-        if (this.props.pluginComponents == null || this.props.pluginComponents.length) {
+        if (this.props.pluginComponents || this.props.pluginComponents.length === 0) {
             listClass += ' sidebar--left__list--plugins';
         }
 
