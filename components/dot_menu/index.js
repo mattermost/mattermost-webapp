@@ -10,10 +10,6 @@ import {pinPost, unpinPost, setEditingPost} from 'actions/post_actions.jsx';
 
 import DotMenu from './dot_menu.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return ownProps;
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -27,4 +23,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DotMenu);
+export default connect(null, mapDispatchToProps)(DotMenu);
