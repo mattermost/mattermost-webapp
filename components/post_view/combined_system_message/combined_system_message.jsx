@@ -272,25 +272,16 @@ export default class CombinedSystemMessage extends React.PureComponent {
 
         let localeHolder;
         if (numOthers === 0) {
-            localeHolder = {
-                id: postTypeMessage[postType].one.id,
-                defaultMessage: postTypeMessage[postType].one.defaultMessage,
-            };
+            localeHolder = postTypeMessage[postType].one;
 
             if (
                 (userIds[0] === this.props.currentUserId || userIds[0] === this.props.currentUsername) &&
                 postTypeMessage[postType].one_you
             ) {
-                localeHolder = {
-                    id: postTypeMessage[postType].one_you.id,
-                    defaultMessage: postTypeMessage[postType].one_you.defaultMessage,
-                };
+                localeHolder = postTypeMessage[postType].one_you;
             }
         } else if (numOthers === 1) {
-            localeHolder = {
-                id: postTypeMessage[postType].two.id,
-                defaultMessage: postTypeMessage[postType].two.defaultMessage,
-            };
+            localeHolder = postTypeMessage[postType].two;
         }
 
         const formattedMessage = formatMessage(localeHolder, {firstUser, secondUser, actor});
