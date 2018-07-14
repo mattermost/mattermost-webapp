@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import * as I18n from 'i18n/i18n.jsx';
 
@@ -168,22 +168,16 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
 
         let helpText;
-        // TODO: Remove isHTML?
-        let isHTML;
         let isMarkdown;
         let helpTextValues;
         let helpTextDefault;
         if (setting.disabled_help_text && this.isDisabled(setting)) {
             helpText = setting.disabled_help_text;
-            // TODO: Remove isHTML?
-            isHTML = setting.disabled_help_text_html;
             isMarkdown = setting.disabled_help_text_markdown;
             helpTextValues = setting.disabled_help_text_values;
             helpTextDefault = setting.disabled_help_text_default;
         } else {
             helpText = setting.help_text;
-            // TODO: Remove isHTML?
-            isHTML = setting.help_text_html;
             isMarkdown = setting.help_text_markdown;
             helpTextValues = setting.help_text_values;
             helpTextDefault = setting.help_text_default;
@@ -193,16 +187,6 @@ export default class SchemaAdminSettings extends AdminSettings {
             if (isMarkdown) {
                 return (
                     <FormattedMarkdownMessage
-                        id={helpText}
-                        values={helpTextValues}
-                        defaultMessage={helpTextDefault}
-                    />
-                );
-            }
-            // TODO: Remove isHTML?
-            if (isHTML) {
-                return (
-                    <FormattedHTMLMessage
                         id={helpText}
                         values={helpTextValues}
                         defaultMessage={helpTextDefault}

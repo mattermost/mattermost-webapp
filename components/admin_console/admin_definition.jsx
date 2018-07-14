@@ -56,7 +56,7 @@ const MEBIBYTE = Math.pow(1024, 2);
 // Setting Widget (extends from Widget):
 //   - key: The key to store the configuration in the config file.
 //   - help_text (and help_text_default): Long description of the field.
-//   - help_text_html: True if the translation text contains html.
+//   - help_text_markdown: True if the translation text contains markdown.
 //   - help_text_values: Values to fill the translation (if needed).
 //
 // Bool Widget (extends from Setting Widget)
