@@ -260,7 +260,7 @@ export default class SettingPicture extends Component {
             helpText = (
                 <FormattedMessage
                     id={'setting_picture.help.profile'}
-                    defaultMessage='Upload a picture in BMP, JPG or PNG format.'
+                    defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB.'
                 />
             );
         }
