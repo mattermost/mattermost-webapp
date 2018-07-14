@@ -633,7 +633,6 @@
   "admin.ldap.nicknameAttrDesc": "(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.",
   "admin.ldap.nicknameAttrEx": "E.g.: \"nickname\"",
   "admin.ldap.nicknameAttrTitle": "Nickname Attribute:",
-  "admin.ldap.noLicense": "<h4 class=\"banner__heading\">Note:</h4><p>AD/LDAP is an enterprise feature. Your current license does not support AD/LDAP. Click <a href=\"http://mattermost.com\" target='_blank'>here</a> for information and pricing on enterprise licenses.</p>",
   "admin.ldap.portDesc": "The port Mattermost will use to connect to the AD/LDAP server. Default is 389.",
   "admin.ldap.portEx": "E.g.: \"389\"",
   "admin.ldap.portTitle": "AD/LDAP Port:",
