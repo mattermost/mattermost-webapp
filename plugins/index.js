@@ -11,7 +11,18 @@ import {formatText} from 'utils/text_formatting.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 
+// plugins records all active web app plugins by id.
 window.plugins = {};
+
+// registerPlugin, on the global window object, should be invoked by a plugin's web app bundle as
+// it is loaded.
+//
+// During the beta, plugins manipulated the global window.plugins data structure directly. This
+// remains possible, but is officially deprecated and may be removed in a future release.
+function registerPlugin(id, plugin) {
+    window.plugins[id] = plugin;
+}
+window.registerPlugin = registerPlugin;
 
 // Common libraries exposed on window for plugins to access
 window.react = require('react');
@@ -21,6 +32,7 @@ window['react-redux'] = require('react-redux');
 window['react-bootstrap'] = require('react-bootstrap');
 window['post-utils'] = {formatText, messageHtmlToComponent};
 
+// initializePlugins queries the server for all enabled plugins and loads each in turn.
 export async function initializePlugins() {
     if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
         return;
@@ -41,6 +53,7 @@ export async function initializePlugins() {
     });
 }
 
+// getPlugins queries the server for all enabled plugins
 export function getPlugins() {
     return async (dispatch) => {
         let plugins;
@@ -56,14 +69,12 @@ export function getPlugins() {
     };
 }
 
+// loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
+// load, and then ensures the plugin has been initialized.
 export function loadPlugin(manifest) {
     function onLoad() {
-        // Initialize the plugin
-        console.log('Registering ' + manifest.id + ' plugin...'); //eslint-disable-line no-console
-        const plugin = window.plugins[manifest.id];
-        const registry = new PluginRegistry(manifest.id);
-        plugin.initialize(registry, store);
-        console.log('...done'); //eslint-disable-line no-console
+        initializePlugin(manifest);
+        console.log('Loaded ' + manifest.id + ' plugin'); //eslint-disable-line no-console
     }
 
     // Backwards compatibility for old plugins
@@ -77,12 +88,32 @@ export function loadPlugin(manifest) {
     script.type = 'text/javascript';
     script.src = getSiteURL() + bundlePath;
     script.onload = onLoad;
+    console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
     document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-export function removePlugin(manifest) {
+// initializePlugin creates a registry specific to the plugin and invokes any initialize function
+// on the registered plugin class.
+function initializePlugin(manifest) {
+    // Initialize the plugin
     const plugin = window.plugins[manifest.id];
-    if (plugin && plugin.deinitialize) {
+    const registry = new PluginRegistry(manifest.id);
+    if (plugin.initialize) {
+        plugin.initialize(registry, store);
+    }
+}
+
+// removePlugin triggers any uninitialize callback on the registered plugin, unregisters any
+// event handlers, and removes the plugin script from the DOM entirely. The plugin is responsible
+// for removing any of its registered components.
+export function removePlugin(manifest) {
+    console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+    const plugin = window.plugins[manifest.id];
+    if (plugin && plugin.uninitialize) {
+        plugin.uninitialize();
+
+    // Support the deprecated deinitialize callback from the plugins beta.
+    } else if (plugin && plugin.deinitialize) {
         plugin.deinitialize();
     }
     unregisterAllPluginWebSocketEvents(manifest.id);
@@ -95,6 +126,8 @@ export function removePlugin(manifest) {
     console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 }
 
+// loadPluginsIfNecessary synchronizes the current state of loaded plugins with that of the server,
+// loading any newly added plugins and unloading any removed ones.
 export async function loadPluginsIfNecessary() {
     if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
         return;
