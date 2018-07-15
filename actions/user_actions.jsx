@@ -1,10 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+import {FormattedHTMLMessage} from 'react-intl';
+
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
+import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
@@ -23,6 +27,8 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
+import notices from 'components/system_notice/notices';
+import mattermostIcon from 'images/icon50x50.png';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -30,6 +36,45 @@ const getState = store.getState;
 export async function loadMe() {
     await UserActions.loadMe()(dispatch, getState);
     loadCurrentLocale();
+}
+
+export async function addSwitchToEENotification() {
+    const USERS_THRESHOLD = 10000;
+
+    const currentUser = Selectors.getCurrentUser(store.getState());
+
+    const isSystemAdmin = currentUser.roles.indexOf('system_admin') !== -1;
+    if (!isSystemAdmin) {
+        return;
+    }
+
+    const {data: license} = await store.dispatch(getLicenseConfig());
+    if (license.IsLicensed === 'true') {
+        return;
+    }
+
+    await store.dispatch(getStandardAnalytics());
+    const analytics = store.getState().entities.admin.analytics;
+    if (analytics.TOTAL_USERS > USERS_THRESHOLD) {
+        notices.push({
+            name: 'ee_upgrade_advice',
+            adminOnly: true,
+            cantForget: true,
+            title: (
+                <FormattedHTMLMessage
+                    id='system_notice.title'
+                    defaultMessage='<strong>Notice</strong> from Mattermost'
+                />
+            ),
+            icon: mattermostIcon,
+            body: (
+                <FormattedHTMLMessage
+                    id='system_notice.body.ee_upgrade_advice'
+                    defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. <a href="https://mattermost.com/performance">Learn more</a>.'
+                />
+            ),
+        });
+    }
 }
 
 export async function loadMeAndConfig(callback) {
