@@ -418,7 +418,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 />
                             </label>
                             <div className='col-sm-7'>
-                                <label className='control-label'>{this.state.originalEmail}</label>
+                                <label className='control-label word-break--all text-left'>{this.state.originalEmail}</label>
                             </div>
                         </div>
                     </div>

@@ -89,6 +89,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
     componentClass="div"
   >
     <MultiSelect
+      buttonSubmitLoadingText="Loading.."
       buttonSubmitText="Go"
       handleAdd={[Function]}
       handleDelete={[Function]}

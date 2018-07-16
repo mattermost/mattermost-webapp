@@ -92,9 +92,16 @@
                     }
 
                     &.team-btn__add {
+                        @include opacity(.7);
                         font-size: 25px;
                         line-height: 41px;
                         vertical-align: middle;
+                        background-color: alpha-color($black, .3);
+                        border: 1px solid alpha-color($white, .2);
+
+                        &:hover {
+                            @include opacity(1);
+                        }
                     }
                 }
 

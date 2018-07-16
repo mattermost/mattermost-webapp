@@ -32,7 +32,7 @@ export default class SaveButton extends React.PureComponent {
             contents = (
                 <span>
                     <span
-                        className='fa fa-refresh icon--rotate'
+                        className='fa fa-spinner icon--rotate'
                         title={localizeMessage('generic_icons.loading', 'Loading Icon')}
                     />
                     {savingMessage}

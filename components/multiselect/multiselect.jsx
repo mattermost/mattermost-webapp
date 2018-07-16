@@ -258,6 +258,7 @@ export default class MultiSelect extends React.Component {
                             disabled={this.props.saving}
                             onClick={this.handleOnClick}
                             defaultMessage={buttonSubmitText}
+                            savingMessage={this.props.buttonSubmitLoadingText}
                         />
                     </div>
                     <div className='multi-select__help'>
@@ -301,6 +302,7 @@ MultiSelect.propTypes = {
     maxValues: PropTypes.number,
     numRemainingText: PropTypes.node,
     buttonSubmitText: PropTypes.node,
+    buttonSubmitLoadingText: PropTypes.node,
     submitImmediatelyOn: PropTypes.func,
     saving: PropTypes.bool,
     loading: PropTypes.bool,

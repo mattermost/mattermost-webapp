@@ -81,6 +81,10 @@
         label {
             font-weight: 600;
 
+            &.text-left {
+                text-align: left;
+            }
+
             &.has-error {
                 font-weight: normal;
             }
