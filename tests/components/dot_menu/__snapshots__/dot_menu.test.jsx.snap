@@ -25,6 +25,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
           key="reply"
           menuItemText={
             <FormattedMessage
+              defaultMessage="Reply"
               id="post_info.reply"
               values={Object {}}
             />
@@ -35,6 +36,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
           key="permalink"
           menuItemText={
             <FormattedMessage
+              defaultMessage="Permalink"
               id="post_info.permalink"
               values={Object {}}
             />
@@ -45,6 +47,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
           key="pin"
           menuItemText={
             <FormattedMessage
+              defaultMessage="Pin"
               id="post_info.pin"
               values={Object {}}
             />
@@ -81,6 +84,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
           key="reply"
           menuItemText={
             <FormattedMessage
+              defaultMessage="Reply"
               id="post_info.reply"
               values={Object {}}
             />
@@ -91,6 +95,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
           key="permalink"
           menuItemText={
             <FormattedMessage
+              defaultMessage="Permalink"
               id="post_info.permalink"
               values={Object {}}
             />
@@ -101,6 +106,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
           key="pin"
           menuItemText={
             <FormattedMessage
+              defaultMessage="Pin"
               id="post_info.pin"
               values={Object {}}
             />
