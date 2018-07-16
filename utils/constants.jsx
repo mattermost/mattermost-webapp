@@ -267,8 +267,9 @@ export const ActionTypes = keyMirror({
     STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
-
     UPDATE_BUSY_WEBRTC: null,
+    CHANNEL_POSTS_STATUS: null,
+    CHANNEL_SYNC_STATUS: null,
 });
 
 export const WebrtcActionTypes = keyMirror({

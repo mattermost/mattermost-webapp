@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/post_list Should call postsOnLoad 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      >
+        <Connect(ChannelIntroMessage)
+          channel={
+            Object {
+              "display_name": "Fake Channel",
+              "id": "fake-id",
+              "name": "fake-channel",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list Should handle more than 30 posts onLoad with 0 unread 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list init snapshot 1`] = `
+<div
+  id="post-list"
+>
+  <LoadingScreen
+    key="loading"
+    position="absolute"
+    style={Object {}}
+  />
+</div>
+`;
+
+exports[`components/post_view/post_list init snapshot for max postVisibility 1`] = `
+<div
+  id="post-list"
+>
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      >
+        <div
+          className="post-list__loading post-list__loading-search"
+        >
+          <FormattedMessage
+            defaultMessage="Looking for a specific message? Try searching for it"
+            id="posts_view.maxLoaded"
+            values={Object {}}
+          />
+        </div>
+        <div
+          className="post-list__loading post-list__loading-search"
+        >
+          <FormattedMessage
+            defaultMessage="Looking for a specific message? Try searching for it"
+            id="posts_view.maxLoaded"
+            values={Object {}}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
