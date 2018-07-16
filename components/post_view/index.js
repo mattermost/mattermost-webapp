@@ -3,41 +3,45 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getPosts, getPostsAfter, getPostsBefore, getPostThread} from 'mattermost-redux/actions/posts';
+import {withRouter} from 'react-router-dom';
+import {getPostsAfter, getPostsBefore, getPostThread, clearPostsFromChannel, backUpPostsInChannel} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetPostsInChannel, getPostIdsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
-import {increasePostVisibility} from 'actions/post_actions.jsx';
-import {checkAndSetMobileView} from 'actions/views/channel';
+import {loadPosts, loadUnreads, addPostIdsFromBackUp} from 'actions/post_actions';
+import {channelPostsStatus, syncChannelPosts, channelSyncCompleted} from 'actions/views/channel';
+import {makeGetChannelPostStatus, makeGetChannelSyncStatus} from 'selectors/views/channel';
+import {makeGetSocketStatus} from 'selectors/views/websocket';
 import {Preferences} from 'utils/constants.jsx';
 
-import PostList from './post_list.jsx';
+import PostList from './post_list/index.jsx';
 
 function makeMapStateToProps() {
     const getPostsInChannel = makeGetPostsInChannel();
-    const getPostsAroundPost = makeGetPostsAroundPost();
-
+    const getChannelPostStatus = makeGetChannelPostStatus();
+    const getChannelSyncStatus = makeGetChannelSyncStatus();
+    const getSocketStatus = makeGetSocketStatus();
     return function mapStateToProps(state, ownProps) {
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
-
-        let posts;
-        if (ownProps.focusedPostId) {
-            posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
-        } else {
-            posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
-        }
-
+        const channel = getChannel(state, ownProps.channelId) || {};
+        const posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
+        const member = getMyChannelMemberships(state)[ownProps.channelId];
         return {
             channel: getChannel(state, ownProps.channelId) || {},
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,
             postVisibility,
             loadingPosts: state.views.channel.loadingPosts[ownProps.channelId],
-            focusedPostId: ownProps.focusedPostId,
             currentUserId: getCurrentUserId(state),
             fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
+            member,
+            channelPostsStatus: getChannelPostStatus(state, channel),
+            postIdsInCurrentChannel: getPostIdsInCurrentChannel(state),
+            channelSyncStatus: getChannelSyncStatus(state, channel),
+            socketStatus: getSocketStatus(state),
         };
     };
 }
@@ -45,14 +49,19 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPosts,
             getPostsBefore,
             getPostsAfter,
             getPostThread,
-            increasePostVisibility,
-            checkAndSetMobileView,
+            loadUnreads,
+            loadPosts,
+            channelPostsStatus,
+            clearPostsFromChannel,
+            addPostIdsFromBackUp,
+            syncChannelPosts,
+            backUpPostsInChannel,
+            channelSyncCompleted,
         }, dispatch),
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(PostList);
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(PostList));

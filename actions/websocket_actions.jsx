@@ -11,7 +11,7 @@ import {
     viewChannel,
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
-import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
+import {getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -19,6 +19,7 @@ import {getCurrentUser, getCurrentUserId, getStatusForUserId} from 'mattermost-r
 import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -119,7 +120,12 @@ export function reconnect(includeWebSocket = true) {
     if (includeWebSocket) {
         reconnectWebSocket();
     }
-
+    dispatch({
+        type: GeneralTypes.WEBSOCKET_SUCCESS,
+        data: {
+            channelIds: Object.keys(getMyChannelMemberships(getState())),
+        },
+    }, getState);
     loadPluginsIfNecessary();
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
@@ -131,7 +137,6 @@ export function reconnect(includeWebSocket = true) {
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
         loadChannelsForCurrentUser();
-        getPosts(ChannelStore.getCurrentId())(dispatch, getState);
         StatusActions.loadStatusesForChannelAndSidebar();
         TeamActions.getMyTeamUnreads()(dispatch, getState);
     }
@@ -182,6 +187,12 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 }
 
 function handleFirstConnect() {
+    dispatch({
+        type: GeneralTypes.WEBSOCKET_SUCCESS,
+        data: {
+            channelIds: Object.keys(getMyChannelMemberships(getState())),
+        },
+    }, getState);
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
 }
@@ -190,7 +201,14 @@ function handleClose(failCount) {
     if (failCount > MAX_WEBSOCKET_FAILS) {
         ErrorStore.storeLastError({message: ErrorBarTypes.WEBSOCKET_PORT_ERROR});
     }
-
+    if (failCount === 1) {
+        dispatch({
+            type: GeneralTypes.WEBSOCKET_FAILURE,
+            data: {
+                channelIds: Object.keys(getMyChannelMemberships(getState())),
+            },
+        });
+    }
     ErrorStore.setConnectionErrorCount(failCount);
     ErrorStore.emitChange();
 }

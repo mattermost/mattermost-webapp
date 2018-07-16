@@ -61,33 +61,34 @@ function completePostReceive(post, websocketMessageProps) {
 
 function dispatchPostActions(post, websocketMessageProps) {
     const {currentChannelId} = getState().entities.channels;
+    const channelPostsStatus = getState().views.channel.channelPostsStatus;
 
-    if (post.channel_id === currentChannelId) {
+    if (post.channel_id === currentChannelId && channelPostsStatus[currentChannelId] && channelPostsStatus[currentChannelId].atEnd) {
         dispatch({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: post.channel_id,
             amount: 1,
         });
-    }
 
-    // Need manual dispatch to remove pending post
-    dispatch({
-        type: PostTypes.RECEIVED_POSTS,
-        data: {
-            order: [],
-            posts: {
-                [post.id]: post,
+        // Need manual dispatch to remove pending post
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {
+                order: [],
+                posts: {
+                    [post.id]: post,
+                },
             },
-        },
-        channelId: post.channel_id,
-    });
+            channelId: post.channel_id,
+        });
 
-    // Still needed to update unreads
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_POST,
-        post,
-        websocketMessageProps,
-    });
+        // Still needed to update unreads
+        AppDispatcher.handleServerAction({
+            type: ActionTypes.RECEIVED_POST,
+            post,
+            websocketMessageProps,
+        });
+    }
 
     sendDesktopNotification(post, websocketMessageProps);
 }
@@ -203,12 +204,8 @@ export function emitEmojiPosted(emoji) {
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 // Returns true if there are more posts to load
-export function increasePostVisibility(channelId, focusedPostId) {
+export function loadPosts({channelId, postId, type}) {
     return async (doDispatch, doGetState) => {
-        if (doGetState().views.channel.loadingPosts[channelId]) {
-            return true;
-        }
-
         const currentPostVisibility = doGetState().views.channel.postVisibility[channelId];
 
         if (currentPostVisibility >= Constants.MAX_POST_VISIBILITY) {
@@ -228,14 +225,18 @@ export function increasePostVisibility(channelId, focusedPostId) {
             },
         ]));
 
-        const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
+        //always zero as we use postId for getting messages
+        const page = 0;
 
         let result;
-        if (focusedPostId) {
-            result = await PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+        if (type === 'BEFORE_ID') {
+            result = await PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+        } else if (type === 'AFTER_ID') {
+            result = await PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
         } else {
             result = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);
         }
+
         const posts = result.data;
 
         doDispatch({
@@ -245,6 +246,19 @@ export function increasePostVisibility(channelId, focusedPostId) {
         });
 
         return posts ? posts.order.length >= POST_INCREASE_AMOUNT : false;
+    };
+}
+
+// Returns true if there are more posts to load
+export function loadUnreads(channelId) {
+    return (doDispatch, doGetState) => {
+        doDispatch({
+            type: ActionTypes.INCREASE_POST_VISIBILITY,
+            data: channelId,
+            amount: POST_INCREASE_AMOUNT * 2,
+        });
+
+        return PostActions.getPostsUnread(channelId)(doDispatch, doGetState);
     };
 }
 
@@ -351,5 +365,12 @@ export function deleteAndRemovePost(post) {
         });
 
         return {data: true};
+    };
+}
+
+export function addPostIdsFromBackUp(channelId) {
+    return async (doDispatch, doGetState) => {
+        const postIds = doGetState().entities.posts.postsInChannelBackup[channelId];
+        PostActions.addPostIdsToChannel(channelId, postIds)(doDispatch, doGetState);
     };
 }

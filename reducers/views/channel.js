@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import {ChannelTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, PostTypes, UserTypes, GeneralTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Constants, NotificationLevels} from 'utils/constants.jsx';
 
@@ -115,6 +115,51 @@ function keepChannelIdAsUnread(state = null, action) {
     }
 }
 
+function channelPostsStatus(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.CHANNEL_POSTS_STATUS: {
+        const channelId = action.data.channelId;
+        if ((action.data).hasOwnProperty('atEnd')) {
+            return {
+                ...state,
+                [channelId]: {
+                    ...state[channelId],
+                    atEnd: action.data.atEnd,
+                },
+            };
+        }
+        return {
+            ...state,
+            [channelId]: {
+                ...state[channelId],
+                atStart: action.data.atStart,
+            },
+        };
+    }
+    default:
+        return state;
+    }
+}
+
+function channelSyncStatus(state = {}, action) {
+    switch (action.type) {
+    case GeneralTypes.WEBSOCKET_FAILURE || GeneralTypes.CLOSED: {
+        const nextState = action.data.channelIds.reduce((channelStatusObj, channelId) => ({
+            ...channelStatusObj,
+            [channelId]: false,
+        }), {});
+        return nextState;
+    }
+    case ActionTypes.CHANNEL_SYNC_STATUS:
+        return {
+            ...state,
+            [action.data]: true,
+        };
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -122,4 +167,6 @@ export default combineReducers({
     focusedPostId,
     mobileView,
     keepChannelIdAsUnread,
+    channelPostsStatus,
+    channelSyncStatus,
 });

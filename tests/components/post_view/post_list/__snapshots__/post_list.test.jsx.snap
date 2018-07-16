@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/post_list/post_list should match init snapshot 1`] = `
+<div>
+  <button
+    className="more-messages-text theme style--none color--link"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Load more messages"
+      id="posts_view.loadMore"
+      values={Object {}}
+    />
+  </button>
+  <DateSeparator
+    date={2018-07-23T11:27:06.631Z}
+    key="Mon Jul 23 2018 16:57:06 GMT+0530 (IST)"
+  />
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post 12343"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1532345226631,
+        "id": "12343",
+        "user_id": "someone",
+      }
+    }
+  />
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post 12342"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1532345226631,
+        "id": "12342",
+        "user_id": "someone",
+      }
+    }
+  />
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post 12341"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1532345226631,
+        "id": "12341",
+        "user_id": "someone",
+      }
+    }
+  />
+  <div
+    className="new-separator"
+    id="new_message_12345"
+    key="unviewed"
+  >
+    <hr
+      className="separator__hr"
+    />
+    <div
+      className="separator__text"
+    >
+      <FormattedMessage
+        defaultMessage="New Messages"
+        id="posts_view.newMsg"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <Connect(Post)
+    getPostList={[Function]}
+    key="post 12345"
+    lastPostCount={-1}
+    post={
+      Object {
+        "create_at": 1532345226652,
+        "id": "12345",
+        "user_id": "someone",
+      }
+    }
+  />
+  <button
+    className="more-messages-text theme style--none color--link"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Load more messages"
+      id="posts_view.loadMore"
+      values={Object {}}
+    />
+  </button>
+</div>
+`;
