@@ -68,7 +68,7 @@ export default class Sidebar extends React.PureComponent {
         /**
          * Sidebar Plugin
          */
-        pluginComponents: PropTypes.array,
+        pluginComponents: PropTypes.arrayOf(PropTypes.node),
 
         /**
          * Current channel object
