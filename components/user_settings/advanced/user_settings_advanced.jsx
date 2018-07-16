@@ -5,12 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {savePreferences, updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
 import {clientLogout} from 'actions/global_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
-import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -170,7 +167,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         });
     }
 
-    handleDeactivateAccountCancelModal = () => {
+    handleHideDeactivateAccountModal = () => {
         this.setState({
             showDeactivateAccountModal: false,
         });
@@ -554,9 +551,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
         let deactivateAccountSection = '';
         let makeConfirmationModal = '';
         const currentUser = UserStore.getCurrentUser();
-        const config = getConfig(store.getState());
 
-        if (currentUser.auth_service === '' && config.EnableUserDeactivation === 'true') {
+        if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {
             if (this.props.activeSection === 'deactivateAccount') {
                 deactivateAccountSection = (
                     <SettingItemMax
@@ -597,7 +593,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         describe={
                             <FormattedMessage
                                 id='user.settings.advance.deactivateDescShort'
-                                defaultMessage='Open to deactivate your account'
+                                defaultMessage="Click 'Edit' to deactivate your account"
                             />
                         }
                         focused={this.props.prevActiveSection === this.prevSections.deactivateAccount}
@@ -633,7 +629,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     confirmButtonClass={confirmButtonClass}
                     confirmButtonText={deactivateMemberButton}
                     onConfirm={this.handleDeactivateAccountSubmit}
-                    onCancel={this.handleDeactivateAccountCancelModal}
+                    onCancel={this.handleHideDeactivateAccountModal}
                 />
             );
         }
@@ -702,4 +698,5 @@ AdvancedSettingsDisplay.propTypes = {
     enablePreviewFeatures: PropTypes.bool,
     buildEnterpriseReady: PropTypes.bool,
     isLicensed: PropTypes.bool,
+    enableUserDeactivation: PropTypes.bool,
 };
