@@ -102,6 +102,53 @@ export default class DotMenu extends Component {
         this.setState({canEdit: false});
     }
 
+    handleFlagMenuItemActivated = () => {
+        if (this.props.isFlagged) {
+            this.props.actions.unflagPost(this.props.post.id);
+        } else {
+            this.props.actions.flagPost(this.props.post.id);
+        }
+    }
+
+    handlePermalinkMenuItemActivated = (e) => {
+        e.preventDefault();
+        showGetPostLinkModal(this.props.post);
+    }
+
+    handlePinMenuItemActivated = () => {
+        if (this.props.post.is_pinned) {
+            this.props.actions.unpinPost(this.props.post.id);
+        } else {
+            this.props.actions.pinPost(this.props.post.id);
+        }
+    }
+
+    handleDeleteMenuItemActivated = (e) => {
+        e.preventDefault();
+
+        const deletePostModalData = {
+            ModalId: ModalIdentifiers.DELETE_POST,
+            dialogType: DeletePostModal,
+            dialogProps: {
+                post: this.props.post,
+                commentCount: this.props.commentCount,
+                isRHS: this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
+            },
+        };
+
+        this.props.actions.openModal(deletePostModalData);
+    }
+
+    handleEditMenuItemActivated = () => {
+        this.props.actions.setEditingPost(
+            this.props.post.id,
+            this.props.commentCount,
+            this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
+            this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
+            this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
+        );
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -112,24 +159,24 @@ export default class DotMenu extends Component {
 
         if (isMobile && !isSystemMessage) {
             let text = (
-                <FormattedMessage id={'rhs_root.mobile.flag'}/>
+                <FormattedMessage
+                    id={'rhs_root.mobile.flag'}
+                    defaultMessage={'Flag'}
+                />
             );
             if (this.props.isFlagged) {
                 text = (
-                    <FormattedMessage id={'rhs_root.mobile.unflag'}/>
+                    <FormattedMessage
+                        id={'rhs_root.mobile.unflag'}
+                        defaultMessage={'Unflag'}
+                    />
                 );
             }
             menuItems.push(
                 <DotMenuItem
                     key={'flag'}
                     menuItemText={text}
-                    handleMenuItemActivated={() => {
-                        if (this.props.isFlagged) {
-                            this.props.actions.unflagPost(this.props.post.id);
-                        } else {
-                            this.props.actions.flagPost(this.props.post.id);
-                        }
-                    }}
+                    handleMenuItemActivated={this.handleFlagMenuItemActivated}
                 />
             );
         }
@@ -139,7 +186,12 @@ export default class DotMenu extends Component {
                 menuItems.push(
                     <DotMenuItem
                         key={'reply'}
-                        menuItemText={<FormattedMessage id={'post_info.reply'}/>}
+                        menuItemText={
+                            <FormattedMessage
+                                id={'post_info.reply'}
+                                defaultMessage={'Reply'}
+                            />
+                        }
                         handleMenuItemActivated={this.props.handleCommentClick}
                     />
                 );
@@ -148,25 +200,26 @@ export default class DotMenu extends Component {
             menuItems.push(
                 <DotMenuItem
                     key={'permalink'}
-                    menuItemText={<FormattedMessage id={'post_info.permalink'}/>}
-                    handleMenuItemActivated={(e) => {
-                        e.preventDefault();
-                        showGetPostLinkModal(this.props.post);
-                    }}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'post_info.permalink'}
+                            defaultMessage={'Permalink'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handlePermalinkMenuItemActivated}
                 />
             );
             if (!this.props.isReadOnly) {
                 menuItems.push(
                     <DotMenuItem
                         key={'pin'}
-                        menuItemText={<FormattedMessage id={this.props.post.is_pinned ? 'post_info.unpin' : 'post_info.pin'}/>}
-                        handleMenuItemActivated={() => {
-                            if (this.props.post.is_pinned) {
-                                this.props.actions.unpinPost(this.props.post.id);
-                            } else {
-                                this.props.actions.pinPost(this.props.post.id);
-                            }
-                        }}
+                        menuItemText={
+                            <FormattedMessage
+                                id={this.props.post.is_pinned ? 'post_info.unpin' : 'post_info.pin'}
+                                defaultMessage={'Pin'}
+                            />
+                        }
+                        handleMenuItemActivated={this.handlePinMenuItemActivated}
                     />
                 );
             }
@@ -176,22 +229,13 @@ export default class DotMenu extends Component {
             menuItems.push(
                 <DotMenuItem
                     key={'delete'}
-                    menuItemText={<FormattedMessage id={'post_info.del'}/>}
-                    handleMenuItemActivated={(e) => {
-                        e.preventDefault();
-
-                        const deletePostModalData = {
-                            ModalId: ModalIdentifiers.DELETE_POST,
-                            dialogType: DeletePostModal,
-                            dialogProps: {
-                                post: this.props.post,
-                                commentCount: this.props.commentCount,
-                                isRHS: this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
-                            },
-                        };
-
-                        this.props.actions.openModal(deletePostModalData);
-                    }}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'post_info.del'}
+                            defaultMessage={'Delete'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handleDeleteMenuItemActivated}
                 />
             );
         }
@@ -200,16 +244,13 @@ export default class DotMenu extends Component {
             menuItems.push(
                 <DotMenuItem
                     key={'edit'}
-                    menuItemText={<FormattedMessage id={'post_info.edit'}/>}
-                    handleMenuItemActivated={() => {
-                        this.props.actions.setEditingPost(
-                            this.props.post.id,
-                            this.props.commentCount,
-                            this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
-                            this.props.post.root_id && this.props.post.root_id.length > 0 ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
-                            this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
-                        );
-                    }}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'post_info.edit'}
+                            defaultMessage={'Edit'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handleEditMenuItemActivated}
                 />
             );
         }
