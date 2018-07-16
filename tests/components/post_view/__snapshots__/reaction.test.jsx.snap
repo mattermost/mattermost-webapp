@@ -52,7 +52,7 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
   }
 >
   <div
-    className="post-reaction"
+    className="post-reaction post-reaction--read-only"
   >
     <span
       className="post-reaction__emoji emoticon"
@@ -123,7 +123,7 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
   }
 >
   <div
-    className="post-reaction post-reaction--current-user"
+    className="post-reaction post-reaction--read-only post-reaction--current-user"
   >
     <span
       className="post-reaction__emoji emoticon"
