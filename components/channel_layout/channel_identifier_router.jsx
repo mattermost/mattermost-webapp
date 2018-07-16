@@ -24,7 +24,11 @@ const LENGTH_OF_GROUP_ID = 40;
 const LENGTH_OF_USER_ID_PAIR = 54;
 
 function onChannelByIdentifierEnter({match, history}) {
-    const {path, identifier} = match.params;
+    const {path, identifier, team} = match.params;
+
+    if (!TeamStore.getByName(team)) {
+        return;
+    }
 
     if (path === 'channels') {
         if (identifier.length === LENGTH_OF_ID) {
@@ -64,8 +68,9 @@ async function goToChannelByChannelId(match, history) {
     const channelId = identifier.toLowerCase();
 
     let channel = ChannelStore.get(channelId);
+    const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error} = await joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), channelId, null)(dispatch, getState);
+        const {data, error} = await joinChannel(UserStore.getCurrentId(), teamObj.id, channelId, null)(dispatch, getState);
         if (error) {
             handleChannelJoinError(match, history);
             return;
@@ -87,8 +92,9 @@ async function goToChannelByChannelName(match, history) {
     const channelName = identifier.toLowerCase();
 
     let channel = ChannelStore.getByName(channelName);
+    const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error} = await joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, channelName)(dispatch, getState);
+        const {data, error} = await joinChannel(UserStore.getCurrentId(), teamObj.id, null, channelName)(dispatch, getState);
         if (error) {
             handleChannelJoinError(match, history);
             return;
@@ -179,14 +185,15 @@ async function goToDirectChannelByEmail(match, history) {
 }
 
 async function goToGroupChannelByGroupId(match, history) {
-    const {identifier} = match.params;
+    const {identifier, team} = match.params;
     const groupId = identifier.toLowerCase();
 
     history.replace(match.url.replace('/channels/', '/messages/'));
 
     let channel = ChannelStore.getByName(groupId);
+    const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error} = await joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, groupId)(dispatch, getState);
+        const {data, error} = await joinChannel(UserStore.getCurrentId(), teamObj.id, null, groupId)(dispatch, getState);
         if (error) {
             handleError(match, history);
             return;
