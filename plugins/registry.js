@@ -35,32 +35,32 @@ export default class PluginRegistry {
 
     // Register a component at the root of the channel view of the app.
     // Accepts a React component. Returns a unique identifier.
-    registerRootComponent = (component) => {
+    registerRootComponent(component) {
         return dispatchPluginComponentAction('Root', this.id, component);
     }
 
     // Register a component in the user attributes section of the profile popover (hovercard), below the default user attributes.
     // Accepts a React component. Returns a unique identifier.
-    registerPopoverUserAttributesComponent = (component) => {
+    registerPopoverUserAttributesComponent(component) {
         return dispatchPluginComponentAction('PopoverUserAttributes', this.id, component);
     }
 
     // Register a component in the user actions of the profile popover (hovercard), below the default actions.
     // Accepts a React component. Returns a unique identifier.
-    registerPopoverUserActionsComponent = (component) => {
+    registerPopoverUserActionsComponent(component) {
         return dispatchPluginComponentAction('PopoverUserActions', this.id, component);
     }
 
     // Register a component fixed to the top of the left-hand channel sidebar.
     // Accepts a React component. Returns a unique identifier.
-    registerLeftSidebarHeaderComponent = (component) => {
+    registerLeftSidebarHeaderComponent(component) {
         return dispatchPluginComponentAction('LeftSidebarHeader', this.id, component);
     }
 
     // Register a component fixed to the bottom of the team sidebar. Does not render if
     // user is only on one team and the team sidebar is not shown.
     // Accepts a React component. Returns a unique identifier.
-    registerBottomTeamSidebarComponent = (component) => {
+    registerBottomTeamSidebarComponent(component) {
         return dispatchPluginComponentAction('BottomTeamSidebar', this.id, component);
     }
 
@@ -70,7 +70,7 @@ export default class PluginRegistry {
     // - icon - JSX element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or JSX element shown for the dropdown button description
-    registerChannelHeaderButtonAction = (icon, action, dropdownText) => {
+    registerChannelHeaderButtonAction(icon, action, dropdownText) {
         const id = generateId();
 
         const data = {
@@ -100,7 +100,7 @@ export default class PluginRegistry {
     // Custom post types must be prefixed with 'custom_'.
     // Accepts a string type and a component.
     // Returns a unique identifier.
-    registerPostTypeComponent = (type, component) => {
+    registerPostTypeComponent(type, component) {
         const id = generateId();
 
         store.dispatch({
@@ -122,7 +122,7 @@ export default class PluginRegistry {
     // - action - A function to trigger when component is clicked on
     // - mobileIcon - An icon to display in the menu in mobile view
     // Returns a unique identifier.
-    registerMainMenuAction = (text, action, mobileIcon) => {
+    registerMainMenuAction(text, action, mobileIcon) {
         const id = generateId();
 
         store.dispatch({
@@ -143,7 +143,7 @@ export default class PluginRegistry {
     // Unregister a component using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.
-    unregisterComponent = (componentId) => {
+    unregisterComponent(componentId) {
         store.dispatch({
             type: ActionTypes.REMOVED_PLUGIN_COMPONENT,
             id: componentId,
@@ -153,7 +153,7 @@ export default class PluginRegistry {
     // Register a reducer against the Redux store. It will be accessible in redux state
     // under "state['plugins-<yourpluginid>']"
     // Accepts a reducer. Returns undefined.
-    registerReducer = (reducer) => {
+    registerReducer(reducer) {
         reducerRegistry.register('plugins-' + this.id, reducer);
     }
 
@@ -163,27 +163,27 @@ export default class PluginRegistry {
     // Plugin events will have "custom_<pluginid>_" prepended
     // - handler - a function to handle the event, receives the event message as an argument
     // Returns undefined.
-    registerWebSocketEventHandler = (event, handler) => {
+    registerWebSocketEventHandler(event, handler) {
         registerPluginWebSocketEvent(this.id, event, handler);
     }
 
     // Unregister a handler for a custom WebSocket event.
     // Accepts a string event type.
     // Returns undefined.
-    unregisterWebSocketEventHandler = (event) => {
+    unregisterWebSocketEventHandler(event) {
         unregisterPluginWebSocketEvent(this.id, event);
     }
 
     // Register a handler that will be called when the app reconnects to the
     // internet after previously disconnecting.
     // Accepts a function to handle the event. Returns undefined.
-    registerReconnectHandler = (handler) => {
+    registerReconnectHandler(handler) {
         registerPluginReconnectHandler(this.id, handler);
     }
 
     // Unregister a previously registered reconnect handler.
     // Returns undefined.
-    unregisterReconnectHandler = () => {
+    unregisterReconnectHandler() {
         unregisterPluginReconnectHandler(this.id);
     }
 }
