@@ -181,7 +181,7 @@
             display: inline-block;
         }
 
-        .attachment__image__container--openraph {
+        .attachment__image__container--opengraph {
             display: table-cell;
             padding-left: 15px;
             padding-top: 3px;
@@ -194,7 +194,7 @@
             max-height: 300px;
             max-width: 500px;
 
-            &.attachment__image--openraph {
+            &.attachment__image--opengraph {
                 margin-bottom: 0;
                 max-height: 80px;
                 max-width: 100%;
