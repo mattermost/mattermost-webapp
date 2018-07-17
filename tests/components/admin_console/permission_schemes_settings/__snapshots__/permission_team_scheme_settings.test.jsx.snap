@@ -184,7 +184,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -230,7 +230,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -282,7 +282,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -546,7 +546,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -589,7 +589,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -636,7 +636,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -888,7 +888,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -934,7 +934,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -986,7 +986,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -1260,7 +1260,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -1303,7 +1303,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -1350,7 +1350,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {

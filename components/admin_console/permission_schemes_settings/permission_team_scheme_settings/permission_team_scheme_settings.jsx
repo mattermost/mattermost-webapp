@@ -17,7 +17,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import PermissionsTree from '../permissions_tree.jsx';
+import PermissionsTree from '../permissions_tree';
 
 import TeamInList from './team_in_list';
 
