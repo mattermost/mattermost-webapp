@@ -1,5 +1,6 @@
-// Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
-// See License.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {rethreadPost as rethreadPostRedux} from 'mattermost-redux/actions/posts';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
