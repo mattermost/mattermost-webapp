@@ -466,8 +466,11 @@
         @include legacy-pie-clearfix;
         @include display-flex();
         @include flex-direction(row-reverse);
-        padding: 12px 40px 10px 16px;
+        align-items: center;
+        flex: 0 0 63px;
+        padding: 3px 40px 0 16px;
         position: relative;
+        max-height: 63px;
 
         &:before {
             @include single-transition(all, .05s, linear);

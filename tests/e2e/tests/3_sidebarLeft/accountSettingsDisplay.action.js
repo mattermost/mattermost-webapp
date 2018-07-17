@@ -47,6 +47,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@clockDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@clockDesc', '12-hour clock (example: 4:00 PM)');
 
         // save/change setting to 24-hour clock
@@ -56,6 +57,7 @@ module.exports = {
             waitForElementVisible('#clockFormatB', Constants.DEFAULT_WAIT).
             click('#clockFormatB').
             click('#saveSetting').
+            waitForElementVisible('@clockDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@clockDesc', '24-hour clock (example: 16:00)');
 
         // save/change setting to 12-hour clock
@@ -65,6 +67,7 @@ module.exports = {
             waitForElementVisible('#clockFormatA', Constants.DEFAULT_WAIT).
             click('#clockFormatA').
             click('#saveSetting').
+            waitForElementVisible('@clockDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@clockDesc', '12-hour clock (example: 4:00 PM)');
     },
     'Test account settings display - Teammate Name Display': (client) => {
@@ -94,6 +97,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@teammateNameDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@teammateNameDisplayDesc', 'Show username');
 
         // save/change setting to "Show nickname if one exists, otherwise show first and last name"
@@ -103,6 +107,7 @@ module.exports = {
             waitForElementVisible('#name_formatFormatB', Constants.DEFAULT_WAIT).
             click('#name_formatFormatB').
             click('#saveSetting').
+            waitForElementVisible('@teammateNameDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@teammateNameDisplayDesc', 'Show nickname if one exists, otherwise show first and last name');
 
         // save/change setting to "Show first and last name"
@@ -112,6 +117,7 @@ module.exports = {
             waitForElementVisible('#name_formatFormatC', Constants.DEFAULT_WAIT).
             click('#name_formatFormatC').
             click('#saveSetting').
+            waitForElementVisible('@teammateNameDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@teammateNameDisplayDesc', 'Show first and last name');
 
         // save/change setting to "Show username"
@@ -121,6 +127,7 @@ module.exports = {
             waitForElementVisible('#name_formatFormatA', Constants.DEFAULT_WAIT).
             click('#name_formatFormatA').
             click('#saveSetting').
+            waitForElementVisible('@teammateNameDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@teammateNameDisplayDesc', 'Show username');
     },
     'Test account settings display - Website Link Previews': (client) => {
@@ -148,6 +155,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@linkPreviewDesc', 'On');
 
         // save/change setting to Off link previews
@@ -157,6 +165,7 @@ module.exports = {
             waitForElementVisible('#linkpreviewFormatB', Constants.DEFAULT_WAIT).
             click('#linkpreviewFormatB').
             click('#saveSetting').
+            waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@linkPreviewDesc', 'Off');
 
         // save/change setting to On link previews
@@ -166,6 +175,7 @@ module.exports = {
             waitForElementVisible('#linkpreviewFormatA', Constants.DEFAULT_WAIT).
             click('#linkpreviewFormatA').
             click('#saveSetting').
+            waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@linkPreviewDesc', 'On');
     },
     'Test account settings display - Default appearance of image previews': (client) => {
@@ -193,6 +203,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@collapseDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@collapseDesc', 'Expanded');
 
         // save/change setting to Expanded
@@ -202,6 +213,7 @@ module.exports = {
             waitForElementVisible('#collapseFormatB', Constants.DEFAULT_WAIT).
             click('#collapseFormatB').
             click('#saveSetting').
+            waitForElementVisible('@collapseDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@collapseDesc', 'Collapsed');
 
         // save/change setting to Collapsed
@@ -211,6 +223,7 @@ module.exports = {
             waitForElementVisible('#collapseFormatA', Constants.DEFAULT_WAIT).
             click('#collapseFormatA').
             click('#saveSetting').
+            waitForElementVisible('@collapseDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@collapseDesc', 'Expanded');
     },
     'Test account settings display - Message Display': (client) => {
@@ -238,6 +251,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@messageDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@messageDisplayDesc', 'Standard');
 
         // save/change setting to "Compact: Fit as many messages on the screen as we can."
@@ -247,6 +261,7 @@ module.exports = {
             waitForElementVisible('#message_displayFormatB', Constants.DEFAULT_WAIT).
             click('#message_displayFormatB').
             click('#saveSetting').
+            waitForElementVisible('@messageDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@messageDisplayDesc', 'Compact');
 
         // save/change setting to "Standard: Easy to scan and read."
@@ -256,6 +271,7 @@ module.exports = {
             waitForElementVisible('#message_displayFormatA', Constants.DEFAULT_WAIT).
             click('#message_displayFormatA').
             click('#saveSetting').
+            waitForElementVisible('@messageDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@messageDisplayDesc', 'Standard');
     },
     'Test account settings display - Channel Display Mode': (client) => {
@@ -283,6 +299,7 @@ module.exports = {
             waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
+            waitForElementVisible('@channelDisplayModeDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@channelDisplayModeDesc', 'Full width');
 
         // save/change setting to "Fixed width, centered"
@@ -292,6 +309,7 @@ module.exports = {
             waitForElementVisible('#channel_display_modeFormatB', Constants.DEFAULT_WAIT).
             click('#channel_display_modeFormatB').
             click('#saveSetting').
+            waitForElementVisible('@channelDisplayModeDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@channelDisplayModeDesc', 'Fixed width, centered');
 
         // save/change setting to "Full width"
@@ -301,6 +319,7 @@ module.exports = {
             waitForElementVisible('#channel_display_modeFormatA', Constants.DEFAULT_WAIT).
             click('#channel_display_modeFormatA').
             click('#saveSetting').
+            waitForElementVisible('@channelDisplayModeDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@channelDisplayModeDesc', 'Full width');
     },
 };

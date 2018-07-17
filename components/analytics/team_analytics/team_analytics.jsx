@@ -223,7 +223,17 @@ export default class TeamAnalytics extends React.Component {
         const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers, this.props.locale);
         const newlyCreatedUsers = formatNewUsersData(this.state.newUsers, this.props.locale);
 
-        const teams = this.props.teams.map((team) => {
+        const teams = this.props.teams.sort((a, b) => {
+            const aName = a.display_name.toUpperCase();
+            const bName = b.display_name.toUpperCase();
+            if (aName === bName) {
+                return 0;
+            }
+            if (aName > bName) {
+                return 1;
+            }
+            return -1;
+        }).map((team) => {
             return (
                 <option
                     key={team.id}

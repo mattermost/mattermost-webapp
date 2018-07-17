@@ -3,42 +3,44 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
+
+import Markdown from 'components/markdown';
 
 const typeMessage = {
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
         id: 'last_users_message.added_to_channel.type',
-        defaultMessage: 'were <b>added to the channel</b> by {actor}.',
+        defaultMessage: 'were **added to the channel** by {actor}.',
     },
     [Posts.POST_TYPES.JOIN_CHANNEL]: {
         id: 'last_users_message.joined_channel.type',
-        defaultMessage: '<b>joined the channel</b>.',
+        defaultMessage: '**joined the channel**.',
     },
     [Posts.POST_TYPES.LEAVE_CHANNEL]: {
         id: 'last_users_message.left_channel.type',
-        defaultMessage: '<b>left the channel</b>.',
+        defaultMessage: '**left the channel**.',
     },
     [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: {
         id: 'last_users_message.removed_from_channel.type',
-        defaultMessage: 'were <b>removed from the channel</b>.',
+        defaultMessage: 'were **removed from the channel**.',
     },
     [Posts.POST_TYPES.ADD_TO_TEAM]: {
         id: 'last_users_message.added_to_team.type',
-        defaultMessage: 'were <b>added to the team</b> by {actor}.',
+        defaultMessage: 'were **added to the team** by {actor}.',
     },
     [Posts.POST_TYPES.JOIN_TEAM]: {
         id: 'last_users_message.joined_team.type',
-        defaultMessage: '<b>joined the team</b>.',
+        defaultMessage: '**joined the team**.',
     },
     [Posts.POST_TYPES.LEAVE_TEAM]: {
         id: 'last_users_message.left_team.type',
-        defaultMessage: '<b>left the team</b>.',
+        defaultMessage: '**left the team**.',
     },
     [Posts.POST_TYPES.REMOVE_FROM_TEAM]: {
         id: 'last_users_message.removed_from_team.type',
-        defaultMessage: 'were <b>removed from the team</b>.',
+        defaultMessage: 'were **removed from the team**.',
     },
 };
 
@@ -46,8 +48,13 @@ export default class LastUsers extends React.PureComponent {
     static propTypes = {
         actor: PropTypes.string,
         expandedLocale: PropTypes.object.isRequired,
+        formatOptions: PropTypes.object.isRequired,
         postType: PropTypes.string.isRequired,
-        userDisplayNames: PropTypes.array.isRequired,
+        usernames: PropTypes.array.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     constructor(props) {
@@ -64,57 +71,62 @@ export default class LastUsers extends React.PureComponent {
         this.setState({expand: true});
     }
 
+    renderMessage = (formattedMessage) => {
+        return (
+            <Markdown
+                message={formattedMessage}
+                options={this.props.formatOptions}
+            />
+        );
+    }
+
     render() {
+        const {formatMessage} = this.context.intl;
         const {expand} = this.state;
         const {
             actor,
             expandedLocale,
             postType,
-            userDisplayNames,
+            usernames,
         } = this.props;
 
-        const lastIndex = userDisplayNames.length - 1;
+        const firstUser = usernames[0];
+        const lastIndex = usernames.length - 1;
+        const lastUser = usernames[lastIndex];
 
         if (expand) {
-            return (
-                <FormattedHTMLMessage
-                    id={expandedLocale.id}
-                    defaultMessage={expandedLocale.defaultMessage}
-                    values={{
-                        users: userDisplayNames.slice(0, lastIndex).join(', '),
-                        lastUser: userDisplayNames[lastIndex],
-                        actor,
-                    }}
-                />
-            );
+            const formattedMessage = formatMessage(expandedLocale, {
+                users: usernames.slice(0, lastIndex).join(', '),
+                lastUser,
+                actor,
+            });
+
+            return this.renderMessage(formattedMessage);
         }
 
+        const firstUserMessage = formatMessage(
+            {id: 'last_users_message.first', defaultMessage: '{firstUser} and '},
+            {firstUser}
+        );
+
+        const otherUsersMessage = formatMessage(
+            {id: 'last_users_message.others', defaultMessage: '{numOthers} others '},
+            {numOthers: lastIndex}
+        );
+
+        const actorMessage = formatMessage(
+            {id: typeMessage[postType].id, defaultMessage: typeMessage[postType].defaultMessage},
+            {actor}
+        );
+
         return (
-            <React.Fragment>
-                <FormattedMessage
-                    id={'last_users_message.first'}
-                    defaultMessage={'{firstUser} and '}
-                    values={{
-                        firstUser: userDisplayNames[0],
-                    }}
-                />
+            <span>
+                {this.renderMessage(firstUserMessage)}
                 <a onClick={this.handleOnClick}>
-                    <FormattedMessage
-                        id={'last_users_message.others'}
-                        defaultMessage={'{numOthers} others '}
-                        values={{
-                            numOthers: lastIndex,
-                        }}
-                    />
+                    {otherUsersMessage}
                 </a>
-                <FormattedHTMLMessage
-                    id={typeMessage[postType].id}
-                    defaultMessage={typeMessage[postType].defaultMessage}
-                    values={{
-                        actor,
-                    }}
-                />
-            </React.Fragment>
+                {this.renderMessage(actorMessage)}
+            </span>
         );
     }
 }

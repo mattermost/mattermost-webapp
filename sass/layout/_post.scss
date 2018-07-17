@@ -1572,6 +1572,10 @@
                     font-weight: 600;
                 }
             }
+
+            &--read-only {
+                cursor: default;
+            }
         }
     }
 

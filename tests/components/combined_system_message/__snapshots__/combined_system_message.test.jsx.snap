@@ -5,51 +5,79 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot 1`] = 
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "@User1",
-            "firstUser": "@AddedUser1",
-          }
+    <Connect(Markdown)
+      message="@AddedUser1 **added to the channel** by @User1."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "@AddedUser1",
+            },
+            Object {
+              "key": undefined,
+            },
+            Object {
+              "key": "@User1",
+            },
+          ],
+          "singleline": true,
         }
-      />
-    </span>
+      }
+    />
     <br />
   </React.Fragment>
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="You were <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one_you"
-        values={
-          Object {
-            "actor": "@User1",
-          }
+    <Connect(Markdown)
+      message="You were **added to the channel** by @User1."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "You",
+            },
+            Object {
+              "key": undefined,
+            },
+            Object {
+              "key": "@User1",
+            },
+          ],
+          "singleline": true,
         }
-      />
-    </span>
+      }
+    />
     <br />
   </React.Fragment>
   <React.Fragment
     key="system_add_to_channelcurrent_user_id"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "you",
-            "firstUser": "@AddedUser2",
-          }
+    <Connect(Markdown)
+      message="@AddedUser2 **added to the channel** by you."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "@AddedUser2",
+            },
+            Object {
+              "key": undefined,
+            },
+            Object {
+              "key": "you",
+            },
+          ],
+          "singleline": true,
         }
-      />
-    </span>
+      }
+    />
     <br />
   </React.Fragment>
 </React.Fragment>
@@ -60,34 +88,53 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot when j
   <React.Fragment
     key="system_add_to_channeluser_id_1"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="You were <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one_you"
-        values={
-          Object {
-            "actor": "@User1",
-          }
+    <Connect(Markdown)
+      message="You were **added to the channel** by @User1."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "You",
+            },
+            Object {
+              "key": undefined,
+            },
+            Object {
+              "key": "@User1",
+            },
+          ],
+          "singleline": true,
         }
-      />
-    </span>
+      }
+    />
     <br />
   </React.Fragment>
   <React.Fragment
     key="system_add_to_channelcurrent_user_id"
   >
-    <span>
-      <FormattedHTMLMessage
-        defaultMessage="{firstUser} <b>added to the channel</b> by {actor}."
-        id="combined_system_message.added_to_channel.one"
-        values={
-          Object {
-            "actor": "you",
-            "firstUser": "@AddedUser2",
-          }
+    <Connect(Markdown)
+      message="@AddedUser2 **added to the channel** by you."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "@AddedUser2",
+            },
+            Object {
+              "key": undefined,
+            },
+            Object {
+              "key": "you",
+            },
+          ],
+          "singleline": true,
         }
-      />
-    </span>
+      }
+    />
     <br />
   </React.Fragment>
 </React.Fragment>
