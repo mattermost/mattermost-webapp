@@ -102,7 +102,7 @@ export default class Post extends React.PureComponent {
         triggerRethreading: PropTypes.func.isRequired,
 
         /**
-         * Set to mark the post as selected for rethreding.
+         * Set to mark the post as selected for rethreading.
          */
         selected: PropTypes.bool,
     }
