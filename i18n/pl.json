@@ -2877,7 +2877,7 @@
   "setting_item_max.save": "Zapisz",
   "setting_item_min.edit": "Edycja",
   "setting_picture.cancel": "Anuluj",
-  "setting_picture.help.profile": "Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB.",
+  "setting_picture.help.profile": "Upload a picture in BMP, JPG or PNG format.",
   "setting_picture.help.team": "Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended.",
   "setting_picture.remove": "Remove this icon",
   "setting_picture.save": "Zapisz",
