@@ -18,21 +18,25 @@ exports[`components/SettingItemMin should match snapshot with active Save button
       <li
         className="setting-list-item"
       >
-
+         
         <img
           alt="profile image"
           className="profile-img"
           src="http://localhost:8065/api/v4/users/src_id"
         />
-
+         
       </li>
       <li
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "undefinedB",
+            }
+          }
         />
       </li>
       <li
@@ -111,9 +115,13 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "undefinedB",
+            }
+          }
         />
       </li>
       <li
@@ -191,21 +199,25 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
       <li
         className="setting-list-item"
       >
-
+         
         <img
           alt="profile image"
           className="profile-img"
           src="http://localhost:8065/api/v4/users/src_id"
         />
-
+         
       </li>
       <li
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "undefinedB",
+            }
+          }
         />
       </li>
       <li
@@ -281,7 +293,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
       <li
         className="setting-list-item"
       >
-
+         
         <div
           className="profile-img-preview"
         >
@@ -299,15 +311,19 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             />
           </div>
         </div>
-
+         
       </li>
       <li
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "undefinedB",
+            }
+          }
         />
       </li>
       <li
@@ -385,21 +401,25 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
       <li
         className="setting-list-item"
       >
-
+         
         <img
           alt="profile image"
           className="profile-img"
           src="http://localhost:8065/api/v4/users/src_id"
         />
-
+         
       </li>
       <li
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size 15 MB."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "undefinedB",
+            }
+          }
         />
       </li>
       <li
@@ -477,7 +497,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
       <li
         className="setting-list-item"
       >
-
+         
         <div
           className="team-img-preview"
         >
@@ -495,7 +515,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             />
           </div>
         </div>
-
+         
       </li>
       <li
         className="setting-list-item padding-top x2"
@@ -581,7 +601,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
       <li
         className="setting-list-item"
       >
-
+         
         <div
           className="team-img__container"
         >
@@ -628,7 +648,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             </a>
           </OverlayTrigger>
         </div>
-
+         
       </li>
       <li
         className="setting-list-item padding-top x2"
