@@ -23,6 +23,11 @@ export default class PostAttachment extends React.PureComponent {
          * The attachment to render
          */
         attachment: PropTypes.object.isRequired,
+
+        /**
+         * Options specific to text formatting
+         */
+        options: PropTypes.object,
     }
 
     constructor(props) {
@@ -272,7 +277,10 @@ export default class PostAttachment extends React.PureComponent {
 
             text = (
                 <div className='attachment__text'>
-                    <Markdown message={attachmentText || ''}/>
+                    <Markdown
+                        message={attachmentText || ''}
+                        options={this.props.options}
+                    />
                     {shouldCollapse &&
                         <div>
                             <a

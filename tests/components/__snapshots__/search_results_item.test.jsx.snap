@@ -168,6 +168,12 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             className=" post--edited"
           >
             <Connect(PostBodyAdditionalContent)
+              options={
+                Object {
+                  "searchMatches": undefined,
+                  "searchTerm": "test",
+                }
+              }
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -374,6 +380,12 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             className=" post--edited"
           >
             <Connect(PostBodyAdditionalContent)
+              options={
+                Object {
+                  "searchMatches": undefined,
+                  "searchTerm": "test",
+                }
+              }
               post={
                 Object {
                   "channel_id": "channel_id",
