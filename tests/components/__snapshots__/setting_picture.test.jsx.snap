@@ -34,7 +34,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           id="setting_picture.help.profile"
           values={
             Object {
-              "max": "undefinedB",
+              "max": "200MB",
             }
           }
         />
@@ -119,7 +119,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           id="setting_picture.help.profile"
           values={
             Object {
-              "max": "undefinedB",
+              "max": "200MB",
             }
           }
         />
@@ -215,7 +215,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           id="setting_picture.help.profile"
           values={
             Object {
-              "max": "undefinedB",
+              "max": "200MB",
             }
           }
         />
@@ -321,7 +321,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           id="setting_picture.help.profile"
           values={
             Object {
-              "max": "undefinedB",
+              "max": "200MB",
             }
           }
         />
@@ -417,7 +417,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           id="setting_picture.help.profile"
           values={
             Object {
-              "max": "undefinedB",
+              "max": "200MB",
             }
           }
         />
