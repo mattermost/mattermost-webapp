@@ -396,9 +396,18 @@ export default {
                         {
                             type: Constants.SettingsTypes.TYPE_BANNER,
                             label: 'admin.compliance.noLicense',
+                            label_html: true,
                             label_default: '<h4 class="banner__heading">Note:</h4><p>Compliance is an enterprise feature. Your current license does not support Compliance. Click <a href="http://mattermost.com"target="_blank">here</a> for information and pricing on enterprise licenses.</p>',
                             isHidden: needsUtils.hasLicense,
                             banner_type: 'warning',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BANNER,
+                            label: 'admin.compliance.newComplianceExportBanner',
+                            label_html: true,
+                            label_default: 'This feature is replaced by a new <a href="../../admin_console/compliance/message_export">Compliance Export</a> feature, and will be removed in a future release. We recommend migrating to the new system.',
+                            isHidden: needsUtils.not(needsUtils.hasLicense),
+                            banner_type: 'info',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
