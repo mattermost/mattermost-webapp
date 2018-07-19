@@ -1664,7 +1664,7 @@
   "claim.oauth_to_email.enterNewPwd": "Enter a new password for your {site} email account",
   "claim.oauth_to_email.enterPwd": "Please enter a password.",
   "claim.oauth_to_email.newPwd": "New Password",
-  "claim.oauth_to_email.pwdNotMatch": "Password do not match.",
+  "claim.oauth_to_email.pwdNotMatch": "Passwords do not match.",
   "claim.oauth_to_email.switchTo": "Switch {type} to email and password",
   "claim.oauth_to_email.title": "Switch {type} Account to Email",
   "combined_system_message.added_to_channel.many_expanded": "{users} and {lastUser} were **added to the channel** by {actor}.",
