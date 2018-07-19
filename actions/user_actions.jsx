@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage} from 'react-intl';
 
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
@@ -28,6 +27,7 @@ import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 import notices from 'components/system_notice/notices';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import mattermostIcon from 'images/icon50x50.png';
 
 const dispatch = store.dispatch;
@@ -61,16 +61,16 @@ export async function addSwitchToEENotification() {
             adminOnly: true,
             cantForget: true,
             title: (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='system_notice.title'
-                    defaultMessage='<strong>Notice</strong> from Mattermost'
+                    defaultMessage='**Notice**\nfrom Mattermost'
                 />
             ),
             icon: mattermostIcon,
             body: (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='system_notice.body.ee_upgrade_advice'
-                    defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. <a href="https://mattermost.com/performance">Learn more</a>.'
+                    defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. [Learn more](!https://mattermost.com/performance).'
                 />
             ),
         });
