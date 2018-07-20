@@ -731,7 +731,7 @@ export default class CreatePost extends React.Component {
             this.setState({message: ':' + emojiAlias + ': '});
         } else {
             //check whether there is already a blank at the end of the current message
-            const newMessage = (/\s+$/.test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
+            const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
 
             this.setState({message: newMessage});
         }
@@ -745,7 +745,7 @@ export default class CreatePost extends React.Component {
         if (this.state.message === '') {
             this.setState({message: gif});
         } else {
-            const newMessage = (/\s+$/.test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
+            const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
             this.setState({message: newMessage});
         }
         this.setState({showEmojiPicker: false});
