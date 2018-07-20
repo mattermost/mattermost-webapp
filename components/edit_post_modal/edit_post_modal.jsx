@@ -121,7 +121,7 @@ export default class EditPostModal extends React.PureComponent {
             this.setState({editText: ':' + emojiAlias + ': '});
         } else {
             //check whether there is already a blank at the end of the current message
-            const newMessage = (/\s+$/.test(this.state.editText)) ?
+            const newMessage = ((/\s+$/).test(this.state.editText)) ?
                 this.state.editText + ':' + emojiAlias + ': ' : this.state.editText + ' :' + emojiAlias + ': ';
 
             this.setState({editText: newMessage});
@@ -136,7 +136,7 @@ export default class EditPostModal extends React.PureComponent {
         if (this.state.editText === '') {
             this.setState({editText: gif});
         } else {
-            const newMessage = (/\s+$/.test(this.state.editText)) ? this.state.editText + gif : this.state.editText + ' ' + gif;
+            const newMessage = ((/\s+$/).test(this.state.editText)) ? this.state.editText + gif : this.state.editText + ' ' + gif;
             this.setState({editText: newMessage});
         }
         this.setState({showEmojiPicker: false});
