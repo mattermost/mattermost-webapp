@@ -178,7 +178,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     wrapInSmallImageContainer(imageElement) {
         return (
             <div
-                className='attachment__image__container--openraph'
+                className='attachment__image__container--opengraph'
                 ref={this.getSmallImageContainer}
             >
                 {imageElement}
