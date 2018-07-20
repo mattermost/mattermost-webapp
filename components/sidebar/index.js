@@ -68,7 +68,6 @@ function mapStateToProps(state) {
         favoriteChannelIds,
         directAndGroupChannelIds,
         unreadChannelIds: getSortedUnreadChannelIds(state, keepChannelIdAsUnread),
-        pluginComponents: state.plugins.components.LeftSidebarHeader,
         currentChannel,
         currentTeammate,
         currentTeam: getCurrentTeam(state),

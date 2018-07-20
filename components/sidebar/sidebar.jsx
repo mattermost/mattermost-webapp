@@ -66,11 +66,6 @@ export default class Sidebar extends React.PureComponent {
         unreadChannelIds: PropTypes.array.isRequired,
 
         /**
-         * Sidebar Plugin
-         */
-        pluginComponents: PropTypes.arrayOf(PropTypes.node),
-
-        /**
          * Current channel object
          */
         currentChannel: PropTypes.object,
@@ -647,11 +642,6 @@ export default class Sidebar extends React.PureComponent {
             </span>
         );
 
-        let listClass = 'sidebar--left__list';
-        if (this.props.pluginComponents && this.props.pluginComponents.length > 0) {
-            listClass += ' sidebar--left__list--plugins';
-        }
-
         return (
             <div
                 className={classNames('sidebar--left', {'move--right': this.props.isOpen && Utils.isMobile()})}
@@ -679,7 +669,7 @@ export default class Sidebar extends React.PureComponent {
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
 
-                <div className={listClass}>
+                <div className='sidebar--left__list'>
                     <UnreadChannelIndicator
                         name='Top'
                         show={this.state.showTopUnread}
