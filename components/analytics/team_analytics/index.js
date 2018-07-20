@@ -16,10 +16,11 @@ const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
 function mapStateToProps(state) {
     const teams = getTeamsList(state);
-    const teamId = BrowserStore.getGlobalItem(LAST_ANALYTICS_TEAM, teams.length > 0 ? teams[0].id : '');
+    const teamId = BrowserStore.getGlobalItem(LAST_ANALYTICS_TEAM, null);
+    const initialTeam = state.entities.teams.teams[teamId] || (teams.length > 0 ? teams[0] : null);
 
     return {
-        initialTeam: state.entities.teams.teams[teamId],
+        initialTeam,
         locale: getCurrentLocale(state),
         teams,
     };
