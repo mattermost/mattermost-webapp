@@ -64,6 +64,11 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
               className="attachment__text-container"
             >
               <Connect(Markdown)
+                imageProps={
+                  Object {
+                    "onHeightReceived": [Function],
+                  }
+                }
                 message="short text"
               />
             </div>
@@ -168,6 +173,11 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
               className="attachment__text-container"
             >
               <Connect(Markdown)
+                imageProps={
+                  Object {
+                    "onHeightReceived": [Function],
+                  }
+                }
                 message="short text"
               />
             </div>

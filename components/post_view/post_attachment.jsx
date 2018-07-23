@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as PostActions from 'actions/post_actions.jsx';
+import {postListScrollChange} from 'actions/global_actions';
 
 import Markdown from 'components/markdown';
 
@@ -40,6 +41,10 @@ export default class PostAttachment extends React.PureComponent {
             collapsed: true,
             hasOverflow: false,
         };
+
+        this.imageProps = {
+            onHeightReceived: this.handleImageHeightReceived,
+        };
     }
 
     componentDidMount() {
@@ -70,6 +75,12 @@ export default class PostAttachment extends React.PureComponent {
                 hasOverflow,
             });
         }
+    };
+
+    handleImageHeightReceived = () => {
+        postListScrollChange();
+
+        this.checkAttachmentTextOverflow();
     };
 
     handleResize = () => {
@@ -322,6 +333,7 @@ export default class PostAttachment extends React.PureComponent {
                         <Markdown
                             message={attachment.text || ''}
                             options={options}
+                            imageProps={this.imageProps}
                         />
                     </div>
                     {textOverflow}

@@ -5,11 +5,16 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {doPostAction} from 'actions/post_actions.jsx';
+import {postListScrollChange} from 'actions/global_actions';
 
 import PostAttachment from 'components/post_view/post_attachment.jsx';
 
 jest.mock('actions/post_actions.jsx', () => ({
     doPostAction: jest.fn(),
+}));
+
+jest.mock('actions/global_actions.jsx', () => ({
+    postListScrollChange: jest.fn(),
 }));
 
 describe('components/post_view/PostAttachment', () => {
@@ -49,6 +54,16 @@ describe('components/post_view/PostAttachment', () => {
         const newAttachment = {...attachment, text: 'new text'};
         wrapper.setProps({attachment: newAttachment});
         expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(2);
+    });
+
+    test('should have called postListScrollChange and checkAttachmentTextOverflow on handleImageHeightReceived', () => {
+        const wrapper = shallow(<PostAttachment {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.checkAttachmentTextOverflow = jest.fn();
+
+        instance.handleImageHeightReceived();
+        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(1);
+        expect(postListScrollChange).toHaveBeenCalledTimes(1);
     });
 
     test('should match collapsed state on toggleCollapseState', () => {
