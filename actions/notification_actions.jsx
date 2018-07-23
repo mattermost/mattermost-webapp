@@ -13,6 +13,9 @@ import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
 
+import {formatWithRenderer} from 'utils/markdown';
+import RemoveMarkdown from 'utils/markdown/remove_markdown';
+
 export function sendDesktopNotification(post, msgProps) {
     if ((UserStore.getCurrentId() === post.user_id && post.props.from_webhook !== 'true')) {
         return;
@@ -98,8 +101,10 @@ export function sendDesktopNotification(post, msgProps) {
         notifyText = notifyText.substring(0, 49) + '...';
     }
 
+    const strippedMarkdownNotifyText = formatWithRenderer(notifyText, new RemoveMarkdown());
+
     let body = '';
-    if (notifyText.length === 0) {
+    if (strippedMarkdownNotifyText.length === 0) {
         if (msgProps.image) {
             body = username + Utils.localizeMessage('channel_loader.uploadedImage', ' uploaded an image');
         } else if (msgProps.otherFile) {
@@ -110,7 +115,7 @@ export function sendDesktopNotification(post, msgProps) {
             body = username + Utils.localizeMessage('channel_loader.something', ' did something new');
         }
     } else {
-        body = username + Utils.localizeMessage('channel_loader.wrote', ' wrote: ') + notifyText;
+        body = username + Utils.localizeMessage('channel_loader.wrote', ' wrote: ') + strippedMarkdownNotifyText;
     }
 
     //Play a sound if explicitly set in settings
