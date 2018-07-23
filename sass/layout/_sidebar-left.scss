@@ -142,6 +142,7 @@
     }
 
     .sidebar--left__list {
+        position: relative;
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
@@ -162,7 +163,7 @@
         left: 15px;
         margin: 0 auto;
         padding: 4px 0 3px;
-        position: fixed;
+        position: absolute;
         text-align: center;
         width: 190px;
         z-index: 1;
@@ -173,7 +174,7 @@
     }
 
     .nav-pills__unread-indicator-top {
-        top: 80px;
+        top: 15px;
 
         .icon {
             svg {
@@ -182,14 +183,8 @@
         }
     }
 
-    .sidebar--left__list--plugins {
-        .nav-pills__unread-indicator-top {
-            top: 120px;
-        }
-    }
-
     .nav-pills__unread-indicator-bottom {
-        bottom: 60px;
+        bottom: 15px;
     }
 
     .nav {

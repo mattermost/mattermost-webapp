@@ -475,16 +475,4 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         instance.componentWillUnmount();
         expect(document.removeEventListener).toHaveBeenCalledTimes(2);
     });
-
-    test('should match snapshot, on sidebar with plugin components', () => {
-        const wrapper = shallow(
-            <Sidebar
-                {...{
-                    ...defaultProps,
-                    pluginComponents: [<div key='plugin_one'>{'plugin_one'}</div>],
-                }}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
 });
