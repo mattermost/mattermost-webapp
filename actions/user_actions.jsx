@@ -78,27 +78,11 @@ export async function addSwitchToEENotification() {
 }
 
 export async function loadMeAndConfig(callback) {
-    const {data: config} = await getClientConfig()(store.dispatch, store.getState);
+    await store.dispatch(getClientConfig());
 
     const promises = [];
 
     if (document.cookie.indexOf('MMUSERID=') > -1) {
-        if (global.window && global.window.analytics) {
-            global.window.analytics.identify(config.DiagnosticId, {}, {
-                context: {
-                    ip: '0.0.0.0',
-                },
-                page: {
-                    path: '',
-                    referrer: '',
-                    search: '',
-                    title: '',
-                    url: '',
-                },
-                anonymousId: '00000000000000000000000000',
-            });
-        }
-
         promises.push(loadMe());
     }
 
