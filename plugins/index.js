@@ -24,13 +24,14 @@ function registerPlugin(id, plugin) {
 }
 window.registerPlugin = registerPlugin;
 
-// Common libraries exposed on window for plugins to access
-window.react = require('react');
-window['react-dom'] = require('react-dom');
-window.redux = require('redux');
-window['react-redux'] = require('react-redux');
-window['react-bootstrap'] = require('react-bootstrap');
-window['post-utils'] = {formatText, messageHtmlToComponent};
+// Common libraries exposed on window for plugins to use as Webpack externals.
+window.React = require('react');
+window.ReactDOM = require('react-dom');
+window.Redux = require('redux');
+window.ReactRedux = require('react-redux');
+window.ReactBootstrap = require('react-bootstrap');
+window.PostUtils = {formatText, messageHtmlToComponent};
+window.PropTypes = require('prop-types');
 
 // initializePlugins queries the server for all enabled plugins and loads each in turn.
 export async function initializePlugins() {
