@@ -58,11 +58,20 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
           className="attachment__body"
         >
           <div
-            className="attachment__text"
+            className="attachment__text attachment__text--collapsed"
           >
-            <Connect(Markdown)
-              message="short text"
-            />
+            <div
+              className="attachment__text-container"
+            >
+              <Connect(Markdown)
+                imageProps={
+                  Object {
+                    "onHeightReceived": [Function],
+                  }
+                }
+                message="short text"
+              />
+            </div>
           </div>
           <img
             className="attachment__image"
@@ -158,11 +167,20 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
           className="attachment__body"
         >
           <div
-            className="attachment__text"
+            className="attachment__text attachment__text--collapsed"
           >
-            <Connect(Markdown)
-              message="short text"
-            />
+            <div
+              className="attachment__text-container"
+            >
+              <Connect(Markdown)
+                imageProps={
+                  Object {
+                    "onHeightReceived": [Function],
+                  }
+                }
+                message="short text"
+              />
+            </div>
           </div>
           <img
             className="attachment__image"

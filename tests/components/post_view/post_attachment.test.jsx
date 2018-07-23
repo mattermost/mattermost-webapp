@@ -5,11 +5,16 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {doPostAction} from 'actions/post_actions.jsx';
+import {postListScrollChange} from 'actions/global_actions';
 
 import PostAttachment from 'components/post_view/post_attachment.jsx';
 
 jest.mock('actions/post_actions.jsx', () => ({
     doPostAction: jest.fn(),
+}));
+
+jest.mock('actions/global_actions.jsx', () => ({
+    postListScrollChange: jest.fn(),
 }));
 
 describe('components/post_view/PostAttachment', () => {
@@ -36,6 +41,31 @@ describe('components/post_view/PostAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should have called checkAttachmentTextOverflow on handleResize and on componentDidUpdate', () => {
+        const wrapper = shallow(<PostAttachment {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.checkAttachmentTextOverflow = jest.fn();
+
+        // on handleResize
+        instance.handleResize();
+        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(1);
+
+        // on componentDidUpdate
+        const newAttachment = {...attachment, text: 'new text'};
+        wrapper.setProps({attachment: newAttachment});
+        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(2);
+    });
+
+    test('should have called postListScrollChange and checkAttachmentTextOverflow on handleImageHeightReceived', () => {
+        const wrapper = shallow(<PostAttachment {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.checkAttachmentTextOverflow = jest.fn();
+
+        instance.handleImageHeightReceived();
+        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(1);
+        expect(postListScrollChange).toHaveBeenCalledTimes(1);
+    });
+
     test('should match collapsed state on toggleCollapseState', () => {
         const wrapper = shallow(<PostAttachment {...baseProps}/>);
 
@@ -45,48 +75,6 @@ describe('components/post_view/PostAttachment', () => {
 
         wrapper.instance().toggleCollapseState({preventDefault: () => {}}); // eslint-disable-line no-empty-function
         expect(wrapper.state('collapsed')).toEqual(true);
-    });
-
-    test('should match value on shouldCollapse', () => {
-        const wrapper = shallow(<PostAttachment {...baseProps}/>);
-
-        expect(wrapper.instance().shouldCollapse()).toEqual(false);
-
-        let text = 'a'.repeat(701);
-        wrapper.setProps({attachment: {text}});
-        expect(wrapper.instance().shouldCollapse()).toEqual(true);
-
-        text = 'a'.repeat(700);
-        wrapper.setProps({attachment: {text}});
-        expect(wrapper.instance().shouldCollapse()).toEqual(false);
-
-        text = 'a\n'.repeat(5);
-        wrapper.setProps({attachment: {text}});
-        expect(wrapper.instance().shouldCollapse()).toEqual(true);
-
-        text = 'a\n'.repeat(4);
-        wrapper.setProps({attachment: {text}});
-        expect(wrapper.instance().shouldCollapse()).toEqual(false);
-    });
-
-    test('getCollapsedText should return correct results', () => {
-        const wrapper = shallow(<PostAttachment {...baseProps}/>);
-        wrapper.setState({collapsed: true});
-
-        let text = 'b'.repeat(30);
-        wrapper.setProps({attachment: {text}});
-        let actual = wrapper.instance().getCollapsedText();
-        expect(actual).toBe(text);
-
-        text = 'c'.repeat(701);
-        wrapper.setProps({attachment: {text}});
-        actual = wrapper.instance().getCollapsedText();
-        expect(actual).toBe('c'.repeat(300));
-
-        text = 'd\n'.repeat(5);
-        wrapper.setProps({attachment: {text}});
-        actual = wrapper.instance().getCollapsedText();
-        expect(actual).toBe('d\nd\nd\nd\nd');
     });
 
     test('should match value on getActionView', () => {

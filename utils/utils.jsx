@@ -662,8 +662,9 @@ export function applyTheme(theme) {
             '.app__body .sidebar-right__body .post.post--compact .post-collapse__show-more',
             `background-color:${theme.centerChannelBg}`,
         );
-        changeCss('.app__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
+        changeCss('.app__body .attachment__text-collapse__link-more', `background:${theme.centerChannelBg}`);
         changeCss('.app__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
+        changeCss('.app__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
     }
 
     if (theme.centerChannelColor) {
