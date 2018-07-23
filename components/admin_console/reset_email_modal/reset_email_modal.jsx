@@ -6,8 +6,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
 import {adminResetEmail} from 'actions/admin_actions.jsx';
-import * as Utils from 'utils/utils.jsx';
 
 export default class ResetEmailModal extends React.Component {
     static propTypes = {
@@ -35,7 +36,7 @@ export default class ResetEmailModal extends React.Component {
 
         if (this.refs.email) {
             const email = this.refs.email.value;
-            if (!Utils.isEmail(email)) {
+            if (!isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
                         id='user.settings.general.validEmail'
@@ -85,7 +86,7 @@ export default class ResetEmailModal extends React.Component {
         const title = (
             <FormattedMessage
                 id='admin.reset_email.titleReset'
-                defaultMessage='Reset Email'
+                defaultMessage='Update Email'
             />
         );
 
@@ -121,7 +122,7 @@ export default class ResetEmailModal extends React.Component {
                                         type='email'
                                         ref='email'
                                         className='form-control'
-                                        maxLength='22'
+                                        maxLength='128'
                                         autoFocus={true}
                                         tabIndex='1'
                                     />

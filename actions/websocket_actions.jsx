@@ -47,6 +47,8 @@ const getState = store.getState;
 
 const MAX_WEBSOCKET_FAILS = 7;
 
+const pluginEventHandlers = {};
+
 export function initialize() {
     if (!window.WebSocket) {
         console.log('Browser does not support websocket'); //eslint-disable-line no-console
@@ -103,12 +105,28 @@ function reconnectWebSocket() {
     initialize();
 }
 
+const pluginReconnectHandlers = {};
+
+export function registerPluginReconnectHandler(pluginId, handler) {
+    pluginReconnectHandlers[pluginId] = handler;
+}
+
+export function unregisterPluginReconnectHandler(pluginId) {
+    Reflect.deleteProperty(pluginReconnectHandlers, pluginId);
+}
+
 export function reconnect(includeWebSocket = true) {
     if (includeWebSocket) {
         reconnectWebSocket();
     }
 
     loadPluginsIfNecessary();
+
+    Object.values(pluginReconnectHandlers).forEach((handler) => {
+        if (handler && typeof handler === 'function') {
+            handler();
+        }
+    });
 
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
@@ -141,6 +159,26 @@ export function startPeriodicSync() {
 
 export function stopPeriodicSync() {
     clearInterval(intervalId);
+}
+
+export function registerPluginWebSocketEvent(pluginId, event, action) {
+    if (!pluginEventHandlers[pluginId]) {
+        pluginEventHandlers[pluginId] = {};
+    }
+    pluginEventHandlers[pluginId][event] = action;
+}
+
+export function unregisterPluginWebSocketEvent(pluginId, event) {
+    const events = pluginEventHandlers[pluginId];
+    if (!events) {
+        return;
+    }
+
+    Reflect.deleteProperty(events, event);
+}
+
+export function unregisterAllPluginWebSocketEvents(pluginId) {
+    Reflect.deleteProperty(pluginEventHandlers, pluginId);
 }
 
 function handleFirstConnect() {
@@ -284,12 +322,12 @@ function handleEvent(msg) {
         handleChannelViewedEvent(msg);
         break;
 
-    case SocketEvents.PLUGIN_ACTIVATED:
-        handlePluginActivated(msg);
+    case SocketEvents.PLUGIN_ENABLED:
+        handlePluginEnabled(msg);
         break;
 
-    case SocketEvents.PLUGIN_DEACTIVATED:
-        handlePluginDeactivated(msg);
+    case SocketEvents.PLUGIN_DISABLED:
+        handlePluginDisabled(msg);
         break;
 
     case SocketEvents.USER_ROLE_UPDATED:
@@ -310,6 +348,16 @@ function handleEvent(msg) {
 
     default:
     }
+
+    Object.values(pluginEventHandlers).forEach((pluginEvents) => {
+        if (!pluginEvents) {
+            return;
+        }
+
+        if (pluginEvents.hasOwnProperty(msg.event) && typeof pluginEvents[msg.event] === 'function') {
+            pluginEvents[msg.event](msg);
+        }
+    });
 }
 
 // handleChannelConvertedEvent handles updating of channel which is converted from public to private
@@ -598,8 +646,6 @@ function handleChannelDeletedEvent(msg) {
         browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
     }
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id}}, getState);
-    loadChannelsForCurrentUser();
-    TeamActions.getMyTeamUnreads()(dispatch, getState);
 }
 
 function handlePreferenceChangedEvent(msg) {
@@ -703,13 +749,13 @@ function handleChannelViewedEvent(msg) {
     }
 }
 
-function handlePluginActivated(msg) {
+function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
     store.dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
     loadPlugin(manifest);
 }
 
-function handlePluginDeactivated(msg) {
+function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
     store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
     removePlugin(manifest);

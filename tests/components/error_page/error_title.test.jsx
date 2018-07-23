@@ -48,6 +48,24 @@ describe('components/error_page/ErrorTitle', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, team_not_found type', () => {
+        const props = {...baseProps, type: ErrorPageTypes.TEAM_NOT_FOUND};
+        const wrapper = shallow(
+            <ErrorTitle {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, channel_not_found type', () => {
+        const props = {...baseProps, type: ErrorPageTypes.CHANNEL_NOT_FOUND};
+        const wrapper = shallow(
+            <ErrorTitle {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, no type but with title', () => {
         const props = {...baseProps, type: '', title: 'error title'};
         const wrapper = shallow(

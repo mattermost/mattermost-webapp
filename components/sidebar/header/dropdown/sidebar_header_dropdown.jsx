@@ -43,6 +43,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableTeamCreation: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
+        enableEmailInvitations: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
@@ -251,30 +252,32 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
 
         if (currentUser != null) {
-            inviteLink = (
-                <TeamPermissionGate
-                    teamId={this.props.teamId}
-                    permissions={[Permissions.INVITE_USER]}
-                >
+            if (this.props.enableEmailInvitations) {
+                inviteLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_USER_TO_TEAM]}
+                        permissions={[Permissions.INVITE_USER]}
                     >
-                        <li>
-                            <button
-                                className='style--none'
-                                id='sendEmailInvite'
-                                onClick={this.showInviteMemberModal}
-                            >
-                                <FormattedMessage
-                                    id='navbar_dropdown.inviteMember'
-                                    defaultMessage='Send Email Invite'
-                                />
-                            </button>
-                        </li>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_USER_TO_TEAM]}
+                        >
+                            <li>
+                                <button
+                                    className='style--none'
+                                    id='sendEmailInvite'
+                                    onClick={this.showInviteMemberModal}
+                                >
+                                    <FormattedMessage
+                                        id='navbar_dropdown.inviteMember'
+                                        defaultMessage='Send Email Invite'
+                                    />
+                                </button>
+                            </li>
+                        </TeamPermissionGate>
                     </TeamPermissionGate>
-                </TeamPermissionGate>
-            );
+                );
+            }
 
             addMemberToTeam = (
                 <TeamPermissionGate
@@ -516,17 +519,17 @@ export default class SidebarHeaderDropdown extends React.Component {
         if (this.props.helpLink) {
             helpLink = (
                 <li>
-                    <Link
+                    <a
                         id='helpLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={this.props.helpLink}
+                        href={this.props.helpLink}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.help'
                             defaultMessage='Help'
                         />
-                    </Link>
+                    </a>
                 </li>
             );
         }
@@ -535,17 +538,17 @@ export default class SidebarHeaderDropdown extends React.Component {
         if (this.props.reportAProblemLink) {
             reportLink = (
                 <li>
-                    <Link
+                    <a
                         id='reportLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={this.props.reportAProblemLink}
+                        href={this.props.reportAProblemLink}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.report'
                             defaultMessage='Report a Problem'
                         />
-                    </Link>
+                    </a>
                 </li>
             );
         }
@@ -554,17 +557,17 @@ export default class SidebarHeaderDropdown extends React.Component {
         if (this.props.appDownloadLink && !UserAgent.isMobileApp()) {
             nativeAppLink = (
                 <li>
-                    <Link
+                    <a
                         id='nativeAppLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={useSafeUrl(this.props.appDownloadLink)}
+                        href={useSafeUrl(this.props.appDownloadLink)}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.nativeApps'
                             defaultMessage='Download Apps'
                         />
-                    </Link>
+                    </a>
                 </li>
             );
         }

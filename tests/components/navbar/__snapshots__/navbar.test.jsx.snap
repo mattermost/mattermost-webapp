@@ -66,8 +66,17 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "Town Square",
+              "id": "123",
+              "name": "town-square",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -130,8 +139,8 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -140,13 +149,13 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                     id="navbar.viewPinnedPosts"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -155,14 +164,14 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 key="view_members"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -171,7 +180,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                     id="channel_header.viewMembers"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="123"
@@ -185,8 +194,8 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -195,7 +204,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -210,8 +219,8 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -220,7 +229,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                       id="channel_header.setPurpose"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -235,8 +244,8 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -245,15 +254,15 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                       id="channel_header.rename"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <li
                 key="toggle_favorite"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -262,8 +271,20 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                     id="channelHeader.addToFavorites"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "Town Square",
+                    "id": "123",
+                    "name": "town-square",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -385,8 +406,16 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "P",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -448,8 +477,8 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -458,13 +487,13 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     id="navbar.viewPinnedPosts"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -473,7 +502,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -518,8 +547,8 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 key="manage_members"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -554,7 +583,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                       values={Object {}}
                     />
                   </Connect(ChannelPermissionGate)>
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -568,8 +597,8 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -578,7 +607,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -593,8 +622,8 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -603,7 +632,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                       id="channel_header.setPurpose"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -618,8 +647,8 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -628,7 +657,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                       id="channel_header.rename"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -669,8 +698,8 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -679,14 +708,14 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     id="channel_header.leave"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 key="toggle_favorite"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -695,8 +724,19 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     id="channelHeader.addToFavorites"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "P",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -816,8 +856,16 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -879,8 +927,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -889,13 +937,13 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     id="navbar.viewPinnedPosts"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -904,7 +952,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -949,8 +997,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 key="manage_members"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -985,7 +1033,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                       values={Object {}}
                     />
                   </Connect(ChannelPermissionGate)>
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -999,8 +1047,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -1009,7 +1057,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -1024,8 +1072,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -1034,7 +1082,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                       id="channel_header.setPurpose"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -1049,8 +1097,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -1059,7 +1107,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                       id="channel_header.rename"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(TeamPermissionGate)
@@ -1130,8 +1178,8 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1140,14 +1188,14 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     id="channel_header.leave"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 key="toggle_favorite"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1156,8 +1204,19 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     id="channelHeader.addToFavorites"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -1278,8 +1337,17 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "name": "user_id_1__user_id_2",
+              "team_id": "team_id",
+              "type": "D",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -1315,8 +1383,8 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1325,14 +1393,14 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
                     id="channel_header.channelHeader"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 key="toggle_favorite"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1341,8 +1409,20 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
                     id="channelHeader.addToFavorites"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "name": "user_id_1__user_id_2",
+                    "team_id": "team_id",
+                    "type": "D",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -1464,8 +1544,16 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -1527,8 +1615,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1537,13 +1625,13 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     id="navbar.viewPinnedPosts"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1552,7 +1640,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -1597,8 +1685,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 key="manage_members"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1633,7 +1721,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                       values={Object {}}
                     />
                   </Connect(ChannelPermissionGate)>
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -1647,8 +1735,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -1657,7 +1745,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -1672,8 +1760,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -1682,7 +1770,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                       id="channel_header.setPurpose"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -1697,8 +1785,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -1707,7 +1795,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                       id="channel_header.rename"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(TeamPermissionGate)
@@ -1778,8 +1866,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1788,14 +1876,14 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     id="channel_header.leave"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 key="toggle_favorite"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -1804,8 +1892,19 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     id="channelHeader.addToFavorites"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}
@@ -1927,8 +2026,16 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
           }
           showEditChannelHeaderModal={[Function]}
         />
-        <Connect(Pluggable)
-          pluggableName="MobileChannelHeaderButton"
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
         />
         <div
           className="navbar-brand"
@@ -1990,8 +2097,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -2000,13 +2107,13 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     id="navbar.viewPinnedPosts"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -2015,7 +2122,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -2060,8 +2167,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 key="manage_members"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -2096,7 +2203,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                       values={Object {}}
                     />
                   </Connect(ChannelPermissionGate)>
-                </a>
+                </button>
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
@@ -2110,8 +2217,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -2120,7 +2227,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -2135,8 +2242,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -2145,7 +2252,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                       id="channel_header.setPurpose"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -2160,8 +2267,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 <li
                   role="presentation"
                 >
-                  <a
-                    href="#"
+                  <button
+                    className="style--none"
                     onClick={[Function]}
                     role="menuitem"
                   >
@@ -2170,7 +2277,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                       id="channel_header.rename"
                       values={Object {}}
                     />
-                  </a>
+                  </button>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(TeamPermissionGate)
@@ -2241,8 +2348,8 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               <li
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -2251,14 +2358,14 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     id="channel_header.leave"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
               <li
                 key="toggle_favorite"
                 role="presentation"
               >
-                <a
-                  href="#"
+                <button
+                  className="style--none"
                   onClick={[Function]}
                   role="menuitem"
                 >
@@ -2267,8 +2374,19 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     id="channelHeader.addToFavorites"
                     values={Object {}}
                   />
-                </a>
+                </button>
               </li>
+              <Connect(MobileChannelHeaderPlug)
+                channel={
+                  Object {
+                    "display_name": "display_name",
+                    "id": "channel_id",
+                    "team_id": "team_id",
+                    "type": "O",
+                  }
+                }
+                isDropdown={true}
+              />
               <div
                 className="close visible-xs-block"
                 onClick={[Function]}

@@ -7,6 +7,14 @@
         width: 65px;
         z-index: 12;
 
+        .team-sidebar-bottom-plugin {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
         .team-wrapper {
             -webkit-overflow-scrolling: touch;
             background-color: alpha-color($black, .2);
@@ -84,9 +92,16 @@
                     }
 
                     &.team-btn__add {
+                        @include opacity(.7);
                         font-size: 25px;
                         line-height: 41px;
                         vertical-align: middle;
+                        background-color: alpha-color($black, .3);
+                        border: 1px solid alpha-color($white, .2);
+
+                        &:hover {
+                            @include opacity(1);
+                        }
                     }
                 }
 
@@ -133,10 +148,6 @@
 
     .sidebar--left {
         left: 65px;
-
-        .nav-pills__unread-indicator {
-            left: 80px;
-        }
     }
 
     .app__content {

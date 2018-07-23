@@ -92,6 +92,10 @@ export default class Post extends React.PureComponent {
         getPostList: PropTypes.func.isRequired,
     }
 
+    static defaultProps = {
+        post: {},
+    };
+
     constructor(props) {
         super(props);
 
@@ -218,7 +222,10 @@ export default class Post extends React.PureComponent {
     }
 
     render() {
-        const post = this.props.post || {};
+        const {post} = this.props;
+        if (!post.id) {
+            return null;
+        }
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);

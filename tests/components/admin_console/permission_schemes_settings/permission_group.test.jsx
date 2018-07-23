@@ -24,6 +24,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
             formatHTMLMessage: jest.fn(),
         },
         id: 'name',
+        uniqId: 'uniqId',
         permissions: ['invite_user', 'add_user_to_team'],
         readOnly: false,
         role: {

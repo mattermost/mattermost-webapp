@@ -275,7 +275,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     }
 
     // look for self mentions in the text
-    function replaceCurrentMentionWithToken(fullMatch, prefix, mention) {
+    function replaceCurrentMentionWithToken(fullMatch, prefix, mention, suffix = '') {
         const index = tokens.size;
         const alias = `$MM_SELFMENTION${index}`;
 
@@ -284,7 +284,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             originalText: mention,
         });
 
-        return prefix + alias;
+        return prefix + alias + suffix;
     }
 
     for (const mention of mentionKeys) {
@@ -297,7 +297,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             flags += 'i';
         }
 
-        const pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags);
+        const pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})(\\b|_+\\b)`, flags);
 
         output = output.replace(pattern, replaceCurrentMentionWithToken);
     }
@@ -418,7 +418,7 @@ function convertSearchTermToRegex(term) {
     if (cjkPattern.test(term)) {
         // term contains Chinese, Japanese, or Korean characters so don't mark word boundaries
         pattern = '()(' + escapeRegex(term.replace(/\*/g, '')) + ')';
-    } else if (/[^\s][*]$/.test(term)) {
+    } else if ((/[^\s][*]$/).test(term)) {
         pattern = '\\b()(' + escapeRegex(term.substring(0, term.length - 1)) + ')';
     } else if (term.startsWith('@') || term.startsWith('#')) {
         // needs special handling of the first boundary because a word boundary doesn't work before a symbol

@@ -223,6 +223,8 @@ export default class Reaction extends React.PureComponent {
                         defaultMessage='(click to remove)'
                     />
                 );
+            } else {
+                className += ' post-reaction--read-only';
             }
 
             className += ' post-reaction--current-user';
@@ -234,6 +236,8 @@ export default class Reaction extends React.PureComponent {
                     defaultMessage='(click to add)'
                 />
             );
+        } else {
+            className += ' post-reaction--read-only';
         }
 
         return (

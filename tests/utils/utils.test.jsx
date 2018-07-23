@@ -357,94 +357,17 @@ describe('Utils.isValidPassword', function() {
     });
 });
 
-describe('Utils.isEmail', function() {
-    test('', function() {
-        for (const data of [
-            {
-                email: 'prettyandsimple@example.com',
-                valid: true,
-            },
-            {
-                email: 'very.common@example.com',
-                valid: true,
-            },
-            {
-                email: 'disposable.style.email.with+symbol@example.com',
-                valid: true,
-            },
-            {
-                email: 'other.email-with-dash@example.com',
-                valid: true,
-            },
-            {
-                email: 'fully-qualified-domain@example.com',
-                valid: true,
-            },
-            {
-                email: 'user.name+tag+sorting@example.com',
-                valid: true,
-            },
-            {
-                email: 'x@example.com',
-                valid: true,
-            },
-            {
-                email: 'example-indeed@strange-example.com',
-                valid: true,
-            },
-            {
-                email: 'admin@mailserver1',
-                valid: true,
-            },
-            {
-                email: '#!$%&\'*+-/=?^_`{}|~@example.org',
-                valid: true,
-            },
-            {
-                email: 'example@s.solutions',
-                valid: true,
-            },
-            {
-                email: 'Abc.example.com',
-                valid: false,
-            },
-            {
-                email: 'A@b@c@example.com',
-                valid: false,
-            },
-            {
-                email: '<Jonathan Fritz> jonathan.fritz@mattermost.com',
-                valid: false,
-            },
-            {
-                email: 'test <test@address.do>',
-                valid: false,
-            },
-            {
-                email: 'comma@domain.com, separated@domain.com',
-                valid: false,
-            },
-            {
-                email: 'comma@domain.com,separated@domain.com',
-                valid: false,
-            },
-        ]) {
-            expect(Utils.isEmail(data.email)).toEqual(data.valid);
-        }
-    });
-});
-
 describe('Utils.isKeyPressed', function() {
     test('Key match is used over keyCode if it exists', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55}),
-                key: ['/', 191],
+                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55, code: 'Slash'}),
+                key: ['/', 191, 'Slash'],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191}),
-                key: ['/', 191],
+                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191, code: 'KeyK'}),
+                key: ['/', 191, 'Slash'],
                 valid: false,
             },
         ]) {
@@ -452,17 +375,17 @@ describe('Utils.isKeyPressed', function() {
         }
     });
 
-    test('Key match works for uppercase letters, but it does not ignore case', function() {
+    test('Key match works for both uppercase and lower case', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65}),
-                key: ['a', 65],
+                event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65, code: 'KeyA'}),
+                key: ['a', 65, 'KeyA'],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65}),
-                key: ['A', 65],
-                valid: false,
+                event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65, code: 'KeyA'}),
+                key: ['a', 65, 'KeyA'],
+                valid: true,
             },
         ]) {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
@@ -499,22 +422,22 @@ describe('Utils.isKeyPressed', function() {
     test('KeyCode is used for unidentified keys', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: ['', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: ['not-used-field', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: [null, 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
                 key: [null, 2221],
                 valid: false,
             },
@@ -544,6 +467,23 @@ describe('Utils.isKeyPressed', function() {
                 event: {keyCode: 2221},
                 key: [null, 2222],
                 valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('code is used for determining if it exists', function() {
+        for (const data of [
+            {
+                event: {key: 'a', code: 'KeyA'},
+                key: ['', 2221, 'KeyA'],
+                valid: true,
+            },
+            {
+                event: {key: 'differentLanguage', code: 'KeyA'},
+                key: [null, 2222, 'KeyA'],
+                valid: true,
             },
         ]) {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);

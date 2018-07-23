@@ -29,7 +29,7 @@ export default class Authorize extends React.Component {
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
-        if (!(/^[a-z0-9]+$/.test(clientId))) {
+        if (!((/^[a-z0-9]+$/).test(clientId))) {
             return;
         }
 

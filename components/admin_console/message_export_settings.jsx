@@ -60,6 +60,21 @@ export default class MessageExportSettings extends AdminSettings {
         return state;
     }
 
+    getJobDetails = (job) => {
+        if (job.data && job.data.messages_exported) {
+            return (
+                <FormattedMessage
+                    id='admin.complianceExport.messagesExportedCount'
+                    defaultMessage='{count} messages exported.'
+                    values={{
+                        count: job.data.messages_exported,
+                    }}
+                />
+            );
+        }
+        return null;
+    };
+
     renderTitle() {
         return (
             <FormattedMessage
@@ -193,15 +208,6 @@ export default class MessageExportSettings extends AdminSettings {
 
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
-                        <FormattedHTMLMessage
-                            id='admin.complianceExport.description'
-                            defaultMessage='This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
-                        />
-                    </div>
-                </div>
-
                 <BooleanSetting
                     id='enableComplianceExport'
                     label={
@@ -275,6 +281,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='Initiates a Compliance Export job immediately.'
                         />
                     }
+                    getExtraInfoText={this.getJobDetails}
                 />
             </SettingsGroup>
         );

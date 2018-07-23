@@ -4,12 +4,20 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree.jsx';
+import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree/permissions_tree.jsx';
+
 import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_tree', () => {
     const defaultProps = {
         scope: 'channel_scope',
+        config: {
+            EnableIncomingWebhooks: 'true',
+            EnableOutgoingWebhooks: 'true',
+            EnableOAuthServiceProvider: 'true',
+            EnableCommands: 'true',
+            EnableCustomEmoji: 'true',
+        },
         role: {
             name: 'test',
             permissions: [],
@@ -78,5 +86,21 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
         );
         wrapper.find(PermissionGroup).first().prop('onChange')(['test_permission', 'test_permission2']);
         expect(onToggle).toBeCalledWith('test', ['test_permission', 'test_permission2']);
+    });
+
+    test('should hide disabbled integration options', () => {
+        const wrapper = shallow(
+            <PermissionsTree
+                {...defaultProps}
+                config={{
+                    EnableIncomingWebhooks: 'false',
+                    EnableOutgoingWebhooks: 'false',
+                    EnableOAuthServicePrivder: 'false',
+                    EnableCommands: 'false',
+                    EnableCustomEmoji: 'false',
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

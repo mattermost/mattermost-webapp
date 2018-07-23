@@ -41,6 +41,7 @@ describe('components/CreateComment', () => {
         resetCreatePostRequest: jest.fn(),
         readOnlyChannel: false,
         enableEmojiPicker: true,
+        enableGifPicker: true,
         enableConfirmNotificationsToChannel: true,
         maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
     };

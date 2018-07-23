@@ -215,7 +215,7 @@ export default class Renderer extends marked.Renderer {
             return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' + (isTaskList[1] === ' ' ? '' : 'checked="checked" ') + '/> '}${text.replace(taskListReg, '')}</li>`;
         }
 
-        if (/^\d+.$/.test(bullet)) {
+        if ((/^\d+.$/).test(bullet)) {
             // this is a numbered list item so override the numbering
             return `<li value="${parseInt(bullet, 10)}">${text}</li>`;
         }

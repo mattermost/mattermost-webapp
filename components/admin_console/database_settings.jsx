@@ -29,6 +29,7 @@ export default class DatabaseSettings extends AdminSettings {
         config.SqlSettings.MaxOpenConns = this.parseIntNonZero(this.state.maxOpenConns);
         config.SqlSettings.Trace = this.state.trace;
         config.SqlSettings.QueryTimeout = this.parseIntNonZero(this.state.queryTimeout);
+        config.SqlSettings.ConnMaxLifetimeMilliseconds = this.parseIntNonNegative(this.state.connMaxLifetimeMilliseconds);
 
         return config;
     }
@@ -41,6 +42,7 @@ export default class DatabaseSettings extends AdminSettings {
             maxOpenConns: config.SqlSettings.MaxOpenConns,
             trace: config.SqlSettings.Trace,
             queryTimeout: config.SqlSettings.QueryTimeout,
+            connMaxLifetimeMilliseconds: config.SqlSettings.ConnMaxLifetimeMilliseconds,
         };
     }
 
@@ -217,6 +219,44 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.queryTimeout}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.QueryTimeout')}
+                />
+                <TextSetting
+                    id='connMaxLifetimeMilliseconds'
+                    label={
+                        <FormattedMessage
+                            id='admin.sql.connMaxLifetimeTitle'
+                            defaultMessage='Maximum Connection Lifetime:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.sql.connMaxLifetimeExample', 'E.g.: "3600000"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.sql.connMaxLifetimeDescription'
+                            defaultMessage='Maximum lifetime for a connection to the database in milliseconds.'
+                        />
+                    }
+                    value={this.state.connMaxLifetimeMilliseconds}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.ConnMaxLifetimeMilliseconds')}
+                />
+                <GeneratedSetting
+                    id='atRestEncryptKey'
+                    label={
+                        <FormattedMessage
+                            id='admin.sql.keyTitle'
+                            defaultMessage='At Rest Encrypt Key:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.sql.keyExample', 'E.g.: "gxHVDcKUyP2y1eiyW8S8na1UYQAfq6J6"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.sql.keyDescription'
+                            defaultMessage='32-character salt available to encrypt and decrypt sensitive fields in database.'
+                        />
+                    }
+                    value={this.state.atRestEncryptKey}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.AtRestEncryptKey')}
                 />
                 <BooleanSetting
                     id='trace'

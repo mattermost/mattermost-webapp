@@ -55,19 +55,27 @@ export default class ChannelMentionProvider extends Provider {
     constructor() {
         super();
 
+        this.lastPrefixTrimmed = '';
         this.lastPrefixWithNoResults = '';
         this.lastCompletedWord = '';
     }
 
     handlePretextChanged(suggestionId, pretext) {
-        const captured = (/(^|\s)(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
+        const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
 
         if (!captured) {
             // Not a channel mention
             return false;
         }
 
-        const prefix = captured[3];
+        const prefix = captured[2];
+
+        if (this.lastPrefixTrimmed && prefix.trim() === this.lastPrefixTrimmed) {
+            // Don't keep searching if the user keeps typing spaces
+            return true;
+        }
+
+        this.lastPrefixTrimmed = prefix.trim();
 
         if (this.lastPrefixWithNoResults && prefix.startsWith(this.lastPrefixWithNoResults)) {
             // Just give up since we know it won't return any results
@@ -125,13 +133,13 @@ export default class ChannelMentionProvider extends Provider {
         });
         const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
         if (channelMentions.length > 0) {
-            SuggestionStore.addSuggestions(suggestionId, channelMentions, wrappedChannels, ChannelMentionSuggestion, captured[2]);
+            SuggestionStore.addSuggestions(suggestionId, channelMentions, wrappedChannels, ChannelMentionSuggestion, captured[1]);
         }
 
         SuggestionStore.addSuggestions(suggestionId, [''], [{
             type: Constants.MENTION_MORE_CHANNELS,
             loading: true,
-        }], ChannelMentionSuggestion, captured[2]);
+        }], ChannelMentionSuggestion, captured[1]);
 
         autocompleteChannels(
             prefix,

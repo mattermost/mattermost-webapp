@@ -18,6 +18,11 @@ export default class PostAttachmentList extends React.PureComponent {
          * Array of attachments to render
          */
         attachments: PropTypes.array.isRequired,
+
+        /**
+         * Options specific to text formatting
+         */
+        options: PropTypes.object,
     }
 
     render() {
@@ -28,6 +33,7 @@ export default class PostAttachmentList extends React.PureComponent {
                     attachment={attachment}
                     postId={this.props.postId}
                     key={'att_' + i}
+                    options={this.props.options}
                 />
             );
         });

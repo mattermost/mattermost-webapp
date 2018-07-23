@@ -342,6 +342,10 @@
                 }
             }
 
+            .post-message--overflow {
+                @include clearfix;
+            }
+
             .status-wrapper {
                 &:after {
                     bottom: 3px;
@@ -1140,10 +1144,6 @@
 
         .nav-pills__container {
             height: calc(100% - 55px);
-        }
-
-        > div {
-            padding-bottom: 70px;
         }
 
         .nav-pills__unread-indicator {

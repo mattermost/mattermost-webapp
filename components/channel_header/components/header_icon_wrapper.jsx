@@ -43,6 +43,10 @@ export default function HeaderIconWrapper({
             },
         };
 
+        if (toolTips[key] == null) {
+            return null;
+        }
+
         return (
             <Tooltip
                 id={toolTips[key].id}
@@ -56,22 +60,37 @@ export default function HeaderIconWrapper({
         );
     }
 
+    const tooltip = getTooltip(tooltipKey);
+    if (tooltip) {
+        return (
+            <div className='flex-child'>
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={tooltip}
+                >
+                    <button
+                        id={buttonId}
+                        className={buttonClass || 'channel-header__icon icon--hidden style--none'}
+                        onClick={onClick}
+                    >
+                        {iconComponent}
+                    </button>
+                </OverlayTrigger>
+            </div>
+        );
+    }
+
     return (
         <div className='flex-child'>
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='bottom'
-                overlay={getTooltip(tooltipKey)}
+            <button
+                id={buttonId}
+                className={buttonClass || 'channel-header__icon icon--hidden style--none'}
+                onClick={onClick}
             >
-                <button
-                    id={buttonId}
-                    className={buttonClass || 'channel-header__icon icon--hidden style--none'}
-                    onClick={onClick}
-                >
-                    {iconComponent}
-                </button>
-            </OverlayTrigger>
+                {iconComponent}
+            </button>
         </div>
     );
 }
@@ -81,5 +100,5 @@ HeaderIconWrapper.propTypes = {
     buttonId: PropTypes.string.isRequired,
     iconComponent: PropTypes.element.isRequired,
     onClick: PropTypes.func.isRequired,
-    tooltipKey: PropTypes.string.isRequired,
+    tooltipKey: PropTypes.string,
 };

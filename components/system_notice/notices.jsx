@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedHTMLMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import mattermostIcon from 'images/icon50x50.png';
 
 // Notices are objects with the following fields:
@@ -19,9 +21,9 @@ export default [
         name: 'apiv3_deprecation',
         adminOnly: true,
         title: (
-            <FormattedHTMLMessage
+            <FormattedMarkdownMessage
                 id='system_notice.title'
-                defaultMessage='<strong>Notice</strong> from Mattermost'
+                defaultMessage='**Notice**\nfrom Mattermost'
             />
         ),
         icon: mattermostIcon,
@@ -36,9 +38,9 @@ export default [
         name: 'advanced_permissions',
         adminOnly: true,
         title: (
-            <FormattedHTMLMessage
+            <FormattedMarkdownMessage
                 id='system_notice.title'
-                defaultMessage='<strong>Notice</strong> from Mattermost'
+                defaultMessage='**Notice**\nfrom Mattermost'
             />
         ),
         icon: mattermostIcon,

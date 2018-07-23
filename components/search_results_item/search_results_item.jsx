@@ -284,7 +284,13 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             message = (
-                <PostBodyAdditionalContent post={post}>
+                <PostBodyAdditionalContent
+                    post={post}
+                    options={{
+                        searchTerm: this.props.term,
+                        searchMatches: this.props.matches,
+                    }}
+                >
                     <PostMessageContainer
                         post={post}
                         options={{

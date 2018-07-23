@@ -51,12 +51,11 @@
     .app__body {
         .modal {
             .modal-image {
-                .modal-button-bar {
-                    line-height: 30px;
-                    padding: 5px;
-                }
-
                 .modal-image__wrapper {
+                    img {
+                        max-height: calc(100vh - 100px);
+                    }
+
                     > div {
                         font-size: 12px;
                         min-width: 250px;
@@ -69,7 +68,10 @@
 
                 .modal-button-bar {
                     @include opacity(1);
-                    padding-right: 10px;
+                    @include border-radius(0 0 $border-rad $border-rad);
+                    bottom: -40px;
+                    line-height: 30px;
+                    padding: 5px 10px 5px 5px;
                 }
             }
         }

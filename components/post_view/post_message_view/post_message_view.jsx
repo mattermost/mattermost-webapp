@@ -193,18 +193,16 @@ export default class PostMessageView extends React.PureComponent {
         }
 
         const postType = post.type;
-        if (postType) {
-            if (pluginPostTypes.hasOwnProperty(postType)) {
-                const PluginComponent = pluginPostTypes[postType].component;
-                return (
-                    <PluginComponent
-                        post={post}
-                        compactDisplay={compactDisplay}
-                        isRHS={isRHS}
-                        theme={theme}
-                    />
-                );
-            }
+        if (pluginPostTypes.hasOwnProperty(postType)) {
+            const PluginComponent = pluginPostTypes[postType].component;
+            return (
+                <PluginComponent
+                    post={post}
+                    compactDisplay={compactDisplay}
+                    isRHS={isRHS}
+                    theme={theme}
+                />
+            );
         }
 
         let postId = null;
@@ -229,10 +227,10 @@ export default class PostMessageView extends React.PureComponent {
         let overflow = null;
         if (this.state.hasOverflow) {
             let icon = 'fa fa-angle-up';
-            let text = 'Show Less';
+            let text = Utils.localizeMessage('post_info.message.show_less', 'Show Less');
             if (this.state.collapse) {
                 icon = 'fa fa-angle-down';
-                text = 'Show More';
+                text = Utils.localizeMessage('post_info.message.show_more', 'Show More');
             }
 
             overflow = (

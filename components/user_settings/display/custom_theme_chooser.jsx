@@ -61,7 +61,7 @@ const messages = defineMessages({
         defaultMessage: 'Do Not Disturb Indicator',
     },
     mentionBg: {
-        id: 'user.settings.custom_theme.mentionBj',
+        id: 'user.settings.custom_theme.mentionBg',
         defaultMessage: 'Mention Jewel BG',
     },
     mentionColor: {

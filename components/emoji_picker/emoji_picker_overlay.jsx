@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
-import EmojiPicker from './';
+import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 
 export default class EmojiPickerOverlay extends React.PureComponent {
     static propTypes = {
@@ -13,17 +13,20 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         container: PropTypes.func,
         target: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
+        onGifClick: PropTypes.func,
         onHide: PropTypes.func.isRequired,
         rightOffset: PropTypes.number,
         topOffset: PropTypes.number,
         spaceRequiredAbove: PropTypes.number,
         spaceRequiredBelow: PropTypes.number,
+        enableGifPicker: PropTypes.bool,
     }
 
     // Reasonable defaults calculated from from the center channel
     static defaultProps = {
         spaceRequiredAbove: 422,
         spaceRequiredBelow: 436,
+        enableGifPicker: false,
     }
 
     constructor(props) {
@@ -62,8 +65,10 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                 target={this.props.target}
                 animation={false}
             >
-                <EmojiPicker
+                <EmojiPickerTabs
+                    enableGifPicker={this.props.enableGifPicker}
                     onEmojiClick={this.props.onEmojiClick}
+                    onGifClick={this.props.onGifClick}
                     rightOffset={this.props.rightOffset}
                     topOffset={this.props.topOffset}
                 />

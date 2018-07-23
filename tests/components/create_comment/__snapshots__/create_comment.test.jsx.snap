@@ -140,7 +140,9 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           >
             <EmojiPickerOverlay
               container={[MockFunction]}
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}
@@ -372,7 +374,9 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           >
             <EmojiPickerOverlay
               container={[MockFunction]}
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}
@@ -492,7 +496,9 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           >
             <EmojiPickerOverlay
               container={[MockFunction]}
+              enableGifPicker={true}
               onEmojiClick={[Function]}
+              onGifClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
               show={false}

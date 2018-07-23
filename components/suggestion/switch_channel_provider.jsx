@@ -227,11 +227,13 @@ export default class SwitchChannelProvider extends Provider {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
         }
 
+        const channelsAsync = ChannelActions.searchChannels(teamId, channelPrefix)(store.dispatch, store.getState);
+
         let usersFromServer = [];
         let channelsFromServer = [];
         try {
             usersFromServer = await usersAsync;
-            const {data} = await ChannelActions.searchChannels(teamId, channelPrefix)(store.dispatch, store.getState);
+            const {data} = await channelsAsync;
             channelsFromServer = data;
         } catch (err) {
             AppDispatcher.handleServerAction({

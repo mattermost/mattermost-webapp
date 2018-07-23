@@ -207,12 +207,12 @@ class EmojiStore extends EventEmitter {
 
     getEmojiImageUrl(emoji) {
         if (emoji.id) {
-            return Client4.getUrlVersion() + '/emoji/' + emoji.id + '/image';
+            return Client4.getBaseRoute() + '/emoji/' + emoji.id + '/image';
         }
 
         const filename = emoji.filename || emoji.aliases[0];
 
-        return Constants.EMOJI_PATH + '/' + filename + '.png';
+        return (window.basename || '') + Constants.EMOJI_PATH + '/' + filename + '.png';
     }
 
     handleEventPayload(payload) {

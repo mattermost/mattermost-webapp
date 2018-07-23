@@ -6,11 +6,11 @@ body {
 
     &.sticky {
         height: auto;
+        overflow: auto;
     }
 }
 
 body {
-    @include clearfix;
     background: $bg--gray;
     position: relative;
     width: 100%;

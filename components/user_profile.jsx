@@ -16,6 +16,7 @@ export default class UserProfile extends React.Component {
 
         this.hideProfilePopover = this.hideProfilePopover.bind(this);
     }
+
     shouldComponentUpdate(nextProps) {
         if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
             return true;

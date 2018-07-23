@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-import {checkMfa, webLogin} from 'actions/user_actions.jsx';
+import {checkMfa, webLogin, addSwitchToEENotification} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -234,6 +234,7 @@ export default class LoginController extends React.Component {
     }
 
     finishSignin(team) {
+        addSwitchToEENotification();
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
@@ -602,7 +603,7 @@ export default class LoginController extends React.Component {
                 <a
                     className='btn btn-custom-login saml'
                     key='saml'
-                    href={'/login/sso/saml' + this.props.location.search}
+                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location.search}
                 >
                     <span>
                         <span

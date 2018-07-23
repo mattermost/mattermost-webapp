@@ -21,19 +21,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
     <SettingsGroup
       show={true}
     >
-      <div
-        className="banner"
-      >
-        <div
-          className="banner__content"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description"
-            values={Object {}}
-          />
-        </div>
-      </div>
       <BooleanSetting
         disabled={false}
         falseText={
@@ -147,6 +134,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         disabled={true}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>
@@ -211,19 +199,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
     <SettingsGroup
       show={true}
     >
-      <div
-        className="banner"
-      >
-        <div
-          className="banner__content"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description"
-            values={Object {}}
-          />
-        </div>
-      </div>
       <BooleanSetting
         disabled={false}
         falseText={
@@ -447,6 +422,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         disabled={true}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>
@@ -511,19 +487,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
     <SettingsGroup
       show={true}
     >
-      <div
-        className="banner"
-      >
-        <div
-          className="banner__content"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description"
-            values={Object {}}
-          />
-        </div>
-      </div>
       <BooleanSetting
         disabled={false}
         falseText={
@@ -637,6 +600,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         disabled={false}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>
@@ -701,19 +665,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
     <SettingsGroup
       show={true}
     >
-      <div
-        className="banner"
-      >
-        <div
-          className="banner__content"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\\\\\\"/admin_console/general/compliance\\\\\\">Compliance</a> feature."
-            id="admin.complianceExport.description"
-            values={Object {}}
-          />
-        </div>
-      </div>
       <BooleanSetting
         disabled={false}
         falseText={
@@ -937,6 +888,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         disabled={false}
+        getExtraInfoText={[Function]}
         jobType="message_export"
       />
     </SettingsGroup>

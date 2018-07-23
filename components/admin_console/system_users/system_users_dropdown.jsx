@@ -511,7 +511,7 @@ export default class SystemUsersDropdown extends React.Component {
                     >
                         <FormattedMessage
                             id='admin.user_item.resetEmail'
-                            defaultMessage='Reset Email'
+                            defaultMessage='Update Email'
                         />
                     </a>
                 </li>
