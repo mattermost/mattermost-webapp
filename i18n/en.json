@@ -49,7 +49,7 @@
   "add_command.description.help": "Description for your incoming webhook.",
   "add_command.displayName": "Title",
   "add_command.displayName.help": "Choose a title to be displayed on the slash command settings page. Maximum 64 characters.",
-  "add_command.doneHelp": "Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href=\"https://docs.mattermost.com/developer/slash-commands.html\">documentation</a> for further details).",
+  "add_command.doneHelp": "Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/slash-commands.html) for further details).",
   "add_command.iconUrl": "Response Icon",
   "add_command.iconUrl.help": "(Optional) Choose a profile picture override for the post responses to this slash command. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels.",
   "add_command.iconUrl.placeholder": "https://www.example.com/myicon.png",
