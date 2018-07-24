@@ -8,7 +8,7 @@ import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, fileSizeToString} from 'utils/utils.jsx';
 
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
@@ -31,6 +31,7 @@ export default class SettingPicture extends Component {
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
         imageContext: PropTypes.string,
+        maxFileSize: PropTypes.number,
     };
 
     constructor(props) {
@@ -260,7 +261,8 @@ export default class SettingPicture extends Component {
             helpText = (
                 <FormattedMessage
                     id={'setting_picture.help.profile'}
-                    defaultMessage='Upload a picture in BMP, JPG or PNG format.'
+                    defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
+                    values={{max: fileSizeToString(this.props.maxFileSize)}}
                 />
             );
         }
