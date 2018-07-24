@@ -120,13 +120,15 @@ export function notifyMe(title, body, channel, teamId, silent) {
     if (!('Notification' in window)) {
         return;
     }
-
+    console.log('notifyMe Notification.permission:', Notification.permission);  // eslint-disable-line
+    console.log('notifyMe requestedNotificationPermission:', requestedNotificationPermission);  // eslint-disable-line
     if (Notification.permission === 'granted' || (Notification.permission === 'default' && !requestedNotificationPermission)) {
         requestedNotificationPermission = true;
 
         if (typeof Notification.requestPermission === 'function') {
             Notification.requestPermission((permission) => {
                 if (permission === 'granted') {
+                    console.log('notifyMe permission !!:', permission);  // eslint-disable-line
                     try {
                         let icon = icon50;
                         if (UserAgent.isEdge()) {
