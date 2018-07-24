@@ -1113,7 +1113,7 @@ export default {
                             label: 'admin.service.corsAllowCredentialsLabel',
                             label_default: 'CORS Allow Credentials:',
                             help_text: 'admin.service.corsAllowCredentialsDescription',
-                            help_text_default: 'When true requests that pass validation will include the Access-Control-Allow-Credentials header.',
+                            help_text_default: 'When true, requests that pass validation will include the Access-Control-Allow-Credentials header.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,

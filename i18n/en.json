@@ -1106,7 +1106,7 @@
   "admin.service.corsHeadersEx":"X-My-Header",
   "admin.service.corsExposedHeadersDescription":"Whitelist of headers that will be accessible to the requester.",
   "admin.service.corsAllowCredentialsLabel":"CORS Allow Credentials:",
-  "admin.service.corsAllowCredentialsDescription":"When true requests that pass validation will include the Access-Control-Allow-Credentials header.",
+  "admin.service.corsAllowCredentialsDescription":"When true, requests that pass validation will include the Access-Control-Allow-Credentials header.",
   "admin.service.CorsDebugLabel":"CORS Debug:",
   "admin.service.corsDebugDescription":"When true, prints messages to the logs to help when developing an integration that uses CORS. These messages will include the structured key value pair \"source\":\"cors\".",
   "admin.service.developerDesc": "When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production. ",
