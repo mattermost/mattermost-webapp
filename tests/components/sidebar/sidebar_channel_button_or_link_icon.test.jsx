@@ -66,4 +66,15 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, on archived public channel', () => {
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLinkIcon
+                channelIsArchived={true}
+                channelType={Constants.OPEN_CHANNEL}
+                channelId={'test-channel-id'}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

@@ -243,6 +243,232 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 </div>
 `;
 
+exports[`components/SearchResultsItem should match snapshot for archived channel 1`] = `
+<div
+  className="search-item__container"
+>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
+  <div
+    className="post post--thread post--compact"
+  >
+    <div
+      className="search-channel__name"
+    >
+      <span
+        className="search-channel__archived"
+      >
+        <ArchiveIcon
+          className="icon icon__archive channel-header-archived-icon"
+        />
+        <FormattedMessage
+          defaultMessage="Archived"
+          id="search_item.channelArchived"
+          values={Object {}}
+        />
+      </span>
+    </div>
+    <div
+      className="post__content"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={true}
+          isBusy={false}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "parent_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+          status="hello"
+          user={
+            Object {
+              "id": "user_id",
+              "locale": "en",
+              "username": "username",
+            }
+          }
+        />
+      </div>
+      <div>
+        <div
+          className="post__header"
+        >
+          <div
+            className="col col__name"
+          >
+            <strong>
+              <UserProfile
+                disablePopover={false}
+                hasMention={false}
+                isBusy={false}
+                isRHS={false}
+                overwriteImage=""
+                overwriteName=""
+                status="hello"
+                user={
+                  Object {
+                    "id": "user_id",
+                    "locale": "en",
+                    "username": "username",
+                  }
+                }
+              />
+            </strong>
+          </div>
+          <div
+            className="col"
+          >
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+            />
+            <PostFlagIcon
+              idCount={-1}
+              idPrefix="searchPostFlag"
+              isEphemeral={false}
+              isFlagged={true}
+              postId="id"
+            />
+          </div>
+          <div
+            className="col__controls col__reply"
+          >
+            <Connect(DotMenu)
+              handleDropdownOpened={[Function]}
+              idCount={-1}
+              idPrefix="searchpost"
+              isFlagged={true}
+              isReadOnly={true}
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "parent_id": "",
+                  "pending_post_id": "",
+                  "props": Object {},
+                  "root_id": "",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            />
+            <CommentIcon
+              commentCount={0}
+              extraClass=""
+              handleCommentClick={[Function]}
+              id=""
+              idCount={-1}
+              idPrefix="searchCommentIcon"
+              searchStyle="search-item__comment"
+            />
+            <a
+              className="search-item__jump"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Jump"
+                id="search_item.jump"
+                values={Object {}}
+              />
+            </a>
+          </div>
+        </div>
+        <div
+          className="search-item-snippet post__body"
+        >
+          <div
+            className=" post--edited"
+          >
+            <Connect(PostBodyAdditionalContent)
+              options={
+                Object {
+                  "searchMatches": undefined,
+                  "searchTerm": "test",
+                }
+              }
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "parent_id": "",
+                  "pending_post_id": "",
+                  "props": Object {},
+                  "root_id": "",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            >
+              <Connect(PostMessageView)
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchMatches": undefined,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "parent_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </Connect(PostBodyAdditionalContent)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"

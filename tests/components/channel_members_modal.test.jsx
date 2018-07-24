@@ -11,8 +11,8 @@ describe('components/ChannelMembersModal', () => {
     const baseProps = {
         channel: {id: 'channel_id', display_name: 'channel_display_name', delete_at: 0},
         canManageChannelMembers: true,
-        onModalDismissed: () => {}, //eslint-disable-line no-empty-function
-        showInviteModal: () => {}, //eslint-disable-line no-empty-function
+        onModalDismissed: () => { }, //eslint-disable-line no-empty-function
+        showInviteModal: () => { }, //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot', () => {
@@ -65,5 +65,15 @@ describe('components/ChannelMembersModal', () => {
 
         wrapper.find(Modal).first().props().onExited();
         expect(onModalDismissed).toHaveBeenCalledTimes(1);
+    });
+
+    test('should match snapshot with archived channel', () => {
+        const props = {...baseProps, channel: {...baseProps.channel, delete_at: 1234}};
+
+        const wrapper = shallow(
+            <ChannelMembersModal {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

@@ -190,4 +190,20 @@ describe('components/SearchResultsItem', () => {
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
     });
+
+    test('should match snapshot for archived channel', () => {
+        const props = {
+            ...defaultProps,
+            channel: {
+                ...channel,
+                delete_at: 1234,
+            },
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

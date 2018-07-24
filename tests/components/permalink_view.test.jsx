@@ -40,4 +40,15 @@ describe('components/PermalinkView', () => {
         expect(emitPostFocusEvent).toHaveBeenCalledTimes(1);
         expect(emitPostFocusEvent).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo);
     });
+
+    test('should match snapshot with archived channel', () => {
+        const props = {...baseProps, channelIsArchived: true};
+
+        const wrapper = shallow(
+            <PermalinkView {...props}/>
+        );
+
+        wrapper.setState({valid: true});
+        expect(wrapper).toMatchSnapshot();
+    });
 });
