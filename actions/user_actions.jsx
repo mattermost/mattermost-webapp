@@ -42,6 +42,9 @@ export async function addSwitchToEENotification() {
     const USERS_THRESHOLD = 10000;
 
     const currentUser = Selectors.getCurrentUser(store.getState());
+    if (!currentUser) {
+        return;
+    }
 
     const isSystemAdmin = currentUser.roles.indexOf('system_admin') !== -1;
     if (!isSystemAdmin) {
