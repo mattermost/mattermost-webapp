@@ -35,6 +35,7 @@ export default class GeneralTab extends React.Component {
 
         this.updateSection = this.updateSection.bind(this);
         this.handleNameSubmit = this.handleNameSubmit.bind(this);
+        this.handleAllowedDomainsSubmit = this.handleAllowedDomainsSubmit.bind(this);
         this.handleInviteIdSubmit = this.handleInviteIdSubmit.bind(this);
         this.handleOpenInviteSubmit = this.handleOpenInviteSubmit.bind(this);
         this.handleDescriptionSubmit = this.handleDescriptionSubmit.bind(this);
@@ -44,6 +45,7 @@ export default class GeneralTab extends React.Component {
         this.updateName = this.updateName.bind(this);
         this.updateDescription = this.updateDescription.bind(this);
         this.updateTeamIcon = this.updateTeamIcon.bind(this);
+        this.updateAllowedDomains = this.updateAllowedDomains.bind(this);
         this.updateInviteId = this.updateInviteId.bind(this);
         this.handleOpenInviteRadio = this.handleOpenInviteRadio.bind(this);
         this.handleGenerateInviteId = this.handleGenerateInviteId.bind(this);
@@ -67,6 +69,7 @@ export default class GeneralTab extends React.Component {
             invite_id: team.invite_id,
             allow_open_invite: team.allow_open_invite,
             description: team.description,
+            allowed_domains: team.allowed_domains,
             serverError: '',
             clientError: '',
             teamIconFile: null,
@@ -79,6 +82,7 @@ export default class GeneralTab extends React.Component {
         this.setState({
             name: nextProps.team.display_name,
             description: nextProps.team.description,
+            allowed_domains: nextProps.team.allowed_domains,
             invite_id: nextProps.team.invite_id,
             allow_open_invite: nextProps.team.allow_open_invite,
         });
@@ -97,6 +101,22 @@ export default class GeneralTab extends React.Component {
 
     handleOpenInviteRadio(openInvite) {
         this.setState({allow_open_invite: openInvite});
+    }
+
+    handleAllowedDomainsSubmit = async () => {
+        var state = {serverError: '', clientError: ''};
+
+        var data = {...this.props.team};
+        data.allowed_domains = this.state.allowed_domains;
+
+        const {error} = await this.props.actions.updateTeam(data);
+
+        if (error) {
+            state.serverError = error.message;
+            this.setState(state);
+        } else {
+            this.updateSection('');
+        }
     }
 
     handleOpenInviteSubmit = async () => {
@@ -329,6 +349,10 @@ export default class GeneralTab extends React.Component {
                 clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occured while selecting the image.'),
             });
         }
+    }
+
+    updateAllowedDomains(e) {
+        this.setState({allowed_domains: e.target.value});
     }
 
     updateInviteId(e) {
@@ -685,6 +709,66 @@ export default class GeneralTab extends React.Component {
             );
         }
 
+        let allowedDomainsSection;
+
+        if (this.props.activeSection === 'allowed_domains') {
+            const inputs = [];
+
+            inputs.push(
+                <div
+                    key='allowedDomainsSetting'
+                    className='form-group'
+                >
+                    <div className='col-sm-12'>
+                        <input
+                            id='allowedDomains'
+                            autoFocus={true}
+                            className='form-control'
+                            type='text'
+                            onChange={this.updateAllowedDomains}
+                            value={this.state.allowed_domains}
+                            onFocus={Utils.moveCursorToEnd}
+                            placeholder={Utils.localizeMessage('general_tab.AllowedDomainsExample', 'corp.mattermost.com, mattermost.org')}
+                        />
+                    </div>
+                </div>
+            );
+
+            const allowedDomainsInfo = <span>{Utils.localizeMessage('general_tab.AllowedDomainsInfo', 'Users can only join the team if their email matches a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org").')}</span>;
+
+            allowedDomainsSection = (
+                <SettingItemMax
+                    title={Utils.localizeMessage('general_tab.allowedDomains', 'Allow only users with a specific email domain to join this team')}
+                    inputs={inputs}
+                    submit={this.handleAllowedDomainsSubmit}
+                    serverError={serverError}
+                    clientError={clientError}
+                    updateSection={this.handleUpdateSection}
+                    extraInfo={allowedDomainsInfo}
+                />
+            );
+        } else {
+            let describemsg = '';
+            if (this.state.allowed_domains) {
+                describemsg = this.state.allowed_domains;
+            } else {
+                describemsg = (
+                    <FormattedMessage
+                        id='general_tab.allowedDomainsEdit'
+                        defaultMessage="Click 'Edit' to add an email domain whitelist."
+                    />
+                );
+            }
+            allowedDomainsSection = (
+                <SettingItemMin
+                    title={Utils.localizeMessage('general_tab.allowedDomains', 'allowedDomains')}
+                    describe={describemsg}
+                    updateSection={this.handleUpdateSection}
+                    section={'allowed_domains'}
+                />
+            );
+        }
+
         return (
             <div>
                 <div className='modal-header'>
@@ -731,6 +815,8 @@ export default class GeneralTab extends React.Component {
                     {descriptionSection}
                     <div className='divider-light'/>
                     {teamIconSection}
+                    <div className='divider-light'/>
+                    {allowedDomainsSection}
                     <div className='divider-light'/>
                     {openInviteSection}
                     <div className='divider-light'/>
