@@ -164,7 +164,7 @@ export default class AboutBuildModal extends React.PureComponent {
                     <Modal.Title>
                         <FormattedMessage
                             id='about.title'
-                            defaultMessage='About Mattermost'
+                            defaultMessage='About GlobalNET Connect'
                         />
                     </Modal.Title>
                 </Modal.Header>
@@ -174,7 +174,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             <MattermostLogo/>
                         </div>
                         <div>
-                            <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>
+                            <h3 className='about-modal__title'>{'GlobalNET Connect'} {title}</h3>
                             <p className='about-modal__subtitle padding-bottom'>{subTitle}</p>
                             <div className='form-group less'>
                                 <div>
@@ -204,7 +204,7 @@ export default class AboutBuildModal extends React.PureComponent {
                         </div>
                     </div>
                     <div className='about-modal__footer'>
-                        {learnMore}
+                        {/*{learnMore}*/}
                         <div className='form-group about-modal__copyright'>
                             <FormattedMessage
                                 id='about.copyright'
