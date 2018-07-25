@@ -18,6 +18,9 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
 import TeamStore from 'stores/team_store.jsx';
 
+import {Constants} from '../../utils/constants';
+import LoadingScreen from 'components/loading_screen.jsx';
+
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
 
@@ -25,6 +28,12 @@ export default class ChannelView extends React.PureComponent {
          * ID of the channel to display
          */
         channelId: PropTypes.string.isRequired,
+
+        /**
+         * For indicating channelLoading
+         * To prevent child views from loading with wrong channel.
+         */
+        channelLoading: PropTypes.bool,
 
         /**
          * Set if this channel is deactivated, primarily used for DMs with inactive users
@@ -180,10 +189,19 @@ export default class ChannelView extends React.PureComponent {
                 <ChannelHeader
                     channelId={this.props.channelId}
                 />
-                <DeferredPostView
-                    channelId={this.props.channelId}
-                />
-                {createPost}
+                { this.props.channelLoading ? (
+                    <LoadingScreen
+                        position='absolute'
+                        key='loading'
+                    />
+                ) : (
+                    <React.Fragment>
+                        <DeferredPostView
+                            channelId={this.props.channelId}
+                        />
+                        {createPost}
+                    </React.Fragment>
+                )}
             </div>
         );
     }
