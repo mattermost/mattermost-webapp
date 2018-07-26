@@ -349,7 +349,7 @@ export default class PostList extends React.PureComponent {
     triggerRethreading = async (post) => {
         const target = this.state.rethreadTarget;
         if (target && post.id !== target.id) {
-            if (target.user_id === this.props.currentUserId && target.create_at > post.create_at && post.type === '') {
+            if (target.create_at > post.create_at && post.type === '') {
                 const rootId = (post.root_id) ? post.root_id : post.id;
                 const updatedPost = {
                     channel_id: target.channel_id,
