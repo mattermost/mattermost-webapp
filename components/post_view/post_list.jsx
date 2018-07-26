@@ -365,14 +365,10 @@ export default class PostList extends React.PureComponent {
 
     handleRethreading = (post) => {
         const target = this.state.rethreadTarget;
-        if (post.user_id === this.props.currentUserId) {
-            if (target && target.id === post.id) {
-                this.setState({rethreadTarget: null});
-            } else {
-                this.setState({rethreadTarget: post});
-            }
-        } else {
+        if (target && target.id === post.id) {
             this.setState({rethreadTarget: null});
+        } else {
+            this.setState({rethreadTarget: post});
         }
     }
 
