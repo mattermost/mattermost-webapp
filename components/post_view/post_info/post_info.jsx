@@ -275,7 +275,7 @@ export default class PostInfo extends React.PureComponent {
         let rethreading;
         if (hover && !isReadOnly && this.state.canRethread && !this.props.post.root_id && this.props.replyCount === 0) {
             rethreading = (
-                <button
+                <div
                     className='reacticon__container color--link style--none'
                     onClick={() => this.props.handleRethreading(this.props.post)}
                 >
@@ -291,7 +291,7 @@ export default class PostInfo extends React.PureComponent {
                     >
                         <MessageIcon className='icon icon--message'/>
                     </OverlayTrigger>
-                </button>
+                </div>
             );
         }
 
