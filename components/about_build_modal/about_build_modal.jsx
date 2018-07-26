@@ -204,7 +204,7 @@ export default class AboutBuildModal extends React.PureComponent {
                         </div>
                     </div>
                     <div className='about-modal__footer'>
-                        {{learnMore}}
+                        {learnMore}
                         <div className='form-group about-modal__copyright'>
                             <FormattedMessage
                                 id='about.copyright'
