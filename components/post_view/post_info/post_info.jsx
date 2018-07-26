@@ -128,20 +128,20 @@ export default class PostInfo extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
             reactionPickerOffset: 21,
-            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
+            canRethread: PostUtils.canRethreadPost(props.post, this.editDisableAction),
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.post !== this.props.post) {
             this.setState({
-                canEdit: PostUtils.canEditPost(nextProps.post, this.editDisableAction),
+                canRethread: PostUtils.canRethreadPost(nextProps.post, this.editDisableAction),
             });
         }
     }
 
     handleEditDisable = () => {
-        this.setState({canEdit: false});
+        this.setState({canRethread: false});
     }
 
     toggleEmojiPicker = () => {
@@ -272,7 +272,7 @@ export default class PostInfo extends React.PureComponent {
         }
 
         let rethreading;
-        if (hover && !isReadOnly && this.state.canEdit && !this.props.post.root_id && this.props.replyCount === 0) {
+        if (hover && !isReadOnly && this.state.canRethread && !this.props.post.root_id && this.props.replyCount === 0) {
             rethreading = (
                 <button
                     className='reacticon__container color--link style--none'
