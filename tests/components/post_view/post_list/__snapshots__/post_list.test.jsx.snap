@@ -14,7 +14,7 @@ exports[`components/post_view/post_list/post_list should match init snapshot 1`]
   </button>
   <DateSeparator
     date={2018-07-23T11:27:06.631Z}
-    key="Mon Jul 23 2018 16:57:06 GMT+0530 (IST)"
+    key="1532345226631"
   />
   <Connect(Post)
     getPostList={[Function]}
