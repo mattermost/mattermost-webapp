@@ -38,10 +38,16 @@ function makeMapStateToProps() {
             emojiImageUrl = getEmojiImageUrl(emoji);
         }
         const channel = getChannel(state, ownProps.post.channel_id) || {};
+        const channelIsArchived = channel.delete_at !== 0;
         const teamId = channel.team_id;
 
-        const canAddReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, me, Permissions.REMOVE_REACTION);
-        const canRemoveReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, me, Permissions.ADD_REACTION);
+        let canAddReaction = false;
+        let canRemoveReaction = false;
+
+        if (!channelIsArchived) {
+            canAddReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, me, Permissions.REMOVE_REACTION);
+            canRemoveReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, me, Permissions.ADD_REACTION);
+        }
 
         return {
             profiles,
