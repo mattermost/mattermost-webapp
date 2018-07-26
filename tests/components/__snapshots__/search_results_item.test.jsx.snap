@@ -130,8 +130,8 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
-              location="SEARCH"
               isReadOnly={true}
+              location="SEARCH"
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -354,10 +354,9 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           >
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
-              idCount={-1}
-              idPrefix="searchpost"
               isFlagged={true}
               isReadOnly={true}
+              location="SEARCH"
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -581,8 +580,8 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
-              location="SEARCH"
               isReadOnly={true}
+              location="SEARCH"
               post={
                 Object {
                   "channel_id": "channel_id",
