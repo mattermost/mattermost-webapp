@@ -371,7 +371,6 @@
   "admin.elasticsearch.indexButton.ready": "Build Index",
   "admin.elasticsearch.indexHelpText.buildIndex": "All posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete.",
   "admin.elasticsearch.indexHelpText.cancelIndexing": "Cancelling stops the indexing job and removes it from the queue. Posts that have already been indexed will not be deleted.",
-  "admin.elasticsearch.noteDescription": "Changing properties in this section will require a server restart before taking effect.",
   "admin.elasticsearch.password": "E.g.: \"yourpassword\"",
   "admin.elasticsearch.passwordDescription": "(Optional) The password to authenticate to the Elasticsearch server.",
   "admin.elasticsearch.passwordTitle": "Server Password:",
