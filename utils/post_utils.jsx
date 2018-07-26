@@ -99,6 +99,38 @@ export function canEditPost(post, editDisableAction) {
     return canEdit;
 }
 
+export function canRethreadPost(post, editDisableAction) {
+    if (isSystemMessage(post)) {
+        return false;
+    }
+
+    let canRethread = false;
+    let canRethreadOthers = false;
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+    const channel = getChannel(store.getState(), post.channel_id);
+
+    const isOwner = isPostOwner(post);
+    canRethread = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
+    canRethreadOthers = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
+    if (!isOwner && !canRethreadOthers) {
+        canRethread = false;
+    }
+
+    if (canRethread && license.IsLicensed === 'true') {
+        if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
+            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
+            if (timeLeft > 0) {
+                editDisableAction.fireAfter(timeLeft + 1000);
+            } else {
+                canRethread = false;
+            }
+        }
+    }
+
+    return canRethread;
+}
+
 export function shouldShowDotMenu(post) {
     if (Utils.isMobile()) {
         return true;
