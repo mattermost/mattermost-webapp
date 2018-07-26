@@ -570,13 +570,9 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         if (post.user_id === UserStore.getCurrentId() && !isSystemMessage(post) && !isFromWebhook(post)) {
             markAsRead = true;
             markAsReadOnServer = false;
-        } else if (action.post.channel_id === ChannelStore.getCurrentId()) {
-            const state = store.getState();
-            const channelPostsStatus = state.views.channel.channelPostsStatus[action.post.channel_id];
-            if (channelPostsStatus && channelPostsStatus.atEnd) {
-                markAsRead = true;
-                markAsReadOnServer = true;
-            }
+        } else if (action.post.channel_id === ChannelStore.getCurrentId() && window.isActive) {
+            markAsRead = true;
+            markAsReadOnServer = true;
         }
 
         if (markAsRead) {
