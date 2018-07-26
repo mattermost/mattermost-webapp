@@ -319,8 +319,8 @@ export default class RhsRootPost extends React.Component {
 
         const dotMenu = (
             <DotMenu
-                idPrefix={Constants.RHS_ROOT}
                 post={this.props.post}
+                location={'RHS_ROOT'}
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
                 commentCount={this.props.commentCount}

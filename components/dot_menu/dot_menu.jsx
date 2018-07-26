@@ -4,24 +4,24 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
+import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import {showGetPostLinkModal} from 'actions/global_actions.jsx';
+
+import {ModalIdentifiers} from 'utils/constants.jsx';
+import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import DotMenuEdit from './dot_menu_edit.jsx';
-import DotMenuFlag from './dot_menu_flag.jsx';
 import DotMenuItem from './dot_menu_item.jsx';
 
 export default class DotMenu extends Component {
     static propTypes = {
-        idPrefix: PropTypes.string.isRequired,
-        idCount: PropTypes.number,
         post: PropTypes.object.isRequired,
+        location: PropTypes.oneOf(['CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH']).isRequired,
         commentCount: PropTypes.number,
         isFlagged: PropTypes.bool,
-        isRHS: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
         isReadOnly: PropTypes.bool,
@@ -61,11 +61,9 @@ export default class DotMenu extends Component {
     }
 
     static defaultProps = {
-        idCount: -1,
         post: {},
         commentCount: 0,
         isFlagged: false,
-        isRHS: false,
         isReadOnly: false,
     }
 
@@ -81,17 +79,8 @@ export default class DotMenu extends Component {
     }
 
     componentDidMount() {
-        $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on('shown.bs.dropdown', this.handleDropdownOpened);
-        $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.post !== this.props.post) {
-            this.setState({
-                canDelete: PostUtils.canDeletePost(nextProps.post),
-                canEdit: PostUtils.canEditPost(nextProps.post, this.editDisableAction),
-            });
-        }
+        $('#dropdown_' + this.props.post.id).on('shown.bs.dropdown', this.handleDropdownOpened);
+        $('#dropdown_' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
     }
 
     componentWillUnmount() {
@@ -113,127 +102,170 @@ export default class DotMenu extends Component {
         this.setState({canEdit: false});
     }
 
+    handleFlagMenuItemActivated = () => {
+        if (this.props.isFlagged) {
+            this.props.actions.unflagPost(this.props.post.id);
+        } else {
+            this.props.actions.flagPost(this.props.post.id);
+        }
+    }
+
+    handlePermalinkMenuItemActivated = (e) => {
+        e.preventDefault();
+        showGetPostLinkModal(this.props.post);
+    }
+
+    handlePinMenuItemActivated = () => {
+        if (this.props.post.is_pinned) {
+            this.props.actions.unpinPost(this.props.post.id);
+        } else {
+            this.props.actions.pinPost(this.props.post.id);
+        }
+    }
+
+    handleDeleteMenuItemActivated = (e) => {
+        e.preventDefault();
+
+        const deletePostModalData = {
+            ModalId: ModalIdentifiers.DELETE_POST,
+            dialogType: DeletePostModal,
+            dialogProps: {
+                post: this.props.post,
+                commentCount: this.props.commentCount,
+                isRHS: this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
+            },
+        };
+
+        this.props.actions.openModal(deletePostModalData);
+    }
+
+    handleEditMenuItemActivated = () => {
+        this.props.actions.setEditingPost(
+            this.props.post.id,
+            this.props.commentCount,
+            this.props.location === 'CENTER' ? 'post_textbox' : 'reply_textbox',
+            this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
+            this.props.location === 'RHS_ROOT' || this.props.location === 'RHS_COMMENT',
+        );
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
+        const canDelete = PostUtils.canDeletePost(this.props.post);
+        const canEdit = PostUtils.canEditPost(this.props.post, this.editDisableAction); // Fix this crazy
 
-        if (this.props.idPrefix === Constants.CENTER && isSystemMessage && !this.state.canDelete && !this.state.canEdit) {
-            return null;
-        }
+        const menuItems = [];
 
-        if (this.props.idPrefix === Constants.RHS && (this.props.post.state === Constants.POST_FAILED || this.props.post.state === Constants.POST_LOADING)) {
-            return null;
-        }
-
-        let type = 'Post';
-        if (this.props.post.root_id && this.props.post.root_id.length > 0) {
-            type = 'Comment';
-        }
-
-        const idPrefix = this.props.idPrefix + 'DotMenu';
-
-        let dotMenuFlag = null;
         if (isMobile && !isSystemMessage) {
-            dotMenuFlag = (
-                <DotMenuFlag
-                    idPrefix={idPrefix + 'Flag'}
-                    idCount={this.props.idCount}
-                    postId={this.props.post.id}
-                    isFlagged={this.props.isFlagged}
-                    actions={{
-                        flagPost: this.props.actions.flagPost,
-                        unflagPost: this.props.actions.unflagPost,
-                    }}
+            let text = (
+                <FormattedMessage
+                    id={'rhs_root.mobile.flag'}
+                    defaultMessage={'Flag'}
+                />
+            );
+            if (this.props.isFlagged) {
+                text = (
+                    <FormattedMessage
+                        id={'rhs_root.mobile.unflag'}
+                        defaultMessage={'Unflag'}
+                    />
+                );
+            }
+            menuItems.push(
+                <DotMenuItem
+                    key={'flag'}
+                    menuItemText={text}
+                    handleMenuItemActivated={this.handleFlagMenuItemActivated}
                 />
             );
         }
 
-        let dotMenuReply = null;
-        let dotMenuPermalink = null;
-        let dotMenuPin = null;
         if (!isSystemMessage) {
-            if (this.props.idPrefix === Constants.CENTER) {
-                dotMenuReply = (
+            if (this.props.location === 'CENTER') {
+                menuItems.push(
                     <DotMenuItem
-                        idPrefix={idPrefix + 'Reply'}
-                        idCount={this.props.idCount}
-                        handleOnClick={this.props.handleCommentClick}
+                        key={'reply'}
+                        menuItemText={
+                            <FormattedMessage
+                                id={'post_info.reply'}
+                                defaultMessage={'Reply'}
+                            />
+                        }
+                        handleMenuItemActivated={this.props.handleCommentClick}
                     />
                 );
             }
 
-            dotMenuPermalink = (
+            menuItems.push(
                 <DotMenuItem
-                    idPrefix={idPrefix + 'Permalink'}
-                    idCount={this.props.idCount}
-                    post={this.props.post}
+                    key={'permalink'}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'post_info.permalink'}
+                            defaultMessage={'Permalink'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handlePermalinkMenuItemActivated}
                 />
             );
             if (!this.props.isReadOnly) {
-                dotMenuPin = (
+                menuItems.push(
                     <DotMenuItem
-                        idPrefix={idPrefix + 'Pin'}
-                        idCount={this.props.idCount}
-                        post={this.props.post}
-                        actions={{
-                            pinPost: this.props.actions.pinPost,
-                            unpinPost: this.props.actions.unpinPost,
-                        }}
+                        key={'pin'}
+                        menuItemText={
+                            <FormattedMessage
+                                id={this.props.post.is_pinned ? 'post_info.unpin' : 'post_info.pin'}
+                                defaultMessage={'Pin'}
+                            />
+                        }
+                        handleMenuItemActivated={this.handlePinMenuItemActivated}
                     />
                 );
             }
         }
 
-        let dotMenuDelete = null;
-        if (this.state.canDelete) {
-            dotMenuDelete = (
+        if (canDelete) {
+            menuItems.push(
                 <DotMenuItem
-                    idPrefix={idPrefix + 'Delete'}
-                    isRHS={this.props.isRHS}
-                    idCount={this.props.idCount}
-                    post={this.props.post}
-                    commentCount={type === 'Post' ? this.props.commentCount : 0}
-                    actions={{
-                        openModal: this.props.actions.openModal,
-                    }}
+                    key={'delete'}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'post_info.del'}
+                            defaultMessage={'Delete'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handleDeleteMenuItemActivated}
                 />
             );
         }
 
-        let dotMenuEdit = null;
-        if (this.state.canEdit) {
-            dotMenuEdit = (
-                <DotMenuEdit
-                    idPrefix={idPrefix + 'Edit'}
-                    isRHS={this.props.isRHS}
-                    idCount={this.props.idCount}
-                    post={this.props.post}
-                    type={type}
-                    commentCount={type === 'Post' ? this.props.commentCount : 0}
-                    actions={{
-                        setEditingPost: this.props.actions.setEditingPost,
-                    }}
+        if (canEdit) {
+            menuItems.push(
+                <DotMenuItem
+                    key={'edit'}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'post_info.edit'}
+                            defaultMessage={'Edit'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handleEditMenuItemActivated}
                 />
             );
         }
 
-        let dotMenuId = null;
-        if (this.props.idCount > -1) {
-            dotMenuId = Utils.createSafeId(idPrefix + this.props.idCount);
-        }
-
-        if (this.props.idPrefix === Constants.RHS_ROOT) {
-            dotMenuId = idPrefix;
+        if (menuItems.length === 0) {
+            return null;
         }
 
         return (
             <div
-                id={dotMenuId}
                 className='dropdown'
                 ref='dotMenu'
             >
                 <div
-                    id={this.props.idPrefix + '_dropdown' + this.props.post.id}
+                    id={'dropdown_' + this.props.post.id}
                 >
                     <button
                         ref='dropdownToggle'
@@ -248,12 +280,7 @@ export default class DotMenu extends Component {
                             className='dropdown-menu'
                             role='menu'
                         >
-                            {dotMenuReply}
-                            {dotMenuFlag}
-                            {dotMenuPermalink}
-                            {dotMenuPin}
-                            {dotMenuDelete}
-                            {dotMenuEdit}
+                            {menuItems}
                         </ul>
                     </div>
                 </div>

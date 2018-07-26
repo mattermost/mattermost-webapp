@@ -258,9 +258,8 @@ export default class SearchResultsItem extends React.PureComponent {
             rhsControls = (
                 <div className='col__controls col__reply'>
                     <DotMenu
-                        idPrefix={Constants.SEARCH_POST}
-                        idCount={this.props.lastPostCount}
                         post={post}
+                        location={'SEARCH'}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
