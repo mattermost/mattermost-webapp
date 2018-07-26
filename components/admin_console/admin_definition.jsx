@@ -396,8 +396,8 @@ export default {
                         {
                             type: Constants.SettingsTypes.TYPE_BANNER,
                             label: 'admin.compliance.newComplianceExportBanner',
-                            label_html: true,
-                            label_default: 'This feature is replaced by a new <a href="../../admin_console/compliance/message_export">Compliance Export</a> feature, and will be removed in a future release. We recommend migrating to the new system.',
+                            label_markdown: true,
+                            label_default: 'This feature is replaced by a new [Compliance Export](../../admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.',
                             isHidden: needsUtils.not(needsUtils.hasLicense),
                             banner_type: 'info',
                         },
