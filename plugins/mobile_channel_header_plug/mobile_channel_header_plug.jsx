@@ -10,7 +10,7 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
         /*
          * Components or actions to add as channel header buttons
          */
-        components: PropTypes.array.isRequired,
+        components: PropTypes.array,
 
         /*
          * Set to true if the plug is in the dropdown
