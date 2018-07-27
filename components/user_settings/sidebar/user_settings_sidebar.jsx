@@ -178,8 +178,10 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     renderAutoCloseDMSection = () => {
+        let contents;
+
         if (this.props.activeSection === 'autoCloseDM') {
-            return (
+            contents = (
                 <SettingItemMax
                     title={
                         <FormattedMessage
@@ -237,20 +239,27 @@ export default class UserSettingsSidebar extends React.Component {
                     updateSection={this.updateSection}
                 />
             );
+        } else {
+            contents = (
+                <SettingItemMin
+                    title={
+                        <FormattedMessage
+                            id='user.settings.sidebar.autoCloseDMTitle'
+                            defaultMessage='Automatically Close Direct Messages'
+                        />
+                    }
+                    describe={this.renderAutoCloseDMLabel(this.state.settings.close_unused_direct_messages)}
+                    section={'autoCloseDM'}
+                    updateSection={this.updateSection}
+                />
+            );
         }
 
         return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.sidebar.autoCloseDMTitle'
-                        defaultMessage='Automatically Close Direct Messages'
-                    />
-                }
-                describe={this.renderAutoCloseDMLabel(this.state.settings.close_unused_direct_messages)}
-                section={'autoCloseDM'}
-                updateSection={this.updateSection}
-            />
+            <React.Fragment>
+                {contents}
+                <div className='divider-dark'/>
+            </React.Fragment>
         );
     };
 
@@ -359,6 +368,8 @@ export default class UserSettingsSidebar extends React.Component {
             },
         } = this.state;
 
+        let contents;
+
         if (this.props.activeSection === 'groupChannels') {
             const inputs = [];
 
@@ -452,7 +463,7 @@ export default class UserSettingsSidebar extends React.Component {
                 );
             }
 
-            return (
+            contents = (
                 <SettingItemMax
                     title={
                         <FormattedMessage
@@ -468,20 +479,27 @@ export default class UserSettingsSidebar extends React.Component {
                     updateSection={this.updateSection}
                 />
             );
+        } else {
+            contents = (
+                <SettingItemMin
+                    title={
+                        <FormattedMessage
+                            id='user.settings.sidebar.groupChannelsTitle'
+                            defaultMessage='Channel Grouping'
+                        />
+                    }
+                    describe={this.renderGroupLabel()}
+                    section={'groupChannels'}
+                    updateSection={this.updateSection}
+                />
+            );
         }
 
         return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.sidebar.groupChannelsTitle'
-                        defaultMessage='Channel Grouping'
-                    />
-                }
-                describe={this.renderGroupLabel()}
-                section={'groupChannels'}
-                updateSection={this.updateSection}
-            />
+            <React.Fragment>
+                {contents}
+                <div className='divider-light'/>
+            </React.Fragment>
         );
     };
 
@@ -492,6 +510,8 @@ export default class UserSettingsSidebar extends React.Component {
                 sorting,
             },
         } = this.state;
+
+        let contents;
 
         if (this.props.activeSection === 'sortChannels') {
             const disableSorting = grouping === 'by_type';
@@ -543,7 +563,7 @@ export default class UserSettingsSidebar extends React.Component {
                 </div>
             );
 
-            return (
+            contents = (
                 <SettingItemMax
                     title={
                         <FormattedMessage
@@ -559,20 +579,27 @@ export default class UserSettingsSidebar extends React.Component {
                     updateSection={this.updateSection}
                 />
             );
+        } else {
+            contents = (
+                <SettingItemMin
+                    title={
+                        <FormattedMessage
+                            id='user.settings.sidebar.sortChannelsTitle'
+                            defaultMessage='Channel Sorting'
+                        />
+                    }
+                    describe={this.renderSortLabel()}
+                    section={'sortChannels'}
+                    updateSection={this.updateSection}
+                />
+            );
         }
 
         return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.sidebar.sortChannelsTitle'
-                        defaultMessage='Channel Sorting'
-                    />
-                }
-                describe={this.renderSortLabel()}
-                section={'sortChannels'}
-                updateSection={this.updateSection}
-            />
+            <React.Fragment>
+                {contents}
+                <div className='divider-light'/>
+            </React.Fragment>
         );
     };
 
@@ -621,16 +648,9 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {showChannelOrganization && (
-                        <div>
-                            {channelGroupSection}
-                            <div className='divider-light'/>
-                            {channelSortingSection}
-                            <div className='divider-light'/>
-                        </div>
-                    )}
+                    {channelGroupSection}
+                    {channelSortingSection}
                     {autoCloseDMSection}
-                    <div className='divider-dark'/>
                 </div>
             </div>
         );
