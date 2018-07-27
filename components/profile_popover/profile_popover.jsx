@@ -20,7 +20,7 @@ import Pluggable from 'plugins/pluggable';
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
-class ProfilePopover extends React.Component {
+class ProfilePopover extends React.PureComponent {
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -58,15 +58,36 @@ class ProfilePopover extends React.Component {
          */
         hasMention: PropTypes.bool,
 
+        /**
+         * @internal
+         */
         currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * @internal
+         */
         teamUrl: PropTypes.string.isRequired,
 
-        ...Popover.propTypes,
+        /**
+         * @internal
+         */
+        isTeamAdmin: PropTypes.bool.isRequired,
 
+        /**
+         * @internal
+         */
+        isChannelAdmin: PropTypes.bool.isRequired,
+
+        /**
+         * @internal
+         */
         actions: PropTypes.shape({
+            getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequred,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
+
+        ...Popover.propTypes,
     }
 
     static defaultProps = {
@@ -84,41 +105,9 @@ class ProfilePopover extends React.Component {
             loadingDMChannel: -1,
         };
     }
-    shouldComponentUpdate(nextProps) {
-        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
-            return true;
-        }
 
-        if (nextProps.src !== this.props.src) {
-            return true;
-        }
-
-        if (nextProps.status !== this.props.status) {
-            return true;
-        }
-
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        // React-Bootstrap Forwarded Props from OverlayTrigger to Popover
-        if (nextProps.arrowOffsetLeft !== this.props.arrowOffsetLeft) {
-            return true;
-        }
-
-        if (nextProps.arrowOffsetTop !== this.props.arrowOffsetTop) {
-            return true;
-        }
-
-        if (nextProps.positionLeft !== this.props.positionLeft) {
-            return true;
-        }
-
-        if (nextProps.positionTop !== this.props.positionTop) {
-            return true;
-        }
-
-        return false;
+    componentDidMount() {
+        this.props.actions.getMembershipForCurrentEntities(this.props.user.id);
     }
 
     handleShowDirectChannel(e) {
@@ -189,6 +178,8 @@ class ProfilePopover extends React.Component {
         delete popoverProps.currentUserId;
         delete popoverProps.teamUrl;
         delete popoverProps.actions;
+        delete popoverProps.isTeamAdmin;
+        delete popoverProps.isChannelAdmin;
 
         var dataContent = [];
         dataContent.push(
@@ -203,6 +194,16 @@ class ProfilePopover extends React.Component {
         );
 
         const fullname = Utils.getFullName(this.props.user);
+
+        if (fullname || this.props.user.position) {
+            dataContent.push(
+                <hr
+                    key='user-popover-hr'
+                    className='divider divider--expanded'
+                />
+            );
+        }
+
         if (fullname) {
             dataContent.push(
                 <OverlayTrigger
@@ -242,7 +243,7 @@ class ProfilePopover extends React.Component {
         if (email) {
             dataContent.push(
                 <hr
-                    key='user-popover-hr'
+                    key='user-popover-hr2'
                     className='divider divider--expanded'
                 />
             );
@@ -345,10 +346,20 @@ class ProfilePopover extends React.Component {
             />
         );
 
+        let roleTitle;
+        if (Utils.isSystemAdmin(this.props.user.roles)) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.system_admin.name', 'System Admin')}</span>;
+        } else if (this.props.isTeamAdmin) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.team_admin.name', 'Team Admin')}</span>;
+        } else if (this.props.isChannelAdmin) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.channel_admin.name', 'Channel Admin')}</span>;
+        }
+
         let title = `@${this.props.user.username}`;
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
+        title = <span><span className='user-popover__username'>{title}</span> {roleTitle}</span>;
 
         return (
             <Popover
