@@ -259,24 +259,6 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    renderUnreadLabel = (value) => {
-        if (value === 'true') {
-            return (
-                <FormattedMessage
-                    id='user.settings.sidebar.showUnreadSection'
-                    defaultMessage='At the top of the channel sidebar'
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                id='user.settings.sidebar.never'
-                defaultMessage='Never'
-            />
-        );
-    };
-
     renderOrganizationLabel = () => {
         const {
             grouping,
@@ -291,22 +273,22 @@ export default class UserSettingsSidebar extends React.Component {
             messages.push(
                 <FormattedMessage
                     key='by_type'
-                    id='user.settings.sidebar.channel_type'
-                    defaultMessage='By Channel Type'
+                    id='user.settings.sidebar.groupByTypeShort'
+                    defaultMessage='Group by channel type'
                 />
             );
 
             let id = null;
             let defaultMessage = null;
             if (unreadsAtTop === 'true' && favoriteAtTop === 'false') {
-                id = 'user.settings.sidebar.unreads';
-                defaultMessage = 'Unreads at the top';
+                id = 'user.settings.sidebar.unreadsShort';
+                defaultMessage = 'unreads grouped separately';
             } else if (unreadsAtTop === 'false' && favoriteAtTop === 'true') {
-                id = 'user.settings.sidebar.favorites';
-                defaultMessage = 'Favorites at the top';
+                id = 'user.settings.sidebar.favoritesShort';
+                defaultMessage = 'favorites grouped separately';
             } else if (unreadsAtTop === 'true' && favoriteAtTop === 'true') {
-                id = 'user.settings.sidebar.unreadsFavorites';
-                defaultMessage = 'Unreads and Favorites at the top';
+                id = 'user.settings.sidebar.unreadsFavoritesShort';
+                defaultMessage = 'unreads and favorites grouped separately';
             }
 
             if (id) {
@@ -326,19 +308,19 @@ export default class UserSettingsSidebar extends React.Component {
             messages.push(
                 <FormattedMessage
                     key='none'
-                    id='user.settings.sidebar.no_grouping'
-                    defaultMessage='No Grouping'
+                    id='user.settings.sidebar.groupByNoneShort'
+                    defaultMessage='No grouping'
                 />
             );
 
             let id;
             let defaultMessage;
             if (sorting === 'alpha') {
-                id = 'user.settings.sidebar.inAlphaOrder';
-                defaultMessage = 'In Alphabetical Order';
+                id = 'user.settings.sidebar.sortAlphaShort';
+                defaultMessage = 'sorted alphabetically';
             } else {
-                id = 'user.settings.sidebar.inRecentOrder';
-                defaultMessage = 'In Recent Order';
+                id = 'user.settings.sidebar.sortRecentShort';
+                defaultMessage = 'sorted by recency';
             }
 
             messages.push(
@@ -370,6 +352,13 @@ export default class UserSettingsSidebar extends React.Component {
 
             inputs.push(
                 <div key='groupingSectionSetting'>
+                    <label>
+                        <FormattedMessage
+                            id='user.settings.sidebar.groupChannelsTitle'
+                            defaultMessage='Channel grouping'
+                        />
+                    </label>
+                    <br/>
                     <div className='radio'>
                         <label>
                             <input
@@ -380,8 +369,8 @@ export default class UserSettingsSidebar extends React.Component {
                                 onChange={this.updateSetting.bind(this, 'grouping', 'by_type')}
                             />
                             <FormattedMessage
-                                id='user.settings.sidebar.channel_type'
-                                defaultMessage='By Channel Type'
+                                id='user.settings.sidebar.groupByType'
+                                defaultMessage='Public, Private and Direct Message channels are grouped separately'
                             />
                         </label>
                         <br/>
@@ -389,15 +378,15 @@ export default class UserSettingsSidebar extends React.Component {
                     <div className='radio'>
                         <label>
                             <input
-                                id='noGroupingOption'
+                                id='noneOption'
                                 type='radio'
                                 name='groupChannels'
                                 checked={grouping === 'none'}
                                 onChange={this.updateSetting.bind(this, 'grouping', 'none')}
                             />
                             <FormattedMessage
-                                id='user.settings.sidebar.no grouping'
-                                defaultMessage='No Grouping'
+                                id='user.settings.sidebar.groupByNone'
+                                defaultMessage='Combine all channel types'
                             />
                         </label>
                         <br/>
@@ -405,13 +394,8 @@ export default class UserSettingsSidebar extends React.Component {
                     <div>
                         <br/>
                         <FormattedMessage
-                            id='user.settings.sidebar.groupingByTypeHint'
-                            defaultMessage='By Channel Type: Group Public, Private and Direct Message channels separately, plus include Unreads and/or Favorites at top'
-                        />
-                        <br/>
-                        <FormattedMessage
-                            id='user.settings.sidebar.groupingNoneHint'
-                            defaultMessage='No Grouping: Combine all channel types'
+                            id='user.settings.sidebar.groupDesc'
+                            defaultMessage='Select if channels in your sidebar are displayed in groups or combined in a single list.'
                         />
                     </div>
                 </div>
@@ -422,44 +406,68 @@ export default class UserSettingsSidebar extends React.Component {
             // When grouping by type, display Favorite and Unread options. Otherwise, display sorting options.
             if (grouping === 'by_type') {
                 inputs.push(
-                    <div key='atTopOptions'>
-                        <div key='unreadOption'>
-                            <div className='checkbox'>
-                                <label>
-                                    <input
-                                        id='unreadAtTopOption'
-                                        type='checkbox'
-                                        checked={this.state.settings.unreads_at_top === 'true'}
-                                        onChange={(e) => this.updateSetting('unreads_at_top', (e.target.checked).toString())}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.sidebar.unreads'
-                                        defaultMessage='Unreads at the top'
-                                    />
-                                </label>
-                            </div>
+                    <div key='unreadOption'>
+                        <div className='checkbox'>
+                            <label>
+                                <input
+                                    id='unreadAtTopOption'
+                                    type='checkbox'
+                                    checked={this.state.settings.unreads_at_top === 'true'}
+                                    onChange={(e) => this.updateSetting('unreads_at_top', (e.target.checked).toString())}
+                                />
+                                <FormattedMessage
+                                    id='user.settings.sidebar.unreads'
+                                    defaultMessage='Unreads grouped separately'
+                                />
+                            </label>
                         </div>
-                        <div key='favoriteOption'>
-                            <div className='checkbox'>
-                                <label>
-                                    <input
-                                        id='favoriteAtTopOption'
-                                        type='checkbox'
-                                        checked={this.state.settings.favorite_at_top === 'true'}
-                                        onChange={(e) => this.updateSetting('favorite_at_top', (e.target.checked).toString())}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.sidebar.favorites'
-                                        defaultMessage='Favorite at the top'
-                                    />
-                                </label>
-                            </div>
+                        <div>
+                            <br/>
+                            <FormattedMessage
+                                id='user.settings.sidebar.unreadsDesc'
+                                defaultMessage='Unread channels will be grouped at the top of the channel sidebar until read.'
+                            />
+                        </div>
+                    </div>
+                );
+
+                inputs.push(<hr key='groupingDivider'/>);
+
+                inputs.push(
+                    <div key='favoriteOption'>
+                        <div className='checkbox'>
+                            <label>
+                                <input
+                                    id='favoriteAtTopOption'
+                                    type='checkbox'
+                                    checked={this.state.settings.favorite_at_top === 'true'}
+                                    onChange={(e) => this.updateSetting('favorite_at_top', (e.target.checked).toString())}
+                                />
+                                <FormattedMessage
+                                    id='user.settings.sidebar.favorites'
+                                    defaultMessage='Favorites grouped separately'
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <br/>
+                            <FormattedMessage
+                                id='user.settings.sidebar.favoritesDesc'
+                                defaultMessage="Channels you've marked as favorite will be grouped separately in the channel sidebar."
+                            />
                         </div>
                     </div>
                 );
             } else {
                 inputs.push(
                     <div key='sortingOptions'>
+                        <label>
+                            <FormattedMessage
+                                id='user.settings.sidebar.sortChannelsTitle'
+                                defaultMessage='Channel sorting'
+                            />
+                        </label>
+                        <br/>
                         <div className='radio'>
                             <label>
                                 <input
@@ -470,8 +478,8 @@ export default class UserSettingsSidebar extends React.Component {
                                     onChange={this.updateSetting.bind(this, 'sorting', 'recent')}
                                 />
                                 <FormattedMessage
-                                    id='user.settings.sidebar.recent'
-                                    defaultMessage='Recent'
+                                    id='user.settings.sidebar.sortRecent'
+                                    defaultMessage='Recency'
                                 />
                             </label>
                             <br/>
@@ -486,7 +494,7 @@ export default class UserSettingsSidebar extends React.Component {
                                     onChange={this.updateSetting.bind(this, 'sorting', 'alpha')}
                                 />
                                 <FormattedMessage
-                                    id='user.settings.sidebar.alpha'
+                                    id='user.settings.sidebar.sortAlpha'
                                     defaultMessage='Alphabetically'
                                 />
                             </label>
@@ -495,8 +503,8 @@ export default class UserSettingsSidebar extends React.Component {
                         <div>
                             <br/>
                             <FormattedMessage
-                                id='user.settings.sidebar.sortChannelsHint'
-                                defaultMessage='Recent channels will be sorted by last post.  Otherwise, posts will be sorted alphabetically'
+                                id='user.settings.sidebar.sortDesc'
+                                defaultMessage='Select how channels will be ordered in your sidebar. Recent channels are sorted by latest post.'
                             />
                         </div>
                     </div>
@@ -507,8 +515,8 @@ export default class UserSettingsSidebar extends React.Component {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.sidebar.groupChannelsTitle'
-                            defaultMessage='Channel Grouping and Sorting'
+                            id='user.settings.sidebar.groupAndSortChannelsTitle'
+                            defaultMessage='Channel grouping and sorting'
                         />
                     }
                     inputs={inputs}
@@ -524,8 +532,8 @@ export default class UserSettingsSidebar extends React.Component {
                 <SettingItemMin
                     title={
                         <FormattedMessage
-                            id='user.settings.sidebar.groupChannelsTitle'
-                            defaultMessage='Channel Grouping and Sorting'
+                            id='user.settings.sidebar.groupAndSortChannelsTitle'
+                            defaultMessage='Channel grouping and sorting'
                         />
                     }
                     describe={this.renderOrganizationLabel()}
