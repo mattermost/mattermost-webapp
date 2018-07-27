@@ -358,31 +358,29 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         const body = (
-            <Modal.Body>
-                <MultiSelect
-                    key='moreDirectChannelsList'
-                    ref='multiselect'
-                    options={users}
-                    optionRenderer={this.renderOption}
-                    values={this.state.values}
-                    valueKey='id'
-                    valueRenderer={this.renderValue}
-                    perPage={USERS_PER_PAGE}
-                    handlePageChange={this.handlePageChange}
-                    handleInput={this.search}
-                    handleDelete={this.handleDelete}
-                    handleAdd={this.addValue}
-                    handleSubmit={this.handleSubmit}
-                    noteText={note}
-                    maxValues={MAX_SELECTABLE_VALUES}
-                    numRemainingText={numRemainingText}
-                    buttonSubmitText={buttonSubmitText}
-                    buttonSubmitLoadingText={buttonSubmitLoadingText}
-                    submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                    saving={this.state.saving}
-                    loading={this.state.loadingUsers}
-                />
-            </Modal.Body>
+            <MultiSelect
+                key='moreDirectChannelsList'
+                ref='multiselect'
+                options={users}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueKey='id'
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                handleDelete={this.handleDelete}
+                handleAdd={this.addValue}
+                handleSubmit={this.handleSubmit}
+                noteText={note}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
+                submitImmediatelyOn={this.handleSubmitImmediatelyOn}
+                saving={this.state.saving}
+                loading={this.state.loadingUsers}
+            />
         );
 
         if (this.props.bodyOnly) {
@@ -404,7 +402,9 @@ export default class MoreDirectChannels extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                {body}
+                <Modal.Body>
+                    {body}
+                </Modal.Body>
             </Modal>
         );
     }

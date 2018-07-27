@@ -179,7 +179,7 @@ export default class MoreChannels extends React.Component {
         );
 
         const body = (
-            <Modal.Body>
+            <React.Fragment>
                 <SearchableChannelList
                     channels={search ? searchedChannels : channels}
                     channelsPerPage={CHANNELS_PER_PAGE}
@@ -191,7 +191,7 @@ export default class MoreChannels extends React.Component {
                     createChannelButton={bodyOnly && createNewChannelButton}
                 />
                 {serverError}
-            </Modal.Body>
+            </React.Fragment>
         );
 
         if (bodyOnly) {
@@ -214,7 +214,9 @@ export default class MoreChannels extends React.Component {
                     </Modal.Title>
                     {createNewChannelButton}
                 </Modal.Header>
-                {body}
+                <Modal.Body>
+                    {body}
+                </Modal.Body>
             </Modal>
         );
     }

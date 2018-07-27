@@ -4,14 +4,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, Tabs, Tab} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import MorePublicChannels from 'components/more_channels';
 import MoreDirectMessages from 'components/more_direct_channels';
 
-export default class MoreDirectChannels extends React.Component {
+import {localizeMessage} from 'utils/utils';
+
+export default class MorePublicDirectChannels extends React.PureComponent {
     static propTypes = {
-        onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
+        onModalDismissed: PropTypes.func,
     };
 
     state = {
@@ -34,43 +37,49 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     render() {
-        const exampleOne = (
-            <Tabs
-                className='modal-tabs'
-                defaultActiveKey='channels'
-                activeKey={this.state.key}
-                onSelect={this.handleSelect}
-            >
-                <Tab
-                    eventKey='channels'
-                    title='Channels'
-                >
-                    <MorePublicChannels
-                        handleNewChannel={this.props.handleNewChannel}
-                        onModalDismissed={this.handleHide}
-                        bodyOnly={true}
-                    />
-                </Tab>
-                <Tab
-                    eventKey='dm'
-                    title='Direct Messages'
-                >
-                    <MoreDirectMessages
-                        onModalDismissed={this.handleHide}
-                        bodyOnly={true}
-                    />
-                </Tab>
-            </Tabs>
-        );
-
         return (
             <Modal
-                dialogClassName={'more-modal more-direct-channels'}
+                dialogClassName={'more-modal more-direct-channels more-public-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
             >
-                {exampleOne}
+                <Modal.Header closeButton={true}>
+                    <Modal.Title>
+                        <FormattedMessage
+                            id='more_public_direct_channels.title'
+                            defaultMessage='Channels and Direct Messages'
+                        />
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Tabs
+                        className='modal-tabs'
+                        defaultActiveKey='channels'
+                        activeKey={this.state.key}
+                        onSelect={this.handleSelect}
+                    >
+                        <Tab
+                            eventKey='channels'
+                            title={localizeMessage('more_public_direct_channels.channels', 'Channels')}
+                        >
+                            <MorePublicChannels
+                                handleNewChannel={this.props.handleNewChannel}
+                                onModalDismissed={this.handleHide}
+                                bodyOnly={true}
+                            />
+                        </Tab>
+                        <Tab
+                            eventKey='dm'
+                            title={localizeMessage('more_public_direct_channels.direct_messages', 'Direct Messages')}
+                        >
+                            <MoreDirectMessages
+                                onModalDismissed={this.handleHide}
+                                bodyOnly={true}
+                            />
+                        </Tab>
+                    </Tabs>
+                </Modal.Body>
             </Modal>
         );
     }
