@@ -97,7 +97,7 @@ export default class PostBody extends React.PureComponent {
         isReadOnly: PropTypes.bool,
 
         /**
-         * Set to mark the post as selected for rethreding
+         * Set to mark the post as selected for rethreading
          */
         selected: PropTypes.bool,
     }
