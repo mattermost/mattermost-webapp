@@ -18,7 +18,6 @@ function mapStateToProps(state, ownProps) {
     const canInviteTeamMembers = haveITeamPermission(state, {team: ownProps.team.id, permission: Permissions.INVITE_USER});
 
     return {
-        ...ownProps,
         maxFileSize,
         canInviteTeamMembers,
     };
