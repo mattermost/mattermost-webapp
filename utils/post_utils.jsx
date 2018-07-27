@@ -99,7 +99,7 @@ export function canEditPost(post, editDisableAction) {
     return canEdit;
 }
 
-export function canRethreadPost(post, editDisableAction) {
+export function canRethreadPost(post) {
     if (isSystemMessage(post)) {
         return false;
     }
@@ -116,18 +116,6 @@ export function canRethreadPost(post, editDisableAction) {
     if (!isOwner && !canRethreadOthers) {
         canRethread = false;
     }
-
-    if (canRethread && license.IsLicensed === 'true') {
-        if (config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
-            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
-            if (timeLeft > 0) {
-                editDisableAction.fireAfter(timeLeft + 1000);
-            } else {
-                canRethread = false;
-            }
-        }
-    }
-
     return canRethread;
 }
 

@@ -129,21 +129,11 @@ export default class PostInfo extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.editDisableAction = new DelayedAction(this.handleEditDisable);
-
         this.state = {
             showEmojiPicker: false,
             reactionPickerOffset: 21,
-            canRethread: PostUtils.canRethreadPost(props.post, this.editDisableAction),
+            canRethread: PostUtils.canRethreadPost(props.post),
         };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.post !== this.props.post) {
-            this.setState({
-                canRethread: PostUtils.canRethreadPost(nextProps.post, this.editDisableAction),
-            });
-        }
     }
 
     handleEditDisable = () => {
