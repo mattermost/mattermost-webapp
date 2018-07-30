@@ -7,12 +7,6 @@ import {getUserAudits} from 'mattermost-redux/actions/users';
 
 import AccessHistoryModal from './access_history_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -21,4 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccessHistoryModal);
+export default connect(null, mapDispatchToProps)(AccessHistoryModal);

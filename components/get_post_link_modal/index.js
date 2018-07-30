@@ -8,11 +8,10 @@ import {getSiteURL} from 'utils/url.jsx';
 
 import GetPostLinkModal from './get_post_link_modal';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
     return {
-        ...ownProps,
         currentTeamUrl,
     };
 }

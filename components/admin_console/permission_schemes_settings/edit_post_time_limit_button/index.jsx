@@ -7,11 +7,10 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import EditPostTimeLimitButton from './edit_post_time_limit_button';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const {PostEditTimeLimit} = getConfig(state);
 
     return {
-        ...ownProps,
         timeLimit: parseInt(PostEditTimeLimit, 10),
     };
 }
