@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
 import {
@@ -27,6 +28,15 @@ function dispatchPluginComponentAction(name, pluginId, component, id = generateI
 
     return id;
 }
+
+const resolveReactElement = (element) => {
+    if (typeof element === 'function') {
+        // Allow element to be passed as the name of the component, instead of a React element.
+        return React.createElement(element);
+    }
+
+    return element;
+};
 
 export default class PluginRegistry {
     constructor(id) {
@@ -67,18 +77,18 @@ export default class PluginRegistry {
     // Add a button to the channel header. If there are more than one buttons registered by any
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:
-    // - icon - JSX element to use as the button's icon
+    // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - dropdown_text - string or JSX element shown for the dropdown button description
+    // - dropdown_text - string or React element shown for the dropdown button description
     registerChannelHeaderButtonAction(icon, action, dropdownText) {
         const id = generateId();
 
         const data = {
             id,
             pluginId: this.id,
-            icon,
+            icon: resolveReactElement(icon),
             action,
-            dropdownText,
+            dropdownText: resolveReactElement(dropdownText),
         };
 
         store.dispatch({
@@ -118,9 +128,9 @@ export default class PluginRegistry {
 
     // Register a main menu list item by providing some text and an action function.
     // Accepts the following:
-    // - text - A string or JSX element to display in the menu
+    // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
-    // - mobileIcon - An icon to display in the menu in mobile view
+    // - mobileIcon - A React element to display as the icon in the menu in mobile view
     // Returns a unique identifier.
     registerMainMenuAction(text, action, mobileIcon) {
         const id = generateId();
@@ -131,9 +141,9 @@ export default class PluginRegistry {
             data: {
                 id,
                 pluginId: this.id,
-                text,
+                text: resolveReactElement(text),
                 action,
-                mobileIcon,
+                mobileIcon: resolveReactElement(mobileIcon),
             },
         });
 
@@ -142,7 +152,7 @@ export default class PluginRegistry {
 
     // Register a post menu list item by providing some text and an action function.
     // Accepts the following:
-    // - text - A string or JSX element to display in the menu
+    // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
     // Returns a unique identifier.
     registerPostDropdownMenuAction = (text, action) => {
@@ -154,7 +164,7 @@ export default class PluginRegistry {
             data: {
                 id,
                 pluginId: this.id,
-                text,
+                text: resolveReactElement(text),
                 action,
             },
         });
