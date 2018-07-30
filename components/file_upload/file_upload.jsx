@@ -561,10 +561,10 @@ export default class FileUpload extends Component {
                     onToggle={this.toggleMenu}
                 >
                     <FileDropdownComponent bsRole='toggle'/>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu className='dropdown-menu__icons'>
                         <li>
                             <a>
-                                <i className='fa fa-files-o'/>
+                                <i className='fa fa-laptop'/>
                                 <FormattedMessage
                                     id='yourcomputer'
                                     defaultMessage='Your computer'
