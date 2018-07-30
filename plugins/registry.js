@@ -168,10 +168,11 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('PostDropdownMenuItem', this.id, component);
     }
 
-    // Register a post menu list item by providing some text and an action function.
+    // Register a file upload method by providing some text, an icon, and an action function.
     // Accepts the following:
-    // - text - A string or JSX element to display in the menu
-    // - action - A function to trigger when component is clicked on
+    // - icon - JSX element to use as the button's icon
+    // - text - A string or JSX element to display in the file upload menu
+    // - action - A function to trigger when the menu item is selected.
     // Returns a unique identifier.
     registerFileUploadMethod(icon, action, text) {
         const id = generateId();
