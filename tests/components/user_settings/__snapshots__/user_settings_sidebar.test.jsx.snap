@@ -53,21 +53,21 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-dark first"
     />
-    <div>
+    <React.Fragment>
       <SettingItemMin
         describe={
           Array [
             <FormattedMessage
-              defaultMessage="By Channel Type"
-              id="user.settings.sidebar.channel_type"
+              defaultMessage="Group by channel type"
+              id="user.settings.sidebar.groupByTypeShort"
               values={Object {}}
             />,
             <span>
               , 
             </span>,
             <FormattedMessage
-              defaultMessage="Unreads and Favorites at the top"
-              id="user.settings.sidebar.unreadsFavorites"
+              defaultMessage="unreads and favorites grouped separately"
+              id="user.settings.sidebar.unreadsFavoritesShort"
               values={Object {}}
             />,
           ]
@@ -76,8 +76,8 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         section="groupChannels"
         title={
           <FormattedMessage
-            defaultMessage="Channel Grouping"
-            id="user.settings.sidebar.groupChannelsTitle"
+            defaultMessage="Channel grouping and sorting"
+            id="user.settings.sidebar.groupAndSortChannelsTitle"
             values={Object {}}
           />
         }
@@ -86,32 +86,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       <div
         className="divider-light"
       />
-      <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="By Alphabetical Order"
-            id="user.settings.sidebar.byAlpha"
-            values={Object {}}
-          />
-        }
-        focused={false}
-        section="sortChannels"
-        title={
-          <FormattedMessage
-            defaultMessage="Channel Sorting"
-            id="user.settings.sidebar.sortChannelsTitle"
-            values={Object {}}
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-light"
-      />
-    </div>
-    <div
-      className="divider-dark"
-    />
+    </React.Fragment>
   </div>
 </div>
 `;

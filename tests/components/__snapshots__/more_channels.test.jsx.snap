@@ -69,40 +69,42 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
     bsClass="modal-body"
     componentClass="div"
   >
-    <SearchableChannelList
-      channels={
-        Array [
-          Object {
-            "id": "channel_id_1",
-          },
-        ]
-      }
-      channelsPerPage={50}
-      handleJoin={[Function]}
-      isSearch={false}
-      nextPage={[Function]}
-      noResultsText={
-        <Connect(TeamPermissionGate)
-          permissions={
-            Array [
-              "create_public_channel",
-            ]
-          }
-          teamId="team_id"
-        >
-          <p
-            className="secondary-message"
+    <React.Fragment>
+      <SearchableChannelList
+        channels={
+          Array [
+            Object {
+              "id": "channel_id_1",
+            },
+          ]
+        }
+        channelsPerPage={50}
+        handleJoin={[Function]}
+        isSearch={false}
+        nextPage={[Function]}
+        noResultsText={
+          <Connect(TeamPermissionGate)
+            permissions={
+              Array [
+                "create_public_channel",
+              ]
+            }
+            teamId="team_id"
           >
-            <FormattedMessage
-              defaultMessage="Click 'Create New Channel' to make a new one"
-              id="more_channels.createClick"
-              values={Object {}}
-            />
-          </p>
-        </Connect(TeamPermissionGate)>
-      }
-      search={[Function]}
-    />
+            <p
+              className="secondary-message"
+            >
+              <FormattedMessage
+                defaultMessage="Click 'Create New Channel' to make a new one"
+                id="more_channels.createClick"
+                values={Object {}}
+              />
+            </p>
+          </Connect(TeamPermissionGate)>
+        }
+        search={[Function]}
+      />
+    </React.Fragment>
   </ModalBody>
 </Modal>
 `;

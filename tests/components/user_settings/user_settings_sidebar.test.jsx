@@ -41,8 +41,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: defaultProps.sidebarPreference.grouping,
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
     });
 
@@ -64,13 +64,13 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         const props = {...defaultProps, activeSection: 'groupChannels'};
         const wrapper = mountWithIntl(<UserSettingsSidebar {...props}/>);
 
-        wrapper.find('#neverOption').simulate('change');
+        wrapper.find('#noneOption').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'none',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
 
         wrapper.find('#byTypeOption').simulate('change');
@@ -78,8 +78,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
 
         wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: false}});
@@ -87,8 +87,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: 'false',
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: 'false',
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
 
         wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: true}});
@@ -96,8 +96,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: 'true',
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: 'true',
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
 
         wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: false}});
@@ -105,8 +105,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: 'false',
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: 'false',
         });
 
         wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: true}});
@@ -114,15 +114,15 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: 'true',
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: 'true',
         });
     });
 
     test('should pass handleChange for channel grouping', () => {
         const props = {
             ...defaultProps,
-            activeSection: 'sortChannels',
+            activeSection: 'groupChannels',
             sidebarPreference: {
                 ...defaultProps.sidebarPreference,
                 grouping: 'none',
@@ -134,8 +134,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'none',
             sorting: 'recent',
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
 
         wrapper.find('#alphaSectionEnabled').simulate('change');
@@ -143,8 +143,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             grouping: 'none',
             sorting: 'alpha',
-            unreads_at_top: defaultProps.sidebarPreference.unreadsAtTop,
-            favorite_at_top: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
         });
     });
 });
