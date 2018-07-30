@@ -254,13 +254,19 @@ export default class NotificationsTab extends React.Component {
         const checked = this.refs.customcheck.checked;
 
         if (checked) {
-            const text = this.refs.custommentions.value;
+            let text = this.refs.custommentions.value;
+            text = this.removeEmptyStrings(text);
 
-            // remove all spaces and split string into individual keys
-            this.setState({customKeys: text.replace(/ /g, ''), customKeysChecked: true});
+            this.setState({customKeys: text, customKeysChecked: true});
         } else {
             this.setState({customKeys: '', customKeysChecked: false});
         }
+    }
+
+    removeEmptyStrings(text) {
+        return text.split(',').
+            map((word) => word.trim()).
+            filter((word) => word !== '');
     }
 
     onCustomChange = () => {
