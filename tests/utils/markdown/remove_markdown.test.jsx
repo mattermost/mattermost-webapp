@@ -3,6 +3,7 @@
 
 import {formatWithRenderer} from 'utils/markdown';
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
+const removeMarkdown = new RemoveMarkdown();
 
 describe('RemoveMarkdown', () => {
     const testCases = [
@@ -186,6 +187,6 @@ describe('RemoveMarkdown', () => {
     ];
 
     testCases.forEach((testCase) => it(testCase.description, () => {
-        expect(formatWithRenderer(testCase.inputText, new RemoveMarkdown())).toEqual(testCase.outputText);
+        expect(formatWithRenderer(testCase.inputText, removeMarkdown)).toEqual(testCase.outputText);
     }));
 });

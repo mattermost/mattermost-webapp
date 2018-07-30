@@ -15,6 +15,7 @@ import store from 'stores/redux_store.jsx';
 
 import {formatWithRenderer} from 'utils/markdown';
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
+const removeMarkdown = new RemoveMarkdown();
 
 export function sendDesktopNotification(post, msgProps) {
     if ((UserStore.getCurrentId() === post.user_id && post.props.from_webhook !== 'true')) {
@@ -101,7 +102,7 @@ export function sendDesktopNotification(post, msgProps) {
         notifyText = notifyText.substring(0, 49) + '...';
     }
 
-    const strippedMarkdownNotifyText = formatWithRenderer(notifyText, new RemoveMarkdown());
+    const strippedMarkdownNotifyText = formatWithRenderer(notifyText, removeMarkdown);
 
     let body = '';
     if (strippedMarkdownNotifyText.length === 0) {

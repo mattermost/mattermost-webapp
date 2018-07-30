@@ -6,10 +6,14 @@ import XRegExp from 'xregexp';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
+import {formatWithRenderer} from 'utils/markdown';
+import RemoveMarkdown from 'utils/markdown/remove_markdown';
+
 import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
 import * as Markdown from './markdown';
 
+const removeMarkdown = new RemoveMarkdown();
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
@@ -50,7 +54,11 @@ export function formatText(text, inputOptions) {
         options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
     }
 
-    if (!('markdown' in options) || options.markdown) {
+    if (options.removeMarkdown) {
+        output = formatWithRenderer(output, removeMarkdown);
+        output = sanitizeHtml(output);
+        output = doFormatText(output, options);
+    } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options);
     } else {
