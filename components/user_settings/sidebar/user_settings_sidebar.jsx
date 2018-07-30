@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -94,13 +96,19 @@ export default class UserSettingsSidebar extends React.Component {
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
                 grouping,
-                unreads_at_top: unreadsAtTop,
-                favorite_at_top: favoriteAtTop,
+                unreadsAtTop,
+                favoriteAtTop,
                 sorting,
             },
             isSaving: false,
         };
     };
+
+    trackSettingChangeIfNecessary = (setting) => {
+        if (this.state.settings[setting] !== this.props.sidebarPreference[setting]) {
+            trackEvent('settings', 'user_settings_update', {field: 'sidebar.' + setting, value: this.state.settings[setting]});
+        }
+    }
 
     updateSetting = (setting, value) => {
         const settings = this.state.settings;
@@ -116,12 +124,13 @@ export default class UserSettingsSidebar extends React.Component {
         if (setting === 'channel_grouping' || setting === 'channel_sorting') {
             const updatedSidebarSettings = {
                 grouping: this.state.settings.grouping,
-                unreads_at_top: this.state.settings.unreads_at_top,
-                favorite_at_top: this.state.settings.favorite_at_top,
+                unreads_at_top: this.state.settings.unreadsAtTop,
+                favorite_at_top: this.state.settings.favoriteAtTop,
                 sorting: this.state.settings.sorting,
             };
 
             if (updatedSidebarSettings.grouping === 'by_type') {
+                // Note that this isn't tracked by the analytics below because it's not in this.state
                 updatedSidebarSettings.sorting = 'alpha';
             }
 
@@ -131,6 +140,11 @@ export default class UserSettingsSidebar extends React.Component {
                 name: '',
                 value: JSON.stringify(updatedSidebarSettings),
             });
+
+            this.trackSettingChangeIfNecessary('grouping');
+            this.trackSettingChangeIfNecessary('sorting');
+            this.trackSettingChangeIfNecessary('unreadsAtTop');
+            this.trackSettingChangeIfNecessary('favoriteAtTop');
         } else {
             preferences.push({
                 user_id: user.id,
@@ -138,6 +152,8 @@ export default class UserSettingsSidebar extends React.Component {
                 name: setting,
                 value: this.state.settings[setting],
             });
+
+            trackEvent('settings', 'user_settings_update', {field: 'sidebar.' + setting, value: this.state.settings[setting]});
         }
 
         this.setState({isSaving: true});
@@ -412,8 +428,8 @@ export default class UserSettingsSidebar extends React.Component {
                                 <input
                                     id='unreadAtTopOption'
                                     type='checkbox'
-                                    checked={this.state.settings.unreads_at_top === 'true'}
-                                    onChange={(e) => this.updateSetting('unreads_at_top', (e.target.checked).toString())}
+                                    checked={this.state.settings.unreadsAtTop === 'true'}
+                                    onChange={(e) => this.updateSetting('unreadsAtTop', (e.target.checked).toString())}
                                 />
                                 <FormattedMessage
                                     id='user.settings.sidebar.unreads'
@@ -440,8 +456,8 @@ export default class UserSettingsSidebar extends React.Component {
                                 <input
                                     id='favoriteAtTopOption'
                                     type='checkbox'
-                                    checked={this.state.settings.favorite_at_top === 'true'}
-                                    onChange={(e) => this.updateSetting('favorite_at_top', (e.target.checked).toString())}
+                                    checked={this.state.settings.favoriteAtTop === 'true'}
+                                    onChange={(e) => this.updateSetting('favoriteAtTop', (e.target.checked).toString())}
                                 />
                                 <FormattedMessage
                                     id='user.settings.sidebar.favorites'
