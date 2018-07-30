@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants, {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
@@ -92,7 +92,7 @@ export default class FileAttachmentList extends React.Component {
 
         const postFiles = [];
         if (fileInfos && fileInfos.length > 0) {
-            for (let i = 0; i < Math.min(fileInfos.length, Constants.MAX_DISPLAY_FILES); i++) {
+            for (let i = 0; i < fileInfos.length; i++) {
                 const fileInfo = fileInfos[i];
 
                 postFiles.push(
@@ -106,7 +106,7 @@ export default class FileAttachmentList extends React.Component {
                 );
             }
         } else if (fileCount > 0) {
-            for (let i = 0; i < Math.min(fileCount, Constants.MAX_DISPLAY_FILES); i++) {
+            for (let i = 0; i < fileCount; i++) {
                 // Add a placeholder to avoid pop-in once we get the file infos for this post
                 postFiles.push(
                     <div

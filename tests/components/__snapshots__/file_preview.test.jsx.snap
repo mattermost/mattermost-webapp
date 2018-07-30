@@ -6,7 +6,7 @@ exports[`component/FilePreview should match snapshot 1`] = `
 >
   <div
     className="file-preview post-image__column"
-    key="file_id_10"
+    key="file_id_1"
   >
     <div
       className="post-image__thumbnail"
@@ -98,7 +98,7 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
 >
   <div
     className="file-preview post-image__column"
-    key="file_id_10"
+    key="file_id_1"
   >
     <div
       className="post-image__thumbnail"
@@ -190,7 +190,7 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
 >
   <div
     className="file-preview post-image__column"
-    key="file_id_10"
+    key="file_id_1"
   >
     <div
       className="post-image__thumbnail"
@@ -256,7 +256,7 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
   </div>
   <div
     className="file-preview post-image__column"
-    key="file_id_21"
+    key="file_id_2"
   >
     <div
       className="post-image__thumbnail"

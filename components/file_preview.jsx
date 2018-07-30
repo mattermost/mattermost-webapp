@@ -77,7 +77,7 @@ export default class FilePreview extends React.PureComponent {
 
             previews.push(
                 <div
-                    key={info.id + idx}
+                    key={info.id}
                     className={className}
                 >
                     <div className='post-image__thumbnail'>
