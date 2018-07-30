@@ -388,6 +388,11 @@ export const PostTypes = {
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
 };
 
+export const PostRequestTypes = keyMirror({
+    BEFORE_ID: null,
+    AFTER_ID: null,
+});
+
 export const StatTypes = keyMirror({
     TOTAL_USERS: null,
     TOTAL_PUBLIC_CHANNELS: null,

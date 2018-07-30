@@ -17,7 +17,7 @@ export function checkAndSetMobileView() {
     };
 }
 
-export function channelPostsStatus(params) {
+export function changeChannelPostsStatus(params) {
     return (dispatch) => {
         dispatch({
             type: ActionTypes.CHANNEL_POSTS_STATUS,

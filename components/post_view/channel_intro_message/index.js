@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
@@ -16,6 +17,7 @@ function mapStateToProps(state) {
     const isReadOnly = isCurrentChannelReadOnly(state);
 
     return {
+        channel: getCurrentChannel(state) || {},
         locale: getCurrentLocale(state),
         enableUserCreation,
         isReadOnly,

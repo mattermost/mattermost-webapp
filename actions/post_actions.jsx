@@ -16,7 +16,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
-import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, RHSStates, PostRequestTypes} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
@@ -69,26 +69,26 @@ function dispatchPostActions(post, websocketMessageProps) {
             data: post.channel_id,
             amount: 1,
         });
-
-        // Need manual dispatch to remove pending post
-        dispatch({
-            type: PostTypes.RECEIVED_POSTS,
-            data: {
-                order: [],
-                posts: {
-                    [post.id]: post,
-                },
-            },
-            channelId: post.channel_id,
-        });
-
-        // Still needed to update unreads
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST,
-            post,
-            websocketMessageProps,
-        });
     }
+
+    // Need manual dispatch to remove pending post
+    dispatch({
+        type: PostTypes.RECEIVED_POSTS,
+        data: {
+            order: [],
+            posts: {
+                [post.id]: post,
+            },
+        },
+        channelId: post.channel_id,
+    });
+
+    // Still needed to update unreads
+    AppDispatcher.handleServerAction({
+        type: ActionTypes.RECEIVED_POST,
+        post,
+        websocketMessageProps,
+    });
 
     sendDesktopNotification(post, websocketMessageProps);
 }
@@ -229,9 +229,9 @@ export function loadPosts({channelId, postId, type}) {
         const page = 0;
 
         let result;
-        if (type === 'BEFORE_ID') {
+        if (type === PostRequestTypes.BEFORE_ID) {
             result = await PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
-        } else if (type === 'AFTER_ID') {
+        } else if (type === PostRequestTypes.AFTER_ID) {
             result = await PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
         } else {
             result = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);

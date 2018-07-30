@@ -13,7 +13,7 @@ const actionsProp = {
     loadUnreads: emptyFunction,
     loadPosts: emptyFunction,
     clearPostsFromChannel: emptyFunction,
-    channelPostsStatus: emptyFunction,
+    changeChannelPostsStatus: emptyFunction,
     backUpPostsInChannel: emptyFunction,
     channelSyncCompleted: emptyFunction,
     addPostIdsFromBackUp: emptyFunction,
@@ -21,11 +21,7 @@ const actionsProp = {
 
 let channelPostsStatus;
 const lastViewedAt = 1532345226632;
-const channel = {
-    id: 'fake-id',
-    name: 'fake-channel',
-    display_name: 'Fake Channel',
-};
+const channelId = 'fake-id';
 
 const match = {
     params: {},
@@ -51,7 +47,7 @@ describe('components/post_view/post_list', () => {
             <PostListWrapper
                 actions={actionsProp}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatus}
@@ -81,7 +77,7 @@ describe('components/post_view/post_list', () => {
                     loadUnreads,
                 }}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatusObj}
@@ -113,10 +109,10 @@ describe('components/post_view/post_list', () => {
                 actions={{
                     ...actionsProp,
                     loadUnreads,
-                    channelPostsStatus: changeChannelPostsStatus,
+                    changeChannelPostsStatus,
                 }}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatus}
@@ -127,8 +123,8 @@ describe('components/post_view/post_list', () => {
         await wrapper.instance().postsOnLoad();
         wrapper.update();
         expect(wrapper.state().isDoingInitialLoad).toEqual(false);
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atEnd: true});
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atStart: true});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: true});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -144,10 +140,10 @@ describe('components/post_view/post_list', () => {
                 actions={{
                     ...actionsProp,
                     loadPosts,
-                    channelPostsStatus: changeChannelPostsStatus,
+                    changeChannelPostsStatus,
                 }}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={match}
                 posts={createFakePosts(2)}
             />
@@ -156,13 +152,13 @@ describe('components/post_view/post_list', () => {
         wrapper.instance().getPostsBefore('1234');
         expect(wrapper.state().olderPosts.loading).toEqual(true);
         await loadPosts();
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atStart: false});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: false});
         expect(wrapper.state().olderPosts.loading).toEqual(false);
 
         wrapper.instance().getPostsAfter('1234');
         expect(wrapper.state().newerPosts.loading).toEqual(true);
         await loadPosts();
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atEnd: false});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: false});
         expect(wrapper.state().newerPosts.loading).toEqual(false);
     });
 
@@ -190,10 +186,10 @@ describe('components/post_view/post_list', () => {
                 actions={{
                     ...actionsProp,
                     loadUnreads,
-                    channelPostsStatus: changeChannelPostsStatus,
+                    changeChannelPostsStatus,
                 }}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatus}
@@ -204,8 +200,8 @@ describe('components/post_view/post_list', () => {
         await wrapper.instance().postsOnLoad();
         wrapper.update();
         expect(wrapper.state().isDoingInitialLoad).toEqual(false);
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atEnd: true});
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atStart: false});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: false});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -235,10 +231,10 @@ describe('components/post_view/post_list', () => {
                     ...actionsProp,
                     getPostThread,
                     loadPosts,
-                    channelPostsStatus: changeChannelPostsStatus,
+                    changeChannelPostsStatus,
                 }}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={msgParams}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatusObj}
@@ -248,8 +244,8 @@ describe('components/post_view/post_list', () => {
         await getPostThread();
         await loadPosts();
         await loadPosts();
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atEnd: true});
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId: channel.id, atStart: true});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: true});
         await wrapper.instance().loadPermalinkPosts();
         wrapper.update();
         expect(wrapper.state().isDoingInitialLoad).toEqual(false);
@@ -287,7 +283,7 @@ describe('components/post_view/post_list', () => {
                     channelSyncCompleted,
                 }}
                 lastViewedAt={lastViewedAt}
-                channel={channel}
+                channelId={channelId}
                 match={match}
                 posts={createFakePosts(3)}
                 channelPostsStatus={channelPostsStatusObj}

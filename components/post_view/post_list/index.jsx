@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import CreateChannelIntroMessage from 'components/post_view/channel_intro_message';
-import Constants from 'utils/constants.jsx';
+import Constants, {PostRequestTypes} from 'utils/constants.jsx';
 import {getNewestPostIdFromPosts, getOldestPostIdFromPosts} from 'utils/post_utils';
 
 import PostList from './post_list';
@@ -25,7 +25,7 @@ export default class PostListWrapper extends React.PureComponent {
         /**
          * The channel the posts are in
          */
-        channel: PropTypes.object.isRequired,
+        channelId: PropTypes.string,
 
         /**
          * Whether to display the channel intro at full width
@@ -51,11 +51,6 @@ export default class PostListWrapper extends React.PureComponent {
          * Used for unread count
          */
         lastViewedAt: PropTypes.number,
-
-        /**
-         * Used for getting lastViewed timestamp from api.
-         */
-        member: PropTypes.object,
 
         /**
          * Flag used to determine if channel has to call sync actions.
@@ -108,7 +103,7 @@ export default class PostListWrapper extends React.PureComponent {
              * Used for changing posts status of channel
              * For notifying redux store when we hit bottom or top of posts
              */
-            channelPostsStatus: PropTypes.func.isRequired,
+            changeChannelPostsStatus: PropTypes.func.isRequired,
 
             /*
              * Used for taking backup of postsInChannel before clearing so,
@@ -138,39 +133,48 @@ export default class PostListWrapper extends React.PureComponent {
             },
             olderPosts: {
                 loading: false,
-                allLoaded: this.oldestMessageLoadedInView(props),
+                allLoaded: PostListWrapper.oldestMessageLoadedInView(props),
             },
-            lastViewedAt: props.lastViewedAt || props.member.last_viewed_at,
+            lastViewedAt: props.lastViewedAt,
+            posts: this.props.posts,
         };
     }
 
     componentDidMount() {
         if (this.state.isDoingInitialLoad) {
-            this.postsOnLoad(this.props.channel.id);
+            this.postsOnLoad(this.props.channelId);
         }
         if (!this.props.channelSyncStatus && this.props.channelPostsStatus) {
             this.syncPosts(this.props);
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.posts && nextProps.posts && (this.props.posts.length !== nextProps.posts.length)) {
-            if (this.oldestMessageLoadedInView(nextProps) !== this.state.olderPosts.allLoaded) {
-                this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.posts && nextProps.posts && (prevState.posts.length !== nextProps.posts.length)) {
+            if (PostListWrapper.oldestMessageLoadedInView(nextProps) !== prevState.olderPosts.allLoaded) {
+                return {
                     olderPosts: {
                         loading: false,
-                        allLoaded: this.oldestMessageLoadedInView(nextProps),
+                        allLoaded: PostListWrapper.oldestMessageLoadedInView(nextProps),
                     },
-                });
+                    posts: nextProps.posts,
+                };
             }
+            return {
+                posts: nextProps.posts,
+            };
         }
-        if (!this.props.socketStatus.connected && nextProps.socketStatus.connected) {
-            this.syncPosts(nextProps);
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.socketStatus && this.props.socketStatus.connected && !prevProps.socketStatus.connected) {
+            this.syncPosts(this.props);
         }
     }
 
     shouldLoadPosts(props) {
-        if (typeof props.channelPostsStatus === 'undefined') {
+        if (!props.channelPostsStatus) {
             return true;
         } else if ((props.match.params.messageId && !props.channelPostsStatus.atEnd) || !props.channelPostsStatus.atEnd) {
             return true;
@@ -181,27 +185,27 @@ export default class PostListWrapper extends React.PureComponent {
 
     syncPosts = async (props) => {
         if (props.channelPostsStatus.atEnd) {
-            await props.actions.syncChannelPosts({channelId: props.channel.id, since: props.socketStatus.lastDisconnectAt});
+            await props.actions.syncChannelPosts({channelId: props.channelId, since: props.socketStatus.lastDisconnectAt});
         } else {
             let data;
             const oldestPostId = getOldestPostIdFromPosts(props.posts);
             let newestMessageId = getNewestPostIdFromPosts(props.posts);
             do {
-                ({data} = await props.actions.syncChannelPosts({channelId: props.channel.id, beforeId: newestMessageId})); // eslint-disable-line no-await-in-loop
+                ({data} = await props.actions.syncChannelPosts({channelId: props.channelId, beforeId: newestMessageId})); // eslint-disable-line no-await-in-loop
                 newestMessageId = data.order[data.order.length - 1];
-            } while (!data.posts[oldestPostId]);
+            } while (data && !data.posts[oldestPostId]);
         }
-        props.actions.channelSyncCompleted(props.channel.id);
+        props.actions.channelSyncCompleted(props.channeId);
     }
 
     storePostsIdsAndClear() {
         if (this.props.posts.length) {
-            this.props.actions.backUpPostsInChannel(this.props.channel.id, this.props.postIdsInCurrentChannel);
-            this.props.actions.clearPostsFromChannel(this.props.channel.id);
+            this.props.actions.backUpPostsInChannel(this.props.channelId, this.props.postIdsInCurrentChannel);
+            this.props.actions.clearPostsFromChannel(this.props.channelId);
         }
     }
 
-    oldestMessageLoadedInView({postIdsInCurrentChannel, posts, channelPostsStatus}) {
+    static oldestMessageLoadedInView({postIdsInCurrentChannel, posts, channelPostsStatus}) {
         if (channelPostsStatus && channelPostsStatus.atStart) {
             if (postIdsInCurrentChannel && postIdsInCurrentChannel[postIdsInCurrentChannel.length - 1] === posts[posts.length - 1].id) {
                 return true;
@@ -214,7 +218,7 @@ export default class PostListWrapper extends React.PureComponent {
         try {
             if (this.props.match.params.messageId) {
                 await this.loadPermalinkPosts(channelId);
-            } else if (typeof this.props.channelPostsStatus === 'undefined') {
+            } else if (!this.props.channelPostsStatus) { //eslint-disable-line no-negated-condition
                 await this.loadUnreadPosts(channelId);
             } else {
                 this.storePostsIdsAndClear();
@@ -247,7 +251,7 @@ export default class PostListWrapper extends React.PureComponent {
             type,
         });
 
-        if (type === 'BEFORE_ID') {
+        if (type === PostRequestTypes.BEFORE_ID) {
             newState = {
                 olderPosts: {
                     loading: false,
@@ -271,8 +275,8 @@ export default class PostListWrapper extends React.PureComponent {
     loadPermalinkPosts = async (channelId) => {
         const getPostThread = this.props.actions.getPostThread(this.props.match.params.messageId, false);
 
-        const afterPosts = this.callLoadPosts(channelId, this.props.match.params.messageId, 'AFTER_ID');
-        const beforePosts = this.callLoadPosts(channelId, this.props.match.params.messageId, 'BEFORE_ID');
+        const afterPosts = this.callLoadPosts(channelId, this.props.match.params.messageId, PostRequestTypes.AFTER_ID);
+        const beforePosts = this.callLoadPosts(channelId, this.props.match.params.messageId, PostRequestTypes.BEFORE_ID);
 
         await beforePosts;
         await afterPosts;
@@ -286,7 +290,7 @@ export default class PostListWrapper extends React.PureComponent {
         const {data, error} = await this.props.actions.loadUnreads(channelId);
 
         if (error) {
-            throw new Error('NO_RESPONSE');
+            throw new Error();
         }
 
         // API returns 2*POSTS_PER_PAGE and if it less than 1*POSTS_PER_PAGE then we loaded all the posts.
@@ -317,20 +321,20 @@ export default class PostListWrapper extends React.PureComponent {
     }
 
     changeChannelPostsStatus = (status) => {
-        this.props.actions.channelPostsStatus({
-            channelId: this.props.channel.id,
+        this.props.actions.changeChannelPostsStatus({
+            channelId: this.props.channelId,
             ...status,
         });
     }
 
     getPostsBefore = async (postId) => {
         this.setLoadingPosts('olderPosts');
-        await this.callLoadPosts(this.props.channel.id, postId, 'BEFORE_ID');
+        await this.callLoadPosts(this.props.channelId, postId, PostRequestTypes.BEFORE_ID);
     }
 
     getPostsAfter = async (postId) => {
         this.setLoadingPosts('newerPosts');
-        await this.callLoadPosts(this.props.channel.id, postId, 'AFTER_ID');
+        await this.callLoadPosts(this.props.channelId, postId, PostRequestTypes.AFTER_ID);
     }
 
     getUnreadPostsCount = (posts, currentUserId) => {
@@ -351,12 +355,11 @@ export default class PostListWrapper extends React.PureComponent {
     // else scroll to bottom
     goToLatestPosts = () => {
         this.storePostsIdsAndClear();
-        this.loadUnreadPosts(this.props.channel.id);
+        this.loadUnreadPosts(this.props.channelId);
     }
 
     render() {
         const posts = this.props.posts || [];
-        const channel = this.props.channel;
         let postList;
         let topRow;
         let bottomRow;
@@ -398,7 +401,6 @@ export default class PostListWrapper extends React.PureComponent {
         if (this.state.olderPosts.allLoaded) {
             topRow = (
                 <CreateChannelIntroMessage
-                    channel={channel}
                     fullWidth={this.props.fullWidth}
                 />
             );
@@ -408,7 +410,6 @@ export default class PostListWrapper extends React.PureComponent {
             postList = (
                 <PostList
                     posts={this.props.posts}
-                    channel={this.props.channel}
                     fullWidth={this.props.fullWidth}
                     actions={{
                         loadOlderPosts: this.getPostsBefore,
@@ -428,7 +429,7 @@ export default class PostListWrapper extends React.PureComponent {
                 <div
                     ref='postlist'
                     className='post-list-holder-by-time'
-                    key={'postlist-' + channel.id}
+                    key={'postlist-' + this.props.channelId}
                 >
                     <div className='post-list__table'>
                         <div
