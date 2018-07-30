@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, intlShape} from 'react-intl';
+import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
 import {Dropdown} from 'react-bootstrap';
 
@@ -540,10 +540,7 @@ export default class FileUpload extends Component {
             const FileDropdownComponent = (props) => {
                 return (
                     <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            props.onClick();
-                        }}
+                        onClick={props.onClick}
                         className='style--none'
                     >
                         <div
@@ -568,7 +565,10 @@ export default class FileUpload extends Component {
                         <li>
                             <a>
                                 <i className='fa fa-files-o'/>
-                                {'Your Computer'}
+                                <FormattedMessage
+                                    id='yourcomputer'
+                                    defaultMessage='Your computer'
+                                />
                                 <input
                                     ref='fileInput'
                                     type='file'
