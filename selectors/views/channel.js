@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 export const makeGetChannelPostStatus = () => createSelector(
     (state) => state.views.channel.channelPostsStatus,
-    (_, channel) => (channel.id),
+    (_, channelId) => (channelId),
     (channelPostsStatus, channelId) => {
         return channelPostsStatus[channelId];
     },
@@ -13,7 +13,7 @@ export const makeGetChannelPostStatus = () => createSelector(
 
 export const makeGetChannelSyncStatus = () => createSelector(
     (state) => state.views.channel.channelSyncStatus,
-    (_, channel) => (channel.id),
+    (_, channelId) => (channelId),
     (channelSyncStatus, channelId) => {
         return channelSyncStatus[channelId];
     },

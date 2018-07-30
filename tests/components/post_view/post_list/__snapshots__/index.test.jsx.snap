@@ -15,15 +15,7 @@ exports[`components/post_view/post_list Should call postsOnLoad 1`] = `
         className="post-list__content"
         id="postListContent"
       >
-        <Connect(ChannelIntroMessage)
-          channel={
-            Object {
-              "display_name": "Fake Channel",
-              "id": "fake-id",
-              "name": "fake-channel",
-            }
-          }
-        />
+        <Connect(ChannelIntroMessage) />
       </div>
     </div>
   </div>

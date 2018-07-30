@@ -5,14 +5,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 import {getPostsAfter, getPostsBefore, getPostThread, clearPostsFromChannel, backUpPostsInChannel} from 'mattermost-redux/actions/posts';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsInChannel, getPostIdsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {loadPosts, loadUnreads, addPostIdsFromBackUp} from 'actions/post_actions';
-import {channelPostsStatus, syncChannelPosts, channelSyncCompleted} from 'actions/views/channel';
+import {changeChannelPostsStatus, syncChannelPosts, channelSyncCompleted} from 'actions/views/channel';
 import {makeGetChannelPostStatus, makeGetChannelSyncStatus} from 'selectors/views/channel';
 import {makeGetSocketStatus} from 'selectors/views/websocket';
 import {Preferences} from 'utils/constants.jsx';
@@ -26,11 +25,9 @@ function makeMapStateToProps() {
     const getSocketStatus = makeGetSocketStatus();
     return function mapStateToProps(state, ownProps) {
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
-        const channel = getChannel(state, ownProps.channelId) || {};
         const posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
         const member = getMyChannelMemberships(state)[ownProps.channelId];
         return {
-            channel: getChannel(state, ownProps.channelId) || {},
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,
             postVisibility,
@@ -38,9 +35,9 @@ function makeMapStateToProps() {
             currentUserId: getCurrentUserId(state),
             fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             member,
-            channelPostsStatus: getChannelPostStatus(state, channel),
+            channelPostsStatus: getChannelPostStatus(state, ownProps.channelId),
             postIdsInCurrentChannel: getPostIdsInCurrentChannel(state),
-            channelSyncStatus: getChannelSyncStatus(state, channel),
+            channelSyncStatus: getChannelSyncStatus(state, ownProps.channelId),
             socketStatus: getSocketStatus(state),
         };
     };
@@ -54,7 +51,7 @@ function mapDispatchToProps(dispatch) {
             getPostThread,
             loadUnreads,
             loadPosts,
-            channelPostsStatus,
+            changeChannelPostsStatus,
             clearPostsFromChannel,
             addPostIdsFromBackUp,
             syncChannelPosts,
