@@ -30,6 +30,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         channel: PropTypes.object.isRequired,
         fullWidth: PropTypes.bool.isRequired,
         locale: PropTypes.string.isRequired,
+        enableUserCreation: PropTypes.bool,
     };
 
     render() {
@@ -49,7 +50,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro);
         } else if (ChannelStore.isDefault(channel)) {
-            return createDefaultIntroMessage(channel, centeredIntro);
+            return createDefaultIntroMessage(channel, centeredIntro, this.props.enableUserCreation);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
@@ -227,10 +228,10 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createDefaultIntroMessage(channel, centeredIntro) {
+export function createDefaultIntroMessage(channel, centeredIntro, enableUserCreation) {
     let teamInviteLink = null;
     const isReadOnly = isCurrentChannelReadOnly(store.getState());
-    if (!isReadOnly) {
+    if (!isReadOnly && enableUserCreation) {
         teamInviteLink = (
             <TeamPermissionGate
                 teamId={channel.team_id}
