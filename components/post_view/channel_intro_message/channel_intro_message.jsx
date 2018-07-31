@@ -6,7 +6,6 @@ import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
-import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -23,13 +22,14 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import {getMonthLong} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
-import store from 'stores/redux_store.jsx';
 
 export default class ChannelIntroMessage extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         fullWidth: PropTypes.bool.isRequired,
         locale: PropTypes.string.isRequired,
+        enableUserCreation: PropTypes.bool,
+        isReadOnly: PropTypes.bool,
     };
 
     render() {
@@ -37,6 +37,8 @@ export default class ChannelIntroMessage extends React.PureComponent {
             channel,
             fullWidth,
             locale,
+            enableUserCreation,
+            isReadOnly,
         } = this.props;
 
         let centeredIntro = '';
@@ -49,7 +51,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro);
         } else if (ChannelStore.isDefault(channel)) {
-            return createDefaultIntroMessage(channel, centeredIntro);
+            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
@@ -227,10 +229,10 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createDefaultIntroMessage(channel, centeredIntro) {
+export function createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly) {
     let teamInviteLink = null;
-    const isReadOnly = isCurrentChannelReadOnly(store.getState());
-    if (!isReadOnly) {
+
+    if (!isReadOnly && enableUserCreation) {
         teamInviteLink = (
             <TeamPermissionGate
                 teamId={channel.team_id}
