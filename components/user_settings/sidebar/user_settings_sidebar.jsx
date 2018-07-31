@@ -129,11 +129,6 @@ export default class UserSettingsSidebar extends React.Component {
                 sorting: this.state.settings.sorting,
             };
 
-            if (updatedSidebarSettings.grouping === 'by_type') {
-                // Note that this isn't tracked by the analytics below because it's not in this.state
-                updatedSidebarSettings.sorting = 'alpha';
-            }
-
             preferences.push({
                 user_id: user.id,
                 category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
