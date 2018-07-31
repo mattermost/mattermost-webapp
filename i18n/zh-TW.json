@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "這是{name}{type}的開頭，建立於{date}。",
   "intro_messages.offTopic": "這是{display_name}的起頭，此頻道用以進行跟工作無關的對話。",
   "intro_messages.onlyInvited": " 只有受邀請的成員能看見此私人頻道",
-  "intro_messages.purpose": "此{type}的用途為：{purpose}。",
+  "intro_messages.purpose": "此{type}的用途為：{purpose}",
   "intro_messages.readonly.default": "**歡迎來到{display_name}！** 在此張貼希望所有人都可以看到的訊息。每個人在加入團隊的時候會自動成為此頻道的永久成員。",
   "intro_messages.setHeader": "設定標題",
   "intro_messages.teammate": "這是您跟這位團隊成員之間直接訊息的起頭。直接訊息跟在這邊分享的檔案除了在此處以外的人都看不到。",

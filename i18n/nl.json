@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "Dit is de start van {name} {type}, gemaakt op {date}.",
   "intro_messages.offTopic": "This is the start of {display_name}, a channel for non-work-related conversations.",
   "intro_messages.onlyInvited": " Alleen uitgenodigde deelnemers kunnen deze privé groep bekijken.",
-  "intro_messages.purpose": " This {type}'s purpose is: {purpose}.",
+  "intro_messages.purpose": " This {type}'s purpose is: {purpose}",
   "intro_messages.readonly.default": "**Welcome to {display_name}!**\n \nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team.",
   "intro_messages.setHeader": "Stel een koptekst in",
   "intro_messages.teammate": "Dit is de start van uw privé berichten historiek met dit teamlid. Privé berichten en bestanden die hier gedeeld worden zijn niet zichtbaar voor anderen.",

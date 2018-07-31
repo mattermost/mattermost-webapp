@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "Ceci est le début de {name} {type}, créé le {date}.",
   "intro_messages.offTopic": "Ceci est le début de {display_name}, un canal dédié aux conversations extra-professionnelles.",
   "intro_messages.onlyInvited": " Seuls les membres invités peuvent voir ce canal privé.",
-  "intro_messages.purpose": " L'objectif de {type} est : {purpose}.",
+  "intro_messages.purpose": " L'objectif de {type} est : {purpose}",
   "intro_messages.readonly.default": "**Bienvenue dans {display_name}**\n\nPubliez ici les messages que vous souhaitez que tout le monde voie. Chaque utilisateur devient un membre permanent de ce canal lorsqu'il rejoint l'équipe.",
   "intro_messages.setHeader": "Définir l'entête",
   "intro_messages.teammate": "Vous êtes au début de votre historique de messages avec cet utilisateur. Les messages personnels et les fichiers partagés ici ne sont pas visibles par les autres utilisateurs.",

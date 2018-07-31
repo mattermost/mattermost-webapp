@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "Este es el inicio del {type} {name}, creado el  {date}.",
   "intro_messages.offTopic": "Este es el inicio de {display_name}, un canal para conversaciones no relacionadas con el trabajo.",
   "intro_messages.onlyInvited": " Sólo miembros invitados pueden ver este canal privado.",
-  "intro_messages.purpose": " El propósito de este {type} es: {purpose}.",
+  "intro_messages.purpose": " El propósito de este {type} es: {purpose}",
   "intro_messages.readonly.default": "**¡Bienvenido a {display_name}!**\n\nPublica mensajes aquí que quieras que todos vean. Todo el mundo se convierte automáticamente en un miembro permanente de este canal cuando se unan al equipo.",
   "intro_messages.setHeader": "Asignar un Encabezado",
   "intro_messages.teammate": "Este es el inicio de tu historial de mensajes directos con este compañero. Los mensajes directos y archivos que se comparten aquí no son mostrados a personas fuera de esta área.",

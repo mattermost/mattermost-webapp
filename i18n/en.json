@@ -2198,7 +2198,7 @@
   "intro_messages.noCreator": "This is the start of the {name} {type}, created on {date}.",
   "intro_messages.offTopic": "This is the start of {display_name}, a channel for non-work-related conversations.",
   "intro_messages.onlyInvited": " Only invited members can see this private channel.",
-  "intro_messages.purpose": " This {type}'s purpose is: {purpose}.",
+  "intro_messages.purpose": " This {type}'s purpose is: {purpose}",
   "intro_messages.readonly.default": "**Welcome to {display_name}!**\n \nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team.",
   "intro_messages.setHeader": "Set a Header",
   "intro_messages.teammate": "This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.",

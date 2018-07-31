@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "{name} {type} başlangıcı, oluşturulma tarihi: {date}.",
   "intro_messages.offTopic": "İş ile ilgili olmayan sohbetlerin bulunduğu {display_name} kanalının başlangıcı.",
   "intro_messages.onlyInvited": "Bu özel kanalı yalnız çağrılmış üyeler görüntüleyebilir.",
-  "intro_messages.purpose": " Bu {type} için amaç: {purpose}.",
+  "intro_messages.purpose": " Bu {type} için amaç: {purpose}",
   "intro_messages.readonly.default": "**Hoş geldiniz {display_name}!**\n\nBu kanala yalnız sistem yöneticileri ileti gönderebilir. Takıma katılan herkes otomatik olarak bu kanalın kalıcı üyesi olur.",
   "intro_messages.setHeader": "Bir Başlık Yazın",
   "intro_messages.teammate": "Takım arkadaşınız ile doğrudan ileti geçmişinizin başlangıcı. Bu bölüm dışındaki kişiler burada paylaşılan doğrudan ileti ve dosyaları göremez.",

@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "{name} {type}입니다. 만들어진 날짜: {date}.",
   "intro_messages.offTopic": "This is the start of {display_name}, a channel for non-work-related conversations.",
   "intro_messages.onlyInvited": " 초대받은 회원만 이 비공개 그룹을 볼 수 있습니다.",
-  "intro_messages.purpose": "이 {type}의 설명: {purpose}.",
+  "intro_messages.purpose": "이 {type}의 설명: {purpose}",
   "intro_messages.readonly.default": "모든사람이 볼 수 있도록 메시지를 게시하세요. 모든 사람들이 팀에 가입되면 자동으로 이 채널에 가입됩니다.",
   "intro_messages.setHeader": "헤더 설정",
   "intro_messages.teammate": "개인 메시지의 시작입니다. 개인 메세지와 여기서 공유된 파일들은 외부에서 보여지지 않습니다.",
