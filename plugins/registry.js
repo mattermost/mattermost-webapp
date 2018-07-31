@@ -145,7 +145,7 @@ export default class PluginRegistry {
     // - text - A string or JSX element to display in the menu
     // - action - A function to trigger when component is clicked on
     // Returns a unique identifier.
-    registerPostDropdownMenuAction = (text, action) => {
+    registerPostDropdownMenuAction(text, action) {
         const id = generateId();
 
         store.dispatch({
@@ -164,8 +164,32 @@ export default class PluginRegistry {
 
     // Register a component at the bottom of the post dropdown menu.
     // Accepts a React component. Returns a unique identifier.
-    registerPostDropdownMenuComponent = (component) => {
+    registerPostDropdownMenuComponent(component) {
         return dispatchPluginComponentAction('PostDropdownMenuItem', this.id, component);
+    }
+
+    // Register a file upload method by providing some text, an icon, and an action function.
+    // Accepts the following:
+    // - icon - JSX element to use as the button's icon
+    // - text - A string or JSX element to display in the file upload menu
+    // - action - A function to trigger when the menu item is selected.
+    // Returns a unique identifier.
+    registerFileUploadMethod(icon, action, text) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FileUploadMethod',
+            data: {
+                id,
+                pluginId: this.id,
+                text,
+                action,
+                icon,
+            },
+        });
+
+        return id;
     }
 
     // Unregister a component using the unique identifier returned after registration.

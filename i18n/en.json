@@ -3537,5 +3537,6 @@
   "webrtc.unmute_audio": "Unmute microphone",
   "webrtc.unpause_video": "Turn on camera",
   "webrtc.unsupported": "{username} client does not support video calls.",
+  "yourcomputer": "Your computer",
   "youtube_video.notFound": "Video not found"
 }

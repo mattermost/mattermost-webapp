@@ -20,6 +20,7 @@ function mapStateToProps(state) {
         uploadFile,
         maxFileSize,
         canUploadFiles: canUploadFiles(config),
+        pluginFileUploadMethods: state.plugins.components.FileUploadMethod,
     };
 }
 
