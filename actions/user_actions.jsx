@@ -52,7 +52,7 @@ export async function addSwitchToEENotification() {
     }
 
     const {data: license} = await store.dispatch(getLicenseConfig());
-    if (license.IsLicensed === 'true') {
+    if (license.IsLicensed === 'true' && license.Cluster === 'true') {
         return;
     }
 
