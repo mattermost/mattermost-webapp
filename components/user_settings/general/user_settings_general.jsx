@@ -1143,6 +1143,7 @@ class UserSettingsGeneralTab extends React.Component {
                     onFileChange={this.updatePicture}
                     submitActive={this.submitActive}
                     loadingPicture={this.state.loadingPicture}
+                    maxFileSize={this.props.maxFileSize}
                 />
             );
         } else {

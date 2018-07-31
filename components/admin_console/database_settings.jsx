@@ -9,7 +9,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import GeneratedSetting from './generated_setting.jsx';
 import RequestButton from './request_button/request_button.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
@@ -28,7 +27,6 @@ export default class DatabaseSettings extends AdminSettings {
 
         config.SqlSettings.MaxIdleConns = this.parseIntNonZero(this.state.maxIdleConns);
         config.SqlSettings.MaxOpenConns = this.parseIntNonZero(this.state.maxOpenConns);
-        config.SqlSettings.AtRestEncryptKey = this.state.atRestEncryptKey;
         config.SqlSettings.Trace = this.state.trace;
         config.SqlSettings.QueryTimeout = this.parseIntNonZero(this.state.queryTimeout);
         config.SqlSettings.ConnMaxLifetimeMilliseconds = this.parseIntNonNegative(this.state.connMaxLifetimeMilliseconds);
@@ -42,7 +40,6 @@ export default class DatabaseSettings extends AdminSettings {
             dataSource: config.SqlSettings.DataSource,
             maxIdleConns: config.SqlSettings.MaxIdleConns,
             maxOpenConns: config.SqlSettings.MaxOpenConns,
-            atRestEncryptKey: config.SqlSettings.AtRestEncryptKey,
             trace: config.SqlSettings.Trace,
             queryTimeout: config.SqlSettings.QueryTimeout,
             connMaxLifetimeMilliseconds: config.SqlSettings.ConnMaxLifetimeMilliseconds,
@@ -127,7 +124,18 @@ export default class DatabaseSettings extends AdminSettings {
                         />
                     </label>
                     <div className='col-sm-8'>
-                        <p className='help-text'>{this.state.driverName}</p>
+                        <input
+                            type='text'
+                            className='form-control'
+                            value={this.state.driverName}
+                            disabled={true}
+                        />
+                        <div className='help-text'>
+                            <FormattedMessage
+                                id='admin.sql.driverNameDescription'
+                                defaultMessage='Set the database driver in the config.json file.'
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className='form-group'>
@@ -141,7 +149,18 @@ export default class DatabaseSettings extends AdminSettings {
                         />
                     </label>
                     <div className='col-sm-8'>
-                        <p className='help-text'>{dataSource}</p>
+                        <input
+                            type='text'
+                            className='form-control'
+                            value={dataSource}
+                            disabled={true}
+                        />
+                        <div className='help-text'>
+                            <FormattedMessage
+                                id='admin.sql.dataSourceDescription'
+                                defaultMessage='Set the database source in the config.json file.'
+                            />
+                        </div>
                     </div>
                 </div>
                 <TextSetting
@@ -220,31 +239,12 @@ export default class DatabaseSettings extends AdminSettings {
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.ConnMaxLifetimeMilliseconds')}
                 />
-                <GeneratedSetting
-                    id='atRestEncryptKey'
-                    label={
-                        <FormattedMessage
-                            id='admin.sql.keyTitle'
-                            defaultMessage='At Rest Encrypt Key:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.sql.keyExample', 'E.g.: "gxHVDcKUyP2y1eiyW8S8na1UYQAfq6J6"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.sql.keyDescription'
-                            defaultMessage='32-character salt available to encrypt and decrypt sensitive fields in database.'
-                        />
-                    }
-                    value={this.state.atRestEncryptKey}
-                    onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('SqlSettings.AtRestEncryptKey')}
-                />
                 <BooleanSetting
                     id='trace'
                     label={
                         <FormattedMessage
                             id='admin.sql.traceTitle'
-                            defaultMessage='Trace: '
+                            defaultMessage='SQL Statement Logging: '
                         />
                     }
                     helpText={

@@ -4,7 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Constants from 'utils/constants.jsx';
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
 jest.mock('utils/utils', () => {
@@ -25,11 +24,8 @@ jest.mock('utils/post_utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        idPrefix: Constants.CENTER,
-        idCount: -1,
         post: {id: 'post_id_1', is_pinned: false},
-        isFlagged: false,
-        isRHS: false,
+        location: 'CENTER',
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         actions: {
@@ -52,18 +48,6 @@ describe('components/dot_menu/DotMenu', () => {
         wrapper.setState({canEdit: true});
         wrapper.instance().handleEditDisable();
         expect(wrapper.state('canEdit')).toEqual(false);
-
-        expect(wrapper.find('#centerDotMenu2').exists()).toBe(false);
-        wrapper.setProps({idCount: 2});
-        expect(wrapper.find('#centerDotMenu2').exists()).toBe(true);
-
-        expect(wrapper.find('#rhsrootDotMenu').exists()).toBe(false);
-        wrapper.setProps({idPrefix: Constants.RHS_ROOT});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#rhsrootDotMenu').exists()).toBe(true);
-
-        wrapper.setProps({post: {id: 'post_id_1', root_id: 'post_root_id'}});
-        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, canDelete', () => {

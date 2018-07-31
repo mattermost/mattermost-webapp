@@ -17,6 +17,7 @@ describe('components/SettingItemMin', () => {
         title: 'Profile Picture',
         onFileChange: () => {}, // eslint-disable-line no-empty-function
         updateSection: () => {}, // eslint-disable-line no-empty-function
+        maxFileSize: 209715200,
     };
 
     test('should match snapshot, profile picture on source', () => {

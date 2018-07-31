@@ -5,8 +5,9 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, intlShape} from 'react-intl';
+import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
+import {Dropdown} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
@@ -117,16 +118,26 @@ export default class FileUpload extends PureComponent {
          * Whether or not file upload is allowed.
          */
         canUploadFiles: PropTypes.bool.isRequired,
+
+        /**
+         * Plugin file upload methods to be added
+         */
+        pluginFileUploadMethods: PropTypes.arrayOf(PropTypes.object),
     };
 
     static contextTypes = {
         intl: intlShape,
     };
 
+    static defaultProps = {
+        pluginFileUploadMethods: [],
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             requests: {},
+            menuOpen: false,
         };
     }
 
@@ -454,6 +465,26 @@ export default class FileUpload extends PureComponent {
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
 
+    toggleMenu = (open) => {
+        this.setState({menuOpen: open});
+    }
+
+    handleLocalFileUploaded = () => {
+        const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
+        if (uploadsRemaining > 0) {
+            if (this.props.onClick) {
+                this.props.onClick();
+            }
+        } else {
+            this.handleMaxUploadReached();
+        }
+        this.setState({menuOpen: false});
+    }
+
+    pluginUploadFiles = (files) => {
+        this.uploadFiles(files);
+    }
+
     render() {
         let multiple = true;
         if (isMobileApp()) {
@@ -468,14 +499,10 @@ export default class FileUpload extends PureComponent {
         }
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
-        const onClick = uploadsRemaining > 0 ? this.props.onClick : this.handleMaxUploadReached;
 
-        return (
-            <span
-                ref='input'
-                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
-            >
-                {this.props.canUploadFiles &&
+        let bodyAction;
+        if (this.props.pluginFileUploadMethods.length === 0) {
+            bodyAction = (
                 <div
                     id='fileUploadButton'
                     className='icon icon--attachment'
@@ -485,12 +512,90 @@ export default class FileUpload extends PureComponent {
                         ref='fileInput'
                         type='file'
                         onChange={this.handleChange}
-                        onClick={onClick}
+                        onClick={this.handleLocalFileUploaded}
                         multiple={multiple}
                         accept={accept}
                     />
                 </div>
-                }
+            );
+        } else {
+            const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
+                return (
+                    <li
+                        key={item.pluginId + '_fileuploadpluginmenuitem'}
+                        onClick={() => {
+                            if (item.action) {
+                                item.action(this.pluginUploadFiles);
+                            }
+                            this.setState({menuOpen: false});
+                        }}
+                    >
+                        <a>
+                            {item.icon}
+                            {item.text}
+                        </a>
+                    </li>
+                );
+            });
+            const FileDropdownComponent = (props) => {
+                return (
+                    <button
+                        onClick={props.onClick}
+                        className='style--none'
+                    >
+                        <div
+                            id='fileUploadButton'
+                            className='icon icon--attachment'
+                        >
+                            <AttachmentIcon/>
+                        </div>
+                    </button>
+                );
+            };
+            bodyAction = (
+                <Dropdown
+                    dropup={true}
+                    pullRight={true}
+                    id='fileInputDropdown'
+                    open={this.state.menuOpen}
+                    onToggle={this.toggleMenu}
+                >
+                    <FileDropdownComponent bsRole='toggle'/>
+                    <Dropdown.Menu className='dropdown-menu__icons'>
+                        <li>
+                            <a>
+                                <i className='fa fa-laptop'/>
+                                <FormattedMessage
+                                    id='yourcomputer'
+                                    defaultMessage='Your computer'
+                                />
+                                <input
+                                    ref='fileInput'
+                                    type='file'
+                                    className='file-attachment-menu-item-input'
+                                    onChange={this.handleChange}
+                                    onClick={this.handleLocalFileUploaded}
+                                    multiple={multiple}
+                                    accept={accept}
+                                />
+                            </a>
+                        </li>
+                        {pluginFileUploadMethods}
+                    </Dropdown.Menu>
+                </Dropdown>
+            );
+        }
+
+        if (!this.props.canUploadFiles) {
+            bodyAction = null;
+        }
+
+        return (
+            <span
+                ref='input'
+                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
+            >
+                {bodyAction}
             </span>
         );
     }

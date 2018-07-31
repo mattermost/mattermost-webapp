@@ -6,9 +6,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import NotLoggedIn from './header_footer_template.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         config: getConfig(state),
     };
 }

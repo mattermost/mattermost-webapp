@@ -55,7 +55,7 @@ export default class Authorize extends React.Component {
         allowOAuth2(params,
             (data) => {
                 if (data.redirect) {
-                    browserHistory.push(data.redirect);
+                    window.location.href = data.redirect;
                 }
             },
             (err) => {
@@ -67,7 +67,7 @@ export default class Authorize extends React.Component {
     handleDeny() {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
         if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
-            browserHistory.replace(redirectUri + '?error=access_denied');
+            window.location.href = redirectUri + '?error=access_denied';
             return;
         }
 

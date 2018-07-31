@@ -8,12 +8,6 @@ import {getProfilesNotInChannel} from 'mattermost-redux/actions/users';
 
 import ChannelInviteModal from './channel_invite_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -23,4 +17,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelInviteModal);
+export default connect(null, mapDispatchToProps)(ChannelInviteModal);

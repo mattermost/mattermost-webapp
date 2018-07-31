@@ -6,9 +6,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import TeamMembersModal from './team_members_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentTeam: getCurrentTeam(state),
     };
 }

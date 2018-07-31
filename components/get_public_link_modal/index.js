@@ -7,9 +7,8 @@ import * as Selectors from 'mattermost-redux/selectors/entities/files';
 
 import GetPublicLinkModal from './get_public_link_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         link: Selectors.getFilePublicLink(state).link,
     };
 }

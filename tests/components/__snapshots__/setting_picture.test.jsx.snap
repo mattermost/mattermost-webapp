@@ -30,9 +30,13 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "200MB",
+            }
+          }
         />
       </li>
       <li
@@ -111,9 +115,13 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "200MB",
+            }
+          }
         />
       </li>
       <li
@@ -203,9 +211,13 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "200MB",
+            }
+          }
         />
       </li>
       <li
@@ -305,9 +317,13 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "200MB",
+            }
+          }
         />
       </li>
       <li
@@ -397,9 +413,13 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
         className="setting-list-item padding-top x2"
       >
         <FormattedMessage
-          defaultMessage="Upload a picture in BMP, JPG or PNG format."
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
           id="setting_picture.help.profile"
-          values={Object {}}
+          values={
+            Object {
+              "max": "200MB",
+            }
+          }
         />
       </li>
       <li

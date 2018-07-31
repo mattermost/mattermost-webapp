@@ -6,9 +6,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import GetTeamInviteLinkModal from './get_team_invite_link_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentTeam: getCurrentTeam(state),
         config: getConfig(state),
     };

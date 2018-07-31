@@ -10,8 +10,10 @@ import {pinPost, unpinPost, setEditingPost} from 'actions/post_actions.jsx';
 
 import DotMenu from './dot_menu.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return ownProps;
+function mapStateToProps(state) {
+    return {
+        pluginMenuItems: state.plugins.components.PostDropdownMenu,
+    };
 }
 
 function mapDispatchToProps(dispatch) {

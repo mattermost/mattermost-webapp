@@ -237,9 +237,8 @@ export default class PostInfo extends React.PureComponent {
         if (isMobile || hover) {
             dotMenu = (
                 <DotMenu
-                    idPrefix={Constants.CENTER}
-                    idCount={idCount}
                     post={post}
+                    location={'CENTER'}
                     commentCount={this.props.replyCount}
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
