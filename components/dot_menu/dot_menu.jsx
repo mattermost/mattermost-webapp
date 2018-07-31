@@ -94,11 +94,17 @@ export default class DotMenu extends Component {
     handleDropdownOpened = () => {
         this.props.handleDropdownOpened(true);
 
-        const position = $('#post-list').height() - $(this.refs.dropdownToggle).offset().top;
-        const dropdown = $(this.refs.dropdown);
+        let position = 0;
+        if (this.refs.dropdownToggle) {
+            position = $('#post-list').height() - $(this.refs.dropdownToggle).offset().top;
+        }
 
-        if (position < dropdown.height()) {
-            dropdown.addClass('bottom');
+        if (this.refs.dropdown) {
+            const dropdown = $(this.refs.dropdown);
+
+            if (position < dropdown.height()) {
+                dropdown.addClass('bottom');
+            }
         }
     }
 
