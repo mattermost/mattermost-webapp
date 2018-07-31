@@ -211,7 +211,7 @@ export default class LoginController extends React.Component {
                         serverError: (
                             <FormattedMessage
                                 id='login.userNotFound'
-                                defaultMessage="We couldn't find an account matching your login credentials."
+                                defaultMessage="The credentials you provided are incorrect."
                             />
                         ),
                     });
@@ -222,7 +222,7 @@ export default class LoginController extends React.Component {
                         serverError: (
                             <FormattedMessage
                                 id='login.invalidPassword'
-                                defaultMessage='Your password is incorrect.'
+                                defaultMessage='The credentials you provided are incorrect.'
                             />
                         ),
                     });
