@@ -342,7 +342,7 @@ export default class ChannelHeader extends React.Component {
         let channelTitle = channel.display_name;
         let archivedIcon = null;
         if (channelIsArchived) {
-            archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon'/>);
+            archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/>);
         }
         const isDirect = (this.props.channel.type === Constants.DM_CHANNEL);
         const isGroup = (this.props.channel.type === Constants.GM_CHANNEL);

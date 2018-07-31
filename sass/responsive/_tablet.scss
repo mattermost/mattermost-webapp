@@ -77,6 +77,13 @@
         }
     }
 
+    .post-create__container {
+        .channel-archived__close-btn {
+            display: block;
+            margin: 10px auto 0;
+        }
+    }
+
     .help__format-text {
         display: none;
     }

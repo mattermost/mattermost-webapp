@@ -328,7 +328,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         {channelName}
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
-                                <ArchiveIcon className='icon icon__archive channel-header-archived-icon'/>
+                                <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>
                                 <FormattedMessage
                                     id='search_item.channelArchived'
                                     defaultMessage='Archived'
