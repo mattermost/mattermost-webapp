@@ -5,11 +5,15 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {deleteChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import DeleteChannelModal from './delete_channel_modal.jsx';
 
 function mapStateToProps(state) {
+    const config = getConfig(state);
+
     return {
+        canViewArchivedChannels: config.ViewArchivedChannels === 'true',
         currentTeamDetails: getCurrentTeam(state),
     };
 }
