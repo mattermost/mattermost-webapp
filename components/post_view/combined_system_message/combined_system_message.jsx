@@ -294,11 +294,21 @@ export default class CombinedSystemMessage extends React.PureComponent {
         );
     }
 
+    renderMessage(postType, userIds, actorId) {
+        return (
+            <React.Fragment key={postType + actorId}>
+                {this.renderFormattedMessage(postType, userIds, actorId)}
+                <br/>
+            </React.Fragment>
+        );
+    }
+
     render() {
         const {messageData} = this.props;
 
         const content = [];
-        for (const message of messageData) {
+        let removedUserIds = [];
+        messageData.forEach((message, index) => {
             const {
                 postType,
                 actorId,
@@ -313,17 +323,23 @@ export default class CombinedSystemMessage extends React.PureComponent {
                     userIds = [this.props.currentUserId];
                 } else {
                     // Not something the current user did or was affected by
-                    continue;
+                    return;
                 }
             }
 
-            content.push(
-                <React.Fragment key={postType + actorId}>
-                    {this.renderFormattedMessage(postType, userIds, actorId)}
-                    <br/>
-                </React.Fragment>
-            );
-        }
+            if (postType === REMOVE_FROM_CHANNEL) {
+                removedUserIds = removedUserIds.concat(userIds);
+            } else if (postType !== REMOVE_FROM_CHANNEL && removedUserIds.length > 0) {
+                content.push(this.renderMessage(postType, removedUserIds, actorId));
+                removedUserIds = [];
+            } else {
+                content.push(this.renderMessage(postType, userIds, actorId));
+            }
+
+            if (removedUserIds.length > 0 && index === messageData.length - 1) {
+                content.push(this.renderMessage(postType, removedUserIds, actorId));
+            }
+        });
 
         return (
             <React.Fragment>
