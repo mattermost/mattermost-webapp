@@ -185,7 +185,10 @@ export default class TeamSidebar extends React.Component {
         }
 
         teams.push(
-            <div className='team-sidebar-bottom-plugin'>
+            <div
+                key='team-sidebar-bottom-plugin'
+                className='team-sidebar-bottom-plugin'
+            >
                 <Pluggable pluggableName='BottomTeamSidebar'/>
             </div>
         );
