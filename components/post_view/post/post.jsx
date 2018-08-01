@@ -100,11 +100,6 @@ export default class Post extends React.PureComponent {
          * Function to get the trigger the rethreading once a rethread target has been chosen.
          */
         triggerRethreading: PropTypes.func.isRequired,
-
-        /**
-         * Set to mark the post as selected for rethreading.
-         */
-        selected: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -118,6 +113,7 @@ export default class Post extends React.PureComponent {
             dropdownOpened: false,
             hover: false,
             sameRoot: this.hasSameRoot(props),
+            canRethread: PostUtils.canRethreadPost(props.post),
         };
     }
 
@@ -144,6 +140,17 @@ export default class Post extends React.PureComponent {
         this.setState({
             dropdownOpened: opened,
         });
+    }
+    onDragStart = (ev, post) => {
+        this.props.handleRethreading(post);
+    }
+
+    onDragOver = (ev) => {
+        ev.preventDefault();
+    }
+
+    onDrop = (ev, target) => {
+        this.props.triggerRethreading(target);
     }
 
     hasSameRoot = (props) => {
@@ -273,6 +280,8 @@ export default class Post extends React.PureComponent {
             centerClass = 'center';
         }
 
+        const canRethread = (PostUtils.canRethreadPost(post) && this.props.replyCount === 0);
+
         return (
             <div
                 ref={this.getRef}
@@ -280,8 +289,8 @@ export default class Post extends React.PureComponent {
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                onClick={() => this.props.triggerRethreading(post)}
-
+                onDragOver={(e) => this.onDragOver(e)}
+                onDrop={(e) => this.onDrop(e, post)}
             >
                 <div className={'post__content ' + centerClass}>
                     <div className='post__img'>
@@ -302,17 +311,17 @@ export default class Post extends React.PureComponent {
                             replyCount={this.props.replyCount}
                             showTimeWithoutHover={!hideProfilePicture}
                             getPostList={this.props.getPostList}
-                            handleRethreading={this.props.handleRethreading}
                             hover={this.state.hover}
                         />
                         <PostBody
                             post={post}
+                            canRethread={canRethread}
+                            onDragStart={this.onDragStart}
                             handleCommentClick={this.handleCommentClick}
                             compactDisplay={this.props.compactDisplay}
                             lastPostCount={this.props.lastPostCount}
                             isCommentMention={this.props.isCommentMention}
                             isFirstReply={this.props.isFirstReply}
-                            selected={this.props.selected}
                         />
                     </div>
                 </div>

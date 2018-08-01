@@ -552,11 +552,6 @@ export default class PostList extends React.PureComponent {
                 continue;
             }
 
-            let selected = false;
-            if (this.state.rethreadTarget && post.id === this.state.rethreadTarget.id) {
-                selected = true;
-            }
-
             const postCtl = (
                 <Post
                     ref={post.id}
@@ -565,7 +560,6 @@ export default class PostList extends React.PureComponent {
                     lastPostCount={(i >= 0 && i < Constants.TEST_ID_COUNT) ? i : -1}
                     getPostList={this.getPostList}
                     handleRethreading={this.handleRethreading}
-                    selected={selected}
                     triggerRethreading={this.triggerRethreading}
                 />
             );
