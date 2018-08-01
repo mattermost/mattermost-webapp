@@ -5,11 +5,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as PostActions from 'actions/post_actions.jsx';
+import {postListScrollChange} from 'actions/global_actions';
 
 import Markdown from 'components/markdown';
 
 import {isUrlSafe} from 'utils/url.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+
+// This must match the max-height defined in CSS for the collapsed attachmentText div
+const MAX_ATTACHMENT_TEXT_HEIGHT = 600;
 
 export default class PostAttachment extends React.PureComponent {
     static propTypes = {
@@ -23,6 +27,11 @@ export default class PostAttachment extends React.PureComponent {
          * The attachment to render
          */
         attachment: PropTypes.object.isRequired,
+
+        /**
+         * Options specific to text formatting
+         */
+        options: PropTypes.object,
     }
 
     constructor(props) {
@@ -30,8 +39,53 @@ export default class PostAttachment extends React.PureComponent {
 
         this.state = {
             collapsed: true,
+            hasOverflow: false,
+        };
+
+        this.imageProps = {
+            onHeightReceived: this.handleImageHeightReceived,
         };
     }
+
+    componentDidMount() {
+        this.checkAttachmentTextOverflow();
+
+        window.addEventListener('resize', this.handleResize);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.attachment.text !== prevProps.attachment.text) {
+            this.checkAttachmentTextOverflow();
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    checkAttachmentTextOverflow = () => {
+        const attachmentText = this.refs.attachmentText;
+        let hasOverflow = false;
+        if (attachmentText && attachmentText.scrollHeight > MAX_ATTACHMENT_TEXT_HEIGHT) {
+            hasOverflow = true;
+        }
+
+        if (hasOverflow !== this.state.hasOverflow) {
+            this.setState({
+                hasOverflow,
+            });
+        }
+    };
+
+    handleImageHeightReceived = () => {
+        postListScrollChange();
+
+        this.checkAttachmentTextOverflow();
+    };
+
+    handleResize = () => {
+        this.checkAttachmentTextOverflow();
+    };
 
     toggleCollapseState = (e) => {
         e.preventDefault();
@@ -40,25 +94,6 @@ export default class PostAttachment extends React.PureComponent {
                 collapsed: !prevState.collapsed,
             };
         });
-    };
-
-    shouldCollapse = () => {
-        const text = this.props.attachment.text || '';
-        return (text.match(/\n/g) || []).length >= 5 || text.length > 700;
-    };
-
-    getCollapsedText = () => {
-        // TODO: this breaks markdown formatting when it e.g. cuts a ``` block terminator
-        // Should be collapsed using another method.
-        let text = this.props.attachment.text || '';
-        if ((text.match(/\n/g) || []).length >= 5) {
-            text = text.split('\n').splice(0, 5).join('\n');
-        }
-        if (text.length > 300) {
-            text = text.substr(0, 300);
-        }
-
-        return text;
     };
 
     getActionView = () => {
@@ -186,47 +221,51 @@ export default class PostAttachment extends React.PureComponent {
     };
 
     render() {
-        const data = this.props.attachment;
+        const {
+            collapsed,
+            hasOverflow,
+        } = this.state;
+        const {attachment, options} = this.props;
         let preTextClass = '';
 
         let preText;
-        if (data.pretext) {
+        if (attachment.pretext) {
             preTextClass = 'attachment--pretext';
             preText = (
                 <div className='attachment__thumb-pretext'>
-                    <Markdown message={data.pretext}/>
+                    <Markdown message={attachment.pretext}/>
                 </div>
             );
         }
 
         let author = [];
-        if (data.author_name || data.author_icon) {
-            if (data.author_icon) {
+        if (attachment.author_name || attachment.author_icon) {
+            if (attachment.author_icon) {
                 author.push(
                     <img
                         className='attachment__author-icon'
-                        src={data.author_icon}
+                        src={attachment.author_icon}
                         key={'attachment__author-icon'}
                         height='14'
                         width='14'
                     />
                 );
             }
-            if (data.author_name) {
+            if (attachment.author_name) {
                 author.push(
                     <span
                         className='attachment__author-name'
                         key={'attachment__author-name'}
                     >
-                        {data.author_name}
+                        {attachment.author_name}
                     </span>
                 );
             }
         }
-        if (data.author_link && isUrlSafe(data.author_link)) {
+        if (attachment.author_link && isUrlSafe(attachment.author_link)) {
             author = (
                 <a
-                    href={data.author_link}
+                    href={attachment.author_link}
                     target='_blank'
                     rel='noopener noreferrer'
                 >
@@ -236,76 +275,90 @@ export default class PostAttachment extends React.PureComponent {
         }
 
         let title;
-        if (data.title) {
-            if (data.title_link && isUrlSafe(data.title_link)) {
+        if (attachment.title) {
+            if (attachment.title_link && isUrlSafe(attachment.title_link)) {
                 title = (
-                    <h1
-                        className='attachment__title'
-                    >
+                    <h1 className='attachment__title'>
                         <a
                             className='attachment__title-link'
-                            href={data.title_link}
+                            href={attachment.title_link}
                             target='_blank'
                             rel='noopener noreferrer'
                         >
-                            {data.title}
+                            {attachment.title}
                         </a>
                     </h1>
                 );
             } else {
                 title = (
-                    <h1
-                        className='attachment__title'
-                    >
-                        {data.title}
+                    <h1 className='attachment__title'>
+                        {attachment.title}
                     </h1>
                 );
             }
         }
 
         let text;
-        if (data.text) {
-            const shouldCollapse = this.shouldCollapse();
-            const collapsed = shouldCollapse && this.state.collapsed;
-            const attachmentText = collapsed ? this.getCollapsedText() : this.props.attachment.text;
-            const collapseMessage = collapsed ? localizeMessage('post_attachment.more', 'Show more...') : localizeMessage('post_attachment.collapse', 'Show less...');
+        if (attachment.text) {
+            let collapseMessage = localizeMessage('post_attachment.more', 'Show more...');
+            let textClass = 'attachment__text';
+            if (collapsed) {
+                collapseMessage = localizeMessage('post_attachment.collapse', 'Show less...');
+                textClass += ' attachment__text--collapsed';
+            }
 
-            text = (
-                <div className='attachment__text'>
-                    <Markdown message={attachmentText || ''}/>
-                    {shouldCollapse &&
-                        <div>
+            let textOverflow = null;
+            if (hasOverflow) {
+                textOverflow = (
+                    <div className='attachment__text-collapse'>
+                        <div className='attachment__text-collapse__link-more'>
                             <a
-                                className='attachment-link-more'
+                                className='attachment__text-link-more'
                                 href='#'
                                 onClick={this.toggleCollapseState}
                             >
                                 {collapseMessage}
                             </a>
                         </div>
-                    }
+                    </div>
+                );
+            }
+
+            text = (
+                <div className={textClass}>
+                    <div
+                        className='attachment__text-container'
+                        ref='attachmentText'
+                    >
+                        <Markdown
+                            message={attachment.text || ''}
+                            options={options}
+                            imageProps={this.imageProps}
+                        />
+                    </div>
+                    {textOverflow}
                 </div>
             );
         }
 
         let image;
-        if (data.image_url) {
+        if (attachment.image_url) {
             image = (
                 <img
                     className='attachment__image'
-                    src={data.image_url}
+                    src={attachment.image_url}
                 />
             );
         }
 
         let thumb;
-        if (data.thumb_url) {
+        if (attachment.thumb_url) {
             thumb = (
                 <div
                     className='attachment__thumb-container'
                 >
                     <img
-                        src={data.thumb_url}
+                        src={attachment.thumb_url}
                     />
                 </div>
             );
@@ -315,8 +368,8 @@ export default class PostAttachment extends React.PureComponent {
         const actions = this.getActionView();
 
         let useBorderStyle;
-        if (data.color && data.color[0] === '#') {
-            useBorderStyle = {borderLeftColor: data.color};
+        if (attachment.color && attachment.color[0] === '#') {
+            useBorderStyle = {borderLeftColor: attachment.color};
         }
 
         return (
@@ -327,7 +380,7 @@ export default class PostAttachment extends React.PureComponent {
                 {preText}
                 <div className='attachment__content'>
                     <div
-                        className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + data.color}
+                        className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + attachment.color}
                         style={useBorderStyle}
                     >
                         {author}

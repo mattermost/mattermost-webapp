@@ -258,9 +258,8 @@ export default class SearchResultsItem extends React.PureComponent {
             rhsControls = (
                 <div className='col__controls col__reply'>
                     <DotMenu
-                        idPrefix={Constants.SEARCH_POST}
-                        idCount={this.props.lastPostCount}
                         post={post}
+                        location={'SEARCH'}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
@@ -284,7 +283,13 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             message = (
-                <PostBodyAdditionalContent post={post}>
+                <PostBodyAdditionalContent
+                    post={post}
+                    options={{
+                        searchTerm: this.props.term,
+                        searchMatches: this.props.matches,
+                    }}
+                >
                     <PostMessageContainer
                         post={post}
                         options={{

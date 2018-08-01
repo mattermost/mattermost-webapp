@@ -12,6 +12,7 @@ function mapStateToProps(state) {
     return {
         diagnosticsEnabled: config.DiagnosticsEnabled === 'true',
         noAccounts: config.NoAccounts === 'true',
+        diagnosticId: config.DiagnosticId,
     };
 }
 

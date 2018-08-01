@@ -11,7 +11,6 @@ import PostAttachmentOpenGraph from './post_attachment_opengraph.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps,
         openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
         currentUser: getCurrentUser(state),
     };

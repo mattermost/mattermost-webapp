@@ -177,8 +177,25 @@
             }
         }
 
+        .attachment__text {
+            .attachment__text-collapse {
+                position: relative;
+            }
+
+            .attachment__text-collapse__link-more {
+                position: relative;
+            }
+        }
+
         .attachment__text p:last-of-type {
             display: inline-block;
+        }
+        .attachment__text--collapsed {
+            .attachment__text-container {
+                // "max-height" should match MAX_ATTACHMENT_TEXT_HEIGHT constant in
+                // components/post_view/post_attachment.jsx.
+                max-height: 600px;
+            }
         }
 
         .attachment__image__container--opengraph {
@@ -245,7 +262,7 @@
             }
         }
 
-        .attachment-link-more {
+        .attachment__text-link-more {
             display: inline-block;
             font-size: .9em;
             margin: 5px 0;

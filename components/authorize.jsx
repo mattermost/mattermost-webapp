@@ -29,7 +29,7 @@ export default class Authorize extends React.Component {
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
-        if (!(/^[a-z0-9]+$/.test(clientId))) {
+        if (!((/^[a-z0-9]+$/).test(clientId))) {
             return;
         }
 
@@ -55,7 +55,7 @@ export default class Authorize extends React.Component {
         allowOAuth2(params,
             (data) => {
                 if (data.redirect) {
-                    browserHistory.push(data.redirect);
+                    window.location.href = data.redirect;
                 }
             },
             (err) => {
@@ -67,7 +67,7 @@ export default class Authorize extends React.Component {
     handleDeny() {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
         if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
-            browserHistory.replace(redirectUri + '?error=access_denied');
+            window.location.href = redirectUri + '?error=access_denied';
             return;
         }
 

@@ -33,7 +33,7 @@ export default class StatisticCount extends React.PureComponent {
         );
 
         return (
-            <div className='col-md-3 col-sm-6'>
+            <div className='col-lg-3 col-md-4 col-sm-6'>
                 <div className='total-count'>
                     <div className='title'>
                         {this.props.title}

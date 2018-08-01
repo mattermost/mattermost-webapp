@@ -18,7 +18,6 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             fileInfos,
         };
     };

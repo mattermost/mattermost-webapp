@@ -23,7 +23,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import {loadMeAndConfig} from 'actions/user_actions.jsx';
+import {loadMeAndConfig, addSwitchToEENotification} from 'actions/user_actions.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
@@ -86,6 +86,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
 export default class Root extends React.Component {
     static propTypes = {
         diagnosticsEnabled: PropTypes.bool,
+        diagnosticId: PropTypes.string,
         noAccounts: PropTypes.bool,
         children: PropTypes.object,
     }
@@ -148,11 +149,26 @@ export default class Root extends React.Component {
 
     onConfigLoaded = () => {
         const segmentKey = Constants.DIAGNOSTICS_SEGMENT_KEY;
+        const diagnosticId = this.props.diagnosticId;
 
         /*eslint-disable */
         if (segmentKey != null && segmentKey !== '' && this.props.diagnosticsEnabled) {
             !function(){var analytics=global.window.analytics=global.window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
                 analytics.load(segmentKey);
+
+                analytics.identify(diagnosticId, {}, {
+                    context: {
+                        ip: '0.0.0.0',
+                    },
+                    page: {
+                        path: '',
+                        referrer: '',
+                        search: '',
+                        title: '',
+                        url: '',
+                    },
+                    anonymousId: '00000000000000000000000000',
+                });
 
                 analytics.page('ApplicationLoaded', {
                         path: '',
@@ -204,6 +220,7 @@ export default class Root extends React.Component {
             this.props.history.push('/get_android_app');
             BrowserStore.setLandingPageSeen(true);
         }
+        addSwitchToEENotification();
     }
 
     localizationChanged = () => {

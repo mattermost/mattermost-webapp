@@ -386,11 +386,11 @@ export function formatAuditInfo(audit, formatMessage) {
                 }
             }
 
-            if (/\/channels\/[A-Za-z0-9]+\/delete/.test(actionURL)) {
+            if ((/\/channels\/[A-Za-z0-9]+\/delete/).test(actionURL)) {
                 auditDesc = formatMessage(holders.channelDeleted, {url: channelURL});
-            } else if (/\/channels\/[A-Za-z0-9]+\/add/.test(actionURL)) {
+            } else if ((/\/channels\/[A-Za-z0-9]+\/add/).test(actionURL)) {
                 auditDesc = formatMessage(holders.userAdded, {username, channelName});
-            } else if (/\/channels\/[A-Za-z0-9]+\/remove/.test(actionURL)) {
+            } else if ((/\/channels\/[A-Za-z0-9]+\/remove/).test(actionURL)) {
                 auditDesc = formatMessage(holders.userRemoved, {username, channelName});
             }
 

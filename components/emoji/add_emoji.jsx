@@ -73,7 +73,7 @@ export default class AddEmoji extends React.Component {
             });
 
             return;
-        } else if (/[^a-z0-9_-]/.test(emoji.name)) {
+        } else if ((/[^a-z0-9_-]/).test(emoji.name)) {
             this.setState({
                 saving: false,
                 error: (

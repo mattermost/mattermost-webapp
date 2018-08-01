@@ -86,7 +86,7 @@ export default class ResetEmailModal extends React.Component {
         const title = (
             <FormattedMessage
                 id='admin.reset_email.titleReset'
-                defaultMessage='Reset Email'
+                defaultMessage='Update Email'
             />
         );
 

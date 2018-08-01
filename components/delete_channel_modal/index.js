@@ -8,9 +8,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import DeleteChannelModal from './delete_channel_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentTeamDetails: getCurrentTeam(state),
     };
 }

@@ -29,6 +29,7 @@ import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {getPostDraft} from 'selectors/rhs';
+import {getCurrentLocale} from 'selectors/i18n';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants.jsx';
@@ -67,6 +68,7 @@ function mapStateToProps() {
             recentPostIdInChannel,
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
+            locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
             canUploadFiles: canUploadFiles(config),

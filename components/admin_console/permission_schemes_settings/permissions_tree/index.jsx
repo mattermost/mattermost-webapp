@@ -2,14 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import NotLoggedIn from './header_footer_template.jsx';
+import PermissionsTree from './permissions_tree.jsx';
 
 function mapStateToProps(state) {
+    const config = getConfig(state);
+
     return {
-        config: getConfig(state),
+        config,
     };
 }
 
-export default connect(mapStateToProps)(NotLoggedIn);
+export default connect(mapStateToProps)(PermissionsTree);

@@ -365,10 +365,8 @@ export default class RhsComment extends React.Component {
         } else if (!isSystemMessage) {
             const dotMenu = (
                 <DotMenu
-                    idPrefix={Constants.RHS}
-                    isRHS={true}
-                    idCount={idCount}
                     post={this.props.post}
+                    location={'RHS_COMMENT'}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
                     isReadOnly={isReadOnly}
