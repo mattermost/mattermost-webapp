@@ -145,7 +145,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 >
   <React.Fragment>
     <SidebarChannelButtonOrLinkIcon
-      channelId="test-channel-id"
+      channelIsArchived={false}
       channelStatus="test"
       channelType="D"
       membersCount={2}

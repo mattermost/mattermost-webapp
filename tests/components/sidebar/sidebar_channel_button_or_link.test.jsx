@@ -121,6 +121,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
+                channelIsArchived={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
