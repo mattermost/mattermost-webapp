@@ -30,6 +30,7 @@ describe('components/CreateComment', () => {
         enableAddButton: true,
         ctrlSend: false,
         latestPostId,
+        locale: 'en',
         getSidebarBody: jest.fn(),
         clearCommentDraftUploads: jest.fn(),
         onUpdateCommentDraft: jest.fn(),
@@ -276,10 +277,11 @@ describe('components/CreateComment', () => {
 
     test('handleFileUploadComplete should update comment draft correctly', () => {
         const onUpdateCommentDraft = jest.fn();
+        const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{test: 1}, {test: 2}],
+            fileInfos,
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -289,14 +291,16 @@ describe('components/CreateComment', () => {
 
         wrapper.setState({draft});
 
-        wrapper.instance().handleFileUploadComplete([{test: 3}], [3]);
+        const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
+        const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
+        wrapper.instance().handleFileUploadComplete(uploadCompleteFileInfo, [3]);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
-            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: [{test: 1}, {test: 2}, {test: 3}]})
+            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos})
         );
 
         expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
-        expect(wrapper.state().draft.fileInfos).toEqual([{test: 1}, {test: 2}, {test: 3}]);
+        expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
     });
 
     test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -304,7 +308,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{test: 1}, {test: 2}],
+            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -322,7 +326,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{test: 1}, {test: 2}],
+            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
         };
         const props = {...baseProps, draft};
 
