@@ -106,8 +106,6 @@ export function canRethreadPost(post) {
 
     let canRethread = false;
     let canRethreadOthers = false;
-    const license = getLicense(store.getState());
-    const config = getConfig(store.getState());
     const channel = getChannel(store.getState(), post.channel_id);
 
     const isOwner = isPostOwner(post);

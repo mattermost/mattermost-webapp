@@ -87,11 +87,6 @@ export default class PostHeader extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
-
-        /**
-         * Function to get the post to rethread.
-         */
-        handleRethreading: PropTypes.func.isRequired,
     }
 
     render() {
@@ -194,7 +189,6 @@ export default class PostHeader extends React.PureComponent {
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         getPostList={this.props.getPostList}
                         hover={this.props.hover}
-                        handleRethreading={this.props.handleRethreading}
                     />
                 </div>
             </div>

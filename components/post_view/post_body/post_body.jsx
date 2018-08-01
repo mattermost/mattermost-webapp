@@ -97,9 +97,14 @@ export default class PostBody extends React.PureComponent {
         isReadOnly: PropTypes.bool,
 
         /**
-         * Set to mark the post as selected for rethreading
+         * The function is called when the post body is dragged
          */
-        selected: PropTypes.bool,
+        onDragStart: PropTypes.func.isRequired,
+
+        /**
+         * Can the user rethread this post
+         */
+        canRethread: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -282,22 +287,14 @@ export default class PostBody extends React.PureComponent {
             ephemeralPostClass = 'post--ephemeral';
         }
 
-        let selected = '';
-        if (this.props.selected) {
-            selected = 'post-rethreadtarget';
-        }
-
-        let selected = '';
-        if (this.props.selected) {
-            selected = 'post-rethreadtarget';
-        }
-
         return (
             <div>
                 {comment}
                 <div
+                    draggable={this.props.canRethread}
                     id={`${post.id}_message`}
-                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass} ${selected}`}
+                    className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
+                    onDragStart={(e) => this.props.onDragStart(e, post)}
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}

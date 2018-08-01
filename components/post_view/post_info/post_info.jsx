@@ -7,14 +7,16 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
+<<<<<<< HEAD
 
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+=======
+>>>>>>> rethreading now done via dragging
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -102,6 +104,7 @@ export default class PostInfo extends React.PureComponent {
          */
         isReadOnly: PropTypes.bool,
 
+<<<<<<< HEAD
         /**
          * Function to get the post to rethread
          */
@@ -112,6 +115,8 @@ export default class PostInfo extends React.PureComponent {
          */
         handleRethreading: PropTypes.func.isRequired,
 
+=======
+>>>>>>> rethreading now done via dragging
         actions: PropTypes.shape({
 
             /*
@@ -132,12 +137,7 @@ export default class PostInfo extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
             reactionPickerOffset: 21,
-            canRethread: PostUtils.canRethreadPost(props.post),
         };
-    }
-
-    handleEditDisable = () => {
-        this.setState({canRethread: false});
     }
 
     toggleEmojiPicker = () => {
@@ -267,30 +267,6 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        let rethreading;
-        if (hover && !isReadOnly && this.state.canRethread && !this.props.post.root_id && this.props.replyCount === 0) {
-
-            rethreading = (
-                <div
-                    className='reacticon__container color--link style--none'
-                    onClick={() => this.props.handleRethreading(this.props.post)}
-                >
-                    <OverlayTrigger
-                        trigger={['hover', 'focus']}
-                        delayShow={500}
-                        placement='top'
-                        overlay={
-                            <Tooltip id='rethread__tooltip'>
-                                {'rethread this post'}
-                            </Tooltip>
-                        }
-                    >
-                        <MessageIcon className='icon icon--message'/>
-                    </OverlayTrigger>
-                </div>
-            );
-        }
-
         return (
             <div
                 ref='dotMenu'
@@ -299,7 +275,6 @@ export default class PostInfo extends React.PureComponent {
                 {dotMenu}
                 {react}
                 {comments}
-                {rethreading}
             </div>
         );
     };
