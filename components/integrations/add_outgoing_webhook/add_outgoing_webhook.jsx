@@ -30,6 +30,16 @@ export default class AddOutgoingWebhook extends React.PureComponent {
              */
             createOutgoingHook: PropTypes.func.isRequired,
         }).isRequired,
+
+        /**
+         * Whether to allow configuration of the default post username.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to allow configuration of the default post icon.
+         */
+        enablePostIconOverride: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -63,6 +73,8 @@ export default class AddOutgoingWebhook extends React.PureComponent {
                 renderExtra={''}
                 action={this.addOutgoingHook}
                 serverError={this.state.serverError}
+                enablePostUsernameOverride={this.props.enablePostUsernameOverride}
+                enablePostIconOverride={this.props.enablePostIconOverride}
             />
         );
     }
