@@ -183,7 +183,7 @@ export default class SidebarChannel extends React.PureComponent {
     };
 
     render = () => {
-        if (!this.props.channelDisplayName || !this.props.channelType) {
+        if (!this.props.channelType) {
             return (<div/>);
         }
 
