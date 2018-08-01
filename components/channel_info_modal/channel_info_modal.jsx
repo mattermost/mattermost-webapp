@@ -10,6 +10,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import Markdown from 'components/markdown';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
+import ArchiveIcon from 'components/svg/archive_icon';
 
 import Constants from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
@@ -54,6 +55,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
     render() {
         let channel = this.props.channel;
+        const channelIsArchived = channel.delete_at !== 0;
         let channelIcon;
 
         if (!channel) {
@@ -70,7 +72,11 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         const channelNamesMap = this.props.channel.props && this.props.channel.props.channel_mentions;
 
-        if (channel.type === 'O') {
+        if (channelIsArchived) {
+            channelIcon = (
+                <ArchiveIcon className='icon icon__archive'/>
+            );
+        } else if (channel.type === 'O') {
             channelIcon = (
                 <GlobeIcon className='icon icon__globe icon--body'/>
             );

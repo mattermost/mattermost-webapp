@@ -663,6 +663,17 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    .channel-archived__message {
+        padding: 25px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        text-align: center;
+    }
+
+    .channel-archived__close-btn {
+        margin: 10px;
+    }
 }
 
 .post-list__table {

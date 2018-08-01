@@ -8,6 +8,7 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class DeleteChannelModal extends React.PureComponent {
     static propTypes = {
@@ -26,6 +27,8 @@ export default class DeleteChannelModal extends React.PureComponent {
          * currentTeamDetails used for redirection after deleting channel
          */
         currentTeamDetails: PropTypes.object.isRequired,
+
+        canViewArchivedChannels: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -59,6 +62,7 @@ export default class DeleteChannelModal extends React.PureComponent {
     }
 
     render() {
+        const {canViewArchivedChannels} = this.props;
         return (
             <Modal
                 show={this.state.show}
@@ -75,13 +79,22 @@ export default class DeleteChannelModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='alert alert-danger'>
-                        <FormattedHTMLMessage
-                            id='delete_channel.question'
-                            defaultMessage='This will archive the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to archive the <strong>{display_name}</strong> channel?'
-                            values={{
-                                display_name: this.props.channel.display_name,
-                            }}
-                        />
+                        {!canViewArchivedChannels &&
+                            <FormattedHTMLMessage
+                                id='delete_channel.question'
+                                defaultMessage='This will archive the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to archive the <strong>{display_name}</strong> channel?'
+                                values={{
+                                    display_name: this.props.channel.display_name,
+                                }}
+                            />}
+                        {canViewArchivedChannels &&
+                            <FormattedMarkdownMessage
+                                id='delete_channel.viewArchived.questionxxx'
+                                defaultMessage={'This will archive the channel from the team. Channel contents will still be accessible by channel members.\n \nAre you sure you wish to archive the **{display_name}** channel?'}
+                                values={{
+                                    display_name: this.props.channel.display_name,
+                                }}
+                            />}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

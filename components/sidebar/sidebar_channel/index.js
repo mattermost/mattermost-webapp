@@ -115,6 +115,7 @@ function makeMapStateToProps() {
             unreadMentions,
             membersCount,
             shouldHideChannel,
+            channelIsArchived: channel.delete_at !== 0,
         };
     };
 }

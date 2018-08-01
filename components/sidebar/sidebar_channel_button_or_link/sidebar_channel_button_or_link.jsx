@@ -31,6 +31,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
+        channelIsArchived: PropTypes.bool.isRequired,
     }
 
     trackChannelSelectedEvent = () => {
@@ -60,12 +61,12 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         const content = (
             <React.Fragment>
                 <SidebarChannelButtonOrLinkIcon
-                    channelId={this.props.channelId}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     membersCount={this.props.membersCount}
                     teammateId={this.props.teammateId}
                     teammateDeletedAt={this.props.teammateDeletedAt}
+                    channelIsArchived={this.props.channelIsArchived}
                 />
                 <span className='sidebar-item__name'>{usernamePlaceHolder}</span>
                 {badge}

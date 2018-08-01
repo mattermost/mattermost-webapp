@@ -24,16 +24,17 @@ const getDeactivatedChannel = createSelector(
 );
 
 function mapStateToProps(state) {
-    const channelId = state.entities.channels.currentChannelId;
+    const channel = state.entities.channels.channels[state.entities.channels.currentChannelId];
 
     const config = getConfig(state);
     const enableTutorial = config.EnableTutorial === 'true';
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
 
     return {
-        channelId,
-        deactivatedChannel: getDeactivatedChannel(state, channelId),
+        channelId: channel ? channel.id : '',
+        deactivatedChannel: channel ? getDeactivatedChannel(state, channel.id) : false,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
+        channelIsArchived: channel ? channel.delete_at !== 0 : false,
     };
 }
 

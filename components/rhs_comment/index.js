@@ -13,6 +13,7 @@ function mapStateToProps(state, ownProps) {
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
+    const channel = state.entities.channels.channels[ownProps.post.channel_id];
 
     return {
         enableEmojiPicker,
@@ -20,6 +21,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         pluginPostTypes: state.plugins.postTypes,
+        channelIsArchived: channel.delete_at !== 0,
     };
 }
 

@@ -290,6 +290,10 @@
             flex: 0 auto;
         }
 
+        .channel-header-archived-icon {
+            opacity: .5;
+        }
+
         h2 {
             display: flex;
             flex: 0 1 auto;
@@ -702,4 +706,10 @@
         }
     }
 
+}
+
+.channel-header-archived-icon {
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
 }

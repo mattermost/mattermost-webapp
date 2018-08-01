@@ -8,8 +8,6 @@ import {FormattedMessage} from 'react-intl';
 export default class MsgTyping extends React.Component {
     static propTypes = {
         typingUsers: PropTypes.array.isRequired,
-        channelId: PropTypes.string.isRequired,
-        postId: PropTypes.string,
     }
 
     getTypingText = () => {

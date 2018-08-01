@@ -13,16 +13,20 @@ import LockIcon from 'components/svg/lock_icon';
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
         channelType: PropTypes.string.isRequired,
-        channelId: PropTypes.string.isRequired,
         membersCount: PropTypes.number,
         channelStatus: PropTypes.string,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
+        channelIsArchived: PropTypes.bool.isRequired,
     }
 
     render() {
         var icon = null;
-        if (this.props.channelType === Constants.OPEN_CHANNEL) {
+        if (this.props.channelIsArchived) {
+            icon = (
+                <ArchiveIcon className='icon icon__archive'/>
+            );
+        } else if (this.props.channelType === Constants.OPEN_CHANNEL) {
             icon = (
                 <GlobeIcon className='icon icon__globe'/>
             );
