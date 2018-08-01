@@ -70,11 +70,23 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         },
         isOpen: false,
         showUnreadSection: false,
-        publicChannelIds: ['c1', 'c2'],
-        privateChannelIds: ['c3', 'c4'],
-        favoriteChannelIds: [],
-        directAndGroupChannelIds: ['c5', 'c6'],
-        unreadChannelIds: [],
+        orderedChannelIds: [
+            {
+                type: 'public',
+                name: 'PUBLIC CHANNELS',
+                items: ['c1', 'c2'],
+            },
+            {
+                type: 'private',
+                name: 'PRIVATE CHANNELS',
+                items: ['c3', 'c4'],
+            },
+            {
+                type: 'direct',
+                name: 'DIRECT MESSAGES',
+                items: ['c5', 'c6'],
+            },
+        ],
         currentChannel: {
             id: 'c1',
             display_name: 'Public test 1',

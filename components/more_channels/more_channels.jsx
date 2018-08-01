@@ -26,6 +26,7 @@ export default class MoreChannels extends React.Component {
         teamName: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
+        bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
         }).isRequired,
@@ -50,6 +51,10 @@ export default class MoreChannels extends React.Component {
 
     handleHide = () => {
         this.setState({show: false});
+
+        if (this.props.bodyOnly) {
+            this.handleExit();
+        }
     }
 
     handleExit = () => {
@@ -125,6 +130,7 @@ export default class MoreChannels extends React.Component {
         const {
             channels,
             teamId,
+            bodyOnly,
         } = this.props;
 
         const {
@@ -172,6 +178,26 @@ export default class MoreChannels extends React.Component {
             </TeamPermissionGate>
         );
 
+        const body = (
+            <React.Fragment>
+                <SearchableChannelList
+                    channels={search ? searchedChannels : channels}
+                    channelsPerPage={CHANNELS_PER_PAGE}
+                    nextPage={this.nextPage}
+                    isSearch={search}
+                    search={this.search}
+                    handleJoin={this.handleJoin}
+                    noResultsText={createChannelHelpText}
+                    createChannelButton={bodyOnly && createNewChannelButton}
+                />
+                {serverError}
+            </React.Fragment>
+        );
+
+        if (bodyOnly) {
+            return body;
+        }
+
         return (
             <Modal
                 dialogClassName='more-modal more-modal--action'
@@ -189,16 +215,7 @@ export default class MoreChannels extends React.Component {
                     {createNewChannelButton}
                 </Modal.Header>
                 <Modal.Body>
-                    <SearchableChannelList
-                        channels={search ? searchedChannels : channels}
-                        channelsPerPage={CHANNELS_PER_PAGE}
-                        nextPage={this.nextPage}
-                        isSearch={search}
-                        search={this.search}
-                        handleJoin={this.handleJoin}
-                        noResultsText={createChannelHelpText}
-                    />
-                    {serverError}
+                    {body}
                 </Modal.Body>
             </Modal>
         );
