@@ -190,6 +190,7 @@
         .attachment__text p:last-of-type {
             display: inline-block;
         }
+
         .attachment__text--collapsed {
             .attachment__text-container {
                 // "max-height" should match MAX_ATTACHMENT_TEXT_HEIGHT constant in
