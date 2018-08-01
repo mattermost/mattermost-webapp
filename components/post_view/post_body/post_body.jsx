@@ -10,15 +10,24 @@ import * as PostActions from 'actions/post_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import FileAttachmentListContainer from 'components/file_attachment_list';
+
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
+import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
+import Markdown from 'components/markdown';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
+
 import loadingGif from 'images/load.gif';
 
 const SENDING_ANIMATION_DELAY = 3000;
+const commentedMarkdownOptions = {
+    atMentions: true,
+    mentionHighlight: false,
+    removeMarkdown: true,
+    singleline: true,
+};
 
 export default class PostBody extends React.PureComponent {
     static propTypes = {
@@ -190,12 +199,17 @@ export default class PostBody extends React.PureComponent {
                                 apostrophe,
                             }}
                         />
-                        <a
-                            className='theme'
+                        <span
+                            className='theme color--link'
                             onClick={this.props.handleCommentClick}
+                            role='button'
+                            tabIndex='0'
                         >
-                            {message}
-                        </a>
+                            <Markdown
+                                message={message}
+                                options={commentedMarkdownOptions}
+                            />
+                        </span>
                     </span>
                 </div>
             );
