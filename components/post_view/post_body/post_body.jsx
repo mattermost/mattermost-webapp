@@ -202,6 +202,8 @@ export default class PostBody extends React.PureComponent {
                         <span
                             className='theme color--link'
                             onClick={this.props.handleCommentClick}
+                            role='button'
+                            tabIndex='0'
                         >
                             <Markdown
                                 message={message}
