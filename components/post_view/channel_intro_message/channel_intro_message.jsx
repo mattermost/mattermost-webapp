@@ -19,6 +19,7 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {getMonthLong} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -220,13 +221,24 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <FormattedHTMLMessage
-                id='intro_messages.offTopic'
-                defaultMessage='<h4 class="channel-intro__title">Beginning of {display_name}</h4><p class="channel-intro__content">This is the start of {display_name}, a channel for non-work-related conversations.<br/></p>'
-                values={{
-                    display_name: channel.display_name,
-                }}
-            />
+            <h4 className='channel-intro__title'>
+                <FormattedMessage
+                    id='intro_messages.beginning'
+                    defaultMessage='Beginning of {name}'
+                    values={{
+                        name: channel.display_name,
+                    }}
+                />
+            </h4>
+            <p className='channel-intro__content'>
+                <FormattedMessage
+                    id='intro_messages.offTopic'
+                    defaultMessage='This is the start of {display_name}, a channel for non-work-related conversations.'
+                    values={{
+                        display_name: channel.display_name,
+                    }}
+                />
+            </p>
             {channelInviteButton}
             {setHeaderButton}
         </div>
@@ -288,13 +300,24 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <FormattedHTMLMessage
-                id='intro_messages.default'
-                defaultMessage="<h4 class='channel-intro__title'>Beginning of {display_name}</h4><p class='channel-intro__content'><strong>Welcome to {display_name}!</strong><br/><br/>This is the first channel teammates see when they sign up - use it for posting updates everyone needs to know.</p>"
-                values={{
-                    display_name: channel.display_name,
-                }}
-            />
+            <h4 className='channel-intro__title'>
+                <FormattedMessage
+                    id='intro_messages.beginning'
+                    defaultMessage='Beginning of {name}'
+                    values={{
+                        name: channel.display_name,
+                    }}
+                />
+            </h4>
+            <p className='channel-intro__content'>
+                <FormattedMarkdownMessage
+                    id='intro_messages.default'
+                    defaultMessage='**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.'
+                    values={{
+                        display_name: channel.display_name,
+                    }}
+                />
+            </p>
             {teamInviteLink}
             {setHeaderButton}
             <br/>
