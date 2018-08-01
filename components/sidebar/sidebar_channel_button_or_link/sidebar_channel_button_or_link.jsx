@@ -46,7 +46,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     render = () => {
         let badge = null;
         let usernamePlaceHolder = this.props.displayName;
-        if (!this.props.displayName) {
+        if (!usernamePlaceHolder) {
             usernamePlaceHolder = (
                 <span className='loading-user'>
                     <LoadingScreen style={{padding: '0px'}}/>
