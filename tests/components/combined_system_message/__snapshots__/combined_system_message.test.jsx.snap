@@ -139,3 +139,65 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot when j
   </React.Fragment>
 </React.Fragment>
 `;
+
+exports[`components/post_view/CombinedSystemMessage should match snapshot, "removed from channel" message when join leave messages are turned off 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="system_remove_from_channelcurrent_user_id"
+  >
+    <Connect(Markdown)
+      message="@removed_username_1 was **removed from the channel**."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "@removed_username_1",
+            },
+            Object {
+              "key": undefined,
+            },
+            Object {
+              "key": "you",
+            },
+          ],
+          "singleline": true,
+        }
+      }
+    />
+    <br />
+  </React.Fragment>
+</React.Fragment>
+`;
+
+exports[`components/post_view/CombinedSystemMessage should match snapshot, combining users removed from channel by all actors 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="system_remove_from_channelcurrent_user_id"
+  >
+    <Connect(Markdown)
+      message="@removed_username_1 and @removed_username_2 were **removed from the channel**."
+      options={
+        Object {
+          "atMentions": true,
+          "mentionHighlight": false,
+          "mentionKeys": Array [
+            Object {
+              "key": "@removed_username_1",
+            },
+            Object {
+              "key": "@removed_username_2",
+            },
+            Object {
+              "key": "you",
+            },
+          ],
+          "singleline": true,
+        }
+      }
+    />
+    <br />
+  </React.Fragment>
+</React.Fragment>
+`;
