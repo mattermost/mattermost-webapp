@@ -26,7 +26,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
         className="search-channel__archived"
       >
         <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon"
+          className="icon icon__archive channel-header-archived-icon svg-text-color"
         />
         <FormattedMessage
           defaultMessage="Archived"
@@ -260,7 +260,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         className="search-channel__archived"
       >
         <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon"
+          className="icon icon__archive channel-header-archived-icon svg-text-color"
         />
         <FormattedMessage
           defaultMessage="Archived"
@@ -485,7 +485,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
         className="search-channel__archived"
       >
         <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon"
+          className="icon icon__archive channel-header-archived-icon svg-text-color"
         />
         <FormattedMessage
           defaultMessage="Archived"
@@ -710,7 +710,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
         className="search-channel__archived"
       >
         <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon"
+          className="icon icon__archive channel-header-archived-icon svg-text-color"
         />
         <FormattedMessage
           defaultMessage="Archived"

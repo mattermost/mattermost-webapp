@@ -32,7 +32,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                 id="channelHeaderTitle"
               >
                 <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon"
+                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
                 />
               </strong>
               <span
@@ -321,7 +321,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 id="channelHeaderTitle"
               >
                 <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon"
+                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
                 />
               </strong>
               <span
@@ -599,7 +599,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 id="channelHeaderTitle"
               >
                 <ArchiveIcon
-                  className="icon icon__archive icon channel-header-archived-icon"
+                  className="icon icon__archive icon channel-header-archived-icon svg-text-color"
                 />
               </strong>
               <span
