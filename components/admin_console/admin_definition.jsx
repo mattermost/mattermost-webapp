@@ -922,7 +922,7 @@ export default {
                             label: 'admin.ldap.sync_button',
                             label_default: 'AD/LDAP Synchronize Now',
                             help_text: 'admin.ldap.testHelpText',
-                            help_text_default: 'nitiates an AD/LDAP synchronization immediately and provides details on the status of the synchronization in the table below. This table also shows the status of synchronization executed based on the Synchronization Interval setting. Please review log file and [documentation](!https://docs.mattermost.com/deployment/sso-ldap.html) to troubleshoot errors.',
+                            help_text_default: 'Initiates an AD/LDAP synchronization immediately and provides details on the status of the synchronization in the table below. This table also shows the status of synchronization executed based on the Synchronization Interval setting. Please review log file and [documentation](!https://docs.mattermost.com/deployment/sso-ldap.html) to troubleshoot errors.',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             render_job: (job) => {
                                 let mattermostUsers = '0';
