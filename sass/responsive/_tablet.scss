@@ -66,12 +66,17 @@
                     }
                 }
 
+                .modal-image__content {
+                    max-height: 93vh;
+                }
+
                 .modal-button-bar {
                     @include opacity(1);
                     @include border-radius(0 0 $border-rad $border-rad);
-                    bottom: -40px;
+                    position: relative;
                     line-height: 30px;
                     padding: 5px 10px 5px 5px;
+                    bottom: 20px;
                 }
             }
         }
