@@ -399,8 +399,8 @@
     padding: 15px;
 }
 
-.post-rethreadtarget, .post-rethreadtarget * {
-    background-color: LightSkyBlue !important;
+.post-rethreadHighlight * {
+    background-color: #cfebfd !important;
 }
 
 .post-create__container {
@@ -703,6 +703,11 @@
 }
 
 .post {
+    -webkit-transition: background 0.5s linear;
+    -moz-transition: background 0.5s linear;
+    -ms-transition: background 0.5s linear;
+    -o-transition: background 0.5s linear;
+    transition: background 0.5s linear;
     @include legacy-pie-clearfix;
     max-width: 100%;
     padding: 8px .5em 0 1em;

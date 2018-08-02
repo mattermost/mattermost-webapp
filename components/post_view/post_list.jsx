@@ -125,6 +125,7 @@ export default class PostList extends React.PureComponent {
         this.extraPagesLoaded = 0;
 
         this.state = {
+            rethreadHighlight: null,
             rethreadTarget: null,
             atEnd: false,
             unViewedCount: 0,
@@ -268,6 +269,10 @@ export default class PostList extends React.PureComponent {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
             }
         }
+    }
+
+    setRethreadHighlight = (target) => {
+        this.setState({rethreadHighlight: target});
     }
 
     loadPostsToFillScreenIfNecessary = () => {
@@ -579,6 +584,19 @@ export default class PostList extends React.PureComponent {
                 continue;
             }
 
+            let rethreadHighlight = false;
+            const rethreadTarget = this.state.rethreadTarget;
+            const postHighlight = this.state.rethreadHighlight;
+            if (rethreadTarget && postHighlight && rethreadTarget.create_at > postHighlight.create_at && post.root_id !== rethreadTarget.root_id) {
+                if ((postHighlight.id === post.root_id || postHighlight.root_id === post.root_id) && post.root_id.length) {
+                    //1. you're dragging over threads root or 2. you're dragging over member of the same thread, while the post is in a thread
+                    rethreadHighlight = true;
+                } else if (!post.root_id.length && post.id !== rethreadTarget.root_id && (post.id === postHighlight.root_id || postHighlight.id === post.id)) {
+                    //highlight the root of the thread
+                    rethreadHighlight = true;
+                }
+            }
+
             const postCtl = (
                 <Post
                     ref={post.id}
@@ -587,6 +605,8 @@ export default class PostList extends React.PureComponent {
                     lastPostCount={(i >= 0 && i < Constants.TEST_ID_COUNT) ? i : -1}
                     getPostList={this.getPostList}
                     handleRethreading={this.handleRethreading}
+                    rethreadHighlight={rethreadHighlight}
+                    setRethreadHighlight={this.setRethreadHighlight}
                     triggerRethreading={this.triggerRethreading}
                 />
             );

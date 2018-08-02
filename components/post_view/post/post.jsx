@@ -100,6 +100,16 @@ export default class Post extends React.PureComponent {
          * Function to get the trigger the rethreading once a rethread target has been chosen.
          */
         triggerRethreading: PropTypes.func.isRequired,
+
+        /**
+         * Set to mark the post as target for rethreading.
+         */
+        rethreadHighlight: PropTypes.bool,
+
+        /**
+         * function to set the highlight to threads.
+         */
+        setRethreadHighlight: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -141,16 +151,22 @@ export default class Post extends React.PureComponent {
             dropdownOpened: opened,
         });
     }
-    onDragStart = (ev, post) => {
-        this.props.handleRethreading(post);
+    onDragStart = () => {
+        this.props.setRethreadHighlight(null);
+        this.props.handleRethreading(this.props.post);
     }
 
     onDragOver = (ev) => {
         ev.preventDefault();
+        this.props.setRethreadHighlight(this.props.post);
+    }
+    onDragLeave = () => {
+        this.props.setRethreadHighlight(null);
     }
 
-    onDrop = (ev, target) => {
-        this.props.triggerRethreading(target);
+    onDrop = () => {
+        this.props.setRethreadHighlight(null);
+        this.props.triggerRethreading(this.props.post);
     }
 
     hasSameRoot = (props) => {
@@ -176,6 +192,10 @@ export default class Post extends React.PureComponent {
 
         if (this.props.highlight) {
             className += ' post--highlight';
+        }
+
+        if (this.props.rethreadHighlight) {
+            className += ' post-rethreadHighlight';
         }
 
         let rootUser = '';
@@ -280,17 +300,20 @@ export default class Post extends React.PureComponent {
             centerClass = 'center';
         }
 
-        const canRethread = (PostUtils.canRethreadPost(post) && this.props.replyCount === 0);
+        const canRethread = (PostUtils.canRethreadPost(post) && (this.props.replyCount === 0 || post.root_id !== ''));
 
         return (
             <div
+                draggable={canRethread}
                 ref={this.getRef}
                 id={'post_' + post.id}
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
+                onDragStart={() => this.onDragStart()}
                 onDragOver={(e) => this.onDragOver(e)}
-                onDrop={(e) => this.onDrop(e, post)}
+                onDragLeave={() => this.onDragLeave()}
+                onDrop={() => this.onDrop()}
             >
                 <div className={'post__content ' + centerClass}>
                     <div className='post__img'>
@@ -315,8 +338,6 @@ export default class Post extends React.PureComponent {
                         />
                         <PostBody
                             post={post}
-                            canRethread={canRethread}
-                            onDragStart={this.onDragStart}
                             handleCommentClick={this.handleCommentClick}
                             compactDisplay={this.props.compactDisplay}
                             lastPostCount={this.props.lastPostCount}
