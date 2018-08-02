@@ -3,6 +3,9 @@
 
 import marked from 'marked';
 
+import {convertEntityToCharacter} from 'utils/text_formatting.jsx';
+import RemoveMarkdown from 'utils/markdown/remove_markdown';
+
 import Renderer from './renderer';
 
 export function format(text, options = {}) {
@@ -19,4 +22,9 @@ export function formatWithRenderer(text, renderer) {
     };
 
     return marked(text, markdownOptions);
+}
+
+export function stripMarkdown(text) {
+    const removeMarkdown = new RemoveMarkdown();
+    return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown));
 }
