@@ -159,7 +159,7 @@ class SuggestionStore extends EventEmitter {
         if (suggestion.terms.length > 0) {
             // if the current selection is no longer in the map, select the first term in the list
             if (!suggestion.selection || suggestion.terms.indexOf(suggestion.selection) === -1) {
-                suggestion.selection = `${suggestion.terms[0]}|0`;
+                suggestion.selection = suggestion.terms[0];
 
                 return true;
             }
@@ -205,10 +205,6 @@ class SuggestionStore extends EventEmitter {
     }
 
     getSelection(id) {
-        return this.getSuggestions(id).selection.split('|')[0];
-    }
-
-    getSelectionWithIndex(id) {
         return this.getSuggestions(id).selection;
     }
 
@@ -223,7 +219,7 @@ class SuggestionStore extends EventEmitter {
     setSelectionByDelta(id, delta) {
         const suggestion = this.suggestions.get(id);
 
-        let selectionIndex = suggestion.terms.indexOf(suggestion.selection.split('|')[0]);
+        let selectionIndex = suggestion.terms.indexOf(suggestion.selection);
 
         if (selectionIndex === -1) {
             // this should never happen since selection should always be in terms
@@ -238,12 +234,7 @@ class SuggestionStore extends EventEmitter {
             selectionIndex = suggestion.terms.length - 1;
         }
 
-        suggestion.selection = `${suggestion.terms[selectionIndex]}|${selectionIndex}`;
-    }
-
-    setSelectionWithIndex(id, index) {
-        const suggestion = this.suggestions.get(id);
-        suggestion.selection = `${suggestion.terms[index]}|${index}`;
+        suggestion.selection = suggestion.terms[selectionIndex];
     }
 
     checkIfPretextMatches(id, matchedPretext) {

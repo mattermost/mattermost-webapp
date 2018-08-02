@@ -136,7 +136,7 @@ export default class SuggestionList extends React.Component {
         for (let i = 0; i < this.state.items.length; i++) {
             const item = this.state.items[i];
             const term = this.state.terms[i];
-            const isSelection = `${term}|${i}` === this.state.selection;
+            const isSelection = term === this.state.selection;
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.state.components[i];
@@ -153,16 +153,13 @@ export default class SuggestionList extends React.Component {
 
             items.push(
                 <Component
-                    key={`${term}|${i}`}
-                    ref={`${term}|${i}`}
+                    key={term}
+                    ref={term}
                     item={this.state.items[i]}
                     term={term}
                     matchedPretext={this.state.matchedPretext[i]}
                     isSelection={isSelection}
-                    onClick={(selectedTerm, matchedPretext) => {
-                        SuggestionStore.setSelectionWithIndex(this.props.suggestionId, i);
-                        this.props.onCompleteWord(selectedTerm, matchedPretext);
-                    }}
+                    onClick={this.props.onCompleteWord}
                 />
             );
         }
