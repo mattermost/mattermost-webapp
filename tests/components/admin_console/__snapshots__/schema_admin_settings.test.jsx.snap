@@ -328,26 +328,31 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 9,
+              "text": "Română (Beta)",
+              "value": "ro",
+            },
+            Object {
+              "order": 10,
               "text": "Pусский (Alpha)",
               "value": "ru",
             },
             Object {
-              "order": 10,
+              "order": 11,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 11,
+              "order": 12,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "日本語",
               "value": "ja",
             },
@@ -432,26 +437,31 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 9,
+              "text": "Română (Beta)",
+              "value": "ro",
+            },
+            Object {
+              "order": 10,
               "text": "Pусский (Alpha)",
               "value": "ru",
             },
             Object {
-              "order": 10,
+              "order": 11,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 11,
+              "order": 12,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "日本語",
               "value": "ja",
             },
