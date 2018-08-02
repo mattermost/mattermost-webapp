@@ -479,7 +479,7 @@ export default class Sidebar extends React.PureComponent {
             >
                 {orderedChannelSections.map((section) => {
                     if (section.items.length === 0) {
-                        return (<div/>);
+                        return (<div key={section.type}/>);
                     }
 
                     return (
