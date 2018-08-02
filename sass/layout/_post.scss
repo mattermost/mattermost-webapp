@@ -889,17 +889,11 @@
         }
 
         blockquote {
-            display: flex;
-            font-size: 1em;
-            padding: 0;
-            vertical-align: top;
+            padding: 3px 0 3px 20px;
 
             &:before {
-                display: inline-block;
                 font-size: 15px;
                 left: 0;
-                margin-right: 5px;
-                position: relative;
                 top: 0;
             }
         }
@@ -1455,7 +1449,7 @@
             font-size: 13.5px;
             margin-bottom: .11em;
             margin-top: 3px;
-            padding-left: 20px;
+            padding-left: 22px;
 
             p {
                 margin-bottom: 0;

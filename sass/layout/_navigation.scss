@@ -47,6 +47,11 @@
             }
         }
 
+        .navbar-plugin-button {
+            position: relative;
+            top: 1px;
+        }
+
         .navbar-toggle {
             border-color: transparent;
             border-radius: 0;
@@ -62,6 +67,9 @@
 
             &.navbar-right__icon {
                 @include border-radius(50px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 height: 32px;
                 line-height: 0;
                 margin: 9px 10px 0 0;
@@ -88,30 +96,6 @@
 
             .icon--white {
                 color: $white;
-            }
-        }
-
-        .navbar-plugin-button {
-            position: relative;
-            top: 8px;
-            left: 9px;
-            color: white;
-        }
-
-        .navbar-info-button {
-            @include border-radius(50px);
-            cursor: pointer;
-            height: 32px;
-            line-height: 32px;
-            margin: 9px 10px 0 0;
-            position: relative;
-            text-align: center;
-            vertical-align: top;
-            width: 32px;
-
-            svg {
-                position: relative;
-                top: 5px;
             }
         }
 

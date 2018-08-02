@@ -56,7 +56,7 @@
                         max-height: calc(100vh - 100px);
                     }
 
-                    > div {
+                    >div {
                         font-size: 12px;
                         min-width: 250px;
                     }
@@ -66,12 +66,17 @@
                     }
                 }
 
+                .modal-image__content {
+                    max-height: 93vh;
+                }
+
                 .modal-button-bar {
                     @include opacity(1);
                     @include border-radius(0 0 $border-rad $border-rad);
-                    bottom: -40px;
+                    position: relative;
                     line-height: 30px;
                     padding: 5px 10px 5px 5px;
+                    bottom: 20px;
                 }
             }
         }
@@ -140,6 +145,24 @@
     }
 }
 
+// Larger tablets
+@media (min-width: 960px) {
+    .app__body {
+        .modal {
+            .modal-image {
+                .modal-image__wrapper {
+                    audio,
+                    canvas,
+                    progress,
+                    video {
+                        margin: -40px 0 40px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media (min-width: 880px) {
     .post-collapse__show-more {
         padding-right: 60px;
@@ -162,7 +185,7 @@
         display: none;
     }
 
-    .channel-header{
+    .channel-header {
         .search-bar__container {
             .search__form {
                 &.focused {
@@ -322,7 +345,7 @@
                 }
 
                 &.other--root {
-                    .post__link + .post__body {
+                    .post__link+.post__body {
                         clear: both;
                     }
 

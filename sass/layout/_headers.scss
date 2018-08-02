@@ -161,7 +161,7 @@
         }
 
         .fa {
-            font-size: 19px;
+            font-size: 15px;
         }
 
         & + div {
@@ -170,10 +170,8 @@
 
         .icon {
             position: relative;
-        }
-
-        .icon__pin {
-            top: 1px;
+            align-items: center;
+            justify-content: center;
         }
 
         .icon__ellipsis {
@@ -549,9 +547,9 @@
             }
 
             .dropdown-menu {
-                margin-right: 10px;
+                margin-left: 10px;
                 margin-top: 4px;
-                width: 199px;
+                min-width: 199px;
 
                 a,
                 button {
