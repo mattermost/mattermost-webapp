@@ -17,7 +17,6 @@ import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
 import TeamStore from 'stores/team_store.jsx';
-import {Constants} from '../../utils/constants';
 
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
@@ -48,6 +47,8 @@ export default class ChannelView extends React.PureComponent {
          * Whether the channel is archived
          */
         channelIsArchived: PropTypes.bool.isRequired,
+
+        lastViewedChannelName: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -87,7 +88,8 @@ export default class ChannelView extends React.PureComponent {
     }
 
     onClickCloseChannel = () => {
-        browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+        const {lastViewedChannelName} = this.props;
+        browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${lastViewedChannelName}`);
     }
 
     componentDidUpdate(prevProps) {
