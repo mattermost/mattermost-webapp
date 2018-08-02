@@ -12,3 +12,8 @@ export const initWebrtc = (userId, isCaller) => (dispatch) => dispatch({
 export const closeWebrtc = () => (dispatch) => dispatch({
     type: ActionTypes.CLOSE_WEBRTC,
 });
+
+export const updateBusyWebrtc = (userId) => (dispatch) => dispatch({
+    type: ActionTypes.UPDATE_BUSY_WEBRTC,
+    userId,
+});

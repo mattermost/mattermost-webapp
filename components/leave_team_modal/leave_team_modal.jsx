@@ -4,79 +4,79 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import PropTypes from 'prop-types';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import ModalStore from 'stores/modal_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-import {ActionTypes, WebrtcActionTypes} from 'utils/constants.jsx';
+import {WebrtcActionTypes} from 'utils/constants.jsx';
 
-class LeaveTeamModal extends React.Component {
+class LeaveTeamModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Current user.
+         */
+        currentUser: PropTypes.object,
+
+        /**
+         * hide action
+         */
+
+        onHide: PropTypes.func.isRequired,
+
+        /**
+         * show or hide modal
+         */
+
+        show: PropTypes.bool.isRequired,
+
+        /**
+         * is the user busy in a video call
+         */
+
+        isBusy: PropTypes.bool.isRequired,
+
+        intl: intlShape.isRequired,
+
+        actions: PropTypes.shape({
+
+            /**
+             * An action to remove user from team
+             */
+
+            removeUserFromTeam: PropTypes.func.isRequired,
+
+            /**
+             * An action to toggle the right menu
+             */
+
+            toggleSideBarRightMenu: PropTypes.func.isRequired,
+        }),
+    };
+
     constructor(props) {
         super(props);
-
-        this.handleToggle = this.handleToggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-
-        this.state = {
-            show: false,
-        };
-    }
-
-    componentDidMount() {
-        ModalStore.addModalListener(ActionTypes.TOGGLE_LEAVE_TEAM_MODAL, this.handleToggle);
-        document.addEventListener('keypress', this.handleKeyPress);
-    }
-
-    componentWillUnmount() {
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_LEAVE_TEAM_MODAL, this.handleToggle);
-        document.removeEventListener('keypress', this.handleKeyPress);
-    }
-
-    handleKeyPress(e) {
-        if (e.key === 'Enter' && this.state.show) {
-            this.handleSubmit(e);
-        }
-    }
-
-    handleToggle(value) {
-        this.setState({
-            show: value,
-        });
     }
 
     handleSubmit(e) {
-        this.setState({
-            show: false,
-        });
+        this.props.onHide();
 
-        if (WebrtcStore.isBusy()) {
+        if (this.props.isBusy) {
             WebrtcStore.emitChanged({action: WebrtcActionTypes.IN_PROGRESS});
             e.preventDefault();
             return;
         }
-
-        GlobalActions.emitLeaveTeam();
-        GlobalActions.toggleSideBarRightMenuAction();
-    }
-
-    handleHide() {
-        this.setState({
-            show: false,
-        });
+        this.props.actions.removeUserFromTeam();
+        this.props.actions.toggleSideBarRightMenu();
     }
 
     render() {
-        var currentUser = UserStore.getCurrentUser();
-
-        if (currentUser != null) {
+        if (this.props.currentUser != null) {
             return (
                 <Modal
                     className='modal-confirm'
-                    show={this.state.show}
-                    onHide={this.handleHide}
+                    show={this.props.show}
+                    onHide={this.props.onHide}
                 >
                     <Modal.Header closeButton={false}>
                         <Modal.Title>
@@ -96,7 +96,7 @@ class LeaveTeamModal extends React.Component {
                         <button
                             type='button'
                             className='btn btn-default'
-                            onClick={this.handleHide}
+                            onClick={this.props.onHide}
                         >
                             <FormattedMessage
                                 id='leave_team_modal.no'
@@ -121,9 +121,5 @@ class LeaveTeamModal extends React.Component {
         return null;
     }
 }
-
-LeaveTeamModal.propTypes = {
-    intl: intlShape.isRequired,
-};
 
 export default injectIntl(LeaveTeamModal);
