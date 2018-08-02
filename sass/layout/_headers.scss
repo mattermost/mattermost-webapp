@@ -161,7 +161,7 @@
         }
 
         .fa {
-            font-size: 19px;
+            font-size: 15px;
         }
 
         & + div {
@@ -170,6 +170,8 @@
 
         .icon {
             position: relative;
+            align-items: center;
+            justify-content: center;
         }
 
         .icon__pin {
