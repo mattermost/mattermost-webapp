@@ -547,9 +547,9 @@
             }
 
             .dropdown-menu {
-                margin-right: 10px;
+                margin-left: 10px;
                 margin-top: 4px;
-                width: 199px;
+                min-width: 199px;
 
                 a,
                 button {

@@ -690,13 +690,14 @@ export default class SidebarHeaderDropdown extends React.Component {
                 open={this.props.showDropdown}
                 onToggle={this.toggleDropdown}
                 className='sidebar-header-dropdown'
-                pullRight={true}
             >
                 <SidebarHeaderDropdownButton
                     bsRole='toggle'
                     onClick={this.toggleDropdown}
                 />
-                <Dropdown.Menu id='sidebarDropdownMenu'>
+                <Dropdown.Menu
+                    id='sidebarDropdownMenu'
+                >
                     {accountSettings}
                     {inviteDivider}
                     {inviteLink}
