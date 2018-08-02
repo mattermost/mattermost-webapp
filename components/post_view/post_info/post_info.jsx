@@ -18,7 +18,6 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import MessageIcon from 'components/svg/message_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 export default class PostInfo extends React.PureComponent {

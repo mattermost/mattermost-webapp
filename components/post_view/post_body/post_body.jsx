@@ -92,16 +92,6 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
-
-        /**
-         * The function is called when the post body is dragged
-         */
-        onDragStart: PropTypes.func.isRequired,
-
-        /**
-         * Can the user rethread this post
-         */
-        canRethread: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -288,10 +278,8 @@ export default class PostBody extends React.PureComponent {
             <div>
                 {comment}
                 <div
-                    draggable={this.props.canRethread}
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
-                    onDragStart={(e) => this.props.onDragStart(e, post)}
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
