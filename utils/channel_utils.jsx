@@ -38,14 +38,16 @@ export function getChannelDisplayName(channel) {
     const currentUser = UserStore.getCurrentUser();
 
     if (currentUser) {
-        let displayName = channel.display_name;
+        let displayName = channel.display_name.
+            split(',').
+            map((username) => username.trim()).
+            filter((username) => username !== currentUser.username).
+            join(', ');
+
         if (displayName.length >= MAX_CHANNEL_NAME_LENGTH) {
             displayName += '...';
         }
-        displayName = displayName.replace(currentUser.username + ', ', '').replace(currentUser.username, '').trim();
-        if (displayName[displayName.length - 1] === ',') {
-            return displayName.slice(0, -1);
-        }
+
         return displayName;
     }
 
