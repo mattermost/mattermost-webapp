@@ -889,17 +889,9 @@
         }
 
         blockquote {
-            display: flex;
-            font-size: 1em;
-            padding: 0;
-            vertical-align: top;
-
             &:before {
-                display: inline-block;
                 font-size: 15px;
                 left: 0;
-                margin-right: 5px;
-                position: relative;
                 top: 0;
             }
         }
