@@ -175,9 +175,10 @@ export default class CombinedSystemMessage extends React.PureComponent {
         this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.allUserIds !== nextProps.allUserIds || this.props.allUsernames !== nextProps.allUsernames) {
-            this.loadUserProfiles(nextProps.allUserIds, nextProps.allUsernames);
+    componentDidUpdate(prevProps) {
+        const {allUserIds, allUsernames} = this.props;
+        if (allUserIds !== prevProps.allUserIds || allUsernames !== prevProps.allUsernames) {
+            this.loadUserProfiles(allUserIds, allUsernames);
         }
     }
 
@@ -322,6 +323,11 @@ export default class CombinedSystemMessage extends React.PureComponent {
                 const affectsCurrentUser = userIds.indexOf(currentUserId) !== -1;
 
                 if (affectsCurrentUser) {
+                    if (postType === REMOVE_FROM_CHANNEL) {
+                        removedUserIds.push(currentUserId);
+                        continue;
+                    }
+
                     // Only show the message that the current user was added, etc
                     userIds = [currentUserId];
                 } else {
@@ -329,7 +335,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
                     continue;
                 }
             } else if (postType === REMOVE_FROM_CHANNEL) {
-                removedUserIds.push(userIds);
+                removedUserIds.push(...userIds);
                 continue;
             }
 
@@ -337,7 +343,8 @@ export default class CombinedSystemMessage extends React.PureComponent {
         }
 
         if (removedUserIds.length > 0) {
-            content.push(this.renderMessage(REMOVE_FROM_CHANNEL, removedUserIds, currentUserId));
+            const uniqueRemovedUserIds = removedUserIds.filter((id, index, arr) => arr.indexOf(id) === index);
+            content.push(this.renderMessage(REMOVE_FROM_CHANNEL, uniqueRemovedUserIds, currentUserId));
         }
 
         return (

@@ -106,6 +106,28 @@ describe('components/post_view/CombinedSystemMessage', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, when current user is removed from then rejoined the channel', () => {
+        const allUserIds = ['current_user_id', 'other_user_id_1', 'removed_user_id_1', 'removed_user_id_2'];
+        const messageData = [{
+            postType: Posts.POST_TYPES.JOIN_CHANNEL,
+            userIds: ['current_user_id'],
+        }, {
+            actorId: 'current_user_id',
+            postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
+            userIds: ['removed_user_id_1', 'removed_user_id_2'],
+        }, {
+            actorId: 'other_user_id_1',
+            postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
+            userIds: ['removed_user_id_2', 'current_user_id'],
+        }];
+        const props = {...baseProps, messageData, allUserIds};
+        const wrapper = shallowWithIntl(
+            <CombinedSystemMessage {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should call getMissingProfilesByIds and/or getMissingProfilesByUsernames on loadUserProfiles', () => {
         const props = {
             ...baseProps,
