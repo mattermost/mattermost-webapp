@@ -8,6 +8,8 @@ import RemoveMarkdown from 'utils/markdown/remove_markdown';
 
 import Renderer from './renderer';
 
+const removeMarkdown = new RemoveMarkdown();
+
 export function format(text, options = {}) {
     return formatWithRenderer(text, new Renderer(null, options));
 }
@@ -25,6 +27,5 @@ export function formatWithRenderer(text, renderer) {
 }
 
 export function stripMarkdown(text) {
-    const removeMarkdown = new RemoveMarkdown();
     return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown));
 }
