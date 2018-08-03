@@ -561,7 +561,7 @@ function handleUserRemovedEvent(msg) {
 
         if (msg.data.channel_id === ChannelStore.getCurrentId()) {
             if (msg.data.remover_id !== msg.broadcast.user_id &&
-                    $('#removed_from_channel').length > 0) {
+                $('#removed_from_channel').length > 0) {
                 var sentState = {};
                 sentState.channelName = ChannelStore.getCurrent().display_name;
                 sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
@@ -645,7 +645,8 @@ function handleChannelDeletedEvent(msg) {
         const teamUrl = TeamStore.getCurrentTeamRelativeUrl();
         browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
     }
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id}}, getState);
+
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at}}, getState);
 }
 
 function handlePreferenceChangedEvent(msg) {
@@ -741,7 +742,7 @@ function handleReactionRemovedEvent(msg) {
 }
 
 function handleChannelViewedEvent(msg) {
-// Useful for when multiple devices have the app open to different channels
+    // Useful for when multiple devices have the app open to different channels
     if ((!window.isActive || ChannelStore.getCurrentId() !== msg.data.channel_id) &&
         UserStore.getCurrentId() === msg.broadcast.user_id) {
         // Mark previous and next channel as read
