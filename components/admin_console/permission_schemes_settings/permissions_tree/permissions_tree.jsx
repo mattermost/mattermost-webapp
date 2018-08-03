@@ -78,8 +78,13 @@ export default class PermissionsTree extends React.Component {
             {
                 id: 'posts',
                 permissions: [
-                    'edit_post',
-                    'edit_others_posts',
+                    {
+                        id: 'edit_posts',
+                        permissions: [
+                            'edit_post',
+                            'edit_others_posts',
+                        ],
+                    },
                     {
                         id: 'delete_posts',
                         permissions: [
