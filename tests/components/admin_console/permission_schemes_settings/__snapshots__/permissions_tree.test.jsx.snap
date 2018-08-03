@@ -82,8 +82,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "edit_post",
-              "edit_others_posts",
+              Object {
+                "id": "edit_posts",
+                "permissions": Array [
+                  "edit_post",
+                  "edit_others_posts",
+                ],
+              },
               Object {
                 "id": "delete_posts",
                 "permissions": Array [
@@ -209,8 +214,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "edit_post",
-              "edit_others_posts",
+              Object {
+                "id": "edit_posts",
+                "permissions": Array [
+                  "edit_post",
+                  "edit_others_posts",
+                ],
+              },
               Object {
                 "id": "delete_posts",
                 "permissions": Array [
@@ -341,8 +351,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "edit_post",
-              "edit_others_posts",
+              Object {
+                "id": "edit_posts",
+                "permissions": Array [
+                  "edit_post",
+                  "edit_others_posts",
+                ],
+              },
               Object {
                 "id": "delete_posts",
                 "permissions": Array [
@@ -473,8 +488,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "edit_post",
-              "edit_others_posts",
+              Object {
+                "id": "edit_posts",
+                "permissions": Array [
+                  "edit_post",
+                  "edit_others_posts",
+                ],
+              },
               Object {
                 "id": "delete_posts",
                 "permissions": Array [
@@ -605,8 +625,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "edit_post",
-              "edit_others_posts",
+              Object {
+                "id": "edit_posts",
+                "permissions": Array [
+                  "edit_post",
+                  "edit_others_posts",
+                ],
+              },
               Object {
                 "id": "delete_posts",
                 "permissions": Array [
@@ -741,8 +766,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "posts",
             "permissions": Array [
-              "edit_post",
-              "edit_others_posts",
+              Object {
+                "id": "edit_posts",
+                "permissions": Array [
+                  "edit_post",
+                  "edit_others_posts",
+                ],
+              },
               Object {
                 "id": "delete_posts",
                 "permissions": Array [
