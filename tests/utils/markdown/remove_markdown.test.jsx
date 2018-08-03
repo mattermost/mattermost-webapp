@@ -207,6 +207,31 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             inputText: 'That is "unique"',
             outputText: 'That is "unique"',
         },
+        {
+            description: 'text: multiple entities',
+            inputText: '&<>\'"',
+            outputText: '&<>\'"',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '"\'><&',
+            outputText: '"\'><&',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&amp;&lt;&gt;&#39;&quot;',
+            outputText: '&<>\'"',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&quot;&#39;&gt;&lt;&amp;',
+            outputText: '"\'><&',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&amp;lt;',
+            outputText: '&lt;',
+        },
     ];
 
     testCases.forEach((testCase) => it(testCase.description, () => {

@@ -258,11 +258,12 @@ export function escapeHtml(text) {
 }
 
 export function convertEntityToCharacter(text) {
-    return text.replace(/&amp;/g, '&').
+    return text.
         replace(/&lt;/g, '<').
         replace(/&gt;/g, '>').
         replace(/&#39;/g, '\'').
-        replace(/&quot;/g, '"');
+        replace(/&quot;/g, '"').
+        replace(/&amp;/g, '&');
 }
 
 function highlightCurrentMentions(text, tokens, mentionKeys = []) {
