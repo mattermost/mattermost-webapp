@@ -244,7 +244,7 @@ export function increasePostVisibility(channelId, focusedPostId) {
             channelId,
         });
 
-        return posts.order.length >= POST_INCREASE_AMOUNT;
+        return posts ? posts.order.length >= POST_INCREASE_AMOUNT : false;
     };
 }
 
