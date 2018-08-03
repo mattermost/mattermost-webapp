@@ -323,18 +323,15 @@ export default class CombinedSystemMessage extends React.PureComponent {
                 const affectsCurrentUser = userIds.indexOf(currentUserId) !== -1;
 
                 if (affectsCurrentUser) {
-                    if (postType === REMOVE_FROM_CHANNEL) {
-                        removedUserIds.push(currentUserId);
-                        continue;
-                    }
-
                     // Only show the message that the current user was added, etc
                     userIds = [currentUserId];
                 } else {
                     // Not something the current user did or was affected by
                     continue;
                 }
-            } else if (postType === REMOVE_FROM_CHANNEL) {
+            }
+
+            if (postType === REMOVE_FROM_CHANNEL) {
                 removedUserIds.push(...userIds);
                 continue;
             }
