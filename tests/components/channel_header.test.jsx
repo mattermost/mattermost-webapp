@@ -25,6 +25,7 @@ describe('components/ChannelHeader', () => {
         channelMember: {},
         currentUser: {},
         enableWebrtc: false,
+        lastViewedChannelName: '',
     };
 
     const populatedProps = {

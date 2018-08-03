@@ -72,7 +72,9 @@ export function emitChannelClickEvent(channel) {
             reloadIfServerVersionChanged();
         });
 
-        BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, chan.name);
+        if (chan.delete_at === 0) {
+            BrowserStore.setGlobalItem(Storage.PREV_CHANNEL_KEY + teamId, chan.name);
+        }
 
         loadProfilesForSidebar();
 
@@ -392,7 +394,7 @@ export function newLocalizationSelected(locale) {
                 });
             }
         ).catch(
-            () => {} //eslint-disable-line no-empty-function
+            () => { } //eslint-disable-line no-empty-function
         );
     }
 }

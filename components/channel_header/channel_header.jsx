@@ -79,6 +79,7 @@ export default class ChannelHeader extends React.Component {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
+        lastViewedChannelName: PropTypes.string.isRequired,
         enableWebrtc: PropTypes.bool.isRequired,
     };
 
@@ -153,7 +154,8 @@ export default class ChannelHeader extends React.Component {
     };
 
     handleClose = () => {
-        browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+        const {lastViewedChannelName} = this.props;
+        browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${lastViewedChannelName}`);
     };
 
     toggleFavorite = () => {
