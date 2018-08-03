@@ -496,5 +496,4 @@ describe('Utils.isKeyPressed', function() {
         const key = ['k', 2221, 'KeyK'];
         expect(Utils.isKeyPressed(event, key)).toEqual(true);
     });
-
 });
