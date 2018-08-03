@@ -13,7 +13,7 @@ import {isUrlSafe} from 'utils/url.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 // This must match the max-height defined in CSS for the collapsed attachmentText div
-const MAX_ATTACHMENT_TEXT_HEIGHT = 600;
+const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
 export default class PostAttachment extends React.PureComponent {
     static propTypes = {
@@ -300,10 +300,10 @@ export default class PostAttachment extends React.PureComponent {
 
         let text;
         if (attachment.text) {
-            let collapseMessage = localizeMessage('post_attachment.more', 'Show more...');
+            let collapseMessage = localizeMessage('post_attachment.collapse', 'Show less...');
             let textClass = 'attachment__text';
             if (collapsed) {
-                collapseMessage = localizeMessage('post_attachment.collapse', 'Show less...');
+                collapseMessage = localizeMessage('post_attachment.more', 'Show more...');
                 textClass += ' attachment__text--collapsed';
             }
 
@@ -311,6 +311,7 @@ export default class PostAttachment extends React.PureComponent {
             if (hasOverflow) {
                 textOverflow = (
                     <div className='attachment__text-collapse'>
+                        <div className='attachment__text-collapse__gradient'/>
                         <div className='attachment__text-collapse__link-more'>
                             <a
                                 className='attachment__text-link-more'

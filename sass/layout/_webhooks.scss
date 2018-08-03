@@ -193,9 +193,11 @@
 
         .attachment__text--collapsed {
             .attachment__text-container {
-                // "max-height" should match MAX_ATTACHMENT_TEXT_HEIGHT constant in
-                // components/post_view/post_attachment.jsx.
-                max-height: 600px;
+                max-height: 200px;
+            }
+
+            .attachment__text-collapse__gradient {
+                height: 10px;
             }
         }
 

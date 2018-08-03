@@ -671,6 +671,10 @@ export function applyTheme(theme) {
             `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
         );
         changeCss(
+            '.app__body .attachment__text-collapse__gradient',
+            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
+        );
+        changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__show-more, ' +
             '.app__body .sidebar-right__body .post:not(.current--user) .post-collapse__show-more, ' +
             '.app__body .post-list__table .post.post--compact .post-collapse__show-more, ' +
