@@ -257,6 +257,15 @@ export function escapeHtml(text) {
     return text.replace(/[&<>"']/g, (match) => htmlEntities[match]);
 }
 
+export function convertEntityToCharacter(text) {
+    return text.
+        replace(/&lt;/g, '<').
+        replace(/&gt;/g, '>').
+        replace(/&#39;/g, '\'').
+        replace(/&quot;/g, '"').
+        replace(/&amp;/g, '&');
+}
+
 function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     let output = text;
 

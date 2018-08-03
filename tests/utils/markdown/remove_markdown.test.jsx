@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {formatWithRenderer} from 'utils/markdown';
-import RemoveMarkdown from 'utils/markdown/remove_markdown';
-const removeMarkdown = new RemoveMarkdown();
+import {stripMarkdown} from 'utils/markdown';
 
-describe('RemoveMarkdown', () => {
+describe('stripMarkdown | RemoveMarkdown', () => {
     const testCases = [
         {
             description: 'emoji: same',
@@ -184,9 +182,59 @@ describe('RemoveMarkdown', () => {
             inputText: 'This is multiline text.\nHere is the next line.\n',
             outputText: 'This is multiline text. Here is the next line.',
         },
+        {
+            description: 'text: &amp; entity',
+            inputText: 'you & me',
+            outputText: 'you & me',
+        },
+        {
+            description: 'text: &lt; entity',
+            inputText: '1<2',
+            outputText: '1<2',
+        },
+        {
+            description: 'text: &gt; entity',
+            inputText: '2>1',
+            outputText: '2>1',
+        },
+        {
+            description: 'text: &#39; entity',
+            inputText: 'he\'s out',
+            outputText: 'he\'s out',
+        },
+        {
+            description: 'text: &quot; entity',
+            inputText: 'That is "unique"',
+            outputText: 'That is "unique"',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&<>\'"',
+            outputText: '&<>\'"',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '"\'><&',
+            outputText: '"\'><&',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&amp;&lt;&gt;&#39;&quot;',
+            outputText: '&<>\'"',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&quot;&#39;&gt;&lt;&amp;',
+            outputText: '"\'><&',
+        },
+        {
+            description: 'text: multiple entities',
+            inputText: '&amp;lt;',
+            outputText: '&lt;',
+        },
     ];
 
     testCases.forEach((testCase) => it(testCase.description, () => {
-        expect(formatWithRenderer(testCase.inputText, removeMarkdown)).toEqual(testCase.outputText);
+        expect(stripMarkdown(testCase.inputText)).toEqual(testCase.outputText);
     }));
 });
