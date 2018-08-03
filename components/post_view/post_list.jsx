@@ -587,11 +587,11 @@ export default class PostList extends React.PureComponent {
             let rethreadHighlight = false;
             const rethreadTarget = this.state.rethreadTarget;
             const postHighlight = this.state.rethreadHighlight;
-            if (rethreadTarget && postHighlight && rethreadTarget.create_at > postHighlight.create_at && post.root_id !== rethreadTarget.root_id) {
+            if (rethreadTarget && postHighlight && rethreadTarget.create_at > postHighlight.create_at) {
                 if ((postHighlight.id === post.root_id || postHighlight.root_id === post.root_id) && post.root_id.length) {
-                    //1. you're dragging over threads root or 2. you're dragging over member of the same thread, while the post is in a thread
+                    //1. you're dragging over thread root or 2. you're dragging over member of the same thread, while the post is in a thread
                     rethreadHighlight = true;
-                } else if (!post.root_id.length && post.id !== rethreadTarget.root_id && (post.id === postHighlight.root_id || postHighlight.id === post.id)) {
+                } else if ((!postHighlight.root_id.length || post.id === postHighlight.root_id) && (post.id === postHighlight.root_id || postHighlight.id === post.id)) {
                     //highlight the root of the thread
                     rethreadHighlight = true;
                 }
