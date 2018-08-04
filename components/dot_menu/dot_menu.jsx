@@ -83,8 +83,8 @@ export default class DotMenu extends Component {
     }
 
     componentDidMount() {
-        $('#dropdown_' + this.props.post.id).on('shown.bs.dropdown', this.handleDropdownOpened);
-        $('#dropdown_' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
+        $('#post-list #dropdown_' + this.props.post.id).on('shown.bs.dropdown', this.handleDropdownOpened);
+        $('#post-list #dropdown_' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
     }
 
     componentWillUnmount() {
