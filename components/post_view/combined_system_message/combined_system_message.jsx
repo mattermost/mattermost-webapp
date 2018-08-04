@@ -175,9 +175,10 @@ export default class CombinedSystemMessage extends React.PureComponent {
         this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.allUserIds !== nextProps.allUserIds || this.props.allUsernames !== nextProps.allUsernames) {
-            this.loadUserProfiles(nextProps.allUserIds, nextProps.allUsernames);
+    componentDidUpdate(prevProps) {
+        const {allUserIds, allUsernames} = this.props;
+        if (allUserIds !== prevProps.allUserIds || allUsernames !== prevProps.allUsernames) {
+            this.loadUserProfiles(allUserIds, allUsernames);
         }
     }
 
@@ -294,10 +295,23 @@ export default class CombinedSystemMessage extends React.PureComponent {
         );
     }
 
+    renderMessage(postType, userIds, actorId) {
+        return (
+            <React.Fragment key={postType + actorId}>
+                {this.renderFormattedMessage(postType, userIds, actorId)}
+                <br/>
+            </React.Fragment>
+        );
+    }
+
     render() {
-        const {messageData} = this.props;
+        const {
+            currentUserId,
+            messageData,
+        } = this.props;
 
         const content = [];
+        const removedUserIds = [];
         for (const message of messageData) {
             const {
                 postType,
@@ -305,24 +319,29 @@ export default class CombinedSystemMessage extends React.PureComponent {
             } = message;
             let userIds = message.userIds;
 
-            if (!this.props.showJoinLeave && actorId !== this.props.currentUserId) {
-                const affectsCurrentUser = userIds.indexOf(this.props.currentUserId) !== -1;
+            if (!this.props.showJoinLeave && actorId !== currentUserId) {
+                const affectsCurrentUser = userIds.indexOf(currentUserId) !== -1;
 
                 if (affectsCurrentUser) {
                     // Only show the message that the current user was added, etc
-                    userIds = [this.props.currentUserId];
+                    userIds = [currentUserId];
                 } else {
                     // Not something the current user did or was affected by
                     continue;
                 }
             }
 
-            content.push(
-                <React.Fragment key={postType + actorId}>
-                    {this.renderFormattedMessage(postType, userIds, actorId)}
-                    <br/>
-                </React.Fragment>
-            );
+            if (postType === REMOVE_FROM_CHANNEL) {
+                removedUserIds.push(...userIds);
+                continue;
+            }
+
+            content.push(this.renderMessage(postType, userIds, actorId));
+        }
+
+        if (removedUserIds.length > 0) {
+            const uniqueRemovedUserIds = removedUserIds.filter((id, index, arr) => arr.indexOf(id) === index);
+            content.push(this.renderMessage(REMOVE_FROM_CHANNEL, uniqueRemovedUserIds, currentUserId));
         }
 
         return (
