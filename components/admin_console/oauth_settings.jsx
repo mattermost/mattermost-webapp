@@ -12,6 +12,8 @@ import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class OAuthSettings extends AdminSettings {
     constructor(props) {
         super(props);
@@ -424,17 +426,17 @@ export default class OAuthSettings extends AdminSettings {
         } else if (this.state.oauthType === Constants.GOOGLE_SERVICE) {
             contents = this.renderGoogle();
             helpText = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='admin.google.EnableHtmlDesc'
-                    defaultMessage='<ol><li><a target="_blank" href="https://accounts.google.com/login">Log in</a> to your Google account.</li><li>Go to <a target="_blank" href="https://console.developers.google.com">https://console.developers.google.com</a>, click <strong>Credentials</strong> in the left hand sidebar and enter "Mattermost - your-company-name" as the <strong>Project Name</strong>, then click <strong>Create</strong>.</li><li>Click the <strong>OAuth consent screen</strong> header and enter "Mattermost" as the <strong>Product name shown to users</strong>, then click <strong>Save</strong>.</li><li>Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.</li><li>Under <strong>Restrictions</strong> and <strong>Authorized redirect URIs</strong> enter <strong>your-mattermost-url/signup/google/complete</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.</li><li>Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.</li><li>Finally, go to <a target="_blank" href="https://console.developers.google.com/apis/api/plus/overview">Google+ API</a> and click <strong>Enable</strong>. This might take a few minutes to propagate through Google`s systems.</li></ol>'
+                    defaultMessage='1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter \"Mattermost - your-company-name\" as the **Project Name**, then click **Create**.\n3.Click the **OAuth consent screen** header and enter \"Mattermost\" as the **Product name shown to users**, then click **Save**.\n4.Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5.Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6.Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7.Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview) and click **Enable**. This might take a few minutes to propagate through Google`s systems.'
                 />
             );
         } else if (this.state.oauthType === Constants.OFFICE365_SERVICE) {
             contents = this.renderOffice365();
             helpText = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='admin.office365.EnableHtmlDesc'
-                    defaultMessage='<ol><li><a target="_blank" href="https://login.microsoftonline.com/">Log in</a> to your Microsoft or Office 365 account. Make sure it`s the account on the same <a target="_blank" href="https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0">tenant</a> that you would like users to log in with.</li><li>Go to <a target="_blank" href="https://apps.dev.microsoft.com">https://apps.dev.microsoft.com</a>, click <strong>Go to app list</strong> > <strong>Add an app</strong> and use "Mattermost - your-company-name" as the <strong>Application Name</strong>.</li><li>Under <strong>Application Secrets</strong>, click <strong>Generate New Password</strong> and paste it to the <strong>Application Secret Password</strong> field below.</li><li>Under <strong>Platforms</strong>, click <strong>Add Platform</strong>, choose <strong>Web</strong> and enter <strong>your-mattermost-url/signup/office365/complete</strong> (example: http://localhost:8065/signup/office365/complete) under <strong>Redirect URIs</strong>. Also uncheck <strong>Allow Implicit Flow</strong>.</li><li>Finally, click <strong>Save</strong> and then paste the <strong>Application ID</strong> below.</li></ol>'
+                    defaultMessage='1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use \"Mattermost - your-company-name\" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.'
                 />
             );
         }

@@ -9,6 +9,8 @@ import BooleanSetting from './boolean_setting.jsx';
 import TextSetting from './text_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class CustomGifSettings extends AdminSettings {
     constructor(props) {
         super(props);
@@ -72,9 +74,9 @@ export default class CustomGifSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='admin.customization.gfycatApiKeyDescription'
-                            defaultMessage='Request an API key at <a href="https://developers.gfycat.com/signup/#" target="_blank">https://developers.gfycat.com/signup/#</a>. Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.'
+                            defaultMessage='Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.'
                         />
                     }
                     value={this.state.gfycatApiKey}

@@ -9,6 +9,8 @@ import {activateMfa, generateMfaSecret} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class Setup extends React.Component {
     constructor(props) {
         super(props);
@@ -85,9 +87,9 @@ export default class Setup extends React.Component {
                 >
                     {mfaRequired}
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='mfa.setup.step1'
-                            defaultMessage="<strong>Step 1: </strong>On your phone, download Google Authenticator from <a target='_blank' href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8'>iTunes</a> or <a target='_blank' href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en'>Google Play</a>"
+                            defaultMessage="**Step 1: **On your phone, download Google Authenticator from [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') or [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)"
                         />
                     </p>
                     <p>

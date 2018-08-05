@@ -10,6 +10,8 @@ import {updateUser} from 'actions/user_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class ManageLanguage extends React.Component {
     constructor(props) {
         super(props);
@@ -106,9 +108,9 @@ export default class ManageLanguage extends React.Component {
                 </div>
                 <div>
                     <br/>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='user.settings.languages.promote'
-                        defaultMessage='Select which language Mattermost displays in the user interface.<br /><br />Would you like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.'
+                        defaultMessage='Select which language Mattermost displays in the user interface.\n \nWould you like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.'
                     />
                 </div>
             </div>

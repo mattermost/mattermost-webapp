@@ -11,6 +11,8 @@ import * as Utils from 'utils/utils.jsx';
 import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const PluginItemState = ({state}) => {
     switch (state) {
     case PluginState.PLUGIN_STATE_NOT_RUNNING:
@@ -584,16 +586,16 @@ export default class PluginManagement extends React.Component {
         let uploadHelpText;
         if (enableUploads) {
             uploadHelpText = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='admin.plugin.uploadDesc'
-                    defaultMessage='Upload a plugin for your Mattermost server. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
+                    defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
         } else {
             uploadHelpText = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='admin.plugin.uploadDisabledDesc'
-                    defaultMessage='To enable plugin uploads, go to <strong>Plugins > Configuration</strong>. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
+                    defaultMessage='To enable plugin uploads, go to **Plugins > Configuration**. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
         }

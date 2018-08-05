@@ -13,6 +13,8 @@ import ClusterTableContainer from './cluster_table_container.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class ClusterSettings extends AdminSettings {
     constructor(props) {
         super(props);
@@ -85,9 +87,9 @@ export default class ClusterSettings extends AdminSettings {
                         className='fa fa-warning'
                         title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='admin.cluster.loadedFrom'
-                        defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a> if you are accessing the System Console through a load balancer and experiencing issues.'
+                        defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.'
                         values={{
                             clusterId: Client4.clusterId,
                         }}
@@ -107,9 +109,9 @@ export default class ClusterSettings extends AdminSettings {
                         className='fa fa-warning'
                         title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                     />
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='admin.cluster.should_not_change'
-                        defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a> on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a>.'
+                        defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the [documentation](!http://docs.mattermost.com/deployment/cluster.html) on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html).'
                     />
                 </div>
             );
@@ -140,9 +142,9 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='admin.cluster.enableDescription'
-                            defaultMessage='When true, Mattermost will run in High Availability mode. Please see <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a> to learn more about configuring High Availability for Mattermost.'
+                            defaultMessage='When true, Mattermost will run in High Availability mode. Please see [documentation](!http://docs.mattermost.com/deployment/cluster.html) to learn more about configuring High Availability for Mattermost.'
                         />
                     }
                     value={this.state.Enable}

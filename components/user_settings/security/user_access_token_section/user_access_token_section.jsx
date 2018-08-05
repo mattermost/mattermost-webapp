@@ -15,6 +15,8 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SaveButton from 'components/save_button.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const SECTION_TOKENS = 'tokens';
 const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
@@ -396,18 +398,18 @@ export default class UserAccessTokenSection extends React.Component {
         if (isMobile()) {
             extraInfo = (
                 <span>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='user.settings.tokens.description_mobile'
-                        defaultMessage='<a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">Personal access tokens</a> function similarly to session tokens and can be used by integrations to <a href="https://about.mattermost.com/default-api-authentication" target="_blank">authenticate against the REST API</a>. Create new tokens on your desktop.'
+                        defaultMessage='[Personal access tokens](!https://about.mattermost.com/default-user-access-tokens) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://about.mattermost.com/default-api-authentication). Create new tokens on your desktop.'
                     />
                 </span>
             );
         } else {
             extraInfo = (
                 <span>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='user.settings.tokens.description'
-                        defaultMessage='<a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">Personal access tokens</a> function similarly to session tokens and can be used by integrations to <a href="https://about.mattermost.com/default-api-authentication" target="_blank">authenticate against the REST API</a>.'
+                        defaultMessage='[Personal access tokens](!https://about.mattermost.com/default-user-access-tokens) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://about.mattermost.com/default-api-authentication).'
                     />
                 </span>
             );

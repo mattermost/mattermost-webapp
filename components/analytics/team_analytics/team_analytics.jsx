@@ -20,6 +20,8 @@ import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
 export default class TeamAnalytics extends React.Component {
@@ -164,9 +166,9 @@ export default class TeamAnalytics extends React.Component {
             banner = (
                 <div className='banner'>
                     <div className='banner__content'>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='analytics.system.infoAndSkippedIntensiveQueries'
-                            defaultMessage="Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team. <br><br> Some statistics have been omitted because they put too much load on the system to calculate. See <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>https://docs.mattermost.com/administration/statistics.html</a> for more details."
+                            defaultMessage="Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team. \n \n Some statistics have been omitted because they put too much load on the system to calculate. See [https://docs.mattermost.com/administration/statistics.html](!https://docs.mattermost.com/administration/statistics.html) for more details."
                         />
                     </div>
                 </div>

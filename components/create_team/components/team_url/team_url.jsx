@@ -12,6 +12,8 @@ import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class TeamUrl extends React.PureComponent {
     static propTypes = {
 
@@ -107,9 +109,9 @@ export default class TeamUrl extends React.PureComponent {
         for (let index = 0; index < Constants.RESERVED_TEAM_NAMES.length; index++) {
             if (cleanedName.indexOf(Constants.RESERVED_TEAM_NAMES[index]) === 0) {
                 this.setState({nameError: (
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='create_team.team_url.taken'
-                        defaultMessage='This URL <a href="https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url" target="_blank">starts with a reserved word</a> or is unavailable. Please try another.'
+                        defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
                     />),
                 });
                 return;

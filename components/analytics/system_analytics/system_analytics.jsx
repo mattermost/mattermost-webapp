@@ -14,6 +14,8 @@ import DoughnutChart from '../doughnut_chart.jsx';
 import LineChart from '../line_chart.jsx';
 import StatisticCount from '../statistic_count.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import {
     formatPostsPerDayData,
     formatUsersWithPostsPerDayData,
@@ -77,9 +79,9 @@ export default class SystemAnalytics extends React.Component {
             banner = (
                 <div className='banner'>
                     <div className='banner__content'>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='analytics.system.skippedIntensiveQueries'
-                            defaultMessage="To maximize performance, some statistics are disabled. You can <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>re-enable them in config.json</a>."
+                            defaultMessage="To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html)."
                         />
                     </div>
                 </div>

@@ -24,6 +24,8 @@ import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class SignupEmail extends React.Component {
     static get propTypes() {
         return {
@@ -455,9 +457,9 @@ export default class SignupEmail extends React.Component {
         if (!this.state.noOpenServerError && emailSignup) {
             terms = (
                 <p>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='create_team.agreement'
-                        defaultMessage="By proceeding to create your account and use {siteName}, you agree to our <a href='{TermsOfServiceLink}'>Terms of Service</a> and <a href='{PrivacyPolicyLink}'>Privacy Policy</a>. If you do not agree, you cannot use {siteName}."
+                        defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
                         values={{
                             siteName,
                             TermsOfServiceLink: termsOfServiceLink,
