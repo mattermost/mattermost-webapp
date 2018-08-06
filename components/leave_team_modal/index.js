@@ -2,26 +2,31 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {emitLeaveTeam, toggleSideBarRightMenuAction} from 'actions/global_actions.jsx';
+import {toggleSideBarRightMenuAction} from 'actions/global_actions.jsx';
+import {removeUserFromTeam} from 'actions/team_actions';
 import {ModalIdentifiers} from 'utils/constants';
 
-import {getIsBusy} from '../../selectors/webrtc';
+import {getIsBusy} from 'selectors/webrtc';
+import {isModalOpen} from 'selectors/views/modals';
 
 import LeaveTeamModal from './leave_team_modal.jsx';
 
 function mapStateToProps(state) {
     const modalId = ModalIdentifiers.LEAVE_TEAM;
-    const currentUser = getCurrentUser(state);
+    const currentUserId = getCurrentUserId(state);
+    const currentTeamId = getCurrentTeamId(state);
     const isBusy = getIsBusy(state);
-    const show = state.views.modals.modalState[modalId] && state.views.modals.modalState[modalId].open;
+    const show = isModalOpen(state, modalId);
     return {
-        currentUser,
+        currentUserId,
+        currentTeamId,
         show,
         isBusy,
         actions: {
-            removeUserFromTeam: emitLeaveTeam,
+            removeUserFromTeam,
             toggleSideBarRightMenu: toggleSideBarRightMenuAction,
         },
     };

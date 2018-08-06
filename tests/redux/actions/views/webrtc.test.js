@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import {updateBusyWebrtc, initWebrtc, closeWebrtc} from 'actions/views/webrtc';
-import {ActionTypes} from '../../../../utils/constants';
+import {ActionTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 

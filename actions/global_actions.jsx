@@ -14,7 +14,6 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
-import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -160,10 +159,6 @@ export async function emitPostFocusEvent(postId, returnTo = '') {
     }
 
     await doFocusPost(channelId, postId, data);
-}
-
-export function emitLeaveTeam() {
-    removeUserFromTeam(TeamStore.getCurrentId(), UserStore.getCurrentId())(dispatch, getState);
 }
 
 export function emitUserPostedEvent(post) {

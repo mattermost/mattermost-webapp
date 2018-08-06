@@ -7,14 +7,9 @@ import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal.jsx';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('components/LeaveTeamModal', () => {
-    const user = {
-        id: 'user_id',
-        username: 'username',
-        locale: 'en',
-    };
-
     const requiredProps = {
-        currentUser: user,
+        currentUserId: 'user_id',
+        currentTeamId: 'team_id',
         onHide: jest.fn(),
         show: false,
         isBusy: false,
@@ -49,6 +44,8 @@ describe('components/LeaveTeamModal', () => {
         expect(requiredProps.actions.removeUserFromTeam).toHaveBeenCalledTimes(1);
         expect(requiredProps.actions.toggleSideBarRightMenu).toHaveBeenCalledTimes(1);
         expect(requiredProps.onHide).toHaveBeenCalledTimes(1);
+        expect(requiredProps.actions.removeUserFromTeam).
+            toHaveBeenCalledWith(requiredProps.currentTeamId, requiredProps.currentUserId);
     });
 
     it('should not call removeUserFromTeam and toggleSideBarRightMenu when ok is clicked', () => {
