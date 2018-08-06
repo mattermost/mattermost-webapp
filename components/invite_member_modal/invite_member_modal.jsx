@@ -20,6 +20,8 @@ import * as utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const ActionTypes = Constants.ActionTypes;
 
 const holders = defineMessages({
@@ -379,9 +381,9 @@ class InviteMemberModal extends React.Component {
                         <br/>
                         <br/>
                         <span>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='invite_member.autoJoin'
-                                defaultMessage='People invited automatically join the <strong>{channel}</strong> channel.'
+                                defaultMessage='People invited automatically join the **{channel}** channel.'
                                 values={{
                                     channel: defaultChannelName,
                                 }}

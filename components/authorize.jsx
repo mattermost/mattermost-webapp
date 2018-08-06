@@ -10,6 +10,8 @@ import icon50 from 'images/icon50x50.png';
 import FormError from 'components/form_error.jsx';
 import {browserHistory} from 'utils/browser_history';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class Authorize extends React.Component {
     static get propTypes() {
         return {
@@ -109,9 +111,9 @@ export default class Authorize extends React.Component {
                             />
                         </div>
                         <div className='text'>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='authorize.title'
-                                defaultMessage='<strong>{appName}</strong> would like to connect to your <strong>Mattermost</strong> user account'
+                                defaultMessage='**{appName}** would like to connect to your **Mattermost** user account'
                                 values={{
                                     appName: app.name,
                                 }}
@@ -119,18 +121,18 @@ export default class Authorize extends React.Component {
                         </div>
                     </div>
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='authorize.app'
-                            defaultMessage='The app <strong>{appName}</strong> would like the ability to access and modify your basic information.'
+                            defaultMessage='The app **{appName}** would like the ability to access and modify your basic information.'
                             values={{
                                 appName: app.name,
                             }}
                         />
                     </p>
                     <h2 className='prompt__allow'>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='authorize.access'
-                            defaultMessage='Allow <strong>{appName}</strong> access?'
+                            defaultMessage='Allow **{appName}** access?'
                             values={{
                                 appName: app.name,
                             }}

@@ -80,9 +80,9 @@ export default class DeleteChannelModal extends React.PureComponent {
                 <Modal.Body>
                     <div className='alert alert-danger'>
                         {!canViewArchivedChannels &&
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='delete_channel.question'
-                                defaultMessage='This will archive the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to archive the <strong>{display_name}</strong> channel?'
+                                defaultMessage='This will archive the channel from the team and make its contents inaccessible for all users. \n \nAre you sure you wish to archive the **{display_name}** channel?'
                                 values={{
                                     display_name: this.props.channel.display_name,
                                 }}

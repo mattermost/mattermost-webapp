@@ -498,9 +498,9 @@ export default class PluginManagement extends React.Component {
                     <Banner
                         title={<div/>}
                         description={
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='admin.plugin.management.banner'
-                                defaultMessage='Plugins are disabled on your server. To enable them, go to <strong>Plugins > Configuration</strong>.'
+                                defaultMessage='Plugins are disabled on your server. To enable them, go to **Plugins > Configuration**.'
                             />
                         }
                     />

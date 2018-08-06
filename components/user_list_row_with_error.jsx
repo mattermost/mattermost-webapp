@@ -10,6 +10,8 @@ import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class UserListRowWithError extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
@@ -62,9 +64,9 @@ export default class UserListRowWithError extends React.Component {
         let status;
         if (this.props.extraInfo && this.props.extraInfo.length > 0) {
             email = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='admin.user_item.emailTitle'
-                    defaultMessage='<strong>Email:</strong> {email}'
+                    defaultMessage='**Email:** {email}'
                     values={{
                         email: this.props.user.email,
                     }}

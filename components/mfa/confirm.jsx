@@ -8,6 +8,8 @@ import {loadMe} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const KeyCodes = Constants.KeyCodes;
 
 export default class Confirm extends React.Component {
@@ -41,9 +43,9 @@ export default class Confirm extends React.Component {
                     className='form-group'
                 >
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='mfa.confirm.complete'
-                            defaultMessage='<strong>Set up complete!</strong>'
+                            defaultMessage='**Set up complete!**'
                         />
                     </p>
                     <p>

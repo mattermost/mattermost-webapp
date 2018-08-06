@@ -318,9 +318,9 @@ export default class SignupEmail extends React.Component {
         let yourEmailIs = null;
         if (this.state.email) {
             yourEmailIs = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='signup_user_completed.emailIs'
-                    defaultMessage="Your email address is <strong>{email}</strong>. You'll use this address to sign in to {siteName}."
+                    defaultMessage="Your email address is **{email}**. You'll use this address to sign in to {siteName}."
                     values={{
                         email: this.state.email,
                         siteName: this.props.siteName,

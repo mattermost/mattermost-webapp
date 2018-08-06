@@ -13,6 +13,8 @@ import MultiSelect from 'components/multiselect/multiselect.jsx';
 import TeamInfo from 'components/team_info.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const TEAMS_PER_PAGE = 50;
 
 export default class TeamSelectorModal extends React.Component {
@@ -232,9 +234,9 @@ export default class TeamSelectorModal extends React.Component {
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='add_teams_to_scheme.title'
-                            defaultMessage='Add Teams To <strong>Team Selection</strong> List'
+                            defaultMessage='Add Teams To **Team Selection** List'
                         />
                     </Modal.Title>
                 </Modal.Header>
