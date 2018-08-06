@@ -17,6 +17,8 @@ import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const EMAIL_NOTIFICATION_CONTENTS_FULL = 'full';
 const EMAIL_NOTIFICATION_CONTENTS_GENERIC = 'generic';
 
@@ -105,9 +107,9 @@ export default class EmailSettings extends AdminSettings {
                     key='admin.email.enableEmailBatching.siteURL'
                     className='help-text'
                 >
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='admin.email.enableEmailBatching.siteURL'
-                        defaultMessage='Email batching cannot be enabled unless the SiteURL is configured in <b>Configuration > SiteURL</b>.'
+                        defaultMessage='Email batching cannot be enabled unless the SiteURL is configured in **Configuration > SiteURL**.'
                     />
                 </span>
             );

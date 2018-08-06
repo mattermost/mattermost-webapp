@@ -58,7 +58,11 @@
   "add_command.method.help": "The type of command request issued to the Request URL.",
   "add_command.method.post": "POST",
   "add_command.save": "Save",
+<<<<<<< HEAD
   "add_command.token": "**Token**: {token}",
+=======
+  "add_command.token": "**abcToken**: {token}",
+>>>>>>> Modify messages with <b> to markdown style
   "add_command.trigger": "Command Trigger Word",
   "add_command.trigger.help": "Trigger word must be unique, and cannot begin with a slash or contain any spaces.",
   "add_command.trigger.helpExamples": "Examples: client, employee, patient, weather",
@@ -402,7 +406,7 @@
   "admin.email.easHelp": "Learn more about compiling and deploying your own mobile apps from an [Enterprise App Store](!https://about.mattermost.com/default-enterprise-app-store).",
   "admin.email.emailSuccess": "No errors were reported while sending an email.  Please check your inbox to make sure.",
   "admin.email.enableEmailBatching.clusterEnabled": "Email batching cannot be enabled when High Availability mode is enabled.",
-  "admin.email.enableEmailBatching.siteURL": "Email batching cannot be enabled unless the SiteURL is configured in <b>Configuration > SiteURL</b>.",
+  "admin.email.enableEmailBatching.siteURL": "Email batching cannot be enabled unless the SiteURL is configured in **Configuration > SiteURL**.",
   "admin.email.enableEmailBatchingDesc": "When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.",
   "admin.email.enableEmailBatchingTitle": "Enable Email Batching:",
   "admin.email.enablePreviewModeBannerDescription": "When true, the Preview Mode banner is displayed so users are aware that email notifications are disabled. When false, the Preview Mode banner is not displayed to users.",
