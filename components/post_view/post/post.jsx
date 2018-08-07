@@ -152,7 +152,7 @@ export default class Post extends React.PureComponent {
         });
     }
     onDragStart = () => {
-        this.props.setRethreadHighlight(null);
+        this.props.handleRethreading(null);
         this.props.handleRethreading(this.props.post);
     }
 
