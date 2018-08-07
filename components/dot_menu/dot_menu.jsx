@@ -80,11 +80,12 @@ export default class DotMenu extends Component {
             canDelete: PostUtils.canDeletePost(props.post),
             canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
         };
+        this.dotMenuId = props.location + '_dropdown_' + props.post.id;
     }
 
     componentDidMount() {
-        $('#post-list #dropdown_' + this.props.post.id).on('shown.bs.dropdown', this.handleDropdownOpened);
-        $('#post-list #dropdown_' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
+        $('#' + this.dotMenuId).on('shown.bs.dropdown', this.handleDropdownOpened);
+        $('#' + this.dotMenuId).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
     }
 
     componentWillUnmount() {
@@ -288,9 +289,7 @@ export default class DotMenu extends Component {
                 className='dropdown'
                 ref='dotMenu'
             >
-                <div
-                    id={'dropdown_' + this.props.post.id}
-                >
+                <div id={this.dotMenuId}>
                     <button
                         ref='dropdownToggle'
                         className='dropdown-toggle post__dropdown color--link style--none'
