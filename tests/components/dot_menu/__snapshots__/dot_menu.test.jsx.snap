@@ -5,7 +5,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   className="dropdown"
 >
   <div
-    id="dropdown_post_id_1"
+    id="CENTER_dropdown_post_id_1"
   >
     <button
       aria-expanded="false"
@@ -67,7 +67,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   className="dropdown"
 >
   <div
-    id="dropdown_post_id_1"
+    id="CENTER_dropdown_post_id_1"
   >
     <button
       aria-expanded="false"
