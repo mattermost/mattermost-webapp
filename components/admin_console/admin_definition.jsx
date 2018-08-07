@@ -1130,6 +1130,78 @@ export default {
         notifications: {
         },
         integrations: {
+            custom_integrations: {
+                schema: {
+                    id: 'CustomIntegrationSettings',
+                    name: 'admin.integrations.custom',
+                    name_default: 'Custom Integrations',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableIncomingWebhooks',
+                            label: 'admin.service.webhooksTitle',
+                            label_default: 'Enable Incoming Webhooks: ',
+                            help_text: 'admin.service.webhooksDescription',
+                            help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See [documentation](!http://docs.mattermost.com/developer/webhooks-incoming.html) to learn more.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableOutgoingWebhooks',
+                            label: 'admin.service.outWebhooksTitle',
+                            label_default: 'Enable Outgoing Webhooks: ',
+                            help_text: 'admin.service.outWebhooksDesc',
+                            help_text_default: 'When true, outgoing webhooks will be allowed. See [documentation](!http://docs.mattermost.com/developer/webhooks-outgoing.html) to learn more.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableCommands',
+                            label: 'admin.service.cmdsTitle',
+                            label_default: 'Enable Custom Slash Commands: ',
+                            help_text: 'admin.service.cmdsDesc',
+                            help_text_default: 'When true, custom slash commands will be allowed. See [documentation](!http://docs.mattermost.com/developer/slash-commands.html) to learn more.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableOAuthServiceProvider',
+                            label: 'admin.oauth.providerTitle',
+                            label_default: 'Enable OAuth 2.0 Service Provider: ',
+                            help_text: 'admin.oauth.providerDescription',
+                            help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) to learn more.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnablePostUsernameOverride',
+                            label: 'admin.service.overrideTitle',
+                            label_default: 'Enable integrations to override usernames:',
+                            help_text: 'admin.service.overrideDescription',
+                            help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnablePostIconOverride',
+                            label: 'admin.service.iconTitle',
+                            label_default: 'Enable integrations to override profile picture icons:',
+                            help_text: 'admin.service.iconDescription',
+                            help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableUserAccessTokens',
+                            label: 'admin.service.userAccessTokensTitle',
+                            label_default: 'Enable User Access Tokens: ',
+                            help_text: 'admin.service.userAccessTokensDescription',
+                            help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **System Console > Users** page.',
+                            help_text_markdown: true,
+                        },
+                    ],
+                },
+            },
             webrtc: {
                 schema: {
                     id: 'WebrtcSettings',
