@@ -906,7 +906,7 @@ export default {
                             label: 'admin.ldap.ldap_test_button',
                             label_default: 'AD/LDAP Test',
                             help_text: 'admin.ldap.testHelpText',
-                            help_text_default: 'Tests if the Mattemost Server can connect to the AD/LDAP server specified. Please review log file and [documentation](!https://docs.mattermost.com/deployment/sso-ldap.html) to troubleshoot errors.',
+                            help_text_default: 'Tests if the Mattemost Server can connect to the AD/LDAP server specified. Please review log file and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             error_message: 'admin.ldap.testFailure',
                             error_message_default: 'AD/LDAP Test Failure: {error}',
                             success_message: 'admin.ldap.testSuccess',
@@ -922,7 +922,7 @@ export default {
                             label: 'admin.ldap.sync_button',
                             label_default: 'AD/LDAP Synchronize Now',
                             help_text: 'admin.ldap.testHelpText',
-                            help_text_default: 'Initiates an AD/LDAP synchronization immediately and provides details on the status of the synchronization in the table below. This table also shows the status of synchronization executed based on the Synchronization Interval setting. Please review log file and [documentation](!https://docs.mattermost.com/deployment/sso-ldap.html) to troubleshoot errors.',
+                            help_text_default: 'Initiates an AD/LDAP synchronization immediately and provides details on the status of the synchronization in the table below. This table also shows the status of synchronization executed based on the Synchronization Interval setting. Please review log file and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             render_job: (job) => {
                                 let mattermostUsers = '0';
