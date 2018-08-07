@@ -83,6 +83,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
     >
       <i
         className="fa fa-check"
+        title="Success Icon"
       />
       <FormattedMessage
         defaultMessage=" Link copied"

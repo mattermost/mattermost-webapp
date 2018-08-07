@@ -21,6 +21,7 @@ import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
 import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RootPost from 'components/rhs_root_post';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 const Preferences = Constants.Preferences;
 
@@ -378,18 +379,30 @@ export default class RhsThread extends React.Component {
 
         let createComment;
         const isFakeDeletedPost = selected.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+        const channelIsArchived = this.props.channel.delete_at !== 0;
         if (!isFakeDeletedPost) {
-            createComment = (
-                <div className='post-create__container'>
-                    <CreateComment
-                        channelId={selected.channel_id}
-                        rootId={selected.id}
-                        rootDeleted={selected.state === Posts.POST_DELETED}
-                        latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
-                        getSidebarBody={this.getSidebarBody}
-                    />
-                </div>
-            );
+            if (channelIsArchived) {
+                createComment = (
+                    <div className='channel-archived-warning'>
+                        <FormattedMarkdownMessage
+                            id='archivedChannelMessage'
+                            defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
+                        />
+                    </div>
+                );
+            } else {
+                createComment = (
+                    <div className='post-create__container'>
+                        <CreateComment
+                            channelId={selected.channel_id}
+                            rootId={selected.id}
+                            rootDeleted={selected.state === Posts.POST_DELETED}
+                            latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
+                            getSidebarBody={this.getSidebarBody}
+                        />
+                    </div>
+                );
+            }
         }
 
         if (this.props.channel.type === Constants.DM_CHANNEL) {

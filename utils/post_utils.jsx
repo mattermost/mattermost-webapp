@@ -49,37 +49,15 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
-export function getProfilePicSrcForPost(post, user) {
-    const config = getConfig(store.getState());
-    let src = '';
-    if (user && user.id === post.user_id) {
-        src = Utils.imageURLForUser(user);
-    } else if (post.user_id) {
-        src = Utils.imageURLForUser(post.user_id);
-    }
-
-    if (fromAutoResponder(post)) {
-        return src;
-    }
-
-    if (post.props && post.props.from_webhook && !post.props.use_user_icon && config.EnablePostIconOverride === 'true') {
-        if (post.props.override_icon_url) {
-            src = post.props.override_icon_url;
-        } else {
-            src = Constants.DEFAULT_WEBHOOK_LOGO;
-        }
-    } else if (isSystemMessage(post)) {
-        src = Constants.SYSTEM_MESSAGE_PROFILE_IMAGE;
-    }
-
-    return src;
-}
-
 export function canDeletePost(post) {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
     const channel = getChannel(store.getState(), post.channel_id);
+
+    if (channel && channel.delete_at !== 0) {
+        return false;
+    }
 
     if (isPostOwner(post)) {
         return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
@@ -96,6 +74,10 @@ export function canEditPost(post, editDisableAction) {
     const license = getLicense(store.getState());
     const config = getConfig(store.getState());
     const channel = getChannel(store.getState(), post.channel_id);
+
+    if (channel && channel.delete_at !== 0) {
+        return false;
+    }
 
     const isOwner = isPostOwner(post);
     canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});

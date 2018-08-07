@@ -32,7 +32,6 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             fileInfos,
             fileCount,
             isEmbedVisible,

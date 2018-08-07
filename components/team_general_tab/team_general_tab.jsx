@@ -705,6 +705,7 @@ export default class GeneralTab extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
+                                title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>

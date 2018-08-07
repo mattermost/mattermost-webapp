@@ -186,7 +186,12 @@ export default class MultiSelect extends React.Component {
         if (this.props.noteText) {
             noteTextContainer = (
                 <div className='multi-select__note'>
-                    <div className='note__icon'><span className='fa fa-info'/></div>
+                    <div className='note__icon'>
+                        <span
+                            className='fa fa-info'
+                            title={localizeMessage('generic_icons.info', 'Info Icon')}
+                        />
+                    </div>
                     <div>{this.props.noteText}</div>
                 </div>
             );
@@ -269,6 +274,7 @@ export default class MultiSelect extends React.Component {
                             disabled={this.props.saving}
                             onClick={this.handleOnClick}
                             defaultMessage={buttonSubmitText}
+                            savingMessage={this.props.buttonSubmitLoadingText}
                         />
                     </div>
                     <div className='multi-select__help'>
@@ -313,6 +319,7 @@ MultiSelect.propTypes = {
     maxValues: PropTypes.number,
     numRemainingText: PropTypes.node,
     buttonSubmitText: PropTypes.node,
+    buttonSubmitLoadingText: PropTypes.node,
     submitImmediatelyOn: PropTypes.func,
     saving: PropTypes.bool,
     loading: PropTypes.bool,

@@ -16,6 +16,7 @@ import * as Utils from 'utils/utils.jsx';
 import {clientLogout} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import {browserHistory} from 'utils/browser_history';
 
 export default class SystemUsersDropdown extends React.Component {
     static propTypes = {
@@ -44,6 +45,11 @@ export default class SystemUsersDropdown extends React.Component {
          * Function to open password reset, takes user as an argument
          */
         doPasswordReset: PropTypes.func.isRequired,
+
+        /*
+         * Function to open email reset, takes user as an argument
+         */
+        doEmailReset: PropTypes.func.isRequired,
 
         /*
          * Function to open manage teams, takes user as an argument
@@ -106,6 +112,11 @@ export default class SystemUsersDropdown extends React.Component {
         this.props.doPasswordReset(this.props.user);
     }
 
+    handleResetEmail = (e) => {
+        e.preventDefault();
+        this.props.doEmailReset(this.props.user);
+    }
+
     handleResetMfa = (e) => {
         e.preventDefault();
         adminResetMfa(this.props.user.id, null, this.props.onError);
@@ -136,9 +147,9 @@ export default class SystemUsersDropdown extends React.Component {
         const teamUrl = TeamStore.getCurrentTeamUrl();
         if (teamUrl) {
             // the channel is added to the URL cause endless loading not being fully fixed
-            window.location.href = teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`;
+            browserHistory.push(teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
-            window.location.href = '/';
+            browserHistory.push('/');
         }
     }
 
@@ -488,6 +499,25 @@ export default class SystemUsersDropdown extends React.Component {
             );
         }
 
+        let emailReset;
+        if (!user.auth_service) {
+            emailReset = (
+                <li role='presentation'>
+                    <a
+                        id='resetEmail'
+                        role='menuitem'
+                        href='#'
+                        onClick={this.handleResetEmail}
+                    >
+                        <FormattedMessage
+                            id='admin.user_item.resetEmail'
+                            defaultMessage='Update Email'
+                        />
+                    </a>
+                </li>
+            );
+        }
+
         let revokeSessions;
         if (showRevokeSessions) {
             revokeSessions = (
@@ -614,6 +644,7 @@ export default class SystemUsersDropdown extends React.Component {
                     {manageTokens}
                     {mfaReset}
                     {passwordReset}
+                    {emailReset}
                     {revokeSessions}
                 </ul>
                 {makeDemoteModal}

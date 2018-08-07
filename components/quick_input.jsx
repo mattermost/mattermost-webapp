@@ -28,6 +28,7 @@ export default class QuickInput extends React.PureComponent {
 
     static defaultProps = {
         delayInputUpdate: false,
+        value: '',
     };
 
     componentDidUpdate(prevProps) {

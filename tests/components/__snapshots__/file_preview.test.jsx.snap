@@ -64,6 +64,7 @@ exports[`component/FilePreview should match snapshot 1`] = `
         >
           <i
             className="fa fa-remove"
+            title="Remove Icon"
           />
         </a>
       </div>
@@ -84,6 +85,7 @@ exports[`component/FilePreview should match snapshot 1`] = `
     >
       <i
         className="fa fa-remove"
+        title="Remove Icon"
       />
     </a>
   </div>
@@ -154,6 +156,7 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
         >
           <i
             className="fa fa-remove"
+            title="Remove Icon"
           />
         </a>
       </div>
@@ -174,6 +177,7 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
     >
       <i
         className="fa fa-remove"
+        title="Remove Icon"
       />
     </a>
   </div>
@@ -244,6 +248,7 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
         >
           <i
             className="fa fa-remove"
+            title="Remove Icon"
           />
         </a>
       </div>
@@ -309,6 +314,7 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
         >
           <i
             className="fa fa-remove"
+            title="Remove Icon"
           />
         </a>
       </div>

@@ -4,16 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {getTeamStats} from 'mattermost-redux/actions/teams';
+import {getTeamStats, updateTeamMemberSchemeRoles} from 'mattermost-redux/actions/teams';
 import {getUser} from 'mattermost-redux/actions/users';
 
 import TeamMembersDropdown from './team_members_dropdown.jsx';
-
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -21,8 +15,9 @@ function mapDispatchToProps(dispatch) {
             getUser,
             getTeamStats,
             getChannelStats,
+            updateTeamMemberSchemeRoles,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeamMembersDropdown);
+export default connect(null, mapDispatchToProps)(TeamMembersDropdown);

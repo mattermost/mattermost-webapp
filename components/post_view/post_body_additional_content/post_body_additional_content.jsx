@@ -53,6 +53,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
          * If an image proxy is enabled.
          */
         hasImageProxy: PropTypes.bool.isRequired,
+
+        /**
+         * Options specific to text formatting
+         */
+        options: PropTypes.object,
     }
 
     static defaultProps = {
@@ -109,6 +114,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 attachments={attachments}
                 postId={this.props.post.id}
                 key={this.props.post.id}
+                options={this.props.options}
             />
         );
     }
@@ -132,7 +138,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     isLinkImage(link) {
-        let linkWithoutQuery = link;
+        let linkWithoutQuery = link.toLowerCase();
         if (link.indexOf('?') !== -1) {
             linkWithoutQuery = linkWithoutQuery.split('?')[0];
         }

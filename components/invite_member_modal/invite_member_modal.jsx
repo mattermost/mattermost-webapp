@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {inviteMembers} from 'actions/team_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -111,7 +113,7 @@ class InviteMemberModal extends React.Component {
             invite.firstName = ReactDOM.findDOMNode(this.refs['first_name' + index]).value.trim();
             invite.lastName = ReactDOM.findDOMNode(this.refs['last_name' + index]).value.trim();
             if (invite.email !== '' || index === 0) {
-                if (!invite.email || !utils.isEmail(invite.email)) {
+                if (!invite.email || !isEmail(invite.email)) {
                     emailErrors[index] = this.props.intl.formatMessage(holders.emailError);
                     valid = false;
                 } else {
@@ -266,7 +268,10 @@ class InviteMemberModal extends React.Component {
                                 className='btn btn-link remove__member'
                                 onClick={this.removeInviteFields.bind(this, index)}
                             >
-                                <span className='fa fa-trash'/>
+                                <span
+                                    className='fa fa-trash'
+                                    title={utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
+                                />
                             </button>
                         </div>
                     );
@@ -393,7 +398,11 @@ class InviteMemberModal extends React.Component {
                 );
                 if (this.state.isSendingEmails) {
                     sendButtonLabel = (
-                        <span><i className='fa fa-spinner fa-spin'/>
+                        <span>
+                            <i
+                                className='fa fa-spinner fa-spin'
+                                title={utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                            />
                             <FormattedMessage
                                 id='invite_member.sending'
                                 defaultMessage=' Sending'

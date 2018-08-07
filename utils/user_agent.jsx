@@ -26,6 +26,11 @@ Desktop App:
 Android Chrome:
     Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19
 
+Android Firefox:
+    Mozilla/5.0 (Android; U; Android; pl; rv:1.9.2.8) Gecko/20100202 Firefox/3.5.8
+    Mozilla/5.0 (Android 7.0; Mobile; rv:54.0) Gecko/54.0 Firefox/54.0
+    Mozilla/5.0 (Android 7.0; Mobile; rv:57.0) Gecko/57.0 Firefox/57.0
+
 Android App:
     Mozilla/5.0 (Linux; U; Android 4.1.1; en-gb; Build/KLP) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
     Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36
@@ -75,8 +80,12 @@ export function isAndroidChrome() {
     return userAgent.indexOf('Android') !== -1 && userAgent.indexOf('Chrome') !== -1 && userAgent.indexOf('Version') === -1;
 }
 
+export function isAndroidFirefox() {
+    return userAgent.indexOf('Android') !== -1 && userAgent.indexOf('Firefox') !== -1;
+}
+
 export function isAndroidWeb() {
-    return isAndroidChrome();
+    return isAndroidChrome() || isAndroidFirefox();
 }
 
 export function isIosClassic() {

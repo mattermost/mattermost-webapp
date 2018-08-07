@@ -42,15 +42,15 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       <Popover
         bsClass="popover"
         bsStyle="info"
+        className="navbar__popover"
         id="header-popover"
         placement="bottom"
       >
-        <MessageWrapper
+        <Connect(Markdown)
           message="channel header"
           options={
             Object {
               "mentionHighlight": false,
-              "singleline": true,
             }
           }
         />
@@ -79,9 +79,11 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
           className="icon icon__info"
         >
           <svg
-            height="22px"
+            aria-label="Info Icon"
+            height="18px"
+            role="icon"
             viewBox="0 0 22 22"
-            width="22px"
+            width="18px"
           >
             <g
               fill="inherit"
@@ -157,6 +159,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       <Popover
         bsClass="popover"
         bsStyle="info"
+        className="navbar__popover"
         id="header-popover"
         placement="bottom"
       >
@@ -166,7 +169,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
             id="navbar.noHeader"
             values={Object {}}
           />
-          <UNDEFINED>
+          <React.Fragment>
             <br />
             <FormattedMessage
               defaultMessage="{clickHere} to add one."
@@ -186,7 +189,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
                 }
               }
             />
-          </UNDEFINED>
+          </React.Fragment>
         </div>
         <div
           className="close visible-xs-block"
@@ -213,9 +216,11 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
           className="icon icon__info"
         >
           <svg
-            height="22px"
+            aria-label="Info Icon"
+            height="18px"
+            role="icon"
             viewBox="0 0 22 22"
-            width="22px"
+            width="18px"
           >
             <g
               fill="inherit"

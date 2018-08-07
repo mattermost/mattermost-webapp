@@ -7,9 +7,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -25,10 +24,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -186,7 +184,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -232,7 +230,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -284,7 +282,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -319,9 +317,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -329,7 +326,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >
@@ -372,9 +369,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -390,10 +386,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -551,7 +546,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -594,7 +589,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -641,7 +636,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -671,9 +666,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -681,7 +675,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >
@@ -717,9 +711,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -735,10 +728,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -896,7 +888,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -942,7 +934,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -994,7 +986,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -1029,9 +1021,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -1039,7 +1030,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >
@@ -1092,9 +1083,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <h3
     className="admin-console-header with-back"
   >
-    <Link
+    <Connect(BlockableLink)
       className="fa fa-chevron-left back"
-      replace={false}
       to="/admin_console/permissions/schemes"
     />
     <FormattedMessage
@@ -1110,10 +1100,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="banner__content"
     >
       <span>
-        <FormattedHTMLMessage
-          defaultMessage="Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href=\\"/admin_console/permissions/system-scheme\\">System Scheme</a>."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
           id="admin.permissions.teamScheme.introBanner"
-          values={Object {}}
         />
       </span>
     </div>
@@ -1271,7 +1260,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       role={
         Object {
@@ -1314,7 +1303,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -1361,7 +1350,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         <AccordionToggleIcon />
       </div>
     </div>
-    <PermissionsTree
+    <Connect(PermissionsTree)
       onToggle={[Function]}
       parentRole={
         Object {
@@ -1391,9 +1380,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       saving={false}
       savingMessage="Saving Config..."
     />
-    <Link
+    <Connect(BlockableLink)
       className="cancel-button"
-      replace={false}
       to="/admin_console/permissions/schemes"
     >
       <FormattedMessage
@@ -1401,7 +1389,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         id="admin.permissions.permissionSchemes.cancel"
         values={Object {}}
       />
-    </Link>
+    </Connect(BlockableLink)>
     <div
       className="error-message"
     >

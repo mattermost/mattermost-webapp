@@ -36,6 +36,31 @@ const tabList = {
     },
 };
 
+const generalSettings = {
+    selector: '#generalSettings',
+    elements: {
+        generalSettingsTitle: {selector: '#generalSettingsTitle'},
+        nameTitle: {selector: '#nameTitle'},
+        nameEdit: {selector: '#nameEdit'},
+        nameDesc: {selector: '#nameDesc'},
+        usernameTitle: {selector: '#usernameTitle'},
+        usernameEdit: {selector: '#usernameEdit'},
+        usernameDesc: {selector: '#usernameDesc'},
+        nicknameTitle: {selector: '#nicknameTitle'},
+        nicknameEdit: {selector: '#nicknameEdit'},
+        nicknameDesc: {selector: '#nicknameDesc'},
+        positionTitle: {selector: '#positionTitle'},
+        positionEdit: {selector: '#positionEdit'},
+        positionDesc: {selector: '#positionDesc'},
+        emailTitle: {selector: '#emailTitle'},
+        emailEdit: {selector: '#emailEdit'},
+        emailDesc: {selector: '#emailDesc'},
+        pictureTitle: {selector: '#pictureTitle'},
+        pictureEdit: {selector: '#pictureEdit'},
+        pictureDesc: {selector: '#pictureDesc'},
+    },
+};
+
 const displaySettings = {
     selector: '#displaySettings',
     elements: {
@@ -75,6 +100,7 @@ module.exports = {
             selector: '#accountSettingsModal',
             sections: {
                 tabList,
+                generalSettings,
                 displaySettings,
             },
             elements: {

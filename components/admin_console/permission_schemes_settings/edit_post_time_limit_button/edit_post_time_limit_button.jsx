@@ -26,6 +26,7 @@ export default class EditPostTimeLimitButton extends React.Component {
                 className='edit-post-time-limit-button'
                 onClick={this.props.onClick}
             >
+                <i className='fa fa-gear'/>
                 <FormattedMessage
                     id={messageID}
                     values={{n: this.props.timeLimit}}

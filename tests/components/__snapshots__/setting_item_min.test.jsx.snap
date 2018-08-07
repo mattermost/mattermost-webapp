@@ -21,6 +21,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
     >
       <i
         className="fa fa-pencil"
+        title="Edit Icon"
       />
       <FormattedMessage
         defaultMessage="Edit"

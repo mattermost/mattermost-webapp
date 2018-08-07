@@ -170,12 +170,12 @@ describe('rhs view actions', () => {
             store.dispatch(performSearch(terms, false));
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(searchPosts(currentTeamId, terms, false));
+            compareStore.dispatch(searchPosts(currentTeamId, terms, false, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(searchPosts(currentTeamId, terms, true));
+            compareStore.dispatch(searchPosts(currentTeamId, terms, true, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });

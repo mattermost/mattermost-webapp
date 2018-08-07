@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SingleImageView should match snapshot 1`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+    >
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded "
+        style={
+          Object {
+            "height": 200,
+          }
+        }
+      >
+        <img
+          className=" "
+          onClick={[Function]}
+          style={
+            Object {
+              "height": 200,
+            }
+          }
+        />
+      </div>
+      <div
+        className="image-preload"
+      >
+        <LoadingImagePreview
+          containerClass="file__image-loading"
+          loading="Loading"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should match snapshot 2`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+    >
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded image-fade-in"
+        style={Object {}}
+      >
+        <img
+          className=" "
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+            }
+          }
+        />
+      </div>
+      <div
+        className="image-preload"
+      />
+    </div>
+    <Connect(ViewImageModal)
+      fileInfos={
+        Array [
+          Object {
+            "extension": "jpg",
+            "has_preview_image": true,
+            "height": 200,
+            "id": "file_info_id",
+            "name": "name",
+            "post_id": "post_id",
+            "width": 350,
+          },
+        ]
+      }
+      onModalDismissed={[Function]}
+      show={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+    >
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name_svg
+      </div>
+    </div>
+    <div
+      className="image-container"
+      style={
+        Object {
+          "height": 350,
+          "width": 300,
+        }
+      }
+    >
+      <div
+        className="image-loaded "
+        style={Object {}}
+      >
+        <img
+          className=" post-image normal"
+          onClick={[Function]}
+          style={Object {}}
+        />
+      </div>
+      <div
+        className="image-preload"
+      >
+        <LoadingImagePreview
+          containerClass="file__image-loading"
+          loading="Loading"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+    >
+      <a
+        aria-label="Toggle Embed Visibility"
+        className="post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+      <div
+        onClick={[Function]}
+      >
+        name_svg
+      </div>
+    </div>
+    <div
+      className="image-container"
+      style={
+        Object {
+          "width": 300,
+        }
+      }
+    >
+      <div
+        className="image-loaded image-fade-in"
+        style={Object {}}
+      >
+        <img
+          className=" post-image normal"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+            }
+          }
+        />
+      </div>
+      <div
+        className="image-preload"
+      />
+    </div>
+    <Connect(ViewImageModal)
+      fileInfos={
+        Array [
+          Object {
+            "extension": "svg",
+            "id": "svg_file_info_id",
+            "name": "name_svg",
+            "post_id": "post_id",
+          },
+        ]
+      }
+      onModalDismissed={[Function]}
+      show={false}
+    />
+  </div>
+</div>
+`;

@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/error_page/ErrorMessage should match snapshot, channel_not_found type 1`] = `
+<p>
+  <FormattedMessage
+    defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+    id="error.channel_not_found.message"
+    values={Object {}}
+  />
+</p>
+`;
+
 exports[`components/error_page/ErrorMessage should match snapshot, local_storage type 1`] = `
 <div>
   <FormattedMessage
@@ -140,6 +150,16 @@ exports[`components/error_page/ErrorMessage should match snapshot, permalink_not
   <FormattedMessage
     defaultMessage="Permalink belongs to a deleted message or to a channel to which you do not have access."
     id="permalink.error.access"
+    values={Object {}}
+  />
+</p>
+`;
+
+exports[`components/error_page/ErrorMessage should match snapshot, team_not_found type 1`] = `
+<p>
+  <FormattedMessage
+    defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+    id="error.team_not_found.message"
     values={Object {}}
   />
 </p>

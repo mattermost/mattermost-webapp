@@ -368,7 +368,7 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: 'false',
             title: {
                 id: 'user.settings.display.collapseDisplay',
-                message: 'Default appearance of image link previews',
+                message: 'Default appearance of image previews',
             },
             firstOption: {
                 value: 'false',
@@ -386,7 +386,7 @@ export default class UserSettingsDisplay extends React.Component {
             },
             description: {
                 id: 'user.settings.display.collapseDesc',
-                message: 'Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.',
+                message: 'Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.',
             },
         });
 
@@ -675,6 +675,7 @@ export default class UserSettingsDisplay extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
+                                title={Utils.localizeMessage('generic_icons.back', 'Back Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>

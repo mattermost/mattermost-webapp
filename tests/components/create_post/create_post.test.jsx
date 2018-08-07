@@ -44,6 +44,7 @@ const showTutorialTipProp = false;
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
 const latestReplyablePostIdProp = 'a';
+const localeProp = 'en';
 
 const currentChannelProp = {
     id: 'owsyt8n43jfxjpzh9np93mx1wa',
@@ -87,6 +88,7 @@ function createPost({
     draft = draftProp,
     recentPostIdInChannel = recentPostIdInChannelProp,
     latestReplyablePostId = latestReplyablePostIdProp,
+    locale = localeProp,
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
@@ -105,6 +107,7 @@ function createPost({
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
             latestReplyablePostId={latestReplyablePostId}
+            locale={locale}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}
@@ -114,6 +117,7 @@ function createPost({
             enableTutorial={true}
             enableConfirmNotificationsToChannel={true}
             enableEmojiPicker={true}
+            enableGifPicker={true}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             userIsOutOfOffice={false}
         />
@@ -529,8 +533,10 @@ describe('components/create_post', () => {
             ctrlSend: true,
         }));
         const instance = wrapper.instance();
-        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn});
-        expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn});
+        setTimeout(() => {
+            expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
+        }, 0);
     });
 
     it('Should call edit action as comment for arrow up', () => {

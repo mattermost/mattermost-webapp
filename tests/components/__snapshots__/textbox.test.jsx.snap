@@ -32,6 +32,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         ChannelMentionProvider {
           "disableDispatches": false,
           "lastCompletedWord": "",
+          "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
@@ -109,19 +110,20 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         />
       </span>
     </div>
-    <a
+    <Link
       className="textbox-help-link"
-      href="/help/messaging"
       id="helpTextLink"
       rel="noopener noreferrer"
+      replace={false}
       target="_blank"
+      to="/help/messaging"
     >
       <FormattedMessage
         defaultMessage="Help"
         id="textbox.help"
         values={Object {}}
       />
-    </a>
+    </Link>
   </div>
 </div>
 `;
@@ -158,6 +160,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         ChannelMentionProvider {
           "disableDispatches": false,
           "lastCompletedWord": "",
+          "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
@@ -235,19 +238,20 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         />
       </span>
     </div>
-    <a
+    <Link
       className="textbox-help-link"
-      href="/help/messaging"
       id="helpTextLink"
       rel="noopener noreferrer"
+      replace={false}
       target="_blank"
+      to="/help/messaging"
     >
       <FormattedMessage
         defaultMessage="Help"
         id="textbox.help"
         values={Object {}}
       />
-    </a>
+    </Link>
   </div>
 </div>
 `;
@@ -284,6 +288,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         ChannelMentionProvider {
           "disableDispatches": false,
           "lastCompletedWord": "",
+          "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
@@ -361,19 +366,20 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         />
       </span>
     </div>
-    <a
+    <Link
       className="textbox-help-link"
-      href="/help/messaging"
       id="helpTextLink"
       rel="noopener noreferrer"
+      replace={false}
       target="_blank"
+      to="/help/messaging"
     >
       <FormattedMessage
         defaultMessage="Help"
         id="textbox.help"
         values={Object {}}
       />
-    </a>
+    </Link>
   </div>
 </div>
 `;

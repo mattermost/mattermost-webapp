@@ -36,7 +36,10 @@ class SearchUserSuggestion extends Suggestion {
                 className={className}
                 onClick={this.handleClick}
             >
-                <i className='fa fa fa-plus-square'/>
+                <i
+                    className='fa fa fa-plus-square'
+                    title={Utils.localizeMessage('generic_icons.select', 'Select Icon')}
+                />
                 <img
                     className='profile-img rounded'
                     src={Utils.imageURLForUser(item)}

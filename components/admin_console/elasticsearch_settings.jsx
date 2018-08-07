@@ -22,7 +22,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         this.getConfigFromState = this.getConfigFromState.bind(this);
 
         this.doTestConfig = this.doTestConfig.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleSettingChanged = this.handleSettingChanged.bind(this);
         this.handleSaved = this.handleSaved.bind(this);
 
         this.renderSettings = this.renderSettings.bind(this);
@@ -53,7 +53,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         };
     }
 
-    handleChange(id, value) {
+    handleSettingChanged(id, value) {
         if (id === 'enableIndexing') {
             if (value === false) {
                 this.setState({
@@ -80,7 +80,7 @@ export default class ElasticsearchSettings extends AdminSettings {
             });
         }
 
-        super.handleChange(id, value);
+        this.handleChange(id, value);
     }
 
     handleSaved() {
@@ -135,7 +135,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.elasticsearch.title'
-                defaultMessage='Elasticsearch (Beta)'
+                defaultMessage='Elasticsearch'
             />
         );
     }
@@ -143,14 +143,6 @@ export default class ElasticsearchSettings extends AdminSettings {
     renderSettings() {
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
-                        <FormattedMessage
-                            id='admin.elasticsearch.noteDescription'
-                            defaultMessage='Changing properties in this section will require a server restart before taking effect.'
-                        />
-                    </div>
-                </div>
                 <BooleanSetting
                     id='enableIndexing'
                     label={
@@ -180,7 +172,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                         />
                     }
                     value={this.state.enableIndexing}
-                    onChange={this.handleChange}
+                    onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.EnableIndexing')}
                 />
                 <TextSetting
@@ -214,7 +206,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }
                     value={this.state.connectionUrl}
                     disabled={!this.state.enableIndexing}
-                    onChange={this.handleChange}
+                    onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.ConnectionUrl')}
                 />
                 <TextSetting
@@ -234,7 +226,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }
                     value={this.state.username}
                     disabled={!this.state.enableIndexing}
-                    onChange={this.handleChange}
+                    onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.Username')}
                 />
                 <TextSetting
@@ -254,7 +246,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }
                     value={this.state.password}
                     disabled={!this.state.enableIndexing}
-                    onChange={this.handleChange}
+                    onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.Password')}
                 />
                 <BooleanSetting
@@ -273,7 +265,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }
                     value={this.state.sniff}
                     disabled={!this.state.enableIndexing}
-                    onChange={this.handleChange}
+                    onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.Sniff')}
                 />
                 <RequestButton
@@ -373,7 +365,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }
                     value={this.state.enableSearching}
                     disabled={!this.state.enableIndexing || !this.state.configTested}
-                    onChange={this.handleChange}
+                    onChange={this.handleSettingChanged}
                     setByEnv={this.isSetByEnv('ElasticsearchSettings.EnableSearching')}
                 />
             </SettingsGroup>

@@ -100,20 +100,110 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           />
         </div>
       </div>
-      <div
-        className="more-modal__button"
-        key="popover-member-more"
+    </Popover>
+  </Overlay>
+</div>
+`;
+
+exports[`components/PopoverListMembers should match snapshot with archived channel 1`] = `
+<div
+  className="channel-header__icon wide "
+  id="channelMember"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="channelMembersTooltip"
+        placement="right"
       >
-        <button
-          className="btn btn-link"
-          onClick={[Function]}
+        <FormattedMessage
+          defaultMessage="Members"
+          id="channel_header.channelMembers"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <div
+      className="member-popover__trigger"
+      id="member_popover"
+      onClick={[Function]}
+    >
+      <span
+        className="icon__text"
+        id="channelMemberCountText"
+      >
+        2
+      </span>
+      <MemberIcon
+        aria-hidden="true"
+        className="icon icon__members"
+        id="channelMemberIcon"
+      />
+    </div>
+  </OverlayTrigger>
+  <Overlay
+    animation={[Function]}
+    onHide={[Function]}
+    placement="bottom"
+    rootClose={true}
+    show={false}
+    target={[Function]}
+  >
+    <Popover
+      bsClass="popover"
+      className="member-list__popover"
+      id="member-list-popover"
+      placement="right"
+    >
+      <div
+        className="more-modal__header"
+      >
+        <FormattedMessage
+          defaultMessage="Channel Members"
+          id="members_popover.title"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="more-modal__body"
+      >
+        <div
+          className="more-modal__list"
         >
-          <FormattedMessage
-            defaultMessage="Manage Members"
-            id="members_popover.manageMembers"
-            values={Object {}}
+          <PopoverListMembersItem
+            key="member_id_1"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="online"
+            user={
+              Object {
+                "id": "member_id_1",
+              }
+            }
           />
-        </button>
+          <PopoverListMembersItem
+            key="member_id_2"
+            onItemClick={[Function]}
+            showMessageIcon={true}
+            status="offline"
+            user={
+              Object {
+                "id": "member_id_2",
+              }
+            }
+          />
+        </div>
       </div>
     </Popover>
   </Overlay>
@@ -220,21 +310,6 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
           />
         </div>
       </div>
-      <div
-        className="more-modal__button"
-        key="popover-member-more"
-      >
-        <button
-          className="btn btn-link"
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Manage Members"
-            id="members_popover.manageMembers"
-            values={Object {}}
-          />
-        </button>
-      </div>
     </Popover>
   </Overlay>
 </div>
@@ -339,21 +414,6 @@ exports[`components/PopoverListMembers should match state when showMembersModal 
             }
           />
         </div>
-      </div>
-      <div
-        className="more-modal__button"
-        key="popover-member-more"
-      >
-        <button
-          className="btn btn-link"
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Manage Members"
-            id="members_popover.manageMembers"
-            values={Object {}}
-          />
-        </button>
       </div>
     </Popover>
   </Overlay>

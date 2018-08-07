@@ -9,6 +9,8 @@ import {Link} from 'react-router-dom';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import {getSiteURL} from 'utils/url.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ConfirmIntegration extends React.Component {
     static get propTypes() {
@@ -60,9 +62,9 @@ export default class ConfirmIntegration extends React.Component {
                 );
                 helpText = (
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='add_command.doneHelp'
-                            defaultMessage='Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href="https://docs.mattermost.com/developer/slash-commands.html">documentation</a> for further details).'
+                            defaultMessage='Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/slash-commands.html) for further details).'
                         />
                     </p>
                 );
@@ -101,7 +103,7 @@ export default class ConfirmIntegration extends React.Component {
                             id='add_incoming_webhook.url'
                             defaultMessage='<b>URL</b>: {url}'
                             values={{
-                                url: window.location.origin + '/hooks/' + incomingHook.id,
+                                url: getSiteURL() + '/hooks/' + incomingHook.id,
                             }}
                         />
                     </p>

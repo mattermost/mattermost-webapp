@@ -11,6 +11,7 @@ import PermissionDescription from './permission_description.jsx';
 export default class PermissionRow extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        uniqId: PropTypes.string.isRequired,
         inherited: PropTypes.object,
         readOnly: PropTypes.bool,
         selected: PropTypes.string,
@@ -28,7 +29,7 @@ export default class PermissionRow extends React.Component {
     }
 
     render = () => {
-        const {id, inherited, value, readOnly, selected, additionalValues} = this.props;
+        const {id, uniqId, inherited, value, readOnly, selected, additionalValues} = this.props;
         let classes = 'permission-row';
         if (readOnly) {
             classes += ' read-only';
@@ -42,6 +43,7 @@ export default class PermissionRow extends React.Component {
             <div
                 className={classes}
                 onClick={this.toggleSelect}
+                id={uniqId}
             >
                 <PermissionCheckbox value={value}/>
                 <span className='permission-name'>

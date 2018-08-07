@@ -39,7 +39,7 @@ module.exports = {
     },
 
     beforeEach(browser, cb) {
-        cb();
+        browser.resizeWindow(1920, 1080, cb);
     },
 
     after(cb) {

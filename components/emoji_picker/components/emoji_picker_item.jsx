@@ -6,6 +6,7 @@ import React from 'react';
 import debounce from 'lodash/debounce';
 
 import EmojiStore from 'stores/emoji_store.jsx';
+import imgTrans from 'images/img_trans.gif';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
@@ -74,7 +75,7 @@ export default class EmojiPickerItem extends React.Component {
             image = (
                 <img
                     onMouseOver={this.handleMouseOverThrottle}
-                    src='/static/images/img_trans.gif'
+                    src={imgTrans}
                     className={spriteClassName}
                     onClick={this.handleClick}
                 />

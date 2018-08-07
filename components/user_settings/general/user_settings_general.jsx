@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
@@ -158,7 +160,7 @@ class UserSettingsGeneralTab extends React.Component {
 
         user.nickname = nickname;
 
-        trackEvent('settings', 'user_settings_update', {field: 'username'});
+        trackEvent('settings', 'user_settings_update', {field: 'nickname'});
 
         this.submitUser(user, false);
     }
@@ -193,7 +195,7 @@ class UserSettingsGeneralTab extends React.Component {
             return;
         }
 
-        if (email === '' || !Utils.isEmail(email)) {
+        if (email === '' || !isEmail(email)) {
             this.setState({emailError: formatMessage(holders.validEmail), clientError: '', serverError: ''});
             return;
         }
@@ -416,7 +418,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 />
                             </label>
                             <div className='col-sm-7'>
-                                <label className='control-label'>{this.state.originalEmail}</label>
+                                <label className='control-label word-break--all text-left'>{this.state.originalEmail}</label>
                             </div>
                         </div>
                     </div>
@@ -1141,6 +1143,7 @@ class UserSettingsGeneralTab extends React.Component {
                     onFileChange={this.updatePicture}
                     submitActive={this.submitActive}
                     loadingPicture={this.state.loadingPicture}
+                    maxFileSize={this.props.maxFileSize}
                 />
             );
         } else {
@@ -1178,7 +1181,7 @@ class UserSettingsGeneralTab extends React.Component {
         }
 
         return (
-            <div>
+            <div id='generalSettings'>
                 <div className='modal-header'>
                     <button
                         id='closeUserSettings'
@@ -1197,6 +1200,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='modal-back'>
                             <i
                                 className='fa fa-angle-left'
+                                title={Utils.localizeMessage('generic_icons.collapse', 'Collapse Icon')}
                                 onClick={this.props.collapseModal}
                             />
                         </div>
@@ -1207,7 +1211,10 @@ class UserSettingsGeneralTab extends React.Component {
                     </h4>
                 </div>
                 <div className='user-settings'>
-                    <h3 className='tab-header'>
+                    <h3
+                        id='generalSettingsTitle'
+                        className='tab-header'
+                    >
                         <FormattedMessage
                             id='user.settings.general.title'
                             defaultMessage='General Settings'

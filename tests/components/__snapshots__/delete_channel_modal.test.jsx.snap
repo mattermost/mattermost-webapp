@@ -36,7 +36,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       className="modal-title"
     >
       <FormattedMessage
-        defaultMessage="Confirm DELETE Channel"
+        defaultMessage="Confirm ARCHIVE Channel"
         id="delete_channel.confirm"
         values={Object {}}
       />
@@ -50,7 +50,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       className="alert alert-danger"
     >
       <FormattedHTMLMessage
-        defaultMessage="This will delete the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to delete the <strong>{display_name}</strong> channel?"
+        defaultMessage="This will archive the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to archive the <strong>{display_name}</strong> channel?"
         id="delete_channel.question"
         values={
           Object {
@@ -83,7 +83,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       type="button"
     >
       <FormattedMessage
-        defaultMessage="Delete"
+        defaultMessage="Archive"
         id="delete_channel.del"
         values={Object {}}
       />

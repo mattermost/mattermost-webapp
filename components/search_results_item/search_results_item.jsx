@@ -11,11 +11,12 @@ import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
-import ProfilePicture from 'components/profile_picture.jsx';
+import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import ArchiveIcon from 'components/svg/archive_icon';
 import PostTime from 'components/post_view/post_time.jsx';
 import {browserHistory} from 'utils/browser_history';
 
@@ -30,6 +31,11 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Data used for rendering post
         */
         post: PropTypes.object,
+
+        /**
+        * An array of strings in this post that were matched by the search
+        */
+        matches: PropTypes.array,
 
         /**
         *  count used for passing down to PostFlagIcon, DotMenu and CommentIcon
@@ -164,6 +170,8 @@ export default class SearchResultsItem extends React.PureComponent {
         const user = this.props.user || {};
         const post = this.props.post;
 
+        const channelIsArchived = channel ? channel.delete_at !== 0 : true;
+
         if (channel) {
             channelName = channel.display_name;
             if (channel.type === Constants.DM_CHANNEL) {
@@ -182,9 +190,9 @@ export default class SearchResultsItem extends React.PureComponent {
         let overrideUsername;
         let disableProfilePopover = false;
         if (post.props &&
-                post.props.from_webhook &&
-                post.props.override_username &&
-                this.props.enablePostUsernameOverride) {
+            post.props.from_webhook &&
+            post.props.override_username &&
+            this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
         }
@@ -202,13 +210,13 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         const profilePic = (
-            <ProfilePicture
-                src={PostUtils.getProfilePicSrcForPost(post, user)}
-                user={this.props.user}
+            <PostProfilePicture
+                compactDisplay={this.props.compactDisplay}
+                post={post}
+                user={user}
                 status={this.props.status}
                 isBusy={this.props.isBusy}
             />
-
         );
 
         const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
@@ -251,14 +259,14 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             rhsControls = (
-                <div className='col__controls'>
+                <div className='col__controls col__reply'>
                     <DotMenu
-                        idPrefix={Constants.SEARCH_POST}
-                        idCount={this.props.lastPostCount}
                         post={post}
+                        location={'SEARCH'}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
+                        isReadOnly={channelIsArchived || null}
                     />
                     <CommentIcon
                         idPrefix={'searchCommentIcon'}
@@ -279,11 +287,18 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             message = (
-                <PostBodyAdditionalContent post={post}>
+                <PostBodyAdditionalContent
+                    post={post}
+                    options={{
+                        searchTerm: this.props.term,
+                        searchMatches: this.props.matches,
+                    }}
+                >
                     <PostMessageContainer
                         post={post}
                         options={{
                             searchTerm: this.props.term,
+                            searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
                     />
@@ -309,7 +324,18 @@ export default class SearchResultsItem extends React.PureComponent {
             <div className='search-item__container'>
                 <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
-                    <div className='search-channel__name'>{channelName}</div>
+                    <div className='search-channel__name'>
+                        {channelName}
+                        {channelIsArchived &&
+                            <span className='search-channel__archived'>
+                                <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>
+                                <FormattedMessage
+                                    id='search_item.channelArchived'
+                                    defaultMessage='Archived'
+                                />
+                            </span>
+                        }
+                    </div>
                     <div className='post__content'>
                         {profilePicContainer}
                         <div>

@@ -11,6 +11,7 @@ import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage_teams_modal.jsx';
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
+import ResetEmailModal from 'components/admin_console/reset_email_modal/reset_email_modal.jsx';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
 import UserListRowWithError from 'components/user_list_row_with_error.jsx';
 
@@ -47,6 +48,7 @@ export default class SystemUsersList extends React.Component {
 
         actions: PropTypes.shape({
             getUser: PropTypes.func.isRequired,
+            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -60,6 +62,7 @@ export default class SystemUsersList extends React.Component {
             showManageRolesModal: false,
             showManageTokensModal: false,
             showPasswordModal: false,
+            showEmailModal: false,
             user: null,
         };
     }
@@ -149,6 +152,29 @@ export default class SystemUsersList extends React.Component {
 
         this.setState({
             showPasswordModal: false,
+            user: null,
+        });
+    }
+
+    doEmailReset = (user) => {
+        this.setState({
+            showEmailModal: true,
+            user,
+        });
+    }
+
+    doEmailResetDismiss = () => {
+        this.setState({
+            showEmailModal: false,
+            user: null,
+        });
+    }
+
+    doEmailResetSubmit = (user) => {
+        this.props.actions.getUser(user.id);
+
+        this.setState({
+            showEmailModal: false,
             user: null,
         });
     }
@@ -271,6 +297,7 @@ export default class SystemUsersList extends React.Component {
                         enableUserAccessTokens: this.props.enableUserAccessTokens,
                         experimentalEnableAuthenticationTransfer: this.props.experimentalEnableAuthenticationTransfer,
                         doPasswordReset: this.doPasswordReset,
+                        doEmailReset: this.doEmailReset,
                         doManageTeams: this.doManageTeams,
                         doManageRoles: this.doManageRoles,
                         doManageTokens: this.doManageTokens,
@@ -287,6 +314,7 @@ export default class SystemUsersList extends React.Component {
                     user={this.state.user}
                     show={this.state.showManageTeamsModal}
                     onModalDismissed={this.doManageTeamsDismiss}
+                    updateTeamMemberSchemeRoles={this.props.actions.updateTeamMemberSchemeRoles}
                 />
                 <ManageRolesModal
                     user={this.state.user}
@@ -303,6 +331,12 @@ export default class SystemUsersList extends React.Component {
                     show={this.state.showPasswordModal}
                     onModalSubmit={this.doPasswordResetSubmit}
                     onModalDismissed={this.doPasswordResetDismiss}
+                />
+                <ResetEmailModal
+                    user={this.state.user}
+                    show={this.state.showEmailModal}
+                    onModalSubmit={this.doEmailResetSubmit}
+                    onModalDismissed={this.doEmailResetDismiss}
                 />
             </div>
         );

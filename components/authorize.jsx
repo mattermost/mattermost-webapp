@@ -8,6 +8,7 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {allowOAuth2, getOAuthAppInfo} from 'actions/admin_actions.jsx';
 import icon50 from 'images/icon50x50.png';
 import FormError from 'components/form_error.jsx';
+import {browserHistory} from 'utils/browser_history';
 
 export default class Authorize extends React.Component {
     static get propTypes() {
@@ -28,7 +29,7 @@ export default class Authorize extends React.Component {
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
-        if (!(/^[a-z0-9]+$/.test(clientId))) {
+        if (!((/^[a-z0-9]+$/).test(clientId))) {
             return;
         }
 
@@ -66,11 +67,11 @@ export default class Authorize extends React.Component {
     handleDeny() {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
         if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
-            window.location.replace(redirectUri + '?error=access_denied');
+            window.location.href = redirectUri + '?error=access_denied';
             return;
         }
 
-        window.location.replace('/error');
+        browserHistory.replace('/error');
     }
 
     render() {

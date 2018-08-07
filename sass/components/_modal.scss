@@ -325,8 +325,8 @@
             }
 
             .modal-image__content {
-                max-height: 85vh;
-                max-width: 90vw;
+                max-height: 95vh;
+                max-width: 96vw;
                 overflow-x: hidden;
                 overflow-y: visible;
             }
@@ -361,6 +361,7 @@
                     height: auto;
                     max-height: 85vh;
                     width: auto;
+                    margin: -20px 0 20px;
                 }
 
                 .modal-close {
@@ -387,6 +388,7 @@
                     min-height: 100px;
                     min-width: 320px;
                     position: relative;
+                    max-width: 100%;
                 }
 
                 code {
@@ -406,7 +408,7 @@
                 }
 
                 img {
-                    max-height: calc(100vh - 200px);
+                    max-height: calc(100vh - 50px);
                     max-width: 100%;
                 }
 
@@ -478,13 +480,13 @@
 
             .modal-button-bar {
                 @include single-transition(opacity, .6s);
-                @include border-radius(0 0 3px 3px);
                 @include opacity(0);
+                overflow: hidden;
                 background-color: $black;
-                bottom: -40px;
+                bottom: 0;
                 left: 0;
                 line-height: 40px;
-                max-width: 90vw;
+                max-width: 100%;
                 padding: 0 10px;
                 position: absolute;
                 right: 0;

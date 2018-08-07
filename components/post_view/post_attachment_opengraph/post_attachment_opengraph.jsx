@@ -10,6 +10,7 @@ import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
+import {isSystemMessage} from 'utils/post_utils.jsx';
 
 export default class PostAttachmentOpenGraph extends React.PureComponent {
     static propTypes = {
@@ -156,7 +157,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         img.src = src;
     }
 
-    imageToggleAnchoreTag(imageUrl) {
+    imageToggleAnchorTag(imageUrl) {
         if (imageUrl && this.state.hasLargeImage) {
             return (
                 <a
@@ -177,7 +178,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     wrapInSmallImageContainer(imageElement) {
         return (
             <div
-                className='attachment__image__container--openraph'
+                className='attachment__image__container--opengraph'
                 ref={this.getSmallImageContainer}
             >
                 {imageElement}
@@ -197,24 +198,24 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         ) {
             if (this.state.imageLoaded === this.IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
-                    element = <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
+                    element = <img className={'attachment__image attachment__image--opengraph loading large_image'}/>;
                 } else {
                     element = this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--openraph loading '}/>
+                        <img className={'attachment__image attachment__image--opengraph loading '}/>
                     );
                 }
             } else if (this.state.imageLoaded === this.IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     element = (
                         <img
-                            className={'attachment__image attachment__image--openraph large_image'}
+                            className={'attachment__image attachment__image--opengraph large_image'}
                             src={imageUrl}
                         />
                     );
                 } else {
                     element = this.wrapInSmallImageContainer(
                         <img
-                            className={'attachment__image attachment__image--openraph'}
+                            className={'attachment__image attachment__image--opengraph'}
                             src={imageUrl}
                             ref={this.getSmallImageElement}
                         />
@@ -258,7 +259,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     render() {
         const data = this.props.openGraphData;
-        if (!data || !data.url || this.state.removePreview) {
+        if (!data || !data.url || this.state.removePreview || isSystemMessage(this.props.post || {})) {
             return null;
         }
 
@@ -280,6 +281,24 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         const imageUrl = this.getBestImageUrl(data);
         if (imageUrl) {
             this.loadImage(imageUrl);
+        }
+
+        let body;
+        if (data.description || imageUrl) {
+            body = (
+                <React.Fragment>
+                    <div className={'attachment__body attachment__body--opengraph'}>
+                        <div>
+                            <div>
+                                {this.truncateText(data.description)}
+                                {' '}
+                                {this.imageToggleAnchorTag(imageUrl)}
+                            </div>
+                            {this.imageTag(imageUrl, true)}
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
         }
 
         return (
@@ -309,19 +328,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                                     {this.truncateText(data.title || data.url || this.props.link)}
                                 </a>
                             </h1>
-                            <div >
-                                <div
-                                    className={'attachment__body attachment__body--opengraph'}
-                                >
-                                    <div>
-                                        <div>
-                                            {this.truncateText(data.description)} &nbsp;
-                                            {this.imageToggleAnchoreTag(imageUrl)}
-                                        </div>
-                                        {this.imageTag(imageUrl, true)}
-                                    </div>
-                                </div>
-                            </div>
+                            {body}
                         </div>
                         {this.imageTag(imageUrl, false)}
                     </div>

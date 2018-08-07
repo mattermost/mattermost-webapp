@@ -19,13 +19,12 @@ import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
+import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
-import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
-import MattermostLogo from 'components/svg/mattermost_logo';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 
@@ -50,6 +49,7 @@ export default class RhsComment extends React.Component {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
+        channelIsArchived: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -204,7 +204,7 @@ export default class RhsComment extends React.Component {
     };
 
     render() {
-        const {post, isReadOnly} = this.props;
+        const {post, isReadOnly, channelIsArchived} = this.props;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
@@ -315,64 +315,6 @@ export default class RhsComment extends React.Component {
             postClass += ' post--edited';
         }
 
-        let profilePic = (
-            <ProfilePicture
-                src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                status={status}
-                width='36'
-                height='36'
-                user={this.props.user}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
-        if (post.props && post.props.from_webhook) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    width='36'
-                    height='36'
-                />
-            );
-        } else if (fromAutoResponder) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    width='36'
-                    height='36'
-                />
-            );
-        } else if (isSystemMessage) {
-            profilePic = (
-                <MattermostLogo className='icon'/>
-            );
-        }
-
-        if (this.props.compactDisplay) {
-            if (post.props && post.props.from_webhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                    />
-                );
-            } else {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                        status={status}
-                        user={this.props.user}
-                        isBusy={this.props.isBusy}
-                        isRHS={true}
-                        hasMention={true}
-                    />
-                );
-            }
-        }
-
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
-
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
             fileAttachment = (
@@ -385,23 +327,23 @@ export default class RhsComment extends React.Component {
 
         let react;
 
-        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
             react = (
-                <span>
-                    <EmojiPickerOverlay
-                        show={this.state.showEmojiPicker}
-                        onHide={this.toggleEmojiPicker}
-                        target={this.getDotMenuRef}
-                        onEmojiClick={this.reactEmojiClick}
-                        rightOffset={15}
-                        spaceRequiredAbove={342}
-                        spaceRequiredBelow={342}
-                    />
-                    <ChannelPermissionGate
-                        channelId={post.channel_id}
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_REACTION]}
-                    >
+                <ChannelPermissionGate
+                    channelId={post.channel_id}
+                    teamId={this.props.teamId}
+                    permissions={[Permissions.ADD_REACTION]}
+                >
+                    <div>
+                        <EmojiPickerOverlay
+                            show={this.state.showEmojiPicker}
+                            onHide={this.toggleEmojiPicker}
+                            target={this.getDotMenuRef}
+                            onEmojiClick={this.reactEmojiClick}
+                            rightOffset={15}
+                            spaceRequiredAbove={342}
+                            spaceRequiredBelow={342}
+                        />
                         <button
                             className='reacticon__container reaction color--link style--none'
                             onClick={this.toggleEmojiPicker}
@@ -409,8 +351,8 @@ export default class RhsComment extends React.Component {
                         >
                             <EmojiIcon className='icon icon--emoji'/>
                         </button>
-                    </ChannelPermissionGate>
-                </span>
+                    </div>
+                </ChannelPermissionGate>
             );
         }
 
@@ -424,13 +366,11 @@ export default class RhsComment extends React.Component {
         } else if (!isSystemMessage) {
             const dotMenu = (
                 <DotMenu
-                    idPrefix={Constants.RHS}
-                    isRHS={true}
-                    idCount={idCount}
                     post={this.props.post}
+                    location={'RHS_COMMENT'}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
-                    isReadOnly={isReadOnly}
+                    isReadOnly={isReadOnly || channelIsArchived}
                 />
             );
 
@@ -463,7 +403,16 @@ export default class RhsComment extends React.Component {
                 className={this.getClassName(post, isSystemMessage)}
             >
                 <div className='post__content'>
-                    {profilePicContainer}
+                    <div className='post__img'>
+                        <PostProfilePicture
+                            compactDisplay={this.props.compactDisplay}
+                            isBusy={this.props.isBusy}
+                            isRHS={true}
+                            post={post}
+                            status={this.props.status}
+                            user={this.props.user}
+                        />
+                    </div>
                     <div>
                         <div className='post__header'>
                             <div className='col col__name'>
@@ -498,7 +447,7 @@ export default class RhsComment extends React.Component {
                             {fileAttachment}
                             <ReactionListContainer
                                 post={post}
-                                isReadOnly={isReadOnly}
+                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>

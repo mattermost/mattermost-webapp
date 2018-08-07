@@ -15,12 +15,12 @@ import EmojiListItem from './emoji_list_item.jsx';
 
 function mapStateToProps(state, ownProps) {
     const emoji = state.entities.emojis.customEmoji[ownProps.emojiId];
-    const creator = getUser(state, emoji.creator_id) || {};
+    const creator = getUser(state, emoji.creator_id);
 
     return {
         emoji,
         creatorDisplayName: getDisplayNameByUser(creator),
-        creatorUsername: creator.username,
+        creatorUsername: creator ? creator.username : '',
         currentUserId: getCurrentUserId(state),
         currentTeam: getCurrentTeam(state),
     };

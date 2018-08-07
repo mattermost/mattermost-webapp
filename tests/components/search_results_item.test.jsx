@@ -24,7 +24,6 @@ jest.mock('utils/utils.jsx', () => ({
 }));
 
 jest.mock('utils/post_utils.jsx', () => ({
-    getProfilePicSrcForPost: jest.fn().mockReturnValue('Some image path'),
     isEdited: jest.fn().mockReturnValue(true),
 }));
 
@@ -190,5 +189,21 @@ describe('components/SearchResultsItem', () => {
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
+    });
+
+    test('should match snapshot for archived channel', () => {
+        const props = {
+            ...defaultProps,
+            channel: {
+                ...channel,
+                delete_at: 1234,
+            },
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

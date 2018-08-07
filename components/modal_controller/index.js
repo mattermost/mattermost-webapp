@@ -8,9 +8,8 @@ import {closeModal} from 'actions/views/modals';
 
 import ModalController from './modal_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         modals: state.views.modals,
     };
 }

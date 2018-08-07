@@ -10,7 +10,7 @@ import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import TeamInfo from 'components/team_info';
+import TeamInfo from 'components/team_info.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 const TEAMS_PER_PAGE = 50;
@@ -210,6 +210,17 @@ export default class TeamSelectorModal extends React.Component {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
             teams = teams.filter((team) => this.props.alreadySelected.indexOf(team.id) === -1);
+            teams.sort((a, b) => {
+                const aName = a.display_name.toUpperCase();
+                const bName = b.display_name.toUpperCase();
+                if (aName === bName) {
+                    return 0;
+                }
+                if (aName > bName) {
+                    return 1;
+                }
+                return -1;
+            });
         }
 
         return (

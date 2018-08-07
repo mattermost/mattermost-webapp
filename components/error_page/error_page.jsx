@@ -8,7 +8,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes, Constants} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import ErrorTitle from './error_title.jsx';
 import ErrorMessage from './error_message.jsx';
@@ -60,6 +61,30 @@ export default class ErrorPage extends React.PureComponent {
                     />
                 </Link>
             );
+        } else if (type === ErrorPageTypes.TEAM_NOT_FOUND) {
+            backButton = (
+                <Link to='/'>
+                    <FormattedMessage
+                        id='error.generic.link'
+                        defaultMessage='Back to {siteName}'
+                        values={{
+                            siteName: this.props.siteName,
+                        }}
+                    />
+                </Link>
+            );
+        } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND) {
+            backButton = (
+                <Link to={params.get('returnTo')}>
+                    <FormattedMessage
+                        id='error.channelNotFound.link'
+                        defaultMessage='Back to {defaultChannelName}'
+                        values={{
+                            defaultChannelName: Constants.DEFAULT_CHANNEL_UI_NAME,
+                        }}
+                    />
+                </Link>
+            );
         } else {
             backButton = (
                 <Link to='/'>
@@ -78,7 +103,10 @@ export default class ErrorPage extends React.PureComponent {
             <div className='container-fluid'>
                 <div className='error__container'>
                     <div className='error__icon'>
-                        <i className='fa fa-exclamation-triangle'/>
+                        <i
+                            className='fa fa-exclamation-triangle'
+                            title={localizeMessage('generic_icons.warning', 'Warning Icon')}
+                        />
                     </div>
                     <h2>
                         <ErrorTitle

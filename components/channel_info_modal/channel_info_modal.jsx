@@ -5,13 +5,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
+import Markdown from 'components/markdown';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
+import ArchiveIcon from 'components/svg/archive_icon';
+
 import Constants from 'utils/constants.jsx';
-import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
 
 export default class ChannelInfoModal extends React.PureComponent {
     static propTypes = {
@@ -38,6 +43,10 @@ export default class ChannelInfoModal extends React.PureComponent {
         this.onHide = this.onHide.bind(this);
 
         this.state = {show: true};
+
+        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
+            {...headerMarkdownOptions, channelNamesMap}
+        ));
     }
 
     onHide() {
@@ -46,6 +55,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
     render() {
         let channel = this.props.channel;
+        const channelIsArchived = channel.delete_at !== 0;
         let channelIcon;
 
         if (!channel) {
@@ -60,7 +70,13 @@ export default class ChannelInfoModal extends React.PureComponent {
             };
         }
 
-        if (channel.type === 'O') {
+        const channelNamesMap = this.props.channel.props && this.props.channel.props.channel_mentions;
+
+        if (channelIsArchived) {
+            channelIcon = (
+                <ArchiveIcon className='icon icon__archive'/>
+            );
+        } else if (channel.type === 'O') {
             channelIcon = (
                 <GlobeIcon className='icon icon__globe icon--body'/>
             );
@@ -109,10 +125,12 @@ export default class ChannelInfoModal extends React.PureComponent {
                             defaultMessage='Header:'
                         />
                     </div>
-                    <div
-                        className='info__value'
-                        dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: false, mentionHighlight: false})}}
-                    />
+                    <div className='info__value'>
+                        <Markdown
+                            message={channel.header}
+                            options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                        />
+                    </div>
                 </div>
             );
         }

@@ -166,25 +166,20 @@ export default class SingleImageView extends React.PureComponent {
             <a
                 key='toggle'
                 className='post__embed-visibility'
+                data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}
             />
         );
 
         const fileHeader = (
-            <div
-                className='image-name'
-                onClick={this.handleImageClick}
-            >
-                {fileInfo.name}
+            <div className='image-name'>
+                {toggle}
+                <div onClick={this.handleImageClick}>
+                    {fileInfo.name}
+                </div>
             </div>
         );
-
-        const fileType = getFileType(fileInfo.extension);
-        let svgClass = '';
-        if (fileType === FileTypes.SVG) {
-            svgClass = 'post-image normal';
-        }
 
         const loading = localizeMessage('view_image.loading', 'Loading');
 
@@ -202,11 +197,21 @@ export default class SingleImageView extends React.PureComponent {
             width = PREVIEW_IMAGE_MIN_DIMENSION;
         }
 
+        const fileType = getFileType(fileInfo.extension);
+        let svgClass = '';
         let imageStyle = {height};
         let imageLoadedStyle = {height};
         let imageContainerStyle = {};
         if (width < viewPortWidth && height === PREVIEW_IMAGE_MAX_HEIGHT) {
             imageContainerStyle = {width};
+        } else if (fileType === FileTypes.SVG) {
+            svgClass = 'post-image normal';
+            imageStyle = {};
+            imageLoadedStyle = {};
+            imageContainerStyle = {
+                width: viewPortWidth < PREVIEW_IMAGE_MAX_HEIGHT ? viewPortWidth : PREVIEW_IMAGE_MAX_HEIGHT,
+                height: PREVIEW_IMAGE_MAX_HEIGHT,
+            };
         }
 
         if (loaded) {
@@ -221,6 +226,10 @@ export default class SingleImageView extends React.PureComponent {
             fadeInClass = 'image-fade-in';
             imageStyle = {cursor: 'pointer'};
             imageLoadedStyle = {};
+
+            if (fileType === FileTypes.SVG) {
+                imageContainerStyle = {width: viewPortWidth < PREVIEW_IMAGE_MAX_HEIGHT ? viewPortWidth : PREVIEW_IMAGE_MAX_HEIGHT};
+            }
         } else if (this.props.isEmbedVisible) {
             loadingImagePreview = (
                 <LoadingImagePreview
@@ -251,7 +260,7 @@ export default class SingleImageView extends React.PureComponent {
                     ref={this.setViewPortRef}
                     className='file__image'
                 >
-                    {toggle} {fileHeader}
+                    {fileHeader}
                     {this.props.isEmbedVisible &&
                     <div
                         className='image-container'

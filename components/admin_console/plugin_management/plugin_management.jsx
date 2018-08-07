@@ -143,8 +143,8 @@ PluginItemStateDescription.propTypes = {
 const PluginItem = ({
     pluginStatus,
     removing,
-    handleActivate,
-    handleDeactivate,
+    handleEnable,
+    handleDisable,
     handleRemove,
     showInstances,
 }) => {
@@ -156,16 +156,16 @@ const PluginItem = ({
             <a
                 data-plugin-id={pluginStatus.id}
                 disabled={deactivating}
-                onClick={handleDeactivate}
+                onClick={handleDisable}
             >
                 {deactivating ?
                     <FormattedMessage
-                        id='admin.plugin.deactivating'
-                        defaultMessage='Deactivating...'
+                        id='admin.plugin.disabling'
+                        defaultMessage='Disabling...'
                     /> :
                     <FormattedMessage
-                        id='admin.plugin.deactivate'
-                        defaultMessage='Deactivate'
+                        id='admin.plugin.disable'
+                        defaultMessage='Disable'
                     />
                 }
             </a>
@@ -175,16 +175,16 @@ const PluginItem = ({
             <a
                 data-plugin-id={pluginStatus.id}
                 disabled={activating}
-                onClick={handleActivate}
+                onClick={handleEnable}
             >
                 {activating ?
                     <FormattedMessage
-                        id='admin.plugin.activating'
-                        defaultMessage='Activating...'
+                        id='admin.plugin.enabling'
+                        defaultMessage='Enabling...'
                     /> :
                     <FormattedMessage
-                        id='admin.plugin.activate'
-                        defaultMessage='Activate'
+                        id='admin.plugin.enable'
+                        defaultMessage='Enable'
                     />
                 }
             </a>
@@ -377,8 +377,8 @@ const PluginItem = ({
 PluginItem.propTypes = {
     pluginStatus: PropTypes.object.isRequired,
     removing: PropTypes.bool.isRequired,
-    handleActivate: PropTypes.func.isRequired,
-    handleDeactivate: PropTypes.func.isRequired,
+    handleEnable: PropTypes.func.isRequired,
+    handleDisable: PropTypes.func.isRequired,
     handleRemove: PropTypes.func.isRequired,
     showInstances: PropTypes.bool.isRequired,
 };
@@ -391,8 +391,8 @@ export default class PluginManagement extends React.Component {
             uploadPlugin: PropTypes.func.isRequired,
             removePlugin: PropTypes.func.isRequired,
             getPluginStatuses: PropTypes.func.isRequired,
-            activatePlugin: PropTypes.func.isRequired,
-            deactivatePlugin: PropTypes.func.isRequired,
+            enablePlugin: PropTypes.func.isRequired,
+            disablePlugin: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -461,22 +461,22 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleActivate = async (e) => {
+    handleEnable = async (e) => {
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
-        const {error} = await this.props.actions.activatePlugin(pluginId);
+        const {error} = await this.props.actions.enablePlugin(pluginId);
 
         if (error) {
             this.setState({serverError: error.message});
         }
     }
 
-    handleDeactivate = async (e) => {
+    handleDisable = async (e) => {
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
-        const {error} = await this.props.actions.deactivatePlugin(pluginId);
+        const {error} = await this.props.actions.disablePlugin(pluginId);
 
         if (error) {
             this.setState({serverError: error.message});
@@ -566,8 +566,8 @@ export default class PluginManagement extends React.Component {
                     key={pluginStatus.id}
                     pluginStatus={pluginStatus}
                     removing={this.state.removing === pluginStatus.id}
-                    handleActivate={this.handleActivate}
-                    handleDeactivate={this.handleDeactivate}
+                    handleEnable={this.handleEnable}
+                    handleDisable={this.handleDisable}
                     handleRemove={this.handleRemove}
                     showInstances={showInstances}
                 />

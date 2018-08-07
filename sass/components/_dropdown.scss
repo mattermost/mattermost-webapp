@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .dropdown-menu {
-    border-radius: $border-rad;
+    @include border-radius(4px);
 
     &.colorpicker {
         min-width: 125px;
@@ -67,4 +67,14 @@
 
 .dropdown-menu__content {
     display: none;
+}
+
+.dropdown-menu__icons {
+    li {
+        .fa {
+            width: 25px;
+            text-align: center;
+            margin-left: -5px;
+        }
+    }
 }

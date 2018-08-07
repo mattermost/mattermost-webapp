@@ -22,6 +22,7 @@ import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import Pluggable from 'plugins/pluggable';
 
 import NewChannelFlow from '../new_channel_flow.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
@@ -664,109 +665,115 @@ export default class Sidebar extends React.PureComponent {
                     currentUser={this.props.currentUser}
                 />
 
-                <UnreadChannelIndicator
-                    name='Top'
-                    show={this.state.showTopUnread}
-                    onClick={this.scrollToFirstUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-top'
-                    content={above}
-                />
-                <UnreadChannelIndicator
-                    name='Bottom'
-                    show={this.state.showBottomUnread}
-                    onClick={this.scrollToLastUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-bottom'
-                    content={below}
-                />
+                <div className='sidebar--left__icons'>
+                    <Pluggable pluggableName='LeftSidebarHeader'/>
+                </div>
 
-                <div
-                    id='sidebarChannelContainer'
-                    ref='container'
-                    className='nav-pills__container'
-                    onScroll={this.onScroll}
-                >
-                    {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <h4 id='favoriteChannel'>
-                                <FormattedMessage
-                                    id='sidebar.unreadSection'
-                                    defaultMessage='UNREADS'
-                                />
-                            </h4>
-                        </li>
-                        {unreadChannelItems}
-                    </ul>}
-                    {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <h4 id='favoriteChannel'>
-                                <FormattedMessage
-                                    id='sidebar.favorite'
-                                    defaultMessage='FAVORITE CHANNELS'
-                                />
-                            </h4>
-                        </li>
-                        {favoriteItems}
-                    </ul>}
-                    <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <h4 id='publicChannel'>
-                                <FormattedMessage
-                                    id='sidebar.channels'
-                                    defaultMessage='PUBLIC CHANNELS'
-                                />
-                                <TeamPermissionGate
-                                    teamId={this.props.currentTeam.id}
-                                    permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
-                                >
-                                    {createPublicChannelIcon}
-                                </TeamPermissionGate>
-                            </h4>
-                        </li>
-                        {publicChannelItems}
-                        <li>
-                            <button
-                                id='sidebarChannelsMore'
-                                className='nav-more cursor--pointer style--none btn--block'
-                                onClick={this.showMoreChannelsModal}
-                            >
-                                <FormattedMessage
-                                    id='sidebar.moreElips'
-                                    defaultMessage='More...'
-                                />
-                            </button>
-                        </li>
-                    </ul>
+                <div className='sidebar--left__list'>
+                    <UnreadChannelIndicator
+                        name='Top'
+                        show={this.state.showTopUnread}
+                        onClick={this.scrollToFirstUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-top'
+                        content={above}
+                    />
+                    <UnreadChannelIndicator
+                        name='Bottom'
+                        show={this.state.showBottomUnread}
+                        onClick={this.scrollToLastUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-bottom'
+                        content={below}
+                    />
 
-                    <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <h4 id='privateChannel'>
-                                <FormattedMessage
-                                    id='sidebar.pg'
-                                    defaultMessage='PRIVATE CHANNELS'
-                                />
-                                <TeamPermissionGate
-                                    teamId={this.props.currentTeam.id}
-                                    permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
+                    <div
+                        id='sidebarChannelContainer'
+                        ref='container'
+                        className='nav-pills__container'
+                        onScroll={this.onScroll}
+                    >
+                        {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
+                            <li>
+                                <h4 id='favoriteChannel'>
+                                    <FormattedMessage
+                                        id='sidebar.unreadSection'
+                                        defaultMessage='UNREADS'
+                                    />
+                                </h4>
+                            </li>
+                            {unreadChannelItems}
+                        </ul>}
+                        {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
+                            <li>
+                                <h4 id='favoriteChannel'>
+                                    <FormattedMessage
+                                        id='sidebar.favorite'
+                                        defaultMessage='FAVORITE CHANNELS'
+                                    />
+                                </h4>
+                            </li>
+                            {favoriteItems}
+                        </ul>}
+                        <ul className='nav nav-pills nav-stacked'>
+                            <li>
+                                <h4 id='publicChannel'>
+                                    <FormattedMessage
+                                        id='sidebar.channels'
+                                        defaultMessage='PUBLIC CHANNELS'
+                                    />
+                                    <TeamPermissionGate
+                                        teamId={this.props.currentTeam.id}
+                                        permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                                    >
+                                        {createPublicChannelIcon}
+                                    </TeamPermissionGate>
+                                </h4>
+                            </li>
+                            {publicChannelItems}
+                            <li>
+                                <button
+                                    id='sidebarChannelsMore'
+                                    className='nav-more cursor--pointer style--none btn--block'
+                                    onClick={this.showMoreChannelsModal}
                                 >
-                                    {createPrivateChannelIcon}
-                                </TeamPermissionGate>
-                            </h4>
-                        </li>
-                        {privateChannelItems}
-                    </ul>
-                    <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <h4 id='directChannel'>
-                                <FormattedMessage
-                                    id='sidebar.direct'
-                                    defaultMessage='DIRECT MESSAGES'
-                                />
-                                {createDirectMessageIcon}
-                            </h4>
-                        </li>
-                        {directMessageItems}
-                        {directMessageMore}
-                    </ul>
+                                    <FormattedMessage
+                                        id='sidebar.moreElips'
+                                        defaultMessage='More...'
+                                    />
+                                </button>
+                            </li>
+                        </ul>
+
+                        <ul className='nav nav-pills nav-stacked'>
+                            <li>
+                                <h4 id='privateChannel'>
+                                    <FormattedMessage
+                                        id='sidebar.pg'
+                                        defaultMessage='PRIVATE CHANNELS'
+                                    />
+                                    <TeamPermissionGate
+                                        teamId={this.props.currentTeam.id}
+                                        permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
+                                    >
+                                        {createPrivateChannelIcon}
+                                    </TeamPermissionGate>
+                                </h4>
+                            </li>
+                            {privateChannelItems}
+                        </ul>
+                        <ul className='nav nav-pills nav-stacked'>
+                            <li>
+                                <h4 id='directChannel'>
+                                    <FormattedMessage
+                                        id='sidebar.direct'
+                                        defaultMessage='DIRECT MESSAGES'
+                                    />
+                                    {createDirectMessageIcon}
+                                </h4>
+                            </li>
+                            {directMessageItems}
+                            {directMessageMore}
+                        </ul>
+                    </div>
                 </div>
                 <div className='sidebar__switcher'>
                     <button

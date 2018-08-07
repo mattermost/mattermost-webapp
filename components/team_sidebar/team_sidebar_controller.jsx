@@ -15,6 +15,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import Pluggable from 'plugins/pluggable';
 
 import TeamButton from './components/team_button.jsx';
 
@@ -158,7 +159,7 @@ export default class TeamSidebar extends React.Component {
                             defaultMessage='Other teams you can join.'
                         />
                     }
-                    content={<i className='fa fa-plus'/>}
+                    content={'+'}
                 />
             );
         } else {
@@ -177,11 +178,20 @@ export default class TeamSidebar extends React.Component {
                                 defaultMessage='Create a New Team'
                             />
                         }
-                        content={<i className='fa fa-plus'/>}
+                        content={'+'}
                     />
                 </SystemPermissionGate>
             );
         }
+
+        teams.push(
+            <div
+                key='team-sidebar-bottom-plugin'
+                className='team-sidebar-bottom-plugin'
+            >
+                <Pluggable pluggableName='BottomTeamSidebar'/>
+            </div>
+        );
 
         return (
             <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>

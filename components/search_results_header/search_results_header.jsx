@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class SearchResultsHeader extends React.Component {
     static propTypes = {
@@ -97,7 +98,10 @@ export default class SearchResultsHeader extends React.Component {
                             placement='top'
                             overlay={expandSidebarTooltip}
                         >
-                            <i className='fa fa-expand'/>
+                            <i
+                                className='fa fa-expand'
+                                title={localizeMessage('rhs_header.expandSidebarTooltip.icon', 'Expand Sidebar Icon')}
+                            />
                         </OverlayTrigger>
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
@@ -105,7 +109,10 @@ export default class SearchResultsHeader extends React.Component {
                             placement='top'
                             overlay={shrinkSidebarTooltip}
                         >
-                            <i className='fa fa-compress'/>
+                            <i
+                                className='fa fa-compress'
+                                title={localizeMessage('rhs_header.expandTooltip.icon', 'Shrink Sidebar Icon')}
+                            />
                         </OverlayTrigger>
                     </button>
                     <button
@@ -121,7 +128,10 @@ export default class SearchResultsHeader extends React.Component {
                             placement='top'
                             overlay={closeSidebarTooltip}
                         >
-                            <i className='fa fa-sign-out'/>
+                            <i
+                                className='fa fa-sign-out'
+                                title={localizeMessage('rhs_header.closeTooltip.icon', 'Close Sidebar Icon')}
+                            />
                         </OverlayTrigger>
                     </button>
                 </div>

@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
@@ -38,7 +40,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: {},
     };
 
-    async componentWillMount() {
+    async UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         let schemes;
         let phase2MigrationIsComplete = true; // Assume migration is complete unless HTTP status code says otherwise.
         try {
@@ -145,9 +147,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 <div className={'banner info'}>
                     <div className='banner__content'>
                         <span>
-                            <FormattedMessage
+                            <FormattedMarkdownMessage
                                 id='admin.permissions.introBanner'
-                                defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our documentation.'
+                                defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions).'
                             />
                         </span>
                     </div>
@@ -163,9 +165,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                                 />
                             </h3>
                             <span>
-                                <FormattedMessage
+                                <FormattedMarkdownMessage
                                     id='admin.permissions.systemSchemeBannerText'
-                                    defaultMessage='Set the default permissions inherited by all teams unless a Team Override Scheme is applied.'
+                                    defaultMessage='Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied.'
                                 />
                             </span>
                         </div>
@@ -193,9 +195,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                                 />
                             </h3>
                             <span>
-                                <FormattedMessage
+                                <FormattedMarkdownMessage
                                     id='admin.permissions.teamOverrideSchemesBannerText'
-                                    defaultMessage='Use when specific teams need permission exceptions to the System Scheme.'
+                                    defaultMessage='Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
                                 />
                             </span>
                         </div>

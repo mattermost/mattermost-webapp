@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 import {Modal} from 'react-bootstrap';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
@@ -14,8 +13,11 @@ import SaveButton from 'components/save_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 import FormError from 'components/form_error.jsx';
+import BlockableLink from 'components/admin_console/blockable_link';
 
-import PermissionsTree from '../permissions_tree.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
+import PermissionsTree from '../permissions_tree';
 
 export default class PermissionSystemSchemeSettings extends React.Component {
     static propTypes = {
@@ -24,6 +26,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
+            setNavigationBlocked: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -145,6 +148,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                     }
                 }
                 this.setState({serverError, saving: false, saveNeeded});
+                this.props.actions.setNavigationBlocked(saveNeeded);
             }
         );
     }
@@ -170,6 +174,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         roles[roleId] = role;
 
         this.setState({roles, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     resetDefaults = () => {
@@ -180,6 +185,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         });
 
         this.setState({roles: newRolesState, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     render = () => {
@@ -191,7 +197,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
             <div className='wrapper--fixed'>
                 <h3 className={'admin-console-header ' + (hasCustomSchemes ? 'with-back' : '')}>
                     {hasCustomSchemes &&
-                        <Link
+                        <BlockableLink
                             to='/admin_console/permissions/schemes'
                             className='fa fa-chevron-left back'
                         />}
@@ -204,9 +210,9 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 <div className={'banner info'}>
                     <div className='banner__content'>
                         <span>
-                            <FormattedMessage
+                            <FormattedMarkdownMessage
                                 id='admin.permissions.systemScheme.introBanner'
-                                defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a Team Override Scheme is applied in specific teams.'
+                                defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams.'
                             />
                         </span>
                     </div>
@@ -350,7 +356,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         onClick={this.handleSubmit}
                         savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                     />
-                    <Link
+                    <BlockableLink
                         className='cancel-button'
                         to='/admin_console/permissions/schemes'
                     >
@@ -358,7 +364,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                             id='admin.permissions.permissionSchemes.cancel'
                             defaultMessage='Cancel'
                         />
-                    </Link>
+                    </BlockableLink>
                     <a
                         onClick={() => this.setState({showResetDefaultModal: true})}
                         className='cancel-button reset-defaults-btn'

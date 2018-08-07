@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
@@ -26,13 +28,10 @@ export default class SignupEmail extends React.Component {
     static get propTypes() {
         return {
             location: PropTypes.object,
-            isLicensed: PropTypes.bool.isRequired,
             enableSignUpWithEmail: PropTypes.bool.isRequired,
             siteName: PropTypes.string,
             termsOfServiceLink: PropTypes.string,
             privacyPolicyLink: PropTypes.string,
-            customBrand: PropTypes.bool.isRequired,
-            enableCustomBrand: PropTypes.bool.isRequired,
             customDescriptionText: PropTypes.string,
             passwordConfig: PropTypes.object,
         };
@@ -169,7 +168,7 @@ export default class SignupEmail extends React.Component {
             return false;
         }
 
-        if (!Utils.isEmail(providedEmail)) {
+        if (!isEmail(providedEmail)) {
             this.setState({
                 nameError: '',
                 emailError: (<FormattedMessage id='signup_user_completed.validEmail'/>),
@@ -426,7 +425,6 @@ export default class SignupEmail extends React.Component {
         const {
             customDescriptionText,
             enableSignUpWithEmail,
-            isLicensed,
             location,
             privacyPolicyLink,
             siteName,
@@ -485,7 +483,6 @@ export default class SignupEmail extends React.Component {
                         />
                         <SiteNameAndDescription
                             customDescriptionText={customDescriptionText}
-                            isLicensed={isLicensed}
                             siteName={siteName}
                         />
                         <h4 className='color--light'>

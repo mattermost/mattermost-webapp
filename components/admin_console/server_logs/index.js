@@ -8,9 +8,8 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import Logs from './logs.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         logs: Selectors.getLogs(state),
     };
 }

@@ -28,8 +28,6 @@ export function sortChannelsByDisplayName(a, b) {
     return ChannelUtilsRedux.sortChannelsByTypeAndDisplayName(locale, a, b);
 }
 
-const MAX_CHANNEL_NAME_LENGTH = 64;
-
 export function getChannelDisplayName(channel) {
     if (channel.type !== Constants.GM_CHANNEL) {
         return channel.display_name;
@@ -38,15 +36,11 @@ export function getChannelDisplayName(channel) {
     const currentUser = UserStore.getCurrentUser();
 
     if (currentUser) {
-        let displayName = channel.display_name;
-        if (displayName.length >= MAX_CHANNEL_NAME_LENGTH) {
-            displayName += '...';
-        }
-        displayName = displayName.replace(currentUser.username + ', ', '').replace(currentUser.username, '').trim();
-        if (displayName[displayName.length - 1] === ',') {
-            return displayName.slice(0, -1);
-        }
-        return displayName;
+        return channel.display_name.
+            split(',').
+            map((username) => username.trim()).
+            filter((username) => username !== currentUser.username).
+            join(', ');
     }
 
     return channel.display_name;

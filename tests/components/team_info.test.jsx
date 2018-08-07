@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamInfo from 'components/team_info/team_info.jsx';
+import TeamInfo from 'components/team_info.jsx';
 
 jest.mock('utils/utils.jsx');
 
@@ -14,14 +14,6 @@ describe('components/TeamInfo', () => {
             id: 'xxxx',
             name: 'test-team',
             display_name: 'Test team',
-        },
-        stats: {
-            xxxx: {
-                total_member_count: 5,
-            },
-        },
-        actions: {
-            loadTeamStats: jest.fn(),
         },
     };
 

@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
 import {Posts} from 'mattermost-redux/constants';
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -15,6 +17,7 @@ import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx'
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
@@ -99,6 +102,7 @@ export default class CreatePost extends React.Component {
         *  Data used dispatching handleViewAction ex: edit post
         */
         latestReplyablePostId: PropTypes.string,
+        locale: PropTypes.string.isRequired,
 
         /**
         *  Data used for calling edit of post
@@ -119,6 +123,11 @@ export default class CreatePost extends React.Component {
          * Whether to show the emoji picker.
          */
         enableEmojiPicker: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to show the gif picker.
+         */
+        enableGifPicker: PropTypes.bool.isRequired,
 
         /**
          * Whether to check with the user before notifying the whole channel.
@@ -528,7 +537,7 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        draft.fileInfos = draft.fileInfos.concat(fileInfos);
+        draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
 
         if (channelId === this.props.currentChannel.id) {
@@ -726,13 +735,24 @@ export default class CreatePost extends React.Component {
             this.setState({message: ':' + emojiAlias + ': '});
         } else {
             //check whether there is already a blank at the end of the current message
-            const newMessage = (/\s+$/.test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
+            const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
 
             this.setState({message: newMessage});
         }
 
         this.setState({showEmojiPicker: false});
 
+        this.focusTextbox();
+    }
+
+    handleGifClick = (gif) => {
+        if (this.state.message === '') {
+            this.setState({message: gif});
+        } else {
+            const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + gif : this.state.message + ' ' + gif;
+            this.setState({message: newMessage});
+        }
+        this.setState({showEmojiPicker: false});
         this.focusTextbox();
     }
 
@@ -876,6 +896,8 @@ export default class CreatePost extends React.Component {
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
+                        onGifClick={this.handleGifClick}
+                        enableGifPicker={this.props.enableGifPicker}
                         rightOffset={15}
                         topOffset={-7}
                     />
@@ -932,7 +954,10 @@ export default class CreatePost extends React.Component {
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
-                                    <i className='fa fa-paper-plane'/>
+                                    <i
+                                        className='fa fa-paper-plane'
+                                        title={Utils.localizeMessage('create_post.icon', 'Send Post Icon')}
+                                    />
                                 </a>
                             </span>
                         </div>

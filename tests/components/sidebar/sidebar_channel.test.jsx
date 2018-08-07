@@ -67,6 +67,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             leaveChannel: jest.fn(),
             openLhs: jest.fn(),
         },
+        channelIsArchived: false,
     };
 
     beforeEach(() => {

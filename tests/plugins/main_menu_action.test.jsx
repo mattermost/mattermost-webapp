@@ -25,9 +25,11 @@ describe('plugins/MainMenuActions', () => {
             enableOnlyAdminIntegrations: false,
             enableTeamCreation: true,
             enableUserCreation: true,
+            enableEmailInvitations: false,
             showDropdown: true,
             onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
+            canCreateCustomEmoji: true,
         };
 
         const wrapper = shallow(

@@ -120,6 +120,10 @@
         }
     }
 
+    .channel-archived-warning {
+        padding: 20px;
+    }
+
     .help__format-text {
         display: none;
     }
@@ -289,11 +293,12 @@
     line-height: 0;
     padding-left: 1px;
     text-align: center;
-    width: 50px;
+    width: 45px;
     z-index: 5;
 
     .fa {
         position: relative;
         top: 18px;
+        right: 2px;
     }
 }

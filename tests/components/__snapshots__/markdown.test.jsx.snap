@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Markdown should not render markdown when formatting is disabled 1`] = `
+<span>
+  This _is_ some **Markdown**
+</span>
+`;
+
+exports[`components/Markdown should render properly 1`] = `
+Array [
+  <p
+    key="0"
+  />,
+  "
+",
+]
+`;

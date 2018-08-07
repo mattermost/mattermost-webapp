@@ -3,8 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import {FormattedMessage} from 'react-intl';
 
 import {PermissionsScope} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -14,8 +13,11 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
 import FormError from 'components/form_error.jsx';
 import TeamSelectorModal from 'components/team_selector_modal';
+import BlockableLink from 'components/admin_console/blockable_link';
 
-import PermissionsTree from '../permissions_tree.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
+import PermissionsTree from '../permissions_tree';
 
 import TeamInList from './team_in_list';
 
@@ -33,6 +35,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             patchScheme: PropTypes.func.isRequired,
             createScheme: PropTypes.func.isRequired,
             updateTeamScheme: PropTypes.func.isRequired,
+            setNavigationBlocked: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -174,10 +177,12 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
     handleNameChange = (e) => {
         this.setState({schemeName: e.target.value, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     handleDescriptionChange = (e) => {
         this.setState({schemeDescription: e.target.value, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     handleSubmit = async () => {
@@ -220,6 +225,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             });
             if (result.error) {
                 this.setState({serverError: result.error.message, saving: false, saveNeeded: true});
+                this.props.actions.setNavigationBlocked(true);
                 return;
             }
             const newScheme = result.data;
@@ -273,6 +279,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         }
 
         this.setState({serverError, saving: false, saveNeeded});
+        this.props.actions.setNavigationBlocked(saveNeeded);
         this.props.history.push('/admin_console/permissions/schemes');
     }
 
@@ -310,6 +317,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         }
 
         this.setState({roles, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     openAddTeam = () => {
@@ -319,6 +327,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
     removeTeam = (teamId) => {
         const teams = (this.state.teams || this.props.teams).filter((team) => team.id !== teamId);
         this.setState({teams, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     addTeams = (teams) => {
@@ -327,6 +336,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             teams: [...currentTeams, ...teams],
             saveNeeded: true,
         });
+        this.props.actions.setNavigationBlocked(true);
     }
 
     closeAddTeam = () => {
@@ -352,7 +362,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                     />
                 }
                 <h3 className='admin-console-header with-back'>
-                    <Link
+                    <BlockableLink
                         to='/admin_console/permissions/schemes'
                         className='fa fa-chevron-left back'
                     />
@@ -365,9 +375,9 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 <div className={'banner info'}>
                     <div className='banner__content'>
                         <span>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='admin.permissions.teamScheme.introBanner'
-                                defaultMessage='Team Override Schemes set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <a href="/admin_console/permissions/system-scheme">System Scheme</a>.'
+                                defaultMessage='[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
                             />
                         </span>
                     </div>
@@ -584,7 +594,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                         onClick={this.handleSubmit}
                         savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                     />
-                    <Link
+                    <BlockableLink
                         className='cancel-button'
                         to='/admin_console/permissions/schemes'
                     >
@@ -592,7 +602,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             id='admin.permissions.permissionSchemes.cancel'
                             defaultMessage='Cancel'
                         />
-                    </Link>
+                    </BlockableLink>
                     <div className='error-message'>
                         <FormError error={this.state.serverError}/>
                     </div>

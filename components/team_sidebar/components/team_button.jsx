@@ -57,20 +57,21 @@ export default class TeamButton extends React.Component {
         if (!content) {
             if (teamIconUrl) {
                 content = (
-                    <div
-                        className='team-btn__image'
-                        style={{backgroundImage: `url('${teamIconUrl}')`}}
-                    />
+                    <div className='team-btn__content'>
+                        <div
+                            className='team-btn__image'
+                            style={{backgroundImage: `url('${teamIconUrl}')`}}
+                        />
+                    </div>
                 );
             } else {
                 let initials = this.props.displayName;
                 initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
 
                 content = (
-                    <div className='team-btn__initials'>
-                        {initials}
-                        <div className='team-btn__content'>
-                            {this.props.displayName}
+                    <div className='team-btn__content'>
+                        <div className='team-btn__initials'>
+                            {initials}
                         </div>
                     </div>
                 );

@@ -15,6 +15,7 @@ import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
 import {detect} from 'utils/network.js';
 import {ActionTypes} from 'utils/constants.jsx';
+import {getBasePath} from 'selectors/general';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
@@ -35,6 +36,26 @@ const setTransforms = [
     ...usersSetTransform,
     ...teamSetTransform,
 ];
+
+// This is a hack to get the whitelist to work with our storage keys
+// We will implement it properly when we eventually upgrade redux-persist
+const whitelist = {
+    keys: [], // add normal whitelist keys here
+    prefixes: ['storage'], // add any whitelist prefixes here
+    indexOf: function indexOf(key) {
+        if (this.keys.indexOf(key) !== -1) {
+            return 0;
+        }
+
+        for (let i = 0; i < this.prefixes.length; i++) {
+            if (key.startsWith(this.prefixes[i])) {
+                return 0;
+            }
+        }
+
+        return -1;
+    },
+};
 
 export default function configureStore(initialState) {
     const setTransformer = createTransform(
@@ -118,12 +139,14 @@ export default function configureStore(initialState) {
                 // check to see if the logout request was successful
                 store.subscribe(() => {
                     const state = store.getState();
+                    const basePath = getBasePath(state);
+
                     if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
                         purging = true;
 
                         persistor.purge().then(() => {
                             document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            window.location.href = '/';
+                            window.location.href = basePath;
 
                             store.dispatch({
                                 type: General.OFFLINE_STORE_RESET,
@@ -147,7 +170,7 @@ export default function configureStore(initialState) {
             autoRehydrate: {
                 log: false,
             },
-            blacklist: ['errors', 'offline', 'requests', 'entities', 'views', 'plugins'],
+            whitelist,
             debounce: 30,
             transforms: [
                 setTransformer,

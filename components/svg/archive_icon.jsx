@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class ArchiveIcon extends React.PureComponent {
     render() {
         return (
@@ -11,6 +13,8 @@ export default class ArchiveIcon extends React.PureComponent {
                     width='14'
                     height='14'
                     viewBox='0 0 14 14'
+                    role='icon'
+                    aria-label={localizeMessage('generic_icons.archive', 'Archive Icon')}
                 >
                     <path d='M8.5 6.5q0-0.203-0.148-0.352t-0.352-0.148h-2q-0.203 0-0.352 0.148t-0.148 0.352 0.148 0.352 0.352 0.148h2q0.203 0 0.352-0.148t0.148-0.352zM13 5v7.5q0 0.203-0.148 0.352t-0.352 0.148h-11q-0.203 0-0.352-0.148t-0.148-0.352v-7.5q0-0.203 0.148-0.352t0.352-0.148h11q0.203 0 0.352 0.148t0.148 0.352zM13.5 1.5v2q0 0.203-0.148 0.352t-0.352 0.148h-12q-0.203 0-0.352-0.148t-0.148-0.352v-2q0-0.203 0.148-0.352t0.352-0.148h12q0.203 0 0.352 0.148t0.148 0.352z'/>
                 </svg>

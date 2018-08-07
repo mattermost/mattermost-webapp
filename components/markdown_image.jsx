@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions.jsx';
-
 const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
 export default class MarkdownImage extends React.PureComponent {
@@ -15,6 +13,11 @@ export default class MarkdownImage extends React.PureComponent {
          * The href of the image to be loaded
          */
         href: PropTypes.string,
+
+        /*
+         * A callback that is called as soon as the image component has a height value
+         */
+        onHeightReceived: PropTypes.func,
     }
 
     constructor(props) {
@@ -39,7 +42,9 @@ export default class MarkdownImage extends React.PureComponent {
 
     waitForHeight = () => {
         if (this.refs.image.height) {
-            setTimeout(postListScrollChange, 0);
+            if (this.props.onHeightReceived) {
+                this.props.onHeightReceived(this.refs.image.height);
+            }
 
             this.heightTimeout = 0;
         } else {
@@ -51,16 +56,36 @@ export default class MarkdownImage extends React.PureComponent {
         if (this.heightTimeout !== 0) {
             clearTimeout(this.heightTimeout);
             this.heightTimeout = 0;
+
+            return true;
         }
+
+        return false;
     }
 
+    handleLoad = () => {
+        const wasWaiting = this.stopWaitingForHeight();
+
+        // The image loaded before we caught its layout event, so we still need to notify that its height changed
+        if (wasWaiting && this.props.onHeightReceived) {
+            this.props.onHeightReceived(this.refs.image.height);
+        }
+    };
+
+    handleError = () => {
+        this.stopWaitingForHeight();
+    };
+
     render() {
+        const props = {...this.props};
+        Reflect.deleteProperty(props, 'onHeightReceived');
+
         return (
             <img
-                {...this.props}
                 ref='image'
-                onLoad={this.stopWaitingForHeight}
-                onError={this.stopWaitingForHeight}
+                {...props}
+                onLoad={this.handleLoad}
+                onError={this.handleError}
             />
         );
     }

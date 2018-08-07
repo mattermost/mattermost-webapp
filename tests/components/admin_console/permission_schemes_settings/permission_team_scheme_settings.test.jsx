@@ -61,6 +61,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             patchScheme: jest.fn(),
             createScheme: jest.fn(),
             updateTeamScheme: jest.fn(),
+            setNavigationBlocked: jest.fn(),
         },
         history: {
             push: jest.fn(),

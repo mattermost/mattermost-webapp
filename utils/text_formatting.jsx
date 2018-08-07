@@ -6,10 +6,14 @@ import XRegExp from 'xregexp';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
+import {formatWithRenderer} from 'utils/markdown';
+import RemoveMarkdown from 'utils/markdown/remove_markdown';
+
 import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
 import * as Markdown from './markdown';
 
+const removeMarkdown = new RemoveMarkdown();
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
@@ -20,6 +24,8 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // @mentions and ~channels to links by taking a user's message and returning a string of formatted html. Also takes
 // a number of options as part of the second parameter:
 // - searchTerm - If specified, this word is highlighted in the resulting html. Defaults to nothing.
+// - searchMatches - If specified, an array of words that will be highlighted. Defaults to nothing. If both
+//     this and searchTerm are specified, this takes precedence.
 // - mentionHighlight - Specifies whether or not to highlight mentions of the current user. Defaults to true.
 // - mentionKeys - A list of mention keys for the current user to highlight.
 // - singleline - Specifies whether or not to remove newlines. Defaults to false.
@@ -29,9 +35,10 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 //     links that can be handled by a special click handler.
 // - atMentions - Whether or not to render at mentions into spans with a data-mention attribute. Defaults to false.
 // - channelNamesMap - An object mapping channel display names to channels. If provided, ~channel mentions will be replaced with
-//      links to the relevant channel.
+//     links to the relevant channel.
 // - team - The current team.
 // - proxyImages - If specified, images are proxied. Defaults to false.
+// - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -40,9 +47,18 @@ export function formatText(text, inputOptions) {
     let output = text;
 
     const options = Object.assign({}, inputOptions);
-    options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
 
-    if (!('markdown' in options) || options.markdown) {
+    if (options.searchMatches) {
+        options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
+    } else {
+        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
+    }
+
+    if (options.removeMarkdown) {
+        output = formatWithRenderer(output, removeMarkdown);
+        output = sanitizeHtml(output);
+        output = doFormatText(output, options);
+    } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options);
     } else {
@@ -178,7 +194,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
         const alias = `$MM_CHANNELMENTION${index}`;
         let href = '#';
         if (team) {
-            href = '/' + team.name + '/channels/' + channelName;
+            href = (window.basename || '') + '/' + team.name + '/channels/' + channelName;
         }
 
         tokens.set(alias, {
@@ -241,6 +257,15 @@ export function escapeHtml(text) {
     return text.replace(/[&<>"']/g, (match) => htmlEntities[match]);
 }
 
+export function convertEntityToCharacter(text) {
+    return text.
+        replace(/&lt;/g, '<').
+        replace(/&gt;/g, '>').
+        replace(/&#39;/g, '\'').
+        replace(/&quot;/g, '"').
+        replace(/&amp;/g, '&');
+}
+
 function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     let output = text;
 
@@ -267,7 +292,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     }
 
     // look for self mentions in the text
-    function replaceCurrentMentionWithToken(fullMatch, prefix, mention) {
+    function replaceCurrentMentionWithToken(fullMatch, prefix, mention, suffix = '') {
         const index = tokens.size;
         const alias = `$MM_SELFMENTION${index}`;
 
@@ -276,7 +301,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             originalText: mention,
         });
 
-        return prefix + alias;
+        return prefix + alias + suffix;
     }
 
     for (const mention of mentionKeys) {
@@ -289,7 +314,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             flags += 'i';
         }
 
-        const pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags);
+        const pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})(\\b|_+\\b)`, flags);
 
         output = output.replace(pattern, replaceCurrentMentionWithToken);
     }
@@ -410,7 +435,7 @@ function convertSearchTermToRegex(term) {
     if (cjkPattern.test(term)) {
         // term contains Chinese, Japanese, or Korean characters so don't mark word boundaries
         pattern = '()(' + escapeRegex(term.replace(/\*/g, '')) + ')';
-    } else if (/[^\s][*]$/.test(term)) {
+    } else if ((/[^\s][*]$/).test(term)) {
         pattern = '\\b()(' + escapeRegex(term.substring(0, term.length - 1)) + ')';
     } else if (term.startsWith('@') || term.startsWith('#')) {
         // needs special handling of the first boundary because a word boundary doesn't work before a symbol

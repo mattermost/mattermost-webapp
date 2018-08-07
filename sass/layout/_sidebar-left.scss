@@ -1,6 +1,8 @@
 @charset 'UTF-8';
 
 .sidebar--left {
+    display: flex;
+    flex-direction: column;
     border-right: $border-gray;
     height: 100%;
     left: 0;
@@ -14,6 +16,10 @@
 
     &.sidebar--padded {
         padding-top: 44px;
+    }
+
+    .sidebar--left__icons {
+        border-bottom: 1px solid transparent;
     }
 
     .sidebar-item {
@@ -75,10 +81,10 @@
     }
 
     .sidebar__switcher {
+        flex: 0 0 45px;
         bottom: 0;
         display: block;
         padding-bottom: 0;
-        position: absolute;
         width: 100%;
 
         button {
@@ -112,7 +118,7 @@
 
     .dropdown-menu {
         max-height: 80vh;
-        max-width: 250px;
+        max-width: 270px;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -135,11 +141,19 @@
         top: 8px;
     }
 
+    .sidebar--left__list {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
     .nav-pills__container {
         -webkit-overflow-scrolling: touch;
-        height: calc(100% - 115px);
         overflow: auto;
         position: relative;
+        width: 100%;
     }
 
     .nav-pills__unread-indicator {
@@ -149,7 +163,7 @@
         left: 15px;
         margin: 0 auto;
         padding: 4px 0 3px;
-        position: fixed;
+        position: absolute;
         text-align: center;
         width: 190px;
         z-index: 1;
@@ -160,7 +174,7 @@
     }
 
     .nav-pills__unread-indicator-top {
-        top: 80px;
+        top: 15px;
 
         .icon {
             svg {
@@ -170,7 +184,7 @@
     }
 
     .nav-pills__unread-indicator-bottom {
-        bottom: 60px;
+        bottom: 15px;
     }
 
     .nav {

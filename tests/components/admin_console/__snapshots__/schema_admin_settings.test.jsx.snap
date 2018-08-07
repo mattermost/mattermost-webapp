@@ -15,6 +15,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
         "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
         "settingg": 7,
+        "settingh": 100,
       },
     }
   }
@@ -227,6 +228,25 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         type="number"
         value={7}
       />
+      <TextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the number field."
+            id="help-text-h"
+            values={Object {}}
+          />
+        }
+        id="SecondSettings.settingh"
+        key="Config_text_SecondSettings.settingh"
+        label="Setting Eight"
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="e.g. some setting"
+        setByEnv={false}
+        type="number"
+        value={10}
+      />
       <div
         className="banner undefined"
         key="Config_bool_undefined"
@@ -308,26 +328,31 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 9,
+              "text": "Română (Beta)",
+              "value": "ro",
+            },
+            Object {
+              "order": 10,
               "text": "Pусский (Alpha)",
               "value": "ru",
             },
             Object {
-              "order": 10,
+              "order": 11,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 11,
+              "order": 12,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "日本語",
               "value": "ja",
             },
@@ -412,26 +437,31 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 9,
+              "text": "Română (Beta)",
+              "value": "ro",
+            },
+            Object {
+              "order": 10,
               "text": "Pусский (Alpha)",
               "value": "ru",
             },
             Object {
-              "order": 10,
+              "order": 11,
               "text": "한국어 (Alpha)",
               "value": "ko",
             },
             Object {
-              "order": 11,
+              "order": 12,
               "text": "中文 (简体)",
               "value": "zh-CN",
             },
             Object {
-              "order": 12,
+              "order": 13,
               "text": "中文 (繁體)",
               "value": "zh-TW",
             },
             Object {
-              "order": 13,
+              "order": 14,
               "text": "日本語",
               "value": "ja",
             },
@@ -516,7 +546,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         value=""
       />
       <component
+        disabled={false}
+        id="custom"
         key="Config_userautocomplete_custom"
+        onChange={[Function]}
+        setByEnv={false}
+        value=""
       />
       <Connect(InjectIntl(JobTable))
         createJobButtonText={
