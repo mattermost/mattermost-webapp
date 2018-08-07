@@ -114,6 +114,9 @@ export default class PostList extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.timer = null;
+        this.rethreadTarget = null;
+        this.rethreadHighlight = null;
 
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
@@ -125,8 +128,6 @@ export default class PostList extends React.PureComponent {
         this.extraPagesLoaded = 0;
 
         this.state = {
-            rethreadHighlight: null,
-            rethreadTarget: null,
             atEnd: false,
             unViewedCount: 0,
             isDoingInitialLoad: true,
@@ -272,9 +273,19 @@ export default class PostList extends React.PureComponent {
     }
 
     setRethreadHighlight = (target) => {
-        this.setState({rethreadHighlight: target});
+        const highlight = this.state.rethreadHighlight
+        clearTimeout(this.timer);
+        if (target) {
+            if (!highlight || highlight !== target.id) {
+                this.setState({rethreadHighlight: target});
+            }
+        } else {
+            this.timer = setTimeout( () => {
+                this.setState({rethreadHighlight: null});
+            }, 250);
+        }
     }
-
+    
     loadPostsToFillScreenIfNecessary = () => {
         if (this.props.focusedPostId) {
             return;
@@ -379,30 +390,23 @@ export default class PostList extends React.PureComponent {
     }
 
     triggerRethreading = async (post) => {
-        const target = this.state.rethreadTarget;
-        if (target && post.id !== target.id) {
-            if (target.create_at > post.create_at && post.type === '') {
+        const target = this.rethreadTarget
+        if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
+            if (post.type === '') {
                 const rootId = (post.root_id) ? post.root_id : post.id;
                 const updatedPost = {
                     channel_id: target.channel_id,
                     id: target.id,
                     root_id: rootId,
                 };
-                this.setState({rethreadTarget: null});
                 await this.props.actions.rethreadPost(updatedPost);
-            } else {
-                this.setState({rethreadTarget: null});
             }
         }
+        this.rethreadTarget = null;
     }
 
     handleRethreading = (post) => {
-        const target = this.state.rethreadTarget;
-        if (target && target.id === post.id) {
-            this.setState({rethreadTarget: null});
-        } else {
-            this.setState({rethreadTarget: post});
-        }
+        this.rethreadTarget = post;
     }
 
     handleScrollStop = () => {
@@ -585,14 +589,10 @@ export default class PostList extends React.PureComponent {
             }
 
             let rethreadHighlight = false;
-            const rethreadTarget = this.state.rethreadTarget;
+            const rethreadTarget = this.rethreadTarget;
             const postHighlight = this.state.rethreadHighlight;
-            if (rethreadTarget && postHighlight && rethreadTarget.create_at > postHighlight.create_at) {
-                if ((postHighlight.id === post.root_id || postHighlight.root_id === post.root_id) && post.root_id.length) {
-                    //1. you're dragging over thread root or 2. you're dragging over member of the same thread, while the post is in a thread
-                    rethreadHighlight = true;
-                } else if ((!postHighlight.root_id.length || post.id === postHighlight.root_id) && (post.id === postHighlight.root_id || postHighlight.id === post.id)) {
-                    //highlight the root of the thread
+            if (rethreadTarget && post && postHighlight) {
+                if (postHighlight.id === post.root_id || (postHighlight.root_id === post.root_id && post.root_id.length) || postHighlight.root_id === post.id || post.id === postHighlight.id) {
                     rethreadHighlight = true;
                 }
             }
