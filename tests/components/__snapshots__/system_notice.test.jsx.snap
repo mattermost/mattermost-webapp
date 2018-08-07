@@ -283,7 +283,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
 </div>
 `;
 
-exports[`components/SystemNotice should match snapshot for with cantForget 1`] = `
+exports[`components/SystemNotice should match snapshot for with allowForget equal false 1`] = `
 <div
   className="system-notice bg--white shadow--2"
 >

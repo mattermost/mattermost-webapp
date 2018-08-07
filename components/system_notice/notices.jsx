@@ -14,7 +14,7 @@ import mattermostIcon from 'images/icon50x50.png';
 //  - icon - the image to display for the notice icon
 //  - title - JSX node to display for the notice title
 //  - body - JSX node to display for the notice body
-//  - cantForget - boolean to allow forget the notice
+//  - allowForget - boolean to allow forget the notice
 //  - show - function that check if we need to show the notice
 //
 // Order is important! The notices at the top are shown first.
@@ -35,12 +35,12 @@ export default [
                 defaultMessage='If you’ve created or installed integrations in the last two years, find out how <a href="https://about.mattermost.com/default-apiv3-deprecation-guide" target="_blank">recent changes</a> may have affected them.'
             />
         ),
-        cantForget: false,
+        allowForget: true,
         show: (serverVersion, config) => {
-            if (config.InstallationDate < new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
-                return true;
+            if (config.InstallationDate >= new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+                return false;
             }
-            return false;
+            return true;
         },
     },
     {
@@ -59,7 +59,7 @@ export default [
                 defaultMessage='Some policy and permission System Console settings have moved with the release of <a href="https://about.mattermost.com/default-advanced-permissions" target="_blank">advanced permissions</a> in Enterprise E10 and E20.'
             />
         ),
-        cantForget: false,
+        allowForget: true,
         show: (serverVersion, config, license) => {
             if (license.IsLicensed === 'false') {
                 return false;
@@ -89,7 +89,7 @@ export default [
                 defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. [Learn more](!https://mattermost.com/performance).'
             />
         ),
-        cantForget: true,
+        allowForget: false,
         show: (serverVersion, config, license, analytics) => {
             const USERS_THRESHOLD = 10000;
 

@@ -140,7 +140,7 @@ export default class SystemNotice extends React.PureComponent {
                             defaultMessage='Remind me later'
                         />
                     </button>
-                    {!notice.cantForget &&
+                    {notice.allowForget &&
                         <button
                             id='systemnotice_dontshow'
                             className='btn btn-transparent'
