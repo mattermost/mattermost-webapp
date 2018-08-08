@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getOtherChannels(state) || [],
+        channels: getOtherChannels(state).filter((c) => c.delete_at === 0) || [],
         teamId: team.id,
         teamName: team.name,
     };

@@ -8,7 +8,7 @@ import MoreChannels from 'components/more_channels/more_channels.jsx';
 
 describe('components/MoreChannels', () => {
     const baseProps = {
-        channels: [{id: 'channel_id_1'}],
+        channels: [{id: 'channel_id_1', delete_at: 0}],
         teamId: 'team_id',
         teamName: 'team_name',
         onModalDismissed: () => {}, // eslint-disable-line no-empty-function
