@@ -13,11 +13,13 @@ function mapStateToProps(state) {
     const enablePreviewFeatures = config.EnablePreviewFeatures === 'true';
     const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isLicensed = license && license.IsLicensed === 'true';
+    const enableUserDeactivation = config.EnableUserDeactivation === 'true';
 
     return {
         enablePreviewFeatures,
         buildEnterpriseReady,
         isLicensed,
+        enableUserDeactivation,
     };
 }
 
