@@ -81,15 +81,15 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         }
 
         const docLink = (
-            <Link
-                to='https://docs.mattermost.com/administration/config-settings.html#jobs'
+            <a
+                href='https://docs.mattermost.com/administration/config-settings.html#jobs'
                 target='_blank'
             >
                 <FormattedMessage
                     id='admin.permissions.documentationLinkText'
                     defaultMessage='documentation'
                 />
-            </Link>
+            </a>
         );
 
         if (this.props.jobsAreEnabled && !this.props.clusterIsEnabled) {
