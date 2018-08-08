@@ -2680,6 +2680,7 @@
   "multiselect.loading": "Loading...",
   "multiselect.numPeopleRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. ",
   "multiselect.numRemaining": "You can add {num, number} more",
+  "multiselect.numMembers":"{memberOptions, number} of {totalCount, number} members",
   "multiselect.placeholder": "Search and add members",
   "multiselect.selectTeams": "Use ↑↓ to browse, ↵ to select.",
   "navbar.addMembers": "Add Members",
