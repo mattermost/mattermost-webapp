@@ -53,40 +53,31 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-dark first"
     />
-    <React.Fragment>
-      <SettingItemMin
-        describe={
-          Array [
-            <FormattedMessage
-              defaultMessage="Group by channel type"
-              id="user.settings.sidebar.groupByTypeShort"
-              values={Object {}}
-            />,
-            <span>
-              , 
-            </span>,
-            <FormattedMessage
-              defaultMessage="unreads and favorites grouped separately"
-              id="user.settings.sidebar.unreadsFavoritesShort"
-              values={Object {}}
-            />,
-          ]
-        }
-        focused={false}
-        section="groupChannels"
-        title={
-          <FormattedMessage
-            defaultMessage="Channel grouping and sorting"
-            id="user.settings.sidebar.groupAndSortChannelsTitle"
-            values={Object {}}
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-light"
-      />
-    </React.Fragment>
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="At the top of the channel sidebar"
+          id="user.settings.sidebar.showUnreadSection"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="unreadChannels"
+      title={
+        <FormattedMessage
+          defaultMessage="Group unread channels"
+          id="user.settings.sidebar.unreadSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-dark"
+    />
   </div>
 </div>
 `;

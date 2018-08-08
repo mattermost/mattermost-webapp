@@ -57,12 +57,25 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
 }
 
 export function isKeyPressed(event, key) {
+    // There are two types of keyboards
+    // 1. English with different layouts(Ex: Dvorak)
+    // 2. Different language keyboards(Ex: Russian)
+
     if (event.keyCode === Constants.KeyCodes.COMPOSING[1]) {
         return false;
     }
     if (typeof event.code !== 'undefined' && event.code !== 'Unidentified' && key[2]) {
-        return typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
+        const isPressedByCode = typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
+
+        // Returns true if the position of the key is validated. i.e Key K position irrespective of language.
+        // Works consistently across different languages keyboards.
+        // Do not return false because Layouts such as Dvorak will have Key k will be in different position.
+        if (isPressedByCode) {
+            return true;
+        }
     }
+
+    // checks for event.key for older browsers and also for the case of different English layout keyboards.
     if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
         return event.key === key[0] || event.key === key[0].toUpperCase();
     }
@@ -510,8 +523,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
         changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
-        changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
-        changeCss('.app__body .modal-tabs .nav-tabs > li > a:active', `color:${theme.sidebarBg}`);
     }
 
     if (theme.sidebarText) {
@@ -651,8 +662,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
-        changeCss('.app__body .modal-tabs .nav-tabs > li', `background:${theme.centerChannelBg}`);
-        changeCss('.app__body .modal-tabs .nav-tabs > li > a', `background:${theme.centerChannelBg}`);
 
         changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__gradient, ' +

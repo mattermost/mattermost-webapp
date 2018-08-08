@@ -4,18 +4,26 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {Preferences} from 'mattermost-redux/constants/index';
 import {
+    getSortedPublicChannelWithUnreadsIds,
+    getSortedPrivateChannelWithUnreadsIds,
+    getSortedFavoriteChannelWithUnreadsIds,
+    getSortedDirectChannelWithUnreadsIds,
     getCurrentChannel,
     getUnreads,
     getSortedUnreadChannelIds,
-    getOrderedChannelIds,
+    getSortedDirectChannelIds,
+    getSortedFavoriteChannelIds,
+    getSortedPublicChannelIds,
+    getSortedPrivateChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
-
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/sidebar';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {GroupUnreadChannels} from 'utils/constants.jsx';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 
@@ -25,31 +33,45 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = currentChannel && currentChannel.teammate_id && getCurrentChannel(state, currentChannel.teammate_id);
+    let publicChannelIds;
+    let privateChannelIds;
+    let favoriteChannelIds;
+    let directAndGroupChannelIds;
 
-    const sidebarPrefs = getSidebarPreferences(state);
-
-    const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
-
-    const unreadChannelIds = getSortedUnreadChannelIds(state, lastUnreadChannel);
-    const orderedChannelIds = getOrderedChannelIds(
+    const showUnreadSection = config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED && getBoolPreference(
         state,
-        lastUnreadChannel,
-        sidebarPrefs.grouping,
-        sidebarPrefs.sorting,
-        sidebarPrefs.unreads_at_top === 'true',
-        sidebarPrefs.favorite_at_top === 'true',
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'show_unread_section',
+        config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON
     );
+
+    const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;
+
+    if (showUnreadSection) {
+        publicChannelIds = getSortedPublicChannelIds(state, keepChannelIdAsUnread);
+        privateChannelIds = getSortedPrivateChannelIds(state, keepChannelIdAsUnread);
+        favoriteChannelIds = getSortedFavoriteChannelIds(state, keepChannelIdAsUnread);
+        directAndGroupChannelIds = getSortedDirectChannelIds(state, keepChannelIdAsUnread);
+    } else {
+        publicChannelIds = getSortedPublicChannelWithUnreadsIds(state);
+        privateChannelIds = getSortedPrivateChannelWithUnreadsIds(state);
+        favoriteChannelIds = getSortedFavoriteChannelWithUnreadsIds(state);
+        directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
+    }
 
     return {
         config,
-        unreadChannelIds,
-        orderedChannelIds,
-        pluginComponents: state.plugins.components.LeftSidebarHeader,
+        isOpen: getIsLhsOpen(state),
+        showUnreadSection,
+        publicChannelIds,
+        privateChannelIds,
+        favoriteChannelIds,
+        directAndGroupChannelIds,
+        unreadChannelIds: getSortedUnreadChannelIds(state, keepChannelIdAsUnread),
         currentChannel,
         currentTeammate,
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
-        isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
     };
 }

@@ -489,4 +489,11 @@ describe('Utils.isKeyPressed', function() {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
         }
     });
+
+    test('key should be tested as fallback for different layout of english keyboards', function() {
+        //key will be k for keyboards like dvorak but code will be keyV as `v` is pressed
+        const event = {key: 'k', code: 'KeyV'};
+        const key = ['k', 2221, 'KeyK'];
+        expect(Utils.isKeyPressed(event, key)).toEqual(true);
+    });
 });

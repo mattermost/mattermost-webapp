@@ -8,15 +8,13 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import store from 'stores/redux_store.jsx';
+
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import store from 'stores/redux_store.jsx';
+import {stripMarkdown} from 'utils/markdown';
 
-import {formatWithRenderer} from 'utils/markdown';
-import RemoveMarkdown from 'utils/markdown/remove_markdown';
-
-const removeMarkdown = new RemoveMarkdown();
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
 export function sendDesktopNotification(post, msgProps) {
@@ -99,7 +97,7 @@ export function sendDesktopNotification(post, msgProps) {
         image |= attachment.image_url.length > 0;
     });
 
-    let strippedMarkdownNotifyText = formatWithRenderer(notifyText, removeMarkdown);
+    let strippedMarkdownNotifyText = stripMarkdown(notifyText);
     if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
         strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
     }
