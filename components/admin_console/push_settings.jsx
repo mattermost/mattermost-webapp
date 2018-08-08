@@ -236,9 +236,9 @@ export default class PushSettings extends AdminSettings {
                     onChange={this.handleDropdownChange}
                     disabled={this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_OFF}
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='admin.email.pushContentDesc'
-                            defaultMessage='"Send generic description with only sender name" includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.<br /><br />"Send generic description with sender and channel names" includes the name of the person who sent the message and the channel it was sent in, but not the message text.<br /><br />"Send full message snippet" includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.'
+                            defaultMessage='"Send generic description with only sender name" includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n \n"Send generic description with sender and channel names" includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n \n"Send full message snippet" includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.'
                         />
                     }
                     setByEnv={this.isSetByEnv('EmailSettings.PushNotificationContents')}

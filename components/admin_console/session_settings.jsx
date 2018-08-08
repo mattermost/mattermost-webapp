@@ -10,6 +10,8 @@ import AdminSettings from './admin_settings.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const MINIMUM_IDLE_TIMEOUT = 5;
 
 export default class SessionSettings extends AdminSettings {
@@ -70,9 +72,9 @@ export default class SessionSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'E.g.: "60"')}
                     helpText={
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='admin.service.sessionIdleTimeoutDesc'
-                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
+                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.\n \nApplies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
                         />
                     }
                     value={this.state.sessionIdleTimeoutInMinutes}

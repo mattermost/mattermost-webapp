@@ -20,6 +20,8 @@ import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {

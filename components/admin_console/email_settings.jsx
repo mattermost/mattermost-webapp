@@ -124,18 +124,18 @@ export default class EmailSettings extends AdminSettings {
 
             if (this.state.emailNotificationContentsType === EMAIL_NOTIFICATION_CONTENTS_FULL) {
                 emailNotificationContentsHelpText = (
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         key='admin.email.notification.contents.full.description'
                         id='admin.email.notification.contents.full.description'
-                        defaultMessage='Sender name and channel are included in email notifications.</br>Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.'
+                        defaultMessage='Sender name and channel are included in email notifications.\nTypically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.'
                     />
                 );
             } else if (this.state.emailNotificationContentsType === EMAIL_NOTIFICATION_CONTENTS_GENERIC) {
                 emailNotificationContentsHelpText = (
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         key='admin.email.notification.contents.generic.description'
                         id='admin.email.notification.contents.generic.description'
-                        defaultMessage='Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications.</br>Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.'
+                        defaultMessage='Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications.\nTypically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.'
                     />
                 );
             }

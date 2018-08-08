@@ -418,26 +418,116 @@ export default class OAuthSettings extends AdminSettings {
         if (this.state.oauthType === Constants.GITLAB_SERVICE) {
             contents = this.renderGitLab();
             helpText = (
-                <FormattedHTMLMessage
-                    id='admin.gitlab.EnableHtmlDesc'
-                    defaultMessage='<ol><li>Log in to your GitLab account and go to Profile Settings -> Applications.</li><li>Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete". </li><li>Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.</li><li>Complete the Endpoint URLs below. </li></ol>'
-                />
+                <ol>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableHtmlDesc1'
+                            defaultMessage='Log in to your GitLab account and go to Profile Settings -> Applications.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableHtmlDesc2'
+                            defaultMessage='Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableHtmlDesc3'
+                            defaultMessage='Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableHtmlDesc4'
+                            defaultMessage='Complete the Endpoint URLs below.'
+                        />
+                    </li>
+                </ol>
             );
         } else if (this.state.oauthType === Constants.GOOGLE_SERVICE) {
             contents = this.renderGoogle();
             helpText = (
-                <FormattedMarkdownMessage
-                    id='admin.google.EnableHtmlDesc'
-                    defaultMessage='1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter \"Mattermost - your-company-name\" as the **Project Name**, then click **Create**.\n3.Click the **OAuth consent screen** header and enter \"Mattermost\" as the **Product name shown to users**, then click **Save**.\n4.Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5.Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6.Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7.Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview) and click **Enable**. This might take a few minutes to propagate through Google`s systems.'
-                />
+                <ol>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc1'
+                            defaultMessage='[Log in](!https://accounts.google.com/login) to your Google account.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc2'
+                            defaultMessage='Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc3'
+                            defaultMessage='Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc4'
+                            defaultMessage='Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc5'
+                            defaultMessage='Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc6'
+                            defaultMessage='Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableHtmlDesc7'
+                            defaultMessage='Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview) and click **Enable**. This might take a few minutes to propagate through Google`s systems.'
+                        />
+                    </li>
+                </ol>
             );
         } else if (this.state.oauthType === Constants.OFFICE365_SERVICE) {
             contents = this.renderOffice365();
             helpText = (
-                <FormattedMarkdownMessage
-                    id='admin.office365.EnableHtmlDesc'
-                    defaultMessage='1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use \"Mattermost - your-company-name\" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.'
-                />
+                <ol>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableHtmlDesc1'
+                            defaultMessage='[Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableHtmlDesc2'
+                            defaultMessage='Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use \"Mattermost - your-company-name\" as the **Application Name**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableHtmlDesc3'
+                            defaultMessage='Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableHtmlDesc4'
+                            defaultMessage='Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableHtmlDesc5'
+                            defaultMessage='Finally, click **Save** and then paste the **Application ID** below.'
+                        />
+                    </li>
+                </ol>
             );
         }
 

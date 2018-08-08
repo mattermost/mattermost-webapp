@@ -100,9 +100,9 @@ function createGMIntroMessage(channel, centeredIntro) {
                     {pictures}
                 </div>
                 <p className='channel-intro-text'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='intro_messages.GM'
-                        defaultMessage='This is the start of your group message history with {names}.<br />Messages and files shared here are not shown to people outside this area.'
+                        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'
                         values={{
                             names,
                         }}
@@ -162,9 +162,9 @@ function createDMIntroMessage(channel, centeredIntro) {
                     </strong>
                 </div>
                 <p className='channel-intro-text'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='intro_messages.DM'
-                        defaultMessage='This is the start of your direct message history with {teammate}.<br />Direct messages and files shared here are not shown to people outside this area.'
+                        defaultMessage='This is the start of your direct message history with {teammate}.\nDirect messages and files shared here are not shown to people outside this area.'
                         values={{
                             teammate: teammateName,
                         }}

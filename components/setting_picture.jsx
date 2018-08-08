@@ -13,6 +13,8 @@ import {localizeMessage, fileSizeToString} from 'utils/utils.jsx';
 import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class SettingPicture extends Component {
     static defaultProps = {
         imageContext: 'profile',
@@ -252,9 +254,9 @@ export default class SettingPicture extends Component {
         let helpText;
         if (imageContext === 'team') {
             helpText = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id={'setting_picture.help.team'}
-                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended.'
+                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.\nSquare images with a solid background color are recommended.'
                 />
             );
         } else {
