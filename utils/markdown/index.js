@@ -27,5 +27,9 @@ export function formatWithRenderer(text, renderer) {
 }
 
 export function stripMarkdown(text) {
-    return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown));
+    if (typeof text === 'string' && text.length > 0) {
+        return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown));
+    }
+
+    return text;
 }
