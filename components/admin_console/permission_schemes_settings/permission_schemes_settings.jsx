@@ -83,6 +83,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         const docLink = (
             <a
                 href='https://docs.mattermost.com/administration/config-settings.html#jobs'
+                rel='noopener noreferrer'
                 target='_blank'
             >
                 <FormattedMessage
