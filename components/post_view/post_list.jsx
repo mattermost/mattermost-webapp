@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
+import {PostTypes as reduxPostTypes} from 'mattermost-redux/action_types';
 import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {PostTypes} from 'utils/constants.jsx';
@@ -29,6 +30,9 @@ import CreateChannelIntroMessage from './channel_intro_message';
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
+import store from 'stores/redux_store.jsx';
+
+const doDispatch = store.dispatch;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -363,38 +367,18 @@ export default class PostList extends React.PureComponent {
     }
 
     triggerRethreading = async (post) => {
-        const target = this.state.rethreadTarget;
-        if (target && post.id !== target.id) {
-            if (target.create_at > post.create_at && post.type === '') {
-                const rootId = (post.root_id) ? post.root_id : post.id;
-                const updatedPost = {
-                    channel_id: target.channel_id,
-                    id: target.id,
-                    root_id: rootId,
-                };
-                this.setState({rethreadTarget: null});
-                await this.props.actions.rethreadPost(updatedPost);
-            } else {
-                this.setState({rethreadTarget: null});
-            }
-        }
-    }
-
-    handleRethreading = (post) => {
-        const target = this.state.rethreadTarget;
-        if (target && target.id === post.id) {
-            this.setState({rethreadTarget: null});
-        } else {
-            this.setState({rethreadTarget: post});
-        }
-    }
-
-    triggerRethreading = async (post) => {
+        //post: a post in the thread which will be receiving the post to be rethreaded
+        //target: the post which will be rethreaded
         const target = this.rethreadTarget
         if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
             if (post.type === '') {
                 const rootId = (post.root_id) ? post.root_id : post.id;
+                doDispatch({
+                    type: reduxPostTypes.RETHREAD_POST_UPDATE,
+                    data: target,
+                });
                 const updatedPost = {
+                    data: target,
                     channel_id: target.channel_id,
                     id: target.id,
                     root_id: rootId,
