@@ -73,7 +73,7 @@ export function emitChannelClickEvent(channel) {
         });
 
         if (chan.delete_at === 0) {
-            BrowserStore.setGlobalItem(Storage.PREV_CHANNEL_KEY + teamId, chan.name);
+            BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, chan.name);
         }
 
         loadProfilesForSidebar();
