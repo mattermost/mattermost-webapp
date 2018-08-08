@@ -55,7 +55,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                         values={{
                             townsquare: townSquareDisplayName,
                             offtopic: offTopicDisplayName,
-                        }}    
+                        }}
                     />
                 </h4>
                 <p>
@@ -70,7 +70,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                         defaultMessage='**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel.'
                         values={{
                             townsquare: townSquareDisplayName,
-                        }}    
+                        }}
                     />
                 </p>
                 <p>
