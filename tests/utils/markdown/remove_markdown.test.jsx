@@ -232,6 +232,31 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             inputText: '&amp;lt;',
             outputText: '&lt;',
         },
+        {
+            description: 'text: empty string',
+            inputText: '',
+            outputText: '',
+        },
+        {
+            description: 'text: null',
+            inputText: null,
+            outputText: null,
+        },
+        {
+            description: 'text: {}',
+            inputText: {key: 'value'},
+            outputText: {key: 'value'},
+        },
+        {
+            description: 'text: []',
+            inputText: [1],
+            outputText: [1],
+        },
+        {
+            description: 'text: node',
+            inputText: (<div/>),
+            outputText: (<div/>),
+        },
     ];
 
     testCases.forEach((testCase) => it(testCase.description, () => {
