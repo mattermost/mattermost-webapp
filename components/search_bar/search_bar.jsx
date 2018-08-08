@@ -4,8 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Popover} from 'react-bootstrap';
+<<<<<<< HEAD
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+=======
+import {FormattedMessage} from 'react-intl';
+>>>>>>> Modify messages with many html tags to markdown style
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';

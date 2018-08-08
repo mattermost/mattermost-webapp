@@ -2,21 +2,41 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import TutorialTip from './tutorial_tip';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const MenuTutorialTip = ({toggleFunc, onBottom}) => {
     const screens = [];
 
     screens.push(
         <div>
-            <FormattedHTMLMessage
-                id='sidebar_header.tutorial'
-                defaultMessage='<h4>Main Menu</h4>
-                <p>The <strong>Main Menu</strong> is where you can <strong>Invite New Members</strong>, access your <strong>Account Settings</strong> and set your <strong>Theme Color</strong>.</p>
-                <p>Team administrators can also access their <strong>Team Settings</strong> from this menu.</p><p>System administrators will find a <strong>System Console</strong> option to administrate the entire system.</p>'
-            />
+            <h4>
+                <FormattedMessage
+                    id='sidebar_header.tutorial.title'
+                    defaultMessage='Main Menu'
+                />
+            </h4>
+            <p>
+                <FormattedMarkdownMessage
+                    id='sidebar_header.tutorial.body1'
+                    defaultMessage='The **Main Menu** is where you can **Invite New Members**, access your **Account Settings** and set your **Theme Color**.'
+                />
+            </p>
+            <p>
+                <FormattedMarkdownMessage
+                    id='sidebar_header.tutorial.body2'
+                    defaultMessage='Team administrators can also access their **Team Settings** from this menu.'
+                />
+            </p>
+            <p>
+                <FormattedMarkdownMessage
+                    id='sidebar_header.tutorial.body3'
+                    defaultMessage='System administrators will find a **System Console** option to administrate the entire system.'
+                />
+            </p>
         </div>
     );
 

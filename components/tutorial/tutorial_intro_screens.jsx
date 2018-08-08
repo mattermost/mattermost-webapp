@@ -97,13 +97,30 @@ export default class TutorialIntroScreens extends React.Component {
 
         return (
             <div id='tutorialIntroOne'>
-                <FormattedHTMLMessage
-                    id='tutorial_intro.screenOne'
-                    defaultMessage='<h3>Welcome to:</h3>
-                    <h1>Mattermost</h1>
-                    <p>Your team communication all in one place, instantly searchable and available anywhere.</p>
-                    <p>Keep your team connected to help them achieve what matters most.</p>'
-                />
+                <h3>
+                    <FormattedMessage
+                        id='tutorial_intro.screenOne.title1'
+                        defaultMessage='Welcome to:'
+                    />
+                </h3>
+                <h1>
+                    <FormattedMessage
+                        id='tutorial_intro.screenOne.title2'
+                        defaultMessage='Mattermost'
+                    />
+                </h1>
+                <p>
+                    <FormattedMessage
+                        id='tutorial_intro.screenOne.body1'
+                        defaultMessage='Your team communication all in one place, instantly searchable and available anywhere.'
+                    />
+                </p>
+                <p>
+                    <FormattedMessage
+                        id='tutorial_intro.screenOne.body2'
+                        defaultMessage='Keep your team connected to help them achieve what matters most.'
+                    />
+                </p>
                 {circles}
             </div>
         );
@@ -158,12 +175,24 @@ export default class TutorialIntroScreens extends React.Component {
 
         return (
             <div id='tutorialIntroTwo'>
-                <FormattedHTMLMessage
-                    id='tutorial_intro.screenTwo'
-                    defaultMessage='<h3>How Mattermost works:</h3>
-                    <p>Communication happens in public discussion channels, private channels and direct messages.</p>
-                    <p>Everything is archived and searchable from any web-enabled desktop, laptop or phone.</p>'
-                />
+                <h3>
+                    <FormattedMessage
+                        id='tutorial_intro.screenTwo.title'
+                        defaultMessage='How Mattermost works:'
+                    />
+                </h3>
+                <p>
+                    <FormattedMessage
+                        id='tutorial_intro.screenTwo.body1'
+                        defaultMessage='Communication happens in public discussion channels, private channels and direct messages.'
+                    />
+                </p>
+                <p>
+                    <FormattedMessage
+                        id='tutorial_intro.screenTwo.body2'
+                        defaultMessage='Everything is archived and searchable from any web-enabled desktop, laptop or phone.'
+                    />
+                </p>
                 {appDownloadLink}
                 {appDownloadImage}
                 {circles}
