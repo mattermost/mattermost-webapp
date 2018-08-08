@@ -175,6 +175,7 @@ export default class ConfirmModal extends React.Component {
                 <Modal.Footer>
                     {cancelButton}
                     <button
+                        autoFocus='true'
                         type='button'
                         className={this.props.confirmButtonClass}
                         onClick={this.handleConfirm}
