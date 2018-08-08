@@ -16,56 +16,53 @@ export default class SystemNotice extends React.PureComponent {
         preferences: PropTypes.object.isRequired,
         dismissedNotices: PropTypes.object.isRequired,
         isSystemAdmin: PropTypes.bool,
-        serverVersion: PropTypes.string.isRequired,
-        config: PropTypes.object.isRequired,
-        license: PropTypes.object.isRequired,
-        analytics: PropTypes.object,
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             dismissNotice: PropTypes.func.isRequired,
-            getStandardAnalytics: PropTypes.func.isRequired,
         }).isRequired,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            currentNotice: null,
+        };
+    }
+
     componentDidMount() {
-        if (this.props.isSystemAdmin) {
-            this.props.actions.getStandardAnalytics();
-        }
+        this.setCurrentNotice();
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.isSystemAdmin !== this.props.isSystemAdmin && this.props.isSystemAdmin) {
-            this.props.actions.getStandardAnalytics();
-        }
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        this.setCurrentNotice(nextProps);
     }
 
-    getCurrentNotice = () => {
-        for (const notice of this.props.notices) {
+    setCurrentNotice = (props = this.props) => {
+        for (const notice of props.notices) {
             // Skip if dismissed previously this session
-            if (this.props.dismissedNotices[notice.name]) {
+            if (props.dismissedNotices[notice.name]) {
                 continue;
             }
 
             // Skip if dismissed forever
-            if (this.props.preferences[notice.name]) {
+            if (props.preferences[notice.name]) {
                 continue;
             }
 
-            if (notice.adminOnly && !this.props.isSystemAdmin) {
+            if (notice.adminOnly && !props.isSystemAdmin) {
                 continue;
             }
 
-            if (!notice.show(this.props.serverVersion, this.props.config, this.props.license, this.props.analytics)) {
-                continue;
-            }
-
-            return notice;
+            this.setState({currentNotice: notice});
+            return;
         }
-        return null;
+
+        this.setState({currentNotice: null});
     }
 
     hide = (remind = false) => {
-        const notice = this.getCurrentNotice();
+        const notice = this.state.currentNotice;
         if (!notice) {
             return;
         }
@@ -91,7 +88,7 @@ export default class SystemNotice extends React.PureComponent {
     }
 
     render() {
-        const notice = this.getCurrentNotice();
+        const notice = this.state.currentNotice;
 
         if (notice == null) {
             return null;
@@ -140,7 +137,7 @@ export default class SystemNotice extends React.PureComponent {
                             defaultMessage='Remind me later'
                         />
                     </button>
-                    {notice.allowForget &&
+                    {!notice.cantForget &&
                         <button
                             id='systemnotice_dontshow'
                             className='btn btn-transparent'

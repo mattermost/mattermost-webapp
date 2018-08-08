@@ -23,7 +23,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import {loadMeAndConfig} from 'actions/user_actions.jsx';
+import {loadMeAndConfig, addSwitchToEENotification} from 'actions/user_actions.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
@@ -222,6 +222,7 @@ export default class Root extends React.Component {
             this.props.history.push('/get_android_app');
             BrowserStore.setLandingPageSeen(true);
         }
+        addSwitchToEENotification();
     }
 
     localizationChanged = () => {
