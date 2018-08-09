@@ -29,6 +29,9 @@ import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import LeaveTeamModal from 'components/leave_team_modal';
+import {ModalIdentifiers} from 'utils/constants';
 
 export default class SidebarRightMenu extends React.Component {
     static propTypes = {
@@ -326,17 +329,19 @@ export default class SidebarRightMenu extends React.Component {
         if (!this.props.experimentalPrimaryTeam) {
             leaveTeam = (
                 <li key='leaveTeam_li'>
-                    <a
+                    <ToggleModalButtonRedux
                         id='leaveTeam'
-                        href='#'
-                        onClick={GlobalActions.showLeaveTeamModal}
+                        role='menuitem'
+                        modalId={ModalIdentifiers.LEAVE_TEAM}
+                        dialogType={LeaveTeamModal}
+                        dialogProps={{}}
                     >
                         <LeaveTeamIcon className='icon'/>
                         <FormattedMessage
                             id='navbar_dropdown.leave'
                             defaultMessage='Leave Team'
                         />
-                    </a>
+                    </ToggleModalButtonRedux>
                 </li>
             );
         }

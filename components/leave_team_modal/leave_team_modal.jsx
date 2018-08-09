@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {WebrtcActionTypes} from 'utils/constants.jsx';
+import {isKeyPressed} from 'utils/utils';
+import Constants from 'utils/constants';
 
 class LeaveTeamModal extends React.PureComponent {
     static propTypes = {
@@ -58,6 +60,22 @@ class LeaveTeamModal extends React.PureComponent {
         }),
     };
 
+    componentDidMount() {
+        if (this.props.show) {
+            document.addEventListener('keypress', this.handleKeyPress);
+        }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keypress', this.handleKeyPress);
+    }
+
+    handleKeyPress = (e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            this.handleSubmit(e);
+        }
+    };
+
     handleSubmit = (e) => {
         this.props.onHide();
 
@@ -105,7 +123,7 @@ class LeaveTeamModal extends React.PureComponent {
                     <button
                         type='button'
                         className='btn btn-danger'
-                        onClick={this.handleSubmit.bind(this)}
+                        onClick={this.handleSubmit}
                     >
                         <FormattedMessage
                             id='leave_team_modal.yes'

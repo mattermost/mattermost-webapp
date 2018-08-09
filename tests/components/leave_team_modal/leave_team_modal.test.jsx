@@ -48,6 +48,22 @@ describe('components/LeaveTeamModal', () => {
             toHaveBeenCalledWith(requiredProps.currentTeamId, requiredProps.currentUserId);
     });
 
+    it('should call attach and remove event listeners', () => {
+        document.addEventListener = jest.fn();
+        document.removeEventListener = jest.fn();
+
+        const wrapper = shallowWithIntl(<LeaveTeamModal {...{...requiredProps, show: true}}/>).
+            dive({disableLifecycleMethods: false});
+        const instance = wrapper.instance();
+
+        expect(document.addEventListener).toHaveBeenCalledTimes(1);
+        expect(document.removeEventListener).not.toBeCalled();
+
+        instance.componentWillUnmount();
+
+        expect(document.removeEventListener).toHaveBeenCalledTimes(1);
+    });
+
     it('should not call removeUserFromTeam and toggleSideBarRightMenu when ok is clicked', () => {
         const wrapper = shallowWithIntl(<LeaveTeamModal {...{...requiredProps, isBusy: true}}/>).
             dive({disableLifecycleMethods: true});
