@@ -414,7 +414,7 @@ export default class SidebarRightMenu extends React.Component {
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
-                        href={this.props.helpLink}
+                        href={useSafeUrl(this.props.helpLink)}
                     >
                         <i className='icon fa fa-question'/>
                         <FormattedMessage
@@ -433,7 +433,7 @@ export default class SidebarRightMenu extends React.Component {
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
-                        href={this.props.reportAProblemLink}
+                        href={useSafeUrl(this.props.reportAProblemLink)}
                     >
                         <i className='icon fa fa-phone'/>
                         <FormattedMessage
