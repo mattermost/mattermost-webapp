@@ -1,20 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/integrations/ConfirmIntegration should match snapshot, bad integration type case 1`] = `
-<div
-  className="backstage-content row"
->
-  <div
-    className="backstage-form backstage-form__confirmation"
-  >
-    <h4>
-      <ErrorMessage
-        type="page_not_found"
-      />
-    </h4>
-  </div>
-</div>
-`;
+exports[`components/integrations/ConfirmIntegration should match snapshot, bad integration type case 1`] = `""`;
 
 exports[`components/integrations/ConfirmIntegration should match snapshot, commands case 1`] = `
 <div
@@ -269,21 +255,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
 </div>
 `;
 
-exports[`components/integrations/ConfirmIntegration should match snapshot, outgoingHooks and bad identifier case 1`] = `
-<div
-  className="backstage-content row"
->
-  <div
-    className="backstage-form backstage-form__confirmation"
-  >
-    <h4>
-      <ErrorMessage
-        type="page_not_found"
-      />
-    </h4>
-  </div>
-</div>
-`;
+exports[`components/integrations/ConfirmIntegration should match snapshot, outgoingHooks and bad identifier case 1`] = `""`;
 
 exports[`components/integrations/ConfirmIntegration should match snapshot, outgoingHooks case 1`] = `
 <div

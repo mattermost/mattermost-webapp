@@ -11,7 +11,6 @@ import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import ErrorMessage from 'components/error_page/error_message.jsx';
 
 export default class ConfirmIntegration extends React.Component {
     static get propTypes() {
@@ -192,13 +191,8 @@ export default class ConfirmIntegration extends React.Component {
                 </p>
             );
         } else {
-            return (
-                <div className='backstage-content row'>
-                    <div className='backstage-form backstage-form__confirmation'>
-                        <h4><ErrorMessage type={ErrorPageTypes.PAGE_NOT_FOUND}/></h4>
-                    </div>
-                </div>
-            );
+            browserHistory.replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
+            return '';
         }
 
         return (
