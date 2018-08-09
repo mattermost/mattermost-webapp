@@ -38,8 +38,9 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
                 <div/>
             </PostBodyAdditionalContent>
         );
-        testCases.forEach((testCase) => {
-            expect(wrapper.instance().isLinkImage(testCase.link)).toEqual(testCase.result);
+        testCases.forEach(async (testCase) => {
+            const result = await wrapper.instance().isLinkImage(testCase.link);
+            expect(result).toEqual(testCase.result);
         });
     });
 });
