@@ -26,6 +26,7 @@ import logoImage from 'images/logo.png';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
+import BackButton from 'components/common/back_button.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
 export default class LoginController extends React.Component {
@@ -639,6 +640,10 @@ export default class LoginController extends React.Component {
         );
     }
 
+    hideMfa = () => {
+        this.setState({showMfa: false});
+    }
+
     render() {
         const {
             customDescriptionText,
@@ -648,6 +653,7 @@ export default class LoginController extends React.Component {
         let content;
         let customContent;
         let customClass;
+        let backButton;
         if (this.state.showMfa) {
             content = (
                 <LoginMfa
@@ -656,6 +662,7 @@ export default class LoginController extends React.Component {
                     submit={this.submit}
                 />
             );
+            backButton = (<BackButton onClick={this.hideMfa}/>);
         } else {
             content = this.createLoginOptions();
             customContent = this.createCustomLogin();
@@ -667,6 +674,7 @@ export default class LoginController extends React.Component {
         return (
             <div>
                 <AnnouncementBar/>
+                {backButton}
                 <div className='col-sm-12'>
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
