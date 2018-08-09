@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {PostTypes as reduxPostTypes} from 'mattermost-redux/action_types';
 import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {PostTypes} from 'utils/constants.jsx';
@@ -30,9 +29,6 @@ import CreateChannelIntroMessage from './channel_intro_message';
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 const MAX_EXTRA_PAGES_LOADED = 10;
-import store from 'stores/redux_store.jsx';
-
-const doDispatch = store.dispatch;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -277,19 +273,19 @@ export default class PostList extends React.PureComponent {
     }
 
     setRethreadHighlight = (target) => {
-        const highlight = this.state.rethreadHighlight
+        const highlight = this.state.rethreadHighlight;
         clearTimeout(this.timer);
         if (target) {
-            if (!highlight || highlight !== target.id) {
+            if (!highlight || highlight !== target.id) {
                 this.setState({rethreadHighlight: target});
             }
         } else {
-            this.timer = setTimeout( () => {
+            this.timer = setTimeout(() => {
                 this.setState({rethreadHighlight: null});
             }, 250);
         }
     }
-    
+
     loadPostsToFillScreenIfNecessary = () => {
         if (this.props.focusedPostId) {
             return;
@@ -369,7 +365,7 @@ export default class PostList extends React.PureComponent {
     triggerRethreading = async (post) => {
         //post: a post in the thread which will be receiving the post to be rethreaded
         //target: the post which will be rethreaded
-        const target = this.rethreadTarget
+        const target = this.rethreadTarget;
         if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
             if (post.type === '') {
                 const rootId = (post.root_id) ? post.root_id : post.id;

@@ -449,7 +449,7 @@ function handlePostRethreadEvent(msg) {
             posts: {
                 [post.id]: post,
             },
-            post: post,
+            post,
             original_root_id: msg.data.original_root_id,
         },
         channelId: post.channel_id,
