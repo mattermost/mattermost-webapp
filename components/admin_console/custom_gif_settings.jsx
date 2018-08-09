@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import TextSetting from './text_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class CustomGifSettings extends AdminSettings {
     constructor(props) {

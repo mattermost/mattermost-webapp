@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';

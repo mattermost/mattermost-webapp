@@ -2,15 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const MINIMUM_IDLE_TIMEOUT = 5;
 

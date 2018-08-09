@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {allowOAuth2, getOAuthAppInfo} from 'actions/admin_actions.jsx';
 import icon50 from 'images/icon50x50.png';

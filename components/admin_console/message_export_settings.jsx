@@ -3,6 +3,8 @@
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -13,8 +15,6 @@ import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 import RadioSetting from './radio_setting';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const exportFormats = {
     EXPORT_FORMAT_CSV: 'csv',

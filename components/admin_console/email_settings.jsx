@@ -10,14 +10,14 @@ import * as Utils from 'utils/utils.jsx';
 
 import EmailConnectionTest from 'components/admin_console/email_connection_test';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import {ConnectionSecurityDropdownSettingEmail} from './connection_security_dropdown_setting.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const EMAIL_NOTIFICATION_CONTENTS_FULL = 'full';
 const EMAIL_NOTIFICATION_CONTENTS_GENERIC = 'generic';

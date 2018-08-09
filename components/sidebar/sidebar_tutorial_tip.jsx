@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';

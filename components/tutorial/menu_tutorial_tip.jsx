@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
-import TutorialTip from './tutorial_tip';
+import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
+import TutorialTip from './tutorial_tip';
 
 const MenuTutorialTip = ({toggleFunc, onBottom}) => {
     const screens = [];

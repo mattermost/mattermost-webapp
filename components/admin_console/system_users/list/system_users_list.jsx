@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -14,10 +14,9 @@ import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import ResetEmailModal from 'components/admin_console/reset_email_modal/reset_email_modal.jsx';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
 import UserListRowWithError from 'components/user_list_row_with_error.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import SystemUsersDropdown from '../system_users_dropdown.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class SystemUsersList extends React.Component {
     static propTypes = {

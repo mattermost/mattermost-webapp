@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -10,11 +10,11 @@ import AnalyticsStore from 'stores/analytics_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import DoughnutChart from '../doughnut_chart.jsx';
 import LineChart from '../line_chart.jsx';
 import StatisticCount from '../statistic_count.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {
     formatPostsPerDayData,
@@ -81,7 +81,7 @@ export default class SystemAnalytics extends React.Component {
                     <div className='banner__content'>
                         <FormattedMarkdownMessage
                             id='analytics.system.skippedIntensiveQueries'
-                            defaultMessage="To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html)."
+                            defaultMessage='To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).'
                         />
                     </div>
                 </div>

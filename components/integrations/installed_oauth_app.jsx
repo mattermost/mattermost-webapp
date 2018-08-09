@@ -3,15 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
 import FormError from 'components/form_error.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import DeleteIntegration from './delete_integration.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const FAKE_SECRET = '***************';
 

@@ -4,7 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';

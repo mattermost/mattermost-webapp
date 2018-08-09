@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 

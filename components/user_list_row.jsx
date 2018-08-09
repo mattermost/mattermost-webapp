@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import UserStore from 'stores/user_store.jsx';

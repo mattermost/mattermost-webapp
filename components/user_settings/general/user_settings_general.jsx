@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 

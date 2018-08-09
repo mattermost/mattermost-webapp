@@ -7,13 +7,13 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import ClusterTableContainer from './cluster_table_container.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class ClusterSettings extends AdminSettings {
     constructor(props) {
