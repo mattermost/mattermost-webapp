@@ -373,16 +373,13 @@ export default class PostList extends React.PureComponent {
         if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
             if (post.type === '') {
                 const rootId = (post.root_id) ? post.root_id : post.id;
-                doDispatch({
-                    type: reduxPostTypes.RETHREAD_POST_UPDATE,
-                    data: target,
-                });
                 const updatedPost = {
                     data: target,
                     channel_id: target.channel_id,
                     id: target.id,
                     root_id: rootId,
                 };
+                this.rethreadHighlight = null;
                 await this.props.actions.rethreadPost(updatedPost);
             }
         }

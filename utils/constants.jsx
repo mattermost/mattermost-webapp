@@ -315,6 +315,7 @@ export const UserSearchOptions = {
 
 export const SocketEvents = {
     POSTED: 'posted',
+    POST_RETHREADED: 'post_rethreaded',
     POST_EDITED: 'post_edited',
     POST_DELETED: 'post_deleted',
     POST_UPDATED: 'post_updated',

@@ -119,11 +119,12 @@ export default class Post extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.canRethread = (PostUtils.canRethreadPost(this.props.post) && (this.props.replyCount === 0 || this.props.post.root_id !== ''));
+
         this.state = {
             dropdownOpened: false,
             hover: false,
             sameRoot: this.hasSameRoot(props),
-            canRethread: PostUtils.canRethreadPost(props.post),
         };
     }
 
@@ -152,8 +153,9 @@ export default class Post extends React.PureComponent {
         });
     }
     onDragStart = () => {
-        this.props.handleRethreading(null);
-        this.props.handleRethreading(this.props.post);
+        if (this.canRethread) {
+            this.props.handleRethreading(this.props.post);
+        }
     }
 
     onDragOver = (ev) => {
@@ -300,11 +302,9 @@ export default class Post extends React.PureComponent {
             centerClass = 'center';
         }
 
-        const canRethread = (PostUtils.canRethreadPost(post) && (this.props.replyCount === 0 || post.root_id !== ''));
-
         return (
             <div
-                draggable={canRethread}
+                draggable={this.canRethread}
                 ref={this.getRef}
                 id={'post_' + post.id}
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
