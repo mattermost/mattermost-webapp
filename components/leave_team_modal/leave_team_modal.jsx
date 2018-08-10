@@ -7,9 +7,8 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import WebrtcStore from 'stores/webrtc_store.jsx';
-import {WebrtcActionTypes} from 'utils/constants.jsx';
+import Constants, {WebrtcActionTypes} from 'utils/constants.jsx';
 import {isKeyPressed} from 'utils/utils';
-import Constants from 'utils/constants';
 
 class LeaveTeamModal extends React.PureComponent {
     static propTypes = {
