@@ -77,33 +77,14 @@ describe('components/post_view/PostAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call GlobalActions.postListScrollChange and checkOverflow on handleImageHeightReceived', () => {
+    test('should match state and call GlobalActions.postListScrollChange on handleImageHeightReceived', () => {
         const wrapper = shallow(<PostMessageView {...baseProps}/>);
         const instance = wrapper.instance();
         instance.checkOverflow = jest.fn();
 
+        wrapper.setState({checkOverflow: false});
         instance.handleImageHeightReceived();
         expect(postListScrollChange).toHaveBeenCalledTimes(1);
-        expect(instance.checkOverflow).toHaveBeenCalledTimes(1);
-    });
-
-    test('should call checkOverflow on handleResize', () => {
-        const wrapper = shallow(<PostMessageView {...baseProps}/>);
-        const instance = wrapper.instance();
-        instance.checkOverflow = jest.fn();
-
-        instance.handleResize();
-        expect(instance.checkOverflow).toHaveBeenCalledTimes(1);
-    });
-
-    test('should match state on toggleCollapse', () => {
-        const wrapper = shallow(<PostMessageView {...baseProps}/>);
-
-        wrapper.setState({collapse: false});
-        wrapper.instance().toggleCollapse();
-        expect(wrapper.state('collapse')).toEqual(true);
-
-        wrapper.instance().toggleCollapse();
-        expect(wrapper.state('collapse')).toEqual(false);
+        expect(wrapper.state('checkOverflow')).toEqual(true);
     });
 });

@@ -177,30 +177,6 @@
             }
         }
 
-        .attachment__text {
-            .attachment__text-collapse {
-                position: relative;
-            }
-
-            .attachment__text-collapse__link-more {
-                position: relative;
-            }
-        }
-
-        .attachment__text p:last-of-type {
-            display: inline-block;
-        }
-
-        .attachment__text--collapsed {
-            .attachment__text-container {
-                max-height: 200px;
-            }
-
-            .attachment__text-collapse__gradient {
-                height: 10px;
-            }
-        }
-
         .attachment__image__container--opengraph {
             display: table-cell;
             padding-left: 15px;
@@ -263,12 +239,6 @@
                     word-break: break-all;
                 }
             }
-        }
-
-        .attachment__text-link-more {
-            display: inline-block;
-            font-size: .9em;
-            margin: 5px 0;
         }
 
         .attachment__author-icon {
