@@ -92,6 +92,7 @@
     "jest": "23.4.1",
     "jest-canvas-mock": "1.1.0",
     "jest-cli": "23.4.1",
+    "jest-junit": "^5.1.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.4.1",
     "nightwatch": "0.9.21",
@@ -144,6 +145,10 @@
       "node_modules",
       "non_npm_dependencies"
     ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
     ],
@@ -153,10 +158,13 @@
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
     "testURL": "http://localhost:8065"
   },
+  "jest-junit": {
+    "output": "build/test-results.xml"
+  },
   "scripts": {
     "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",
     "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet --fix",
-    "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose --progress",
+    "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "cross-env NODE_ENV=production webpack --progress --watch",
     "run-fullmap": "webpack --progress --watch",
     "test": "jest --forceExit",
