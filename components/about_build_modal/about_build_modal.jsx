@@ -4,8 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class AboutBuildModal extends React.PureComponent {
@@ -217,9 +218,9 @@ export default class AboutBuildModal extends React.PureComponent {
                     </div>
                     <div className='about-modal__notice form-group padding-top x2'>
                         <p>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our <a href="https://about.mattermost.com/platform-notice-txt/" target="_blank">platform</a>, <a href="https://about.mattermost.com/desktop-notice-txt/" target="_blank">desktop</a> and <a href="https://about.mattermost.com/mobile-notice-txt/" target="_blank">mobile</a> apps.'
+                                defaultMessage='Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps.'
                             />
                         </p>
                     </div>

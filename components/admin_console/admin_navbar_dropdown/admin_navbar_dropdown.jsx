@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -173,8 +172,8 @@ export default class AdminNavbarDropdown extends React.Component {
                             className='divider'
                         />
                         <li>
-                            <Link
-                                to='https://about.mattermost.com/administrators-guide/'
+                            <a
+                                href='https://about.mattermost.com/administrators-guide/'
                                 rel='noopener noreferrer'
                                 target='_blank'
                             >
@@ -182,11 +181,11 @@ export default class AdminNavbarDropdown extends React.Component {
                                     id='admin.nav.administratorsGuide'
                                     defaultMessage='Administrator Guide'
                                 />
-                            </Link>
+                            </a>
                         </li>
                         <li>
-                            <Link
-                                to='https://about.mattermost.com/troubleshooting-forum/'
+                            <a
+                                href='https://about.mattermost.com/troubleshooting-forum/'
                                 rel='noopener noreferrer'
                                 target='_blank'
                             >
@@ -194,11 +193,11 @@ export default class AdminNavbarDropdown extends React.Component {
                                     id='admin.nav.troubleshootingForum'
                                     defaultMessage='Troubleshooting Forum'
                                 />
-                            </Link>
+                            </a>
                         </li>
                         <li>
-                            <Link
-                                to='https://about.mattermost.com/commercial-support/'
+                            <a
+                                href='https://about.mattermost.com/commercial-support/'
                                 rel='noopener noreferrer'
                                 target='_blank'
                             >
@@ -206,23 +205,23 @@ export default class AdminNavbarDropdown extends React.Component {
                                     id='admin.nav.commercialSupport'
                                     defaultMessage='Commercial Support'
                                 />
-                            </Link>
+                            </a>
                         </li>
                         <li>
-                            <a
-                                href='#'
+                            <button
+                                className='style--none'
                                 onClick={this.handleAboutModal}
                             >
                                 <FormattedMessage
                                     id='navbar_dropdown.about'
                                     defaultMessage='About Mattermost'
                                 />
-                            </a>
+                            </button>
                         </li>
                         <li className='divider'/>
                         <li>
-                            <a
-                                href='#'
+                            <button
+                                className='style--none'
                                 id='logout'
                                 onClick={this.handleLogout}
                             >
@@ -230,7 +229,7 @@ export default class AdminNavbarDropdown extends React.Component {
                                     id='admin.nav.logout'
                                     defaultMessage='Logout'
                                 />
-                            </a>
+                            </button>
                         </li>
                         <AboutBuildModal
                             show={this.state.showAboutModal}
