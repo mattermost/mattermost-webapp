@@ -906,7 +906,7 @@ export default {
                             label: 'admin.ldap.ldap_test_button',
                             label_default: 'AD/LDAP Test',
                             help_text: 'admin.ldap.testHelpText',
-                            help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. See log file for more detailed error messages.',
+                            help_text_default: 'Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             error_message: 'admin.ldap.testFailure',
                             error_message_default: 'AD/LDAP Test Failure: {error}',
                             success_message: 'admin.ldap.testSuccess',
@@ -921,8 +921,8 @@ export default {
                             job_type: Constants.JobTypes.LDAP_SYNC,
                             label: 'admin.ldap.sync_button',
                             label_default: 'AD/LDAP Synchronize Now',
-                            help_text: 'admin.ldap.testHelpText',
-                            help_text_default: 'Initiates an AD/LDAP synchronization immediately.',
+                            help_text: 'admin.ldap.syncNowHelpText',
+                            help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             render_job: (job) => {
                                 let mattermostUsers = '0';
