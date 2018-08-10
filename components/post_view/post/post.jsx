@@ -119,7 +119,7 @@ export default class Post extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.canRethread = (PostUtils.canRethreadPost(this.props.post) && (this.props.replyCount === 0 || this.props.post.root_id !== ''));
+        this.canRethread = (PostUtils.canRethreadPost(this.props.post) && (this.props.replyCount === 0 || this.props.post.root_id !== ''));
 
         this.state = {
             dropdownOpened: false,
