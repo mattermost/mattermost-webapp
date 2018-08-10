@@ -57,12 +57,25 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
 }
 
 export function isKeyPressed(event, key) {
+    // There are two types of keyboards
+    // 1. English with different layouts(Ex: Dvorak)
+    // 2. Different language keyboards(Ex: Russian)
+
     if (event.keyCode === Constants.KeyCodes.COMPOSING[1]) {
         return false;
     }
     if (typeof event.code !== 'undefined' && event.code !== 'Unidentified' && key[2]) {
-        return typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
+        const isPressedByCode = typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
+
+        // Returns true if the position of the key is validated. i.e Key K position irrespective of language.
+        // Works consistently across different languages keyboards.
+        // Do not return false because Layouts such as Dvorak will have Key k will be in different position.
+        if (isPressedByCode) {
+            return true;
+        }
     }
+
+    // checks for event.key for older browsers and also for the case of different English layout keyboards.
     if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
         return event.key === key[0] || event.key === key[0].toUpperCase();
     }
@@ -516,6 +529,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y', 'background:' + theme.sidebarText);
         changeCss('.app__body .ps-container:hover .ps-scrollbar-y-rail:hover, .app__body .sidebar__switcher button:hover', 'background:' + changeOpacity(theme.sidebarText, 0.15));
         changeCss('.app__body .sidebar--left .nav-pills__container li > h4, .app__body .sidebar--left .nav-pills__container li .sidebar-item, .app__body .sidebar--left .nav-pills__container li > .nav-more, .app__body .sidebar--right, .app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));
+        changeCss('.app__body .loading-user .loading-screen .loading__content .round', 'background:' + changeOpacity(theme.sidebarText, 0.6));
+        changeCss('.loading-user .loading-screen .loading__content h3', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>a, .app__body .sidebar--menu', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.app__body .sidebar--left .add-channel-btn', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + theme.sidebarText);
@@ -668,6 +683,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.centerChannelColor) {
+        changeCss('.app__body .svg-text-color', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .mentions__name .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .dropdown .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .post-list__arrows, .app__body .post .flag-icon__container', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
@@ -679,7 +695,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header__icon .icon--stroke.icon__search svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.55));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('.app__body .modal .settings-modal .team-img-preview div, .app__body .modal .settings-modal .team-img__container div, .app__body .system-notice__footer, .app__body .system-notice__footer .btn:last-child, .app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
+        changeCss('.app__body .modal .settings-modal .team-img-preview div, .app__body .modal .settings-modal .team-img__container div, .app__body .system-notice__footer, .app__body .system-notice__footer .btn:last-child, .app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command, .app__body .channel-archived__message', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .post.post--system .post__body, .app__body .modal .channel-switch-modal .modal-header .close', 'color:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .suggestion-list__content .command, .app__body .modal .modal-content, .app__body .dropdown-menu, .app__body .popover, .app__body .mentions__name, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .post .post__link', 'color:' + changeOpacity(theme.centerChannelColor, 0.65));
@@ -1187,18 +1203,18 @@ export function getDisplayName(user) {
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUserId(userId, usernameWithPrefix = false) {
-    return getDisplayNameByUser(UserStore.getProfile(userId), usernameWithPrefix);
+export function getDisplayNameByUserId(userId) {
+    return getDisplayNameByUser(UserStore.getProfile(userId));
 }
 
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUser(user, usernameWithPrefix = false) {
+export function getDisplayNameByUser(user) {
     const state = store.getState();
     const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
-        return displayUsername(user, teammateNameDisplay, usernameWithPrefix);
+        return displayUsername(user, teammateNameDisplay);
     }
 
     return '';

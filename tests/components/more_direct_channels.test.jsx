@@ -33,6 +33,11 @@ describe('components/MoreDirectChannels', () => {
             getStatusesByIds: emptyFunction,
             searchProfiles: emptyFunction,
             setModalSearchTerm: emptyFunction,
+            getTotalUsersStats: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
         },
     };
 
@@ -43,6 +48,7 @@ describe('components/MoreDirectChannels', () => {
 
         // on componentDidMount
         expect(props.actions.getProfiles).toHaveBeenCalledTimes(1);
+        expect(props.actions.getTotalUsersStats).toHaveBeenCalledTimes(1);
         expect(props.actions.getProfiles).toBeCalledWith(0, 100);
         expect(props.actions.getStatusesByIds).toHaveBeenCalledTimes(1);
         expect(props.actions.getStatusesByIds).toBeCalledWith(['user_id_3']);

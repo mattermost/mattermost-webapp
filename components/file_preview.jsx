@@ -8,6 +8,7 @@ import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import Constants, {FileTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import loadingGif from 'images/load.gif';
 
 export default class FilePreview extends React.PureComponent {
@@ -22,37 +23,19 @@ export default class FilePreview extends React.PureComponent {
         uploadsInProgress: [],
     };
 
-    constructor(props) {
-        super(props);
-
-        this.handleRemove = this.handleRemove.bind(this);
-        this.state = {
-            fileInfos: [...this.props.fileInfos],
-        };
-    }
-
     componentDidUpdate() {
         if (this.props.uploadsInProgress.length > 0) {
             this.refs[this.props.uploadsInProgress[0]].scrollIntoView();
         }
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
-            this.setState({
-                fileInfos: [...newProps.fileInfos],
-            });
-        }
-    }
-
-    handleRemove(id) {
+    handleRemove = (id) => {
         this.props.onRemove(id);
     }
 
     render() {
         const previews = [];
-        const fileInfos = this.state.fileInfos.sort((a, b) => a.create_at - b.create_at);
-        fileInfos.forEach((info, idx) => {
+        this.props.fileInfos.forEach((info, idx) => {
             const type = Utils.getFileType(info.extension);
 
             let className = 'file-preview post-image__column';

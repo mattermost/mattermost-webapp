@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import Constants from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
 
@@ -15,6 +15,11 @@ import MultiSelectList from './multiselect_list.jsx';
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelect extends React.Component {
+    static propTypes = {
+        users: PropTypes.arrayOf(PropTypes.object),
+        totalCount: PropTypes.number,
+    }
+
     constructor(props) {
         super(props);
 
@@ -150,6 +155,17 @@ export default class MultiSelect extends React.Component {
             );
         }
 
+        const memberCount = (
+            <FormattedMessage
+                id='multiselect.numMembers'
+                defaultMessage='{memberOptions, number} of {totalCount, number} members'
+                values={{
+                    memberOptions: this.props.users.length,
+                    totalCount: this.props.totalCount,
+                }}
+            />
+        );
+
         let buttonSubmitText;
         if (this.props.buttonSubmitText) {
             buttonSubmitText = this.props.buttonSubmitText;
@@ -264,6 +280,7 @@ export default class MultiSelect extends React.Component {
                     <div className='multi-select__help'>
                         {numRemainingText}
                         {noteTextContainer}
+                        {memberCount}
                     </div>
                 </div>
                 <MultiSelectList
@@ -306,4 +323,5 @@ MultiSelect.propTypes = {
     submitImmediatelyOn: PropTypes.func,
     saving: PropTypes.bool,
     loading: PropTypes.bool,
+    totalCount: PropTypes.number,
 };

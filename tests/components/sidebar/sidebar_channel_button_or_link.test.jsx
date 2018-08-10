@@ -23,6 +23,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
+                channelIsArchived={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -42,6 +43,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
+                channelIsArchived={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -73,6 +75,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
+                channelIsArchived={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -95,6 +98,30 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
+                channelIsArchived={false}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, when username is empty string', () => {
+        const userAgentMock = require.requireMock('utils/user_agent');
+        userAgentMock.isDesktopApp.mockImplementation(() => false);
+
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLink
+                channelType={Constants.DM_CHANNEL}
+                channelId={'test-channel-id'}
+                channelStatus={'test'}
+                link={'test-link'}
+                rowClass={'test-class'}
+                displayName={''}
+                handleClose={jest.fn()}
+                membersCount={2}
+                unreadMentions={6}
+                teammateId={'test-teammate-id'}
+                teammateDeletedAt={1}
+                channelIsArchived={false}
             />
         );
         expect(wrapper).toMatchSnapshot();

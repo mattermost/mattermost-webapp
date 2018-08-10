@@ -10,8 +10,8 @@ export default class InfoIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='22px'
-                    height='22px'
+                    width='18px'
+                    height='18px'
                     viewBox='0 0 22 22'
                     role='icon'
                     aria-label={localizeMessage('generic_icons.info', 'Info Icon')}

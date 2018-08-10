@@ -130,6 +130,22 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       perPage={50}
       saving={false}
       submitImmediatelyOn={[Function]}
+      users={
+        Array [
+          Object {
+            "delete_at": 0,
+            "id": "user_id_1",
+          },
+          Object {
+            "delete_at": 0,
+            "id": "user_id_2",
+          },
+          Object {
+            "delete_at": 0,
+            "id": "user_id_3",
+          },
+        ]
+      }
       valueKey="id"
       valueRenderer={[Function]}
       values={

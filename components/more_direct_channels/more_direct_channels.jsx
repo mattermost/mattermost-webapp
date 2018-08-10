@@ -27,6 +27,7 @@ export default class MoreDirectChannels extends React.Component {
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
         statuses: PropTypes.object.isRequired,
+        totalCount: PropTypes.number,
 
         /*
          * List of current channel members of existing channel
@@ -51,6 +52,7 @@ export default class MoreDirectChannels extends React.Component {
             getStatusesByIds: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
+            getTotalUsersStats: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -84,6 +86,7 @@ export default class MoreDirectChannels extends React.Component {
 
     componentDidMount() {
         this.getUserProfiles();
+        this.props.actions.getTotalUsersStats();
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
     }
 
@@ -391,6 +394,8 @@ export default class MoreDirectChannels extends React.Component {
                         submitImmediatelyOn={this.handleSubmitImmediatelyOn}
                         saving={this.state.saving}
                         loading={this.state.loadingUsers}
+                        users={this.props.users}
+                        totalCount={this.props.totalCount}
                     />
                 </Modal.Body>
             </Modal>

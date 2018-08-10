@@ -49,6 +49,7 @@ export default class RhsComment extends React.Component {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
+        channelIsArchived: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -203,7 +204,7 @@ export default class RhsComment extends React.Component {
     };
 
     render() {
-        const {post, isReadOnly} = this.props;
+        const {post, isReadOnly, channelIsArchived} = this.props;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
@@ -326,7 +327,7 @@ export default class RhsComment extends React.Component {
 
         let react;
 
-        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
             react = (
                 <ChannelPermissionGate
                     channelId={post.channel_id}
@@ -369,7 +370,7 @@ export default class RhsComment extends React.Component {
                     location={'RHS_COMMENT'}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
-                    isReadOnly={isReadOnly}
+                    isReadOnly={isReadOnly || channelIsArchived}
                 />
             );
 
@@ -446,7 +447,7 @@ export default class RhsComment extends React.Component {
                             {fileAttachment}
                             <ReactionListContainer
                                 post={post}
-                                isReadOnly={isReadOnly}
+                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>

@@ -13,6 +13,7 @@ export default class ChannelMembersModal extends React.PureComponent {
         canManageChannelMembers: PropTypes.bool.isRequired,
         channel: PropTypes.shape({
             display_name: PropTypes.string.isRequired,
+            delete_at: PropTypes.number.isRequired,
         }).isRequired,
         onModalDismissed: PropTypes.func.isRequired,
         showInviteModal: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ export default class ChannelMembersModal extends React.PureComponent {
     }
 
     render() {
+        const channelIsArchived = this.props.channel.delete_at !== 0;
         return (
             <div>
                 <Modal
@@ -54,7 +56,7 @@ export default class ChannelMembersModal extends React.PureComponent {
                                 defaultMessage=' Members'
                             />
                         </Modal.Title>
-                        {this.props.canManageChannelMembers &&
+                        {this.props.canManageChannelMembers && !channelIsArchived &&
                             <a
                                 id='showInviteModal'
                                 className='btn btn-md btn-primary'

@@ -217,18 +217,10 @@
     }
 
     .post-code__language {
-        @include opacity(.6);
+        @include opacity(1);
         @include transition(none);
         display: block;
         position: relative;
-    }
-
-    .post-code {
-        &:hover {
-            .post-code__language {
-                @include opacity(.6);
-            }
-        }
     }
 
     .backstage-filters {

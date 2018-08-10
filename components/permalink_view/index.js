@@ -13,9 +13,11 @@ function mapStateToProps(state) {
     const channel = getCurrentChannel(state);
     let channelId = '';
     let channelName = '';
+    let channelIsArchived;
     if (channel) {
         channelId = channel.id;
         channelName = channel.name;
+        channelIsArchived = channel.delete_at !== 0;
     }
 
     let teamName = '';
@@ -27,6 +29,7 @@ function mapStateToProps(state) {
         channelId,
         channelName,
         teamName,
+        channelIsArchived,
     };
 }
 

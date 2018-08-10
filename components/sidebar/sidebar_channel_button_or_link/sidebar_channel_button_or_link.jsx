@@ -9,6 +9,7 @@ import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
@@ -30,6 +31,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
+        channelIsArchived: PropTypes.bool.isRequired,
     }
 
     trackChannelSelectedEvent = () => {
@@ -44,6 +46,14 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
 
     render = () => {
         let badge = null;
+        let usernamePlaceHolder = this.props.displayName;
+        if (!usernamePlaceHolder) {
+            usernamePlaceHolder = (
+                <span className='loading-user'>
+                    <LoadingScreen style={{padding: '0px'}}/>
+                </span>
+            );
+        }
         if (this.props.badge) {
             badge = <span className='badge'>{this.props.unreadMentions}</span>;
         }
@@ -51,14 +61,14 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         const content = (
             <React.Fragment>
                 <SidebarChannelButtonOrLinkIcon
-                    channelId={this.props.channelId}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     membersCount={this.props.membersCount}
                     teammateId={this.props.teammateId}
                     teammateDeletedAt={this.props.teammateDeletedAt}
+                    channelIsArchived={this.props.channelIsArchived}
                 />
-                <span className='sidebar-item__name'>{this.props.displayName}</span>
+                <span className='sidebar-item__name'>{usernamePlaceHolder}</span>
                 {badge}
                 <SidebarChannelButtonOrLinkCloseButton
                     handleClose={this.props.handleClose}

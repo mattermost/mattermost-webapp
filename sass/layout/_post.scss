@@ -667,6 +667,17 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    .channel-archived__message {
+        padding: 25px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        text-align: center;
+    }
+
+    .channel-archived__close-btn {
+        margin: 10px;
+    }
 }
 
 .post-list__table {
@@ -887,17 +898,11 @@
         }
 
         blockquote {
-            display: flex;
-            font-size: 1em;
-            padding: 0;
-            vertical-align: top;
+            padding: 3px 0 3px 20px;
 
             &:before {
-                display: inline-block;
                 font-size: 15px;
                 left: 0;
-                margin-right: 5px;
-                position: relative;
                 top: 0;
             }
         }
@@ -1453,7 +1458,7 @@
             font-size: 13.5px;
             margin-bottom: .11em;
             margin-top: 3px;
-            padding-left: 20px;
+            padding-left: 22px;
 
             p {
                 margin-bottom: 0;
@@ -1928,4 +1933,18 @@
     .post-collapse__gradient {
         height: 0;
     }
+}
+
+.file-attachment-menu-item-input {
+    cursor: pointer;
+    direction: ltr;
+    filter: alpha(opacity=0);
+    font-size: 23px;
+    height: 35px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
 }

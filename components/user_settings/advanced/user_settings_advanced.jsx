@@ -5,13 +5,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {savePreferences} from 'actions/user_actions.jsx';
+import {savePreferences, updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
+import {clientLogout} from 'actions/global_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
+import ConfirmModal from '../../confirm_modal.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -26,6 +28,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
             formatting: 'advancedCtrlSend',
             join_leave: 'formatting',
             advancedPreviewFeatures: 'join_leave',
+            deactivateAccount: 'advancedPreviewFeatures',
         };
     }
 
@@ -68,6 +71,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         const isSaving = false;
 
         const previewFeaturesEnabled = this.props.enablePreviewFeatures;
+        const showDeactivateAccountModal = false;
 
         return {
             preReleaseFeatures: PreReleaseFeatures,
@@ -76,6 +80,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
             enabledFeatures,
             isSaving,
             previewFeaturesEnabled,
+            showDeactivateAccountModal,
         };
     }
 
@@ -132,6 +137,40 @@ export default class AdvancedSettingsDisplay extends React.Component {
                 this.handleUpdateSection('');
             }
         );
+    }
+
+    handleDeactivateAccountSubmit = () => {
+        const userId = UserStore.getCurrentId();
+
+        this.setState({isSaving: true});
+
+        updateActive(userId, false,
+            null,
+            (err) => {
+                this.setState({serverError: err.message});
+            }
+        );
+
+        revokeAllSessions(userId,
+            () => {
+                clientLogout();
+            },
+            (err) => {
+                this.setState({serverError: err.message});
+            }
+        );
+    }
+
+    handleShowDeactivateAccountModal = () => {
+        this.setState({
+            showDeactivateAccountModal: true,
+        });
+    }
+
+    handleHideDeactivateAccountModal = () => {
+        this.setState({
+            showDeactivateAccountModal: false,
+        });
     }
 
     handleUpdateSection = (section) => {
@@ -509,6 +548,92 @@ export default class AdvancedSettingsDisplay extends React.Component {
             }
         }
 
+        let deactivateAccountSection = '';
+        let makeConfirmationModal = '';
+        const currentUser = UserStore.getCurrentUser();
+
+        if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {
+            if (this.props.activeSection === 'deactivateAccount') {
+                deactivateAccountSection = (
+                    <SettingItemMax
+                        title={
+                            <FormattedMessage
+                                id='user.settings.advance.deactivateAccountTitle'
+                                defaultMessage='Deactivate Account'
+                            />
+                        }
+                        inputs={[
+                            <div key='formattingSetting'>
+                                <div>
+                                    <br/>
+                                    <FormattedMessage
+                                        id='user.settings.advance.deactivateDesc'
+                                        defaultMessage='Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To reactivate your account, contact your System Administrator.'
+                                    />
+                                </div>
+                            </div>,
+                        ]}
+                        saveButtonText={'Deactivate'}
+                        setting={'deactivateAccount'}
+                        submit={this.handleShowDeactivateAccountModal}
+                        saving={this.state.isSaving}
+                        server_error={this.state.serverError}
+                        updateSection={this.handleUpdateSection}
+                    />
+                );
+            } else {
+                deactivateAccountSection = (
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.advance.deactivateAccountTitle'
+                                defaultMessage='Deactivate Account'
+                            />
+                        }
+                        describe={
+                            <FormattedMessage
+                                id='user.settings.advance.deactivateDescShort'
+                                defaultMessage="Click 'Edit' to deactivate your account"
+                            />
+                        }
+                        focused={this.props.prevActiveSection === this.prevSections.deactivateAccount}
+                        section={'deactivateAccount'}
+                        updateSection={this.handleUpdateSection}
+                    />
+                );
+            }
+
+            const confirmButtonClass = 'btn btn-danger';
+            const deactivateMemberButton = (
+                <FormattedMessage
+                    id='user.settings.advance.deactivate_member_modal.deactivateButton'
+                    defaultMessage='Yes, deactivate my account'
+                />
+            );
+
+            makeConfirmationModal = (
+                <ConfirmModal
+                    show={this.state.showDeactivateAccountModal}
+                    title={
+                        <FormattedMessage
+                            id='user.settings.advance.confirmDeactivateAccountTitle'
+                            defaultMessage='Confirm Deactivation'
+                        />
+                    }
+                    message={
+                        <FormattedMessage
+                            id='user.settings.advance.confirmDeactivateDesc'
+                            defaultMessage='Are you sure you want to deactivate your account? This can only be reversed by your System Administrator.'
+                        />
+                    }
+                    confirmButtonClass={confirmButtonClass}
+                    confirmButtonText={deactivateMemberButton}
+                    onConfirm={this.handleDeactivateAccountSubmit}
+                    onCancel={this.handleHideDeactivateAccountModal}
+                />
+            );
+        }
+
         return (
             <div>
                 <div className='modal-header'>
@@ -554,7 +679,10 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     {displayJoinLeaveSection}
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
+                    {formattingSectionDivider}
+                    {deactivateAccountSection}
                     <div className='divider-dark'/>
+                    {makeConfirmationModal}
                 </div>
             </div>
         );
@@ -570,4 +698,5 @@ AdvancedSettingsDisplay.propTypes = {
     enablePreviewFeatures: PropTypes.bool,
     buildEnterpriseReady: PropTypes.bool,
     isLicensed: PropTypes.bool,
+    enableUserDeactivation: PropTypes.bool,
 };

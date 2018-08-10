@@ -27,6 +27,7 @@ import * as ChannelActions from 'mattermost-redux/actions/channels';
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
+import ArchiveIcon from 'components/svg/archive_icon';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
@@ -49,6 +50,7 @@ class SwitchChannelSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
+        const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
         const member = this.props.channelMember;
         let badge = null;
@@ -65,7 +67,11 @@ class SwitchChannelSuggestion extends Suggestion {
 
         let displayName = channel.display_name;
         let icon = null;
-        if (channel.type === Constants.OPEN_CHANNEL) {
+        if (channelIsArchived) {
+            icon = (
+                <ArchiveIcon className='icon icon__archive'/>
+            );
+        } else if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
                 <GlobeIcon className='icon icon__globe icon--body'/>
             );
@@ -112,7 +118,13 @@ const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannel
 let prefix = '';
 
 function quickSwitchSorter(wrappedA, wrappedB) {
-    if (wrappedA.type === Constants.MENTION_CHANNELS && wrappedB.type === Constants.MENTION_MORE_CHANNELS) {
+    const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
+    const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
+    if (aIsArchived && !bIsArchived) {
+        return 1;
+    } else if (!aIsArchived && bIsArchived) {
+        return -1;
+    } else if (wrappedA.type === Constants.MENTION_CHANNELS && wrappedB.type === Constants.MENTION_MORE_CHANNELS) {
         return -1;
     } else if (wrappedB.type === Constants.MENTION_CHANNELS && wrappedA.type === Constants.MENTION_MORE_CHANNELS) {
         return 1;
@@ -308,9 +320,12 @@ export default class SwitchChannelProvider extends Provider {
 
             if (channelFilter(channel)) {
                 const newChannel = Object.assign({}, channel);
+                const channelIsArchived = channel.delete_at !== 0;
 
                 let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
-                if (newChannel.type === Constants.GM_CHANNEL) {
+                if (channelIsArchived) {
+                    wrappedChannel.type = Constants.ARCHIVED_CHANNEL;
+                } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = getChannelDisplayName(newChannel);
                     wrappedChannel.name = newChannel.name;
                     const isGMVisible = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, newChannel.id, false);

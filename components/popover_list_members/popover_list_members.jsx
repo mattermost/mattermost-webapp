@@ -131,8 +131,9 @@ export default class PopoverListMembers extends React.Component {
             />
         ));
 
+        const channelIsArchived = this.props.channel.delete_at !== 0;
         let popoverButton;
-        if (this.props.channel.type !== Constants.GM_CHANNEL) {
+        if (this.props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
             let membersName = (
                 <FormattedMessage
                     id='members_popover.manageMembers'

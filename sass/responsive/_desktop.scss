@@ -48,6 +48,17 @@
             margin-left: 0;
         }
     }
+
+    .inner-wrap {
+        &.move--left {
+            .post-create__container {
+                .channel-archived__close-btn {
+                    display: block;
+                    margin: 10px auto 0;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 1140px) {

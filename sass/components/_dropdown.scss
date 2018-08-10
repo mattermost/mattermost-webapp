@@ -68,3 +68,13 @@
 .dropdown-menu__content {
     display: none;
 }
+
+.dropdown-menu__icons {
+    li {
+        .fa {
+            width: 25px;
+            text-align: center;
+            margin-left: -5px;
+        }
+    }
+}

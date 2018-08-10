@@ -23,7 +23,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import {loadMeAndConfig, addSwitchToEENotification} from 'actions/user_actions.jsx';
+import {loadMeAndConfig} from 'actions/user_actions.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
@@ -212,15 +212,16 @@ export default class Root extends React.Component {
         const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
         const androidDownloadLink = getConfig(store.getState()).AndroidAppDownloadLink;
 
+        const toResetPasswordScreen = this.props.location.pathname === '/reset_password_complete';
+
         // redirect to the mobile landing page if the user hasn't seen it before
-        if (iosDownloadLink && UserAgent.isIosWeb() && !BrowserStore.hasSeenLandingPage()) {
+        if (iosDownloadLink && UserAgent.isIosWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
             this.props.history.push('/get_ios_app');
             BrowserStore.setLandingPageSeen(true);
-        } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage()) {
+        } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
             this.props.history.push('/get_android_app');
             BrowserStore.setLandingPageSeen(true);
         }
-        addSwitchToEENotification();
     }
 
     localizationChanged = () => {

@@ -6,9 +6,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import ChannelInfoModal from './channel_info_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentTeam: getCurrentTeam(state),
     };
 }
