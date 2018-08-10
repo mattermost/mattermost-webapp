@@ -198,24 +198,24 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         ) {
             if (this.state.imageLoaded === this.IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
-                    element = <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
+                    element = <img className={'attachment__image attachment__image--opengraph loading large_image'}/>;
                 } else {
                     element = this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--openraph loading '}/>
+                        <img className={'attachment__image attachment__image--opengraph loading '}/>
                     );
                 }
             } else if (this.state.imageLoaded === this.IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     element = (
                         <img
-                            className={'attachment__image attachment__image--openraph large_image'}
+                            className={'attachment__image attachment__image--opengraph large_image'}
                             src={imageUrl}
                         />
                     );
                 } else {
                     element = this.wrapInSmallImageContainer(
                         <img
-                            className={'attachment__image attachment__image--openraph'}
+                            className={'attachment__image attachment__image--opengraph'}
                             src={imageUrl}
                             ref={this.getSmallImageElement}
                         />

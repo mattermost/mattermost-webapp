@@ -81,7 +81,7 @@ function makeMapStateToProps() {
                 channelTeammateId = channel.teammate_id;
             }
 
-            channelDisplayName = displayUsername(teammate, teammateNameDisplay);
+            channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
         }
 
         let shouldHideChannel = false;
@@ -115,6 +115,7 @@ function makeMapStateToProps() {
             unreadMentions,
             membersCount,
             shouldHideChannel,
+            channelIsArchived: channel.delete_at !== 0,
         };
     };
 }

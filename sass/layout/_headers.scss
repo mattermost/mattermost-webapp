@@ -161,7 +161,7 @@
         }
 
         .fa {
-            font-size: 19px;
+            font-size: 15px;
         }
 
         & + div {
@@ -170,10 +170,8 @@
 
         .icon {
             position: relative;
-        }
-
-        .icon__pin {
-            top: 1px;
+            align-items: center;
+            justify-content: center;
         }
 
         .icon__ellipsis {
@@ -288,6 +286,10 @@
 
         .channel-header__favorites {
             flex: 0 auto;
+        }
+
+        .channel-header-archived-icon {
+            opacity: .5;
         }
 
         h2 {
@@ -545,9 +547,9 @@
             }
 
             .dropdown-menu {
-                margin-right: 10px;
+                margin-left: 10px;
                 margin-top: 4px;
-                width: 199px;
+                min-width: 199px;
 
                 a,
                 button {
@@ -702,4 +704,10 @@
         }
     }
 
+}
+
+.channel-header-archived-icon {
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
 }

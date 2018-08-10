@@ -25,6 +25,23 @@ describe('components/ChannelHeader', () => {
         channelMember: {},
         currentUser: {},
         enableWebrtc: false,
+        lastViewedChannelName: '',
+    };
+
+    const populatedProps = {
+        ...baseProps,
+        channel: {
+            id: 'channel_id',
+            team_id: 'team_id',
+            name: 'Test',
+        },
+        channelMember: {
+            channel_id: 'channel_id',
+            user_id: 'user_id',
+        },
+        currentUser: {
+            id: 'user_id',
+        },
     };
 
     test('should render properly when empty', () => {
@@ -35,24 +52,8 @@ describe('components/ChannelHeader', () => {
     });
 
     test('should render properly when populated', () => {
-        const props = {
-            ...baseProps,
-            channel: {
-                id: 'channel_id',
-                team_id: 'team_id',
-                name: 'Test',
-            },
-            channelMember: {
-                channel_id: 'channel_id',
-                user_id: 'user_id',
-            },
-            currentUser: {
-                id: 'user_id',
-            },
-        };
-
         const wrapper = shallow(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...populatedProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -80,6 +81,18 @@ describe('components/ChannelHeader', () => {
             currentUser: {
                 id: 'user_id',
             },
+        };
+
+        const wrapper = shallow(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render archived view', () => {
+        const props = {
+            ...populatedProps,
+            channel: {...populatedProps.channel, delete_at: 1234},
         };
 
         const wrapper = shallow(

@@ -9,7 +9,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 >
   <React.Fragment>
     <SidebarChannelButtonOrLinkIcon
-      channelId="test-channel-id"
+      channelIsArchived={false}
       channelStatus="test"
       channelType="D"
       membersCount={3}
@@ -46,7 +46,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 >
   <React.Fragment>
     <SidebarChannelButtonOrLinkIcon
-      channelId="test-channel-id"
+      channelIsArchived={false}
       channelStatus="test"
       channelType="D"
       membersCount={3}
@@ -77,7 +77,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 >
   <React.Fragment>
     <SidebarChannelButtonOrLinkIcon
-      channelId="test-channel-id"
+      channelIsArchived={false}
       channelStatus="test"
       channelType="D"
       membersCount={3}
@@ -114,7 +114,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 >
   <React.Fragment>
     <SidebarChannelButtonOrLinkIcon
-      channelId="test-channel-id"
+      channelIsArchived={false}
       channelStatus="test"
       channelType="D"
       membersCount={3}
@@ -125,6 +125,48 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
       className="sidebar-item__name"
     >
       test-channel-name
+    </span>
+    <SidebarChannelButtonOrLinkCloseButton
+      channelId="test-channel-id"
+      channelType="D"
+      handleClose={[MockFunction]}
+      teammateId="test-teammate-id"
+    />
+  </React.Fragment>
+</Link>
+`;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, when username is empty string 1`] = `
+<Link
+  className="test-class"
+  onClick={[Function]}
+  replace={false}
+  to="test-link"
+>
+  <React.Fragment>
+    <SidebarChannelButtonOrLinkIcon
+      channelIsArchived={false}
+      channelStatus="test"
+      channelType="D"
+      membersCount={2}
+      teammateDeletedAt={1}
+      teammateId="test-teammate-id"
+    />
+    <span
+      className="sidebar-item__name"
+    >
+      <span
+        className="loading-user"
+      >
+        <LoadingScreen
+          position="relative"
+          style={
+            Object {
+              "padding": "0px",
+            }
+          }
+        />
+      </span>
     </span>
     <SidebarChannelButtonOrLinkCloseButton
       channelId="test-channel-id"

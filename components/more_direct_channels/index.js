@@ -7,6 +7,7 @@ import {
     getProfiles,
     getProfilesInTeam,
     getStatusesByIds,
+    getTotalUsersStats,
     searchProfiles,
 } from 'mattermost-redux/actions/users';
 import {
@@ -16,6 +17,7 @@ import {
     getProfilesInCurrentTeam,
     searchProfiles as searchProfilesSelector,
     searchProfilesInCurrentTeam,
+    getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -49,6 +51,7 @@ function mapStateToProps(state, ownProps) {
     }
 
     const team = getCurrentTeam(state);
+    const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
     return {
         currentTeamId: team.id,
@@ -59,6 +62,7 @@ function mapStateToProps(state, ownProps) {
         currentChannelMembers,
         currentUserId: getCurrentUserId(state),
         restrictDirectMessage,
+        totalCount: stats.total_users_count,
     };
 }
 
@@ -70,6 +74,7 @@ function mapDispatchToProps(dispatch) {
             getStatusesByIds,
             searchProfiles,
             setModalSearchTerm,
+            getTotalUsersStats,
         }, dispatch),
     };
 }

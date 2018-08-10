@@ -9,9 +9,8 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import EditPostTimeLimitModal from './edit_post_time_limit_modal';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         config: Selectors.getConfig(state),
     };
 }

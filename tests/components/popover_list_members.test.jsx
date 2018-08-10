@@ -30,7 +30,7 @@ describe('components/PopoverListMembers', () => {
     };
 
     const actions = {
-        getProfilesInChannel: () => {}, // eslint-disable-line no-empty-function
+        getProfilesInChannel: () => { }, // eslint-disable-line no-empty-function
     };
 
     const baseProps = {
@@ -135,5 +135,15 @@ describe('components/PopoverListMembers', () => {
         wrapper.instance().hideTeamMembersModal({preventDefault: jest.fn()});
 
         expect(wrapper.state('showTeamMembersModal')).toEqual(false);
+    });
+
+    test('should match snapshot with archived channel', () => {
+        const props = {...baseProps, channel: {...channel, delete_at: 1234}};
+
+        const wrapper = shallow(
+            <PopoverListMembers {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

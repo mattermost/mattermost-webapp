@@ -6,7 +6,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
+
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
@@ -15,10 +23,6 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -73,6 +77,7 @@ export default class CreateComment extends React.PureComponent {
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
+        locale: PropTypes.string.isRequired,
 
         /**
          * A function returning a ref to the sidebar
@@ -420,7 +425,7 @@ export default class CreateComment extends React.PureComponent {
     handleFileUploadComplete = (fileInfos, clientIds) => {
         const {draft} = this.state;
         const uploadsInProgress = [...draft.uploadsInProgress];
-        const newFileInfos = [...draft.fileInfos, ...fileInfos];
+        const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);
 
         // remove each finished file from uploads
         for (let i = 0; i < clientIds.length; i++) {

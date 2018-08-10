@@ -63,7 +63,7 @@ export function performSearch(terms, isMentionSearch) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
 
-        return dispatch(searchPosts(teamId, terms, isMentionSearch));
+        return dispatch(searchPosts(teamId, terms, isMentionSearch, true));
     };
 }
 

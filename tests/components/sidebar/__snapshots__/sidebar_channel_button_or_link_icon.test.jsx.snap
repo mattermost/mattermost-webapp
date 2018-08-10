@@ -6,6 +6,12 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 />
 `;
 
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on archived public channel 1`] = `
+<ArchiveIcon
+  className="icon icon__archive"
+/>
+`;
+
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on direct message 1`] = `
 <StatusIcon
   className=""

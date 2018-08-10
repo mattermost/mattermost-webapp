@@ -7,9 +7,8 @@ import {updateUserRoles} from 'mattermost-redux/actions/users';
 
 import ManageRolesModal from './manage_roles_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         userAccessTokensEnabled: state.entities.admin.config.ServiceSettings.EnableUserAccessTokens,
     };
 }

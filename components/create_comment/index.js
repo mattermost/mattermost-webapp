@@ -12,6 +12,7 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {getCurrentLocale} from 'selectors/i18n';
 
 import {
     clearCommentDraftUploads,
@@ -51,6 +52,7 @@ function mapStateToProps(state, ownProps) {
         enableConfirmNotificationsToChannel,
         enableEmojiPicker,
         enableGifPicker,
+        locale: getCurrentLocale(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
     };
 }

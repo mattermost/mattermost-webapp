@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants, {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
@@ -25,7 +25,7 @@ export default class FileAttachmentList extends React.Component {
         fileCount: PropTypes.number.isRequired,
 
         /*
-         * Array of metadata for each file attached to the post
+         * Sorted array of metadata for each file attached to the post
          */
         fileInfos: PropTypes.arrayOf(PropTypes.object),
 
@@ -91,17 +91,14 @@ export default class FileAttachmentList extends React.Component {
         }
 
         const postFiles = [];
-        let sortedFileInfos = [];
-
         if (fileInfos && fileInfos.length > 0) {
-            sortedFileInfos = fileInfos.sort((a, b) => a.create_at - b.create_at);
-            for (let i = 0; i < Math.min(sortedFileInfos.length, Constants.MAX_DISPLAY_FILES); i++) {
-                const fileInfo = sortedFileInfos[i];
+            for (let i = 0; i < fileInfos.length; i++) {
+                const fileInfo = fileInfos[i];
 
                 postFiles.push(
                     <FileAttachment
                         key={fileInfo.id}
-                        fileInfo={sortedFileInfos[i]}
+                        fileInfo={fileInfos[i]}
                         index={i}
                         handleImageClick={this.handleImageClick}
                         compactDisplay={compactDisplay}
@@ -109,7 +106,7 @@ export default class FileAttachmentList extends React.Component {
                 );
             }
         } else if (fileCount > 0) {
-            for (let i = 0; i < Math.min(fileCount, Constants.MAX_DISPLAY_FILES); i++) {
+            for (let i = 0; i < fileCount; i++) {
                 // Add a placeholder to avoid pop-in once we get the file infos for this post
                 postFiles.push(
                     <div
@@ -129,7 +126,7 @@ export default class FileAttachmentList extends React.Component {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.hidePreviewModal}
                     startIndex={this.state.startImgIndex}
-                    fileInfos={sortedFileInfos}
+                    fileInfos={fileInfos}
                 />
             </React.Fragment>
         );

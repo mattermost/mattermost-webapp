@@ -361,6 +361,7 @@
                     height: auto;
                     max-height: 85vh;
                     width: auto;
+                    margin: -20px 0 20px;
                 }
 
                 .modal-close {
@@ -387,6 +388,7 @@
                     min-height: 100px;
                     min-width: 320px;
                     position: relative;
+                    max-width: 100%;
                 }
 
                 code {
@@ -479,6 +481,7 @@
             .modal-button-bar {
                 @include single-transition(opacity, .6s);
                 @include opacity(0);
+                overflow: hidden;
                 background-color: $black;
                 bottom: 0;
                 left: 0;

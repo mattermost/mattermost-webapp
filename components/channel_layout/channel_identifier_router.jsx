@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {joinChannel} from 'mattermost-redux/actions/channels';
+import {joinChannel, getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 
 import ChannelView from 'components/channel_view/index';
@@ -94,12 +94,17 @@ async function goToChannelByChannelName(match, history) {
     let channel = ChannelStore.getByName(channelName);
     const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error} = await joinChannel(UserStore.getCurrentId(), teamObj.id, null, channelName)(dispatch, getState);
-        if (error) {
-            handleChannelJoinError(match, history);
-            return;
+        const {data, error: joinError} = await joinChannel(UserStore.getCurrentId(), teamObj.id, null, channelName)(dispatch, getState);
+        if (joinError) {
+            const {data: data2, error: getChannelError} = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
+            if (getChannelError || data2.delete_at === 0) {
+                handleChannelJoinError(match, history);
+                return;
+            }
+            channel = data2;
+        } else {
+            channel = data.channel;
         }
-        channel = data.channel;
     }
 
     if (channel.type === Constants.DM_CHANNEL) {

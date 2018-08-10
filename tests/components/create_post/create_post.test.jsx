@@ -44,6 +44,7 @@ const showTutorialTipProp = false;
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
 const latestReplyablePostIdProp = 'a';
+const localeProp = 'en';
 
 const currentChannelProp = {
     id: 'owsyt8n43jfxjpzh9np93mx1wa',
@@ -87,6 +88,7 @@ function createPost({
     draft = draftProp,
     recentPostIdInChannel = recentPostIdInChannelProp,
     latestReplyablePostId = latestReplyablePostIdProp,
+    locale = localeProp,
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
@@ -105,6 +107,7 @@ function createPost({
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
             latestReplyablePostId={latestReplyablePostId}
+            locale={locale}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}

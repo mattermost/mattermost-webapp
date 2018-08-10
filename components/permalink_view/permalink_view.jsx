@@ -10,11 +10,13 @@ import ChannelHeader from 'components/channel_header';
 import {localizeMessage} from 'utils/utils.jsx';
 import PostView from 'components/post_view';
 import {emitPostFocusEvent} from 'actions/global_actions.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string,
         channelName: PropTypes.string,
+        channelIsArchived: PropTypes.bool,
 
         /*
          * Object from react-router
@@ -63,6 +65,7 @@ export default class PermalinkView extends React.PureComponent {
         const {
             channelId,
             channelName,
+            channelIsArchived,
             match,
             teamName,
         } = this.props;
@@ -92,6 +95,12 @@ export default class PermalinkView extends React.PureComponent {
                     <Link
                         to={'/' + teamName + '/channels/' + channelName}
                     >
+                        {channelIsArchived &&
+                            <FormattedMarkdownMessage
+                                id='center_panel.permalink.archivedChannel'
+                                defaultMessage='You are viewing an **archived channel**. '
+                            />
+                        }
                         <FormattedMessage
                             id='center_panel.recent'
                             defaultMessage='Click here to jump to recent messages. '
