@@ -96,25 +96,25 @@ export default class GitLabSettings extends AdminSettings {
                             <ol>
                                 <li>
                                     <FormattedMessage
-                                        id='admin.gitlab.EnableHtmlDesc1'
+                                        id='admin.gitlab.EnableProcess1'
                                         defaultMessage='Log in to your GitLab account and go to Profile Settings -> Applications.'
                                     />
                                 </li>
                                 <li>
                                     <FormattedMessage
-                                        id='admin.gitlab.EnableHtmlDesc2'
+                                        id='admin.gitlab.EnableProcess2'
                                         defaultMessage='Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".'
                                     />
                                 </li>
                                 <li>
                                     <FormattedMessage
-                                        id='admin.gitlab.EnableHtmlDesc3'
+                                        id='admin.gitlab.EnableProcess3'
                                         defaultMessage='Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.'
                                     />
                                 </li>
                                 <li>
                                     <FormattedMessage
-                                        id='admin.gitlab.EnableHtmlDesc4'
+                                        id='admin.gitlab.EnableProcess4'
                                         defaultMessage='Complete the Endpoint URLs below.'
                                     />
                                 </li>

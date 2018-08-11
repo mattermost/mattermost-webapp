@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/svg/mattermost_logo';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
