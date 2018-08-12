@@ -133,4 +133,15 @@ describe('components/MoreDirectChannels', () => {
         expect(wrapper.instance().handleSubmitImmediatelyOn({id: 'user_id_2', delete_at: 123})).toEqual(true);
         expect(wrapper.instance().handleSubmitImmediatelyOn({id: 'user_id_2', delete_at: 0})).toEqual(false);
     });
+
+    test('should render the group channel option', () => {
+        const props = {...baseProps};
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const channel = {
+            profiles: [{id: 'user_id_2', username: 'username'}],
+            type: 'G',
+        };
+
+        expect(wrapper.instance().renderOption(channel, false, jest.fn())).toMatchSnapshot();
+    });
 });
