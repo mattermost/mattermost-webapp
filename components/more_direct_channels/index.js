@@ -30,6 +30,19 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
+function getChannelsWithProfiles(state, currentUserId, searchTerm) {
+    const doGetProfilesInChannel = makeGetProfilesInChannel();
+    const channels = getGroupChannels(state);
+
+    const channelsWithUserProfiles = channels.map((channel) => {
+        const profiles = doGetProfilesInChannel(state, channel.id).
+            filter((profile) => profile.id !== currentUserId);
+        return Object.assign({}, channel, {profiles});
+    }).filter((channel) => channel.display_name.indexOf(searchTerm) !== -1);
+
+    return channelsWithUserProfiles;
+}
+
 function mapStateToProps(state, ownProps) {
     const currentUserId = getCurrentUserId(state);
     let currentChannelMembers = [];
@@ -54,12 +67,7 @@ function mapStateToProps(state, ownProps) {
     } else {
         users = getProfilesInCurrentTeam(state);
     }
-    const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const channels = getGroupChannels(state);
-    const channelsWithUserProfiles = channels.map((channel) => {
-        const profiles = doGetProfilesInChannel(state, channel.id).filter((profile) => profile.id !== currentUserId);
-        return Object.assign({}, channel, {profiles});
-    });
+    const channelsWithUserProfiles = getChannelsWithProfiles(state, currentUserId, searchTerm);
     users = [...users, ...channelsWithUserProfiles];
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
