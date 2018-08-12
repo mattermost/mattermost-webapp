@@ -14,6 +14,8 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
+import GroupMessageOption from './group_message_option';
+
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
@@ -188,17 +190,31 @@ export default class MoreDirectChannels extends React.Component {
         } else {
             openGroupChannelToUsers(userIds, success, error);
         }
-    }
+    };
 
     addValue = (value) => {
-        const values = Object.assign([], this.state.values);
+        if (Array.isArray(value)) {
+            this.addUsers(value);
+        } else {
+            const values = Object.assign([], this.state.values);
 
-        if (values.indexOf(value) === -1) {
-            values.push(value);
+            if (values.indexOf(value) === -1) {
+                values.push(value);
+            }
+
+            this.setState({values});
         }
+    };
+
+    addUsers = (users) => {
+        const values = Object.assign([], this.state.values);
+        const existingUserIds = values.map((user) => user.id);
+        users.
+            filter((user) => existingUserIds.indexOf(user.id) === -1).
+            map((user) => values.push(user));
 
         this.setState({values});
-    }
+    };
 
     getUserProfiles = (page) => {
         const pageNum = page ? page + 1 : 0;
@@ -235,6 +251,16 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     renderOption = (option, isSelected, onAdd) => {
+        if (option.type && option.type === 'G') {
+            return (
+                <GroupMessageOption
+                    channel={option}
+                    isSelected={isSelected}
+                    onAdd={onAdd}
+                />
+            );
+        }
+
         const displayName = displayEntireNameForUser(option);
 
         let modalName = displayName;

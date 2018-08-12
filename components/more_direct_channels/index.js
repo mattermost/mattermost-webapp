@@ -14,7 +14,7 @@ import {
     getCurrentUserId,
     getProfiles as selectProfiles,
     getProfilesInCurrentChannel,
-    getProfilesInCurrentTeam,
+    getProfilesInCurrentTeam, makeGetProfilesInChannel,
     searchProfiles as searchProfilesSelector,
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
@@ -22,12 +22,16 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {getGroupChannels} from 'mattermost-redux/selectors/entities/channels';
+
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const currentUserId = getCurrentUserId(state);
     let currentChannelMembers = [];
     if (ownProps.isExistingChannel) {
         currentChannelMembers = getProfilesInCurrentChannel(state);
@@ -50,7 +54,13 @@ function mapStateToProps(state, ownProps) {
     } else {
         users = getProfilesInCurrentTeam(state);
     }
-
+    const doGetProfilesInChannel = makeGetProfilesInChannel();
+    const channels = getGroupChannels(state);
+    const channelsWithUserProfiles = channels.map((channel) => {
+        const profiles = doGetProfilesInChannel(state, channel.id).filter((profile) => profile.id !== currentUserId);
+        return Object.assign({}, channel, {profiles});
+    });
+    users = [...users, ...channelsWithUserProfiles];
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
@@ -61,7 +71,7 @@ function mapStateToProps(state, ownProps) {
         users,
         statuses: state.entities.users.statuses,
         currentChannelMembers,
-        currentUserId: getCurrentUserId(state),
+        currentUserId,
         restrictDirectMessage,
         totalCount: stats.total_users_count,
     };
