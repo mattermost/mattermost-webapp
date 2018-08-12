@@ -82,6 +82,14 @@
         }
     }
 
+    &.status--group--direct--option {
+        width: 32px;
+        height: 32px;
+        border-radius: 60px;
+        background-color: #d2cece;
+        padding-top: 5px;
+    }
+
     .dnd--icon {
         fill: rgb(247, 67, 67);
     }
