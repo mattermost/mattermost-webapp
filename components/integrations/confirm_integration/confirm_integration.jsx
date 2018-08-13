@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
@@ -73,9 +73,9 @@ export default class ConfirmIntegration extends React.Component {
             );
             tokenText = (
                 <p className='word-break--all'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_command.token'
-                        defaultMessage='<b>Token</b>: {token}'
+                        defaultMessage='**Token**: {token}'
                         values={{
                             token: command.token,
                         }}
@@ -91,17 +91,17 @@ export default class ConfirmIntegration extends React.Component {
             );
             helpText = (
                 <p>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_incoming_webhook.doneHelp'
-                        defaultMessage='Your incoming webhook has been set up. Please send data to the following URL (see <a href=\"https://docs.mattermost.com/developer/webhooks-incoming.html\">documentation</a> for further details).'
+                        defaultMessage='Your incoming webhook has been set up. Please send data to the following URL (see [documentation](https://docs.mattermost.com/developer/webhooks-incoming.html) for further details).'
                     />
                 </p>
             );
             tokenText = (
                 <p className='word-break--all'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_incoming_webhook.url'
-                        defaultMessage='<b>URL</b>: {url}'
+                        defaultMessage='**URL**: {url}'
                         values={{
                             url: getSiteURL() + '/hooks/' + incomingHook.id,
                         }}
@@ -117,17 +117,17 @@ export default class ConfirmIntegration extends React.Component {
             );
             helpText = (
                 <p>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_outgoing_webhook.doneHelp'
-                        defaultMessage='Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see <a href=\"https://docs.mattermost.com/developer/webhooks-outgoing.html\">documentation</a> for further details).'
+                        defaultMessage='Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](https://docs.mattermost.com/developer/webhooks-outgoing.html) for further details).'
                     />
                 </p>
             );
             tokenText = (
                 <p className='word-break--all'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_outgoing_webhook.token'
-                        defaultMessage='<b>Token</b>: {token}'
+                        defaultMessage='**Token**: {token}'
                         values={{
                             token: outgoingHook.token,
                         }}
@@ -145,24 +145,24 @@ export default class ConfirmIntegration extends React.Component {
             helpText = [];
             helpText.push(
                 <p key='add_oauth_app.doneHelp'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_oauth_app.doneHelp'
-                        defaultMessage='Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see <a href="https://docs.mattermost.com/developer/oauth-2-0-applications.html">documentation</a> for further details).'
+                        defaultMessage='Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see [documentation](https://docs.mattermost.com/developer/oauth-2-0-applications.html) for further details).'
                     />
                 </p>
             );
             helpText.push(
                 <p key='add_oauth_app.clientId'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_oauth_app.clientId'
-                        defaultMessage='<b>Client ID:</b> {id}'
+                        defaultMessage='**Client ID:** {id}'
                         values={{
                             id: oauthApp.id,
                         }}
                     /> <br/>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_oauth_app.clientSecret'
-                        defaultMessage='<b>Client Secret:</b> {secret}'
+                        defaultMessage='**Client Secret:** {secret}'
                         values={{
                             secret: oauthApp.client_secret,
                         }}
@@ -172,7 +172,7 @@ export default class ConfirmIntegration extends React.Component {
 
             helpText.push(
                 <p key='add_oauth_app.doneUrlHelp'>
-                    <FormattedHTMLMessage
+                    <FormattedMessage
                         id='add_oauth_app.doneUrlHelp'
                         defaultMessage='The following are your authorized redirect URL(s).'
                     />
@@ -181,9 +181,9 @@ export default class ConfirmIntegration extends React.Component {
 
             tokenText = (
                 <p className='word-break--all'>
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='add_oauth_app.url'
-                        defaultMessage='<b>URL(s)</b>: {url}'
+                        defaultMessage='**URL(s)**: {url}'
                         values={{
                             url: oauthApp.callback_urls,
                         }}
