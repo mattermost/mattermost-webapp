@@ -146,17 +146,19 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <li
       key="leaveTeam_li"
     >
-      <button
-        className="style--none"
+      <Connect(ModalToggleButtonRedux)
+        dialogProps={Object {}}
+        dialogType={[Function]}
         id="leaveTeam"
-        onClick={[Function]}
+        modalId="leave_team"
+        role="menuitem"
       >
         <FormattedMessage
           defaultMessage="Leave Team"
           id="navbar_dropdown.leave"
           values={Object {}}
         />
-      </button>
+      </Connect(ModalToggleButtonRedux)>
     </li>
     <li
       className="divider"
@@ -426,10 +428,12 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <li
         key="leaveTeam_li"
       >
-        <a
-          href="#"
+        <Connect(ModalToggleButtonRedux)
+          dialogProps={Object {}}
+          dialogType={[Function]}
           id="leaveTeam"
-          onClick={[Function]}
+          modalId="leave_team"
+          role="menuitem"
         >
           <LeaveTeamIcon
             className="icon"
@@ -439,7 +443,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             id="navbar_dropdown.leave"
             values={Object {}}
           />
-        </a>
+        </Connect(ModalToggleButtonRedux)>
       </li>
       <li
         className="divider"

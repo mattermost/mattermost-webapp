@@ -4,3 +4,7 @@
 export function getIsWebrtcOpen(state) {
     return state.views.webrtc.isOpen;
 }
+
+export function getIsBusy(state) {
+    return state.views.webrtc.isBusy;
+}

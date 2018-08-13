@@ -214,7 +214,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_INVITE_MEMBER_MODAL: null,
-    TOGGLE_LEAVE_TEAM_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
     TOGGLE_GET_POST_LINK_MODAL: null,
     TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
@@ -269,6 +268,8 @@ export const ActionTypes = keyMirror({
     STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
+
+    UPDATE_BUSY_WEBRTC: null,
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -297,6 +298,7 @@ export const ModalIdentifiers = {
     DELETE_POST: 'delete_post',
     CONVERT_CHANNEL: 'convert_channel',
     RESET_STATUS: 'reset_status',
+    LEAVE_TEAM: 'leave_team',
 };
 
 export const UserStatuses = {

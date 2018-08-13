@@ -13,7 +13,6 @@ import GetPostLinkModal from 'components/get_post_link_modal';
 import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
 import InviteMemberModal from 'components/invite_member_modal';
-import LeaveTeamModal from 'components/leave_team_modal.jsx';
 import LeavePrivateChannelModal from 'components/modals/leave_private_channel_modal.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -61,7 +60,6 @@ export default class ChannelController extends React.Component {
                     <GetPublicLinkModal/>
                     <GetTeamInviteLinkModal/>
                     <InviteMemberModal/>
-                    <LeaveTeamModal/>
                     <ImportThemeModal/>
                     <TeamSettingsModal/>
                     <EditPostModal/>
