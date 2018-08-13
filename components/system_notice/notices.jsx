@@ -37,7 +37,7 @@ export default [
         ),
         allowForget: true,
         show: (serverVersion, config) => {
-            if (config.InstallationDate >= new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+            if (config.InstallationDate >= new Date(2018, 5, 16, 0, 0, 0, 0).getTime()) {
                 return false;
             }
             return true;
@@ -64,10 +64,10 @@ export default [
             if (license.IsLicensed === 'false') {
                 return false;
             }
-            if (config.InstallationDate > new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+            if (config.InstallationDate > new Date(2018, 5, 16, 0, 0, 0, 0).getTime()) {
                 return false;
             }
-            if (license.IsLicensed === 'true' && license.IssuedAt > new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+            if (license.IsLicensed === 'true' && license.IssuedAt > new Date(2018, 5, 16, 0, 0, 0, 0).getTime()) {
                 return false;
             }
             return true;
