@@ -7,6 +7,7 @@ It's written in Golang and React and runs as a single Linux binary with MySQL or
 This project hosts the webapp client code. Please file issues at [/mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code.
 
 - [Review product documentation](http://docs.mattermost.com/).
+- [Review developer documentation](https://developers.mattermost.com/).
 - [Download compiled version](https://mattermost.org/download).
 
 Try out Mattermost: 
