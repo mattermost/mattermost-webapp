@@ -109,7 +109,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
     </h4>
     <p>
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your incoming webhook has been set up. Please send data to the following URL (see [documentation](https://docs.mattermost.com/developer/webhooks-incoming.html) for further details)."
+        defaultMessage="Your incoming webhook has been set up. Please send data to the following URL (see [documentation](!https://docs.mattermost.com/developer/webhooks-incoming.html) for further details)."
         id="add_incoming_webhook.doneHelp"
       />
     </p>
@@ -183,7 +183,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       key="add_oauth_app.doneHelp"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see [documentation](https://docs.mattermost.com/developer/oauth-2-0-applications.html) for further details)."
+        defaultMessage="Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) for further details)."
         id="add_oauth_app.doneHelp"
       />
     </p>
@@ -290,7 +290,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     </h4>
     <p>
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](https://docs.mattermost.com/developer/webhooks-outgoing.html) for further details)."
+        defaultMessage="Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/webhooks-outgoing.html) for further details)."
         id="add_outgoing_webhook.doneHelp"
       />
     </p>
