@@ -114,13 +114,13 @@ const languages = {
     ro: {
         value: 'ro',
         name: 'Română (Beta)',
-        order: 9,
+        order: 8,
         url: ro,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
-        order: 8,
+        order: 9,
         url: tr,
     },
     ru: {
