@@ -669,13 +669,26 @@ export function applyTheme(theme) {
             `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
         );
         changeCss(
+            '.app__body .post-list__table .post:not(.current--user) .post-attachment-collapse__gradient, ' +
+            '.app__body .sidebar-right__body .post:not(.current--user) .post-attachment-collapse__gradient, ' +
+            '.app__body .post-list__table .post.post--compact .post-attachment-collapse__gradient, ' +
+            '.app__body .sidebar-right__body .post.post--compact .post-attachment-collapse__gradient',
+            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
+        );
+        changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__show-more, ' +
             '.app__body .sidebar-right__body .post:not(.current--user) .post-collapse__show-more, ' +
             '.app__body .post-list__table .post.post--compact .post-collapse__show-more, ' +
             '.app__body .sidebar-right__body .post.post--compact .post-collapse__show-more',
             `background-color:${theme.centerChannelBg}`,
         );
-        changeCss('.app__body .attachment__text-collapse__link-more', `background:${theme.centerChannelBg}`);
+        changeCss(
+            '.app__body .post-list__table .post:not(.current--user) .post-attachment-collapse__show-more, ' +
+            '.app__body .sidebar-right__body .post:not(.current--user) .post-attachment-collapse__show-more, ' +
+            '.app__body .post-list__table .post.post--compact .post-attachment-collapse__show-more, ' +
+            '.app__body .sidebar-right__body .post.post--compact .post-attachment-collapse__show-more',
+            `background-color:${theme.centerChannelBg}`,
+        );
         changeCss('.app__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
         changeCss('.app__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
     }
@@ -798,9 +811,21 @@ export function applyTheme(theme) {
                 `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
             );
             changeCss(
+                '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__gradient, ' +
+                '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__gradient, ' +
+                '.app__body #thread--root .post-attachment-collapse__gradient',
+                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
+            );
+            changeCss(
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body #thread--root .post-collapse__show-more',
+                `background:${ownPostBg}`,
+            );
+            changeCss(
+                '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__show-more, ' +
+                '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__show-more, ' +
+                '.app__body #thread--root .post-attachment-collapse__show-more',
                 `background:${ownPostBg}`,
             );
 
@@ -863,8 +888,15 @@ export function applyTheme(theme) {
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
                 );
                 changeCss(
+                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-attachment-collapse__gradient, ' +
+                    '.app__body .post-list__table .post.post--compact.post--highlight .post-attachment-collapse__gradient',
+                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
+                );
+                changeCss(
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__show-more, ' +
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__show-more, ' +
+                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-attachment-collapse__show-more, ' +
+                    '.app__body .post-list__table .post.post--compact.post--highlight .post-attachment-collapse__show-more, ' +
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .post-image__columns, ' +
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-image__columns, ' +
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .file-view--single, ' +
@@ -877,7 +909,12 @@ export function applyTheme(theme) {
                     `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
                 );
                 changeCss(
+                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-attachment-collapse__gradient',
+                    `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
+                );
+                changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more, ' +
+                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-attachment-collapse__show-more, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-image__columns, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .file-view--single',
                     `background:${ownPostHighlightBg}`,
@@ -891,6 +928,8 @@ export function applyTheme(theme) {
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__show-more, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__show-more, ' +
+                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-attachment-collapse__show-more, ' +
+                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-attachment-collapse__show-more, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-image__columns, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-image__columns, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .file-view--single, ' +
@@ -926,6 +965,7 @@ export function applyTheme(theme) {
         changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover .fa, .sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
+        changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
     }
 

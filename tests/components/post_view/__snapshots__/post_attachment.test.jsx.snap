@@ -57,22 +57,21 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
         <div
           className="attachment__body"
         >
-          <div
-            className="attachment__text attachment__text--collapsed"
+          <ShowMore
+            checkOverflow={false}
+            isAttachmentText={true}
+            maxHeight={200}
+            text="short text"
           >
-            <div
-              className="attachment__text-container"
-            >
-              <Connect(Markdown)
-                imageProps={
-                  Object {
-                    "onHeightReceived": [Function],
-                  }
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onHeightReceived": [Function],
                 }
-                message="short text"
-              />
-            </div>
-          </div>
+              }
+              message="short text"
+            />
+          </ShowMore>
           <img
             className="attachment__image"
             src="image_url"
@@ -166,22 +165,21 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
         <div
           className="attachment__body"
         >
-          <div
-            className="attachment__text attachment__text--collapsed"
+          <ShowMore
+            checkOverflow={false}
+            isAttachmentText={true}
+            maxHeight={200}
+            text="short text"
           >
-            <div
-              className="attachment__text-container"
-            >
-              <Connect(Markdown)
-                imageProps={
-                  Object {
-                    "onHeightReceived": [Function],
-                  }
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onHeightReceived": [Function],
                 }
-                message="short text"
-              />
-            </div>
-          </div>
+              }
+              message="short text"
+            />
+          </ShowMore>
           <img
             className="attachment__image"
             src="image_url"
