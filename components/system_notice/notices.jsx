@@ -93,6 +93,11 @@ export default [
         show: (serverVersion, config, license, analytics) => {
             const USERS_THRESHOLD = 10000;
 
+            // If we don't have the analytics yet, don't show
+            if (!analytics.hasOwnProperty('TOTAL_USERS')) {
+                return false;
+            }
+
             if (analytics.TOTAL_USERS < USERS_THRESHOLD) {
                 return false;
             }
@@ -100,6 +105,7 @@ export default [
             if (license.IsLicensed === 'true' && license.Cluster === 'true') {
                 return false;
             }
+
             return true;
         },
     },
