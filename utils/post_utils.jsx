@@ -5,7 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions, Posts} from 'mattermost-redux/constants';
+import {Permissions} from 'mattermost-redux/constants';
 
 import UserStore from 'stores/user_store.jsx';
 import store from 'stores/redux_store.jsx';
@@ -128,22 +128,4 @@ export function containsAtChannel(text) {
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
 
     return (/\B@(all|channel)\b/i).test(mentionableText);
-}
-
-export function getOldestPostIdFromPosts(posts) {
-    const oldestPost = posts[posts.length - 1];
-    let oldestPostId = oldestPost.id;
-    if (oldestPost.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
-        oldestPostId = oldestPost.system_post_ids[0];
-    }
-    return oldestPostId;
-}
-
-export function getNewestPostIdFromPosts(posts) {
-    const newestPost = posts[0];
-    let newestPostId = newestPost.id;
-    if (newestPost.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
-        newestPostId = newestPost.system_post_ids[0];
-    }
-    return newestPostId;
 }

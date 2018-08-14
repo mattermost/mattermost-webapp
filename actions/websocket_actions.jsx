@@ -203,7 +203,7 @@ function handleClose(failCount) {
     }
     if (failCount === 1) {
         dispatch({
-            type: GeneralTypes.WEBSOCKET_FAILURE,
+            type: ActionTypes.ALL_CHANNEL_SYNC_STATUS,
             data: {
                 channelIds: Object.keys(getMyChannelMemberships(getState())),
             },

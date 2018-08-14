@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PostList from 'components/post_view/post_list/post_list';
+import PostList from 'components/post_view/post_list';
 
 function emptyFunction() {} //eslint-disable-line no-empty-function
 
@@ -23,7 +23,7 @@ const createFakePosts = (num) => {
     return posts;
 };
 
-describe('components/post_view/post_list/post_list', () => {
+describe('components/post_view/post_list', () => {
     it('should match init snapshot', () => {
         const posts = [{
             id: '12345',
@@ -51,8 +51,8 @@ describe('components/post_view/post_list/post_list', () => {
                     loading: false,
                     allLoaded: false,
                 }}
-                actions={actionsProp}
                 lastViewedAt={lastViewedAt}
+                {...actionsProp}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -90,16 +90,14 @@ describe('components/post_view/post_list/post_list', () => {
                     loading: false,
                     allLoaded: false,
                 }}
-                actions={{
-                    loadNewerPosts,
-                    loadOlderPosts,
-                }}
                 lastViewedAt={lastViewedAt}
+                loadNewerPosts={loadNewerPosts}
+                loadOlderPosts={loadOlderPosts}
             />
         );
         wrapper.find('button').first().simulate('click');
-        expect(loadOlderPosts).toHaveBeenCalledWith('121');
+        expect(loadOlderPosts).toHaveBeenCalled();
         wrapper.find('button').last().simulate('click');
-        expect(loadNewerPosts).toHaveBeenCalledWith('123');
+        expect(loadNewerPosts).toHaveBeenCalled();
     });
 });

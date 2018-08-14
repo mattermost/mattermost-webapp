@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/post_list/post_list should match init snapshot 1`] = `
+exports[`components/post_view/post_list should match init snapshot 1`] = `
 <div>
   <button
     className="more-messages-text theme style--none color--link"
