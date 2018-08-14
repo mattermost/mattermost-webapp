@@ -14,9 +14,12 @@ import Markdown from 'components/markdown';
 
 import ShowMore from 'components/post_view/show_more';
 
+import ActionButton from './action_button.jsx';
+import ActionMenu from './action_menu';
+
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
-export default class PostAttachment extends React.PureComponent {
+export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -66,33 +69,46 @@ export default class PostAttachment extends React.PureComponent {
             return '';
         }
 
-        const buttons = [];
+        const content = [];
 
         actions.forEach((action) => {
             if (!action.id || !action.name) {
                 return;
             }
-            buttons.push(
-                <button
-                    data-action-id={action.id}
-                    key={action.id}
-                    onClick={this.handleActionButtonClick}
-                >
-                    {action.name}
-                </button>
-            );
+
+            switch (action.type) {
+            case 'select':
+                content.push(
+                    <ActionMenu
+                        key={action.id}
+                        postId={this.props.postId}
+                        action={action}
+                    />
+                );
+                break;
+            case 'button':
+            default:
+                content.push(
+                    <ActionButton
+                        key={action.id}
+                        action={action}
+                        handleAction={this.handleAction}
+                    />
+                );
+                break;
+            }
         });
 
         return (
             <div
                 className='attachment-actions'
             >
-                {buttons}
+                {content}
             </div>
         );
     };
 
-    handleActionButtonClick = (e) => {
+    handleAction = (e) => {
         e.preventDefault();
         const actionId = e.currentTarget.getAttribute('data-action-id');
         PostActions.doPostAction(this.props.postId, actionId);

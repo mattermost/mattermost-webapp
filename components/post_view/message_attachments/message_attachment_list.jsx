@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PostAttachment from './post_attachment.jsx';
+import PostAttachment from './message_attachment.jsx';
 
 export default class PostAttachmentList extends React.PureComponent {
     static propTypes = {

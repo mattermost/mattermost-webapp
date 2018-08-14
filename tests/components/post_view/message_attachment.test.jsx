@@ -4,10 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import MessageAttachment from 'components/post_view/message_attachments/message_attachment.jsx';
 import {doPostAction} from 'actions/post_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions';
-
-import PostAttachment from 'components/post_view/post_attachment.jsx';
 
 jest.mock('actions/post_actions.jsx', () => ({
     doPostAction: jest.fn(),
@@ -17,7 +16,7 @@ jest.mock('actions/global_actions.jsx', () => ({
     postListScrollChange: jest.fn(),
 }));
 
-describe('components/post_view/PostAttachment', () => {
+describe('components/post_view/MessageAttachment', () => {
     const attachment = {
         pretext: 'pretext',
         author_name: 'author_name',
@@ -37,12 +36,12 @@ describe('components/post_view/PostAttachment', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<PostAttachment {...baseProps}/>);
+        const wrapper = shallow(<MessageAttachment {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state and have called postListScrollChange on handleImageHeightReceived', () => {
-        const wrapper = shallow(<PostAttachment {...baseProps}/>);
+        const wrapper = shallow(<MessageAttachment {...baseProps}/>);
         const instance = wrapper.instance();
         instance.checkAttachmentTextOverflow = jest.fn();
 
@@ -57,7 +56,7 @@ describe('components/post_view/PostAttachment', () => {
     });
 
     test('should match value on getActionView', () => {
-        let wrapper = shallow(<PostAttachment {...baseProps}/>);
+        let wrapper = shallow(<MessageAttachment {...baseProps}/>);
         expect(wrapper.instance().getActionView()).toMatchSnapshot();
 
         const newAttachment = {
@@ -65,25 +64,26 @@ describe('components/post_view/PostAttachment', () => {
             actions: [
                 {id: 'action_id_1', name: 'action_name_1'},
                 {id: 'action_id_2', name: 'action_name_2'},
+                {id: 'action_id_3', name: 'action_name_3', type: 'select', data_source: 'users'},
             ],
         };
 
         const props = {...baseProps, attachment: newAttachment};
 
-        wrapper = shallow(<PostAttachment {...props}/>);
+        wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper.instance().getActionView()).toMatchSnapshot();
     });
 
-    test('should call PostActions.doPostAction on handleActionButtonClick', () => {
+    test('should call PostActions.doPostAction on handleAction', () => {
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,
             actions: [{id: actionId, name: 'action_name_1'}],
         };
         const props = {...baseProps, attachment: newAttachment};
-        const wrapper = shallow(<PostAttachment {...props}/>);
+        const wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
-        wrapper.instance().handleActionButtonClick({
+        wrapper.instance().handleAction({
             preventDefault: () => {}, // eslint-disable-line no-empty-function
             currentTarget: {getAttribute: () => {
                 return 'action_id_1';
@@ -94,7 +94,7 @@ describe('components/post_view/PostAttachment', () => {
     });
 
     test('should match value on getFieldsTable', () => {
-        let wrapper = shallow(<PostAttachment {...baseProps}/>);
+        let wrapper = shallow(<MessageAttachment {...baseProps}/>);
         expect(wrapper.instance().getFieldsTable()).toMatchSnapshot();
 
         const newAttachment = {
@@ -107,7 +107,7 @@ describe('components/post_view/PostAttachment', () => {
 
         const props = {...baseProps, attachment: newAttachment};
 
-        wrapper = shallow(<PostAttachment {...props}/>);
+        wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper.instance().getFieldsTable()).toMatchSnapshot();
     });
 });

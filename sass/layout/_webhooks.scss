@@ -8,6 +8,10 @@
     padding: 0 13px 15px;
 }
 
+.post-attachment-dropdown {
+    position: relative;
+}
+
 .webhook__item {
     font-size: 13px;
     position: relative;
@@ -160,8 +164,6 @@
 
         .attachment__body {
             float: left;
-            overflow-x: auto;
-            overflow-y: hidden;
             padding-right: 5px;
             width: 80%;
 
