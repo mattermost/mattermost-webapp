@@ -26,7 +26,8 @@ const getDeactivatedChannel = createSelector(
         return Boolean(teammate && teammate.delete_at);
     }
 );
-function mapStateToProps() {
+
+function makeMapStateToProps() {
     const getChannel = makeGetChannel();
     return (state, ownProps) => {
         let channelLoading = false;
@@ -61,4 +62,4 @@ function mapStateToProps() {
     };
 }
 
-export default withRouter(connect(mapStateToProps)(ChannelView));
+export default withRouter(connect(makeMapStateToProps)(ChannelView));

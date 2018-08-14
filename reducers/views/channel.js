@@ -143,7 +143,7 @@ function channelPostsStatus(state = {}, action) {
 
 function channelSyncStatus(state = {}, action) {
     switch (action.type) {
-    case GeneralTypes.WEBSOCKET_FAILURE || GeneralTypes.CLOSED: {
+    case GeneralTypes.ALL_CHANNEL_SYNC_STATUS: {
         const nextState = action.data.channelIds.reduce((channelStatusObj, channelId) => ({
             ...channelStatusObj,
             [channelId]: false,

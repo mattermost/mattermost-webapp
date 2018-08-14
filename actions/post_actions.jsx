@@ -60,8 +60,9 @@ function completePostReceive(post, websocketMessageProps) {
 }
 
 function dispatchPostActions(post, websocketMessageProps) {
-    const {currentChannelId} = getState().entities.channels;
-    const channelPostsStatus = getState().views.channel.channelPostsStatus;
+    const state = getState();
+    const {currentChannelId} = state.entities.channels;
+    const channelPostsStatus = state.views.channel.channelPostsStatus;
 
     if (post.channel_id === currentChannelId && channelPostsStatus[currentChannelId] && channelPostsStatus[currentChannelId].atEnd) {
         dispatch({
@@ -230,11 +231,11 @@ export function loadPosts({channelId, postId, type}) {
 
         let result;
         if (type === PostRequestTypes.BEFORE_ID) {
-            result = await PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+            result = await doDispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT));
         } else if (type === PostRequestTypes.AFTER_ID) {
-            result = await PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+            result = await doDispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT));
         } else {
-            result = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);
+            result = await doDispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
         }
 
         const posts = result.data;
@@ -251,14 +252,14 @@ export function loadPosts({channelId, postId, type}) {
 
 // Returns true if there are more posts to load
 export function loadUnreads(channelId) {
-    return (doDispatch, doGetState) => {
+    return (doDispatch) => {
         doDispatch({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,
-            amount: POST_INCREASE_AMOUNT * 2,
+            amount: Constants.POST_CHUNK_SIZE,
         });
 
-        return PostActions.getPostsUnread(channelId)(doDispatch, doGetState);
+        return doDispatch(PostActions.getPostsUnread(channelId));
     };
 }
 
@@ -371,6 +372,6 @@ export function deleteAndRemovePost(post) {
 export function addPostIdsFromBackUp(channelId) {
     return async (doDispatch, doGetState) => {
         const postIds = doGetState().entities.posts.postsInChannelBackup[channelId];
-        PostActions.addPostIdsToChannel(channelId, postIds)(doDispatch, doGetState);
+        doDispatch(PostActions.restoreBackedUpPostIds(channelId, postIds));
     };
 }

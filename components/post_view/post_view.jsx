@@ -4,17 +4,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {getNewestPostIdFromPosts, getOldestPostIdFromPosts} from 'mattermost-redux/utils/post_utils';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import CreateChannelIntroMessage from 'components/post_view/channel_intro_message';
 import Constants, {PostRequestTypes} from 'utils/constants.jsx';
-import {getNewestPostIdFromPosts, getOldestPostIdFromPosts} from 'utils/post_utils';
 
-import PostList from './post_list';
+import PostList from './post_list.jsx';
 
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 
-export default class PostListWrapper extends React.PureComponent {
+export default class PostView extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -26,11 +26,6 @@ export default class PostListWrapper extends React.PureComponent {
          * The channel the posts are in
          */
         channelId: PropTypes.string,
-
-        /**
-         * Whether to display the channel intro at full width
-         */
-        fullWidth: PropTypes.bool,
 
         /**
          * Used for disabling loading more messages
@@ -95,21 +90,10 @@ export default class PostListWrapper extends React.PureComponent {
             loadPosts: PropTypes.func.isRequired,
 
             /*
-             * Used for clearing posts from channel
-             */
-            clearPostsFromChannel: PropTypes.func.isRequired,
-
-            /*
              * Used for changing posts status of channel
              * For notifying redux store when we hit bottom or top of posts
              */
             changeChannelPostsStatus: PropTypes.func.isRequired,
-
-            /*
-             * Used for taking backup of postsInChannel before clearing so,
-             * we can use it incase of failure in loading posts
-             */
-            backUpPostsInChannel: PropTypes.func.isRequired,
 
             /*
              * Used for notifying redux store on channel sync complete
@@ -120,6 +104,16 @@ export default class PostListWrapper extends React.PureComponent {
              * Used for adding back postIds to postsInChannel from backUpPostsInChannel
              */
             addPostIdsFromBackUp: PropTypes.func.isRequired,
+
+            /*
+             * Used to sync when channel is out of sync because of socket disconnect
+             */
+            syncChannelPosts: PropTypes.func.isRequired,
+
+            /*
+             * Used to take a backup of postIds and clear from postsInChannel
+             */
+            backupAndClearPostIds: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -133,7 +127,7 @@ export default class PostListWrapper extends React.PureComponent {
             },
             olderPosts: {
                 loading: false,
-                allLoaded: PostListWrapper.oldestMessageLoadedInView(props),
+                allLoaded: PostView.oldestMessageLoadedInView(props),
             },
             lastViewedAt: props.lastViewedAt,
             posts: this.props.posts,
@@ -145,17 +139,17 @@ export default class PostListWrapper extends React.PureComponent {
             this.postsOnLoad(this.props.channelId);
         }
         if (!this.props.channelSyncStatus && this.props.channelPostsStatus) {
-            this.syncPosts(this.props);
+            this.syncChannelPosts(this.props);
         }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.posts && nextProps.posts && (prevState.posts.length !== nextProps.posts.length)) {
-            if (PostListWrapper.oldestMessageLoadedInView(nextProps) !== prevState.olderPosts.allLoaded) {
+            if (PostView.oldestMessageLoadedInView(nextProps) !== prevState.olderPosts.allLoaded) {
                 return {
                     olderPosts: {
                         loading: false,
-                        allLoaded: PostListWrapper.oldestMessageLoadedInView(nextProps),
+                        allLoaded: PostView.oldestMessageLoadedInView(nextProps),
                     },
                     posts: nextProps.posts,
                 };
@@ -169,7 +163,7 @@ export default class PostListWrapper extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.socketStatus && this.props.socketStatus.connected && !prevProps.socketStatus.connected) {
-            this.syncPosts(this.props);
+            this.syncChannelPosts(this.props);
         }
     }
 
@@ -183,25 +177,18 @@ export default class PostListWrapper extends React.PureComponent {
         return false;
     }
 
-    syncPosts = async (props) => {
-        if (props.channelPostsStatus.atEnd) {
-            await props.actions.syncChannelPosts({channelId: props.channelId, since: props.socketStatus.lastDisconnectAt});
-        } else {
-            let data;
-            const oldestPostId = getOldestPostIdFromPosts(props.posts);
-            let newestMessageId = getNewestPostIdFromPosts(props.posts);
-            do {
-                ({data} = await props.actions.syncChannelPosts({channelId: props.channelId, beforeId: newestMessageId})); // eslint-disable-line no-await-in-loop
-                newestMessageId = data.order[data.order.length - 1];
-            } while (data && !data.posts[oldestPostId]);
-        }
-        props.actions.channelSyncCompleted(props.channeId);
+    syncChannelPosts = ({channelId, channelPostsStatus, socketStatus, posts}) => {
+        this.props.actions.syncChannelPosts({
+            channelId,
+            channelPostsStatus,
+            posts,
+            lastDisconnectAt: socketStatus.lastDisconnectAt,
+        });
     }
 
-    storePostsIdsAndClear() {
+    backupAndClearPostIds() {
         if (this.props.posts.length) {
-            this.props.actions.backUpPostsInChannel(this.props.channelId, this.props.postIdsInCurrentChannel);
-            this.props.actions.clearPostsFromChannel(this.props.channelId);
+            this.props.actions.backupAndClearPostIds(this.props.channelId, this.props.postIdsInCurrentChannel);
         }
     }
 
@@ -221,7 +208,7 @@ export default class PostListWrapper extends React.PureComponent {
             } else if (!this.props.channelPostsStatus) { //eslint-disable-line no-negated-condition
                 await this.loadUnreadPosts(channelId);
             } else {
-                this.storePostsIdsAndClear();
+                this.backupAndClearPostIds();
                 await this.loadUnreadPosts(channelId);
             }
             this.props.actions.channelSyncCompleted(channelId);
@@ -278,9 +265,11 @@ export default class PostListWrapper extends React.PureComponent {
         const afterPosts = this.callLoadPosts(channelId, this.props.match.params.messageId, PostRequestTypes.AFTER_ID);
         const beforePosts = this.callLoadPosts(channelId, this.props.match.params.messageId, PostRequestTypes.BEFORE_ID);
 
-        await beforePosts;
-        await afterPosts;
-        await getPostThread;
+        await Promise.all([
+            beforePosts,
+            afterPosts,
+            getPostThread,
+        ]);
     }
 
     loadUnreadPosts = async (channelId) => {
@@ -300,7 +289,7 @@ export default class PostListWrapper extends React.PureComponent {
         } else {
             const postsArray = data.order.map((id) => data.posts[id]);
             const unreadCount = this.getUnreadPostsCount(postsArray, this.props.currentUserId);
-            if (unreadCount < 30) {
+            if (unreadCount < POSTS_PER_PAGE) {
                 atLatestMessage = true;
             }
         }
@@ -327,14 +316,16 @@ export default class PostListWrapper extends React.PureComponent {
         });
     }
 
-    getPostsBefore = async (postId) => {
+    getPostsBefore = () => {
         this.setLoadingPosts('olderPosts');
-        await this.callLoadPosts(this.props.channelId, postId, PostRequestTypes.BEFORE_ID);
+        const oldestPostId = getOldestPostIdFromPosts(this.props.posts);
+        this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
     }
 
-    getPostsAfter = async (postId) => {
+    getPostsAfter = () => {
         this.setLoadingPosts('newerPosts');
-        await this.callLoadPosts(this.props.channelId, postId, PostRequestTypes.AFTER_ID);
+        const newestMessageId = getNewestPostIdFromPosts(this.props.posts);
+        this.callLoadPosts(this.props.channelId, newestMessageId, PostRequestTypes.AFTER_ID);
     }
 
     getUnreadPostsCount = (posts, currentUserId) => {
@@ -354,7 +345,7 @@ export default class PostListWrapper extends React.PureComponent {
     // got to latest if channel is not atEnd.
     // else scroll to bottom
     goToLatestPosts = () => {
-        this.storePostsIdsAndClear();
+        this.backupAndClearPostIds();
         this.loadUnreadPosts(this.props.channelId);
     }
 
@@ -400,9 +391,7 @@ export default class PostListWrapper extends React.PureComponent {
 
         if (this.state.olderPosts.allLoaded) {
             topRow = (
-                <CreateChannelIntroMessage
-                    fullWidth={this.props.fullWidth}
-                />
+                <CreateChannelIntroMessage/>
             );
         }
 
@@ -410,11 +399,8 @@ export default class PostListWrapper extends React.PureComponent {
             postList = (
                 <PostList
                     posts={this.props.posts}
-                    fullWidth={this.props.fullWidth}
-                    actions={{
-                        loadOlderPosts: this.getPostsBefore,
-                        loadNewerPosts: this.getPostsAfter,
-                    }}
+                    loadOlderPosts={this.getPostsBefore}
+                    loadNewerPosts={this.getPostsAfter}
                     newerPosts={this.state.newerPosts}
                     olderPosts={this.state.olderPosts}
                     disableLoadingPosts={disableLoadingPosts}
@@ -423,7 +409,6 @@ export default class PostListWrapper extends React.PureComponent {
                 />
             );
         }
-
         return (
             <div id='post-list'>
                 <div

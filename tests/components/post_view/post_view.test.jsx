@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PostListWrapper from 'components/post_view/post_list';
+import PostView from 'components/post_view/post_view';
 
 function emptyFunction() {} //eslint-disable-line no-empty-function
 
@@ -12,11 +12,11 @@ const actionsProp = {
     getPostThread: emptyFunction,
     loadUnreads: emptyFunction,
     loadPosts: emptyFunction,
-    clearPostsFromChannel: emptyFunction,
     changeChannelPostsStatus: emptyFunction,
-    backUpPostsInChannel: emptyFunction,
+    syncChannelPosts: emptyFunction,
     channelSyncCompleted: emptyFunction,
     addPostIdsFromBackUp: emptyFunction,
+    backupAndClearPostIds: emptyFunction,
 };
 
 let channelPostsStatus;
@@ -44,7 +44,7 @@ describe('components/post_view/post_list', () => {
     it('init snapshot', () => {
         const emptyPostList = [];
         const wrapper = shallow(
-            <PostListWrapper
+            <PostView
                 actions={actionsProp}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
@@ -71,7 +71,7 @@ describe('components/post_view/post_list', () => {
         };
 
         const wrapper = shallow(
-            <PostListWrapper
+            <PostView
                 actions={{
                     ...actionsProp,
                     loadUnreads,
@@ -81,6 +81,7 @@ describe('components/post_view/post_list', () => {
                 match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatusObj}
+                channelSyncStatus={true}
                 postVisibility={1000001}
             />
         );
@@ -105,7 +106,7 @@ describe('components/post_view/post_list', () => {
         const changeChannelPostsStatus = jest.fn();
 
         const wrapper = shallow(
-            <PostListWrapper
+            <PostView
                 actions={{
                     ...actionsProp,
                     loadUnreads,
@@ -136,7 +137,7 @@ describe('components/post_view/post_list', () => {
         const changeChannelPostsStatus = jest.fn();
 
         const wrapper = shallow(
-            <PostListWrapper
+            <PostView
                 actions={{
                     ...actionsProp,
                     loadPosts,
@@ -182,7 +183,7 @@ describe('components/post_view/post_list', () => {
         const changeChannelPostsStatus = jest.fn();
 
         const wrapper = shallow(
-            <PostListWrapper
+            <PostView
                 actions={{
                     ...actionsProp,
                     loadUnreads,
@@ -226,7 +227,7 @@ describe('components/post_view/post_list', () => {
         };
 
         const wrapper = shallow(
-            <PostListWrapper
+            <PostView
                 actions={{
                     ...actionsProp,
                     getPostThread,
@@ -238,6 +239,7 @@ describe('components/post_view/post_list', () => {
                 match={msgParams}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatusObj}
+                channelSyncStatus={true}
             />
         );
 
@@ -256,27 +258,16 @@ describe('components/post_view/post_list', () => {
             atEnd: true,
             atStart: false,
         };
-        const postsArray = createFakePosts(3);
-        const posts = postsArray.reduce((postsObj, post) => ({
-            [post.id]: post,
-        }), {});
-        const order = postsArray.reduce((ids, post) => ([
-            ...ids,
-            post.id,
-        ]), []);
+
         const channelSyncStatus = false;
-        const syncChannelPosts = async () => {
-            return {
-                data: {posts, order},
-            };
-        };
+        const syncChannelPosts = jest.fn();
         const socketStatus = {
             lastDisconnectAt: 1234,
         };
         const channelSyncCompleted = jest.fn();
 
-        const wrapper = shallow(
-            <PostListWrapper
+        shallow(
+            <PostView
                 actions={{
                     ...actionsProp,
                     syncChannelPosts,
@@ -291,12 +282,6 @@ describe('components/post_view/post_list', () => {
                 socketStatus={socketStatus}
             />
         );
-        await syncChannelPosts();
-        expect(channelSyncCompleted).toHaveBeenCalledTimes(1);
-
-        wrapper.setProps({socketStatus: {lastDisconnectAt: 1238, connected: false}});
-        wrapper.setProps({socketStatus: {lastDisconnectAt: 1238, connected: true}, channelPostsStatus: {atEnd: false}});
-        await syncChannelPosts();
-        expect(channelSyncCompleted).toHaveBeenCalledTimes(2);
+        expect(syncChannelPosts).toHaveBeenCalledTimes(1);
     });
 });

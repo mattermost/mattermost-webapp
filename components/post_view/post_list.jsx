@@ -3,32 +3,17 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {debounce} from 'mattermost-redux/actions/helpers';
 import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {PostTypes} from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
-import EventTypes from 'utils/event_types.jsx';
-import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {isFromWebhook} from 'utils/post_utils.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 
-import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
-
-import FloatingTimestamp from './floating_timestamp.jsx';
-import NewMessageIndicator from './new_message_indicator.jsx';
-import Post from './post';
-import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
-import CreateChannelIntroMessage from './channel_intro_message';
-
-const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
-const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
-const MAX_EXTRA_PAGES_LOADED = 10;
+import Post from 'components/post_view/post';
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -39,439 +24,53 @@ export default class PostList extends React.PureComponent {
         posts: PropTypes.array,
 
         /**
-         * The number of posts that should be rendered
+         * Flag used for removing !more message buttons
          */
-        postVisibility: PropTypes.number,
+        disableLoadingPosts: PropTypes.bool,
 
         /**
-         * The channel the posts are in
-         */
-        channel: PropTypes.object.isRequired,
-
-        /**
-         * The last time the channel was viewed, sets the new message separator
+         * Timestamp used for populating new messages indicator
          */
         lastViewedAt: PropTypes.number,
 
         /**
-         * Set if more posts are being loaded
-         */
-        loadingPosts: PropTypes.bool,
-
-        /**
-         * The user id of the logged in user
+         * Used for excluding own messages for new messages indicator
          */
         currentUserId: PropTypes.string,
 
         /**
-         * Set to focus this post
+         * Data used for determining more messages state at the bottom
          */
-        focusedPostId: PropTypes.string,
+        newerPosts: PropTypes.shape({
+            loading: PropTypes.bool,
+            allLoaded: PropTypes.bool,
+        }),
 
         /**
-         * Whether to display the channel intro at full width
+         * Data used for determining more messages state at the top
          */
-        fullWidth: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to get posts in the channel
-             */
-            getPosts: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel older than the focused post
-             */
-            getPostsBefore: PropTypes.func.isRequired,
-
-            /**
-             * Function to get posts in the channel newer than the focused post
-             */
-            getPostsAfter: PropTypes.func.isRequired,
-
-            /**
-             * Function to get the post thread for the focused post
-             */
-            getPostThread: PropTypes.func.isRequired,
-
-            /**
-             * Function to increase the number of posts being rendered
-             */
-            increasePostVisibility: PropTypes.func.isRequired,
-
-            /**
-             * Function to check and set if app is in mobile view
-             */
-            checkAndSetMobileView: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.scrollStopAction = new DelayedAction(this.handleScrollStop);
-
-        this.extraPagesLoaded = 0;
-
-        this.state = {
-            atEnd: false,
-            unViewedCount: 0,
-            isDoingInitialLoad: true,
-            isScrolling: false,
-            lastViewed: props.lastViewedAt,
-        };
-    }
-
-    componentDidMount() {
-        this.loadPosts(this.props.channel.id, this.props.focusedPostId);
-        this.props.actions.checkAndSetMobileView();
-        GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-
-        window.addEventListener('resize', this.handleWindowResize);
-
-        this.initialScroll();
-    }
-
-    componentWillUnmount() {
-        GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-        window.removeEventListener('resize', this.handleWindowResize);
-    }
-
-    getSnapshotBeforeUpdate() {
-        if (this.refs.postlist) {
-            return {
-                previousScrollTop: this.refs.postlist.scrollTop,
-                previousScrollHeight: this.refs.postlist.scrollHeight,
-                previousClientHeight: this.refs.postlist.clientHeight,
-                wasAtBottom: this.checkBottom(),
-            };
-        }
-
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.focusedPostId && this.props.focusedPostId !== prevProps.focusedPostId) {
-            this.hasScrolledToFocusedPost = false;
-            this.hasScrolledToNewMessageSeparator = false;
-            this.loadPosts(this.props.channel.id, this.props.focusedPostId);
-        } else if (this.props.channel && (!prevProps.channel || this.props.channel.id !== prevProps.channel.id)) {
-            this.hasScrolled = false;
-            this.hasScrolledToFocusedPost = false;
-            this.hasScrolledToNewMessageSeparator = false;
-
-            this.extraPagesLoaded = 0;
-
-            this.setState({atEnd: false, isDoingInitialLoad: !this.props.posts, unViewedCount: 0}); // eslint-disable-line react/no-did-update-set-state
-
-            this.loadPosts(this.props.channel.id);
-        }
-
-        this.loadPostsToFillScreenIfNecessary();
-
-        // Do not update scrolling unless posts, visibility or intro message change
-        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd) {
-            return;
-        }
-
-        const prevPosts = prevProps.posts || [];
-        const posts = this.props.posts || [];
-
-        if (this.props.focusedPostId == null) {
-            const hasNewPosts = (prevPosts.length === 0 && posts.length > 0) || (prevPosts.length > 0 && posts.length > 0 && prevPosts[0].id !== posts[0].id);
-
-            if (snapshot && !snapshot.wasAtBottom && hasNewPosts) {
-                this.setUnreadsBelow(posts, this.props.currentUserId);
-            }
-        }
-
-        const postList = this.refs.postlist;
-        if (!postList) {
-            return;
-        }
-
-        // Scroll to focused post on first load
-        const focusedPost = this.refs[this.props.focusedPostId];
-        if (focusedPost && this.props.posts) {
-            if (!this.hasScrolledToFocusedPost) {
-                const element = ReactDOM.findDOMNode(focusedPost);
-                const rect = element.getBoundingClientRect();
-                const listHeight = postList.clientHeight / 2;
-                postList.scrollTop += rect.top - listHeight;
-            } else if (snapshot.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
-                postList.scrollTop = snapshot.previousScrollTop + (postList.scrollHeight - snapshot.previousScrollHeight);
-            }
-            return;
-        }
-
-        const didInitialScroll = this.initialScroll();
-
-        if (posts.length >= POSTS_PER_PAGE) {
-            this.hasScrolledToNewMessageSeparator = true;
-        }
-
-        if (didInitialScroll) {
-            return;
-        }
-
-        if (postList && prevPosts && posts && posts[0] && prevPosts[0]) {
-            // A new message was posted, so scroll to bottom if user
-            // was already scrolled close to bottom
-            let doScrollToBottom = false;
-            const postId = posts[0].id;
-            const prevPostId = prevPosts[0].id;
-            const pendingPostId = posts[0].pending_post_id;
-            if (postId !== prevPostId && pendingPostId !== prevPostId) {
-                // If already scrolled to bottom
-                if (snapshot.wasAtBottom) {
-                    doScrollToBottom = true;
-                }
-
-                // If new post was ephemeral
-                if (Utils.isPostEphemeral(posts[0])) {
-                    doScrollToBottom = true;
-                }
-            }
-
-            if (doScrollToBottom) {
-                postList.scrollTop = postList.scrollHeight;
-                return;
-            }
-
-            // New posts added at the top, maintain scroll position
-            if (snapshot.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
-                postList.scrollTop = snapshot.previousScrollTop + (postList.scrollHeight - snapshot.previousScrollHeight);
-            }
-        }
-    }
-
-    loadPostsToFillScreenIfNecessary = () => {
-        if (this.props.focusedPostId) {
-            return;
-        }
-
-        if (this.state.isDoingInitialLoad) {
-            // Should already be loading posts
-            return;
-        }
-
-        if (this.state.atEnd || !this.refs.postListContent || !this.refs.postlist) {
-            // No posts to load
-            return;
-        }
-
-        if (this.refs.postListContent.scrollHeight >= this.refs.postlist.clientHeight) {
-            // Screen is full
-            return;
-        }
-
-        if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
-            // Prevent this from loading a lot of pages in a channel with only hidden messages
-            return;
-        }
-
-        this.doLoadPostsToFillScreen();
-    };
-
-    doLoadPostsToFillScreen = debounce(() => {
-        this.extraPagesLoaded += 1;
-
-        this.loadMorePosts();
-    }, 100);
-
-    // Scroll to new message indicator or bottom on first load. Returns true
-    // if we just scrolled for the initial load.
-    initialScroll = () => {
-        if (this.hasScrolledToNewMessageSeparator) {
-            // Already scrolled to new messages indicator
-            return false;
-        }
-
-        const postList = this.refs.postlist;
-        const posts = this.props.posts;
-        if (!postList || !posts) {
-            // Not able to do initial scroll yet
-            return false;
-        }
-
-        const messageSeparator = this.refs.newMessageSeparator;
-
-        // Scroll to new message indicator since we have unread posts and we can't show every new post in the screen
-        if (messageSeparator && (postList.scrollHeight - messageSeparator.offsetTop) > postList.clientHeight) {
-            messageSeparator.scrollIntoView();
-            this.setUnreadsBelow(posts, this.props.currentUserId);
-            return true;
-        }
-
-        // Scroll to bottom since we don't have unread posts or we can show every new post in the screen
-        postList.scrollTop = postList.scrollHeight;
-        return true;
-    }
-
-    setUnreadsBelow = (posts, currentUserId) => {
-        const unViewedCount = posts.reduce((count, post) => {
-            if (post.create_at > this.props.lastViewedAt &&
-                post.user_id !== currentUserId &&
-                post.state !== Constants.POST_DELETED) {
-                return count + 1;
-            }
-            return count;
-        }, 0);
-        this.setState({unViewedCount});
-    }
-
-    handleScrollStop = () => {
-        this.setState({
-            isScrolling: false,
-        });
-    }
-
-    checkBottom = () => {
-        if (!this.refs.postlist) {
-            return true;
-        }
-
-        // No scroll bar so we're at the bottom
-        if (this.refs.postlist.scrollHeight <= this.refs.postlist.clientHeight) {
-            return true;
-        }
-
-        return this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >= this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN;
-    }
-
-    handleWindowResize = () => {
-        this.handleResize();
-    }
-
-    handleResize = (forceScrollToBottom) => {
-        const postList = this.refs.postlist;
-        const messageSeparator = this.refs.newMessageSeparator;
-        const doScrollToBottom = this.checkBottom() || forceScrollToBottom;
-
-        if (postList) {
-            if (doScrollToBottom) {
-                postList.scrollTop = postList.scrollHeight;
-            } else if (!this.hasScrolled && messageSeparator) {
-                const element = ReactDOM.findDOMNode(messageSeparator);
-                element.scrollIntoView();
-            }
-        }
-
-        this.props.actions.checkAndSetMobileView();
-    }
-
-    loadPosts = async (channelId, focusedPostId) => {
-        let posts;
-        if (focusedPostId) {
-            const getPostThreadAsync = this.props.actions.getPostThread(focusedPostId, false);
-            const getPostsBeforeAsync = this.props.actions.getPostsBefore(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-            const getPostsAfterAsync = this.props.actions.getPostsAfter(channelId, focusedPostId, 0, POSTS_PER_PAGE);
-
-            const result = await getPostsBeforeAsync;
-            posts = result.data;
-            await getPostsAfterAsync;
-            await getPostThreadAsync;
-
-            this.hasScrolledToFocusedPost = true;
-        } else {
-            const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
-            posts = result.data;
-
-            if (!this.checkBottom()) {
-                const postsArray = posts.order.map((id) => posts.posts[id]);
-                this.setUnreadsBelow(postsArray, this.props.currentUserId);
-            }
-
-            this.hasScrolledToNewMessageSeparator = true;
-        }
-
-        this.setState({
-            isDoingInitialLoad: false,
-            atEnd: Boolean(posts && posts.order.length < POSTS_PER_PAGE),
-        });
-    }
-
-    loadMorePosts = () => {
-        this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
-            this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
-        });
-    }
-
-    handleScroll = () => {
-        // Only count as user scroll if we've already performed our first load scroll
-        this.hasScrolled = this.hasScrolledToNewMessageSeparator || this.hasScrolledToFocusedPost;
-        if (!this.refs.postlist) {
-            return;
-        }
-
-        this.updateFloatingTimestamp();
-
-        if (!this.state.isScrolling) {
-            this.setState({
-                isScrolling: true,
-            });
-        }
-
-        if (this.checkBottom()) {
-            this.setState({
-                unViewedCount: 0,
-                isScrolling: false,
-            });
-        }
-
-        this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
-    }
-
-    updateFloatingTimestamp = () => {
-        // skip this in non-mobile view since that's when the timestamp is visible
-        if (!Utils.isMobile()) {
-            return;
-        }
-
-        if (this.props.posts) {
-            // iterate through posts starting at the bottom since users are more likely to be viewing newer posts
-            for (let i = 0; i < this.props.posts.length; i++) {
-                const post = this.props.posts[i];
-                const element = this.refs[post.id];
-                const domNode = ReactDOM.findDOMNode(element);
-
-                if (!element || !domNode || domNode.offsetTop + domNode.clientHeight <= this.refs.postlist.scrollTop) {
-                    // this post is off the top of the screen so the last one is at the top of the screen
-                    let topPost;
-
-                    if (i > 0) {
-                        topPost = this.props.posts[i - 1];
-                    } else {
-                        // the first post we look at should always be on the screen, but handle that case anyway
-                        topPost = post;
-                    }
-
-                    if (!this.state.topPost || topPost.id !== this.state.topPost.id) {
-                        this.setState({
-                            topPost,
-                        });
-                    }
-
-                    break;
-                }
-            }
-        }
-    }
-
-    scrollToBottom = () => {
-        if (this.refs.postlist) {
-            this.refs.postlist.scrollTop = this.refs.postlist.scrollHeight;
-        }
+        olderPosts: PropTypes.shape({
+            loading: PropTypes.bool,
+            allLoaded: PropTypes.bool,
+        }),
+
+        /**
+         * Function to get older posts in the channel
+         */
+        loadOlderPosts: PropTypes.func.isRequired,
+
+        /**
+         * Function to get newer posts in the channel
+         */
+        loadNewerPosts: PropTypes.func.isRequired,
     }
 
     createPosts = (posts) => {
         const postCtls = [];
         let previousPostDay = new Date(0);
-        const currentUserId = this.props.currentUserId;
-        const lastViewed = this.props.lastViewedAt || 0;
-
+        const lastViewed = this.props.lastViewedAt;
         let renderedLastViewed = false;
+        const currentUserId = this.props.currentUserId;
 
         for (let i = posts.length - 1; i >= 0; i--) {
             const post = posts[i];
@@ -498,7 +97,7 @@ export default class PostList extends React.PureComponent {
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                 postCtls.push(
                     <DateSeparator
-                        key={currentPostDay}
+                        key={currentPostDay.getTime()}
                         date={currentPostDay}
                     />
                 );
@@ -549,45 +148,16 @@ export default class PostList extends React.PureComponent {
     }
 
     render() {
-        const posts = this.props.posts || [];
-        const channel = this.props.channel;
-
-        if ((posts.length === 0 && this.state.isDoingInitialLoad) || channel == null) {
-            return (
-                <div id='post-list'>
-                    <LoadingScreen
-                        position='absolute'
-                        key='loading'
-                    />
-                </div>
-            );
-        }
+        const posts = this.props.posts;
 
         let topRow;
-        if (this.state.atEnd) {
-            topRow = (
-                <CreateChannelIntroMessage
-                    channel={channel}
-                    fullWidth={this.props.fullWidth}
-                />
-            );
-        } else if (this.props.postVisibility >= Constants.MAX_POST_VISIBILITY) {
-            topRow = (
-                <div className='post-list__loading post-list__loading-search'>
-                    <FormattedMessage
-                        id='posts_view.maxLoaded'
-                        defaultMessage='Looking for a specific message? Try searching for it'
-                    />
-                </div>
-            );
-        } else if (this.state.isDoingInitialLoad) {
-            topRow = <LoadingScreen style={{height: '0px'}}/>;
-        } else {
+        let bottomRow;
+
+        if (!this.props.olderPosts.allLoaded && !this.props.olderPosts.loading && !this.props.disableLoadingPosts) {
             topRow = (
                 <button
-                    ref='loadmoretop'
                     className='more-messages-text theme style--none color--link'
-                    onClick={this.loadMorePosts}
+                    onClick={this.props.loadOlderPosts}
                 >
                     <FormattedMessage
                         id='posts_view.loadMore'
@@ -597,48 +167,24 @@ export default class PostList extends React.PureComponent {
             );
         }
 
-        const topPostCreateAt = this.state.topPost ? this.state.topPost.create_at : 0;
-
-        let postVisibility = this.props.postVisibility;
-
-        // In focus mode there's an extra (Constants.POST_CHUNK_SIZE / 2) posts to show
-        if (this.props.focusedPostId) {
-            postVisibility += Constants.POST_CHUNK_SIZE / 2;
-        }
-
-        return (
-            <div id='post-list'>
-                <FloatingTimestamp
-                    isScrolling={this.state.isScrolling}
-                    isMobile={Utils.isMobile()}
-                    createAt={topPostCreateAt}
-                />
-                <ScrollToBottomArrows
-                    isScrolling={this.state.isScrolling}
-                    atBottom={this.checkBottom()}
-                    onClick={this.scrollToBottom}
-                />
-                <NewMessageIndicator
-                    newMessages={this.state.unViewedCount}
-                    onClick={this.scrollToBottom}
-                />
-                <div
-                    ref='postlist'
-                    className='post-list-holder-by-time'
-                    key={'postlist-' + channel.id}
-                    onScroll={this.handleScroll}
+        if (!this.props.newerPosts.allLoaded && !this.props.newerPosts.loading && !this.props.disableLoadingPosts) {
+            bottomRow = (
+                <button
+                    className='more-messages-text theme style--none color--link'
+                    onClick={this.props.loadNewerPosts}
                 >
-                    <div className='post-list__table'>
-                        <div
-                            id='postListContent'
-                            ref='postListContent'
-                            className='post-list__content'
-                        >
-                            {topRow}
-                            {this.createPosts(posts.slice(0, postVisibility))}
-                        </div>
-                    </div>
-                </div>
+                    <FormattedMessage
+                        id='posts_view.loadMore'
+                        defaultMessage='Load more messages'
+                    />
+                </button>
+            );
+        }
+        return (
+            <div>
+                {topRow}
+                {this.createPosts(posts)}
+                {bottomRow}
             </div>
         );
     }
