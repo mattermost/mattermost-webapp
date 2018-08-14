@@ -323,18 +323,18 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Türkçe",
-              "value": "tr",
-            },
-            Object {
-              "order": 9,
               "text": "Română (Beta)",
               "value": "ro",
             },
             Object {
-              "order": 10,
+              "order": 9,
               "text": "Pусский (Alpha)",
               "value": "ru",
+            },
+            Object {
+              "order": 10,
+              "text": "Türkçe",
+              "value": "tr",
             },
             Object {
               "order": 11,
@@ -432,18 +432,18 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Türkçe",
-              "value": "tr",
-            },
-            Object {
-              "order": 9,
               "text": "Română (Beta)",
               "value": "ro",
             },
             Object {
-              "order": 10,
+              "order": 9,
               "text": "Pусский (Alpha)",
               "value": "ru",
+            },
+            Object {
+              "order": 10,
+              "text": "Türkçe",
+              "value": "tr",
             },
             Object {
               "order": 11,
