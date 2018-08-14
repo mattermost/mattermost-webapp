@@ -35,7 +35,13 @@ const currentTeamId = '321';
 const currentUserId = 'user123';
 
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
-UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
+UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [
+    {key: '@here'},
+    {key: '@mattermost'},
+    {key: '@channel'},
+    {key: '@all'},
+    {key: 'custom key with spaces'},
+]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),
@@ -371,11 +377,11 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(initialState);
 
-            compareStore.dispatch(performSearch('@mattermost ', true));
+            compareStore.dispatch(performSearch('@mattermost "custom key with spaces" ', true));
             compareStore.dispatch(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: '@mattermost ',
+                    terms: '@mattermost "custom key with spaces" ',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,

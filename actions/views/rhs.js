@@ -228,12 +228,16 @@ export function showPinnedPosts(channelId) {
 }
 
 export function showMentions() {
+    function getTerm(key) {
+        return (key.indexOf(' ') === -1) ? key : `"${key}"`;
+    }
+
     return (dispatch, getState) => {
         const termKeys = getCurrentUserMentionKeys(getState()).filter(({key}) => {
             return key !== '@channel' && key !== '@all' && key !== '@here';
         });
 
-        const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
+        const terms = termKeys.map(({key}) => getTerm(key)).join(' ').trim() + ' ';
 
         trackEvent('api', 'api_posts_search_mention');
 
