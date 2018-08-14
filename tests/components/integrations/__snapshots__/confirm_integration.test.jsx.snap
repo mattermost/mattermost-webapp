@@ -191,7 +191,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       key="add_oauth_app.clientId"
     >
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="**Client ID:** {id}"
+        defaultMessage="**Client ID**: {id}"
         id="add_oauth_app.clientId"
         values={
           Object {
@@ -202,7 +202,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
        
       <br />
       <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="**Client Secret:** {secret}"
+        defaultMessage="**Client Secret**: {secret}"
         id="add_oauth_app.clientSecret"
         values={
           Object {

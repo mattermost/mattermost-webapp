@@ -155,14 +155,14 @@ export default class ConfirmIntegration extends React.Component {
                 <p key='add_oauth_app.clientId'>
                     <FormattedMarkdownMessage
                         id='add_oauth_app.clientId'
-                        defaultMessage='**Client ID:** {id}'
+                        defaultMessage='**Client ID**: {id}'
                         values={{
                             id: oauthApp.id,
                         }}
                     /> <br/>
                     <FormattedMarkdownMessage
                         id='add_oauth_app.clientSecret'
-                        defaultMessage='**Client Secret:** {secret}'
+                        defaultMessage='**Client Secret**: {secret}'
                         values={{
                             secret: oauthApp.client_secret,
                         }}
