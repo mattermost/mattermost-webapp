@@ -4,13 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ShowMore from 'components/post_view/show_more';
+import ShowMore from 'components/post_view/show_more/show_more.jsx';
 
 describe('components/post_view/ShowMore', () => {
     const children = (<div><p>{'text'}</p></div>);
     const baseProps = {
         checkOverflow: false,
         isAttachmentText: false,
+        isRHSExpanded: false,
+        isRHSOpen: false,
         maxHeight: 200,
         text: 'text',
     };
@@ -52,5 +54,37 @@ describe('components/post_view/ShowMore', () => {
         );
         wrapper.setState({isOverflow: true, isCollapsed: false});
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call checkTextOverflow', () => {
+        const wrapper = shallow(<ShowMore {...baseProps}/>);
+        const instance = wrapper.instance();
+        instance.checkTextOverflow = jest.fn();
+
+        expect(instance.checkTextOverflow).not.toBeCalled();
+
+        wrapper.setProps({isRHSExpanded: true});
+        expect(instance.checkTextOverflow).toBeCalledTimes(1);
+
+        wrapper.setProps({isRHSExpanded: false});
+        expect(instance.checkTextOverflow).toBeCalledTimes(2);
+
+        wrapper.setProps({isRHSOpen: true});
+        expect(instance.checkTextOverflow).toBeCalledTimes(3);
+
+        wrapper.setProps({isRHSOpen: false});
+        expect(instance.checkTextOverflow).toBeCalledTimes(4);
+
+        wrapper.setProps({text: 'text change'});
+        expect(instance.checkTextOverflow).toBeCalledTimes(5);
+
+        wrapper.setProps({text: 'text another change'});
+        expect(instance.checkTextOverflow).toBeCalledTimes(6);
+
+        wrapper.setProps({checkOverflow: true});
+        expect(instance.checkTextOverflow).toBeCalledTimes(7);
+
+        wrapper.setProps({checkOverflow: false});
+        expect(instance.checkTextOverflow).toBeCalledTimes(7);
     });
 });

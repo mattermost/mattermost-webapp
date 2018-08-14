@@ -11,6 +11,8 @@ export default class ShowMore extends React.PureComponent {
         children: PropTypes.node,
         checkOverflow: PropTypes.bool,
         isAttachmentText: PropTypes.bool,
+        isRHSExpanded: PropTypes.bool.isRequired,
+        isRHSOpen: PropTypes.bool.isRequired,
         maxHeight: PropTypes.number.isRequired,
         text: PropTypes.string,
     }
@@ -29,6 +31,8 @@ export default class ShowMore extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (
             this.props.text !== prevProps.text ||
+            this.props.isRHSExpanded !== prevProps.isRHSExpanded ||
+            this.props.isRHSOpen !== prevProps.isRHSOpen ||
             this.props.checkOverflow
         ) {
             this.checkTextOverflow();
@@ -72,6 +76,7 @@ export default class ShowMore extends React.PureComponent {
             isCollapsed,
             isOverflow,
         } = this.state;
+
         const {
             children,
             isAttachmentText,

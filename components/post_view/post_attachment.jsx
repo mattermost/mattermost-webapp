@@ -11,7 +11,7 @@ import {isUrlSafe} from 'utils/url.jsx';
 
 import Markdown from 'components/markdown';
 
-import ShowMore from './show_more';
+import ShowMore from 'components/post_view/show_more';
 
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
