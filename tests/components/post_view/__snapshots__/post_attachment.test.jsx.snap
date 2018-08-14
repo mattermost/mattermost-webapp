@@ -57,7 +57,7 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
         <div
           className="attachment__body"
         >
-          <ShowMore
+          <Connect(ShowMore)
             checkOverflow={false}
             isAttachmentText={true}
             maxHeight={200}
@@ -71,7 +71,7 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
               }
               message="short text"
             />
-          </ShowMore>
+          </Connect(ShowMore)>
           <img
             className="attachment__image"
             src="image_url"
@@ -165,7 +165,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
         <div
           className="attachment__body"
         >
-          <ShowMore
+          <Connect(ShowMore)
             checkOverflow={false}
             isAttachmentText={true}
             maxHeight={200}
@@ -179,7 +179,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
               }
               message="short text"
             />
-          </ShowMore>
+          </Connect(ShowMore)>
           <img
             className="attachment__image"
             src="image_url"

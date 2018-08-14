@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/post_view/PostAttachment should match snapshot 1`] = `
-<ShowMore
+<Connect(ShowMore)
   maxHeight={600}
   text="post message"
 >
@@ -29,11 +29,11 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
       }
     />
   </div>
-</ShowMore>
+</Connect(ShowMore)>
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on Show Less 1`] = `
-<ShowMore
+<Connect(ShowMore)
   maxHeight={600}
   text="post message"
 >
@@ -61,11 +61,11 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
       }
     />
   </div>
-</ShowMore>
+</Connect(ShowMore)>
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on Show More 1`] = `
-<ShowMore
+<Connect(ShowMore)
   maxHeight={600}
   text="post message"
 >
@@ -93,7 +93,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
       }
     />
   </div>
-</ShowMore>
+</Connect(ShowMore)>
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on deleted post 1`] = `
@@ -117,7 +117,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on deleted p
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on edited post 1`] = `
-<ShowMore
+<Connect(ShowMore)
   maxHeight={600}
   text="post message"
 >
@@ -155,7 +155,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
       values={Object {}}
     />
   </span>
-</ShowMore>
+</Connect(ShowMore)>
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on edited post 2`] = `
@@ -171,7 +171,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on ephemeral post 1`] = `
-<ShowMore
+<Connect(ShowMore)
   maxHeight={600}
   text="post message"
 >
@@ -199,5 +199,5 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
       }
     />
   </div>
-</ShowMore>
+</Connect(ShowMore)>
 `;
