@@ -248,4 +248,20 @@ export default class PluginRegistry {
     unregisterReconnectHandler() {
         unregisterPluginReconnectHandler(this.id);
     }
+
+    registerMessageWillFormatHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_HOOK,
+            name: 'MessageWillFormat',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
 }
