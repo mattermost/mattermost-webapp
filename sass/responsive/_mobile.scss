@@ -1230,6 +1230,15 @@
         right: 0;
         width: 100%;
 
+        .browser--ie & {
+            -webkit-transform: none   !important;
+            -moz-transform: none !important;
+            -ms-transform: none !important;
+            -o-transform: none !important;
+            transform: none !important;
+            display: none;
+        }
+
         .post-create__container {
             form {
                 padding: .5em 1em;

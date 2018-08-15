@@ -811,21 +811,9 @@ export function applyTheme(theme) {
                 `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
             );
             changeCss(
-                '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__gradient, ' +
-                '.app__body #thread--root .post-attachment-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
-            );
-            changeCss(
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body #thread--root .post-collapse__show-more',
-                `background:${ownPostBg}`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-attachment-collapse__show-more, ' +
-                '.app__body #thread--root .post-attachment-collapse__show-more',
                 `background:${ownPostBg}`,
             );
 
