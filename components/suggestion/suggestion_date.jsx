@@ -4,12 +4,10 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover, Overlay} from 'react-bootstrap';
+import {Popover} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
 
 import SuggestionStore from 'stores/suggestion_store.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
 
 export default class SuggestionDate extends React.Component {
     static propTypes = {
@@ -51,10 +49,6 @@ export default class SuggestionDate extends React.Component {
         SuggestionStore.addSuggestionsChangedListener(this.props.suggestionId, this.handleSuggestionsChanged);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-
-    }
-
     componentWillUnmount() {
         SuggestionStore.removeSuggestionsChangedListener(this.props.suggestionId, this.handleSuggestionsChanged);
     }
@@ -65,10 +59,6 @@ export default class SuggestionDate extends React.Component {
 
     handleSuggestionsChanged() {
         this.setState(this.getStateFromStores());
-    }
-
-    handleOnHide() {
-
     }
 
     handleOnBlur(event) {
@@ -82,24 +72,23 @@ export default class SuggestionDate extends React.Component {
 
         const item = this.state.items[0];
         const term = this.state.terms[0];
-        const isSelection = term === this.state.selection;
 
         // ReactComponent names need to be upper case when used in JSX
         const Component = this.state.components[0];
 
         const itemComponent = (
-                <Component
-                    key={term}
-                    ref={term}
-                    item={item}
-                    term={term}
-                    matchedPretext={this.state.matchedPretext[0]}
-                    isSelection={false}
-                    onClick={this.props.onCompleteWord}
-                />
+            <Component
+                key={term}
+                ref={term}
+                item={item}
+                term={term}
+                matchedPretext={this.state.matchedPretext[0]}
+                isSelection={false}
+                onClick={this.props.onCompleteWord}
+            />
         );
 
-        return (           
+        return (
             <Popover
                 ref='popover'
                 id='search-autocomplete__popover'

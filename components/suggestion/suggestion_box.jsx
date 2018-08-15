@@ -23,7 +23,7 @@ export default class SuggestionBox extends React.Component {
         /**
          * The date component to render
          */
-        dateComponent: PropTypes.func,        
+        dateComponent: PropTypes.func,
 
         /**
          * The value of in the input
@@ -139,7 +139,7 @@ export default class SuggestionBox extends React.Component {
         this.composing = false;
 
         // Keep track of weather a list based or date based suggestion provider has been triggered
-        this.presentationType = "text";
+        this.presentationType = 'text';
     }
 
     componentDidMount() {
@@ -187,7 +187,7 @@ export default class SuggestionBox extends React.Component {
     }
 
     handleBlur() {
-        if(this.presentationType !== "date" || this.props.value.length == 0) {
+        if (this.presentationType !== 'date' || this.props.value.length === 0) {
             setTimeout(() => {
                 // Delay this slightly so that we don't clear the suggestions before we run click handlers on SuggestionList
                 GlobalActions.emitClearSuggestions(this.suggestionId);
@@ -355,7 +355,7 @@ export default class SuggestionBox extends React.Component {
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
                 GlobalActions.emitClearSuggestions(this.suggestionId);
-                this.presentationType = "text";
+                this.presentationType = 'text';
                 e.preventDefault();
                 e.stopPropagation();
             } else if (this.props.onKeyDown) {
@@ -372,10 +372,10 @@ export default class SuggestionBox extends React.Component {
             handled = provider.handlePretextChanged(this.suggestionId, pretext) || handled;
 
             if (handled) {
-                if(provider.constructor.name == "SearchDateProvider") {
-                    this.presentationType = "date";
+                if (provider.constructor.name === 'SearchDateProvider') {
+                    this.presentationType = 'date';
                 } else {
-                    this.presentationType = "text";
+                    this.presentationType = 'text';
                 }
 
                 break;
@@ -414,7 +414,6 @@ export default class SuggestionBox extends React.Component {
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
         const SuggestionDateComponent = dateComponent;
-        const matchedPretext = SuggestionStore.getSelectedMatchedPretext(this.suggestionId);
 
         return (
             <div>
@@ -430,7 +429,7 @@ export default class SuggestionBox extends React.Component {
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType == "text" &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'text' &&
                     <SuggestionListComponent
                         suggestionId={this.suggestionId}
                         location={listStyle}
@@ -438,7 +437,7 @@ export default class SuggestionBox extends React.Component {
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType == "date" &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'date' &&
                     <SuggestionDateComponent
                         suggestionId={this.suggestionId}
                         location={listStyle}
