@@ -138,7 +138,7 @@ export default class MultiSelect extends React.Component {
 
     render() {
         const options = Object.assign([], this.props.options);
-        const values = this.props.values;
+        const {totalCount, users, values} = this.props.values;
 
         let numRemainingText;
         if (this.props.numRemainingText) {
@@ -155,16 +155,19 @@ export default class MultiSelect extends React.Component {
             );
         }
 
-        const memberCount = (
-            <FormattedMessage
-                id='multiselect.numMembers'
-                defaultMessage='{memberOptions, number} of {totalCount, number} members'
-                values={{
-                    memberOptions: this.props.users.length,
-                    totalCount: this.props.totalCount,
-                }}
-            />
-        );
+        let memberCount;
+        if (users && users.length && totalCount) {
+            memberCount = (
+                <FormattedMessage
+                    id='multiselect.numMembers'
+                    defaultMessage='{memberOptions, number} of {totalCount, number} members'
+                    values={{
+                        memberOptions: this.props.users.length,
+                        totalCount: this.props.totalCount,
+                    }}
+                />
+            );
+        }
 
         let buttonSubmitText;
         if (this.props.buttonSubmitText) {
