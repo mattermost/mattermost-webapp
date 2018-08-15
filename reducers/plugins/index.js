@@ -153,6 +153,28 @@ function components(state = {}, action) {
     }
 }
 
+function hooks(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_PLUGIN_HOOK: {
+        if (action.name && action.data) {
+            const nextState = {...state};
+            const nextArray = nextState[action.name] || [];
+            nextArray.sort(sortComponents);
+            nextState[action.name] = [...nextArray, action.data];
+            return nextState;
+        }
+        return state;
+    }
+    case ActionTypes.REMOVED_PLUGIN_HOOK:
+        return removePluginComponent(state, action);
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+        return removePluginComponents(state, action);
+    default:
+        return state;
+    }
+}
+
 function postTypes(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT: {
@@ -188,6 +210,10 @@ export default combineReducers({
     // object where every key is a component name and the values are arrays of
     // components wrapped in an object that contains an id and plugin id
     components,
+
+    // object where every key is a hook name and the values are arrays of
+    // functions wrapped in an object that contains an id and plugin id
+    hooks,
 
     // object where every key is a post type and the values are components wrapped in an
     // an object that contains a plugin id

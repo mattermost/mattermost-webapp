@@ -32,10 +32,13 @@ export default class PostMarkdown extends React.PureComponent {
         post: PropTypes.object,
 
         options: PropTypes.object,
+
+        pluginHooks: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
         isRHS: false,
+        pluginHooks: [],
     };
 
     render() {
@@ -50,11 +53,18 @@ export default class PostMarkdown extends React.PureComponent {
         const proxyImages = !this.props.post || !this.props.post.message_source || this.props.post.message === this.props.post.message_source;
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
+        let message = this.props.message;
+        this.props.pluginHooks.forEach((o) => {
+            if (o && o.hook) {
+                message = o.hook(message);
+            }
+        });
+
         return (
             <Markdown
                 imageProps={this.props.imageProps}
                 isRHS={this.props.isRHS}
-                message={this.props.message}
+                message={message}
                 proxyImages={proxyImages}
                 options={this.props.options}
                 channelNamesMap={channelNamesMap}
