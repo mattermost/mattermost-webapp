@@ -21,6 +21,11 @@ export default class SuggestionBox extends React.Component {
         listComponent: PropTypes.func.isRequired,
 
         /**
+         * The date component to render
+         */
+        dateComponent: PropTypes.func,        
+
+        /**
          * The value of in the input
          */
         value: PropTypes.string.isRequired,
@@ -377,6 +382,7 @@ export default class SuggestionBox extends React.Component {
     render() {
         const {
             listComponent,
+            dateComponent,
             listStyle,
             renderDividers,
             ...props
@@ -395,6 +401,8 @@ export default class SuggestionBox extends React.Component {
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
+        const SuggestionDateComponent = dateComponent;
+        const matchedPretext = SuggestionStore.getSelectedMatchedPretext(this.suggestionId);
 
         return (
             <div>
@@ -418,6 +426,14 @@ export default class SuggestionBox extends React.Component {
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }
+                {/* {((this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && matchedPretext.includes("on:")) &&
+                    <SuggestionDateComponent
+                        suggestionId={this.suggestionId}
+                        location={listStyle}
+                        renderDividers={renderDividers}
+                        // onCompleteWord={this.handleCompleteWord}
+                    />
+                } */}
             </div>
         );
     }
