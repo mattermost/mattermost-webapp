@@ -12,12 +12,16 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
+    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+    const enablePostIconOverride = config.EnablePostIconOverride === 'true';
 
     return {
         hookId,
         hook: state.entities.integrations.outgoingHooks[hookId],
         updateOutgoingHookRequest: state.requests.integrations.createOutgoingHook,
         enableOutgoingWebhooks,
+        enablePostUsernameOverride,
+        enablePostIconOverride,
     };
 }
 

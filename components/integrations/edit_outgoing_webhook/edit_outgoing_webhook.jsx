@@ -53,6 +53,16 @@ export default class EditOutgoingWebhook extends React.PureComponent {
         * Whether or not outgoing webhooks are enabled.
         */
         enableOutgoingWebhooks: PropTypes.bool,
+
+        /**
+         * Whether to allow configuration of the default post username.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to allow configuration of the default post icon.
+         */
+        enablePostIconOverride: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -168,6 +178,8 @@ export default class EditOutgoingWebhook extends React.PureComponent {
                 action={this.editOutgoingHook}
                 serverError={this.state.serverError}
                 initialHook={this.props.hook}
+                enablePostUsernameOverride={this.props.enablePostUsernameOverride}
+                enablePostIconOverride={this.props.enablePostIconOverride}
             />
         );
     }

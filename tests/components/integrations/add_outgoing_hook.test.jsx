@@ -22,6 +22,8 @@ describe('components/integrations/AddOutgoingWebhook', () => {
                     error: null,
                 }}
                 actions={{createOutgoingHook: emptyFunction}}
+                enablePostUsernameOverride={false}
+                enablePostIconOverride={false}
             />
         );
         expect(wrapper).toMatchSnapshot();

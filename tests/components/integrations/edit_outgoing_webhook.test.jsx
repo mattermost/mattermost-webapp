@@ -41,6 +41,8 @@ describe('components/integrations/EditOutgoingWebhook', () => {
             getOutgoingHook: jest.fn(),
         },
         enableOutgoingWebhooks: true,
+        enablePostUsernameOverride: false,
+        enablePostIconOverride: false,
     };
 
     test('should match snapshot', () => {
