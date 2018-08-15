@@ -176,6 +176,14 @@ export default class EmojiPicker extends React.PureComponent {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
 
+    componentDidUpdate() {
+        requestAnimationFrame(() => {
+            if (this.searchInput) {
+                this.searchInput.focus();
+            }
+        });
+    }
+
     UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         if (this.state.divTopOffset === nextState.divTopOffset) {
             return;
@@ -469,6 +477,7 @@ export default class EmojiPicker extends React.PureComponent {
                     ref={this.emojiSearchInput}
                     className='emoji-picker__search'
                     type='text'
+                    autoFocus={true}
                     onChange={this.handleFilterChange}
                     onKeyDown={this.handleKeyDown}
                     placeholder={Utils.localizeMessage('emoji_picker.search', 'search')}
