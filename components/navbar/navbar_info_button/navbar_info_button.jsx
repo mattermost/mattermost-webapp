@@ -6,6 +6,9 @@ import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ModalIdentifiers} from 'utils/constants.jsx';
+
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import InfoIcon from 'components/svg/info_icon';
 
@@ -14,18 +17,31 @@ const headerMarkdownOptions = {mentionHighlight: false};
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object,
-        showEditChannelHeaderModal: PropTypes.func.isRequired,
         isReadOnly: PropTypes.bool,
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     showEditChannelHeaderModal = () => {
-        this.refs.headerOverlay.hide();
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
 
-        this.props.showEditChannelHeaderModal();
+        const {actions, channel} = this.props;
+        const modalData = {
+            modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
+            dialogType: EditChannelHeaderModal,
+            dialogProps: {channel},
+        };
+
+        actions.openModal(modalData);
     }
 
     hide = () => {
-        this.refs.headerOverlay.hide();
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
     }
 
     render() {

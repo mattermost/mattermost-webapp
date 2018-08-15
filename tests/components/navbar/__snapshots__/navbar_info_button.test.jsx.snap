@@ -2,6 +2,11 @@
 
 exports[`components/navbar/NavbarInfoButton should match snapshot, with channel header 1`] = `
 <NavbarInfoButton
+  actions={
+    Object {
+      "openModal": [MockFunction],
+    }
+  }
   channel={
     Object {
       "header": "channel header",
@@ -33,7 +38,6 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       "textComponent": "span",
     }
   }
-  showEditChannelHeaderModal={[MockFunction]}
 >
   <OverlayTrigger
     className="description"
@@ -120,6 +124,11 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
 
 exports[`components/navbar/NavbarInfoButton should match snapshot, without channel header 1`] = `
 <NavbarInfoButton
+  actions={
+    Object {
+      "openModal": [MockFunction],
+    }
+  }
   channel={
     Object {
       "id": "channel_id",
@@ -150,7 +159,6 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       "textComponent": "span",
     }
   }
-  showEditChannelHeaderModal={[MockFunction]}
 >
   <OverlayTrigger
     className="description"

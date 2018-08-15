@@ -11,7 +11,6 @@ describe('components/navbar/Navbar', () => {
         teamDisplayName: 'team_display_name',
         isPinnedPosts: true,
         actions: {
-            showEditChannelHeaderModal: jest.fn(),
             toggleLhs: jest.fn(),
             closeLhs: jest.fn(),
             closeRhs: jest.fn(),
@@ -103,16 +102,20 @@ describe('components/navbar/Navbar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state when corresponding function is called', () => {
+    test('should match snapshot, renderEditChannelHeaderOption', () => {
         const wrapper = shallow(
             <Navbar {...baseProps}/>
         );
 
-        wrapper.setState({showEditChannelHeaderModal: false});
-        wrapper.instance().showEditChannelHeaderModal();
-        expect(wrapper.state('showEditChannelHeaderModal')).toEqual(true);
-        wrapper.instance().hideEditChannelHeaderModal();
-        expect(wrapper.state('showEditChannelHeaderModal')).toEqual(false);
+        const editChannelHeaderOption = wrapper.instance().renderEditChannelHeaderOption(wrapper.state('channel'));
+
+        expect(editChannelHeaderOption).toMatchSnapshot();
+    });
+
+    test('should match state when corresponding function is called', () => {
+        const wrapper = shallow(
+            <Navbar {...baseProps}/>
+        );
 
         wrapper.setState({showEditChannelPurposeModal: false});
         wrapper.instance().showChannelPurposeModal();
