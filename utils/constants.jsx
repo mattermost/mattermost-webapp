@@ -611,7 +611,6 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_CHANNEL_ROLES,
     ],
     team_admin: [
-        Permissions.EDIT_OTHERS_POSTS,
         Permissions.REMOVE_USER_FROM_TEAM,
         Permissions.MANAGE_TEAM,
         Permissions.IMPORT_TEAM,
