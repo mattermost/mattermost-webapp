@@ -459,7 +459,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                     />
                 }
                 createJobHelpText={
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id={setting.help_text}
                         defaultMessage={setting.help_text_default}
                     />

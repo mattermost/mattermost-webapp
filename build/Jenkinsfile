@@ -1,52 +1,86 @@
 #!/usr/bin/env groovy
 
-def gitCommit
-node {
-    stage('Checkout') {
-        checkout scm
-        gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+pipeline {
+    agent {
+        docker {
+            image 'mattermost/mattermost-build-webapp:v5.2.0'
+        }
     }
-    stage('Check Style') {
-        sh 'make check-style'
+
+    environment {
+        GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
     }
-    stage('Unit/Component Tests') {
-        sh 'make test'
+
+    stages {
+        stage('Install') {
+            steps {
+                sh 'make .npminstall'
+            }
+        }
+
+        stage('Check Style') {
+            steps {
+                sh 'make check-style'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'make test'
+            }
+            post {
+                always {
+                    junit 'build/test-results.xml'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'make package'
+            }
+        }
+
+        stage('Push to S3') {
+            steps {
+                step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[
+                    bucket: 'releases.mattermost.com/mattermost-webapp/${BRANCH_NAME}',
+                    excludedFile: '',
+                    flatten: true,
+                    gzipFiles: false,
+                    keepForever: false,
+                    managedArtifacts: false,
+                    noUploadOnFailure: true,
+                    selectedRegion: 'us-east-1',
+                    showDirectlyInBrowser: false,
+                    sourceFile: '*.tar.gz',
+                    storageClass: 'STANDARD',
+                    uploadFromSlave: false,
+                    useServerSideEncryption: false,
+                    userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
+                ], [
+                    bucket: "releases.mattermost.com/mattermost-webapp/commit/${GIT_COMMIT}",
+                    excludedFile: '',
+                    flatten: true,
+                    gzipFiles: false,
+                    keepForever: false,
+                    managedArtifacts: false,
+                    noUploadOnFailure: true,
+                    selectedRegion: 'us-east-1',
+                    showDirectlyInBrowser: false,
+                    sourceFile: '*.tar.gz',
+                    storageClass: 'STANDARD',
+                    uploadFromSlave: false,
+                    useServerSideEncryption: false,
+                    userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
+                ]], profileName: 'Releases', userMetadAta: []])
+            }
+        }
     }
-    stage('Build') {
-        sh 'make build'
-        sh 'make package'
-    }
-    stage('Push to S3') {
-        step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[
-            bucket: 'releases.mattermost.com/mattermost-webapp/${BRANCH_NAME}',
-            excludedFile: '',
-            flatten: true,
-            gzipFiles: false,
-            keepForever: false,
-            managedArtifacts: false,
-            noUploadOnFailure: true,
-            selectedRegion: 'us-east-1',
-            showDirectlyInBrowser: false,
-            sourceFile: '*.tar.gz',
-            storageClass: 'STANDARD',
-            uploadFromSlave: false,
-            useServerSideEncryption: false,
-            userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
-        ], [
-            bucket: "releases.mattermost.com/mattermost-webapp/commit/${gitCommit}",
-            excludedFile: '',
-            flatten: true,
-            gzipFiles: false,
-            keepForever: false,
-            managedArtifacts: false,
-            noUploadOnFailure: true,
-            selectedRegion: 'us-east-1',
-            showDirectlyInBrowser: false,
-            sourceFile: '*.tar.gz',
-            storageClass: 'STANDARD',
-            uploadFromSlave: false,
-            useServerSideEncryption: false,
-            userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
-        ]], profileName: 'Releases', userMetadAta: []])
+
+    post {
+        always {
+            cleanWs notFailBuild: true
+        }
     }
 }

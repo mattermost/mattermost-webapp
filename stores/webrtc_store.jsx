@@ -5,7 +5,7 @@ import EventEmitter from 'events';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {WebrtcActionTypes} from 'utils/constants.jsx';
-import {initWebrtc} from 'actions/views/webrtc';
+import {initWebrtc, updateBusyWebrtc} from 'actions/views/webrtc';
 import store from 'stores/redux_store.jsx';
 
 const dispatch = store.dispatch;
@@ -20,6 +20,7 @@ class WebrtcStoreClass extends EventEmitter {
     setVideoCallWith(userId) {
         this.video_call_with = userId;
         this.emitBusy(userId !== null);
+        dispatch(updateBusyWebrtc(userId));
     }
 
     getVideoCallWith() {

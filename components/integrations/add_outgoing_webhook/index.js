@@ -5,11 +5,18 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createOutgoingHook} from 'mattermost-redux/actions/integrations';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import AddOutgoingWebhook from './add_outgoing_webhook.jsx';
 
 function mapStateToProps(state) {
+    const config = getConfig(state);
+    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+    const enablePostIconOverride = config.EnablePostIconOverride === 'true';
     return {
         createOutgoingHookRequest: state.requests.integrations.createOutgoingHook,
+        enablePostUsernameOverride,
+        enablePostIconOverride,
     };
 }
 

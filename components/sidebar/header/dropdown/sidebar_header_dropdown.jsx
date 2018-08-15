@@ -26,6 +26,10 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 
 import SidebarHeaderDropdownButton from '../sidebar_header_dropdown_button.jsx';
 
+import LeaveTeamModal from 'components/leave_team_modal';
+import {ModalIdentifiers} from 'utils/constants';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+
 export default class SidebarHeaderDropdown extends React.Component {
     static propTypes = {
         teamId: PropTypes.string,
@@ -477,16 +481,18 @@ export default class SidebarHeaderDropdown extends React.Component {
 
             teams.push(
                 <li key='leaveTeam_li'>
-                    <button
-                        className='style--none'
+                    <ToggleModalButtonRedux
                         id='leaveTeam'
-                        onClick={GlobalActions.showLeaveTeamModal}
+                        role='menuitem'
+                        modalId={ModalIdentifiers.LEAVE_TEAM}
+                        dialogType={LeaveTeamModal}
+                        dialogProps={{}}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.leave'
                             defaultMessage='Leave Team'
                         />
-                    </button>
+                    </ToggleModalButtonRedux>
                 </li>
             );
         }

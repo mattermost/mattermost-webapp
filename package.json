@@ -26,7 +26,7 @@
     "localforage": "1.7.2",
     "localforage-observable": "1.4.0",
     "marked": "github:mattermost/marked#ed33baecd7d7fa97d479ba22dde9d226b083d67d",
-    "mattermost-redux": "github:mattermost/mattermost-redux#0d0291ede6a5e4aa7856dfedfa751b11cbedf656",
+    "mattermost-redux": "github:mattermost/mattermost-redux#111db434e0386e08c7140d2b1470518acd04294c",
     "moment-timezone": "0.5.21",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
@@ -93,6 +93,7 @@
     "jest": "23.4.1",
     "jest-canvas-mock": "1.1.0",
     "jest-cli": "23.4.1",
+    "jest-junit": "^5.1.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.4.1",
     "nightwatch": "0.9.21",
@@ -145,6 +146,10 @@
       "node_modules",
       "non_npm_dependencies"
     ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
     ],
@@ -154,10 +159,13 @@
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
     "testURL": "http://localhost:8065"
   },
+  "jest-junit": {
+    "output": "build/test-results.xml"
+  },
   "scripts": {
     "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",
     "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet --fix",
-    "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose --progress",
+    "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "cross-env NODE_ENV=production webpack --progress --watch",
     "run-fullmap": "webpack --progress --watch",
     "test": "jest --forceExit",

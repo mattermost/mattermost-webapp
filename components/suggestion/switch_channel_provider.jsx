@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {
     getChannelsInCurrentTeam,
-    getDirectChannels,
+    getDirectAndGroupChannels,
     getSortedUnreadChannelIds,
     makeGetChannel,
 } from 'mattermost-redux/selectors/entities/channels';
@@ -211,7 +211,7 @@ export default class SwitchChannelProvider extends Provider {
             this.startNewRequest(suggestionId, channelPrefix);
 
             // Dispatch suggestions for local data
-            const channels = getChannelsInCurrentTeam(getState()).concat(getDirectChannels(getState()));
+            const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
             this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users, true);
 
@@ -264,7 +264,8 @@ export default class SwitchChannelProvider extends Provider {
             type: UserTypes.RECEIVED_PROFILES_LIST,
             data: users.filter((user) => user.id !== currentUserId),
         });
-        const channels = getChannelsInCurrentTeam(state).concat(getDirectChannels(state)).concat(channelsFromServer);
+
+        const channels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
     }
 

@@ -25,6 +25,16 @@ function isOpen(state = false, action) {
     }
 }
 
+function isBusy(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_BUSY_WEBRTC:
+        return Boolean(action.userId);
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     isOpen,
+    isBusy,
 });

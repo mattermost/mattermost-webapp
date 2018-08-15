@@ -189,7 +189,7 @@ export default class ChannelMentionProvider extends Provider {
                 AppDispatcher.handleServerAction({
                     type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
                     id: suggestionId,
-                    matchedPretext: captured[2],
+                    matchedPretext: captured[1],
                     terms: mentions,
                     items: wrapped,
                     component: ChannelMentionSuggestion,

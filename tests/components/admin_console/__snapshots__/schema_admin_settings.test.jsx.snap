@@ -323,18 +323,18 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Türkçe",
-              "value": "tr",
-            },
-            Object {
-              "order": 9,
               "text": "Română (Beta)",
               "value": "ro",
             },
             Object {
-              "order": 10,
+              "order": 9,
               "text": "Pусский (Alpha)",
               "value": "ru",
+            },
+            Object {
+              "order": 10,
+              "text": "Türkçe",
+              "value": "tr",
             },
             Object {
               "order": 11,
@@ -432,18 +432,18 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Türkçe",
-              "value": "tr",
-            },
-            Object {
-              "order": 9,
               "text": "Română (Beta)",
               "value": "ro",
             },
             Object {
-              "order": 10,
+              "order": 9,
               "text": "Pусский (Alpha)",
               "value": "ru",
+            },
+            Object {
+              "order": 10,
+              "text": "Türkçe",
+              "value": "tr",
             },
             Object {
               "order": 11,
@@ -562,10 +562,9 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
         }
         createJobHelpText={
-          <FormattedMessage
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="This is some help text for the jobs table field."
             id="help-text-l"
-            values={Object {}}
           />
         }
         disabled={false}

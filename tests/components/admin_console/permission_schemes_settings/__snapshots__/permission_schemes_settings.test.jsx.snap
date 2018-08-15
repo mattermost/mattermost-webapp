@@ -377,17 +377,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           id="admin.permissions.teamOverrideSchemesInProgress"
           values={
             Object {
-              "documentationLink": <Link
-                replace={false}
+              "documentationLink": <a
+                href="https://docs.mattermost.com/administration/config-settings.html#jobs"
+                rel="noopener noreferrer"
                 target="_blank"
-                to="https://docs.mattermost.com/administration/config-settings.html#jobs"
               >
                 <FormattedMessage
                   defaultMessage="documentation"
                   id="admin.permissions.documentationLinkText"
                   values={Object {}}
                 />
-              </Link>,
+              </a>,
             }
           }
         />
@@ -542,17 +542,17 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           id="admin.permissions.teamOverrideSchemesNoJobsEnabled"
           values={
             Object {
-              "documentationLink": <Link
-                replace={false}
+              "documentationLink": <a
+                href="https://docs.mattermost.com/administration/config-settings.html#jobs"
+                rel="noopener noreferrer"
                 target="_blank"
-                to="https://docs.mattermost.com/administration/config-settings.html#jobs"
               >
                 <FormattedMessage
                   defaultMessage="documentation"
                   id="admin.permissions.documentationLinkText"
                   values={Object {}}
                 />
-              </Link>,
+              </a>,
             }
           }
         />

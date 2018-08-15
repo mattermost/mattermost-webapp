@@ -25,7 +25,6 @@ import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
-import CustomIntegrationSettings from 'components/admin_console/custom_integrations_settings';
 import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
@@ -385,8 +384,11 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/custom`}
-                                        component={CustomIntegrationSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.integrations.custom_integrations.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/webrtc`}

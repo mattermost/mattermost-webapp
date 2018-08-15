@@ -34,6 +34,8 @@ exports[`components/integrations/EditOutgoingWebhook should have match renderExt
 exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] = `
 <AbstractOutgoingWebhook
   action={[Function]}
+  enablePostIconOverride={false}
+  enablePostUsernameOverride={false}
   footer={
     Object {
       "defaultMessage": "Update",
@@ -113,6 +115,8 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
 exports[`components/integrations/EditOutgoingWebhook should match snapshot when EnableOutgoingWebhooks is false 1`] = `
 <AbstractOutgoingWebhook
   action={[Function]}
+  enablePostIconOverride={false}
+  enablePostUsernameOverride={false}
   footer={
     Object {
       "defaultMessage": "Update",
