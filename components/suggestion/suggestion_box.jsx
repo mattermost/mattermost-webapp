@@ -137,6 +137,9 @@ export default class SuggestionBox extends React.Component {
 
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
+
+        // Keep track of weather a list based or date based suggestion provider has been triggered
+        this.presentationType = "text";
     }
 
     componentDidMount() {
@@ -184,13 +187,15 @@ export default class SuggestionBox extends React.Component {
     }
 
     handleBlur() {
-        setTimeout(() => {
-            // Delay this slightly so that we don't clear the suggestions before we run click handlers on SuggestionList
-            GlobalActions.emitClearSuggestions(this.suggestionId);
-        }, 200);
+        if(this.presentationType !== "date" || this.props.value.length == 0) {
+            setTimeout(() => {
+                // Delay this slightly so that we don't clear the suggestions before we run click handlers on SuggestionList
+                GlobalActions.emitClearSuggestions(this.suggestionId);
+            }, 200);
 
-        if (this.props.onBlur) {
-            this.props.onBlur();
+            if (this.props.onBlur) {
+                this.props.onBlur();
+            }
         }
     }
 
@@ -350,6 +355,7 @@ export default class SuggestionBox extends React.Component {
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
                 GlobalActions.emitClearSuggestions(this.suggestionId);
+                this.presentationType = "text";
                 e.preventDefault();
                 e.stopPropagation();
             } else if (this.props.onKeyDown) {
@@ -366,6 +372,12 @@ export default class SuggestionBox extends React.Component {
             handled = provider.handlePretextChanged(this.suggestionId, pretext) || handled;
 
             if (handled) {
+                if(provider.constructor.name == "SearchDateProvider") {
+                    this.presentationType = "date";
+                } else {
+                    this.presentationType = "text";
+                }
+
                 break;
             }
         }
@@ -418,7 +430,7 @@ export default class SuggestionBox extends React.Component {
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType == "text" &&
                     <SuggestionListComponent
                         suggestionId={this.suggestionId}
                         location={listStyle}
@@ -426,14 +438,14 @@ export default class SuggestionBox extends React.Component {
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }
-                {/* {((this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && matchedPretext.includes("on:")) &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType == "date" &&
                     <SuggestionDateComponent
                         suggestionId={this.suggestionId}
                         location={listStyle}
                         renderDividers={renderDividers}
-                        // onCompleteWord={this.handleCompleteWord}
+                        onCompleteWord={this.handleCompleteWord}
                     />
-                } */}
+                }
             </div>
         );
     }
