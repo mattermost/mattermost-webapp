@@ -41,40 +41,15 @@ describe('components/post_view/PostAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have called checkAttachmentTextOverflow on handleResize and on componentDidUpdate', () => {
+    test('should match state and have called postListScrollChange on handleImageHeightReceived', () => {
         const wrapper = shallow(<PostAttachment {...baseProps}/>);
         const instance = wrapper.instance();
         instance.checkAttachmentTextOverflow = jest.fn();
 
-        // on handleResize
-        instance.handleResize();
-        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(1);
-
-        // on componentDidUpdate
-        const newAttachment = {...attachment, text: 'new text'};
-        wrapper.setProps({attachment: newAttachment});
-        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(2);
-    });
-
-    test('should have called postListScrollChange and checkAttachmentTextOverflow on handleImageHeightReceived', () => {
-        const wrapper = shallow(<PostAttachment {...baseProps}/>);
-        const instance = wrapper.instance();
-        instance.checkAttachmentTextOverflow = jest.fn();
-
+        wrapper.setState({checkOverflow: false});
         instance.handleImageHeightReceived();
-        expect(instance.checkAttachmentTextOverflow).toHaveBeenCalledTimes(1);
         expect(postListScrollChange).toHaveBeenCalledTimes(1);
-    });
-
-    test('should match collapsed state on toggleCollapseState', () => {
-        const wrapper = shallow(<PostAttachment {...baseProps}/>);
-
-        wrapper.setState({collapsed: true});
-        wrapper.instance().toggleCollapseState({preventDefault: () => {}}); // eslint-disable-line no-empty-function
-        expect(wrapper.state('collapsed')).toEqual(false);
-
-        wrapper.instance().toggleCollapseState({preventDefault: () => {}}); // eslint-disable-line no-empty-function
-        expect(wrapper.state('collapsed')).toEqual(true);
+        expect(wrapper.state('checkOverflow')).toEqual(true);
     });
 
     test('should match value on getActionView', () => {

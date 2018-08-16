@@ -111,7 +111,7 @@ export default class MoreChannels extends React.Component {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
                         }
-                        this.setState({search: true, searchedChannels: channels});
+                        this.setSearchResults(channels);
                     }
                 );
             },
@@ -119,6 +119,10 @@ export default class MoreChannels extends React.Component {
         );
 
         this.searchTimeoutId = searchTimeoutId;
+    }
+
+    setSearchResults = (channels) => {
+        this.setState({search: true, searchedChannels: channels.filter((c) => c.delete_at === 0)});
     }
 
     render() {

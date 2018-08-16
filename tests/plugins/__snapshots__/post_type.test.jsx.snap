@@ -63,34 +63,31 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
 `;
 
 exports[`plugins/PostMessageView should match snapshot with no extended post type 1`] = `
-<div
-  className="post-message post-message--collapsed"
+<Connect(ShowMore)
+  maxHeight={600}
+  text="this is some text"
 >
   <div
-    className="post-message__text-container"
+    className="post-message__text"
+    id={null}
+    onClick={[Function]}
   >
-    <div
-      className="post-message__text"
-      id={null}
-      onClick={[Function]}
-    >
-      <PostMarkdown
-        imageProps={
-          Object {
-            "onHeightReceived": [Function],
-          }
+    <PostMarkdown
+      imageProps={
+        Object {
+          "onHeightReceived": [Function],
         }
-        isRHS={false}
-        message="this is some text"
-        options={Object {}}
-        post={
-          Object {
-            "message": "this is some text",
-            "type": "testtype",
-          }
+      }
+      isRHS={false}
+      message="this is some text"
+      options={Object {}}
+      post={
+        Object {
+          "message": "this is some text",
+          "type": "testtype",
         }
-      />
-    </div>
+      }
+    />
   </div>
-</div>
+</Connect(ShowMore)>
 `;

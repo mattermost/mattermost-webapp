@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {createSelector} from 'reselect';
 
 import {getChannels} from 'mattermost-redux/actions/channels';
 
@@ -11,11 +12,16 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import MoreChannels from './more_channels.jsx';
 
+const getNotArchivedOtherChannels = createSelector(
+    getOtherChannels,
+    (channels) => channels && channels.filter((c) => c.delete_at === 0)
+);
+
 function mapStateToProps(state) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getOtherChannels(state) || [],
+        channels: getNotArchivedOtherChannels(state) || [],
         teamId: team.id,
         teamName: team.name,
     };
