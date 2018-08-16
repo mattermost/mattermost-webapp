@@ -37,7 +37,7 @@ export default [
         ),
         allowForget: true,
         show: (serverVersion, config) => {
-            if (config.InstallationDate >= new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+            if (config.InstallationDate >= new Date(2018, 5, 16, 0, 0, 0, 0).getTime()) {
                 return false;
             }
             return true;
@@ -64,10 +64,10 @@ export default [
             if (license.IsLicensed === 'false') {
                 return false;
             }
-            if (config.InstallationDate > new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+            if (config.InstallationDate > new Date(2018, 5, 16, 0, 0, 0, 0).getTime()) {
                 return false;
             }
-            if (license.IsLicensed === 'true' && license.IssuedAt > new Date(2018, 6, 16, 0, 0, 0, 0).getTime()) {
+            if (license.IsLicensed === 'true' && license.IssuedAt > new Date(2018, 5, 16, 0, 0, 0, 0).getTime()) {
                 return false;
             }
             return true;
@@ -93,6 +93,11 @@ export default [
         show: (serverVersion, config, license, analytics) => {
             const USERS_THRESHOLD = 10000;
 
+            // If we don't have the analytics yet, don't show
+            if (!analytics.hasOwnProperty('TOTAL_USERS')) {
+                return false;
+            }
+
             if (analytics.TOTAL_USERS < USERS_THRESHOLD) {
                 return false;
             }
@@ -100,6 +105,7 @@ export default [
             if (license.IsLicensed === 'true' && license.Cluster === 'true') {
                 return false;
             }
+
             return true;
         },
     },
