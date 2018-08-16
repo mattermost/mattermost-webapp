@@ -1847,7 +1847,6 @@
   "email_verify.notVerifiedBody": "Please verify your email address. Check your inbox for an email.",
   "email_verify.resend": "Resend Email",
   "email_verify.sent": " Verification email sent.",
-  "email_verify.verified": "{siteName} Email Verified",
   "emoji_list.actions": "Actions",
   "emoji_list.add": "Add Custom Emoji",
   "emoji_list.creator": "Creator",
