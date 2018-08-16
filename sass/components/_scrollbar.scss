@@ -53,6 +53,7 @@ body {
 
     .browser--ie & {
         margin: 0 !important;
+        overflow-x: hidden !important;
     }
 }
 

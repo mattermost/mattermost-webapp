@@ -14,6 +14,15 @@
             -o-transform: translateX(0) !important;
             transform: translateX(0) !important;
 
+            .browser--ie & {
+                -webkit-transform: none   !important;
+                -moz-transform: none !important;
+                -ms-transform: none !important;
+                -o-transform: none !important;
+                transform: none !important;
+                display: block;
+            }
+
             .search-bar__container {
                 z-index: 5;
             }
@@ -168,8 +177,12 @@
         padding-right: 60px;
     }
 
+    .post-attachment-collapse__show-more {
+        padding-right: 0;
+    }
+
     .sidebar--right {
-        .post-collapse__show-more {
+        .post-collapse__show-more, .post-attachment-collapse__show-more {
             padding-right: 0;
         }
     }

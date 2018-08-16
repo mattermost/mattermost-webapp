@@ -7,13 +7,13 @@ import React from 'react';
 import * as PostActions from 'actions/post_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions';
 
+import {isUrlSafe} from 'utils/url.jsx';
+
 import Markdown from 'components/markdown';
 
-import {isUrlSafe} from 'utils/url.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import ShowMore from 'components/post_view/show_more';
 
-// This must match the max-height defined in CSS for the collapsed attachmentText div
-const MAX_ATTACHMENT_TEXT_HEIGHT = 600;
+const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
 export default class PostAttachment extends React.PureComponent {
     static propTypes = {
@@ -38,8 +38,7 @@ export default class PostAttachment extends React.PureComponent {
         super(props);
 
         this.state = {
-            collapsed: true,
-            hasOverflow: false,
+            checkOverflow: false,
         };
 
         this.imageProps = {
@@ -47,53 +46,10 @@ export default class PostAttachment extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
-        this.checkAttachmentTextOverflow();
-
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.attachment.text !== prevProps.attachment.text) {
-            this.checkAttachmentTextOverflow();
-        }
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize);
-    }
-
-    checkAttachmentTextOverflow = () => {
-        const attachmentText = this.refs.attachmentText;
-        let hasOverflow = false;
-        if (attachmentText && attachmentText.scrollHeight > MAX_ATTACHMENT_TEXT_HEIGHT) {
-            hasOverflow = true;
-        }
-
-        if (hasOverflow !== this.state.hasOverflow) {
-            this.setState({
-                hasOverflow,
-            });
-        }
-    };
-
     handleImageHeightReceived = () => {
         postListScrollChange();
 
-        this.checkAttachmentTextOverflow();
-    };
-
-    handleResize = () => {
-        this.checkAttachmentTextOverflow();
-    };
-
-    toggleCollapseState = (e) => {
-        e.preventDefault();
-        this.setState((prevState) => {
-            return {
-                collapsed: !prevState.collapsed,
-            };
-        });
+        this.setState({checkOverflow: true});
     };
 
     getActionView = () => {
@@ -221,10 +177,6 @@ export default class PostAttachment extends React.PureComponent {
     };
 
     render() {
-        const {
-            collapsed,
-            hasOverflow,
-        } = this.state;
         const {attachment, options} = this.props;
         let preTextClass = '';
 
@@ -298,46 +250,21 @@ export default class PostAttachment extends React.PureComponent {
             }
         }
 
-        let text;
+        let attachmentText;
         if (attachment.text) {
-            let collapseMessage = localizeMessage('post_attachment.more', 'Show more...');
-            let textClass = 'attachment__text';
-            if (collapsed) {
-                collapseMessage = localizeMessage('post_attachment.collapse', 'Show less...');
-                textClass += ' attachment__text--collapsed';
-            }
-
-            let textOverflow = null;
-            if (hasOverflow) {
-                textOverflow = (
-                    <div className='attachment__text-collapse'>
-                        <div className='attachment__text-collapse__link-more'>
-                            <a
-                                className='attachment__text-link-more'
-                                href='#'
-                                onClick={this.toggleCollapseState}
-                            >
-                                {collapseMessage}
-                            </a>
-                        </div>
-                    </div>
-                );
-            }
-
-            text = (
-                <div className={textClass}>
-                    <div
-                        className='attachment__text-container'
-                        ref='attachmentText'
-                    >
-                        <Markdown
-                            message={attachment.text || ''}
-                            options={options}
-                            imageProps={this.imageProps}
-                        />
-                    </div>
-                    {textOverflow}
-                </div>
+            attachmentText = (
+                <ShowMore
+                    checkOverflow={this.state.checkOverflow}
+                    isAttachmentText={true}
+                    maxHeight={MAX_ATTACHMENT_TEXT_HEIGHT}
+                    text={attachment.text}
+                >
+                    <Markdown
+                        message={attachment.text || ''}
+                        options={options}
+                        imageProps={this.imageProps}
+                    />
+                </ShowMore>
             );
         }
 
@@ -389,7 +316,7 @@ export default class PostAttachment extends React.PureComponent {
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
                             >
-                                {text}
+                                {attachmentText}
                                 {image}
                                 {fields}
                                 {actions}
