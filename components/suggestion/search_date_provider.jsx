@@ -26,14 +26,10 @@ class SearchDateSuggestion extends Suggestion {
 
     render() {
         return (
-            <div
-                className='search-autocomplete__item'
-            >
-                <DayPicker
-                    onDayClick={this.handleDayClick}
-                    showOutsideDays={true}
-                />
-            </div>
+            <DayPicker
+                onDayClick={this.handleDayClick}
+                showOutsideDays={true}
+            />
         );
     }
 }
