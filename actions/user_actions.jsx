@@ -518,6 +518,7 @@ export async function resendVerification(email, success, error) {
 export async function loginById(userId, password, mfaToken, success, error) {
     const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
     if (ok && success) {
+        await store.dispatch(getLicenseConfig());
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
@@ -542,6 +543,7 @@ export async function createUserWithInvite(user, token, inviteId, success, error
 export async function webLogin(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
     if (ok && success) {
+        await store.dispatch(getLicenseConfig());
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
@@ -557,6 +559,7 @@ export async function webLogin(loginId, password, token, success, error) {
 export async function webLoginByLdap(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
     if (ok && success) {
+        await store.dispatch(getLicenseConfig());
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {

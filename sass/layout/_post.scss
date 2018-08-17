@@ -889,7 +889,8 @@
         }
 
         blockquote {
-            padding: 3px 0 3px 20px;
+            display: flex;
+            padding: 3px 0px 3px 20px;
 
             &:before {
                 font-size: 15px;
@@ -1844,16 +1845,19 @@
     position: absolute;
     width: 100%;
 
-    .post-collapse__gradient {
+    .post-collapse__gradient, .post-attachment-collapse__gradient {
         pointer-events: none;
         position: relative;
     }
 }
 
 .post-collapse__show-more {
+    padding-bottom: 10px;
+}
+
+.post-collapse__show-more, .post-attachment-collapse__show-more {
     display: flex;
     justify-content: center;
-    padding-bottom: 10px;
     width: 100%;
     z-index: 5;
 
@@ -1903,7 +1907,7 @@
         max-height: 600px;
     }
 
-    .post-collapse__gradient {
+    .post-collapse__gradient, .post-attachment-collapse__gradient {
         height: 90px;
     }
 
@@ -1917,11 +1921,11 @@
         position: relative;
     }
 
-    .post-collapse__show-more {
+    .post-collapse__show-more, .post-attachment-collapse__show-more {
         position: relative;
     }
 
-    .post-collapse__gradient {
+    .post-collapse__gradient, .post-attachment-collapse__gradient {
         height: 0;
     }
 }

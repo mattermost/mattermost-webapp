@@ -73,6 +73,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       channels={
         Array [
           Object {
+            "delete_at": 0,
             "id": "channel_id_1",
           },
         ]
