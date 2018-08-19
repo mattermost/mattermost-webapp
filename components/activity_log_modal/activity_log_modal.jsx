@@ -8,13 +8,17 @@ import {Modal} from 'react-bootstrap';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 
-import UserStore from 'stores/user_store.jsx';
 import {getMonthLong} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class ActivityLogModal extends React.Component {
+export default class ActivityLogModal extends React.PureComponent {
     static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
+        sessions: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.object,
+        ]).isRequired,
         locale: PropTypes.string.isRequired,
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -26,66 +30,40 @@ export default class ActivityLogModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.submitRevoke = this.submitRevoke.bind(this);
-        this.onListenerChange = this.onListenerChange.bind(this);
-        this.handleMoreInfo = this.handleMoreInfo.bind(this);
-        this.onHide = this.onHide.bind(this);
-        this.onShow = this.onShow.bind(this);
-
-        const state = this.getStateFromStores();
-        state.moreInfo = [];
-        state.show = true;
-
-        this.state = state;
-    }
-
-    getStateFromStores() {
-        return {
-            sessions: UserStore.getSessions(),
-            clientError: null,
+        this.state = {
+            moreInfo: [],
+            show: true,
         };
     }
 
-    submitRevoke(altId, e) {
+    submitRevoke = (altId, e) => {
         e.preventDefault();
         var modalContent = $(e.target).closest('.modal-content');
         modalContent.addClass('animation--highlight');
         setTimeout(() => {
             modalContent.removeClass('animation--highlight');
         }, 1500);
-        this.props.actions.revokeSession(UserStore.getCurrentId(), altId).then(() => {
-            this.props.actions.getSessions(UserStore.getCurrentId());
+        this.props.actions.revokeSession(this.props.currentUserId, altId).then(() => {
+            this.props.actions.getSessions(this.props.currentUserId);
         });
     }
 
-    onShow() {
-        this.props.actions.getSessions(UserStore.getCurrentId());
+    onShow = () => {
+        this.props.actions.getSessions(this.props.currentUserId);
         if (!Utils.isMobile()) {
             $('.modal-body').perfectScrollbar();
         }
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
     componentDidMount() {
-        UserStore.addSessionsChangeListener(this.onListenerChange);
         this.onShow();
     }
 
-    componentWillUnmount() {
-        UserStore.removeSessionsChangeListener(this.onListenerChange);
-    }
-
-    onListenerChange() {
-        const newState = this.getStateFromStores();
-        if (!Utils.areObjectsEqual(newState.sessions, this.state.sessions)) {
-            this.setState(newState);
-        }
-    }
-
-    handleMoreInfo(index) {
+    handleMoreInfo = (index) => {
         const newMoreInfo = this.state.moreInfo;
         newMoreInfo[index] = true;
         this.setState({moreInfo: newMoreInfo});
@@ -138,8 +116,8 @@ export default class ActivityLogModal extends React.Component {
     render() {
         const activityList = [];
 
-        for (let i = 0; i < this.state.sessions.length; i++) {
-            const currentSession = this.state.sessions[i];
+        for (let i = 0; i < this.props.sessions.length; i++) {
+            const currentSession = this.props.sessions[i];
             const lastAccessTime = new Date(currentSession.last_activity_at);
             const firstAccessTime = new Date(currentSession.create_at);
             let devicePlatform = currentSession.props.platform;
@@ -316,7 +294,7 @@ export default class ActivityLogModal extends React.Component {
         }
 
         let content;
-        if (this.state.sessions.loading) {
+        if (this.props.sessions.loading) {
             content = <LoadingScreen/>;
         } else {
             content = <form role='form'>{activityList}</form>;

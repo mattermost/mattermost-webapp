@@ -15,6 +15,8 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 describe('components/ActivityLogModal', () => {
     const baseProps = {
+        sessions: [],
+        currentUserId: '',
         onHide: jest.fn(),
         actions: {
             getSessions: jest.fn(),
@@ -30,7 +32,7 @@ describe('components/ActivityLogModal', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(false);
 
-        wrapper.setState({sessions: {loading: true}});
+        wrapper.setProps({sessions: {loading: true}});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(true);
     });
@@ -83,23 +85,14 @@ describe('components/ActivityLogModal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should match state when onListenerChange is called', () => {
-        const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
-        );
-
-        const newState = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}}], clientError: null, moreInfo: [false, false], show: true};
-        wrapper.setState(newState);
-        wrapper.instance().onListenerChange();
-        expect(wrapper.state()).toEqual({clientError: null, moreInfo: [false, false], sessions: [], show: true});
-    });
-
     test('should match state when handleMoreInfo is called', () => {
         const wrapper = shallow(
             <ActivityLogModal {...baseProps}/>
         );
 
-        const newState = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}}], clientError: null, moreInfo: [false, false], show: true};
+        const newProps = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}}]};
+        const newState = {moreInfo: [false, false], show: true};
+        wrapper.setProps(newProps);
         wrapper.setState(newState);
         wrapper.instance().handleMoreInfo(1);
         expect(wrapper.state()).toEqual({...newState, moreInfo: [false, true]});
