@@ -130,54 +130,55 @@ module.exports = {
             waitForElementVisible('@teammateNameDisplayDesc', Constants.DEFAULT_WAIT).
             assert.containsText('@teammateNameDisplayDesc', 'Show username');
     },
-    'Test account settings display - Website Link Previews': (client) => {
-        const accountSettingsModalPage = client.page.accountSettingsModalPage();
-        accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
 
-        const accountSettingsModalSection = accountSettingsModalPage.section.accountSettingsModal;
+    // 'Test account settings display - Website Link Previews': (client) => {
+    //     const accountSettingsModalPage = client.page.accountSettingsModalPage();
+    //     accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
 
-        accountSettingsModalSection.click('@displayButton');
-        accountSettingsModalSection.expect.section('@displaySettings').to.be.visible;
+    //     const accountSettingsModalSection = accountSettingsModalPage.section.accountSettingsModal;
 
-        const displaySettingsSection = accountSettingsModalSection.section.displaySettings;
+    //     accountSettingsModalSection.click('@displayButton');
+    //     accountSettingsModalSection.expect.section('@displaySettings').to.be.visible;
 
-        // contents and cancel check
-        displaySettingsSection.
-            waitForElementVisible('@linkPreviewEdit', Constants.DEFAULT_WAIT).
-            click('@linkPreviewEdit').
-            assert.containsText('.setting-list-item', 'Off').
-            assert.containsText('.setting-list-item', 'On').
-            assert.containsText('.setting-list-item', 'When available, the first web link in a message will show a preview of the website content below the message.').
-            waitForElementVisible('#linkpreviewFormatA', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#linkpreviewFormatB', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
-            assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
-            assert.containsText('#cancelSetting', 'Cancel').
-            click('#cancelSetting').
-            waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@linkPreviewDesc', 'On');
+    //     const displaySettingsSection = accountSettingsModalSection.section.displaySettings;
 
-        // save/change setting to Off link previews
-        displaySettingsSection.
-            waitForElementVisible('@linkPreviewEdit', Constants.DEFAULT_WAIT).
-            click('@linkPreviewEdit').
-            waitForElementVisible('#linkpreviewFormatB', Constants.DEFAULT_WAIT).
-            click('#linkpreviewFormatB').
-            click('#saveSetting').
-            waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@linkPreviewDesc', 'Off');
+    //     // contents and cancel check
+    //     displaySettingsSection.
+    //         waitForElementVisible('@linkPreviewEdit', Constants.DEFAULT_WAIT).
+    //         click('@linkPreviewEdit').
+    //         assert.containsText('.setting-list-item', 'Off').
+    //         assert.containsText('.setting-list-item', 'On').
+    //         assert.containsText('.setting-list-item', 'When available, the first web link in a message will show a preview of the website content below the message.').
+    //         waitForElementVisible('#linkpreviewFormatA', Constants.DEFAULT_WAIT).
+    //         waitForElementVisible('#linkpreviewFormatB', Constants.DEFAULT_WAIT).
+    //         waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
+    //         assert.containsText('#saveSetting', 'Save').
+    //         waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+    //         assert.containsText('#cancelSetting', 'Cancel').
+    //         click('#cancelSetting').
+    //         waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
+    //         assert.containsText('@linkPreviewDesc', 'On');
 
-        // save/change setting to On link previews
-        displaySettingsSection.
-            waitForElementVisible('@linkPreviewEdit', Constants.DEFAULT_WAIT).
-            click('@linkPreviewEdit').
-            waitForElementVisible('#linkpreviewFormatA', Constants.DEFAULT_WAIT).
-            click('#linkpreviewFormatA').
-            click('#saveSetting').
-            waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@linkPreviewDesc', 'On');
-    },
+    //     // save/change setting to Off link previews
+    //     displaySettingsSection.
+    //         waitForElementVisible('@linkPreviewEdit', Constants.DEFAULT_WAIT).
+    //         click('@linkPreviewEdit').
+    //         waitForElementVisible('#linkpreviewFormatB', Constants.DEFAULT_WAIT).
+    //         click('#linkpreviewFormatB').
+    //         click('#saveSetting').
+    //         waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
+    //         assert.containsText('@linkPreviewDesc', 'Off');
+
+    //     // save/change setting to On link previews
+    //     displaySettingsSection.
+    //         waitForElementVisible('@linkPreviewEdit', Constants.DEFAULT_WAIT).
+    //         click('@linkPreviewEdit').
+    //         waitForElementVisible('#linkpreviewFormatA', Constants.DEFAULT_WAIT).
+    //         click('#linkpreviewFormatA').
+    //         click('#saveSetting').
+    //         waitForElementVisible('@linkPreviewDesc', Constants.DEFAULT_WAIT).
+    //         assert.containsText('@linkPreviewDesc', 'On');
+    // },
     'Test account settings display - Default appearance of image previews': (client) => {
         const accountSettingsModalPage = client.page.accountSettingsModalPage();
         accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
