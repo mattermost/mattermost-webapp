@@ -7,7 +7,7 @@ import React from 'react';
 export default class DotMenuItem extends React.PureComponent {
     static propTypes = {
         handleMenuItemActivated: PropTypes.func.isRequired,
-        menuItemText: PropTypes.element,
+        menuItemText: PropTypes.oneOf(PropTypes.element, PropTypes.string),
     };
 
     render() {

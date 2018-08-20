@@ -74,6 +74,12 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('BottomTeamSidebar', this.id, component);
     }
 
+    // Register a component fixed to the bottom of the post message.
+    // Accepts a React component. Returns a unique identifier.
+    registerPostMessageComponent(component) {
+        return dispatchPluginComponentAction('PostMessage', this.id, component);
+    }
+
     // Add a button to the channel header. If there are more than one buttons registered by any
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:
@@ -155,7 +161,7 @@ export default class PluginRegistry {
     // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
     // Returns a unique identifier.
-    registerPostDropdownMenuAction(text, action) {
+    registerPostDropdownMenuAction(text, action, filter) {
         const id = generateId();
 
         store.dispatch({
@@ -166,6 +172,7 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 text: resolveReactElement(text),
                 action,
+                filter,
             },
         });
 

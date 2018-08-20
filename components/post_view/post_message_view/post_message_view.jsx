@@ -12,8 +12,9 @@ import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
 import PostMarkdown from 'components/post_markdown';
+import Pluggable from 'plugins/pluggable';
 
-import ShowMore from '../show_more';
+import ShowMore from 'components/post_view/show_more';
 
 const MAX_POST_HEIGHT = 600;
 
@@ -86,11 +87,11 @@ export default class PostMessageView extends React.PureComponent {
         };
 
         this.imageProps = {
-            onHeightReceived: this.handleImageHeightReceived,
+            onHeightReceived: this.handleHeightChange,
         };
     }
 
-    handleImageHeightReceived = () => {
+    handleHeightChange = () => {
         GlobalActions.postListScrollChange();
 
         this.setState({checkOverflow: true});
@@ -187,6 +188,11 @@ export default class PostMessageView extends React.PureComponent {
                     />
                 </div>
                 {this.renderEditedIndicator()}
+                <Pluggable
+                    pluggableName='PostMessage'
+                    postId={post.id}
+                    onTextChange={this.handleHeightChange}
+                />
             </ShowMore>
         );
     }
