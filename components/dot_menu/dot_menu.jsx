@@ -305,7 +305,10 @@ export default class DotMenu extends Component {
                         >
                             {menuItems}
                             {pluginItems}
-                            <Pluggable pluggableName='PostDropdownMenuItem'/>
+                            <Pluggable
+                                pluggableName='PostDropdownMenuItem'
+                                post={this.props.post}
+                            />
                         </ul>
                     </div>
                 </div>
