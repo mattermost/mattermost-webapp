@@ -2,5 +2,5 @@
 // See LICENSE.txt for license information.
 
 export function getSocketStatus(state) {
-    return state.views.websocket.socketStatus;
+    return state.views.websocket;
 }

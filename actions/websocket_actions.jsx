@@ -189,9 +189,6 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 function handleFirstConnect() {
     dispatch({
         type: GeneralTypes.WEBSOCKET_SUCCESS,
-        data: {
-            channelIds: Object.keys(getMyChannelMemberships(getState())),
-        },
     }, getState);
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
@@ -202,12 +199,15 @@ function handleClose(failCount) {
         ErrorStore.storeLastError({message: ErrorBarTypes.WEBSOCKET_PORT_ERROR});
     }
     if (failCount === 1) {
-        dispatch({
+        dispatch(batchActions([{
+            type: GeneralTypes.WEBSOCKET_FAILURE,
+        }, {
             type: ActionTypes.ALL_CHANNEL_SYNC_STATUS,
             data: {
                 channelIds: Object.keys(getMyChannelMemberships(getState())),
+                status: false,
             },
-        });
+        }]));
     }
     ErrorStore.setConnectionErrorCount(failCount);
     ErrorStore.emitChange();
