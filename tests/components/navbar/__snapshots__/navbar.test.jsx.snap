@@ -54,7 +54,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
             className="icon icon__search"
           />
         </button>
-        <NavbarInfoButton
+        <Connect(NavbarInfoButton)
           channel={
             Object {
               "display_name": "Town Square",
@@ -64,7 +64,6 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
               "type": "O",
             }
           }
-          showEditChannelHeaderModal={[Function]}
         />
         <Connect(MobileChannelHeaderPlug)
           channel={
@@ -194,9 +193,21 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                 <li
                   role="presentation"
                 >
-                  <button
-                    className="style--none"
-                    onClick={[Function]}
+                  <Connect(ModalToggleButtonRedux)
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "Town Square",
+                          "id": "123",
+                          "name": "town-square",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    id="editChannelHeader"
+                    modalId="edit_channel_header"
                     role="menuitem"
                   >
                     <FormattedMessage
@@ -204,7 +215,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </button>
+                  </Connect(ModalToggleButtonRedux)>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -395,7 +406,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
             className="icon icon__search"
           />
         </button>
-        <NavbarInfoButton
+        <Connect(NavbarInfoButton)
           channel={
             Object {
               "display_name": "display_name",
@@ -404,7 +415,6 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               "type": "P",
             }
           }
-          showEditChannelHeaderModal={[Function]}
         />
         <Connect(MobileChannelHeaderPlug)
           channel={
@@ -597,9 +607,20 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 <li
                   role="presentation"
                 >
-                  <button
-                    className="style--none"
-                    onClick={[Function]}
+                  <Connect(ModalToggleButtonRedux)
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "P",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    id="editChannelHeader"
+                    modalId="edit_channel_header"
                     role="menuitem"
                   >
                     <FormattedMessage
@@ -607,7 +628,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </button>
+                  </Connect(ModalToggleButtonRedux)>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -845,7 +866,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
             className="icon icon__search"
           />
         </button>
-        <NavbarInfoButton
+        <Connect(NavbarInfoButton)
           channel={
             Object {
               "display_name": "display_name",
@@ -854,7 +875,6 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               "type": "O",
             }
           }
-          showEditChannelHeaderModal={[Function]}
         />
         <Connect(MobileChannelHeaderPlug)
           channel={
@@ -1047,9 +1067,20 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 <li
                   role="presentation"
                 >
-                  <button
-                    className="style--none"
-                    onClick={[Function]}
+                  <Connect(ModalToggleButtonRedux)
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    id="editChannelHeader"
+                    modalId="edit_channel_header"
                     role="menuitem"
                   >
                     <FormattedMessage
@@ -1057,7 +1088,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </button>
+                  </Connect(ModalToggleButtonRedux)>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -1325,7 +1356,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
             className="icon icon__search"
           />
         </button>
-        <NavbarInfoButton
+        <Connect(NavbarInfoButton)
           channel={
             Object {
               "display_name": "display_name",
@@ -1335,7 +1366,6 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
               "type": "D",
             }
           }
-          showEditChannelHeaderModal={[Function]}
         />
         <Connect(MobileChannelHeaderPlug)
           channel={
@@ -1383,17 +1413,29 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
               <li
                 role="presentation"
               >
-                <button
-                  className="style--none"
-                  onClick={[Function]}
+                <Connect(ModalToggleButtonRedux)
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "name": "user_id_1__user_id_2",
+                        "team_id": "team_id",
+                        "type": "D",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  id="editChannelHeader"
+                  modalId="edit_channel_header"
                   role="menuitem"
                 >
                   <FormattedMessage
                     defaultMessage="Edit Channel Header"
-                    id="channel_header.channelHeader"
+                    id="channel_header.setHeader"
                     values={Object {}}
                   />
-                </button>
+                </Connect(ModalToggleButtonRedux)>
               </li>
               <li
                 key="toggle_favorite"
@@ -1533,7 +1575,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
             className="icon icon__search"
           />
         </button>
-        <NavbarInfoButton
+        <Connect(NavbarInfoButton)
           channel={
             Object {
               "display_name": "display_name",
@@ -1542,7 +1584,6 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               "type": "O",
             }
           }
-          showEditChannelHeaderModal={[Function]}
         />
         <Connect(MobileChannelHeaderPlug)
           channel={
@@ -1735,9 +1776,20 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 <li
                   role="presentation"
                 >
-                  <button
-                    className="style--none"
-                    onClick={[Function]}
+                  <Connect(ModalToggleButtonRedux)
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    id="editChannelHeader"
+                    modalId="edit_channel_header"
                     role="menuitem"
                   >
                     <FormattedMessage
@@ -1745,7 +1797,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </button>
+                  </Connect(ModalToggleButtonRedux)>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
@@ -1961,6 +2013,8 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
 
 exports[`components/navbar/Navbar should match snapshot, invalid state 1`] = `""`;
 
+exports[`components/navbar/Navbar should match snapshot, renderEditChannelHeaderOption 1`] = `null`;
+
 exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
 <div>
   <nav
@@ -2015,7 +2069,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
             className="icon icon__search"
           />
         </button>
-        <NavbarInfoButton
+        <Connect(NavbarInfoButton)
           channel={
             Object {
               "display_name": "display_name",
@@ -2024,7 +2078,6 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               "type": "O",
             }
           }
-          showEditChannelHeaderModal={[Function]}
         />
         <Connect(MobileChannelHeaderPlug)
           channel={
@@ -2217,9 +2270,20 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 <li
                   role="presentation"
                 >
-                  <button
-                    className="style--none"
-                    onClick={[Function]}
+                  <Connect(ModalToggleButtonRedux)
+                    dialogProps={
+                      Object {
+                        "channel": Object {
+                          "display_name": "display_name",
+                          "id": "channel_id",
+                          "team_id": "team_id",
+                          "type": "O",
+                        },
+                      }
+                    }
+                    dialogType={[Function]}
+                    id="editChannelHeader"
+                    modalId="edit_channel_header"
                     role="menuitem"
                   >
                     <FormattedMessage
@@ -2227,7 +2291,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                       id="channel_header.setHeader"
                       values={Object {}}
                     />
-                  </button>
+                  </Connect(ModalToggleButtonRedux)>
                 </li>
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)

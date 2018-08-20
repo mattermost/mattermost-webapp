@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import NavbarInfoButton from 'components/navbar/navbar_info_button.jsx';
+import NavbarInfoButton from 'components/navbar/navbar_info_button/navbar_info_button.jsx';
 
 describe('components/navbar/NavbarInfoButton', () => {
     const baseProps = {
@@ -12,7 +12,9 @@ describe('components/navbar/NavbarInfoButton', () => {
             id: 'channel_id',
             header: 'channel header',
         },
-        showEditChannelHeaderModal: jest.fn(),
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot, with channel header', () => {
@@ -41,6 +43,6 @@ describe('components/navbar/NavbarInfoButton', () => {
         wrapper.instance().showEditChannelHeaderModal();
 
         expect(ref.hide).toBeCalled();
-        expect(props.showEditChannelHeaderModal).toBeCalled();
+        expect(props.actions.openModal).toBeCalled();
     });
 });

@@ -43,7 +43,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
-import NavbarInfoButton from './navbar_info_button.jsx';
+import NavbarInfoButton from './navbar_info_button';
 
 export default class Navbar extends React.Component {
     static propTypes = {
@@ -72,7 +72,6 @@ export default class Navbar extends React.Component {
         this.state = {
             ...this.getStateFromStores(),
             showEditChannelPurposeModal: false,
-            showEditChannelHeaderModal: false,
             showMembersModal: false,
             showRenameChannelModal: false,
             showQuickSwitchModal: false,
@@ -88,7 +87,6 @@ export default class Navbar extends React.Component {
         UserStore.addChangeListener(this.onChange);
         PreferenceStore.addChangeListener(this.onChange);
         ModalStore.addModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.showEditChannelHeaderModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
         WebrtcStore.addChangedListener(this.onChange);
@@ -104,7 +102,6 @@ export default class Navbar extends React.Component {
         UserStore.removeChangeListener(this.onChange);
         PreferenceStore.removeChangeListener(this.onChange);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.showEditChannelHeaderModal);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
         WebrtcStore.removeChangedListener(this.onChange);
@@ -172,18 +169,6 @@ export default class Navbar extends React.Component {
 
     onChange = () => {
         this.setState(this.getStateFromStores());
-    }
-
-    showEditChannelHeaderModal = () => {
-        this.setState({
-            showEditChannelHeaderModal: true,
-        });
-    }
-
-    hideEditChannelHeaderModal = () => {
-        this.setState({
-            showEditChannelHeaderModal: false,
-        });
     }
 
     showChannelNotificationsModal = (e) => {
@@ -353,6 +338,29 @@ export default class Navbar extends React.Component {
         }
     }
 
+    renderEditChannelHeaderOption = (channel) => {
+        if (!channel || !channel.id) {
+            return null;
+        }
+
+        return (
+            <li role='presentation'>
+                <ToggleModalButtonRedux
+                    id='editChannelHeader'
+                    role='menuitem'
+                    modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+                    dialogType={EditChannelHeaderModal}
+                    dialogProps={{channel}}
+                >
+                    <FormattedMessage
+                        id='channel_header.setHeader'
+                        defaultMessage='Edit Channel Header'
+                    />
+                </ToggleModalButtonRedux>
+            </li>
+        );
+    }
+
     createDropdown = (teamId, channel, channelTitle, isDirect, isGroup) => {
         if (channel) {
             let viewInfoOption;
@@ -369,37 +377,11 @@ export default class Navbar extends React.Component {
             let leaveChannelOption;
 
             if (isDirect) {
-                setChannelHeaderOption = (
-                    <li role='presentation'>
-                        <button
-                            role='menuitem'
-                            className='style--none'
-                            onClick={this.showEditChannelHeaderModal}
-                        >
-                            <FormattedMessage
-                                id='channel_header.channelHeader'
-                                defaultMessage='Edit Channel Header'
-                            />
-                        </button>
-                    </li>
-                );
+                setChannelHeaderOption = this.renderEditChannelHeaderOption(channel);
 
                 webrtcOption = this.generateWebrtcDropdown();
             } else if (isGroup) {
-                setChannelHeaderOption = (
-                    <li role='presentation'>
-                        <button
-                            role='menuitem'
-                            className='style--none'
-                            onClick={this.showEditChannelHeaderModal}
-                        >
-                            <FormattedMessage
-                                id='channel_header.channelHeader'
-                                defaultMessage='Edit Channel Header'
-                            />
-                        </button>
-                    </li>
-                );
+                setChannelHeaderOption = this.renderEditChannelHeaderOption(channel);
 
                 notificationPreferenceOption = (
                     <li role='presentation'>
@@ -565,18 +547,7 @@ export default class Navbar extends React.Component {
                             teamId={teamId}
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
-                            <li role='presentation'>
-                                <button
-                                    role='menuitem'
-                                    className='style--none'
-                                    onClick={this.showEditChannelHeaderModal}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.setHeader'
-                                        defaultMessage='Edit Channel Header'
-                                    />
-                                </button>
-                            </li>
+                            {this.renderEditChannelHeaderOption(channel)}
                         </ChannelPermissionGate>
                     );
 
@@ -865,7 +836,6 @@ export default class Navbar extends React.Component {
         let isGroup = false;
         const teamId = channel && channel.team_id;
 
-        var editChannelHeaderModal = null;
         var editChannelPurposeModal = null;
         let renameChannelModal = null;
         let channelMembersModal = null;
@@ -893,15 +863,6 @@ export default class Navbar extends React.Component {
                 }
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;
-            }
-
-            if (this.state.showEditChannelHeaderModal) {
-                editChannelHeaderModal = (
-                    <EditChannelHeaderModal
-                        onHide={this.hideEditChannelHeaderModal}
-                        channel={channel}
-                    />
-                );
             }
 
             if (this.state.showEditChannelPurposeModal) {
@@ -991,7 +952,6 @@ export default class Navbar extends React.Component {
                         </div>
                     </div>
                 </nav>
-                {editChannelHeaderModal}
                 {editChannelPurposeModal}
                 {renameChannelModal}
                 {channelMembersModal}

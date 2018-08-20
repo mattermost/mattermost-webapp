@@ -19,6 +19,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
@@ -406,7 +407,14 @@ export default class CreatePost extends React.Component {
         }
 
         if (this.state.message.trimRight() === '/header') {
-            GlobalActions.showChannelHeaderUpdateModal(updateChannel);
+            const editChannelHeaderModalData = {
+                modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
+                dialogType: EditChannelHeaderModal,
+                dialogProps: {channel: updateChannel},
+            };
+
+            this.props.actions.openModal(editChannelHeaderModalData);
+
             this.setState({message: ''});
             return;
         }
