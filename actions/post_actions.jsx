@@ -213,18 +213,11 @@ export function loadPosts({channelId, postId, type}) {
             return true;
         }
 
-        doDispatch(batchActions([
-            {
-                type: ActionTypes.LOADING_POSTS,
-                data: true,
-                channelId,
-            },
-            {
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: POST_INCREASE_AMOUNT,
-            },
-        ]));
+        doDispatch({
+            type: ActionTypes.INCREASE_POST_VISIBILITY,
+            data: channelId,
+            amount: POST_INCREASE_AMOUNT,
+        });
 
         //always zero as we use postId for getting messages
         const page = 0;
@@ -239,12 +232,6 @@ export function loadPosts({channelId, postId, type}) {
         }
 
         const posts = result.data;
-
-        doDispatch({
-            type: ActionTypes.LOADING_POSTS,
-            data: false,
-            channelId,
-        });
 
         return posts ? posts.order.length >= POST_INCREASE_AMOUNT : false;
     };

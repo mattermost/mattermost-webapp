@@ -38,10 +38,20 @@ function makeMapStateToProps() {
         const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
         const team = getTeamByName(state, ownProps.match.params.team);
         const channel = getChannel(state, {id: channelId});
-        if (channel && (channel.name !== ownProps.match.params.identifier)) {
+        if (channel) {
+            if (channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL) {
+                if (channel.name !== ownProps.match.params.identifier) {
+                    channelLoading = true;
+                }
+
+                if (channel.team_id && channel.team_id !== team.id) {
+                    channelLoading = true;
+                }
+            }
+        } else {
             channelLoading = true;
         }
-
+        
         if (channel && (channel.team_id && channel.team_id !== team.id)) {
             channelLoading = true;
         }

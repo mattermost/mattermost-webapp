@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import {ChannelTypes, PostTypes, UserTypes, GeneralTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Constants, NotificationLevels} from 'utils/constants.jsx';
 
@@ -47,18 +47,6 @@ function lastChannelViewTime(state = {}, action) {
         return state;
     }
 
-    default:
-        return state;
-    }
-}
-
-function loadingPosts(state = {}, action) {
-    switch (action.type) {
-    case ActionTypes.LOADING_POSTS: {
-        const nextState = {...state};
-        nextState[action.channelId] = action.data;
-        return nextState;
-    }
     default:
         return state;
     }
@@ -143,10 +131,10 @@ function channelPostsStatus(state = {}, action) {
 
 function channelSyncStatus(state = {}, action) {
     switch (action.type) {
-    case GeneralTypes.ALL_CHANNEL_SYNC_STATUS: {
+    case ActionTypes.ALL_CHANNEL_SYNC_STATUS: {
         const nextState = action.data.channelIds.reduce((channelStatusObj, channelId) => ({
             ...channelStatusObj,
-            [channelId]: false,
+            [channelId]: action.data.status,
         }), {});
         return nextState;
     }
@@ -163,7 +151,6 @@ function channelSyncStatus(state = {}, action) {
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
-    loadingPosts,
     focusedPostId,
     mobileView,
     keepChannelIdAsUnread,
