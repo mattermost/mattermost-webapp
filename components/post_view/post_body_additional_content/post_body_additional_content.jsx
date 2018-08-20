@@ -120,10 +120,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     // when image links are collapsed, check if the link is a valid image url and it is available
-    preCheckImageLink() {
+    async preCheckImageLink() {
         // check only if embedVisible is false i.e the image are by default hidden/collapsed
         // if embedVisible is true, the image is rendered, during which image load error is captured
-        if (!this.props.isEmbedVisible && this.isLinkImage(this.state.link)) {
+        if (!this.props.isEmbedVisible && await this.isLinkImage(this.state.link)) {
             const image = new Image();
             image.src = PostUtils.getImageSrc(this.state.link, this.props.hasImageProxy);
 
@@ -137,7 +137,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
     }
 
-    isLinkImage(link) {
+    async isLinkImage(link) {
         let linkWithoutQuery = link.toLowerCase();
         if (link.indexOf('?') !== -1) {
             linkWithoutQuery = linkWithoutQuery.split('?')[0];
