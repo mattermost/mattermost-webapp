@@ -29,6 +29,11 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
       }
     />
   </div>
+  <Connect(Pluggable)
+    onTextChange={[Function]}
+    pluggableName="PostMessage"
+    postId="post_id"
+  />
 </Connect(ShowMore)>
 `;
 
@@ -61,6 +66,11 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
       }
     />
   </div>
+  <Connect(Pluggable)
+    onTextChange={[Function]}
+    pluggableName="PostMessage"
+    postId="post_id"
+  />
 </Connect(ShowMore)>
 `;
 
@@ -93,6 +103,11 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
       }
     />
   </div>
+  <Connect(Pluggable)
+    onTextChange={[Function]}
+    pluggableName="PostMessage"
+    postId="post_id"
+  />
 </Connect(ShowMore)>
 `;
 
@@ -155,6 +170,11 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
       values={Object {}}
     />
   </span>
+  <Connect(Pluggable)
+    onTextChange={[Function]}
+    pluggableName="PostMessage"
+    postId="post_id"
+  />
 </Connect(ShowMore)>
 `;
 
@@ -199,5 +219,10 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
       }
     />
   </div>
+  <Connect(Pluggable)
+    onTextChange={[Function]}
+    pluggableName="PostMessage"
+    postId="post_id"
+  />
 </Connect(ShowMore)>
 `;
