@@ -40,8 +40,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       <span
         className="item-details__url"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Is Trusted: <strong>{isTrusted}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Is Trusted: **{isTrusted}**"
           id="installed_oauth_apps.is_trusted"
           values={
             Object {
@@ -57,8 +57,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       <span
         className="item-details__token"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Client ID: <strong>{clientId}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Client ID: **{clientId}**"
           id="installed_integrations.client_id"
           values={
             Object {
@@ -74,8 +74,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       <span
         className="item-details__token"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Client Secret: <strong>{clientSecret}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Client Secret: **{clientSecret}**"
           id="installed_integrations.client_secret"
           values={
             Object {
@@ -213,8 +213,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       <span
         className="item-details__url"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Is Trusted: <strong>{isTrusted}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Is Trusted: **{isTrusted}**"
           id="installed_oauth_apps.is_trusted"
           values={
             Object {
@@ -230,8 +230,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       <span
         className="item-details__token"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Client ID: <strong>{clientId}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Client ID: **{clientId}**"
           id="installed_integrations.client_id"
           values={
             Object {
@@ -247,8 +247,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       <span
         className="item-details__token"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Client Secret: <strong>{clientSecret}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Client Secret: **{clientSecret}**"
           id="installed_integrations.client_secret"
           values={
             Object {
@@ -382,8 +382,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       <span
         className="item-details__url"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Is Trusted: <strong>{isTrusted}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Is Trusted: **{isTrusted}**"
           id="installed_oauth_apps.is_trusted"
           values={
             Object {
@@ -399,8 +399,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       <span
         className="item-details__token"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Client ID: <strong>{clientId}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Client ID: **{clientId}**"
           id="installed_integrations.client_id"
           values={
             Object {
@@ -416,8 +416,8 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       <span
         className="item-details__token"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Client Secret: <strong>{clientSecret}</strong>"
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Client Secret: **{clientSecret}**"
           id="installed_integrations.client_secret"
           values={
             Object {

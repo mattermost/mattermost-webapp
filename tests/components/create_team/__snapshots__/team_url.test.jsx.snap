@@ -76,11 +76,27 @@ exports[`/components/create_team/components/display_name should match snapshot 1
     <ul
       className="color--light"
     >
-      <FormattedHTMLMessage
-        defaultMessage="<li>Short and memorable is best</li> <li>Use lowercase letters, numbers and dashes</li> <li>Must start with a letter and can't end in a dash</li>"
-        id="create_team.team_url.hint"
-        values={Object {}}
-      />
+      <li>
+        <FormattedMessage
+          defaultMessage="Short and memorable is best"
+          id="create_team.team_url.hint1"
+          values={Object {}}
+        />
+      </li>
+      <li>
+        <FormattedMessage
+          defaultMessage="Use lowercase letters, numbers and dashes"
+          id="create_team.team_url.hint2"
+          values={Object {}}
+        />
+      </li>
+      <li>
+        <FormattedMessage
+          defaultMessage="Must start with a letter and can't end in a dash"
+          id="create_team.team_url.hint3"
+          values={Object {}}
+        />
+      </li>
     </ul>
     <div
       className="margin--extra"
