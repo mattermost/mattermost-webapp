@@ -111,6 +111,7 @@ export default class CustomBrandSettings extends AdminSettings {
                     key='customBrandText'
                     id='customBrandText'
                     type='textarea'
+                    maxLength={500}
                     label={
                         <FormattedMessage
                             id='admin.team.brandTextTitle'
