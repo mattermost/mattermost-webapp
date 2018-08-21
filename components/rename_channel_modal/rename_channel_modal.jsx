@@ -258,7 +258,7 @@ export class RenameChannelModal extends React.PureComponent {
         let urlInputLabel = formatMessage(holders.url);
         const handleInputClass = 'form-control';
         let readOnlyHandleInput = false;
-        if (this.state.channelName === Constants.DEFAULT_CHANNEL) {
+        if (this.props.channel.name === Constants.DEFAULT_CHANNEL) {
             urlInputLabel += formatMessage(holders.defaultError);
             readOnlyHandleInput = true;
         }
