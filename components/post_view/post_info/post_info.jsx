@@ -7,11 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
-<<<<<<< HEAD
-
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-=======
->>>>>>> rethreading now done via dragging
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -103,19 +98,6 @@ export default class PostInfo extends React.PureComponent {
          */
         isReadOnly: PropTypes.bool,
 
-<<<<<<< HEAD
-        /**
-         * Function to get the post to rethread
-         */
-        handleRethreading: PropTypes.func.isRequired,
-
-        /**
-         * Function to get the post to rethread
-         */
-        handleRethreading: PropTypes.func.isRequired,
-
-=======
->>>>>>> rethreading now done via dragging
         actions: PropTypes.shape({
 
             /*
