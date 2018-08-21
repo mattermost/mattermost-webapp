@@ -127,6 +127,7 @@ export default class SuggestionBox extends React.Component {
         this.handlePretextChanged = this.handlePretextChanged.bind(this);
         this.blur = this.blur.bind(this);
 
+        this.timeoutId = '';
         this.suggestionId = Utils.generateId();
         SuggestionStore.registerSuggestionBox(this.suggestionId);
 
@@ -215,7 +216,10 @@ export default class SuggestionBox extends React.Component {
             SuggestionStore.getPretext(this.suggestionId) !== pretext &&
             (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters)
         ) {
-            GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
+            clearTimeout(this.timeoutId);
+            this.timeoutId = setTimeout(() => {
+                GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
+            }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
         }
 
         if (this.props.onChange) {
