@@ -5,24 +5,48 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 
-import {getMonthLong} from 'utils/i18n';
-import * as Utils from 'utils/utils.jsx';
+import {localizeMessage, isMobile} from 'utils/utils.jsx';
+import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ActivityLogModal extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * The current user id
+         */
         currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * Current user's sessions
+         */
         sessions: PropTypes.oneOfType([
             PropTypes.array,
             PropTypes.object,
         ]).isRequired,
+
+        /**
+         * Current user's locale
+         */
         locale: PropTypes.string.isRequired,
+
+        /**
+         * Function that's called when user closes the modal
+         */
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
+
+            /**
+             * Function to refresh sessions from server
+             */
             getSessions: PropTypes.func.isRequired,
+
+            /**
+             * Function to revoke a particular session
+             */
             revokeSession: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -50,7 +74,7 @@ export default class ActivityLogModal extends React.PureComponent {
 
     onShow = () => {
         this.props.actions.getSessions(this.props.currentUserId);
-        if (!Utils.isMobile()) {
+        if (!isMobile()) {
             $('.modal-body').perfectScrollbar();
         }
     }
@@ -81,7 +105,7 @@ export default class ActivityLogModal extends React.PureComponent {
 
         if (session.device_id.includes('apple')) {
             devicePicture = 'fa fa-apple';
-            deviceTitle = Utils.localizeMessage('device_icons.apple', 'Apple Icon');
+            deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
             deviceTypeId = 'activity_log_modal.iphoneNativeClassicApp';
             deviceTypeMessage = 'iPhone Native Classic App';
 
@@ -91,7 +115,7 @@ export default class ActivityLogModal extends React.PureComponent {
             }
         } else if (session.device_id.includes('android')) {
             devicePicture = 'fa fa-android';
-            deviceTitle = Utils.localizeMessage('device_icons.android', 'Android Icon');
+            deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
             deviceTypeId = 'activity_log_modal.androidNativeClassicApp';
             deviceTypeMessage = 'Android Native Classic App';
 
@@ -114,189 +138,81 @@ export default class ActivityLogModal extends React.PureComponent {
     };
 
     render() {
-        const activityList = [];
-
-        for (let i = 0; i < this.props.sessions.length; i++) {
-            const currentSession = this.props.sessions[i];
-            const lastAccessTime = new Date(currentSession.last_activity_at);
-            const firstAccessTime = new Date(currentSession.create_at);
-            let devicePlatform = currentSession.props.platform;
-            let devicePicture = '';
-            let deviceTitle = '';
-
-            if (currentSession.props.type === 'UserAccessToken') {
-                continue;
-            }
-
-            if (currentSession.props.platform === 'Windows') {
-                devicePicture = 'fa fa-windows';
-                deviceTitle = Utils.localizeMessage('device_icons.windows', 'Windows Icon');
-            } else if (this.isMobileSession(currentSession)) {
-                const sessionInfo = this.mobileSessionInfo(currentSession);
-
-                devicePicture = sessionInfo.devicePicture;
-                devicePlatform = sessionInfo.devicePlatform;
-            } else if (currentSession.props.platform === 'Macintosh' ||
-                currentSession.props.platform === 'iPhone') {
-                devicePicture = 'fa fa-apple';
-                deviceTitle = Utils.localizeMessage('device_icons.apple', 'Apple Icon');
-            } else if (currentSession.props.platform === 'Linux') {
-                if (currentSession.props.os.indexOf('Android') >= 0) {
-                    devicePlatform = (
-                        <FormattedMessage
-                            id='activity_log_modal.android'
-                            defaultMessage='Android'
-                        />
-                    );
-                    devicePicture = 'fa fa-android';
-                    deviceTitle = Utils.localizeMessage('device_icons.android', 'Android Icon');
-                } else {
-                    devicePicture = 'fa fa-linux';
-                    deviceTitle = Utils.localizeMessage('device_icons.linux', 'Linux Icon');
-                }
-            } else if (currentSession.props.os.indexOf('Linux') !== -1) {
-                devicePicture = 'fa fa-linux';
-                deviceTitle = Utils.localizeMessage('device_icons.linux', 'Linux Icon');
-            }
-
-            if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
-                devicePlatform = (
-                    <FormattedMessage
-                        id='activity_log_modal.desktop'
-                        defaultMessage='Native Desktop App'
-                    />
-                );
-            }
-
-            let moreInfo;
-            if (this.state.moreInfo[i]) {
-                moreInfo = (
-                    <div>
-                        <div>
-                            <FormattedMessage
-                                id='activity_log.firstTime'
-                                defaultMessage='First time active: {date}, {time}'
-                                values={{
-                                    date: (
-                                        <FormattedDate
-                                            value={firstAccessTime}
-                                            day='2-digit'
-                                            month={getMonthLong(this.props.locale)}
-                                            year='numeric'
-                                        />
-                                    ),
-                                    time: (
-                                        <FormattedTime
-                                            value={firstAccessTime}
-                                            hour='2-digit'
-                                            minute='2-digit'
-                                        />
-                                    ),
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <FormattedMessage
-                                id='activity_log.os'
-                                defaultMessage='OS: {os}'
-                                values={{
-                                    os: currentSession.props.os,
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <FormattedMessage
-                                id='activity_log.browser'
-                                defaultMessage='Browser: {browser}'
-                                values={{
-                                    browser: currentSession.props.browser,
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <FormattedMessage
-                                id='activity_log.sessionId'
-                                defaultMessage='Session ID: {id}'
-                                values={{
-                                    id: currentSession.id,
-                                }}
-                            />
-                        </div>
-                    </div>
-                );
-            } else {
-                moreInfo = (
-                    <a
-                        className='theme'
-                        href='#'
-                        onClick={this.handleMoreInfo.bind(this, i)}
-                    >
-                        <FormattedMessage
-                            id='activity_log.moreInfo'
-                            defaultMessage='More info'
-                        />
-                    </a>
-                );
-            }
-
-            activityList[i] = (
-                <div
-                    key={'activityLogEntryKey' + i}
-                    className='activity-log__table'
-                >
-                    <div className='activity-log__report'>
-                        <div className='report__platform'>
-                            <i
-                                className={devicePicture}
-                                title={deviceTitle}
-                            />{devicePlatform}
-                        </div>
-                        <div className='report__info'>
-                            <div>
-                                <FormattedMessage
-                                    id='activity_log.lastActivity'
-                                    defaultMessage='Last activity: {date}, {time}'
-                                    values={{
-                                        date: (
-                                            <FormattedDate
-                                                value={lastAccessTime}
-                                                day='2-digit'
-                                                month={getMonthLong(this.props.locale)}
-                                                year='numeric'
-                                            />
-                                        ),
-                                        time: (
-                                            <FormattedTime
-                                                value={lastAccessTime}
-                                                hour='2-digit'
-                                                minute='2-digit'
-                                            />
-                                        ),
-                                    }}
-                                />
-                            </div>
-                            {moreInfo}
-                        </div>
-                    </div>
-                    <div className='activity-log__action'>
-                        <button
-                            onClick={this.submitRevoke.bind(this, currentSession.id)}
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='activity_log.logout'
-                                defaultMessage='Logout'
-                            />
-                        </button>
-                    </div>
-                </div>
-            );
-        }
-
         let content;
         if (this.props.sessions.loading) {
             content = <LoadingScreen/>;
         } else {
+            const activityList = this.props.sessions.reduce((array, currentSession, index) => {
+                const lastAccessTime = new Date(currentSession.last_activity_at);
+                const firstAccessTime = new Date(currentSession.create_at);
+                let devicePlatform = currentSession.props.platform;
+                let devicePicture = '';
+                let deviceTitle = '';
+
+                if (currentSession.props.type === 'UserAccessToken') {
+                    return array;
+                }
+
+                if (currentSession.props.platform === 'Windows') {
+                    devicePicture = 'fa fa-windows';
+                    deviceTitle = localizeMessage('device_icons.windows', 'Windows Icon');
+                } else if (this.isMobileSession(currentSession)) {
+                    const sessionInfo = this.mobileSessionInfo(currentSession);
+                    devicePicture = sessionInfo.devicePicture;
+                    devicePlatform = sessionInfo.devicePlatform;
+                } else if (currentSession.props.platform === 'Macintosh' ||
+                    currentSession.props.platform === 'iPhone') {
+                    devicePicture = 'fa fa-apple';
+                    deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
+                } else if (currentSession.props.platform === 'Linux') {
+                    if (currentSession.props.os.indexOf('Android') >= 0) {
+                        devicePlatform = (
+                            <FormattedMessage
+                                id='activity_log_modal.android'
+                                defaultMessage='Android'
+                            />
+                        );
+                        devicePicture = 'fa fa-android';
+                        deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
+                    } else {
+                        devicePicture = 'fa fa-linux';
+                        deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
+                    }
+                } else if (currentSession.props.os.indexOf('Linux') !== -1) {
+                    devicePicture = 'fa fa-linux';
+                    deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
+                }
+
+                if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
+                    devicePlatform = (
+                        <FormattedMessage
+                            id='activity_log_modal.desktop'
+                            defaultMessage='Native Desktop App'
+                        />
+                    );
+                }
+
+                const moreInfo = typeof this.state.moreInfo[index] !== 'undefined';
+
+                array.push(
+                    <ActivityLog
+                        key={currentSession.id}
+                        index={index}
+                        locale={this.props.locale}
+                        currentSession={currentSession}
+                        lastAccessTime={lastAccessTime}
+                        firstAccessTime={firstAccessTime}
+                        devicePlatform={devicePlatform}
+                        devicePicture={devicePicture}
+                        deviceTitle={deviceTitle}
+                        moreInfo={moreInfo}
+                        handleMoreInfo={this.handleMoreInfo}
+                        submitRevoke={this.submitRevoke}
+                    />
+                );
+                return array;
+            }, []);
+
             content = <form role='form'>{activityList}</form>;
         }
 

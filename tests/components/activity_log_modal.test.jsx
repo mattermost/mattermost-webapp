@@ -90,7 +90,7 @@ describe('components/ActivityLogModal', () => {
             <ActivityLogModal {...baseProps}/>
         );
 
-        const newProps = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}}]};
+        const newProps = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}, id: 'sessionId'}]};
         const newState = {moreInfo: [false, false], show: true};
         wrapper.setProps(newProps);
         wrapper.setState(newState);
