@@ -794,6 +794,7 @@ export const Constants = {
             mentionHighlightLink: '#166de0',
             codeTheme: 'github',
             image: mattermostThemeImage,
+            postRethreadHighlight: '#cfebfd',
         },
         organization: {
             type: 'Organization',
@@ -821,6 +822,7 @@ export const Constants = {
             mentionHighlightLink: '#2f81b7',
             codeTheme: 'github',
             image: defaultThemeImage,
+            postRethreadHighlight: '#cfebfd',
         },
         mattermostDark: {
             type: 'Mattermost Dark',
@@ -848,6 +850,7 @@ export const Constants = {
             mentionHighlightLink: '#a4ffeb',
             codeTheme: 'solarized-dark',
             image: mattermostDarkThemeImage,
+            postRethreadHighlight: '#808080',
         },
         windows10: {
             type: 'Windows Dark',
@@ -875,6 +878,7 @@ export const Constants = {
             mentionHighlightLink: '#a4ffeb',
             codeTheme: 'monokai',
             image: windows10ThemeImage,
+            postRethreadHighlight: '#2F4F4F',
         },
     },
     THEME_ELEMENTS: [
