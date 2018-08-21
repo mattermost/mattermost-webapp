@@ -2267,6 +2267,7 @@
   "notification.dm": "Direct Message",
   "notify_all.confirm": "Confirm",
   "notify_all.question": "By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?",
+  "notify_all.question_timezone": "By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?",
   "notify_all.title.confirm": "Confirm sending notifications to entire channel",
   "password_form.change": "Change my password",
   "password_form.enter": "Enter a new password for your {siteName} account.",

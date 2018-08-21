@@ -78,6 +78,7 @@ const actionsProp = {
     executeCommand: async () => {
         return {data: true};
     },
+    getChannelTimezones: emptyFunction,
 };
 
 function createPost({
@@ -126,6 +127,7 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
+            isTimezoneEnabled={false}
         />
     );
 }
