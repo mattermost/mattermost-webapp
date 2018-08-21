@@ -77,7 +77,7 @@ const PluginItemStateDescription = ({state}) => {
                 <i className='fa fa-ban'/>
                 <FormattedMessage
                     id='admin.plugin.state.not_running.description'
-                    defaultMessage='This plugin is not activated.'
+                    defaultMessage='This plugin is not enabled.'
                 />
             </div>
         );
@@ -669,7 +669,7 @@ export default class PluginManagement extends React.Component {
                             <p className='help-text'>
                                 <FormattedHTMLMessage
                                     id='admin.plugin.installedDesc'
-                                    defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be deactivated but not removed.'
+                                    defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed.'
                                 />
                             </p>
                             <br/>
