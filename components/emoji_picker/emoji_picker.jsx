@@ -176,14 +176,6 @@ export default class EmojiPicker extends React.PureComponent {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
 
-    componentDidUpdate() {
-        requestAnimationFrame(() => {
-            if (this.searchInput) {
-                this.searchInput.focus();
-            }
-        });
-    }
-
     UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
         if (this.state.divTopOffset === nextState.divTopOffset) {
             return;
