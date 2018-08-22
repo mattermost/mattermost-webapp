@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import QuickInput from 'components/quick_input.jsx';
@@ -127,7 +128,6 @@ export default class SuggestionBox extends React.Component {
         this.handlePretextChanged = this.handlePretextChanged.bind(this);
         this.blur = this.blur.bind(this);
 
-        this.timeoutId = '';
         this.suggestionId = Utils.generateId();
         SuggestionStore.registerSuggestionBox(this.suggestionId);
 
@@ -216,16 +216,17 @@ export default class SuggestionBox extends React.Component {
             SuggestionStore.getPretext(this.suggestionId) !== pretext &&
             (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters)
         ) {
-            clearTimeout(this.timeoutId);
-            this.timeoutId = setTimeout(() => {
-                GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
-            }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
+            this.doEmitSuggestionPretextChanged(pretext);
         }
 
         if (this.props.onChange) {
             this.props.onChange(e);
         }
     }
+
+    doEmitSuggestionPretextChanged = debounce((pretext) => {
+        GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
 
     handleCompositionStart() {
         this.composing = true;
