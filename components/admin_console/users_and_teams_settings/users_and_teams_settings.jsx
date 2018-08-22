@@ -101,7 +101,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                 this.state.edited.maxChannelsPerTeam ||
                 this.state.edited.maxNotificationsPerChannel ||
                 this.state.edited.enableConfirmNotificationsToChannel ||
-                this.state.edited.viewArchivedChannels
+                this.state.edited.experimentalViewArchivedChannels
             );
 
             if (configFieldEdited) {
@@ -169,7 +169,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                                     this.state.edited.maxChannelsPerTeam,
                                     this.state.edited.maxNotificationsPerChannel,
                                     this.state.edited.enableConfirmNotificationsToChannel,
-                                    this.state.edited.viewArchivedChannels,
+                                    this.state.edited.experimentalViewArchivedChannels,
                                 ].filter((v) => v).join(', '),
                             }}
                         />
@@ -211,7 +211,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
         config.TeamSettings.MaxChannelsPerTeam = this.parseIntNonZero(this.state.maxChannelsPerTeam, Constants.DEFAULT_MAX_CHANNELS_PER_TEAM);
         config.TeamSettings.MaxNotificationsPerChannel = this.parseIntNonZero(this.state.maxNotificationsPerChannel, Constants.DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL);
         config.TeamSettings.EnableConfirmNotificationsToChannel = this.state.enableConfirmNotificationsToChannel;
-        config.TeamSettings.ViewArchivedChannels = this.state.viewArchivedChannels;
+        config.TeamSettings.ExperimentalViewArchivedChannels = this.state.experimentalViewArchivedChannels;
         return config;
     };
 
@@ -225,7 +225,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
             maxChannelsPerTeam: config.TeamSettings.MaxChannelsPerTeam,
             maxNotificationsPerChannel: config.TeamSettings.MaxNotificationsPerChannel,
             enableConfirmNotificationsToChannel: config.TeamSettings.EnableConfirmNotificationsToChannel,
-            viewArchivedChannels: config.TeamSettings.ViewArchivedChannels,
+            experimentalViewArchivedChannels: config.TeamSettings.ExperimentalViewArchivedChannels,
         };
     }
 
@@ -421,7 +421,7 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     setByEnv={this.isSetByEnv('TeamSetting.TeammateNameDisplay')}
                 />
                 <BooleanSetting
-                    id='viewArchivedChannels'
+                    id='experimentalViewArchivedChannels'
                     label={
                         <FormattedMessage
                             id='admin.viewArchivedChannelsTitle'
@@ -431,12 +431,12 @@ export class UsersAndTeamsSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.viewArchivedChannelsHelpText'
-                            defaultMessage='When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.'
+                            defaultMessage='(Experimental) When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.'
                         />
                     }
-                    value={this.state.viewArchivedChannels}
+                    value={this.state.experimentalViewArchivedChannels}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('TeamSetting.ViewArchivedChannels')}
+                    setByEnv={this.isSetByEnv('TeamSetting.ExperimentalViewArchivedChannels')}
                 />
             </SettingsGroup>
         );
