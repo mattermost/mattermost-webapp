@@ -26,6 +26,10 @@
     left: 9px;
     position: absolute;
     top: 6px;
+
+    svg {
+        @include single-transition(all, .3s, ease-out);
+    }
 }
 
 .sidebar__search-clear {

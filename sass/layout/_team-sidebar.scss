@@ -1,151 +1,149 @@
-.multi-teams {
-    .team-sidebar {
-        height: 100%;
-        left: 0;
-        position: fixed;
-        text-align: center;
-        width: 65px;
-        z-index: 12;
+.team-sidebar {
+    height: 100%;
+    left: 0;
+    position: fixed;
+    text-align: center;
+    width: 65px;
+    z-index: 12;
 
-        .team-sidebar-bottom-plugin {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            margin-bottom: 15px;
+    .team-sidebar-bottom-plugin {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .team-btn__content {
+        background-color: alpha-color($black, .3);
+        height: 100%;
+    }
+
+    .team-btn {
+        @include clearfix;
+        @include border-radius(4px);
+        @include single-transition(all, .25s, ease);
+        @include opacity(.5);
+        border: 1px solid transparent;
+        font-weight: bold;
+        height: 44px;
+        letter-spacing: -.5px;
+        line-height: 42px;
+        position: relative;
+        text-align: center;
+        text-transform: capitalize;
+        vertical-align: top;
+        width: 44px;
+
+        &:hover {
+            @include opacity(.8);
         }
 
-        .team-wrapper {
-            -webkit-overflow-scrolling: touch;
-            background-color: alpha-color($black, .2);
+        .team-btn__image {
+            @include clearfix;
+            background-color: $white;
+            background-repeat: round;
+            background-size: contain;
             height: 100%;
-            overflow-x: inherit;
-            overflow-y: auto;
-            padding-top: 15px;
+        }
 
-            .team-container {
-                display: flex;
-                justify-content: center;
-                margin-bottom: 16px;
-                position: relative;
-                text-align: center;
-                width: 100%;
+        .badge {
+            font-size: 10px;
+            position: absolute;
+            right: -8px;
+            top: -6px;
+            z-index: 5;
 
-                a {
-                    display: block;
-                    height: 100%;
-                    text-decoration: none;
-                }
-
-                &.active {
-                    .team-btn__content {
-                        @include opacity(1);
-                        background: transparent;
-                    }
-                }
-
-                .team-btn__content {
-                    @include clearfix;
-                    @include border-radius(4px);
-                    @include opacity(.7);
-                    background-color: alpha-color($black, .3);
-                    border: 1px solid alpha-color($white, .2);
-                    height: 100%;
-                }
-
-                button {
-                    border: none;
-                    padding: 0;
-                    text-decoration: none;
-                }
-
-                .team-btn {
-                    @include border-radius(4px);
-                    font-weight: bold;
-                    height: 44px;
-                    letter-spacing: -.5px;
-                    line-height: 42px;
-                    position: relative;
-                    text-align: center;
-                    text-transform: capitalize;
-                    vertical-align: top;
-                    width: 44px;
-
-                    .team-btn__image {
-                        @include clearfix;
-                        background-color: $white;
-                        background-repeat: round;
-                        background-size: contain;
-                        height: 100%;
-                    }
-
-                    .badge {
-                        font-size: 10px;
-                        position: absolute;
-                        right: -8px;
-                        top: -6px;
-                        z-index: 5;
-
-                        &.stroked {
-                            border: 1px solid;
-                        }
-                    }
-
-                    &.team-btn__add {
-                        @include opacity(.7);
-                        font-size: 25px;
-                        line-height: 41px;
-                        vertical-align: middle;
-                        background-color: alpha-color($black, .3);
-                        border: 1px solid alpha-color($white, .2);
-
-                        &:hover {
-                            @include opacity(1);
-                        }
-                    }
-                }
-
-                &.active {
-                    .team-btn {
-                        background-color: transparent;
-                        border-color: $white;
-                    }
-                }
-
-                &.active:before {
-                    @include border-radius(4px);
-                    background: $black;
-                    content: '';
-                    height: 100%;
-                    left: 0;
-                    position: absolute;
-                    top: 0;
-                    width: 5px;
-                }
-
-                &.unread:before {
-                    background: $black;
-                    border-radius: 50%;
-                    content: '';
-                    height: 5px;
-                    left: 0;
-                    position: absolute;
-                    top: 18px;
-                    width: 5px;
-                }
-
-                a.team-disabled {
-                    @include opacity(.5);
-                    cursor: not-allowed;
-                }
+            &.stroked {
+                border: 1px solid;
             }
+        }
 
-            .team-container a:hover {
-                text-decoration: none;
-            }
+        &.team-btn__add {
+            font-size: 25px;
+            line-height: 41px;
+            vertical-align: middle;
+            background-color: alpha-color($black, .3);
         }
     }
 
+    .team-wrapper {
+        -webkit-overflow-scrolling: touch;
+        background-color: alpha-color($black, .2);
+        height: 100%;
+        overflow-x: inherit;
+        overflow-y: auto;
+        padding-top: 15px;
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+            text-align: center;
+            width: 100%;
+
+            a {
+                display: block;
+                height: 100%;
+                text-decoration: none;
+            }
+
+            &.active {
+                .team-btn {
+                    @include opacity(1);
+                    background: transparent;
+                }
+            }
+
+            button {
+                border: none;
+                padding: 0;
+                text-decoration: none;
+            }
+
+            &.active {
+                .team-btn {
+                    background-color: transparent;
+                    @include opacity(1);
+                }
+            }
+
+            &.active:before {
+                @include border-radius(4px);
+                background: $black;
+                content: '';
+                height: 42px;
+                left: 0;
+                position: absolute;
+                top: 1px;
+                width: 5px;
+            }
+
+            &.unread:before {
+                background: $black;
+                border-radius: 50%;
+                content: '';
+                height: 5px;
+                left: 0;
+                position: absolute;
+                top: 18px;
+                width: 5px;
+            }
+
+            a.team-disabled {
+                @include opacity(.5);
+                cursor: not-allowed;
+            }
+        }
+
+        .team-container a:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.multi-teams {
     .sidebar--left {
         left: 65px;
     }

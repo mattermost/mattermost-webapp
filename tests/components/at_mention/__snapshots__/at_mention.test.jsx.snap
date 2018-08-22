@@ -34,7 +34,7 @@ exports[`components/AtMention should match snapshot when mentioning current user
         />
       </Connect(Pluggable)>
     }
-    placement="left"
+    placement="top"
     rootClose={true}
     trigger="click"
   >
