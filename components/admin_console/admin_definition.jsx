@@ -518,7 +518,7 @@ export default {
                                 boldedLogLevel: (
                                     <strong>
                                         <FormattedMessage
-                                            id='admin.log.fileLogLevel'
+                                            id='admin.log.logLevel'
                                             defaultMessage='Log Level'
                                         />
                                     </strong>
