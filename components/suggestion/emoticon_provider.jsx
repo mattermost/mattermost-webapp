@@ -34,6 +34,7 @@ class EmoticonSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
+                {...Suggestion.baseProps}
             >
                 <div className='pull-left'>
                     <img

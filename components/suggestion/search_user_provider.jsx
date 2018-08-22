@@ -35,6 +35,7 @@ class SearchUserSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
+                {...Suggestion.baseProps}
             >
                 <i
                     className='fa fa fa-plus-square'

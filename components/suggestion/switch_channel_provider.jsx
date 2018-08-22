@@ -97,6 +97,7 @@ class SwitchChannelSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                {...Suggestion.baseProps}
             >
                 {icon}
                 {displayName}
