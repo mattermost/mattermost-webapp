@@ -2,7 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {getRedirectLocation} from 'mattermost-redux/actions/general';
 
 import PostBodyAdditionalContent from './post_body_additional_content.jsx';
 
@@ -17,4 +20,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(PostBodyAdditionalContent);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getRedirectLocation,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostBodyAdditionalContent);
