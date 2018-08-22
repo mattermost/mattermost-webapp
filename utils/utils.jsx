@@ -1642,7 +1642,7 @@ export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     return emailInterval;
 }
 
-export function copyToClipboard(e, data) {
+export function copyToClipboard(data) {
     // creates a tiny temporary text area to copy text out of
     // see https://stackoverflow.com/a/30810322/591374 for details
     var textArea = document.createElement('textarea');
@@ -1656,7 +1656,11 @@ export function copyToClipboard(e, data) {
     textArea.style.outline = 'none';
     textArea.style.boxShadow = 'none';
     textArea.style.background = 'transparent';
-    textArea.value = getSiteURL() + data.link;
+    if (typeof data === 'string') {
+        textArea.value = data;
+    } else {
+        textArea.value = getSiteURL() + data.link;
+    }
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand('copy');

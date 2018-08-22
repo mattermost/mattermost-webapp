@@ -107,6 +107,11 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
             }
           }
         />
+        <CopyText
+          defaultMessage="Copy"
+          idMessage="integrations.copy"
+          value="xoxz1z7c3tgi9xhrfudn638q9r"
+        />
       </span>
     </div>
     <div
