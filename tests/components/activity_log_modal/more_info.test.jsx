@@ -11,8 +11,12 @@ import MoreInfo from 'components/activity_log_modal/components/more_info.jsx';
 describe('components/activity_log_modal/MoreInfo', () => {
     const baseProps = {
         locale: General.DEFAULT_LOCALE,
-        currentSession: {props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}, id: 'sessionId'},
-        firstAccessTime: new Date(Date.UTC(2018, 6, 20, 12, 15)),
+        currentSession: {
+            props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'},
+            id: 'sessionId',
+            create_at: 1534917291042,
+            last_activity_at: 1534917643890,
+        },
         moreInfo: false,
         handleMoreInfo: jest.fn(),
     };

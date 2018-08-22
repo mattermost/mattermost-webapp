@@ -15,7 +15,11 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
         className="fa fa-linux"
         title="Linux Icon"
       />
-      Linux
+      <FormattedMessage
+        defaultMessage="Native Desktop App"
+        id="activity_log_modal.desktop"
+        values={Object {}}
+      />
     </div>
     <div
       className="report__info"
@@ -29,13 +33,13 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
               "date": <FormattedDate
                 day="2-digit"
                 month="long"
-                value={2018-09-20T12:15:00.000Z}
+                value={2018-08-22T06:00:43.890Z}
                 year="numeric"
               />,
               "time": <FormattedTime
                 hour="2-digit"
                 minute="2-digit"
-                value={2018-09-20T12:15:00.000Z}
+                value={2018-08-22T06:00:43.890Z}
               />,
             }
           }
@@ -44,7 +48,9 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
       <MoreInfo
         currentSession={
           Object {
+            "create_at": 1534917291042,
             "id": "sessionId",
+            "last_activity_at": 1534917643890,
             "props": Object {
               "browser": "Desktop App",
               "os": "Linux",
@@ -52,7 +58,6 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
             },
           }
         }
-        firstAccessTime={2018-07-20T12:15:00.000Z}
         handleMoreInfo={[Function]}
         locale="en"
         moreInfo={false}

@@ -25,13 +25,13 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot, extra inf
           "date": <FormattedDate
             day="2-digit"
             month="long"
-            value={2018-07-20T12:15:00.000Z}
+            value={2018-08-22T05:54:51.042Z}
             year="numeric"
           />,
           "time": <FormattedTime
             hour="2-digit"
             minute="2-digit"
-            value={2018-07-20T12:15:00.000Z}
+            value={2018-08-22T05:54:51.042Z}
           />,
         }
       }

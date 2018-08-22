@@ -4,7 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
+import {General} from 'mattermost-redux/constants';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import {getMonthLong} from 'utils/i18n';
 
 import MoreInfo from './more_info.jsx';
@@ -28,69 +30,121 @@ export default class ActivityLog extends React.PureComponent {
         currentSession: PropTypes.object.isRequired,
 
         /**
-         * The session's last access time
-         */
-        lastAccessTime: PropTypes.instanceOf(Date).isRequired,
-
-        /**
-         * The session's first access time
-         */
-        firstAccessTime: PropTypes.instanceOf(Date).isRequired,
-
-        /**
-         * The session's device platform
-         */
-        devicePlatform: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.element,
-        ]),
-
-        /**
-         * The session's device picture
-         */
-        devicePicture: PropTypes.string.isRequired,
-
-        /**
-         * The session's last access time
-         */
-        deviceTitle: PropTypes.string.isRequired,
-
-        /**
-         * Boolean indicating whether to show more info about the session
-         */
-        moreInfo: PropTypes.bool.isRequired,
-
-        /**
-         * Function to show more info
-         */
-        handleMoreInfo: PropTypes.func.isRequired,
-
-        /**
          * Function to revoke session
          */
         submitRevoke: PropTypes.func.isRequired,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            moreInfo: false,
+        };
+    }
+
     handleMoreInfo = () => {
-        this.props.handleMoreInfo(this.props.index);
+        this.setState({moreInfo: true});
     }
 
     submitRevoke = (e) => {
         this.props.submitRevoke(this.props.currentSession.id, e);
     }
 
+    isMobileSession = (session) => {
+        return session.device_id && (session.device_id.includes('apple') || session.device_id.includes('android'));
+    };
+
+    mobileSessionInfo = (session) => {
+        let deviceTypeId;
+        let deviceTypeMessage;
+        let devicePicture;
+        let deviceTitle;
+
+        if (session.device_id.includes('apple')) {
+            devicePicture = 'fa fa-apple';
+            deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
+            deviceTypeId = 'activity_log_modal.iphoneNativeClassicApp';
+            deviceTypeMessage = 'iPhone Native Classic App';
+
+            if (session.device_id.includes(General.PUSH_NOTIFY_APPLE_REACT_NATIVE)) {
+                deviceTypeId = 'activity_log_modal.iphoneNativeApp';
+                deviceTypeMessage = 'iPhone Native App';
+            }
+        } else if (session.device_id.includes('android')) {
+            devicePicture = 'fa fa-android';
+            deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
+            deviceTypeId = 'activity_log_modal.androidNativeClassicApp';
+            deviceTypeMessage = 'Android Native Classic App';
+
+            if (session.device_id.includes(General.PUSH_NOTIFY_ANDROID_REACT_NATIVE)) {
+                deviceTypeId = 'activity_log_modal.androidNativeApp';
+                deviceTypeMessage = 'Android Native App';
+            }
+        }
+
+        return {
+            devicePicture,
+            deviceTitle,
+            devicePlatform: (
+                <FormattedMessage
+                    id={deviceTypeId}
+                    defaultMessage={deviceTypeMessage}
+                />
+            ),
+        };
+    };
+
     render() {
         const {
             index,
             locale,
             currentSession,
-            lastAccessTime,
-            firstAccessTime,
-            devicePlatform,
-            devicePicture,
-            deviceTitle,
-            moreInfo,
         } = this.props;
+
+        const lastAccessTime = new Date(currentSession.last_activity_at);
+        let devicePlatform = currentSession.props.platform;
+        let devicePicture = '';
+        let deviceTitle = '';
+
+        if (currentSession.props.platform === 'Windows') {
+            devicePicture = 'fa fa-windows';
+            deviceTitle = localizeMessage('device_icons.windows', 'Windows Icon');
+        } else if (this.isMobileSession(currentSession)) {
+            const sessionInfo = this.mobileSessionInfo(currentSession);
+            devicePicture = sessionInfo.devicePicture;
+            devicePlatform = sessionInfo.devicePlatform;
+        } else if (currentSession.props.platform === 'Macintosh' ||
+            currentSession.props.platform === 'iPhone') {
+            devicePicture = 'fa fa-apple';
+            deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
+        } else if (currentSession.props.platform === 'Linux') {
+            if (currentSession.props.os.indexOf('Android') >= 0) {
+                devicePlatform = (
+                    <FormattedMessage
+                        id='activity_log_modal.android'
+                        defaultMessage='Android'
+                    />
+                );
+                devicePicture = 'fa fa-android';
+                deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
+            } else {
+                devicePicture = 'fa fa-linux';
+                deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
+            }
+        } else if (currentSession.props.os.indexOf('Linux') !== -1) {
+            devicePicture = 'fa fa-linux';
+            deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
+        }
+
+        if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
+            devicePlatform = (
+                <FormattedMessage
+                    id='activity_log_modal.desktop'
+                    defaultMessage='Native Desktop App'
+                />
+            );
+        }
 
         return (
             <div
@@ -131,8 +185,7 @@ export default class ActivityLog extends React.PureComponent {
                         <MoreInfo
                             locale={locale}
                             currentSession={currentSession}
-                            firstAccessTime={firstAccessTime}
-                            moreInfo={moreInfo}
+                            moreInfo={this.state.moreInfo}
                             handleMoreInfo={this.handleMoreInfo}
                         />
                     </div>

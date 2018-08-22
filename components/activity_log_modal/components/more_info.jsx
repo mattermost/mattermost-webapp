@@ -10,11 +10,12 @@ import {getMonthLong} from 'utils/i18n';
 export default function MoreInfo({
     locale,
     currentSession,
-    firstAccessTime,
     moreInfo,
     handleMoreInfo,
 }) {
     if (moreInfo) {
+        const firstAccessTime = new Date(currentSession.create_at);
+
         return (
             <div>
                 <div>
@@ -88,7 +89,6 @@ export default function MoreInfo({
 MoreInfo.propTypes = {
     locale: PropTypes.string.isRequired,
     currentSession: PropTypes.object.isRequired,
-    firstAccessTime: PropTypes.instanceOf(Date).isRequired,
     handleMoreInfo: PropTypes.func.isRequired,
     moreInfo: PropTypes.bool.isRequired,
 };
