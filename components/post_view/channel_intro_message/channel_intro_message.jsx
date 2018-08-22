@@ -310,13 +310,24 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                 />
             </h4>
             <p className='channel-intro__content'>
-                <FormattedMarkdownMessage
-                    id='intro_messages.default'
-                    defaultMessage='**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.'
-                    values={{
-                        display_name: channel.display_name,
-                    }}
-                />
+                {!isReadOnly &&
+                    <FormattedMarkdownMessage
+                        id='intro_messages.default'
+                        defaultMessage={'**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.'}
+                        values={{
+                            display_name: channel.display_name,
+                        }}
+                    />
+                }
+                {isReadOnly &&
+                    <FormattedMarkdownMessage
+                        id='intro_messages.readonly.default'
+                        defaultMessage={'**Welcome to {display_name}!**\n \nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team.'}
+                        values={{
+                            display_name: channel.display_name,
+                        }}
+                    />
+                }
             </p>
             {teamInviteLink}
             {setHeaderButton}
