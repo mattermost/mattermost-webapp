@@ -513,13 +513,13 @@ export default {
                             label: 'admin.log.enableWebhookDebugging',
                             label_default: 'Enable Webhook Debugging:',
                             help_text: 'admin.log.enableWebhookDebuggingDescription',
-                            help_text_default: 'When true, sends webhook debug messages to the server logs. To also output the request body of incoming webhooks, set {boldedFileLogLevel} to "DEBUG".',
+                            help_text_default: 'When true, sends webhook debug messages to the server logs. To also output the request body of incoming webhooks, set {boldedLogLevel} to "DEBUG".',
                             help_text_values: {
-                                boldedFileLogLevel: (
+                                boldedLogLevel: (
                                     <strong>
                                         <FormattedMessage
                                             id='admin.log.fileLogLevel'
-                                            defaultMessage='File Log Level'
+                                            defaultMessage='Log Level'
                                         />
                                     </strong>
                                 ),
