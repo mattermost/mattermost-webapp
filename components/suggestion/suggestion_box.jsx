@@ -8,6 +8,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import QuickInput from 'components/quick_input.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
@@ -182,7 +183,15 @@ export default class SuggestionBox extends React.Component {
             return;
         }
 
-        GlobalActions.emitClearSuggestions(this.suggestionId);
+        if (UserAgent.isIos() && !e.relatedTarget) {
+            // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
+            // blur so that click handlers on the list items still register
+            setTimeout(() => {
+                GlobalActions.emitClearSuggestions(this.suggestionId);
+            }, 200);
+        } else {
+            GlobalActions.emitClearSuggestions(this.suggestionId);
+        }
 
         if (this.props.onBlur) {
             this.props.onBlur();
