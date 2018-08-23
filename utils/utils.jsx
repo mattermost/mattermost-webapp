@@ -589,6 +589,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .navbar-right__icon:hover, .app__body .navbar-right__icon:focus', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('.app__body .navbar-right__icon svg', 'fill:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon svg', 'stroke:' + theme.sidebarHeaderTextColor);
+        changeCss('.team-sidebar .fa', 'color:' + theme.sidebarHeaderTextColor);
     }
 
     if (theme.onlineIndicator) {

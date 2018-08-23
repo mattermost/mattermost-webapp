@@ -6,6 +6,10 @@
     width: 65px;
     z-index: 12;
 
+    .fa {
+        color: $white;
+    }
+
     .team-sidebar-bottom-plugin {
         position: absolute;
         bottom: 0;
