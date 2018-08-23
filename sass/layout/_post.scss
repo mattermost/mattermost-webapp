@@ -891,6 +891,7 @@
         blockquote {
             display: flex;
             padding: 3px 0px 3px 20px;
+            flex-direction: column;
 
             &:before {
                 font-size: 15px;
