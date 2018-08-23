@@ -12,6 +12,8 @@ import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_ut
 import GifSearchIcon from 'components/svg/gif_search_icon';
 import GifSearchClearIcon from 'components/svg/gif_search_clear_icon';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 import './SearchBar.scss';
 
 function mapStateToProps(state) {
@@ -205,7 +207,7 @@ export class SearchBar extends Component {
                         className='search-input'
                         name='searchText'
                         autoFocus={true}
-                        placeholder={'Search Gfycat'}
+                        placeholder={localizeMessage('gif_picker.gfycat', 'Search Gfycat')}
                         onChange={this.handleChange}
                         autoComplete='off'
                         autoCapitalize='off'
