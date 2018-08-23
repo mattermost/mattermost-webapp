@@ -273,7 +273,7 @@ export default class DotMenu extends Component {
                     menuItemText={item.text}
                     handleMenuItemActivated={() => {
                         if (item.action) {
-                            item.action();
+                            item.action(this.props.post.id);
                         }
                     }}
                 />
@@ -305,7 +305,10 @@ export default class DotMenu extends Component {
                         >
                             {menuItems}
                             {pluginItems}
-                            <Pluggable pluggableName='PostDropdownMenuItem'/>
+                            <Pluggable
+                                postId={this.props.post.id}
+                                pluggableName='PostDropdownMenuItem'
+                            />
                         </ul>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ import {Constants} from 'utils/constants';
 import {ldapTest, invalidateAllCaches, reloadConfig, testS3Connection} from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
@@ -533,6 +534,12 @@ export default {
                             help_text: 'admin.log.enableDiagnosticsDescription',
                             help_text_default: 'Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our [privacy policy](!https://about.mattermost.com/default-privacy-policy/) to learn more.',
                             help_text_markdown: true,
+                            onConfigSave: (displayVal, previousVal) => {
+                                if (previousVal && previousVal !== displayVal) {
+                                    trackEvent('ui', 'diagnostics_disabled');
+                                }
+                                return displayVal;
+                            },
                         },
                     ],
                 },

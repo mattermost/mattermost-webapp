@@ -383,7 +383,7 @@ class ProfilePopover extends React.Component {
                 >
                     <a
                         href='#'
-                        className='text-nowrap text-lowercase user-popover__email'
+                        className='text-nowrap user-popover__email'
                         onClick={this.handleShowDirectChannel}
                     >
                         <i

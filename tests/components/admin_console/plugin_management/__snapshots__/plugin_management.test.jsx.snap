@@ -96,7 +96,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           className="help-text"
         >
           <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be deactivated but not removed."
+            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
             id="admin.plugin.installedDesc"
             values={Object {}}
           />
@@ -230,7 +230,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           className="help-text"
         >
           <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be deactivated but not removed."
+            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
             id="admin.plugin.installedDesc"
             values={Object {}}
           />

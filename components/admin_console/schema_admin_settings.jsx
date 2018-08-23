@@ -62,9 +62,10 @@ export default class SchemaAdminSettings extends AdminSettings {
                 }
 
                 let value = this.getSettingValue(setting);
+                const previousValue = this.getConfigValue(config, setting.key);
 
                 if (setting.onConfigSave) {
-                    value = setting.onConfigSave(value);
+                    value = setting.onConfigSave(value, previousValue);
                 }
 
                 this.setConfigValue(config, setting.key, value);

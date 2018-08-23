@@ -5,12 +5,13 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import Textbox from 'components/textbox.jsx';
 import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {isMobile} from 'utils/user_agent.jsx';
+import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -106,7 +107,7 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     focusTextbox = () => {
-        if (!Utils.isMobile()) {
+        if (this.refs.editChannelHeaderTextbox) {
             this.refs.editChannelHeaderTextbox.focus();
         }
     }
@@ -117,15 +118,15 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
-        if (ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
+        if (ctrlSend && isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
     }
 
     handleKeyPress = (e) => {
         const {ctrlSend} = this.props;
-        if (!UserAgent.isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
-            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
+        if (!isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
+            if (isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.editChannelHeaderTextbox).blur();
                 this.handleSave(e);
@@ -200,8 +201,8 @@ class EditChannelHeaderModal extends React.PureComponent {
                             onKeyDown={this.handleKeyDown}
                             supportsCommands={false}
                             suggestionListStyle='bottom'
-                            createMessage={Utils.localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
-                            previewMessageLink={Utils.localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
+                            createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
+                            previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                             handlePostError={this.handlePostError}
                             id='edit_textbox'
                             ref='editChannelHeaderTextbox'
@@ -240,4 +241,3 @@ class EditChannelHeaderModal extends React.PureComponent {
 }
 
 export default injectIntl(EditChannelHeaderModal);
-

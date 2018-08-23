@@ -7,7 +7,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
@@ -15,7 +15,6 @@ import CreatePost from 'components/create_post/create_post.jsx';
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelHeaderUpdateModal: jest.fn(),
     showChannelPurposeUpdateModal: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
     toggleShortcutsModal: jest.fn(),
@@ -255,7 +254,16 @@ describe('components/create_post', () => {
     });
 
     it('onSubmit test for "/header" message', () => {
-        const wrapper = shallow(createPost());
+        const openModal = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    openModal,
+                },
+            })
+        );
 
         wrapper.setState({
             message: '/header',
@@ -263,7 +271,8 @@ describe('components/create_post', () => {
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelHeaderUpdateModal).toHaveBeenCalledWith(currentChannelProp);
+        expect(openModal).toHaveBeenCalledTimes(1);
+        expect(openModal.mock.calls[0][0].modalId).toEqual(ModalIdentifiers.EDIT_CHANNEL_HEADER);
     });
 
     it('onSubmit test for "/purpose" message', () => {

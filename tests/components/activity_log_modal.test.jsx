@@ -3,18 +3,18 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {FormattedMessage} from 'react-intl';
 import $ from 'jquery';
 require('perfect-scrollbar/jquery')($);
 
 import {General} from 'mattermost-redux/constants';
 
-import {localizeMessage} from 'utils/utils.jsx';
 import ActivityLogModal from 'components/activity_log_modal/activity_log_modal.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 describe('components/ActivityLogModal', () => {
     const baseProps = {
+        sessions: [],
+        currentUserId: '',
         onHide: jest.fn(),
         actions: {
             getSessions: jest.fn(),
@@ -30,7 +30,7 @@ describe('components/ActivityLogModal', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(false);
 
-        wrapper.setState({sessions: {loading: true}});
+        wrapper.setProps({sessions: {loading: true}});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(true);
     });
@@ -81,58 +81,5 @@ describe('components/ActivityLogModal', () => {
         wrapper.setState({show: true});
         wrapper.instance().onHide();
         expect(wrapper.state('show')).toEqual(false);
-    });
-
-    test('should match state when onListenerChange is called', () => {
-        const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
-        );
-
-        const newState = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}}], clientError: null, moreInfo: [false, false], show: true};
-        wrapper.setState(newState);
-        wrapper.instance().onListenerChange();
-        expect(wrapper.state()).toEqual({clientError: null, moreInfo: [false, false], sessions: [], show: true});
-    });
-
-    test('should match state when handleMoreInfo is called', () => {
-        const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
-        );
-
-        const newState = {sessions: [{props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'}}], clientError: null, moreInfo: [false, false], show: true};
-        wrapper.setState(newState);
-        wrapper.instance().handleMoreInfo(1);
-        expect(wrapper.state()).toEqual({...newState, moreInfo: [false, true]});
-    });
-
-    test('should match when isMobileSession is called', () => {
-        const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
-        );
-
-        const isMobileSession = wrapper.instance().isMobileSession;
-        expect(isMobileSession({device_id: 'apple'})).toEqual(true);
-        expect(isMobileSession({device_id: 'android'})).toEqual(true);
-        expect(isMobileSession({device_id: 'none'})).toEqual(false);
-    });
-
-    test('should match when mobileSessionInfo is called', () => {
-        const wrapper = shallow(
-            <ActivityLogModal {...baseProps}/>
-        );
-
-        const mobileSessionInfo = wrapper.instance().mobileSessionInfo;
-
-        const apple = {devicePicture: 'fa fa-apple', deviceTitle: localizeMessage('device_icons.apple', 'Apple Icon'), devicePlatform: <FormattedMessage defaultMessage='iPhone Native Classic App' id='activity_log_modal.iphoneNativeClassicApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
-        expect(mobileSessionInfo({device_id: 'apple'})).toEqual(apple);
-
-        const android = {devicePicture: 'fa fa-android', deviceTitle: localizeMessage('device_icons.android', 'Android Icon'), devicePlatform: <FormattedMessage defaultMessage='Android Native Classic App' id='activity_log_modal.androidNativeClassicApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
-        expect(mobileSessionInfo({device_id: 'android'})).toEqual(android);
-
-        const appleRN = {devicePicture: 'fa fa-apple', deviceTitle: localizeMessage('device_icons.apple', 'Apple Icon'), devicePlatform: <FormattedMessage defaultMessage='iPhone Native App' id='activity_log_modal.iphoneNativeApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
-        expect(mobileSessionInfo({device_id: 'apple_rn'})).toEqual(appleRN);
-
-        const androidRN = {devicePicture: 'fa fa-android', deviceTitle: localizeMessage('device_icons.android', 'Android Icon'), devicePlatform: <FormattedMessage defaultMessage='Android Native App' id='activity_log_modal.androidNativeApp' values={{}}/>}; //eslint-disable-line react/jsx-max-props-per-line
-        expect(mobileSessionInfo({device_id: 'android_rn'})).toEqual(androidRN);
     });
 });

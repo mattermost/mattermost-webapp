@@ -469,6 +469,7 @@ export default class EmojiPicker extends React.PureComponent {
                     ref={this.emojiSearchInput}
                     className='emoji-picker__search'
                     type='text'
+                    autoFocus={true}
                     onChange={this.handleFilterChange}
                     onKeyDown={this.handleKeyDown}
                     placeholder={Utils.localizeMessage('emoji_picker.search', 'search')}

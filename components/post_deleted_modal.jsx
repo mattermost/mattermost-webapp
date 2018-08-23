@@ -50,6 +50,7 @@ export default class PostDeletedModal extends React.Component {
                     <button
                         type='button'
                         className='btn btn-primary'
+                        autoFocus={true}
                         onClick={this.props.onHide}
                     >
                         <FormattedMessage

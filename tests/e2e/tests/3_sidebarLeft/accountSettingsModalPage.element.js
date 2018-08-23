@@ -141,11 +141,12 @@ module.exports = {
             assert.visible('@teammateNameDisplayEdit').
             assert.visible('@teammateNameDisplayDesc').
             assert.containsText('@teammateNameDisplayDesc', 'Show username').
-            assert.visible('@linkPreviewTitle').
-            assert.containsText('@linkPreviewTitle', 'Website Link Previews').
-            assert.visible('@linkPreviewEdit').
-            assert.visible('@linkPreviewDesc').
-            assert.containsText('@linkPreviewDesc', 'On').
+
+            // assert.visible('@linkPreviewTitle').
+            // assert.containsText('@linkPreviewTitle', 'Website Link Previews').
+            // assert.visible('@linkPreviewEdit').
+            // assert.visible('@linkPreviewDesc').
+            // assert.containsText('@linkPreviewDesc', 'On').
             assert.visible('@collapseTitle').
             assert.containsText('@collapseTitle', 'Default appearance of image previews').
             assert.visible('@collapseEdit').

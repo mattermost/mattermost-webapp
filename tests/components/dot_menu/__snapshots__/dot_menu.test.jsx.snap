@@ -55,6 +55,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
         <Connect(Pluggable)
           pluggableName="PostDropdownMenuItem"
+          postId="post_id_1"
         />
       </ul>
     </div>
@@ -117,6 +118,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
         <Connect(Pluggable)
           pluggableName="PostDropdownMenuItem"
+          postId="post_id_1"
         />
       </ul>
     </div>
