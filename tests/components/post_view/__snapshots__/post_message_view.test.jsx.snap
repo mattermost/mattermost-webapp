@@ -2,6 +2,7 @@
 
 exports[`components/post_view/PostAttachment should match snapshot 1`] = `
 <Connect(ShowMore)
+  checkOverflow={0}
   maxHeight={600}
   text="post message"
 >
@@ -34,6 +35,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
 
 exports[`components/post_view/PostAttachment should match snapshot, on Show Less 1`] = `
 <Connect(ShowMore)
+  checkOverflow={0}
   maxHeight={600}
   text="post message"
 >
@@ -66,6 +68,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
 
 exports[`components/post_view/PostAttachment should match snapshot, on Show More 1`] = `
 <Connect(ShowMore)
+  checkOverflow={0}
   maxHeight={600}
   text="post message"
 >
@@ -118,6 +121,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on deleted p
 
 exports[`components/post_view/PostAttachment should match snapshot, on edited post 1`] = `
 <Connect(ShowMore)
+  checkOverflow={0}
   maxHeight={600}
   text="post message"
 >
@@ -172,6 +176,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
 
 exports[`components/post_view/PostAttachment should match snapshot, on ephemeral post 1`] = `
 <Connect(ShowMore)
+  checkOverflow={0}
   maxHeight={600}
   text="post message"
 >

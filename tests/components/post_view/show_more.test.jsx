@@ -9,7 +9,7 @@ import ShowMore from 'components/post_view/show_more/show_more.jsx';
 describe('components/post_view/ShowMore', () => {
     const children = (<div><p>{'text'}</p></div>);
     const baseProps = {
-        checkOverflow: false,
+        checkOverflow: 0,
         isAttachmentText: false,
         isRHSExpanded: false,
         isRHSOpen: false,
@@ -81,10 +81,10 @@ describe('components/post_view/ShowMore', () => {
         wrapper.setProps({text: 'text another change'});
         expect(instance.checkTextOverflow).toBeCalledTimes(6);
 
-        wrapper.setProps({checkOverflow: true});
+        wrapper.setProps({checkOverflow: 1});
         expect(instance.checkTextOverflow).toBeCalledTimes(7);
 
-        wrapper.setProps({checkOverflow: false});
+        wrapper.setProps({checkOverflow: 1});
         expect(instance.checkTextOverflow).toBeCalledTimes(7);
     });
 });

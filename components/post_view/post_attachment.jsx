@@ -38,18 +38,25 @@ export default class PostAttachment extends React.PureComponent {
         super(props);
 
         this.state = {
-            checkOverflow: false,
+            checkOverflow: 0,
         };
 
         this.imageProps = {
-            onHeightReceived: this.handleImageHeightReceived,
+            onHeightReceived: this.handleHeightReceived,
         };
     }
 
-    handleImageHeightReceived = () => {
-        postListScrollChange();
+    handleHeightReceived = (height) => {
+        if (height > 0) {
+            // Increment checkOverflow to indicate change in height
+            // and recompute textContainer height at ShowMore component
+            // and see whether overflow text of show more/less is necessary or not.
+            this.setState((prevState) => {
+                return {checkOverflow: prevState.checkOverflow + 1};
+            });
 
-        this.setState({checkOverflow: true});
+            postListScrollChange();
+        }
     };
 
     getActionView = () => {
