@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
+<div
+  className="activity-log__table"
+  key="activityLogEntryKey0"
+>
+  <div
+    className="activity-log__report"
+  >
+    <div
+      className="report__platform"
+    >
+      <i
+        className="fa fa-linux"
+        title="Linux Icon"
+      />
+      <FormattedMessage
+        defaultMessage="Native Desktop App"
+        id="activity_log_modal.desktop"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="report__info"
+    >
+      <div>
+        <FormattedMessage
+          defaultMessage="Last activity: {date}, {time}"
+          id="activity_log.lastActivity"
+          values={
+            Object {
+              "date": <FormattedDate
+                day="2-digit"
+                month="long"
+                value={2018-08-22T06:00:43.890Z}
+                year="numeric"
+              />,
+              "time": <FormattedTime
+                hour="2-digit"
+                minute="2-digit"
+                value={2018-08-22T06:00:43.890Z}
+              />,
+            }
+          }
+        />
+      </div>
+      <MoreInfo
+        currentSession={
+          Object {
+            "create_at": 1534917291042,
+            "id": "sessionId",
+            "last_activity_at": 1534917643890,
+            "props": Object {
+              "browser": "Desktop App",
+              "os": "Linux",
+              "platform": "Linux",
+            },
+          }
+        }
+        handleMoreInfo={[Function]}
+        locale="en"
+        moreInfo={false}
+      />
+    </div>
+  </div>
+  <div
+    className="activity-log__action"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Logout"
+        id="activity_log.logout"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
