@@ -143,22 +143,22 @@ export default class SearchBar extends React.Component {
     }
 
     renderHintPopover(helpClass) {
-        if (!this.props.isCommentsPage && Utils.isMobile() && this.state.isPristine) {
-            return false;
+        if (!this.props.isCommentsPage && this.state.isPristine) {
+            return (
+                <Popover
+                    id='searchbar-help-popup'
+                    placement='bottom'
+                    className={helpClass}
+                >
+                    <FormattedHTMLMessage
+                        id='search_bar.usage'
+                        defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li></ul>'
+                    />
+                </Popover>
+            );
         }
 
-        return (
-            <Popover
-                id='searchbar-help-popup'
-                placement='bottom'
-                className={helpClass}
-            >
-                <FormattedHTMLMessage
-                    id='search_bar.usage'
-                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li></ul>'
-                />
-            </Popover>
-        );
+        return false;
     }
 
     getSearch = (node) => {
