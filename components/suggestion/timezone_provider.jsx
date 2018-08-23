@@ -26,6 +26,7 @@ class TimezoneSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                {...Suggestion.baseProps}
             >
                 {timezone}
             </div>

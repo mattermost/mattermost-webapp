@@ -8,6 +8,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import QuickInput from 'components/quick_input.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
@@ -114,9 +115,6 @@ export default class SuggestionBox extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleFocus = this.handleFocus.bind(this);
-
         this.handlePopoverMentionKeyClick = this.handlePopoverMentionKeyClick.bind(this);
         this.handleCompleteWord = this.handleCompleteWord.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -178,18 +176,35 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    handleBlur() {
-        setTimeout(() => {
-            // Delay this slightly so that we don't clear the suggestions before we run click handlers on SuggestionList
+    handleFocusOut = (e) => {
+        // Focus is switching TO e.relatedTarget, so only treat this as a blur event if we're not switching
+        // between children (like from the textbox to the suggestion list)
+        if (this.container.contains(e.relatedTarget)) {
+            return;
+        }
+
+        if (UserAgent.isIos() && !e.relatedTarget) {
+            // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
+            // blur so that click handlers on the list items still register
+            setTimeout(() => {
+                GlobalActions.emitClearSuggestions(this.suggestionId);
+            }, 200);
+        } else {
             GlobalActions.emitClearSuggestions(this.suggestionId);
-        }, 200);
+        }
 
         if (this.props.onBlur) {
             this.props.onBlur();
         }
-    }
+    };
 
-    handleFocus() {
+    handleFocusIn = (e) => {
+        // Focus is switching FROM e.relatedTarget, so only treat this as a focus event if we're not switching
+        // between children (like from the textbox to the suggestion list)
+        if (this.container.contains(e.relatedTarget)) {
+            return;
+        }
+
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
                 const textbox = this.getTextbox();
@@ -205,7 +220,7 @@ export default class SuggestionBox extends React.Component {
         if (this.props.onFocus) {
             this.props.onFocus();
         }
-    }
+    };
 
     handleChange(e) {
         const textbox = this.getTextbox();
@@ -374,6 +389,22 @@ export default class SuggestionBox extends React.Component {
         this.refs.input.blur();
     }
 
+    setContainerRef = (container) => {
+        // Attach/detach event listeners that aren't supported by React
+        if (this.container) {
+            this.container.removeEventListener('focusin', this.handleFocusIn);
+            this.container.removeEventListener('focusout', this.handleFocusOut);
+        }
+
+        if (container) {
+            container.addEventListener('focusin', this.handleFocusIn);
+            container.addEventListener('focusout', this.handleFocusOut);
+        }
+
+        // Save ref
+        this.container = container;
+    };
+
     render() {
         const {
             listComponent,
@@ -392,18 +423,18 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'requiredCharacters');
         Reflect.deleteProperty(props, 'openOnFocus');
         Reflect.deleteProperty(props, 'openWhenEmpty');
+        Reflect.deleteProperty(props, 'onFocus');
+        Reflect.deleteProperty(props, 'onBlur');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
 
         return (
-            <div>
+            <div ref={this.setContainerRef}>
                 <QuickInput
                     ref='input'
                     autoComplete='off'
                     {...props}
-                    onBlur={this.handleBlur}
-                    onFocus={this.handleFocus}
                     onInput={this.handleChange}
                     onCompositionStart={this.handleCompositionStart}
                     onCompositionUpdate={this.handleCompositionUpdate}
