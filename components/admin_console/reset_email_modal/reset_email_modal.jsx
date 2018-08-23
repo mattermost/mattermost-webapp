@@ -114,7 +114,7 @@ export default class ResetEmailModal extends React.Component {
                                         className='input-group-addon email__group-addon'
                                     >
                                         <FormattedMessage
-                                            id='admin.reset_password.newEmail'
+                                            id='admin.reset_email.newEmail'
                                             defaultMessage='New Email'
                                         />
                                     </span>
