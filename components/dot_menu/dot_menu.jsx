@@ -266,19 +266,23 @@ export default class DotMenu extends Component {
             );
         }
 
-        const pluginItems = this.props.pluginMenuItems.map((item) => {
-            return (
-                <DotMenuItem
-                    key={item.id + '_pluginmenuitem'}
-                    menuItemText={item.text}
-                    handleMenuItemActivated={() => {
-                        if (item.action) {
-                            item.action(this.props.post.id);
-                        }
-                    }}
-                />
-            );
-        });
+        const pluginItems = this.props.pluginMenuItems.
+            filter((item) => {
+                return item.filter ? item.filter(this.props.post.id) : item;
+            }).
+            map((item) => {
+                return (
+                    <DotMenuItem
+                        key={item.id + '_pluginmenuitem'}
+                        menuItemText={item.text}
+                        handleMenuItemActivated={() => {
+                            if (item.action) {
+                                item.action(this.props.post.id);
+                            }
+                        }}
+                    />
+                );
+            });
 
         if (menuItems.length === 0 && pluginItems.length === 0) {
             return null;

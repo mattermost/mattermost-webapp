@@ -90,5 +90,8 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
       }
     />
   </div>
+  <Connect(Pluggable)
+    pluggableName="PostMessage"
+  />
 </Connect(ShowMore)>
 `;
