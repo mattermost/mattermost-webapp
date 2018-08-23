@@ -13,6 +13,7 @@ When filling in a section please remove the help text and the above text.
 - [ ] Ran `make check-style` to check for style errors (required for all pull requests)
 - [ ] Ran `make test` to ensure unit and component tests passed
 - [ ] Added or updated unit tests (required for all new features)
+- [ ] Needs to be implemented in mobile (link to PR or User Story)
 - [ ] Has server changes (please link)
 - [ ] Has redux changes (please link)
 - [ ] Has UI changes
