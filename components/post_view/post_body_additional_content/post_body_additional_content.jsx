@@ -58,6 +58,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
+
+        actions: PropTypes.shape({
+            getRedirectLocation: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -84,7 +88,29 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     componentDidMount() {
         // check the availability of the image rendered(if any) in the first render.
+        this.loadShortenedImageLink();
         this.preCheckImageLink();
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
+    async loadShortenedImageLink() {
+        if (!this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link)) {
+            const {data} = await this.props.actions.getRedirectLocation(this.state.link);
+            const {link} = this.state;
+            if (data && data.location && this.mounted) {
+                this.setState((state) => {
+                    if (state.link !== link) {
+                        return {};
+                    }
+                    return {link: data.location};
+                });
+                this.preCheckImageLink();
+            }
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -93,6 +119,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 link: Utils.extractFirstLink(nextProps.post.message),
             }, () => {
                 // check the availability of the image link
+                this.loadShortenedImageLink();
                 this.preCheckImageLink();
             });
         }

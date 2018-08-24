@@ -21,6 +21,9 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         isEmbedVisible: true,
         enableLinkPreviews: true,
         hasImageProxy: true,
+        actions: {
+            getRedirectLocation: () => null,
+        },
     };
 
     test('isLinkImage, should return true for valid image URLs', () => {
