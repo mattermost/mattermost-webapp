@@ -90,13 +90,24 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         // check the availability of the image rendered(if any) in the first render.
         this.loadShortenedImageLink();
         this.preCheckImageLink();
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     async loadShortenedImageLink() {
-        if (!this.isLinkImage(this.state.link)) {
+        if (!this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link)) {
             const {data} = await this.props.actions.getRedirectLocation(this.state.link);
-            if (data && data.location) {
-                this.setState({link: data.location});
+            const {link} = this.state;
+            if (data && data.location && this.mounted) {
+                this.setState((state) => {
+                    if (state.link !== link) {
+                        return {};
+                    }
+                    return {link: data.location};
+                });
                 this.preCheckImageLink();
             }
         }
