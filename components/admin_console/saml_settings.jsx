@@ -524,7 +524,7 @@ export default class SamlSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.saml.idAttrDesc'
-                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to bind users from saml to users in Mattermost.'
+                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.'
                         />
                     }
                     value={this.state.idAttribute}
