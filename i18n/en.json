@@ -2186,6 +2186,7 @@
   "intro_messages.channel": "channel",
   "intro_messages.creator": "This is the start of the {name} {type}, created by {creator} on {date}.",
   "intro_messages.default": "**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.",
+  "intro_messages.readonly.default": "**Welcome to {display_name}!**\n \nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team.",
   "intro_messages.group": "private channel",
   "intro_messages.group_message": "This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area.",
   "intro_messages.invite": "Invite others to this {type}",
