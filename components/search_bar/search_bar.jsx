@@ -4,7 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Popover} from 'react-bootstrap';
-import {FormattedHTMLMessage} from 'react-intl';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -27,6 +28,8 @@ export default class SearchBar extends React.Component {
         searchTerms: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
+        showMentionFlagBtns: PropTypes.bool,
+        isFocus: PropTypes.bool,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
             showSearchResults: PropTypes.func,
@@ -37,12 +40,16 @@ export default class SearchBar extends React.Component {
         }),
     };
 
+    static defaultProps = {
+        showMentionFlagBtns: true,
+        isFocus: false,
+    };
+
     constructor() {
         super();
 
         this.state = {
             focused: false,
-            isPristine: true,
         };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider(), new SearchDateProvider()];
@@ -94,10 +101,6 @@ export default class SearchBar extends React.Component {
 
     handleSearch = async (terms) => {
         if (terms.length) {
-            this.setState({
-                isPristine: false,
-            });
-
             const {error} = await this.props.actions.showSearchResults();
 
             if (!error) {
@@ -144,9 +147,10 @@ export default class SearchBar extends React.Component {
         }
     }
 
-    renderHintPopover(helpClass) {
-        if (!this.props.isCommentsPage && Utils.isMobile() && this.state.isPristine) {
-            return false;
+    renderHintPopover() {
+        let helpClass = 'search-help-popover';
+        if (!this.props.searchTerms && this.state.focused) {
+            helpClass += ' visible';
         }
 
         return (
@@ -155,9 +159,9 @@ export default class SearchBar extends React.Component {
                 placement='bottom'
                 className={helpClass}
             >
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id='search_bar.usage'
-                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li><li><span>Use </span><b>on:</b><span> to find posts on a specific date </li><li><span>Use </span><b>before:</b><span> to find posts before a specific date</span></li><li><span>Use </span><b>after:</b><span> to find posts after a specific date</span></li></ul>'
+                    defaultMessage='#### Search Options\n\n* Use **"quotation marks"** to search for phrases\n* Use **from:** to find posts from specific users and **in:** to find posts in specific channels\n* Use **on:** to find posts on a specific date\n* Use **before:** to find posts before a specific date\n* Use **after:** to find posts after a specific date'
                 />
             </Popover>
         );
@@ -176,11 +180,6 @@ export default class SearchBar extends React.Component {
                     title={Utils.localizeMessage('generic_icons.searching', 'Searching Icon')}
                 />
             );
-        }
-
-        let helpClass = 'search-help-popover';
-        if (!this.props.searchTerms && this.state.focused) {
-            helpClass += ' visible';
         }
 
         let mentionBtn;
@@ -287,7 +286,7 @@ export default class SearchBar extends React.Component {
                             </span>
                         </div>
                         {isSearchingTerm}
-                        {this.renderHintPopover(helpClass)}
+                        {this.renderHintPopover()}
                     </form>
                 </div>
                 {mentionBtn}
@@ -296,17 +295,6 @@ export default class SearchBar extends React.Component {
         );
     }
 }
-
-SearchBar.defaultProps = {
-    showMentionFlagBtns: true,
-    isFocus: false,
-};
-
-SearchBar.propTypes = {
-    showMentionFlagBtns: PropTypes.bool,
-    isCommentsPage: PropTypes.bool,
-    isFocus: PropTypes.bool,
-};
 
 const style = {
     searchForm: {overflow: 'visible'},
