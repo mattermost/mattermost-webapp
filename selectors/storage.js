@@ -7,6 +7,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getPrefix} from 'utils/storage_utils';
 
+import Constants from 'utils/constants';
+
 export const getGlobalItem = (state, name, defaultValue) => {
     const storage = state && state.storage && state.storage.storage;
 
@@ -43,7 +45,7 @@ export const getLastViewedChannelName = createSelector(
     getStorage,
     getCurrentTeamId,
     (storage, currentTeamId) => {
-        const entry = storage.storage[`${Storage.PREV_CHANNEL_KEY}${currentTeamId}`];
+        const entry = storage.storage[`${Constants.PREV_CHANNEL_KEY}${currentTeamId}`];
         return entry ? entry.value : null;
     }
 );
