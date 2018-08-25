@@ -12,6 +12,7 @@ describe('components/admin_console/system_users', () => {
         siteName: 'Site name',
         mfaEnabled: false,
         enableUserAccessTokens: false,
+        enableUserAccessTokensForAllUsers: false,
         experimentalEnableAuthenticationTransfer: false,
         searchTerm: '',
         teamId: '',

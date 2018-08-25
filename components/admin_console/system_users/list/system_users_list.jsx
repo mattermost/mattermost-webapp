@@ -43,6 +43,11 @@ export default class SystemUsersList extends React.Component {
         enableUserAccessTokens: PropTypes.bool.isRequired,
 
         /**
+         * Whether or not user access tokens are always enabled for everyone.
+         */
+        enableUserAccessTokensForAllUsers: PropTypes.bool.isRequired,
+
+        /**
          * Whether or not the experimental authentication transfer is enabled.
          */
         experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
@@ -296,6 +301,7 @@ export default class SystemUsersList extends React.Component {
                     actionProps={{
                         mfaEnabled: this.props.mfaEnabled,
                         enableUserAccessTokens: this.props.enableUserAccessTokens,
+                        enableUserAccessTokensForAllUsers: this.props.enableUserAccessTokensForAllUsers,
                         experimentalEnableAuthenticationTransfer: this.props.experimentalEnableAuthenticationTransfer,
                         doPasswordReset: this.doPasswordReset,
                         doEmailReset: this.doEmailReset,

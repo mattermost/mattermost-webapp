@@ -44,6 +44,11 @@ export default class ManageRolesModal extends React.PureComponent {
         userAccessTokensEnabled: PropTypes.bool.isRequired,
 
         /**
+         * Set if user access tokens are always enabled for everyone
+         */
+        userAccessTokensEnabledForAllUsers: PropTypes.bool.isRequired,
+
+        /**
          * Function called when modal is dismissed
          */
         onModalDismissed: PropTypes.func.isRequired,
@@ -129,8 +134,12 @@ export default class ManageRolesModal extends React.PureComponent {
 
         if (this.state.isSystemAdmin) {
             roles += ' ' + General.SYSTEM_ADMIN_ROLE;
-        } else if (this.state.hasUserAccessTokenRole) {
-            roles += ' ' + General.SYSTEM_USER_ACCESS_TOKEN_ROLE;
+        } else if (this.state.hasUserAccessTokenRole || this.props.userAccessTokensEnabledForAllUsers) {
+            // If the user doesn't have access tokens explicitly, only set the token role on them if explicit privs are set.
+            // This avoids keeping access tokens enabled for the user if globally-enabled tokens are disabled again.
+            if (this.state.hasUserAccessTokenRole || (this.state.hasPostAllRole || this.state.hasPostAllPublicRole)) {
+                roles += ' ' + General.SYSTEM_USER_ACCESS_TOKEN_ROLE;
+            }
             if (this.state.hasPostAllRole) {
                 roles += ' ' + General.SYSTEM_POST_ALL_ROLE;
             } else if (this.state.hasPostAllPublicRole) {
@@ -169,7 +178,7 @@ export default class ManageRolesModal extends React.PureComponent {
         }
 
         let additionalRoles;
-        if (this.state.hasUserAccessTokenRole || this.state.isSystemAdmin) {
+        if (this.state.hasUserAccessTokenRole || this.state.isSystemAdmin || this.props.userAccessTokensEnabledForAllUsers) {
             additionalRoles = (
                 <div>
                     <p>
@@ -233,8 +242,8 @@ export default class ManageRolesModal extends React.PureComponent {
                             <input
                                 type='checkbox'
                                 ref='postall'
-                                checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
-                                disabled={this.state.isSystemAdmin}
+                                checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin || this.props.userAccessTokensEnabledForAllUsers}
+                                disabled={this.state.isSystemAdmin || this.props.userAccessTokensEnabledForAllUsers}
                                 onChange={this.handleUserAccessTokenChange}
                             />
                             <FormattedMarkdownMessage

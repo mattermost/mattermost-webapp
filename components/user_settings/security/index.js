@@ -16,7 +16,8 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
 
     const tokensEnabled = config.EnableUserAccessTokens === 'true';
-    const userHasTokenRole = UserUtils.hasUserAccessTokenRole(ownProps.user.roles) || UserUtils.isSystemAdmin(ownProps.user.roles);
+    const tokensEnabledForAllUsers = config.EnableUserAccessTokensForAllUsers === 'true';
+    const userHasTokenRole = tokensEnabledForAllUsers || UserUtils.hasUserAccessTokenRole(ownProps.user.roles) || UserUtils.isSystemAdmin(ownProps.user.roles);
 
     const isLicensed = license && license.IsLicensed === 'true';
     const mfaLicensed = license && license.MFA === 'true';

@@ -22,6 +22,7 @@ function mapStateToProps(state) {
     const mfaEnabled = (license && license.IsLicensed === 'true' && license.MFA === 'true') &&
         config.EnableMultifactorAuthentication === 'true';
     const enableUserAccessTokens = config.EnableUserAccessTokens === 'true';
+    const enableUserAccessTokensForAllUsers = config.EnableUserAccessTokensForAllUsers === 'true';
     const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     const search = state.views.search.systemUsersSearch;
@@ -51,6 +52,7 @@ function mapStateToProps(state) {
         searchTerm,
         teamId,
         enableUserAccessTokens,
+        enableUserAccessTokensForAllUsers,
         experimentalEnableAuthenticationTransfer,
     };
 }

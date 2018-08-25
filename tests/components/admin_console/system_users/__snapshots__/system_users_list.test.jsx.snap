@@ -11,6 +11,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doManageTokens": [Function],
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
+        "enableUserAccessTokensForAllUsers": false,
         "experimentalEnableAuthenticationTransfer": false,
         "mfaEnabled": false,
       }
@@ -22,6 +23,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
       ]
     }
     enableUserAccessTokens={false}
+    enableUserAccessTokensForAllUsers={false}
     experimentalEnableAuthenticationTransfer={false}
     extraInfo={Object {}}
     focusOnMount={false}
@@ -83,6 +85,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doManageTokens": [Function],
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
+        "enableUserAccessTokensForAllUsers": false,
         "experimentalEnableAuthenticationTransfer": false,
         "mfaEnabled": false,
       }
@@ -94,6 +97,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
       ]
     }
     enableUserAccessTokens={false}
+    enableUserAccessTokensForAllUsers={false}
     experimentalEnableAuthenticationTransfer={false}
     extraInfo={
       Object {
@@ -224,6 +228,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "doManageTokens": [Function],
         "doPasswordReset": [Function],
         "enableUserAccessTokens": false,
+        "enableUserAccessTokensForAllUsers": false,
         "experimentalEnableAuthenticationTransfer": false,
         "mfaEnabled": true,
       }
@@ -235,6 +240,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
       ]
     }
     enableUserAccessTokens={false}
+    enableUserAccessTokensForAllUsers={false}
     experimentalEnableAuthenticationTransfer={false}
     extraInfo={
       Object {

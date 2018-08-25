@@ -22,6 +22,7 @@ describe('components/admin_console/system_users/list', () => {
         onTermChange: jest.fn(),
         mfaEnabled: false,
         enableUserAccessTokens: false,
+        enableUserAccessTokensForAllUsers: false,
         experimentalEnableAuthenticationTransfer: false,
         actions: {
             getUser: jest.fn(),

@@ -37,6 +37,11 @@ export default class SystemUsersDropdown extends React.Component {
         enableUserAccessTokens: PropTypes.bool.isRequired,
 
         /**
+         * Whether or not user access tokens are always enabled for everyone.
+         */
+        enableUserAccessTokensForAllUsers: PropTypes.bool.isRequired,
+
+        /**
          * Whether or not the experimental authentication transfer is enabled.
          */
         experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
@@ -301,11 +306,12 @@ export default class SystemUsersDropdown extends React.Component {
         const user = this.props.user;
         const hasPostAllRole = UserUtils.hasPostAllRole(user.roles);
         const hasPostAllPublicRole = UserUtils.hasPostAllPublicRole(user.roles);
+        const userAccessTokensEnabledForAllUsers = this.props.enableUserAccessTokensForAllUsers;
         const hasUserAccessTokenRole = UserUtils.hasUserAccessTokenRole(user.roles);
         const isSystemAdmin = UserUtils.isSystemAdmin(user.roles);
 
         let messageId = '';
-        if (hasUserAccessTokenRole || isSystemAdmin) {
+        if (userAccessTokensEnabledForAllUsers || hasUserAccessTokenRole || isSystemAdmin) {
             if (hasPostAllRole) {
                 messageId = 'admin.user_item.userAccessTokenPostAll';
             } else if (hasPostAllPublicRole) {
