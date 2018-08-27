@@ -1803,6 +1803,15 @@
     }
 }
 
+@media screen and (max-width: 350px) {
+    .post-attachment-dropdown {
+        &:after {
+            left: auto;
+            right: 12px;
+        }
+    }
+}
+
 @media screen and (max-width: 320px) {
     .filter-row {
         .Select--multi {

@@ -68,6 +68,7 @@ export default class ActionMenu extends React.PureComponent {
             <SuggestionBox
                 placeholder={action.name}
                 listComponent={SuggestionList}
+                className='form-control'
                 containerClass={'post-attachment-dropdown'} // Asaad you can add classes here if needed
                 value={this.state.input}
                 onChange={this.onChange}

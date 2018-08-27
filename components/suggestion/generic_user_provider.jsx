@@ -38,21 +38,17 @@ class UserSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
-                <div className='pull-left'>
-                    <img
-                        className='admin-setting-user__image'
-                        src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
-                    />
-                </div>
-                <div className='pull-left admin-setting-user--align'>
-                    <span>
-                        {'@' + username}
-                    </span>
-                    <span className='admin-setting-user__fullname'>
-                        {' '}
-                        {description}
-                    </span>
-                </div>
+                <img
+                    className='admin-setting-user__image'
+                    src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
+                />
+                <span className='admin-setting-user--align'>
+                    {'@' + username}
+                </span>
+                <span className='admin-setting-user__fullname'>
+                    {' '}
+                    {description}
+                </span>
             </div>
         );
     }

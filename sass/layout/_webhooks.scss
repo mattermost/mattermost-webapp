@@ -10,6 +10,33 @@
 
 .post-attachment-dropdown {
     position: relative;
+
+    &:after {
+        content: '\F107';
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        top: 8px;
+        position: absolute;
+        left: 20rem;
+        opacity: .4;
+        font-size: 16px;
+    }
+
+    .form-control {
+        cursor: pointer;
+        font-size: 13px;
+        height: auto;
+        max-width: 100%;
+        width: 22rem;
+    }
+
+    .suggestion-list__content {
+        border-radius: 3px 3px 3px 0;
+    }
 }
 
 .webhook__item {
@@ -68,11 +95,11 @@
         }
 
         .attachment__content {
-            border-radius: 4px;
+            border-radius: 0 4px 4px 0;
             border-style: solid;
             border-width: 1px;
             margin: 5px 0 5px 20px;
-            padding: 2px 5px;
+            border-left: none;
         }
 
         .attachment__thumb-pretext {
@@ -84,7 +111,7 @@
         .attachment__container {
             border-left-style: solid;
             border-left-width: 4px;
-            padding: 10px;
+            padding: 12px;
 
             &.attachment__container--good {
                 border-left-color: #00c100;
