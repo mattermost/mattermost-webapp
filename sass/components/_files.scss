@@ -204,6 +204,7 @@
 
             img {
                 @include single-transition(all, .1s, linear);
+                max-height: 350px;
 
                 &.min-preview {
                     max-height: 50px;

@@ -470,8 +470,9 @@ export default class PostList extends React.PureComponent {
             for (let i = 0; i < this.props.posts.length; i++) {
                 const post = this.props.posts[i];
                 const element = this.refs[post.id];
+                const domNode = ReactDOM.findDOMNode(element);
 
-                if (!element || !element.domNode || element.domNode.offsetTop + element.domNode.clientHeight <= this.refs.postlist.scrollTop) {
+                if (!element || !domNode || domNode.offsetTop + domNode.clientHeight <= this.refs.postlist.scrollTop) {
                     // this post is off the top of the screen so the last one is at the top of the screen
                     let topPost;
 

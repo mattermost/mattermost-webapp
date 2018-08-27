@@ -42,10 +42,6 @@ const getStyle = makeStyleFromTheme((theme) => {
         },
         input: {
             borderColor: changeOpacity(theme.centerChannelColor, 0.12),
-            color: changeOpacity(theme.centerChannelColor, 0.6),
-        },
-        placeholder: {
-            color: changeOpacity(theme.centerChannelColor, 0.6),
         },
     };
 });
@@ -189,15 +185,6 @@ export class SearchBar extends Component {
                 />
             ) : null;
 
-        const placeholder = !searchBarText && !this.state.inputFocused ?
-            (
-                <span
-                    className='placeholder'
-                    style={style.placeholder}
-                >{'Search Gfycat'}</span>
-            ) :
-            null;
-
         return (
             <form
                 className='gfycat-search'
@@ -214,10 +201,11 @@ export class SearchBar extends Component {
                         className='search-input-bg'
                         style={style.inputBackground}
                     />
-                    {placeholder}
                     <input
                         className='search-input'
                         name='searchText'
+                        autoFocus={true}
+                        placeholder={'Search Gfycat'}
                         onChange={this.handleChange}
                         autoComplete='off'
                         autoCapitalize='off'

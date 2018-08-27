@@ -8,6 +8,7 @@ import {Constants} from 'utils/constants';
 import {ldapTest, invalidateAllCaches, reloadConfig, testS3Connection} from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
@@ -513,13 +514,13 @@ export default {
                             label: 'admin.log.enableWebhookDebugging',
                             label_default: 'Enable Webhook Debugging:',
                             help_text: 'admin.log.enableWebhookDebuggingDescription',
-                            help_text_default: 'To output the request body of incoming webhooks to the console, enable this setting and set {boldedConsoleLogLevel} to "DEBUG". Disable this setting to remove webhook request body information from console logs when in DEBUG mode.',
+                            help_text_default: 'When true, sends webhook debug messages to the server logs. To also output the request body of incoming webhooks, set {boldedLogLevel} to "DEBUG".',
                             help_text_values: {
-                                boldedConsoleLogLevel: (
+                                boldedLogLevel: (
                                     <strong>
                                         <FormattedMessage
-                                            id='admin.log.consoleLogLevel'
-                                            defaultMessage='Console Log Level'
+                                            id='admin.log.logLevel'
+                                            defaultMessage='Log Level'
                                         />
                                     </strong>
                                 ),
@@ -533,6 +534,12 @@ export default {
                             help_text: 'admin.log.enableDiagnosticsDescription',
                             help_text_default: 'Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our [privacy policy](!https://about.mattermost.com/default-privacy-policy/) to learn more.',
                             help_text_markdown: true,
+                            onConfigSave: (displayVal, previousVal) => {
+                                if (previousVal && previousVal !== displayVal) {
+                                    trackEvent('ui', 'diagnostics_disabled');
+                                }
+                                return displayVal;
+                            },
                         },
                     ],
                 },

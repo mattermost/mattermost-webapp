@@ -26,6 +26,7 @@ class SearchChannelSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                {...Suggestion.baseProps}
             >
                 <i
                     className='fa fa fa-plus-square'

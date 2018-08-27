@@ -59,6 +59,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
     componentClass="div"
   >
     <button
+      autoFocus={true}
       className="btn btn-primary"
       onClick={[Function]}
       type="button"
@@ -132,6 +133,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
     componentClass="div"
   >
     <button
+      autoFocus={true}
       className="btn btn-primary"
       onClick={[Function]}
       type="button"

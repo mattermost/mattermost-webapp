@@ -343,7 +343,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
                 key="user-popover-dm"
               >
                 <a
-                  className="text-nowrap text-lowercase user-popover__email"
+                  className="text-nowrap user-popover__email"
                   href="#"
                   onClick={[Function]}
                 >

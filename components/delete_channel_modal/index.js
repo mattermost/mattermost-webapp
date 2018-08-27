@@ -13,7 +13,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     return {
-        canViewArchivedChannels: config.ViewArchivedChannels === 'true',
+        canViewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
         currentTeamDetails: getCurrentTeam(state),
     };
 }
