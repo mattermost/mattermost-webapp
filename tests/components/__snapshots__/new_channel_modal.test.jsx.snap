@@ -698,6 +698,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                 id="channel_modal.displayNameError"
                 values={Object {}}
               />
+              <Component />
             </p>
             <p
               className="input__help dark"

@@ -278,6 +278,73 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
   />
   <div
     className="col col__reply"
-  />
+  >
+    <Connect(DotMenu)
+      commentCount={0}
+      handleCommentClick={[MockFunction]}
+      handleDropdownOpened={[Function]}
+      isFlagged={false}
+      location="CENTER"
+      post={
+        Object {
+          "channel_id": "g6139tbospd18cmxroesdk3kkc",
+          "create_at": 1502715365009,
+          "delete_at": 0,
+          "edit_at": 1502715372443,
+          "hashtags": "",
+          "id": "e584uzbwwpny9kengqayx5ayzw",
+          "is_pinned": false,
+          "message": "post message",
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "root_id": "",
+          "type": "",
+          "update_at": 1502715372443,
+          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
+        }
+      }
+    />
+    <Connect(ChannelPermissionGate)
+      channelId="g6139tbospd18cmxroesdk3kkc"
+      permissions={
+        Array [
+          "add_reaction",
+        ]
+      }
+    >
+      <div>
+        <EmojiPickerOverlay
+          container={[MockFunction]}
+          enableGifPicker={false}
+          onEmojiClick={[Function]}
+          onHide={[Function]}
+          rightOffset={7}
+          show={true}
+          spaceRequiredAbove={422}
+          spaceRequiredBelow={436}
+          target={[Function]}
+        />
+        <button
+          className="reacticon__container color--link style--none"
+          onClick={[Function]}
+        >
+          <EmojiIcon
+            className="icon icon--emoji"
+          />
+        </button>
+      </div>
+    </Connect(ChannelPermissionGate)>
+    <CommentIcon
+      commentCount={0}
+      extraClass="pull-right"
+      handleCommentClick={[MockFunction]}
+      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
+      idCount={-1}
+      idPrefix="commentIcon"
+      searchStyle=""
+    />
+  </div>
 </div>
 `;
