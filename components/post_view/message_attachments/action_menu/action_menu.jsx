@@ -44,7 +44,7 @@ export default class ActionMenu extends React.PureComponent {
     }
 
     onChange = (e) => {
-        this.setState({input: e.target.value});
+        this.setState({input: e.target.value, previousInput: ''});
     };
 
     handleSelected = (selected) => {
@@ -60,6 +60,24 @@ export default class ActionMenu extends React.PureComponent {
         }
 
         this.props.actions.doPostAction(this.props.postId, this.props.action.id, value);
+
+        if (this.suggestionRef) {
+            requestAnimationFrame(() => this.suggestionRef.blur());
+        }
+    }
+
+    setSuggestionRef = (ref) => {
+        this.suggestionRef = ref;
+    }
+
+    onFocus = () => {
+        this.setState({input: '', previousInput: this.state.input});
+    }
+
+    onBlur = () => {
+        if (this.state.previousInput) {
+            this.setState({input: this.state.previousInput, previousInput: ''});
+        }
     }
 
     render() {
@@ -67,12 +85,15 @@ export default class ActionMenu extends React.PureComponent {
         return (
             <SuggestionBox
                 placeholder={action.name}
+                ref={this.setSuggestionRef}
                 listComponent={SuggestionList}
                 className='form-control'
-                containerClass={'post-attachment-dropdown'} // Asaad you can add classes here if needed
+                containerClass={'post-attachment-dropdown'}
                 value={this.state.input}
                 onChange={this.onChange}
                 onItemSelected={this.handleSelected}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
                 providers={this.providers}
                 requiredCharacters={0}
                 completeOnTab={true}
