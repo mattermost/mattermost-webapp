@@ -107,7 +107,7 @@ export function canRethreadPost(post) {
     const channel = getChannel(store.getState(), post.channel_id);
 
     const isOwner = isPostOwner(post);
-    const canRethread = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
+    let canRethread = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_POST});
     const canRethreadOthers = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
     if (!isOwner && !canRethreadOthers) {
         canRethread = false;

@@ -98,16 +98,6 @@ export default class PostInfo extends React.PureComponent {
          */
         isReadOnly: PropTypes.bool,
 
-        /**
-         * Function to get the post to rethread
-         */
-        handleRethreading: PropTypes.func.isRequired,
-
-        /**
-         * Function to get the post to rethread
-         */
-        handleRethreading: PropTypes.func.isRequired,
-
         actions: PropTypes.shape({
 
             /*
