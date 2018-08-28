@@ -18,6 +18,7 @@ export default class StatusDropdown extends React.Component {
         status: PropTypes.string,
         userId: PropTypes.string.isRequired,
         profilePicture: PropTypes.string,
+        autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
@@ -87,28 +88,28 @@ export default class StatusDropdown extends React.Component {
     };
 
     renderStatusOnlineAction = () => {
-        if (this.isUserOutOfOffice()) {
+        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
             return this.renderStatusAction(UserStatuses.ONLINE, () => this.showStatusChangeConfirmation('online'));
         }
         return this.renderStatusAction(UserStatuses.ONLINE, this.setOnline);
     }
 
     renderStatusAwayAction = () => {
-        if (this.isUserOutOfOffice()) {
+        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
             return this.renderStatusAction(UserStatuses.AWAY, () => this.showStatusChangeConfirmation('away'));
         }
         return this.renderStatusAction(UserStatuses.AWAY, this.setAway);
     }
 
     renderStatusOfflineAction = () => {
-        if (this.isUserOutOfOffice()) {
+        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
             return this.renderStatusAction(UserStatuses.OFFLINE, () => this.showStatusChangeConfirmation('offline'));
         }
         return this.renderStatusAction(UserStatuses.OFFLINE, this.setOffline);
     }
 
     renderStatusDndAction = () => {
-        if (this.isUserOutOfOffice()) {
+        if (this.isUserOutOfOffice() && this.props.autoResetPref === '') {
             return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'), localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
         }
         return this.renderStatusAction(UserStatuses.DND, this.setDnd, localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
