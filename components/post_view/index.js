@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {withRouter} from 'react-router-dom';
 import {makeGetPostsInChannel, getPostIdsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
@@ -13,7 +12,7 @@ import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts} from '
 import {makeGetChannelPostStatus, makeGetChannelSyncStatus} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
 
-import PostList from './post_view.jsx';
+import PostView from './post_view.jsx';
 
 function makeMapStateToProps() {
     const getPostsInChannel = makeGetPostsInChannel();
@@ -49,4 +48,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(PostList));
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostView);
