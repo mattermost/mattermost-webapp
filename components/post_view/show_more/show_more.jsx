@@ -9,7 +9,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 export default class ShowMore extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
-        checkOverflow: PropTypes.bool,
+        checkOverflow: PropTypes.number,
         isAttachmentText: PropTypes.bool,
         isRHSExpanded: PropTypes.bool.isRequired,
         isRHSOpen: PropTypes.bool.isRequired,
@@ -33,7 +33,7 @@ export default class ShowMore extends React.PureComponent {
             this.props.text !== prevProps.text ||
             this.props.isRHSExpanded !== prevProps.isRHSExpanded ||
             this.props.isRHSOpen !== prevProps.isRHSOpen ||
-            this.props.checkOverflow
+            this.props.checkOverflow !== prevProps.checkOverflow
         ) {
             this.checkTextOverflow();
         }

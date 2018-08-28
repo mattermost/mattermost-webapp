@@ -58,7 +58,7 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
           className="attachment__body"
         >
           <Connect(ShowMore)
-            checkOverflow={false}
+            checkOverflow={0}
             isAttachmentText={true}
             maxHeight={200}
             text="short text"
@@ -166,7 +166,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
           className="attachment__body"
         >
           <Connect(ShowMore)
-            checkOverflow={false}
+            checkOverflow={0}
             isAttachmentText={true}
             maxHeight={200}
             text="short text"
