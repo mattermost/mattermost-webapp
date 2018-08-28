@@ -37,6 +37,10 @@
     z-index: 101;
     display: flex;
 
+    &.no-flex {
+        display: block;
+    }
+
     .icon {
         @include opacity(.5);
         display: inline-block;
@@ -70,7 +74,7 @@
     .mention--align {
         @include clearfix;
         text-overflow: ellipsis;
-        width: calc(100% - 50px);
+        margin-right: 5px;
     }
 }
 

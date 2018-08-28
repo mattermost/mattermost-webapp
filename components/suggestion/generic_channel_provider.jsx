@@ -18,7 +18,7 @@ class ChannelSuggestion extends Suggestion {
         const channelName = item.display_name;
         const purpose = item.purpose;
 
-        let className = 'mentions__name';
+        let className = 'mentions__name no-flex';
         if (isSelection) {
             className += ' suggestion--selected';
         }
