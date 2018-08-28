@@ -28,6 +28,7 @@ export default class SamlSettings extends AdminSettings {
     getConfigFromState(config) {
         config.SamlSettings.Enable = this.state.enable;
         config.SamlSettings.EnableSyncWithLdap = this.state.enableSyncWithLdap;
+        config.SamlSettings.EnableSyncWithLdapIncludeAuth = this.state.enableSyncWithLdapIncludeAuth;
         config.SamlSettings.Verify = this.state.verify;
         config.SamlSettings.Encrypt = this.state.encrypt;
         config.SamlSettings.IdpUrl = this.state.idpUrl;
@@ -64,6 +65,7 @@ export default class SamlSettings extends AdminSettings {
             siteUrlSet: siteUrl.length > 0,
             enable: settings.Enable,
             enableSyncWithLdap: settings.EnableSyncWithLdap,
+            enableSyncWithLdapIncludeAuth: settings.EnableSyncWithLdapIncludeAuth,
             verify: settings.Verify,
             encrypt: settings.Encrypt,
             idpUrl: settings.IdpUrl,
@@ -375,6 +377,25 @@ export default class SamlSettings extends AdminSettings {
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
                     setByEnv={this.isSetByEnv('SamlSettings.EnableSyncWithLdap')}
+                />
+                <BooleanSetting
+                    id='enableSyncWithLdapIncludeAuth'
+                    label={
+                        <FormattedMessage
+                            id='admin.saml.enableSyncWithLdapIncludeAuthTitle'
+                            defaultMessage='Override SAML bind data with AD/LDAP information:'
+                        />
+                    }
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.saml.enableSyncWithLdapIncludeAuthDescription'
+                            defaultMessage='When true, Mattermost will override the SAML ID with the AD/LDAP ID if configured or override the SAML Email with the AD/LDAP Email if SAML ID is not present. <strong>WARNING: SAML IDs must match the LDAP IDs to prevent disabling of user accounts</strong>. Please see <a href="https://docs.mattermost.com/deployment/sso-saml-ldapsync.html" target="_blank">documentation</a> to learn more.'
+                        />
+                    }
+                    value={this.state.enableSyncWithLdapIncludeAuth}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enable || !this.state.enableSyncWithLdap}
+                    setByEnv={this.isSetByEnv('SamlSettings.EnableSyncWithLdapIncludeAuth')}
                 />
                 <TextSetting
                     id='idpUrl'
