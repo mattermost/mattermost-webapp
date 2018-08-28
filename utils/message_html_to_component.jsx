@@ -102,7 +102,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     }
 
     processingInstructions.push({
-        shouldProcessNode: (node) => node.type === 'text',
+        shouldProcessNode: (node) => node.type === 'text' && node.data.trim().length,
         processNode: (node) => {
             return (
                 <span>

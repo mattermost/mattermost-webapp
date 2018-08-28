@@ -3,7 +3,9 @@
 exports[`messageHtmlToComponent latex 1`] = `
 Array [
   <p>
-    This is some latex!
+    <span>
+      This is some latex!
+    </span>
   </p>,
   "
 ",
@@ -16,7 +18,9 @@ Array [
 "
   />,
   <p>
-    That was some latex!
+    <span>
+      That was some latex!
+    </span>
   </p>,
   "
 ",
@@ -26,7 +30,9 @@ Array [
 exports[`messageHtmlToComponent plain text 1`] = `
 Array [
   <p>
-    Hello, world!
+    <span>
+      Hello, world!
+    </span>
   </p>,
   "
 ",
