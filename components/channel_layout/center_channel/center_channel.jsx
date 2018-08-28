@@ -64,7 +64,7 @@ export default class CenterChannel extends React.PureComponent {
                             )}
                         />
                         <Route
-                            path={'/:team/:path(channels|messages)/:identifier/:messageId?'}
+                            path={'/:team/:path(channels|messages)/:identifier'}
                             component={ChannelIdentifierRouter}
                         />
                         <Redirect to={lastChannelPath}/>

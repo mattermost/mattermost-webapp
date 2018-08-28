@@ -17,8 +17,6 @@ import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
 import TeamStore from 'stores/team_store.jsx';
-
-import {Constants} from '../../utils/constants';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ChannelView extends React.PureComponent {

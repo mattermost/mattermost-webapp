@@ -63,21 +63,7 @@ export default class PostView extends React.PureComponent {
          */
         postIdsInCurrentChannel: PropTypes.array,
 
-        /*
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                messageId: PropTypes.string,
-            }).isRequired,
-        }).isRequired,
-
         actions: PropTypes.shape({
-
-            /*
-             * Get post for permaview
-             */
-            getPostThread: PropTypes.func.isRequired,
 
             /*
              * Get unreads posts onload
@@ -101,19 +87,10 @@ export default class PostView extends React.PureComponent {
             channelSyncCompleted: PropTypes.func.isRequired,
 
             /*
-             * Used for adding back postIds to postsInChannel from backUpPostsInChannel
-             */
-            addPostIdsFromBackUp: PropTypes.func.isRequired,
-
-            /*
              * Used to sync when channel is out of sync because of socket disconnect
              */
             syncChannelPosts: PropTypes.func.isRequired,
 
-            /*
-             * Used to take a backup of postIds and clear from postsInChannel
-             */
-            backupAndClearPostIds: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -168,9 +145,7 @@ export default class PostView extends React.PureComponent {
     }
 
     shouldLoadPosts(props) {
-        if (!props.channelPostsStatus) {
-            return true;
-        } else if ((props.match.params.messageId && !props.channelPostsStatus.atEnd) || !props.channelPostsStatus.atEnd) {
+        if (!props.channelPostsStatus || !props.channelPostsStatus.atEnd) {
             return true;
         }
 
@@ -186,12 +161,6 @@ export default class PostView extends React.PureComponent {
         });
     }
 
-    backupAndClearPostIds() {
-        if (this.props.posts.length) {
-            this.props.actions.backupAndClearPostIds(this.props.channelId, this.props.postIdsInCurrentChannel);
-        }
-    }
-
     static oldestMessageLoadedInView({postIdsInCurrentChannel, posts, channelPostsStatus}) {
         if (channelPostsStatus && channelPostsStatus.atStart) {
             if (postIdsInCurrentChannel && postIdsInCurrentChannel[postIdsInCurrentChannel.length - 1] === posts[posts.length - 1].id) {
@@ -202,23 +171,11 @@ export default class PostView extends React.PureComponent {
     }
 
     postsOnLoad = async (channelId) => {
-        try {
-            if (this.props.match.params.messageId) {
-                await this.loadPermalinkPosts(channelId);
-            } else if (!this.props.channelPostsStatus) { //eslint-disable-line no-negated-condition
-                await this.loadUnreadPosts(channelId);
-            } else {
-                this.backupAndClearPostIds();
-                await this.loadUnreadPosts(channelId);
-            }
-            this.props.actions.channelSyncCompleted(channelId);
-        } catch (e) {
-            this.props.actions.addPostIdsFromBackUp(channelId);
-        } finally {
-            this.setState({
-                isDoingInitialLoad: false,
-            });
-        }
+        await this.loadUnreadPosts(channelId);
+        this.props.actions.channelSyncCompleted(channelId);
+        this.setState({
+            isDoingInitialLoad: false,
+        });
     }
 
     setLoadingPosts = (type) => {
@@ -257,19 +214,6 @@ export default class PostView extends React.PureComponent {
         }
 
         this.setState(newState);
-    }
-
-    loadPermalinkPosts = async (channelId) => {
-        const getPostThread = this.props.actions.getPostThread(this.props.match.params.messageId, false);
-
-        const afterPosts = this.callLoadPosts(channelId, this.props.match.params.messageId, PostRequestTypes.AFTER_ID);
-        const beforePosts = this.callLoadPosts(channelId, this.props.match.params.messageId, PostRequestTypes.BEFORE_ID);
-
-        await Promise.all([
-            beforePosts,
-            afterPosts,
-            getPostThread,
-        ]);
     }
 
     loadUnreadPosts = async (channelId) => {
@@ -339,14 +283,6 @@ export default class PostView extends React.PureComponent {
             }
             return count;
         }, 0);
-    }
-
-    // used for click on new messages indicator
-    // got to latest if channel is not atEnd.
-    // else scroll to bottom
-    goToLatestPosts = () => {
-        this.backupAndClearPostIds();
-        this.loadUnreadPosts(this.props.channelId);
     }
 
     render() {
