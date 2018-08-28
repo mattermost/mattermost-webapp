@@ -7,6 +7,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import * as AdminActions from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import FileUploadSetting from './file_upload_setting.jsx';
@@ -28,6 +30,7 @@ export default class SamlSettings extends AdminSettings {
     getConfigFromState(config) {
         config.SamlSettings.Enable = this.state.enable;
         config.SamlSettings.EnableSyncWithLdap = this.state.enableSyncWithLdap;
+        config.SamlSettings.EnableSyncWithLdapIncludeAuth = this.state.enableSyncWithLdapIncludeAuth;
         config.SamlSettings.Verify = this.state.verify;
         config.SamlSettings.Encrypt = this.state.encrypt;
         config.SamlSettings.IdpUrl = this.state.idpUrl;
@@ -64,6 +67,7 @@ export default class SamlSettings extends AdminSettings {
             siteUrlSet: siteUrl.length > 0,
             enable: settings.Enable,
             enableSyncWithLdap: settings.EnableSyncWithLdap,
+            enableSyncWithLdapIncludeAuth: settings.EnableSyncWithLdapIncludeAuth,
             verify: settings.Verify,
             encrypt: settings.Encrypt,
             idpUrl: settings.IdpUrl,
@@ -375,6 +379,25 @@ export default class SamlSettings extends AdminSettings {
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
                     setByEnv={this.isSetByEnv('SamlSettings.EnableSyncWithLdap')}
+                />
+                <BooleanSetting
+                    id='enableSyncWithLdapIncludeAuth'
+                    label={
+                        <FormattedMessage
+                            id='admin.saml.enableSyncWithLdapIncludeAuthTitle'
+                            defaultMessage='Override SAML bind data with AD/LDAP information:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMarkdownMessage
+                            id='admin.saml.enableSyncWithLdapIncludeAuthDescription'
+                            defaultMessage='When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.'
+                        />
+                    }
+                    value={this.state.enableSyncWithLdapIncludeAuth}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enable || !this.state.enableSyncWithLdap}
+                    setByEnv={this.isSetByEnv('SamlSettings.EnableSyncWithLdapIncludeAuth')}
                 />
                 <TextSetting
                     id='idpUrl'
