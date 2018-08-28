@@ -67,7 +67,7 @@ export function performSearch(terms, isMentionSearch) {
         // timezone offset in seconds
         const timeZoneOffset = getBrowserUtcOffset() * 60;
 
-        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, time_zone_offset:timeZoneOffset}, true));
+        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, time_zone_offset: timeZoneOffset}, true));
     };
 }
 
