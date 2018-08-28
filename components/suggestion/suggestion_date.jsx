@@ -1,32 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Popover} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 
 import SuggestionStore from 'stores/suggestion_store.jsx';
 
 export default class SuggestionDate extends React.Component {
     static propTypes = {
         suggestionId: PropTypes.string.isRequired,
-        location: PropTypes.string,
-        renderDividers: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
-    };
-
-    static defaultProps = {
-        renderDividers: false,
     };
 
     constructor(props) {
         super(props);
 
         this.getStateFromStores = this.getStateFromStores.bind(this);
-
-        this.getContent = this.getContent.bind(this);
 
         this.handleSuggestionsChanged = this.handleSuggestionsChanged.bind(this);
 
@@ -53,16 +43,8 @@ export default class SuggestionDate extends React.Component {
         SuggestionStore.removeSuggestionsChangedListener(this.props.suggestionId, this.handleSuggestionsChanged);
     }
 
-    getContent() {
-        return $(ReactDOM.findDOMNode(this.refs.content));
-    }
-
     handleSuggestionsChanged() {
         this.setState(this.getStateFromStores());
-    }
-
-    handleOnBlur(event) {
-        event.preventDefault();
     }
 
     render() {
