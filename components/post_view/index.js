@@ -8,6 +8,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {rethreadPost} from 'actions/views/rethread_post';
 import {increasePostVisibility} from 'actions/post_actions.jsx';
@@ -21,6 +22,7 @@ function makeMapStateToProps() {
     const getPostsAroundPost = makeGetPostsAroundPost();
 
     return function mapStateToProps(state, ownProps) {
+        const rethreadingEnabled = getConfig(state).ExperimentalRethreading === 'true';
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
 
         let posts;
@@ -31,6 +33,7 @@ function makeMapStateToProps() {
         }
 
         return {
+            rethreadingEnabled,
             channel: getChannel(state, ownProps.channelId) || {},
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,

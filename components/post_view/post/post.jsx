@@ -110,6 +110,11 @@ export default class Post extends React.PureComponent {
          * function to set the highlight to threads.
          */
         setRethreadHighlight: PropTypes.func.isRequired,
+
+        /**
+         * set to enable rethreading.
+         */
+        rethreadingEnabled: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -119,17 +124,20 @@ export default class Post extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.canRethread = (PostUtils.canRethreadPost(this.props.post) && (this.props.replyCount === 0 || this.props.post.root_id !== ''));
-
         this.state = {
+            canRethread: this.canRethreadPost(props),
             dropdownOpened: false,
             hover: false,
             sameRoot: this.hasSameRoot(props),
         };
     }
 
+    canRethreadPost(Props) {
+        return (Props.rethreadingEnabled && PostUtils.canRethreadPost(Props.post) && (Props.replyCount === 0 || Props.post.root_id !== ''));
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState({sameRoot: this.hasSameRoot(nextProps)});
+        this.setState({sameRoot: this.hasSameRoot(nextProps), canRethread: this.canRethreadPost(nextProps)});
     }
 
     handleCommentClick = (e) => {
@@ -153,22 +161,26 @@ export default class Post extends React.PureComponent {
         });
     }
     onDragStart = () => {
-        if (this.canRethread) {
+        if (this.state.canRethread) {
             this.props.handleRethreading(this.props.post);
         }
     }
 
     onDragOver = (ev) => {
-        ev.preventDefault();
-        this.props.setRethreadHighlight(this.props.post);
+        if (this.props.rethreadingEnabled) {
+            ev.preventDefault();
+            this.props.setRethreadHighlight(this.props.post);
+        }
     }
     onDragLeave = () => {
         this.props.setRethreadHighlight(null);
     }
 
     onDrop = () => {
-        this.props.setRethreadHighlight(null);
-        this.props.triggerRethreading(this.props.post);
+        if (this.props.rethreadingEnabled) {
+            this.props.setRethreadHighlight(null);
+            this.props.triggerRethreading(this.props.post);
+        }
     }
 
     hasSameRoot = (props) => {
@@ -196,7 +208,7 @@ export default class Post extends React.PureComponent {
             className += ' post--highlight';
         }
 
-        if (this.props.rethreadHighlight) {
+        if (this.props.rethreadHighlight && this.props.rethreadingEnabled) {
             className += ' post-rethreadHighlight';
         }
 
@@ -304,7 +316,7 @@ export default class Post extends React.PureComponent {
 
         return (
             <div
-                draggable={this.canRethread}
+                draggable={this.state.canRethread}
                 ref={this.getRef}
                 id={'post_' + post.id}
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}

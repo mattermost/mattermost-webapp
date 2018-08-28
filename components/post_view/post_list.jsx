@@ -273,16 +273,18 @@ export default class PostList extends React.PureComponent {
     }
 
     setRethreadHighlight = (target) => {
-        const highlight = this.state.rethreadHighlight;
-        clearTimeout(this.timer);
-        if (target) {
-            if (!highlight || highlight !== target.id) {
-                this.setState({rethreadHighlight: target});
+        if (this.props.rethreadingEnabled) {
+            const highlight = this.state.rethreadHighlight;
+            clearTimeout(this.timer);
+            if (target) {
+                if (!highlight || highlight !== target.id) {
+                    this.setState({rethreadHighlight: target});
+                }
+            } else {
+                this.timer = setTimeout(() => {
+                    this.setState({rethreadHighlight: null});
+                }, 250);
             }
-        } else {
-            this.timer = setTimeout(() => {
-                this.setState({rethreadHighlight: null});
-            }, 250);
         }
     }
 
@@ -366,17 +368,19 @@ export default class PostList extends React.PureComponent {
         //post: a post in the thread which will be receiving the post to be rethreaded
         //target: the post which will be rethreaded
         const target = this.rethreadTarget;
-        if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
-            if (post.type === '') {
-                const rootId = (post.root_id) ? post.root_id : post.id;
-                const updatedPost = {
-                    data: target,
-                    channel_id: target.channel_id,
-                    id: target.id,
-                    root_id: rootId,
-                };
-                this.rethreadHighlight = null;
-                await this.props.actions.rethreadPost(updatedPost);
+        if (this.props.rethreadingEnabled) {
+            if ((target && post && post.id !== target.id) && (target.root_id === '' || (target.root_id !== post.id && post.root_id !== target.root_id))) {
+                if (post.type === '') {
+                    const rootId = (post.root_id) ? post.root_id : post.id;
+                    const updatedPost = {
+                        data: target,
+                        channel_id: target.channel_id,
+                        id: target.id,
+                        root_id: rootId,
+                    };
+                    this.rethreadHighlight = null;
+                    await this.props.actions.rethreadPost(updatedPost);
+                }
             }
         }
         this.rethreadTarget = null;
@@ -568,7 +572,7 @@ export default class PostList extends React.PureComponent {
             let rethreadHighlight = false;
             const rethreadTarget = this.rethreadTarget;
             const postHighlight = this.state.rethreadHighlight;
-            if (rethreadTarget && post && postHighlight) {
+            if (this.props.rethreadingEnabled && rethreadTarget && post && postHighlight) {
                 if (postHighlight.id === post.root_id || (postHighlight.root_id === post.root_id && post.root_id.length) || postHighlight.root_id === post.id || post.id === postHighlight.id) {
                     rethreadHighlight = true;
                 }
@@ -585,6 +589,7 @@ export default class PostList extends React.PureComponent {
                     rethreadHighlight={rethreadHighlight}
                     setRethreadHighlight={this.setRethreadHighlight}
                     triggerRethreading={this.triggerRethreading}
+                    rethreadingEnabled={this.props.rethreadingEnabled}
                 />
             );
 
