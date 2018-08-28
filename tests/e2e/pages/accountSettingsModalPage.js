@@ -92,6 +92,28 @@ const displaySettings = {
     },
 };
 
+const notificationSettings = {
+    selector: '#notificationSettings',
+    elements: {
+        notificationSettingsTitle: {selector: '#notificationSettingsTitle'},
+        desktopTitle: {selector: '#desktopTitle'},
+        desktopEdit: {selector: '#desktopEdit'},
+        desktopDesc: {selector: '#desktopDesc'},
+        emailTitle: {selector: '#emailTitle'},
+        emailEdit: {selector: '#emailEdit'},
+        emailDesc: {selector: '#emailDesc'},
+        pushTitle: {selector: '#pushTitle'},
+        pushEdit: {selector: '#pushEdit'},
+        pushDesc: {selector: '#pushDesc'},
+        keysTitle: {selector: '#keysTitle'},
+        keysEdit: {selector: '#keysEdit'},
+        keysDesc: {selector: '#keysDesc'},
+        commentsTitle: {selector: '#commentsTitle'},
+        commentsEdit: {selector: '#commentsEdit'},
+        commentsDesc: {selector: '#commentsDesc'},
+    },
+};
+
 module.exports = {
     url: `${Constants.TEST_BASE_URL}`,
     commands: [acountSettingsModalPageCommands],
@@ -102,6 +124,7 @@ module.exports = {
                 tabList,
                 generalSettings,
                 displaySettings,
+                notificationSettings,
             },
             elements: {
                 header,
