@@ -77,7 +77,7 @@ export default class PluginRegistry {
     // Register a component fixed to the bottom of the post message.
     // Accepts a React component. Returns a unique identifier.
     registerPostMessageComponent(component) {
-        return dispatchPluginComponentAction('PostMessage', this.id, component);
+        return dispatchPluginComponentAction('PostMessageAttachment', this.id, component);
     }
 
     // Add a button to the channel header. If there are more than one buttons registered by any
@@ -160,6 +160,7 @@ export default class PluginRegistry {
     // Accepts the following:
     // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
+    // - filter - A function whether to apply the plugin into the post' dropdown menu
     // Returns a unique identifier.
     registerPostDropdownMenuAction(text, action, filter) {
         const id = generateId();
