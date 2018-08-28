@@ -9,14 +9,11 @@ import PostView from 'components/post_view/post_view';
 function emptyFunction() {} //eslint-disable-line no-empty-function
 
 const actionsProp = {
-    getPostThread: emptyFunction,
     loadUnreads: emptyFunction,
     loadPosts: emptyFunction,
     changeChannelPostsStatus: emptyFunction,
     syncChannelPosts: emptyFunction,
     channelSyncCompleted: emptyFunction,
-    addPostIdsFromBackUp: emptyFunction,
-    backupAndClearPostIds: emptyFunction,
 };
 
 let channelPostsStatus;
@@ -204,53 +201,6 @@ describe('components/post_view/post_list', () => {
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: false});
         expect(wrapper).toMatchSnapshot();
-    });
-
-    it('Should call permalink posts', async () => {
-        const emptyPostList = [];
-        const msgParams = {
-            params: {
-                messageId: 'new',
-            },
-        };
-        const channelPostsStatusObj = {atEnd: false, atStart: false};
-        const changeChannelPostsStatus = jest.fn();
-
-        const getPostThread = async () => {
-            return {
-                data: {posts: createFakePosts(1), order: []},
-            };
-        };
-
-        const loadPosts = async () => {
-            return false;
-        };
-
-        const wrapper = shallow(
-            <PostView
-                actions={{
-                    ...actionsProp,
-                    getPostThread,
-                    loadPosts,
-                    changeChannelPostsStatus,
-                }}
-                lastViewedAt={lastViewedAt}
-                channelId={channelId}
-                match={msgParams}
-                posts={emptyPostList}
-                channelPostsStatus={channelPostsStatusObj}
-                channelSyncStatus={true}
-            />
-        );
-
-        await getPostThread();
-        await loadPosts();
-        await loadPosts();
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
-        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: true});
-        await wrapper.instance().loadPermalinkPosts();
-        wrapper.update();
-        expect(wrapper.state().isDoingInitialLoad).toEqual(false);
     });
 
     it('should call sync posts if syncStatus is false or on socket recoonect', async () => {

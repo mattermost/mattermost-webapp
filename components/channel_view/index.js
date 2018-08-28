@@ -51,7 +51,7 @@ function makeMapStateToProps() {
         } else {
             channelLoading = true;
         }
-        
+
         if (channel && (channel.team_id && channel.team_id !== team.id)) {
             channelLoading = true;
         }

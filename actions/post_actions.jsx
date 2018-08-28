@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {batchActions} from 'redux-batched-actions';
 import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
@@ -60,11 +59,9 @@ function completePostReceive(post, websocketMessageProps) {
 }
 
 function dispatchPostActions(post, websocketMessageProps) {
-    const state = getState();
-    const {currentChannelId} = state.entities.channels;
-    const channelPostsStatus = state.views.channel.channelPostsStatus;
+    const {currentChannelId} = getState().entities.channels;
 
-    if (post.channel_id === currentChannelId && channelPostsStatus[currentChannelId] && channelPostsStatus[currentChannelId].atEnd) {
+    if (post.channel_id === currentChannelId) {
         dispatch({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: post.channel_id,
@@ -353,12 +350,5 @@ export function deleteAndRemovePost(post) {
         });
 
         return {data: true};
-    };
-}
-
-export function addPostIdsFromBackUp(channelId) {
-    return async (doDispatch, doGetState) => {
-        const postIds = doGetState().entities.posts.postsInChannelBackup[channelId];
-        doDispatch(PostActions.restoreBackedUpPostIds(channelId, postIds));
     };
 }

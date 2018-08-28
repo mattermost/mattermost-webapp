@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getPostsSince, getPostsBefore, clearPostsFromChannel, backUpPostsInChannel} from 'mattermost-redux/actions/posts';
+import {getPostsSince, getPostsBefore} from 'mattermost-redux/actions/posts';
 
 import {isMobile} from 'utils/utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
@@ -52,12 +52,5 @@ export function syncChannelPosts({channelId, channelPostsStatus, lastDisconnectA
             } while (data && !data.posts[oldestPostId]);
         }
         dispatch(channelSyncCompleted(channelId));
-    };
-}
-
-export function backupAndClearPostIds(channelId, postIdsInCurrentChannel) {
-    return (dispatch) => {
-        dispatch(backUpPostsInChannel(channelId, postIdsInCurrentChannel));
-        dispatch(clearPostsFromChannel(channelId));
     };
 }

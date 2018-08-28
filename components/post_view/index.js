@@ -4,13 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
-import {getPostThread} from 'mattermost-redux/actions/posts';
 import {makeGetPostsInChannel, getPostIdsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
-import {loadPosts, loadUnreads, addPostIdsFromBackUp} from 'actions/post_actions';
-import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts, backupAndClearPostIds} from 'actions/views/channel';
+import {loadPosts, loadUnreads} from 'actions/post_actions';
+import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts} from 'actions/views/channel';
 import {makeGetChannelPostStatus, makeGetChannelSyncStatus} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
 
@@ -41,14 +40,11 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPostThread,
             loadUnreads,
             loadPosts,
             changeChannelPostsStatus,
-            addPostIdsFromBackUp,
             channelSyncCompleted,
             syncChannelPosts,
-            backupAndClearPostIds,
         }, dispatch),
     };
 }
