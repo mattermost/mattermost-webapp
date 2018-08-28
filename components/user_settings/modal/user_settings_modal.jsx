@@ -13,9 +13,8 @@ import UserStore from 'stores/user_store.jsx';
 import Constants, {GroupUnreadChannels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from '../../confirm_modal.jsx';
-import {AsyncComponent} from 'components/async_load';
-import loadUserSettings from 'bundle-loader?lazy!../user_settings.jsx';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+import UserSettings from '../user_settings.jsx';
+import SettingsSidebar from '../../settings_sidebar.jsx';
 
 const holders = defineMessages({
     general: {
@@ -272,16 +271,14 @@ class UserSettingsModal extends React.Component {
                 <Modal.Body ref='modalBody'>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
+                            <SettingsSidebar
                                 tabs={tabs}
                                 activeTab={this.state.active_tab}
                                 updateTab={this.updateTab}
                             />
                         </div>
                         <div className='settings-content minimize-settings'>
-                            <AsyncComponent
-                                doLoad={loadUserSettings}
+                            <UserSettings
                                 ref='userSettings'
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}
