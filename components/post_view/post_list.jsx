@@ -73,6 +73,11 @@ export default class PostList extends React.PureComponent {
          */
         fullWidth: PropTypes.bool,
 
+        /**
+         * Whether rethreading is enabled
+         */
+        rethreadingEnabled: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /**
@@ -109,6 +114,7 @@ export default class PostList extends React.PureComponent {
              *Function to rethread stuff
              */
             rethreadPost: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
