@@ -11,7 +11,14 @@
 .post-attachment-dropdown {
     position: relative;
 
+    &:hover {
+        &:after {
+            opacity: .6;
+        }
+    }
+
     &:after {
+        @include single-transition(opacity, .15s, ease);
         content: '\F107';
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
