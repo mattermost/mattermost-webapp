@@ -63,7 +63,14 @@ export default class PostView extends React.PureComponent {
          */
         postIdsInCurrentChannel: PropTypes.array,
 
+        focusedPostId: PropTypes.string,
+
         actions: PropTypes.shape({
+
+            /*
+             * Get post for permaview
+             */
+            getPostThread: PropTypes.func.isRequired,
 
             /*
              * Get unreads posts onload
@@ -145,7 +152,7 @@ export default class PostView extends React.PureComponent {
     }
 
     shouldLoadPosts(props) {
-        if (!props.channelPostsStatus || !props.channelPostsStatus.atEnd) {
+        if (!props.channelPostsStatus || !props.channelPostsStatus.atEnd || props.focusedPostId) {
             return true;
         }
 
@@ -171,8 +178,13 @@ export default class PostView extends React.PureComponent {
     }
 
     postsOnLoad = async (channelId) => {
-        await this.loadUnreadPosts(channelId);
-        this.props.actions.channelSyncCompleted(channelId);
+        if (this.props.focusedPostId) {
+            await this.loadPermalinkPosts(channelId);
+        } else {
+            await this.loadUnreadPosts(channelId);
+            this.props.actions.channelSyncCompleted(channelId);
+        }
+
         this.setState({
             isDoingInitialLoad: false,
         });
@@ -214,6 +226,17 @@ export default class PostView extends React.PureComponent {
         }
 
         this.setState(newState);
+    }
+
+    loadPermalinkPosts = async (channelId) => {
+        const getPostThread = this.props.actions.getPostThread(this.props.focusedPostId, false);
+        const afterPosts = this.callLoadPosts(channelId, this.props.focusedPostId, PostRequestTypes.AFTER_ID);
+        const beforePosts = this.callLoadPosts(channelId, this.props.focusedPostId, PostRequestTypes.BEFORE_ID);
+        await Promise.all([
+            beforePosts,
+            afterPosts,
+            getPostThread,
+        ]);
     }
 
     loadUnreadPosts = async (channelId) => {

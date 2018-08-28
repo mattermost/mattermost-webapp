@@ -3,9 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {makeGetPostsInChannel, getPostIdsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetPostsInChannel, getPostIdsInCurrentChannel, makeGetPostsAroundPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getPostThread} from 'mattermost-redux/actions/posts';
 
 import {loadPosts, loadUnreads} from 'actions/post_actions';
 import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts} from 'actions/views/channel';
@@ -18,9 +19,17 @@ function makeMapStateToProps() {
     const getPostsInChannel = makeGetPostsInChannel();
     const getChannelPostStatus = makeGetChannelPostStatus();
     const getChannelSyncStatus = makeGetChannelSyncStatus();
+    const getPostsAroundPost = makeGetPostsAroundPost();
     return function mapStateToProps(state, ownProps) {
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
-        const posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
+
+        let posts;
+        if (ownProps.focusedPostId) {
+            posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
+        } else {
+            posts = getPostsInChannel(state, ownProps.channelId, postVisibility);
+        }
+
         const member = getMyChannelMemberships(state)[ownProps.channelId];
         return {
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
@@ -39,6 +48,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            getPostThread,
             loadUnreads,
             loadPosts,
             changeChannelPostsStatus,

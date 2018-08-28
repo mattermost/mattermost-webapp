@@ -9,6 +9,7 @@ import PostView from 'components/post_view/post_view';
 function emptyFunction() {} //eslint-disable-line no-empty-function
 
 const actionsProp = {
+    getPostThread: emptyFunction,
     loadUnreads: emptyFunction,
     loadPosts: emptyFunction,
     changeChannelPostsStatus: emptyFunction,
@@ -19,10 +20,6 @@ const actionsProp = {
 let channelPostsStatus;
 const lastViewedAt = 1532345226632;
 const channelId = 'fake-id';
-
-const match = {
-    params: {},
-};
 
 const createFakePosts = (num) => {
     const posts = [];
@@ -45,7 +42,6 @@ describe('components/post_view/post_list', () => {
                 actions={actionsProp}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
-                match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatus}
             />
@@ -75,7 +71,6 @@ describe('components/post_view/post_list', () => {
                 }}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
-                match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatusObj}
                 channelSyncStatus={true}
@@ -111,7 +106,6 @@ describe('components/post_view/post_list', () => {
                 }}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
-                match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatus}
             />
@@ -142,7 +136,6 @@ describe('components/post_view/post_list', () => {
                 }}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
-                match={match}
                 posts={createFakePosts(2)}
             />
         );
@@ -188,7 +181,6 @@ describe('components/post_view/post_list', () => {
                 }}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
-                match={match}
                 posts={emptyPostList}
                 channelPostsStatus={channelPostsStatus}
             />
@@ -225,7 +217,6 @@ describe('components/post_view/post_list', () => {
                 }}
                 lastViewedAt={lastViewedAt}
                 channelId={channelId}
-                match={match}
                 posts={createFakePosts(3)}
                 channelPostsStatus={channelPostsStatusObj}
                 channelSyncStatus={channelSyncStatus}
@@ -233,5 +224,45 @@ describe('components/post_view/post_list', () => {
             />
         );
         expect(syncChannelPosts).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should call permalink posts', async () => {
+        const emptyPostList = [];
+        const focusedPostId = 'new';
+
+        const channelPostsStatusObj = {atEnd: false, atStart: false};
+        const changeChannelPostsStatus = jest.fn();
+        const getPostThread = async () => {
+            return {
+                data: {posts: createFakePosts(1), order: []},
+            };
+        };
+        const loadPosts = async () => {
+            return false;
+        };
+        const wrapper = shallow(
+            <PostView
+                actions={{
+                    ...actionsProp,
+                    getPostThread,
+                    loadPosts,
+                    changeChannelPostsStatus,
+                }}
+                lastViewedAt={lastViewedAt}
+                channelId={channelId}
+                focusedPostId={focusedPostId}
+                posts={emptyPostList}
+                channelPostsStatus={channelPostsStatusObj}
+                channelSyncStatus={true}
+            />
+        );
+        await getPostThread();
+        await loadPosts();
+        await loadPosts();
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
+        expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: true});
+        await wrapper.instance().loadPermalinkPosts();
+        wrapper.update();
+        expect(wrapper.state().isDoingInitialLoad).toEqual(false);
     });
 });
