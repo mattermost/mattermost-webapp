@@ -157,7 +157,7 @@ export default class SearchBar extends React.Component {
             >
                 <FormattedHTMLMessage
                     id='search_bar.usage'
-                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li><li><span>Use </span><b>on:</b><span> to find posts on a specific date </li><li><span>Use </span><b>after:</b><span> and </span><b>before:</b><span> to find posts after or before a date or combine them to search a date range, using date format <i>yyyy-mm-dd</i></span></li></ul>'
+                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li><li><span>Use </span><b>on:</b><span> to find posts on a specific date </li><li><span>Use </span><b>before:</b><span> to find posts before a specific date</span></li><li><span>Use </span><b>after:</b><span> to find posts after a specific date</span></li></ul>'
                 />
             </Popover>
         );
