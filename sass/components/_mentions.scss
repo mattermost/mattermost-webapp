@@ -41,6 +41,10 @@
         display: block;
     }
 
+    .admin-setting-user--align {
+        margin-right: 5px;
+    }
+
     .icon {
         @include opacity(.5);
         display: inline-block;
