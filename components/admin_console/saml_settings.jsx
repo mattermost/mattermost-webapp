@@ -36,6 +36,7 @@ export default class SamlSettings extends AdminSettings {
         config.SamlSettings.IdpCertificateFile = this.state.idpCertificateFile;
         config.SamlSettings.PublicCertificateFile = this.state.publicCertificateFile;
         config.SamlSettings.PrivateKeyFile = this.state.privateKeyFile;
+        config.SamlSettings.IdAttribute = this.state.idAttribute;
         config.SamlSettings.FirstNameAttribute = this.state.firstNameAttribute;
         config.SamlSettings.LastNameAttribute = this.state.lastNameAttribute;
         config.SamlSettings.EmailAttribute = this.state.emailAttribute;
@@ -72,6 +73,7 @@ export default class SamlSettings extends AdminSettings {
             publicCertificateFile: settings.PublicCertificateFile,
             privateKeyFile: settings.PrivateKeyFile,
             firstNameAttribute: settings.FirstNameAttribute,
+            idAttribute: settings.IdAttribute,
             lastNameAttribute: settings.LastNameAttribute,
             emailAttribute: settings.EmailAttribute,
             usernameAttribute: settings.UsernameAttribute,
@@ -509,6 +511,26 @@ export default class SamlSettings extends AdminSettings {
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
                     setByEnv={this.isSetByEnv('SamlSettings.UsernameAttribute')}
+                />
+                <TextSetting
+                    id='idAttribute'
+                    label={
+                        <FormattedMessage
+                            id='admin.saml.idAttrTitle'
+                            defaultMessage='Id Attribute:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.saml.idAttrEx', 'E.g.: "Id"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.saml.idAttrDesc'
+                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.'
+                        />
+                    }
+                    value={this.state.idAttribute}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enable}
+                    setByEnv={this.isSetByEnv('SamlSettings.IdAttribute')}
                 />
                 <TextSetting
                     id='firstNameAttribute'
