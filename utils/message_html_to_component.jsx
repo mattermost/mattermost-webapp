@@ -102,6 +102,15 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     }
 
     processingInstructions.push({
+        shouldProcessNode: (node) => node.type === 'text',
+        processNode: (node) => {
+            return (
+                <span>
+                    {node.data}
+                </span>
+            );
+        },
+    }, {
         shouldProcessNode: () => true,
         processNode: processNodeDefinitions.processDefaultNode,
     });
