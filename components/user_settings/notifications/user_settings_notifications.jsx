@@ -890,7 +890,7 @@ export default class NotificationsTab extends React.Component {
         const enableEmail = this.state.enableEmail === 'true';
 
         return (
-            <div>
+            <div id='notificationSettings'>
                 <div className='modal-header'>
                     <button
                         id='closeButton'
@@ -922,7 +922,10 @@ export default class NotificationsTab extends React.Component {
                     ref='wrapper'
                     className='user-settings'
                 >
-                    <h3 className='tab-header'>
+                    <h3
+                        id='notificationSettingsTitle'
+                        className='tab-header'
+                    >
                         <FormattedMessage
                             id='user.settings.notifications.header'
                             defaultMessage='Notifications'

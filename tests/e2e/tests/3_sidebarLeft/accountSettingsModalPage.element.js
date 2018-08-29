@@ -4,7 +4,7 @@
 import {Constants} from '../../utils';
 
 module.exports = {
-    '@tags': ['account_settings', 'account_settings_general', 'account_settings_display'],
+    '@tags': ['account_settings', 'account_settings_general', 'account_settings_display', 'account_settings_notification'],
     before: (client) => {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
@@ -108,6 +108,54 @@ module.exports = {
             assert.visible('@pictureEdit').
             assert.visible('@pictureDesc').
             assert.containsText('@pictureDesc', "Click 'Edit' to upload an image.");
+
+        sidebarLeftPage.click('@sidebarHeaderDropdownButton');
+    },
+    'Account Settings Modal page, Notification section - element check': (client) => {
+        const sidebarLeftPage = client.page.sidebarLeftPage();
+        sidebarLeftPage.navigateToAccountSettingsModal();
+
+        const accountSettingsModalPage = client.page.accountSettingsModalPage();
+        accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
+
+        const accountSettingsModalSection = accountSettingsModalPage.section.accountSettingsModal;
+        accountSettingsModalSection.click('@notificationsButton');
+        accountSettingsModalSection.expect.section('@notificationSettings').to.be.visible;
+
+        const notificationSettingsSection = accountSettingsModalSection.section.notificationSettings;
+        notificationSettingsSection.
+            assert.visible('@notificationSettingsTitle').
+            assert.containsText('@notificationSettingsTitle', 'Notifications').
+            assert.visible('@desktopTitle').
+            assert.containsText('@desktopTitle', 'Desktop notifications').
+            assert.visible('@desktopEdit').
+            assert.visible('@desktopDesc').
+            assert.visible('@emailTitle').
+            assert.containsText('@emailTitle', 'Email notifications').
+            assert.visible('@emailEdit').
+            assert.visible('@emailDesc').
+            assert.containsText('@emailDesc', 'Immediately').
+            assert.visible('@pushTitle').
+            assert.containsText('@pushTitle', 'Mobile push notifications').
+            assert.visible('@pushEdit').
+            assert.visible('@pushDesc').
+            assert.containsText('@pushDesc', 'For mentions and direct messages when away or offline').
+            assert.visible('@keysTitle').
+            assert.containsText('@keysTitle', 'Words that trigger mentions').
+            assert.visible('@keysEdit').
+            assert.visible('@keysDesc').
+            assert.containsText('@keysDesc', '"@test", "test", "@channel", "@all", "@here"').
+            assert.visible('@commentsTitle').
+            assert.containsText('@commentsTitle', 'Reply notifications').
+            assert.visible('@commentsEdit').
+            assert.visible('@commentsDesc').
+            assert.containsText('@commentsDesc', 'Do not trigger notifications on messages in reply threads unless I\'m mentioned');
+
+        if (client.capabilities.browserName === 'chrome') {
+            notificationSettingsSection.assert.containsText('@desktopDesc', 'For mentions and direct messages, with sound, shown for 5 seconds');
+        } else {
+            notificationSettingsSection.assert.containsText('@desktopDesc', 'For mentions and direct messages, shown for 5 seconds');
+        }
 
         sidebarLeftPage.click('@sidebarHeaderDropdownButton');
     },
