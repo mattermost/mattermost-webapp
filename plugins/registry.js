@@ -76,7 +76,7 @@ export default class PluginRegistry {
 
     // Register a component fixed to the bottom of the post message.
     // Accepts a React component. Returns a unique identifier.
-    registerPostMessageComponent(component) {
+    registerPostMessageComponentAttachment(component) {
         return dispatchPluginComponentAction('PostMessageAttachment', this.id, component);
     }
 
