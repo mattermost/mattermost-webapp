@@ -258,8 +258,16 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     render() {
+        if (!this.props.post || isSystemMessage(this.props.post)) {
+            return null;
+        }
+
+        if (this.state.removePreview) {
+            return null;
+        }
+
         const data = this.props.openGraphData;
-        if (!data || !data.url || this.state.removePreview || isSystemMessage(this.props.post || {})) {
+        if (!data) {
             return null;
         }
 
