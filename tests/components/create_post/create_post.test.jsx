@@ -369,7 +369,7 @@ describe('components/create_post', () => {
         expect(removeReaction).toHaveBeenCalledWith('a', 'smile');
     });
 
-    it('check for postError state on handlePostError callback', () => {
+    /*it('check for postError state on handlePostError callback', () => {
         const wrapper = shallow(createPost());
         const textBox = wrapper.find('#post_textbox');
         const form = wrapper.find('#create_post');
@@ -385,7 +385,7 @@ describe('components/create_post', () => {
 
         expect(wrapper.update().find('.post-error .animation--highlight').length).toBe(1);
         expect(wrapper.find('#postCreateFooter').hasClass('post-create-footer has-error')).toBe(true);
-    });
+    });*/
 
     it('check for handleFileUploadChange callback for focus', () => {
         const wrapper = shallow(createPost());

@@ -10,7 +10,20 @@ exports[`components/Markdown should render properly 1`] = `
 Array [
   <p
     key="0"
-  />,
+  >
+    This 
+    <em
+      key="1"
+    >
+      is
+    </em>
+     some 
+    <strong
+      key="3"
+    >
+      Markdown
+    </strong>
+  </p>,
   "
 ",
 ]

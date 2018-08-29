@@ -89,7 +89,7 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "token": "token",
     }
   }
-  serverError=""
+  serverError="error message"
   team={
     Object {
       "id": "testteamid",
