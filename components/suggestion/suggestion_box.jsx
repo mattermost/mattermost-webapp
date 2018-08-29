@@ -476,8 +476,6 @@ export default class SuggestionBox extends React.Component {
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'date' &&
                     <SuggestionDateComponent
                         suggestionId={this.suggestionId}
-                        location={listStyle}
-                        renderDividers={renderDividers}
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }
