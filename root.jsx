@@ -31,6 +31,9 @@ PDFJS.disableWorker = true;
 // This runs before we start to render anything.
 function preRenderSetup(callwhendone) {
     window.onerror = (msg, url, line, column, stack) => {
+        if (msg === 'ResizeObserver loop limit exceeded') {
+            return;
+        }
         var l = {};
         l.level = 'ERROR';
         l.message = 'msg: ' + msg + ' row: ' + line + ' col: ' + column + ' stack: ' + stack + ' url: ' + url;
