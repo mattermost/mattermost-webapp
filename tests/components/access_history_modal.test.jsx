@@ -16,6 +16,8 @@ describe('components/AccessHistoryModal', () => {
         actions: {
             getUserAudits: jest.fn(),
         },
+        userAudits: [],
+        currentUserId: '',
     };
 
     test('should match snapshot when no audits exist', () => {
@@ -32,7 +34,7 @@ describe('components/AccessHistoryModal', () => {
             <AccessHistoryModal {...baseProps}/>
         );
 
-        wrapper.setState({audits: ['audit1', 'audit2']});
+        wrapper.setProps({userAudits: ['audit1', 'audit2']});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(false);
         expect(wrapper.find(AuditTable).exists()).toBe(true);
@@ -59,16 +61,5 @@ describe('components/AccessHistoryModal', () => {
         wrapper.setState({show: true});
         wrapper.instance().onHide();
         expect(wrapper.state('show')).toEqual(false);
-    });
-
-    test('should match state when onAuditChange is called', () => {
-        const wrapper = shallow(
-            <AccessHistoryModal {...baseProps}/>
-        );
-
-        const newState = {show: true, audits: ['audit1', 'audit2'], moreInfo: 'moreInfo'};
-        wrapper.setState(newState);
-        wrapper.instance().onAuditChange();
-        expect(wrapper.state()).toEqual({...newState, audits: []});
     });
 });

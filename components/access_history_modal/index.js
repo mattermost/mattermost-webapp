@@ -4,8 +4,16 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getUserAudits} from 'mattermost-redux/actions/users';
+import {getCurrentUserId, getUserAudits as getCurrentUserAudits} from 'mattermost-redux/selectors/entities/users';
 
 import AccessHistoryModal from './access_history_modal.jsx';
+
+function mapStateToProps(state) {
+    return {
+        currentUserId: getCurrentUserId(state),
+        userAudits: getCurrentUserAudits(state) || [],
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -15,4 +23,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(AccessHistoryModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AccessHistoryModal);
