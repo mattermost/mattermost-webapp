@@ -145,10 +145,12 @@ describe('components/NewChannelFlow', () => {
             <NewChannelFlow {...baseProps}/>
         );
 
-        wrapper.instance().doOnModalExited = jest.fn();
-        wrapper.instance().onModalExited();
-        expect(typeof wrapper.instance().doOnModalExited).not.toEqual('undefined');
-        expect(wrapper.instance().doOnModalExited).toHaveBeenCalledTimes(1);
+        const instance = wrapper.instance();
+        const doOnModalExited = jest.fn();
+        instance.doOnModalExited = doOnModalExited;
+        instance.onModalExited();
+        expect(instance.doOnModalExited).toEqual(null);
+        expect(doOnModalExited).toHaveBeenCalledTimes(1);
     });
 
     test('call onModalDismissed after successfully creating channel', () => {
