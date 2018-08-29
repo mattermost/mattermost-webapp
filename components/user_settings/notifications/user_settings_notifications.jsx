@@ -126,7 +126,6 @@ export default class NotificationsTab extends React.Component {
 
     handleSubmit = (enableEmail = this.state.enableEmail) => {
         const data = {};
-        data.user_id = this.props.user.id;
         data.email = enableEmail;
         data.desktop_sound = this.state.desktopSound;
         data.desktop = this.state.desktopActivity;
