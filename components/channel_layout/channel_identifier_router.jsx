@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {joinChannel, getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
+import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 
 import ChannelView from 'components/channel_view/index';
@@ -205,6 +205,8 @@ async function goToGroupChannelByGroupId(match, history) {
         }
         channel = data.channel;
     }
+
+    dispatch(markGroupChannelOpen(channel.id));
 
     doChannelChange(channel);
 }
