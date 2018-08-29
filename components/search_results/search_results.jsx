@@ -364,7 +364,7 @@ export default class SearchResults extends React.PureComponent {
                         matches={this.props.matches[post.id]}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         user={profile}
-                        term={searchTerms}
+                        term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
                         isFlagged={isFlagged}
                         isBusy={this.state.isBusy}
