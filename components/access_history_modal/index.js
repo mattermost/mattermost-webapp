@@ -8,11 +8,10 @@ import {getCurrentUserId, getUserAudits as getCurrentUserAudits} from 'mattermos
 
 import AccessHistoryModal from './access_history_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentUserId: getCurrentUserId(state),
-        userAudits: getCurrentUserAudits(state),
+        userAudits: getCurrentUserAudits(state) || [],
     };
 }
 
