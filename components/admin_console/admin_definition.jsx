@@ -1855,7 +1855,7 @@ export default {
                             label: 'rethreading',
                             label_default: 'Enable Rethreading (Experimental) : ',
                             help_text: 'rethreading',
-                            help_text_default: 'When true, rethreading is enabled. Rethreading is an experimental feature which enables moving posts to and from threads.',
+                            help_text_default: 'When true, rethreading is enabled.',
                             help_text_markdown: true,
                         },
                     ],
