@@ -4,7 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
-import {searchPosts} from 'mattermost-redux/actions/search';
+import {searchPostsWithParams} from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -16,6 +16,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {getSearchTerms, getRhsState} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
+import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 
 export function updateRhsState(rhsState) {
     return (dispatch, getState) => {
@@ -63,7 +64,10 @@ export function performSearch(terms, isMentionSearch) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
 
-        return dispatch(searchPosts(teamId, terms, isMentionSearch, true));
+        // timezone offset in seconds
+        const timeZoneOffset = getBrowserUtcOffset() * 60;
+
+        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, time_zone_offset: timeZoneOffset}, true));
     };
 }
 

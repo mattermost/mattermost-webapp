@@ -23,6 +23,11 @@ export default class SuggestionBox extends React.Component {
         listComponent: PropTypes.func.isRequired,
 
         /**
+         * The date component to render
+         */
+        dateComponent: PropTypes.func,
+
+        /**
          * The value of in the input
          */
         value: PropTypes.string.isRequired,
@@ -131,6 +136,9 @@ export default class SuggestionBox extends React.Component {
 
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
+
+        // Keep track of weather a list based or date based suggestion provider has been triggered
+        this.presentationType = 'text';
     }
 
     componentDidMount() {
@@ -187,9 +195,11 @@ export default class SuggestionBox extends React.Component {
         if (UserAgent.isIos() && !e.relatedTarget) {
             // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
             // blur so that click handlers on the list items still register
-            setTimeout(() => {
-                GlobalActions.emitClearSuggestions(this.suggestionId);
-            }, 200);
+            if (this.presentationType !== 'date' || this.props.value.length === 0) {
+                setTimeout(() => {
+                    GlobalActions.emitClearSuggestions(this.suggestionId);
+                }, 200);
+            }
         } else {
             GlobalActions.emitClearSuggestions(this.suggestionId);
         }
@@ -365,6 +375,7 @@ export default class SuggestionBox extends React.Component {
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
                 GlobalActions.emitClearSuggestions(this.suggestionId);
+                this.presentationType = 'text';
                 e.preventDefault();
                 e.stopPropagation();
             } else if (this.props.onKeyDown) {
@@ -381,6 +392,12 @@ export default class SuggestionBox extends React.Component {
             handled = provider.handlePretextChanged(this.suggestionId, pretext) || handled;
 
             if (handled) {
+                if (provider.constructor.name === 'SearchDateProvider') {
+                    this.presentationType = 'date';
+                } else {
+                    this.presentationType = 'text';
+                }
+
                 break;
             }
         }
@@ -413,6 +430,7 @@ export default class SuggestionBox extends React.Component {
     render() {
         const {
             listComponent,
+            dateComponent,
             listStyle,
             renderDividers,
             ...props
@@ -433,6 +451,7 @@ export default class SuggestionBox extends React.Component {
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
+        const SuggestionDateComponent = dateComponent;
 
         return (
             <div ref={this.setContainerRef}>
@@ -446,11 +465,17 @@ export default class SuggestionBox extends React.Component {
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) &&
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'text' &&
                     <SuggestionListComponent
                         suggestionId={this.suggestionId}
                         location={listStyle}
                         renderDividers={renderDividers}
+                        onCompleteWord={this.handleCompleteWord}
+                    />
+                }
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'date' &&
+                    <SuggestionDateComponent
+                        suggestionId={this.suggestionId}
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }

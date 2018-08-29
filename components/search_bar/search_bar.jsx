@@ -10,7 +10,9 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
+import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
 import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
+import SearchDateProvider from '../suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import FlagIcon from 'components/svg/flag_icon';
@@ -43,7 +45,7 @@ export default class SearchBar extends React.Component {
             isPristine: true,
         };
 
-        this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
+        this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider(), new SearchDateProvider()];
     }
 
     componentDidMount() {
@@ -155,7 +157,7 @@ export default class SearchBar extends React.Component {
             >
                 <FormattedHTMLMessage
                     id='search_bar.usage'
-                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li></ul>'
+                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li><li><span>Use </span><b>on:</b><span> to find posts on a specific date </li><li><span>Use </span><b>before:</b><span> to find posts before a specific date</span></li><li><span>Use </span><b>after:</b><span> to find posts after a specific date</span></li></ul>'
                 />
             </Popover>
         );
@@ -266,6 +268,7 @@ export default class SearchBar extends React.Component {
                             onChange={this.handleChange}
                             onKeyDown={this.handleKeyDown}
                             listComponent={SearchSuggestionList}
+                            dateComponent={SuggestionDate}
                             providers={this.suggestionProviders}
                             type='search'
                             autoFocus={this.props.isFocus && this.props.searchTerms === ''}

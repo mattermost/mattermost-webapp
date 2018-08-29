@@ -42,6 +42,7 @@
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
     "react-select": "1.2.1",
+    "react-day-picker": "7.1.10",
     "redux": "4.0.0",
     "redux-batched-actions": "0.3.0",
     "redux-persist": "4.9.1",
