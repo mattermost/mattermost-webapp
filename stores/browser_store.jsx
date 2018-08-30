@@ -115,11 +115,11 @@ class BrowserStoreClass {
     }
 
     hasSeenLandingPage() {
-        return this.getItem('__landingPageSeen__', false);
+        return localStorage.getItem(StoragePrefixes.LANDING_PAGE_SEEN);
     }
 
     setLandingPageSeen(landingPageSeen) {
-        return this.setItem('__landingPageSeen__', landingPageSeen);
+        localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, landingPageSeen);
     }
 }
 
