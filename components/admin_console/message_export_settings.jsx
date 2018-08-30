@@ -7,6 +7,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {getSiteURL} from 'utils/url.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -204,7 +205,8 @@ export default class MessageExportSettings extends AdminSettings {
         const dropdownHelpText = (
             <FormattedMarkdownMessage
                 id='admin.complianceExport.exportFormat.description'
-                defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into.\n \nFor Actiance XML, compliance export files are written to the \"exports\" subdirectory of the configured [Local Storage Directory](/admin_console/files/storage). For Global Relay EML, they are emailed to the configured email address.'
+                defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into.\n \nFor Actiance XML, compliance export files are written to the \"exports\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/files/storage). For Global Relay EML, they are emailed to the configured email address.'
+                values={{siteURL: getSiteURL()}}
             />
         );
 
