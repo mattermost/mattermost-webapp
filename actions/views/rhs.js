@@ -16,7 +16,9 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {getSearchTerms, getRhsState} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {getBrowserUtcOffset} from 'utils/timezone.jsx';
+import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone.jsx';
+import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 export function updateRhsState(rhsState) {
     return (dispatch, getState) => {
@@ -64,10 +66,12 @@ export function performSearch(terms, isMentionSearch) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
 
-        // timezone offset in seconds
-        const timeZoneOffset = getBrowserUtcOffset() * 60;
-
-        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, time_zone_offset: timeZoneOffset}, true));
+        // timezone offset in seconds        
+        const userId = getCurrentUserId(getState());
+        const userTimezone = getUserTimezone(getState(), userId);
+        let userCurrentTimezone = getUserCurrentTimezone(userTimezone);
+        const timezoneOffset = (userCurrentTimezone.length > 0 ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
+        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, time_zone_offset: timezoneOffset}, true));
     };
 }
 
