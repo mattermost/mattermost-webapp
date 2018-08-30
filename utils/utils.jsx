@@ -804,6 +804,7 @@ export function applyTheme(theme) {
         if (theme.centerChannelBg) {
             const ownPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
             const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.08);
+            const hoveredPostBgLight = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
 
             // Apply a gradient to fade out the text in a collapsed post
             changeCss(
@@ -811,6 +812,10 @@ export function applyTheme(theme) {
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
                 '.app__body #thread--root .post-collapse__gradient',
                 `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
+            );
+            changeCss(
+                '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__gradient',
+                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg}) !important`,
             );
             changeCss(
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
@@ -828,6 +833,10 @@ export function applyTheme(theme) {
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
                 '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
+            );
+            changeCss(
+                '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__show-more',
+                `background:${hoveredPostBgLight}`,
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
