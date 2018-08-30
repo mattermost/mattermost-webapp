@@ -226,7 +226,7 @@
   "admin.compliance.enableDesc": "When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.",
   "admin.compliance.enableTitle": "Enable Compliance Reporting:",
   "admin.compliance.false": "false",
-  "admin.compliance.newComplianceExportBanner": "This feature is replaced by a new [Compliance Export](../../admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.",
+  "admin.compliance.newComplianceExportBanner": "This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.",
   "admin.compliance.save": "Save",
   "admin.compliance.saving": "Saving Config...",
   "admin.compliance.title": "Compliance Settings",
