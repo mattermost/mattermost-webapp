@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`/components/common/SiteNameAndDescription should match snapshot, default 1`] = `
-<React.Fragment>
+<Fragment>
   <h1>
     Mattermost
   </h1>
@@ -14,11 +14,11 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, defaul
       values={Object {}}
     />
   </h4>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`/components/common/SiteNameAndDescription should match snapshot, with custom site name and description 1`] = `
-<React.Fragment>
+<Fragment>
   <h1>
     other_site
   </h1>
@@ -27,5 +27,5 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, with c
   >
     custom_description_text
   </h4>
-</React.Fragment>
+</Fragment>
 `;

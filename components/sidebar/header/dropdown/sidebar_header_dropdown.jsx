@@ -209,7 +209,6 @@ export default class SidebarHeaderDropdown extends React.Component {
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
         });
-        this.props.onToggleDropdown(false);
     }
 
     componentWillUnmount() {

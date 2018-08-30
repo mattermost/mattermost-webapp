@@ -285,7 +285,7 @@ const PluginItem = ({
         />
     );
 
-    const instances = pluginStatus.instances;
+    const instances = pluginStatus.instances.slice();
     instances.sort((a, b) => {
         if (a.cluster_id < b.cluster_id) {
             return -1;

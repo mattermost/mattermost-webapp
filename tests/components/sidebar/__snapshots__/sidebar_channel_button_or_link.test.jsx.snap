@@ -7,33 +7,31 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   replace={false}
   to="test-link"
 >
-  <React.Fragment>
-    <SidebarChannelButtonOrLinkIcon
-      channelIsArchived={false}
-      channelStatus="test"
-      channelType="D"
-      membersCount={3}
-      teammateDeletedAt={1}
-      teammateId="test-teammate-id"
-    />
-    <span
-      className="sidebar-item__name"
-    >
-      test-channel-name
-    </span>
-    <span
-      className="badge"
-    >
-      6
-    </span>
-    <SidebarChannelButtonOrLinkCloseButton
-      badge={true}
-      channelId="test-channel-id"
-      channelType="D"
-      handleClose={[MockFunction]}
-      teammateId="test-teammate-id"
-    />
-  </React.Fragment>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    test-channel-name
+  </span>
+  <span
+    className="badge"
+  >
+    6
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    badge={true}
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
 </Link>
 `;
 
@@ -44,27 +42,25 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   replace={false}
   to="test-link"
 >
-  <React.Fragment>
-    <SidebarChannelButtonOrLinkIcon
-      channelIsArchived={false}
-      channelStatus="test"
-      channelType="D"
-      membersCount={3}
-      teammateDeletedAt={1}
-      teammateId="test-teammate-id"
-    />
-    <span
-      className="sidebar-item__name"
-    >
-      test-channel-name
-    </span>
-    <SidebarChannelButtonOrLinkCloseButton
-      channelId="test-channel-id"
-      channelType="D"
-      handleClose={[MockFunction]}
-      teammateId="test-teammate-id"
-    />
-  </React.Fragment>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    test-channel-name
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
 </Link>
 `;
 
@@ -75,33 +71,31 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   replace={false}
   to="test-link"
 >
-  <React.Fragment>
-    <SidebarChannelButtonOrLinkIcon
-      channelIsArchived={false}
-      channelStatus="test"
-      channelType="D"
-      membersCount={3}
-      teammateDeletedAt={1}
-      teammateId="test-teammate-id"
-    />
-    <span
-      className="sidebar-item__name"
-    >
-      test-channel-name
-    </span>
-    <span
-      className="badge"
-    >
-      6
-    </span>
-    <SidebarChannelButtonOrLinkCloseButton
-      badge={true}
-      channelId="test-channel-id"
-      channelType="D"
-      handleClose={[MockFunction]}
-      teammateId="test-teammate-id"
-    />
-  </React.Fragment>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    test-channel-name
+  </span>
+  <span
+    className="badge"
+  >
+    6
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    badge={true}
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
 </Link>
 `;
 
@@ -112,26 +106,24 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   replace={false}
   to="test-link"
 >
-  <React.Fragment>
-    <SidebarChannelButtonOrLinkIcon
-      channelIsArchived={false}
-      channelStatus="test"
-      channelType="D"
-      membersCount={3}
-      teammateDeletedAt={1}
-      teammateId="test-teammate-id"
-    />
-    <span
-      className="sidebar-item__name"
-    >
-      test-channel-name
-    </span>
-    <SidebarChannelButtonOrLinkCloseButton
-      channelId="test-channel-id"
-      channelType="D"
-      handleClose={[MockFunction]}
-      teammateId="test-teammate-id"
-    />
-  </React.Fragment>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    test-channel-name
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
 </Link>
 `;

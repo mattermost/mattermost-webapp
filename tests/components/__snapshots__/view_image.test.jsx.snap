@@ -220,21 +220,21 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
         <div
           className="modal-image__content"
         >
-          <ImagePreview
-            canDownloadFiles={true}
+          <AudioVideoPreview
             fileInfo={
               Object {
-                "extension": "gif",
-                "id": "file_id_1",
+                "extension": "wma",
+                "id": "file_id_2",
               }
             }
+            fileUrl="/api/v4/files/file_id_2"
           />
         </div>
         <Connect(PopoverBar)
           canDownloadFiles={true}
           enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id_1?download=1"
+          fileIndex={1}
+          fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
           show={false}

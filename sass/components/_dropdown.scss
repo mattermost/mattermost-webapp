@@ -15,6 +15,7 @@
 
     .divider {
         @include opacity(.15);
+        margin: 5px 0;
 
         & + .divider {
             display: none;

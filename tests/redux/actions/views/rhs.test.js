@@ -5,7 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {searchPosts} from 'mattermost-redux/actions/search';
+import {searchPostsWithParams} from 'mattermost-redux/actions/search';
 import {Client4} from 'mattermost-redux/client';
 import {SearchTypes} from 'mattermost-redux/action_types';
 
@@ -27,6 +27,7 @@ import {
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -43,7 +44,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/search', () => ({
-    searchPosts: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    searchPostsWithParams: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
 }));
 
 jest.mock('mattermost-redux/client', () => {
@@ -169,13 +170,16 @@ describe('rhs view actions', () => {
         test('it dispatches searchPosts correctly', () => {
             store.dispatch(performSearch(terms, false));
 
+            // timezone offset in seconds
+            const timeZoneOffset = getBrowserUtcOffset() * 60;
+
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(searchPosts(currentTeamId, terms, false, true));
+            compareStore.dispatch(searchPostsWithParams(currentTeamId, {terms, is_or_search: false, time_zone_offset: timeZoneOffset}, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(searchPosts(currentTeamId, terms, true, true));
+            compareStore.dispatch(searchPostsWithParams(currentTeamId, {terms, is_or_search: true, time_zone_offset: timeZoneOffset}, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });

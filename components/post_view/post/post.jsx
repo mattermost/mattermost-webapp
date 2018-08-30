@@ -191,7 +191,7 @@ export default class Post extends React.PureComponent {
         }
 
         if (fromAutoResponder) {
-            postType = 'post--comment';
+            postType = 'post--comment same--root';
         }
 
         if (this.props.compactDisplay) {

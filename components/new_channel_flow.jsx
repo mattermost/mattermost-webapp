@@ -124,6 +124,7 @@ export default class NewChannelFlow extends React.Component {
     onModalExited = () => {
         if (this.doOnModalExited) {
             this.doOnModalExited();
+            this.doOnModalExited = null;
         }
     };
 

@@ -41,7 +41,7 @@ describe('components/SpinnerButton', () => {
             />
         );
 
-        wrapper.find('.btn .btn-primary').simulate('click');
+        wrapper.find('.btn-primary').simulate('click');
         expect(onClick).toHaveBeenCalledTimes(1);
     });
 });
