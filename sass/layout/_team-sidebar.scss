@@ -7,7 +7,13 @@
     z-index: 12;
 
     .fa {
+        @include single-transition(all, .15s, ease);
+        @include opacity(.6);
         color: $white;
+
+        &:hover {
+            @include opacity(1);
+        }
     }
 
     .team-sidebar-bottom-plugin {
