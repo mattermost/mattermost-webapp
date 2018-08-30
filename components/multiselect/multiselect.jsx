@@ -138,7 +138,7 @@ export default class MultiSelect extends React.Component {
 
     render() {
         const options = Object.assign([], this.props.options);
-        const {totalCount, users, values} = this.props.values;
+        const {totalCount, users, values} = this.props;
 
         let numRemainingText;
         if (this.props.numRemainingText) {
