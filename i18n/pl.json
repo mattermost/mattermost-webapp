@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "To początek {type} {name}, utworzony {date}.",
   "intro_messages.offTopic": "This is the start of {display_name}, a channel for non-work-related conversations.",
   "intro_messages.onlyInvited": " Tylko zaproszeni użytkownicy mogą zobaczyć ten prywatny kanał.",
-  "intro_messages.purpose": " Celem tego {type} jest: {purpose}.",
+  "intro_messages.purpose": " Celem tego {type} jest: {purpose}",
   "intro_messages.readonly.default": "Wyślij tutaj wiadomości które chcesz aby każdy zobaczył. Każdy automatycznie zostaje stałym uczestnikiem tego kanału gdy dołączają do zespołu.",
   "intro_messages.setHeader": "Ustaw tytuł",
   "intro_messages.teammate": "To początek historii wiadomości z użytkownikiem. Bezpośrednie wiadomości i wysłane w nich pliki nie są widoczne dla osób spoza tego obszaru.",

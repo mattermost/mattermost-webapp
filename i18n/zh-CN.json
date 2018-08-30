@@ -2193,7 +2193,7 @@
   "intro_messages.noCreator": "这是{name}{type}的开端，于{date}建立。",
   "intro_messages.offTopic": "这是{display_name}的开端，一个非工作有关的会话。",
   "intro_messages.onlyInvited": "只有受邀的成员才能看到这个私有频道。",
-  "intro_messages.purpose": "此{type}的用途是：{purpose}。",
+  "intro_messages.purpose": "此{type}的用途是：{purpose}",
   "intro_messages.readonly.default": "**欢迎来到{display_name}！**\n \n发表您想所有人看到的消息。所有人在加入团队时候自动成员此频道的永久成员。",
   "intro_messages.setHeader": "设置标题",
   "intro_messages.teammate": "这是您与此团队成员私信记录的开端。在这里的直接消息和文件共享除了在此的人外无法看到。",
