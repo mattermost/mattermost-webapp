@@ -87,9 +87,9 @@ describe('rhs view actions', () => {
                             useAutomaticTimezone: true,
                             automaticTimezone: '',
                             manualTimezone: '',
-                        }    
-                    }
-                }
+                        },
+                    },
+                },
             },
         },
         views: {
