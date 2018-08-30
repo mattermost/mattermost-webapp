@@ -22,7 +22,7 @@ function makeMapStateToProps() {
     const getPostsAroundPost = makeGetPostsAroundPost();
 
     return function mapStateToProps(state, ownProps) {
-        const rethreadingEnabled = getConfig(state).ExperimentalRethreading === 'true';
+        const rethreadingEnabled = getConfig(state).ExperimentalRethreadMessages === 'true';
         const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
 
         let posts;

@@ -1851,7 +1851,7 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'ServiceSettings.ExperimentalRethreading',
+                            key: 'ServiceSettings.ExperimentalRethreadMessages',
                             label: 'rethreading',
                             label_default: 'Enable Rethreading (Experimental) : ',
                             help_text: 'rethreading',
