@@ -17,3 +17,7 @@ export function getBrowserTimezone() {
 export function getBrowserUtcOffset() {
     return moment().utcOffset();
 }
+
+export function getUtcOffsetForTimeZone(timezone) {
+    return moment.tz(timezone).utcOffset();
+}

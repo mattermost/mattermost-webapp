@@ -81,6 +81,15 @@ describe('rhs view actions', () => {
             },
             users: {
                 currentUserId,
+                profiles: {
+                    user123: {
+                        timezone: {
+                            useAutomaticTimezone: true,
+                            automaticTimezone: '',
+                            manualTimezone: '',
+                        },
+                    },
+                },
             },
         },
         views: {
