@@ -131,6 +131,8 @@
         }
 
         &.modal-image {
+            overflow: hidden;
+
             .modal-backdrop {
                 &.in {
                     @include opacity(.7);
@@ -325,7 +327,7 @@
             }
 
             .modal-image__content {
-                max-height: 95vh;
+                max-height: 91.5vh;
                 max-width: 96vw;
                 overflow-x: hidden;
                 overflow-y: visible;
@@ -351,6 +353,10 @@
                 &.default {
                     height: 80%;
                     width: 100%;
+                }
+
+                .post-code {
+                    background: $white;
                 }
 
                 audio,
@@ -408,7 +414,7 @@
                 }
 
                 img {
-                    max-height: calc(100vh - 50px);
+                    max-height: 91vh;
                     max-width: 100%;
                 }
 
@@ -479,21 +485,11 @@
             }
 
             .modal-button-bar {
-                @include single-transition(opacity, .6s);
-                @include opacity(0);
                 overflow: hidden;
                 background-color: $black;
-                bottom: 0;
-                left: 0;
                 line-height: 40px;
                 max-width: 100%;
                 padding: 0 10px;
-                position: absolute;
-                right: 0;
-
-                &.footer--show {
-                    @include opacity(1);
-                }
 
                 .image-links {
                     a,
