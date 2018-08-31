@@ -380,10 +380,13 @@ function parseSearchTerms(searchTerm) {
         let captured;
 
         // check for a quoted string
-        captured = (/^"(.*?)"/).exec(termString);
+        captured = (/^"([^"]*)"/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
-            terms.push(captured[1]);
+
+            if (captured[1].length > 0) {
+                terms.push(captured[1]);
+            }
             continue;
         }
 
