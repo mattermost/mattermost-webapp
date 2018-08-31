@@ -320,7 +320,7 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            if (channelFilter(channel)) {
+            if (channelFilter(channel) && channel.delete_at === 0) {
                 const newChannel = Object.assign({}, channel);
                 const channelIsArchived = channel.delete_at !== 0;
 
