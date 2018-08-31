@@ -69,6 +69,13 @@ export default class GeneratedSetting extends React.Component {
             );
         }
 
+        let text = this.props.value;
+        if (!text) {
+            text = (
+                <span className='placeholder-text'>{this.props.placeholder}</span>
+            );
+        }
+
         return (
             <div className='form-group'>
                 <label
@@ -78,14 +85,12 @@ export default class GeneratedSetting extends React.Component {
                     {this.props.label}
                 </label>
                 <div className='col-sm-8'>
-                    <input
-                        type='text'
-                        className='form-control'
+                    <div
+                        className='form-control disabled'
                         id={this.props.id}
-                        placeholder={this.props.placeholder}
-                        value={this.props.value}
-                        disabled={true}
-                    />
+                    >
+                        {text}
+                    </div>
                     {disabledText}
                     <div className='help-text'>
                         {this.props.helpText}
