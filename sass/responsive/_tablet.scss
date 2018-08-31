@@ -80,9 +80,6 @@
                 }
 
                 .modal-button-bar {
-                    @include opacity(1);
-                    @include border-radius(0 0 $border-rad $border-rad);
-                    position: relative;
                     line-height: 30px;
                     padding: 5px 10px 5px 5px;
                     bottom: 20px;
