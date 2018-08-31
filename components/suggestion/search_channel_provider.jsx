@@ -3,11 +3,10 @@
 
 import React from 'react';
 
-import {autocompleteChannels} from 'actions/channel_actions.jsx';
+import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
 import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
@@ -45,41 +44,13 @@ export default class SearchChannelProvider extends Provider {
 
             this.startNewRequest(suggestionId, channelPrefix);
 
-            autocompleteChannels(
+            autocompleteChannelsForSearch(
                 channelPrefix,
                 (data) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
                         return;
                     }
-
-                    const publicChannels = data;
-
-                    const localChannels = ChannelStore.getAll();
-                    const membershipsForChannels = new Set(Object.keys(ChannelStore.getMyMembers()));
-                    let privateChannels = [];
-
-                    for (const id of Object.keys(localChannels)) {
-                        const channel = localChannels[id];
-                        if (channel.name.startsWith(channelPrefix) && channel.type === Constants.PRIVATE_CHANNEL) {
-                            privateChannels.push(channel);
-                        }
-                    }
-
-                    let filteredPublicChannels = [];
-                    publicChannels.forEach((item) => {
-                        if (item.name.startsWith(channelPrefix)) {
-                            if (item.delete_at === 0) {
-                                filteredPublicChannels.push(item);
-                            } else if (membershipsForChannels.has(item.id)) {
-                                filteredPublicChannels.push(item);
-                            }
-                        }
-                    });
-
-                    privateChannels = privateChannels.sort(sortChannelsByDisplayName);
-                    filteredPublicChannels = filteredPublicChannels.sort(sortChannelsByDisplayName);
-
-                    const channels = filteredPublicChannels.concat(privateChannels);
+                    const channels = data.sort(sortChannelsByDisplayName);
                     const channelNames = channels.map((channel) => channel.name);
 
                     AppDispatcher.handleServerAction({
