@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+
 import {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
@@ -35,6 +37,8 @@ export default class FileAttachmentList extends React.Component {
         compactDisplay: PropTypes.bool,
 
         isEmbedVisible: PropTypes.bool,
+
+        locale: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
 
@@ -68,7 +72,12 @@ export default class FileAttachmentList extends React.Component {
     }
 
     render() {
-        const {fileInfos, fileCount, compactDisplay} = this.props;
+        const {
+            compactDisplay,
+            fileInfos,
+            fileCount,
+            locale,
+        } = this.props;
 
         if (compactDisplay === false) {
             if (fileInfos && fileInfos.length === 1) {
@@ -90,15 +99,15 @@ export default class FileAttachmentList extends React.Component {
             }
         }
 
+        const sortedFileInfos = sortFileInfos(fileInfos, locale);
         const postFiles = [];
-        if (fileInfos && fileInfos.length > 0) {
-            for (let i = 0; i < fileInfos.length; i++) {
-                const fileInfo = fileInfos[i];
-
+        if (sortedFileInfos && sortedFileInfos.length > 0) {
+            for (let i = 0; i < sortedFileInfos.length; i++) {
+                const fileInfo = sortedFileInfos[i];
                 postFiles.push(
                     <FileAttachment
                         key={fileInfo.id}
-                        fileInfo={fileInfos[i]}
+                        fileInfo={sortedFileInfos[i]}
                         index={i}
                         handleImageClick={this.handleImageClick}
                         compactDisplay={compactDisplay}
@@ -126,7 +135,7 @@ export default class FileAttachmentList extends React.Component {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.hidePreviewModal}
                     startIndex={this.state.startImgIndex}
-                    fileInfos={fileInfos}
+                    fileInfos={sortedFileInfos}
                 />
             </React.Fragment>
         );
