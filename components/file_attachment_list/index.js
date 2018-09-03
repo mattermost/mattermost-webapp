@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getMissingFilesForPost} from 'mattermost-redux/actions/files';
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
-
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
+import {getCurrentLocale} from 'selectors/i18n';
 import {makeGetGlobalItem} from 'selectors/storage';
 
 import {Preferences, StoragePrefixes} from 'utils/constants.jsx';
@@ -35,6 +35,7 @@ function makeMapStateToProps() {
             fileInfos,
             fileCount,
             isEmbedVisible,
+            locale: getCurrentLocale(state),
         };
     };
 }
