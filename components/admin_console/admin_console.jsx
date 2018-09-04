@@ -28,7 +28,6 @@ import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_sett
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PushSettings from 'components/admin_console/push_settings.jsx';
-import SamlSettings from 'components/admin_console/saml_settings.jsx';
 import SessionSettings from 'components/admin_console/session_settings.jsx';
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
@@ -261,8 +260,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/saml`}
-                                        component={SamlSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.authentication.saml.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/mfa`}
