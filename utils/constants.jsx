@@ -42,6 +42,7 @@ export const SettingsTypes = {
     TYPE_NUMBER: 'number',
     TYPE_COLOR: 'color',
     TYPE_BOOL: 'bool',
+    TYPE_PERMISSION: 'permission',
     TYPE_RADIO: 'radio',
     TYPE_BANNER: 'banner',
     TYPE_DROPDOWN: 'dropdown',

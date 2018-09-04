@@ -8,6 +8,7 @@ import * as I18n from 'i18n/i18n.jsx';
 
 import {SettingsTypes} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
+import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -33,6 +34,7 @@ export default class SchemaAdminSettings extends AdminSettings {
             [SettingsTypes.TYPE_NUMBER]: this.buildTextSetting,
             [SettingsTypes.TYPE_COLOR]: this.buildColorSetting,
             [SettingsTypes.TYPE_BOOL]: this.buildBoolSetting,
+            [SettingsTypes.TYPE_PERMISSION]: this.buildPermissionSetting,
             [SettingsTypes.TYPE_DROPDOWN]: this.buildDropdownSetting,
             [SettingsTypes.TYPE_RADIO]: this.buildRadioSetting,
             [SettingsTypes.TYPE_BANNER]: this.buildBannerSetting,
@@ -45,9 +47,66 @@ export default class SchemaAdminSettings extends AdminSettings {
         };
     }
 
+    componentDidMount() {
+        if (this.props.loadRolesIfNeeded) {
+            this.props.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']).then(() => {
+                this.setState(this.getStateFromConfig(this.props.config, this.props.schema));
+            });
+        }
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (nextProps.schema !== this.props.schema) {
             this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
+        }
+    }
+
+    handleSubmit = async (e) => {
+        e.preventDefault();
+
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
+
+        if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'permissions') {
+            const settings = (this.props.schema && this.props.schema.settings) || [];
+            const rolesBinding = settings.reduce((acc, val) => {
+                if (val.type === SettingsTypes.TYPE_PERMISSION) {
+                    acc[val.permissions_mapping_name] = this.state[val.key].toString();
+                }
+                return acc;
+            }, {});
+            const updatedRoles = rolesFromMapping(rolesBinding, this.props.roles);
+
+            let success = true;
+
+            await Promise.all(Object.values(updatedRoles).map(async (item) => {
+                try {
+                    await this.props.editRole(item);
+                } catch (err) {
+                    success = false;
+                    this.setState({
+                        saving: false,
+                        serverError: err.message,
+                    });
+                }
+            }));
+
+            if (!success) {
+                return;
+            }
+        }
+
+        if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'config') {
+            this.doSubmit();
+        } else {
+            this.setState({
+                saving: false,
+                saveNeeded: false,
+                serverError: null,
+            });
+            this.props.setNavigationBlocked(false);
         }
     }
 
@@ -58,6 +117,11 @@ export default class SchemaAdminSettings extends AdminSettings {
             const settings = schema.settings || [];
             settings.forEach((setting) => {
                 if (!setting.key) {
+                    return;
+                }
+
+                if (setting.type === SettingsTypes.TYPE_PERMISSION) {
+                    this.setConfigValue(config, setting.key, null);
                     return;
                 }
 
@@ -82,6 +146,11 @@ export default class SchemaAdminSettings extends AdminSettings {
             const settings = schema.settings || [];
             settings.forEach((setting) => {
                 if (!setting.key) {
+                    return;
+                }
+
+                if (setting.type === SettingsTypes.TYPE_PERMISSION && this.props.roles) {
+                    state[setting.key] = mappingValueFromRoles(setting.permissions_mapping_name, this.props.roles) === 'true';
                     return;
                 }
 
@@ -306,6 +375,21 @@ export default class SchemaAdminSettings extends AdminSettings {
         );
     }
 
+    buildPermissionSetting = (setting) => {
+        return (
+            <BooleanSetting
+                key={this.props.schema.id + '_bool_' + setting.key}
+                id={setting.key}
+                label={this.renderLabel(setting)}
+                helpText={this.renderHelpText(setting)}
+                value={(!this.isDisabled(setting) && this.state[setting.key]) || false}
+                disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
+                onChange={this.handlePermissionChange}
+            />
+        );
+    }
+
     buildDropdownSetting = (setting) => {
         const options = setting.options || [];
         const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
@@ -429,6 +513,32 @@ export default class SchemaAdminSettings extends AdminSettings {
 
     handleGeneratedChange = (id, s) => {
         this.handleChange(id, s.replace('+', '-').replace('/', '_'));
+    }
+
+    handleChange = (id, value) => {
+        let saveNeeded = 'config';
+        if (this.state.saveNeeded === 'permissions') {
+            saveNeeded = 'both';
+        }
+        this.setState({
+            saveNeeded,
+            [id]: value,
+        });
+
+        this.props.setNavigationBlocked(true);
+    }
+
+    handlePermissionChange = (id, value) => {
+        let saveNeeded = 'permissions';
+        if (this.state.saveNeeded === 'config') {
+            saveNeeded = 'both';
+        }
+        this.setState({
+            saveNeeded,
+            [id]: value,
+        });
+
+        this.props.setNavigationBlocked(true);
     }
 
     buildUsernameSetting = (setting) => {
