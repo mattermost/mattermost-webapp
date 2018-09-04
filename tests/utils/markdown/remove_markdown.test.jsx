@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {stripMarkdown} from 'utils/markdown';
+import {generateShortMessage} from 'utils/markdown';
 
-describe('stripMarkdown | RemoveMarkdown', () => {
+describe('generateShortMessage', () => {
     const testCases = [
         {
             description: 'emoji: same',
@@ -275,6 +275,6 @@ describe('stripMarkdown | RemoveMarkdown', () => {
     ];
 
     testCases.forEach((testCase) => it(testCase.description, () => {
-        expect(stripMarkdown(testCase.inputText)).toEqual(testCase.outputText);
+        expect(generateShortMessage(testCase.inputText)).toEqual(testCase.outputText);
     }));
 });

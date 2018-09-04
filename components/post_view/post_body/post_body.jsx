@@ -10,7 +10,7 @@ import * as PostActions from 'actions/post_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {stripMarkdown} from 'utils/markdown';
+import {generateShortMessage} from 'utils/markdown';
 
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -197,7 +197,7 @@ export default class PostBody extends React.PureComponent {
                             className='theme'
                             onClick={this.props.handleCommentClick}
                         >
-                            {stripMarkdown(message)}
+                            {generateShortMessage(message)}
                         </a>
                     </span>
                 </div>

@@ -26,7 +26,7 @@ export function formatWithRenderer(text, renderer) {
     return marked(text, markdownOptions);
 }
 
-export function stripMarkdown(text) {
+export function generateShortMessage(text) {
     if (typeof text === 'string' && text.length > 0) {
         const formattedText = formatWithRenderer(text, removeMarkdown);
         return convertEntityToCharacter(formattedText.split('\n')[0]);
