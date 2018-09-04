@@ -82,7 +82,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <input
             className="form-control"
             id="description"
-            maxLength="128"
+            maxLength="500"
             onChange={[Function]}
             type="text"
             value=""
