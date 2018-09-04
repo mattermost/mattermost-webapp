@@ -3,16 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
-import * as PostActions from 'actions/post_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {stripMarkdown} from 'utils/markdown';
 
-import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
+import CommentedOn from 'components/post_view/commented_on';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
@@ -139,68 +136,15 @@ export default class PostBody extends React.PureComponent {
         const post = this.props.post;
         const parentPost = this.props.parentPost;
 
-        let comment = '';
+        let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
         if (this.props.isFirstReply && parentPost && !isEphemeral) {
-            const profile = this.props.parentPostUser;
-
-            let apostrophe = '';
-            let name = '...';
-            if (profile != null) {
-                let username = Utils.getDisplayNameByUser(profile);
-                if (parentPost.props &&
-                        parentPost.props.from_webhook &&
-                        parentPost.props.override_username &&
-                        this.props.enablePostUsernameOverride) {
-                    username = parentPost.props.override_username;
-                }
-
-                if (username.slice(-1) === 's') {
-                    apostrophe = '\'';
-                } else {
-                    apostrophe = '\'s';
-                }
-                name = (
-                    <a
-                        className='theme'
-                        onClick={PostActions.searchForTerm.bind(null, username)}
-                    >
-                        {username}
-                    </a>
-                );
-            }
-
-            let message = '';
-            if (parentPost.message) {
-                message = Utils.replaceHtmlEntities(parentPost.message);
-            } else if (parentPost.file_ids && parentPost.file_ids.length > 0) {
-                message = (
-                    <CommentedOnFilesMessage
-                        parentPostId={parentPost.id}
-                    />
-                );
-            }
-
             comment = (
-                <div className='post__link'>
-                    <span>
-                        <FormattedMessage
-                            id='post_body.commentedOn'
-                            defaultMessage='Commented on {name}{apostrophe} message: '
-                            values={{
-                                name,
-                                apostrophe,
-                            }}
-                        />
-                        <a
-                            className='theme'
-                            onClick={this.props.handleCommentClick}
-                        >
-                            {stripMarkdown(message)}
-                        </a>
-                    </span>
-                </div>
+                <CommentedOn
+                    post={parentPost}
+                    onCommentClick={this.props.handleCommentClick}
+                />
             );
         }
 
