@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {getPostsSince, getPostsBefore} from 'mattermost-redux/actions/posts';
+import {getNewestPostIdFromPosts, getOldestPostIdFromPosts} from 'mattermost-redux/utils/post_utils';
 
 import {isMobile} from 'utils/utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
-import {getNewestPostIdFromPosts, getOldestPostIdFromPosts} from 'utils/post_utils';
 
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 

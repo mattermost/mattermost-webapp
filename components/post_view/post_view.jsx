@@ -104,7 +104,6 @@ export default class PostView extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            isDoingInitialLoad: this.shouldLoadPosts(props),
             newerPosts: {
                 loading: false,
                 allLoaded: (props.channelPostsStatus && props.channelPostsStatus.atEnd) || false,
@@ -113,13 +112,12 @@ export default class PostView extends React.PureComponent {
                 loading: false,
                 allLoaded: PostView.oldestMessageLoadedInView(props),
             },
-            lastViewedAt: props.lastViewedAt,
             posts: this.props.posts,
         };
     }
 
     componentDidMount() {
-        if (this.state.isDoingInitialLoad) {
+        if (this.shouldLoadPosts(this.props)) {
             this.postsOnLoad(this.props.channelId);
         }
         if (!this.props.channelSyncStatus && this.props.channelPostsStatus) {
@@ -184,10 +182,6 @@ export default class PostView extends React.PureComponent {
             await this.loadUnreadPosts(channelId);
             this.props.actions.channelSyncCompleted(channelId);
         }
-
-        this.setState({
-            isDoingInitialLoad: false,
-        });
     }
 
     setLoadingPosts = (type) => {
@@ -299,7 +293,7 @@ export default class PostView extends React.PureComponent {
         //This can be different than the unreadCount on the sidebar as sytem messages
         //are not considered for the count.
         return posts.reduce((count, post) => {
-            if (post.create_at > this.state.lastViewedAt &&
+            if (post.create_at > this.props.lastViewedAt &&
                 post.user_id !== currentUserId &&
                 post.state !== Constants.POST_DELETED) {
                 return count + 1;
@@ -309,13 +303,13 @@ export default class PostView extends React.PureComponent {
     }
 
     render() {
-        const posts = this.props.posts || [];
+        const posts = this.props.posts;
         let postList;
         let topRow;
         let bottomRow;
         let disableLoadingPosts = false;
 
-        if (posts.length === 0 && this.state.isDoingInitialLoad) {
+        if (!posts) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
@@ -354,7 +348,7 @@ export default class PostView extends React.PureComponent {
             );
         }
 
-        if (posts.length && !this.state.isDoingInitialLoad) {
+        if (posts.length) {
             postList = (
                 <PostList
                     posts={this.props.posts}
@@ -363,8 +357,9 @@ export default class PostView extends React.PureComponent {
                     newerPosts={this.state.newerPosts}
                     olderPosts={this.state.olderPosts}
                     disableLoadingPosts={disableLoadingPosts}
-                    lastViewedAt={this.state.lastViewedAt}
+                    lastViewedAt={this.props.lastViewedAt}
                     currentUserId={this.props.currentUserId}
+                    focusedPostId={this.props.focusedPostId}
                 />
             );
         }

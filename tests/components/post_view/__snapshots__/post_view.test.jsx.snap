@@ -46,11 +46,19 @@ exports[`components/post_view/post_list init snapshot 1`] = `
 <div
   id="post-list"
 >
-  <LoadingScreen
-    key="loading"
-    position="absolute"
-    style={Object {}}
-  />
+  <div
+    className="post-list-holder-by-time"
+    key="postlist-fake-id"
+  >
+    <div
+      className="post-list__table"
+    >
+      <div
+        className="post-list__content"
+        id="postListContent"
+      />
+    </div>
+  </div>
 </div>
 `;
 

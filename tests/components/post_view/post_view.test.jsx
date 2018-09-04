@@ -82,7 +82,6 @@ describe('components/post_view/post_list', () => {
         await wrapper.instance().postsOnLoad();
         wrapper.setState({olderPosts: {loading: false, allLoaded: false}, newerPosts: {loading: false, allLoaded: false}});
         wrapper.update();
-        expect(wrapper.state().isDoingInitialLoad).toEqual(false);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -114,7 +113,6 @@ describe('components/post_view/post_list', () => {
         await loadUnreads();
         await wrapper.instance().postsOnLoad();
         wrapper.update();
-        expect(wrapper.state().isDoingInitialLoad).toEqual(false);
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: true});
         expect(wrapper).toMatchSnapshot();
@@ -189,7 +187,6 @@ describe('components/post_view/post_list', () => {
         await loadUnreads();
         await wrapper.instance().postsOnLoad();
         wrapper.update();
-        expect(wrapper.state().isDoingInitialLoad).toEqual(false);
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atEnd: true});
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: false});
         expect(wrapper).toMatchSnapshot();
@@ -263,6 +260,5 @@ describe('components/post_view/post_list', () => {
         expect(changeChannelPostsStatus).toHaveBeenCalledWith({channelId, atStart: true});
         await wrapper.instance().loadPermalinkPosts();
         wrapper.update();
-        expect(wrapper.state().isDoingInitialLoad).toEqual(false);
     });
 });
