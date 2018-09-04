@@ -28,7 +28,8 @@ export function formatWithRenderer(text, renderer) {
 
 export function stripMarkdown(text) {
     if (typeof text === 'string' && text.length > 0) {
-        return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown));
+        const formattedText = formatWithRenderer(text, removeMarkdown);
+        return convertEntityToCharacter(formattedText.split('\n')[0]);
     }
 
     return text;
