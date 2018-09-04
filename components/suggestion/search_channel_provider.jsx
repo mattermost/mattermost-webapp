@@ -55,6 +55,7 @@ export default class SearchChannelProvider extends Provider {
                     const publicChannels = data;
 
                     const localChannels = ChannelStore.getAll();
+                    const membershipsForChannels = new Set(Object.keys(ChannelStore.getMyMembers()));
                     let privateChannels = [];
 
                     for (const id of Object.keys(localChannels)) {
@@ -67,7 +68,11 @@ export default class SearchChannelProvider extends Provider {
                     let filteredPublicChannels = [];
                     publicChannels.forEach((item) => {
                         if (item.name.startsWith(channelPrefix)) {
-                            filteredPublicChannels.push(item);
+                            if (item.delete_at === 0) {
+                                filteredPublicChannels.push(item);
+                            } else if (membershipsForChannels.has(item.id)) {
+                                filteredPublicChannels.push(item);
+                            }
                         }
                     });
 
