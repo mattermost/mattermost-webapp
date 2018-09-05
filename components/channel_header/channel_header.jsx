@@ -88,7 +88,6 @@ export default class ChannelHeader extends React.Component {
         this.state = {
             showSearchBar,
             showEditChannelHeaderModal: false,
-            showMembersModal: false,
             showChannelNotificationsModal: false,
         };
 
@@ -236,14 +235,6 @@ export default class ChannelHeader extends React.Component {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.hide();
         }
-    };
-
-    showMembersModal = () => {
-        this.setState({showMembersModal: true});
-    };
-
-    hideMembersModal = () => {
-        this.setState({showMembersModal: false});
     };
 
     hideEditChannelHeaderModal = () => {
@@ -488,17 +479,17 @@ export default class ChannelHeader extends React.Component {
                         key='manage_members'
                         role='presentation'
                     >
-                        <button
-                            className='style--none'
-                            id='channelManageMembers'
+                        <ToggleModalButtonRedux
                             role='menuitem'
-                            onClick={this.showMembersModal}
+                            modalId={ModalIdentifiers.CHANNEL_MEMBERS}
+                            dialogType={ChannelMembersModal}
+                            dialogProps={{channel}}
                         >
                             <FormattedMessage
                                 id='channel_header.viewMembers'
                                 defaultMessage='View Members'
                             />
-                        </button>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
             }
@@ -573,17 +564,17 @@ export default class ChannelHeader extends React.Component {
                                 key='manage_members'
                                 role='presentation'
                             >
-                                <button
-                                    className='style--none'
-                                    id='channelManageMembers'
+                                <ToggleModalButtonRedux
                                     role='menuitem'
-                                    onClick={this.showMembersModal}
+                                    modalId={ModalIdentifiers.CHANNEL_MEMBERS}
+                                    dialogType={ChannelMembersModal}
+                                    dialogProps={{channel}}
                                 >
                                     <FormattedMessage
                                         id='channel_header.manageMembers'
                                         defaultMessage='Manage Members'
                                     />
-                                </button>
+                                </ToggleModalButtonRedux>
                             </li>
                         </ChannelPermissionGate>
                     );
@@ -601,17 +592,17 @@ export default class ChannelHeader extends React.Component {
                             key='view_members'
                             role='presentation'
                         >
-                            <button
-                                className='style--none'
-                                id='channelViewMembers'
+                            <ToggleModalButtonRedux
                                 role='menuitem'
-                                onClick={this.showMembersModal}
+                                modalId={ModalIdentifiers.CHANNEL_MEMBERS}
+                                dialogType={ChannelMembersModal}
+                                dialogProps={{channel}}
                             >
                                 <FormattedMessage
                                     id='channel_header.viewMembers'
                                     defaultMessage='View Members'
                                 />
-                            </button>
+                            </ToggleModalButtonRedux>
                         </li>
                     </ChannelPermissionGate>
                 );
@@ -969,17 +960,6 @@ export default class ChannelHeader extends React.Component {
             );
         }
 
-        let channelMembersModal;
-        if (this.state.showMembersModal) {
-            channelMembersModal = (
-                <ChannelMembersModal
-                    onModalDismissed={this.hideMembersModal}
-                    showInviteModal={this.showInviteModal}
-                    channel={channel}
-                />
-            );
-        }
-
         let pinnedIconClass = 'channel-header__icon';
         if (this.props.rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
@@ -1096,7 +1076,6 @@ export default class ChannelHeader extends React.Component {
                     />
                 </div>
                 {editHeaderModal}
-                {channelMembersModal}
                 <ChannelNotificationsModal
                     show={this.state.showChannelNotificationsModal}
                     onHide={this.hideChannelNotificationsModal}

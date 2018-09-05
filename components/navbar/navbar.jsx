@@ -79,7 +79,6 @@ export default class Navbar extends React.Component {
 
         this.state = {
             ...this.getStateFromStores(),
-            showMembersModal: false,
             showQuickSwitchModal: false,
             showChannelNotificationsModal: false,
             quickSwitchMode: 'channel',
@@ -184,16 +183,6 @@ export default class Navbar extends React.Component {
         this.setState({
             showChannelNotificationsModal: false,
         });
-    }
-
-    showMembersModal = (e) => {
-        e.preventDefault();
-
-        this.setState({showMembersModal: true});
-    }
-
-    hideMembersModal = () => {
-        this.setState({showMembersModal: false});
     }
 
     handleQuickSwitchKeyPress = (e) => {
@@ -363,16 +352,17 @@ export default class Navbar extends React.Component {
                             key='view_members'
                             role='presentation'
                         >
-                            <button
+                            <ToggleModalButtonRedux
                                 role='menuitem'
-                                className='style--none'
-                                onClick={this.showMembersModal}
+                                modalId={ModalIdentifiers.CHANNEL_MEMBERS}
+                                dialogType={ChannelMembersModal}
+                                dialogProps={{channel}}
                             >
                                 <FormattedMessage
                                     id='channel_header.viewMembers'
                                     defaultMessage='View Members'
                                 />
-                            </button>
+                            </ToggleModalButtonRedux>
                         </li>
                     );
                 } else {
@@ -404,10 +394,11 @@ export default class Navbar extends React.Component {
                             key='manage_members'
                             role='presentation'
                         >
-                            <button
+                            <ToggleModalButtonRedux
                                 role='menuitem'
-                                className='style--none'
-                                onClick={this.showMembersModal}
+                                modalId={ModalIdentifiers.CHANNEL_MEMBERS}
+                                dialogType={ChannelMembersModal}
+                                dialogProps={{channel}}
                             >
                                 <ChannelPermissionGate
                                     channelId={channel.id}
@@ -430,7 +421,7 @@ export default class Navbar extends React.Component {
                                         defaultMessage='View Members'
                                     />
                                 </ChannelPermissionGate>
-                            </button>
+                            </ToggleModalButtonRedux>
                         </li>
                     );
                 }
@@ -763,7 +754,6 @@ export default class Navbar extends React.Component {
         let isGroup = false;
         const teamId = channel && channel.team_id;
 
-        let channelMembersModal = null;
         let channelNotificationsModal = null;
         let quickSwitchModal = null;
 
@@ -788,16 +778,6 @@ export default class Navbar extends React.Component {
                 }
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;
-            }
-
-            if (this.state.showMembersModal) {
-                channelMembersModal = (
-                    <ChannelMembersModal
-                        onModalDismissed={this.hideMembersModal}
-                        showInviteModal={this.showChannelInviteModalButton}
-                        channel={channel}
-                    />
-                );
             }
 
             channelNotificationsModal = (
@@ -855,7 +835,6 @@ export default class Navbar extends React.Component {
                         </div>
                     </div>
                 </nav>
-                {channelMembersModal}
                 {channelNotificationsModal}
                 {quickSwitchModal}
             </div>

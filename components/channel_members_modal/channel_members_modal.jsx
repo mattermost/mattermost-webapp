@@ -10,12 +10,25 @@ import MemberListChannel from 'components/member_list_channel';
 
 export default class ChannelMembersModal extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Bool whether user has permission to manage current channel
+         */
         canManageChannelMembers: PropTypes.bool.isRequired,
-        channel: PropTypes.shape({
-            display_name: PropTypes.string.isRequired,
-            delete_at: PropTypes.number.isRequired,
-        }).isRequired,
-        onModalDismissed: PropTypes.func.isRequired,
+
+        /**
+         * Object with info about current channel
+         */
+        channel: PropTypes.object.isRequired,
+
+        /**
+         * Function that is called when modal is hidden
+         */
+        onHide: PropTypes.func.isRequired,
+
+        /**
+         * Function that is called when the Manage Channel button clicked
+         */
         showInviteModal: PropTypes.func.isRequired,
     }
 
@@ -44,9 +57,9 @@ export default class ChannelMembersModal extends React.PureComponent {
             <div>
                 <Modal
                     dialogClassName='more-modal more-modal--action'
-                    onExited={this.props.onModalDismissed}
-                    onHide={this.onHide}
                     show={this.state.show}
+                    onHide={this.onHide}
+                    onExited={this.props.onHide}
                 >
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
