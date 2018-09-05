@@ -188,7 +188,7 @@ export default class SuggestionBox extends React.Component {
     handleEmitClearSuggestions = (suggestionId) => {
         setTimeout(() => {
             GlobalActions.emitClearSuggestions(suggestionId);
-        }, 200);
+        }, 0);
     }
 
     handleFocusOut = (e) => {
