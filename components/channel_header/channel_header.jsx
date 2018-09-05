@@ -90,7 +90,6 @@ export default class ChannelHeader extends React.Component {
             showEditChannelHeaderModal: false,
             showEditChannelPurposeModal: false,
             showMembersModal: false,
-            showRenameChannelModal: false,
             showChannelNotificationsModal: false,
         };
 
@@ -206,14 +205,6 @@ export default class ChannelHeader extends React.Component {
                 this.searchMentions(e);
             }
         }
-    };
-
-    showRenameChannelModal = (e) => {
-        e.preventDefault();
-
-        this.setState({
-            showRenameChannelModal: true,
-        });
     };
 
     hideRenameChannelModal = () => {
@@ -687,17 +678,17 @@ export default class ChannelHeader extends React.Component {
                             key='rename_channel'
                             role='presentation'
                         >
-                            <button
-                                className='style--none'
-                                id='channelRename'
+                            <ToggleModalButtonRedux
                                 role='menuitem'
-                                onClick={this.showRenameChannelModal}
+                                modalId={ModalIdentifiers.RENAME_CHANNEL}
+                                dialogType={RenameChannelModal}
+                                dialogProps={{channel}}
                             >
                                 <FormattedMessage
                                     id='channel_header.rename'
                                     defaultMessage='Rename Channel'
                                 />
-                            </button>
+                            </ToggleModalButtonRedux>
                         </li>
                     </ChannelPermissionGate>
                 );
@@ -1131,11 +1122,6 @@ export default class ChannelHeader extends React.Component {
                     channel={channel}
                     channelMember={this.props.channelMember}
                     currentUser={this.props.currentUser}
-                />
-                <RenameChannelModal
-                    show={this.state.showRenameChannelModal}
-                    onHide={this.hideRenameChannelModal}
-                    channel={channel}
                 />
             </div>
         );

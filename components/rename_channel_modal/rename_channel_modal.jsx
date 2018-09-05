@@ -52,11 +52,6 @@ export class RenameChannelModal extends React.PureComponent {
         intl: intlShape.isRequired,
 
         /**
-         * Determines whether this modal should be shown or not
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
          * Function that is called when modal is hidden
          */
         onHide: PropTypes.func.isRequired,
@@ -98,6 +93,7 @@ export class RenameChannelModal extends React.PureComponent {
             nameError: '',
             displayNameError: '',
             invalid: false,
+            show: true,
         };
     }
 
@@ -127,13 +123,12 @@ export class RenameChannelModal extends React.PureComponent {
             e.preventDefault();
         }
 
-        this.props.onHide();
-
         this.setState({
             serverError: '',
             nameError: '',
             displayNameError: '',
             invalid: false,
+            show: false,
         });
     }
 
@@ -272,9 +267,10 @@ export class RenameChannelModal extends React.PureComponent {
 
         return (
             <Modal
-                show={this.props.show}
-                onEntering={this.handleEntering}
+                show={this.state.show}
                 onHide={this.handleCancel}
+                onEntering={this.handleEntering}
+                onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

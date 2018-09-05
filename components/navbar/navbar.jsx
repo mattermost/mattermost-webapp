@@ -81,7 +81,6 @@ export default class Navbar extends React.Component {
             ...this.getStateFromStores(),
             showEditChannelPurposeModal: false,
             showMembersModal: false,
-            showRenameChannelModal: false,
             showQuickSwitchModal: false,
             showChannelNotificationsModal: false,
             quickSwitchMode: 'channel',
@@ -96,7 +95,8 @@ export default class Navbar extends React.Component {
         PreferenceStore.addChangeListener(this.onChange);
         ModalStore.addModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
+        WebrtcStore.addChangedListener(this.onChange);
+        WebrtcStore.addBusyListener(this.onBusy);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         $('.inner-wrap').on('click', this.hideSidebars);
     }
@@ -109,7 +109,8 @@ export default class Navbar extends React.Component {
         PreferenceStore.removeChangeListener(this.onChange);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
+        WebrtcStore.removeChangedListener(this.onChange);
+        WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
         $('.inner-wrap').off('click', this.hideSidebars);
     }
@@ -197,18 +198,6 @@ export default class Navbar extends React.Component {
     hideChannelPurposeModal = () => {
         this.setState({
             showEditChannelPurposeModal: false,
-        });
-    }
-
-    showRenameChannelModal = () => {
-        this.setState({
-            showRenameChannelModal: true,
-        });
-    }
-
-    hideRenameChannelModal = () => {
-        this.setState({
-            showRenameChannelModal: false,
         });
     }
 
@@ -540,16 +529,17 @@ export default class Navbar extends React.Component {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <li role='presentation'>
-                                <button
+                                <ToggleModalButtonRedux
                                     role='menuitem'
-                                    className='style--none'
-                                    onClick={this.showRenameChannelModal}
+                                    modalId={ModalIdentifiers.RENAME_CHANNEL}
+                                    dialogType={RenameChannelModal}
+                                    dialogProps={{channel}}
                                 >
                                     <FormattedMessage
                                         id='channel_header.rename'
                                         defaultMessage='Rename Channel'
                                     />
-                                </button>
+                                </ToggleModalButtonRedux>
                             </li>
                         </ChannelPermissionGate>
                     );
@@ -788,7 +778,6 @@ export default class Navbar extends React.Component {
         const teamId = channel && channel.team_id;
 
         var editChannelPurposeModal = null;
-        let renameChannelModal = null;
         let channelMembersModal = null;
         let channelNotificationsModal = null;
         let quickSwitchModal = null;
@@ -824,14 +813,6 @@ export default class Navbar extends React.Component {
                     />
                 );
             }
-
-            renameChannelModal = (
-                <RenameChannelModal
-                    show={this.state.showRenameChannelModal}
-                    onHide={this.hideRenameChannelModal}
-                    channel={channel}
-                />
-            );
 
             if (this.state.showMembersModal) {
                 channelMembersModal = (
@@ -899,7 +880,6 @@ export default class Navbar extends React.Component {
                     </div>
                 </nav>
                 {editChannelPurposeModal}
-                {renameChannelModal}
                 {channelMembersModal}
                 {channelNotificationsModal}
                 {quickSwitchModal}
