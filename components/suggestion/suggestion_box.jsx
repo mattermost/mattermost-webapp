@@ -13,6 +13,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
+const MIN_TIME_BEFORE_CLICK = 200;
 
 export default class SuggestionBox extends React.Component {
     static propTypes = {
@@ -185,10 +186,10 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    handleEmitClearSuggestions = (suggestionId) => {
+    handleEmitClearSuggestions = (suggestionId, delay = 0) => {
         setTimeout(() => {
             GlobalActions.emitClearSuggestions(suggestionId);
-        }, 0);
+        }, delay);
     }
 
     handleFocusOut = (e) => {
@@ -202,7 +203,7 @@ export default class SuggestionBox extends React.Component {
             // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
             // blur so that click handlers on the list items still register
             if (this.presentationType !== 'date' || this.props.value.length === 0) {
-                this.handleEmitClearSuggestions(this.suggestionId);
+                this.handleEmitClearSuggestions(this.suggestionId, MIN_TIME_BEFORE_CLICK);
             }
         } else {
             this.handleEmitClearSuggestions(this.suggestionId);
