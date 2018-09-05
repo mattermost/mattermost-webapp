@@ -99,3 +99,21 @@
         width: 100%;
     }
 }
+
+.suggestion-list__no-results {
+    line-height: 21px;
+    margin: 5px 0 5px 5px;
+    position: relative;
+
+    &:first-child {
+        margin-top: 5px;
+    }
+
+    > span {
+        display: inline-block;
+        font-size: .9em;
+        padding: 0 10px 0 5px;
+        position: relative;
+        z-index: 5;
+    }
+}

@@ -89,6 +89,7 @@ class SuggestionStore extends EventEmitter {
 
     registerSuggestionBox(id) {
         this.suggestions.set(id, {
+            cleared: true,
             pretext: '',
             matchedPretext: [],
             terms: [],
@@ -105,6 +106,7 @@ class SuggestionStore extends EventEmitter {
     clearSuggestions(id) {
         const suggestion = this.getSuggestions(id);
 
+        suggestion.cleared = true;
         suggestion.matchedPretext = [];
         suggestion.terms = [];
         suggestion.items = [];
@@ -139,6 +141,7 @@ class SuggestionStore extends EventEmitter {
     addSuggestion(id, term, item, component, matchedPretext) {
         const suggestion = this.getSuggestions(id);
 
+        suggestion.cleared = false;
         suggestion.terms.push(term);
         suggestion.items.push(item);
         suggestion.components.push(component);
@@ -148,6 +151,7 @@ class SuggestionStore extends EventEmitter {
     addSuggestions(id, terms, items, component, matchedPretext) {
         const suggestion = this.getSuggestions(id);
 
+        suggestion.cleared = false;
         suggestion.terms.push(...terms);
         suggestion.items.push(...items);
 

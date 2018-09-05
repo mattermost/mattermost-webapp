@@ -95,10 +95,11 @@ export default class ActionMenu extends React.PureComponent {
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 providers={this.providers}
-                requiredCharacters={0}
                 completeOnTab={true}
                 renderDividers={false}
+                renderNoResults={true}
                 openOnFocus={true}
+                openWhenEmpty={true}
                 replaceAllInputOnSelect={true}
             />
         );
