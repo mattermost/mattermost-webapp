@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
@@ -59,6 +61,8 @@ export default class ActionMenu extends React.PureComponent {
             value = selected.value;
         }
 
+        this.setState({selected});
+
         this.props.actions.doPostAction(this.props.postId, this.props.action.id, value);
 
         if (this.suggestionRef) {
@@ -82,26 +86,42 @@ export default class ActionMenu extends React.PureComponent {
 
     render() {
         const {action} = this.props;
+
+        let submitted;
+        if (this.state.selected) {
+            submitted = (
+                <span>
+                    <FormattedMessage
+                        id='action_menu.submitted'
+                        defaultMessage='Submitted'
+                    />
+                </span>
+            );
+        }
+
         return (
-            <SuggestionBox
-                placeholder={action.name}
-                ref={this.setSuggestionRef}
-                listComponent={SuggestionList}
-                className='form-control'
-                containerClass={'post-attachment-dropdown'}
-                value={this.state.input}
-                onChange={this.onChange}
-                onItemSelected={this.handleSelected}
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
-                providers={this.providers}
-                completeOnTab={true}
-                renderDividers={false}
-                renderNoResults={true}
-                openOnFocus={true}
-                openWhenEmpty={true}
-                replaceAllInputOnSelect={true}
-            />
+            <div>
+                <SuggestionBox
+                    placeholder={action.name}
+                    ref={this.setSuggestionRef}
+                    listComponent={SuggestionList}
+                    className='form-control'
+                    containerClass={'post-attachment-dropdown'}
+                    value={this.state.input}
+                    onChange={this.onChange}
+                    onItemSelected={this.handleSelected}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    providers={this.providers}
+                    completeOnTab={true}
+                    renderDividers={false}
+                    renderNoResults={true}
+                    openOnFocus={true}
+                    openWhenEmpty={true}
+                    replaceAllInputOnSelect={true}
+                />
+                {submitted}
+            </div>
         );
     }
 }
