@@ -88,7 +88,7 @@ export default class ChannelHeader extends React.Component {
         this.state = {
             showSearchBar,
             showEditChannelHeaderModal: false,
-            showChannelNotificationsModal: false,
+            isBusy: WebrtcStore.isBusy(),
         };
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
@@ -211,18 +211,11 @@ export default class ChannelHeader extends React.Component {
         });
     };
 
-    showChannelNotificationsModal = (e) => {
-        e.preventDefault();
-
-        this.setState({
-            showChannelNotificationsModal: true,
-        });
-    };
-
-    hideChannelNotificationsModal = () => {
-        this.setState({
-            showChannelNotificationsModal: false,
-        });
+    initWebrtc = (contactId, isOnline) => {
+        if (isOnline && !this.props.isWebrtcBusy) {
+            this.props.actions.closeRightHandSide();
+            WebrtcActions.initWebrtc(contactId, true);
+        }
     };
 
     handleOnMouseOver = () => {
@@ -417,17 +410,21 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <button
-                        className='style--none'
-                        id='channelNotificationsGroup'
+                    <ToggleModalButtonRedux
                         role='menuitem'
-                        onClick={this.showChannelNotificationsModal}
+                        modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
+                        dialogType={ChannelNotificationsModal}
+                        dialogProps={{
+                            channel,
+                            channelMember: this.props.channelMember,
+                            currentUser: this.props.currentUser,
+                        }}
                     >
                         <FormattedMessage
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </button>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -500,17 +497,21 @@ export default class ChannelHeader extends React.Component {
                         key='notification_preferences'
                         role='presentation'
                     >
-                        <button
-                            className='style--none'
-                            id='channelNotificationsGroup'
+                        <ToggleModalButtonRedux
                             role='menuitem'
-                            onClick={this.showChannelNotificationsModal}
+                            modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
+                            dialogType={ChannelNotificationsModal}
+                            dialogProps={{
+                                channel,
+                                channelMember: this.props.channelMember,
+                                currentUser: this.props.currentUser,
+                            }}
                         >
                             <FormattedMessage
                                 id='channel_header.notificationPreferences'
                                 defaultMessage='Notification Preferences'
                             />
-                        </button>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
             }
@@ -1076,13 +1077,6 @@ export default class ChannelHeader extends React.Component {
                     />
                 </div>
                 {editHeaderModal}
-                <ChannelNotificationsModal
-                    show={this.state.showChannelNotificationsModal}
-                    onHide={this.hideChannelNotificationsModal}
-                    channel={channel}
-                    channelMember={this.props.channelMember}
-                    currentUser={this.props.currentUser}
-                />
             </div>
         );
     }
