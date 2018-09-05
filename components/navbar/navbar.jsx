@@ -79,7 +79,6 @@ export default class Navbar extends React.Component {
 
         this.state = {
             ...this.getStateFromStores(),
-            showEditChannelPurposeModal: false,
             showMembersModal: false,
             showQuickSwitchModal: false,
             showChannelNotificationsModal: false,
@@ -94,7 +93,6 @@ export default class Navbar extends React.Component {
         UserStore.addChangeListener(this.onChange);
         PreferenceStore.addChangeListener(this.onChange);
         ModalStore.addModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         WebrtcStore.addChangedListener(this.onChange);
         WebrtcStore.addBusyListener(this.onBusy);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
@@ -108,7 +106,6 @@ export default class Navbar extends React.Component {
         UserStore.removeChangeListener(this.onChange);
         PreferenceStore.removeChangeListener(this.onChange);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         WebrtcStore.removeChangedListener(this.onChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
@@ -186,18 +183,6 @@ export default class Navbar extends React.Component {
     hideChannelNotificationsModal = () => {
         this.setState({
             showChannelNotificationsModal: false,
-        });
-    }
-
-    showChannelPurposeModal = () => {
-        this.setState({
-            showEditChannelPurposeModal: true,
-        });
-    }
-
-    hideChannelPurposeModal = () => {
-        this.setState({
-            showEditChannelPurposeModal: false,
         });
     }
 
@@ -483,16 +468,17 @@ export default class Navbar extends React.Component {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <li role='presentation'>
-                                <button
+                                <ToggleModalButtonRedux
                                     role='menuitem'
-                                    className='style--none'
-                                    onClick={this.showChannelPurposeModal}
+                                    modalId={ModalIdentifiers.EDIT_CHANNEL_PURPOSE}
+                                    dialogType={EditChannelPurposeModal}
+                                    dialogProps={{channel}}
                                 >
                                     <FormattedMessage
                                         id='channel_header.setPurpose'
                                         defaultMessage='Edit Channel Purpose'
                                     />
-                                </button>
+                                </ToggleModalButtonRedux>
                             </li>
                         </ChannelPermissionGate>
                     );
@@ -777,7 +763,6 @@ export default class Navbar extends React.Component {
         let isGroup = false;
         const teamId = channel && channel.team_id;
 
-        var editChannelPurposeModal = null;
         let channelMembersModal = null;
         let channelNotificationsModal = null;
         let quickSwitchModal = null;
@@ -803,15 +788,6 @@ export default class Navbar extends React.Component {
                 }
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;
-            }
-
-            if (this.state.showEditChannelPurposeModal) {
-                editChannelPurposeModal = (
-                    <EditChannelPurposeModal
-                        onModalDismissed={this.hideChannelPurposeModal}
-                        channel={channel}
-                    />
-                );
             }
 
             if (this.state.showMembersModal) {
@@ -879,7 +855,6 @@ export default class Navbar extends React.Component {
                         </div>
                     </div>
                 </nav>
-                {editChannelPurposeModal}
                 {channelMembersModal}
                 {channelNotificationsModal}
                 {quickSwitchModal}

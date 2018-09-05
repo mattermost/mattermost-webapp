@@ -88,7 +88,6 @@ export default class ChannelHeader extends React.Component {
         this.state = {
             showSearchBar,
             showEditChannelHeaderModal: false,
-            showEditChannelPurposeModal: false,
             showMembersModal: false,
             showChannelNotificationsModal: false,
         };
@@ -245,14 +244,6 @@ export default class ChannelHeader extends React.Component {
 
     hideMembersModal = () => {
         this.setState({showMembersModal: false});
-    };
-
-    showEditChannelPurposeModal = () => {
-        this.setState({showEditChannelPurposeModal: true});
-    };
-
-    hideEditChannelPurposeModal = () => {
-        this.setState({showEditChannelPurposeModal: false});
     };
 
     hideEditChannelHeaderModal = () => {
@@ -661,17 +652,18 @@ export default class ChannelHeader extends React.Component {
                             key='set_channel_purpose'
                             role='presentation'
                         >
-                            <button
-                                className='style--none'
+                            <ToggleModalButtonRedux
                                 id='channelEditPurpose'
                                 role='menuitem'
-                                onClick={this.showEditChannelPurposeModal}
+                                modalId={ModalIdentifiers.EDIT_CHANNEL_PURPOSE}
+                                dialogType={EditChannelPurposeModal}
+                                dialogProps={{channel}}
                             >
                                 <FormattedMessage
                                     id='channel_header.setPurpose'
                                     defaultMessage='Edit Channel Purpose'
                                 />
-                            </button>
+                            </ToggleModalButtonRedux>
                         </li>
 
                         <li
@@ -988,16 +980,6 @@ export default class ChannelHeader extends React.Component {
             );
         }
 
-        let editPurposeModal;
-        if (this.state.showEditChannelPurposeModal) {
-            editPurposeModal = (
-                <EditChannelPurposeModal
-                    onModalDismissed={this.hideEditChannelPurposeModal}
-                    channel={channel}
-                />
-            );
-        }
-
         let pinnedIconClass = 'channel-header__icon';
         if (this.props.rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
@@ -1114,7 +1096,6 @@ export default class ChannelHeader extends React.Component {
                     />
                 </div>
                 {editHeaderModal}
-                {editPurposeModal}
                 {channelMembersModal}
                 <ChannelNotificationsModal
                     show={this.state.showChannelNotificationsModal}
