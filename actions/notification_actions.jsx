@@ -13,7 +13,7 @@ import store from 'stores/redux_store.jsx';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {stripMarkdown} from 'utils/markdown';
+import {generateShortMessage} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
@@ -83,27 +83,27 @@ export function sendDesktopNotification(post, msgProps) {
         }
     }
 
-    let notifyText = post.message;
+    let message = post.message;
 
     const msgPropsPost = JSON.parse(msgProps.post);
     const attachments = msgPropsPost && msgPropsPost.props && msgPropsPost.props.attachments ? msgPropsPost.props.attachments : [];
     let image = false;
     attachments.forEach((attachment) => {
-        if (notifyText.length === 0) {
-            notifyText = attachment.fallback ||
+        if (message.length === 0) {
+            message = attachment.fallback ||
                          attachment.pretext ||
                          attachment.text;
         }
         image |= attachment.image_url.length > 0;
     });
 
-    let strippedMarkdownNotifyText = stripMarkdown(notifyText);
-    if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
-        strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
+    let shortMessage = generateShortMessage(message);
+    if (shortMessage.length > NOTIFY_TEXT_MAX_LENGTH) {
+        shortMessage = shortMessage.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
     }
 
     let body = '';
-    if (strippedMarkdownNotifyText.length === 0) {
+    if (shortMessage.length === 0) {
         if (msgProps.image) {
             body = username + Utils.localizeMessage('channel_loader.uploadedImage', ' uploaded an image');
         } else if (msgProps.otherFile) {
@@ -114,7 +114,7 @@ export function sendDesktopNotification(post, msgProps) {
             body = username + Utils.localizeMessage('channel_loader.something', ' did something new');
         }
     } else {
-        body = username + Utils.localizeMessage('channel_loader.wrote', ' wrote: ') + strippedMarkdownNotifyText;
+        body = username + Utils.localizeMessage('channel_loader.wrote', ' wrote: ') + shortMessage;
     }
 
     //Play a sound if explicitly set in settings

@@ -5,15 +5,15 @@ import marked from 'marked';
 
 export default class RemoveMarkdown extends marked.Renderer {
     code(text) {
-        return ' ' + text.split('\n').join(' ');
+        return text.split('\n')[0];
     }
 
     blockquote(text) {
-        return text.split('\n').join(' ');
+        return text.split('\n')[0];
     }
 
     heading(text) {
-        return text;
+        return text + '\n';
     }
 
     hr() {
@@ -21,15 +21,15 @@ export default class RemoveMarkdown extends marked.Renderer {
     }
 
     list(body) {
-        return body;
+        return body.split('\n')[0];
     }
 
     listitem(text) {
-        return text;
+        return text + '\n';
     }
 
     paragraph(text) {
-        return text;
+        return text.split('\n')[0];
     }
 
     table() {
@@ -73,6 +73,6 @@ export default class RemoveMarkdown extends marked.Renderer {
     }
 
     text(text) {
-        return text.replace('\n', ' ');
+        return text.split('\n')[0];
     }
 }

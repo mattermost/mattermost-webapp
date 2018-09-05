@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {stripMarkdown} from 'utils/markdown';
+import {generateShortMessage} from 'utils/markdown';
 
-describe('stripMarkdown | RemoveMarkdown', () => {
+describe('generateShortMessage', () => {
     const testCases = [
         {
             description: 'emoji: same',
@@ -46,9 +46,14 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             outputText: 'Multiline codespan',
         },
         {
+            description: 'codespan: multiline codespan',
+            inputText: '```\nthis.codespan;\nanother.codespan;\nreturn;\n```',
+            outputText: 'this.codespan;',
+        },
+        {
             description: 'codespan: language highlighting',
             inputText: '```javascript\nvar s = "JavaScript syntax highlighting";\nalert(s);\n```',
-            outputText: ' var s = "JavaScript syntax highlighting"; alert(s); ',
+            outputText: 'var s = "JavaScript syntax highlighting";',
         },
         {
             description: 'blockquote:',
@@ -58,7 +63,7 @@ describe('stripMarkdown | RemoveMarkdown', () => {
         {
             description: 'blockquote: multiline',
             inputText: '> Hey quote.\n> Hello quote.',
-            outputText: 'Hey quote. Hello quote.',
+            outputText: 'Hey quote.',
         },
         {
             description: 'heading: # H1 header',
@@ -96,6 +101,16 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             outputText: 'H6 header',
         },
         {
+            description: 'heading: multi-header',
+            inputText: '# H1 header\n###### H6 header',
+            outputText: 'H1 header',
+        },
+        {
+            description: 'heading: header followed by links',
+            inputText: '##### H5 header\n[link 1](https://google.com) - [link 2](https://google.com)',
+            outputText: 'H5 header',
+        },
+        {
             description: 'list: 1. First ordered list item',
             inputText: '1. First ordered list item',
             outputText: 'First ordered list item',
@@ -123,7 +138,7 @@ describe('stripMarkdown | RemoveMarkdown', () => {
         {
             description: 'list: multiline',
             inputText: '1. First ordered list item\n2. Another item',
-            outputText: 'First ordered list itemAnother item',
+            outputText: 'First ordered list item',
         },
         {
             description: 'tablerow:)',
@@ -180,7 +195,7 @@ describe('stripMarkdown | RemoveMarkdown', () => {
         {
             description: 'text: multiline',
             inputText: 'This is multiline text.\nHere is the next line.\n',
-            outputText: 'This is multiline text. Here is the next line.',
+            outputText: 'This is multiline text.',
         },
         {
             description: 'text: &amp; entity',
@@ -260,6 +275,6 @@ describe('stripMarkdown | RemoveMarkdown', () => {
     ];
 
     testCases.forEach((testCase) => it(testCase.description, () => {
-        expect(stripMarkdown(testCase.inputText)).toEqual(testCase.outputText);
+        expect(generateShortMessage(testCase.inputText)).toEqual(testCase.outputText);
     }));
 });
