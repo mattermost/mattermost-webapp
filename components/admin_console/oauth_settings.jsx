@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
@@ -416,26 +418,116 @@ export default class OAuthSettings extends AdminSettings {
         if (this.state.oauthType === Constants.GITLAB_SERVICE) {
             contents = this.renderGitLab();
             helpText = (
-                <FormattedHTMLMessage
-                    id='admin.gitlab.EnableHtmlDesc'
-                    defaultMessage='<ol><li>Log in to your GitLab account and go to Profile Settings -> Applications.</li><li>Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete". </li><li>Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.</li><li>Complete the Endpoint URLs below. </li></ol>'
-                />
+                <ol>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableProcess1'
+                            defaultMessage='Log in to your GitLab account and go to Profile Settings -> Applications.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableProcess2'
+                            defaultMessage='Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableProcess3'
+                            defaultMessage='Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMessage
+                            id='admin.gitlab.EnableProcess4'
+                            defaultMessage='Complete the Endpoint URLs below.'
+                        />
+                    </li>
+                </ol>
             );
         } else if (this.state.oauthType === Constants.GOOGLE_SERVICE) {
             contents = this.renderGoogle();
             helpText = (
-                <FormattedHTMLMessage
-                    id='admin.google.EnableHtmlDesc'
-                    defaultMessage='<ol><li><a target="_blank" href="https://accounts.google.com/login">Log in</a> to your Google account.</li><li>Go to <a target="_blank" href="https://console.developers.google.com">https://console.developers.google.com</a>, click <strong>Credentials</strong> in the left hand sidebar and enter "Mattermost - your-company-name" as the <strong>Project Name</strong>, then click <strong>Create</strong>.</li><li>Click the <strong>OAuth consent screen</strong> header and enter "Mattermost" as the <strong>Product name shown to users</strong>, then click <strong>Save</strong>.</li><li>Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.</li><li>Under <strong>Restrictions</strong> and <strong>Authorized redirect URIs</strong> enter <strong>your-mattermost-url/signup/google/complete</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.</li><li>Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.</li><li>Finally, go to <a target="_blank" href="https://console.developers.google.com/apis/api/plus/overview">Google+ API</a> and click <strong>Enable</strong>. This might take a few minutes to propagate through Google`s systems.</li></ol>'
-                />
+                <ol>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess1'
+                            defaultMessage='[Log in](!https://accounts.google.com/login) to your Google account.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess2'
+                            defaultMessage='Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess3'
+                            defaultMessage='Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess4'
+                            defaultMessage='Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess5'
+                            defaultMessage='Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess6'
+                            defaultMessage='Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.google.EnableProcess7'
+                            defaultMessage='Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview) and click **Enable**. This might take a few minutes to propagate through Google`s systems.'
+                        />
+                    </li>
+                </ol>
             );
         } else if (this.state.oauthType === Constants.OFFICE365_SERVICE) {
             contents = this.renderOffice365();
             helpText = (
-                <FormattedHTMLMessage
-                    id='admin.office365.EnableHtmlDesc'
-                    defaultMessage='<ol><li><a target="_blank" href="https://login.microsoftonline.com/">Log in</a> to your Microsoft or Office 365 account. Make sure it`s the account on the same <a target="_blank" href="https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0">tenant</a> that you would like users to log in with.</li><li>Go to <a target="_blank" href="https://apps.dev.microsoft.com">https://apps.dev.microsoft.com</a>, click <strong>Go to app list</strong> > <strong>Add an app</strong> and use "Mattermost - your-company-name" as the <strong>Application Name</strong>.</li><li>Under <strong>Application Secrets</strong>, click <strong>Generate New Password</strong> and paste it to the <strong>Application Secret Password</strong> field below.</li><li>Under <strong>Platforms</strong>, click <strong>Add Platform</strong>, choose <strong>Web</strong> and enter <strong>your-mattermost-url/signup/office365/complete</strong> (example: http://localhost:8065/signup/office365/complete) under <strong>Redirect URIs</strong>. Also uncheck <strong>Allow Implicit Flow</strong>.</li><li>Finally, click <strong>Save</strong> and then paste the <strong>Application ID</strong> below.</li></ol>'
-                />
+                <ol>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableProcess1'
+                            defaultMessage='[Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableProcess2'
+                            defaultMessage='Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use \"Mattermost - your-company-name\" as the **Application Name**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableProcess3'
+                            defaultMessage='Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableProcess4'
+                            defaultMessage='Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='admin.office365.EnableProcess5'
+                            defaultMessage='Finally, click **Save** and then paste the **Application ID** below.'
+                        />
+                    </li>
+                </ol>
             );
         }
 

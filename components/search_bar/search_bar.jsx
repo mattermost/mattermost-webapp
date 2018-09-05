@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Popover} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -159,10 +160,44 @@ export default class SearchBar extends React.Component {
                 placement='bottom'
                 className={helpClass}
             >
-                <FormattedMarkdownMessage
-                    id='search_bar.usage'
-                    defaultMessage='#### Search Options\n\n* Use **"quotation marks"** to search for phrases\n* Use **from:** to find posts from specific users and **in:** to find posts in specific channels\n* Use **on:** to find posts on a specific date\n* Use **before:** to find posts before a specific date\n* Use **after:** to find posts after a specific date'
-                />
+                <h4>
+                    <FormattedMessage
+                        id='search_bar.usage.title'
+                        defaultMessage='Search Options'
+                    />
+                </h4>
+                <ul>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='search_bar.usage1'
+                            defaultMessage='Use **"quotation marks"** to search for phrases'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='search_bar.usage2'
+                            defaultMessage='Use **from:** to find posts from specific users and **in:** to find posts in specific channels'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='search_bar.usage3'
+                            defaultMessage='Use **on:** to find posts on a specific date'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='search_bar.usage4'
+                            defaultMessage='Use **before:** to find posts before a specific date'
+                        />
+                    </li>
+                    <li>
+                        <FormattedMarkdownMessage
+                            id='search_bar.usage5'
+                            defaultMessage='Use **after:** to find posts after a specific date'
+                        />
+                    </li>
+                </ul>
             </Popover>
         );
     }

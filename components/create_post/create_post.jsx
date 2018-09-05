@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -29,6 +29,8 @@ import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -769,10 +771,24 @@ export default class CreatePost extends React.Component {
 
         screens.push(
             <div>
-                <FormattedHTMLMessage
-                    id='create_post.tutorialTip'
-                    defaultMessage='<h4>Sending Messages</h4><p>Type here to write a message and press <strong>Enter</strong> to post it.</p><p>Click the <strong>Attachment</strong> button to upload an image or a file.</p>'
-                />
+                <h4>
+                    <FormattedMessage
+                        id='create_post.tutorialTip.title'
+                        defaultMessage='Sending Messages'
+                    />
+                </h4>
+                <p>
+                    <FormattedMarkdownMessage
+                        id='create_post.tutorialTip1'
+                        defaultMessage='Type here to write a message and press **Enter** to post it.'
+                    />
+                </p>
+                <p>
+                    <FormattedMarkdownMessage
+                        id='create_post.tutorialTip2'
+                        defaultMessage='Click the **Attachment** button to upload an image or a file.'
+                    />
+                </p>
             </div>
         );
 

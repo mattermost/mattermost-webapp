@@ -9,6 +9,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class ConvertChannelModal extends React.PureComponent {
     static propTypes = {
 
@@ -74,9 +76,9 @@ export default class ConvertChannelModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='convert_channel.question1'
-                            defaultMessage='When you convert <strong>{display_name}</strong> to a private channel, history and membership are preserved. Publicly shared files remain accessible to anyone with the link. Membership in a private channel is by invitation only.'
+                            defaultMessage='When you convert **{display_name}** to a private channel, history and membership are preserved. Publicly shared files remain accessible to anyone with the link. Membership in a private channel is by invitation only.'
                             values={{
                                 display_name: channelDisplayName,
                             }}
@@ -89,9 +91,9 @@ export default class ConvertChannelModal extends React.PureComponent {
                         />
                     </p>
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='convert_channel.question3'
-                            defaultMessage='Are you sure you want to convert <strong>{display_name}</strong> to a private channel?'
+                            defaultMessage='Are you sure you want to convert **{display_name}** to a private channel?'
                             values={{
                                 display_name: channelDisplayName,
                             }}

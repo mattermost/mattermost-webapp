@@ -3,11 +3,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url.jsx';
 import Constants from 'utils/constants.jsx';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -108,9 +110,9 @@ describe('/components/create_team/components/display_name', () => {
         wrapper.find('.form-control').instance().value = 'channel';
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(
-            <FormattedHTMLMessage
+            <FormattedMarkdownMessage
+                defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
                 id='create_team.team_url.taken'
-                defaultMessage='This URL <a href="https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url" target="_blank">starts with a reserved word</a> or is unavailable. Please try another.'
             />
         );
     });

@@ -98,22 +98,20 @@ exports[`components/admin_console/system_users/list should match default snapsho
     extraInfo={
       Object {
         "id1": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> Email"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
-            values={Object {}}
           />,
         ],
         "id2": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> Email"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
-            values={Object {}}
           />,
         ],
         "id3": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
               Object {
@@ -123,8 +121,8 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
         ],
         "id4": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
               Object {
@@ -134,8 +132,8 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
         ],
         "id5": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
               Object {
@@ -241,34 +239,30 @@ exports[`components/admin_console/system_users/list should match default snapsho
     extraInfo={
       Object {
         "id1": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> Email"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
-            values={Object {}}
           />,
           ", ",
-          <FormattedHTMLMessage
-            defaultMessage="<strong>MFA</strong>: No"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
-            values={Object {}}
           />,
         ],
         "id2": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> Email"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
-            values={Object {}}
           />,
           ", ",
-          <FormattedHTMLMessage
-            defaultMessage="<strong>MFA</strong>: No"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
-            values={Object {}}
           />,
         ],
         "id3": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
               Object {
@@ -277,15 +271,14 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <FormattedHTMLMessage
-            defaultMessage="<strong>MFA</strong>: No"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
-            values={Object {}}
           />,
         ],
         "id4": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
               Object {
@@ -294,15 +287,14 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <FormattedHTMLMessage
-            defaultMessage="<strong>MFA</strong>: No"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
-            values={Object {}}
           />,
         ],
         "id5": Array [
-          <FormattedHTMLMessage
-            defaultMessage="<strong>Sign-in Method:</strong> {service}"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
               Object {
@@ -311,10 +303,9 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <FormattedHTMLMessage
-            defaultMessage="<strong>MFA</strong>: No"
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
-            values={Object {}}
           />,
         ],
       }

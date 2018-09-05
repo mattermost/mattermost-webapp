@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
+import {getSiteURL} from 'utils/url';
 import {ldapTest, invalidateAllCaches, reloadConfig, testS3Connection} from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -398,7 +399,8 @@ export default {
                             type: Constants.SettingsTypes.TYPE_BANNER,
                             label: 'admin.compliance.newComplianceExportBanner',
                             label_markdown: true,
-                            label_default: 'This feature is replaced by a new [Compliance Export](../../admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.',
+                            label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.',
+                            label_values: {siteURL: getSiteURL()},
                             isHidden: needsUtils.not(needsUtils.hasLicense),
                             banner_type: 'info',
                         },

@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class TeamUrl extends React.PureComponent {
     static propTypes = {
@@ -107,9 +109,9 @@ export default class TeamUrl extends React.PureComponent {
         for (let index = 0; index < Constants.RESERVED_TEAM_NAMES.length; index++) {
             if (cleanedName.indexOf(Constants.RESERVED_TEAM_NAMES[index]) === 0) {
                 this.setState({nameError: (
-                    <FormattedHTMLMessage
+                    <FormattedMarkdownMessage
                         id='create_team.team_url.taken'
-                        defaultMessage='This URL <a href="https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url" target="_blank">starts with a reserved word</a> or is unavailable. Please try another.'
+                        defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
                     />),
                 });
                 return;
@@ -229,12 +231,24 @@ export default class TeamUrl extends React.PureComponent {
                         />
                     </p>
                     <ul className='color--light'>
-                        <FormattedHTMLMessage
-                            id='create_team.team_url.hint'
-                            defaultMessage="<li>Short and memorable is best</li>
-                            <li>Use lowercase letters, numbers and dashes</li>
-                            <li>Must start with a letter and can't end in a dash</li>"
-                        />
+                        <li>
+                            <FormattedMessage
+                                id='create_team.team_url.hint1'
+                                defaultMessage='Short and memorable is best'
+                            />
+                        </li>
+                        <li>
+                            <FormattedMessage
+                                id='create_team.team_url.hint2'
+                                defaultMessage='Use lowercase letters, numbers and dashes'
+                            />
+                        </li>
+                        <li>
+                            <FormattedMessage
+                                id='create_team.team_url.hint3'
+                                defaultMessage="Must start with a letter and can't end in a dash"
+                            />
+                        </li>
                     </ul>
                     <div className='margin--extra'>
                         <Button
