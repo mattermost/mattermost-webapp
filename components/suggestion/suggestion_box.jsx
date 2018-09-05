@@ -185,6 +185,12 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
+    handleEmitClearSuggestions = (suggestionId) => {
+        setTimeout(() => {
+            GlobalActions.emitClearSuggestions(suggestionId);
+        }, 200);
+    }
+
     handleFocusOut = (e) => {
         // Focus is switching TO e.relatedTarget, so only treat this as a blur event if we're not switching
         // between children (like from the textbox to the suggestion list)
@@ -196,12 +202,10 @@ export default class SuggestionBox extends React.Component {
             // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
             // blur so that click handlers on the list items still register
             if (this.presentationType !== 'date' || this.props.value.length === 0) {
-                setTimeout(() => {
-                    GlobalActions.emitClearSuggestions(this.suggestionId);
-                }, 200);
+                this.handleEmitClearSuggestions(this.suggestionId);
             }
         } else {
-            GlobalActions.emitClearSuggestions(this.suggestionId);
+            this.handleEmitClearSuggestions(this.suggestionId);
         }
 
         if (this.props.onBlur) {
