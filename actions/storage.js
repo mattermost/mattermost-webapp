@@ -5,7 +5,7 @@ import {StorageTypes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
 
 export function setItem(name, value) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const state = getState();
         const prefix = getPrefix(state);
         dispatch({
@@ -17,7 +17,7 @@ export function setItem(name, value) {
 }
 
 export function removeItem(name) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const state = getState();
         const prefix = getPrefix(state);
         dispatch({
@@ -29,7 +29,7 @@ export function removeItem(name) {
 }
 
 export function setGlobalItem(name, value) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         dispatch({
             type: StorageTypes.SET_GLOBAL_ITEM,
             data: {name, value, timestamp: new Date()},
@@ -39,7 +39,7 @@ export function setGlobalItem(name, value) {
 }
 
 export function removeGlobalItem(name) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         dispatch({
             type: StorageTypes.REMOVE_GLOBAL_ITEM,
             data: {name},
@@ -49,7 +49,7 @@ export function removeGlobalItem(name) {
 }
 
 export function clear(options) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         dispatch({
             type: StorageTypes.CLEAR,
             data: options,
@@ -59,7 +59,7 @@ export function clear(options) {
 }
 
 export function actionOnGlobalItemsWithPrefix(prefix, action) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         dispatch({
             type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
             data: {prefix, action},
@@ -69,7 +69,7 @@ export function actionOnGlobalItemsWithPrefix(prefix, action) {
 }
 
 export function actionOnItemsWithPrefix(prefix, action) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const state = getState();
         const globalPrefix = getPrefix(state);
         dispatch({
@@ -81,7 +81,7 @@ export function actionOnItemsWithPrefix(prefix, action) {
 }
 
 export function storageRehydrate(incoming, persistor) {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const state = getState();
         persistor.pause();
         Object.keys(incoming).forEach((key) => {
