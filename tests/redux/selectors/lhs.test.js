@@ -5,7 +5,7 @@ import assert from 'assert';
 
 import * as Selectors from 'selectors/lhs';
 
-describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
+describe('Selectors.Lhs', () => {
     let state;
 
     beforeEach(() => {
