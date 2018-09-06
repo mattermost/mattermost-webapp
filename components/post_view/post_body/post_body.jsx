@@ -62,11 +62,6 @@ export default class PostBody extends React.PureComponent {
         isFirstReply: PropTypes.bool,
 
         /**
-         * Set to collapse image and video previews
-         */
-        previewCollapsed: PropTypes.string,
-
-        /**
          * User's preference to link previews
          */
         previewEnabled: PropTypes.bool,
@@ -258,7 +253,6 @@ export default class PostBody extends React.PureComponent {
             messageWithAdditionalContent = (
                 <PostBodyAdditionalContent
                     post={this.props.post}
-                    previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
                     isEmbedVisible={this.props.isEmbedVisible}
                 >

@@ -28,11 +28,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         children: PropTypes.element.isRequired,
 
         /**
-         * Set to collapse image and video previews
-         */
-        previewCollapsed: PropTypes.string,
-
-        /**
          * User's preference to link previews
          */
         previewEnabled: PropTypes.bool,
@@ -64,7 +59,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     static defaultProps = {
-        previewCollapsed: '',
         previewEnabled: false,
     }
 
@@ -256,8 +250,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return (
                 <PostAttachmentOpenGraph
                     link={link}
-                    previewCollapsed={this.props.previewCollapsed}
+                    isEmbedVisible={this.props.isEmbedVisible}
                     post={this.props.post}
+                    toggleEmbedVisibility={this.toggleEmbedVisibility}
                 />
             );
         }
