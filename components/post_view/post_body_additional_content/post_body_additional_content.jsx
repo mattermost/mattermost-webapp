@@ -4,9 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import BrowserStore from 'stores/browser_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {StoragePrefixes} from 'utils/constants.jsx';
 import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 import Constants from 'utils/constants';
@@ -61,6 +59,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
         actions: PropTypes.shape({
             getRedirectLocation: PropTypes.func.isRequired,
+            toggleEmbedVisibility: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -126,8 +125,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     toggleEmbedVisibility = () => {
-        // save the toggle info in the localstorage
-        BrowserStore.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + this.props.post.id, !this.props.isEmbedVisible);
+        this.props.actions.toggleEmbedVisibility(this.props.post.id);
     }
 
     getSlackAttachment() {

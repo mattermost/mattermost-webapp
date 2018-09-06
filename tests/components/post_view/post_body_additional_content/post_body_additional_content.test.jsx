@@ -14,7 +14,7 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         create_at: 1,
         message: '',
     };
-    const requiredProps = {
+    const baseProps = {
         post,
         previewCollapsed: '',
         previewEnabled: false,
@@ -23,6 +23,7 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         hasImageProxy: true,
         actions: {
             getRedirectLocation: () => null,
+            toggleEmbedVisibility: jest.fn(),
         },
     };
 
@@ -37,12 +38,32 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
             {link: 'http://localhost/not_JPG', result: false},
         ];
         const wrapper = shallow(
-            <PostBodyAdditionalContent {...requiredProps}>
+            <PostBodyAdditionalContent {...baseProps}>
                 <div/>
             </PostBodyAdditionalContent>
         );
         testCases.forEach((testCase) => {
             expect(wrapper.instance().isLinkImage(testCase.link)).toEqual(testCase.result);
         });
+    });
+
+    test('should call toggleEmbedVisibility with post id', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                toggleEmbedVisibility: jest.fn(),
+            },
+        };
+
+        const wrapper = shallow(
+            <PostBodyAdditionalContent {...props}>
+                <div/>
+            </PostBodyAdditionalContent>
+        );
+
+        wrapper.instance().toggleEmbedVisibility();
+        expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
+        expect(props.actions.toggleEmbedVisibility).toBeCalledWith('post_id_1');
     });
 });

@@ -68,18 +68,6 @@ class BrowserStoreClass {
         return loginId === sessionStorage.getItem(StoragePrefixes.LOGIN);
     }
 
-    /**
-     * Preforms the given action on each item that has the given prefix
-     * Signature for action is action(key, value)
-     */
-    actionOnGlobalItemsWithPrefix(prefix, action) {
-        dispatch(Actions.actionOnGlobalItemsWithPrefix(prefix, action));
-    }
-
-    actionOnItemsWithPrefix(prefix, action) {
-        dispatch(Actions.actionOnItemsWithPrefix(prefix, action));
-    }
-
     clear(options) {
         dispatch(Actions.clear(options));
     }

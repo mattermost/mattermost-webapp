@@ -6,7 +6,7 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes, StoragePrefixes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants.jsx';
 import {
     getFileType,
     localizeMessage,
@@ -17,21 +17,18 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image';
 
-import BrowserStore from 'stores/browser_store.jsx';
-
 const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * FileInfo to view
-         **/
         fileInfo: PropTypes.object.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
         isEmbedVisible: PropTypes.bool,
+        actions: PropTypes.shape({
+            toggleEmbedVisibility: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -139,7 +136,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     toggleEmbedVisibility = () => {
-        BrowserStore.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + this.props.fileInfo.post_id, !this.props.isEmbedVisible);
+        this.props.actions.toggleEmbedVisibility(this.props.fileInfo.post_id);
     }
 
     render() {

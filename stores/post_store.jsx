@@ -153,24 +153,6 @@ class PostStoreClass extends EventEmitter {
         return JSON.parse(JSON.stringify(this.normalizeDraft(BrowserStore.getGlobalItem('comment_draft_' + parentPostId))));
     }
 
-    clearDraftUploads() {
-        BrowserStore.actionOnGlobalItemsWithPrefix('draft_', (key, value) => {
-            if (value) {
-                return {...value, uploadsInProgress: []};
-            }
-            return value;
-        });
-    }
-
-    clearCommentDraftUploads() {
-        BrowserStore.actionOnGlobalItemsWithPrefix('comment_draft_', (key, value) => {
-            if (value) {
-                return {...value, uploadsInProgress: []};
-            }
-            return value;
-        });
-    }
-
     getCommentCount(rootPost) {
         const postIds = getState().entities.posts.postsInChannel[rootPost.channel_id] || [];
 

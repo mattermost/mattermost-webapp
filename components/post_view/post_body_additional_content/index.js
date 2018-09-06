@@ -7,6 +7,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getRedirectLocation} from 'mattermost-redux/actions/general';
 
+import {toggleEmbedVisibility} from 'actions/post_actions';
+
 import PostBodyAdditionalContent from './post_body_additional_content.jsx';
 
 function mapStateToProps(state) {
@@ -24,6 +26,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getRedirectLocation,
+            toggleEmbedVisibility,
         }, dispatch),
     };
 }
