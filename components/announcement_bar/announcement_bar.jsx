@@ -77,7 +77,7 @@ export default class AnnouncementBar extends React.PureComponent {
         }
     }
 
-    handleResend = (email) => {
+    handleEmailResend = (email) => {
         this.setState({resendStatus: 'sending', showSpinner: true});
         resendVerification(
             email,
@@ -89,10 +89,10 @@ export default class AnnouncementBar extends React.PureComponent {
             }
         );
     }
-    createResend = (email) => {
-        let resend;
+    createEmailResendLink = (email) => {
+        let resendHTML;
         if (this.state && this.state.showSpinner) {
-            resend = (
+            resendHTML = (
                 <span>
                     <span
                         className='fa fa-spinner icon--rotate'
@@ -105,10 +105,10 @@ export default class AnnouncementBar extends React.PureComponent {
                 </span>
             );
         } else {
-            resend = (
+            resendHTML = (
                 <a
                     onClick={() => {
-                        this.handleResend(email);
+                        this.handleEmailResend(email);
                         setTimeout(() => {
                             this.setState({
                                 showSpinner: false,
@@ -123,7 +123,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 </a>
             );
         }
-        return resend;
+        return resendHTML;
     };
     setInitialError = () => {
         const errorIgnored = ErrorStore.getIgnoreNotification();
@@ -414,7 +414,7 @@ export default class AnnouncementBar extends React.PureComponent {
                             email: this.props.user.email,
                         }}
                     />
-                    {this.createResend(this.props.user.email)}
+                    {this.createEmailResendLink(this.props.user.email)}
                 </React.Fragment>
             );
         } else if (message === AnnouncementBarMessages.EMAIL_VERIFIED) {

@@ -135,7 +135,7 @@ class UserSettingsGeneralTab extends React.Component {
         ErrorStore.emitChange();
     }
 
-    handleResend = (email) => {
+    handleEmailResend = (email) => {
         this.setState({resendStatus: 'sending', showSpinner: true}, () => {
             this.handleEmailVerificationError();
         });
@@ -150,10 +150,10 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    createResend = (email) => {
-        let resend;
+    createEmailResendLink = (email) => {
+        let resendHTML;
         if (this.state.showSpinner) {
-            resend = (
+            resendHTML = (
                 <span>
                     <span
                         className='fa fa-spinner icon--rotate'
@@ -166,10 +166,10 @@ class UserSettingsGeneralTab extends React.Component {
                 </span>
             );
         } else {
-            resend = (
+            resendHTML = (
                 <a
                     onClick={() => {
-                        this.handleResend(email);
+                        this.handleEmailResend(email);
                         setTimeout(() => {
                             this.setState({
                                 showSpinner: false,
@@ -186,7 +186,7 @@ class UserSettingsGeneralTab extends React.Component {
                 </a>
             );
         }
-        return resend;
+        return resendHTML;
     }
 
     submitUsername = () => {
@@ -464,7 +464,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     email: newEmail,
                                 }}
                             />
-                            {this.createResend(newEmail)}
+                            {this.createEmailResendLink(newEmail)}
                         </React.Fragment>
                     );
                 }
