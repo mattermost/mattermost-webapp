@@ -18,7 +18,6 @@ import {Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/consta
 import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
-import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
@@ -38,6 +37,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
 import NavbarInfoButton from './navbar_info_button';
+import ViewChannelInfoOption from './navbar_dropdown_items/view_channel_info';
 import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
 
 export default class Navbar extends React.PureComponent {
@@ -336,22 +336,7 @@ export default class Navbar extends React.PureComponent {
                 );
             } else {
                 const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-                viewInfoOption = (
-                    <li role='presentation'>
-                        <ToggleModalButtonRedux
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CHANNEL_INFO}
-                            dialogType={ChannelInfoModal}
-                            dialogProps={{channel}}
-                        >
-                            <FormattedMessage
-                                id='navbar.viewInfo'
-                                defaultMessage='View Info'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
-                );
-
+                viewInfoOption = <ViewChannelInfoOption channel={channel}/>;
                 viewPinnedPostsOption = (
                     <li role='presentation'>
                         <button
