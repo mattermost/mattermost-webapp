@@ -14,17 +14,12 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import ModalStore from 'stores/modal_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import {
-    ActionTypes,
-    Constants,
-    ModalIdentifiers,
-    NotificationLevels,
-    RHSStates,
-} from 'utils/constants.jsx';
+import WebrtcStore from 'stores/webrtc_store.jsx';
+import * as ChannelUtils from 'utils/channel_utils.jsx';
+import {Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
@@ -34,8 +29,7 @@ import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
-import NotifyCounts from 'components/notify_counts';
-import QuickSwitchModal from 'components/quick_switch_modal';
+import NotifyCounts from 'components/notify_counts.jsx';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import MenuIcon from 'components/svg/menu_icon';
@@ -90,10 +84,8 @@ export default class Navbar extends React.Component {
         UserStore.addStatusesChangeListener(this.onChange);
         UserStore.addChangeListener(this.onChange);
         PreferenceStore.addChangeListener(this.onChange);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
         WebrtcStore.addChangedListener(this.onChange);
         WebrtcStore.addBusyListener(this.onBusy);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         $('.inner-wrap').on('click', this.hideSidebars);
     }
 
@@ -103,10 +95,8 @@ export default class Navbar extends React.Component {
         UserStore.removeStatusesChangeListener(this.onChange);
         UserStore.removeChangeListener(this.onChange);
         PreferenceStore.removeChangeListener(this.onChange);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
         WebrtcStore.removeChangedListener(this.onChange);
         WebrtcStore.removeBusyListener(this.onBusy);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
         $('.inner-wrap').off('click', this.hideSidebars);
     }
 
@@ -168,30 +158,6 @@ export default class Navbar extends React.Component {
 
     onChange = () => {
         this.setState(this.getStateFromStores());
-    }
-
-    handleQuickSwitchKeyPress = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal('channel');
-            }
-        }
-    }
-
-    toggleQuickSwitchModal = (mode = 'channel') => {
-        if (this.state.showQuickSwitchModal) {
-            this.setState({showQuickSwitchModal: false, quickSwitchMode: 'channel'});
-        } else {
-            this.setState({showQuickSwitchModal: true, quickSwitchMode: mode});
-        }
-    }
-
-    hideQuickSwitchModal = () => {
-        this.setState({
-            showQuickSwitchModal: false,
-            quickSwitchMode: 'channel',
-        });
     }
 
     getPinnedPosts = (e) => {
@@ -749,8 +715,6 @@ export default class Navbar extends React.Component {
         let isGroup = false;
         const teamId = channel && channel.team_id;
 
-        let quickSwitchModal = null;
-
         if (channel) {
             channelTitle = channel.display_name;
 
@@ -773,14 +737,6 @@ export default class Navbar extends React.Component {
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;
             }
-
-            quickSwitchModal = (
-                <QuickSwitchModal
-                    show={this.state.showQuickSwitchModal}
-                    onHide={this.hideQuickSwitchModal}
-                    initialMode={this.state.quickSwitchMode}
-                />
-            );
         }
 
         const searchButton = (
@@ -819,7 +775,6 @@ export default class Navbar extends React.Component {
                         </div>
                     </div>
                 </nav>
-                {quickSwitchModal}
             </div>
         );
     }
