@@ -43,7 +43,7 @@ import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
 import NavbarInfoButton from './navbar_info_button';
 
-export default class Navbar extends React.Component {
+export default class Navbar extends React.PureComponent {
     static propTypes = {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
