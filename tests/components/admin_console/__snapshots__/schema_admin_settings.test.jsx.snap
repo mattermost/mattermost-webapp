@@ -572,6 +572,36 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         jobType="test"
         key="Config_userautocomplete_undefined"
       />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="This is some help text for the permissions field."
+            id="help-text-o"
+            values={Object {}}
+          />
+        }
+        id="settingo"
+        key="Config_bool_settingo"
+        label="Setting Fourteen"
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
     </SettingsGroup>
     <div
       className="admin-console-save"

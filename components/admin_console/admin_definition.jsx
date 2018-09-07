@@ -81,6 +81,9 @@ const MEBIBYTE = Math.pow(1024, 2);
 //
 // Dropdown Widget (extends from Setting Widget)
 //   - options: List of options of the dropdown (each options has value, display_name and display_name_default fields).
+//
+// Permissions Flag (extends from Setting Widget)
+//   - permissions_mapping_name: A permission name in the utils/policy_roles_adapter.js file.
 
 export const needsUtils = {
     not: (func) => (config, state, license) => !func(config, state, license),
@@ -104,7 +107,7 @@ export const needsUtils = {
     stateValueEqual: (key, value) => (config, state) => state[key] === value,
     stateValueTrue: (key) => (config, state) => Boolean(state[key]),
     stateValueFalse: (key) => (config, state) => !state[key],
-    hasLicense: (config, state, license) => license.IsLicensed,
+    hasLicense: (config, state, license) => license.IsLicensed === 'true',
 };
 
 export default {
@@ -1180,6 +1183,16 @@ export default {
                             help_text: 'admin.oauth.providerDescription',
                             help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) to learn more.',
                             help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_PERMISSION,
+                            key: 'ServiceSettings.EnableOnlyAdminIntegrations',
+                            label: 'admin.service.integrationAdmin',
+                            label_default: 'Restrict managing integrations to Admins:',
+                            help_text: 'admin.service.integrationAdminDesc',
+                            help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
+                            permissions_mapping_name: 'enableOnlyAdminIntegrations',
+                            isHidden: needsUtils.hasLicense,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
