@@ -3,10 +3,17 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
-import {updateChannelNotifyProps, favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
-import {isCurrentChannelReadOnly, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+import {createSelector} from 'reselect';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCurrentChannel,
+    getCurrentChannelStats,
+    getMyCurrentChannelMembership,
+    isCurrentChannelReadOnly,
+} from 'mattermost-redux/selectors/entities/channels';
+import {isFavoriteChannel, isDefault as isDefaultChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {leaveChannel} from 'actions/views/channel';
 import {
@@ -18,22 +25,44 @@ import {
 } from 'actions/views/rhs';
 import {toggle as toggleLhs, close as closeLhs} from 'actions/views/lhs';
 import {getRhsState} from 'selectors/rhs';
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
 
 import Navbar from './navbar.jsx';
 
-function mapStateToProps(state) {
-    const prefs = state.entities.preferences.myPreferences;
-    const currentChannelId = getCurrentChannelId(state);
-
-    const rhsState = getRhsState(state);
-
-    return {
-        isPinnedPosts: rhsState === RHSStates.PIN,
-        isReadOnly: isCurrentChannelReadOnly(state),
-        isFavoriteChannel: isFavoriteChannel(prefs, currentChannelId),
-    };
-}
+const mapStateToProps = createSelector(
+    getCurrentTeamUrl,
+    getCurrentUser,
+    getUserStatuses,
+    getCurrentChannel,
+    getCurrentChannelStats,
+    getMyCurrentChannelMembership,
+    isCurrentChannelReadOnly,
+    getConfig,
+    getRhsState,
+    (
+        currentTeamUrl,
+        currentUser,
+        userStatuses,
+        channel,
+        channelStats,
+        channelMembership,
+        isReadOnly,
+        config,
+        rhsState,
+    ) => ({
+        currentTeamUrl,
+        currentUser,
+        userStatuses,
+        channel,
+        channelMembership,
+        memberCount: channelStats && channelStats.member_count,
+        isDefault: channel && isDefaultChannel(channel),
+        isFavorite: channel && isFavoriteChannel(channel),
+        isReadOnly,
+        hasPinnedPosts: rhsState === RHSStates.PIN,
+        enableWebrtc: config.EnableWebrtc === 'true',
+    }),
+);
 
 function mapDispatchToProps(dispatch) {
     return {
