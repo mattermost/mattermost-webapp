@@ -10,10 +10,22 @@ import * as Utils from 'utils/utils.jsx';
 
 import QuickSwitchModal from 'components/quick_switch_modal';
 
-export default class ModalController extends React.Component {
+export default class ModalController extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Object that has map of modal's id and element
+         */
         modals: PropTypes.object.isRequired,
+
+        /**
+         * Object with action creators
+         */
         actions: PropTypes.shape({
+
+            /**
+             * Action creator to close modal
+             */
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
     }
