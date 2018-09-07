@@ -10,6 +10,8 @@ import {PropTypes} from 'prop-types';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
 
+import Scrollbars from 'react-custom-scrollbars';
+
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {goToChannelById} from 'actions/channel_actions.jsx';
@@ -29,6 +31,30 @@ import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
+
+export function renderView(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
 
 export default class Sidebar extends React.PureComponent {
     static propTypes = {
@@ -144,14 +170,9 @@ export default class Sidebar extends React.PureComponent {
             return;
         }
 
-        if (!Utils.isMobile()) {
-            $('.sidebar--left .nav-pills__container').perfectScrollbar();
-        }
-
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
             this.refs.container.scrollTop = 0;
-            $('.nav-pills__container').perfectScrollbar('update');
         }
 
         // close the LHS on mobile when you change channels
@@ -311,9 +332,8 @@ export default class Sidebar extends React.PureComponent {
 
     updateScrollbarOnChannelChange = (channelId) => {
         const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
-        if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.container.getBoundingClientRect().height)) {
-            this.refs.container.scrollTop = this.refs.container.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT);
-            $('.nav-pills__container').perfectScrollbar('update');
+        if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
+            this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
         }
     }
 
@@ -342,6 +362,7 @@ export default class Sidebar extends React.PureComponent {
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
             goToChannelById(nextChannelId);
+
             this.updateScrollbarOnChannelChange(nextChannelId);
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
@@ -378,6 +399,7 @@ export default class Sidebar extends React.PureComponent {
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
                 goToChannelById(nextChannelId);
+
                 this.updateScrollbarOnChannelChange(nextChannelId);
             }
 
@@ -685,95 +707,106 @@ export default class Sidebar extends React.PureComponent {
                         content={below}
                     />
 
-                    <div
-                        id='sidebarChannelContainer'
-                        ref='container'
-                        className='nav-pills__container'
+                    <Scrollbars
+                        ref='scrollbar'
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderView={renderView}
                         onScroll={this.onScroll}
+                        style={{position: 'absolute'}}
                     >
-                        {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
-                            <li>
-                                <h4 id='favoriteChannel'>
-                                    <FormattedMessage
-                                        id='sidebar.unreadSection'
-                                        defaultMessage='UNREADS'
-                                    />
-                                </h4>
-                            </li>
-                            {unreadChannelItems}
-                        </ul>}
-                        {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
-                            <li>
-                                <h4 id='favoriteChannel'>
-                                    <FormattedMessage
-                                        id='sidebar.favorite'
-                                        defaultMessage='FAVORITE CHANNELS'
-                                    />
-                                </h4>
-                            </li>
-                            {favoriteItems}
-                        </ul>}
-                        <ul className='nav nav-pills nav-stacked'>
-                            <li>
-                                <h4 id='publicChannel'>
-                                    <FormattedMessage
-                                        id='sidebar.channels'
-                                        defaultMessage='PUBLIC CHANNELS'
-                                    />
-                                    <TeamPermissionGate
-                                        teamId={this.props.currentTeam.id}
-                                        permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                        <div
+                            id='sidebarChannelContainer'
+                            ref='container'
+                            className='nav-pills__container'
+                        >
+                            {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
+                                <li>
+                                    <h4 id='favoriteChannel'>
+                                        <FormattedMessage
+                                            id='sidebar.unreadSection'
+                                            defaultMessage='UNREADS'
+                                        />
+                                    </h4>
+                                </li>
+                                {unreadChannelItems}
+                            </ul>}
+                            {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
+                                <li>
+                                    <h4 id='favoriteChannel'>
+                                        <FormattedMessage
+                                            id='sidebar.favorite'
+                                            defaultMessage='FAVORITE CHANNELS'
+                                        />
+                                    </h4>
+                                </li>
+                                {favoriteItems}
+                            </ul>}
+                            <ul className='nav nav-pills nav-stacked'>
+                                <li>
+                                    <h4 id='publicChannel'>
+                                        <FormattedMessage
+                                            id='sidebar.channels'
+                                            defaultMessage='PUBLIC CHANNELS'
+                                        />
+                                        <TeamPermissionGate
+                                            teamId={this.props.currentTeam.id}
+                                            permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                                        >
+                                            {createPublicChannelIcon}
+                                        </TeamPermissionGate>
+                                    </h4>
+                                </li>
+                                {publicChannelItems}
+                                <li>
+                                    <button
+                                        id='sidebarChannelsMore'
+                                        className='nav-more cursor--pointer style--none btn--block'
+                                        onClick={this.showMoreChannelsModal}
                                     >
-                                        {createPublicChannelIcon}
-                                    </TeamPermissionGate>
-                                </h4>
-                            </li>
-                            {publicChannelItems}
-                            <li>
-                                <button
-                                    id='sidebarChannelsMore'
-                                    className='nav-more cursor--pointer style--none btn--block'
-                                    onClick={this.showMoreChannelsModal}
-                                >
-                                    <FormattedMessage
-                                        id='sidebar.moreElips'
-                                        defaultMessage='More...'
-                                    />
-                                </button>
-                            </li>
-                        </ul>
+                                        <FormattedMessage
+                                            id='sidebar.moreElips'
+                                            defaultMessage='More...'
+                                        />
+                                    </button>
+                                </li>
+                            </ul>
 
-                        <ul className='nav nav-pills nav-stacked'>
-                            <li>
-                                <h4 id='privateChannel'>
-                                    <FormattedMessage
-                                        id='sidebar.pg'
-                                        defaultMessage='PRIVATE CHANNELS'
-                                    />
-                                    <TeamPermissionGate
-                                        teamId={this.props.currentTeam.id}
-                                        permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
-                                    >
-                                        {createPrivateChannelIcon}
-                                    </TeamPermissionGate>
-                                </h4>
-                            </li>
-                            {privateChannelItems}
-                        </ul>
-                        <ul className='nav nav-pills nav-stacked'>
-                            <li>
-                                <h4 id='directChannel'>
-                                    <FormattedMessage
-                                        id='sidebar.direct'
-                                        defaultMessage='DIRECT MESSAGES'
-                                    />
-                                    {createDirectMessageIcon}
-                                </h4>
-                            </li>
-                            {directMessageItems}
-                            {directMessageMore}
-                        </ul>
-                    </div>
+                            <ul className='nav nav-pills nav-stacked'>
+                                <li>
+                                    <h4 id='privateChannel'>
+                                        <FormattedMessage
+                                            id='sidebar.pg'
+                                            defaultMessage='PRIVATE CHANNELS'
+                                        />
+                                        <TeamPermissionGate
+                                            teamId={this.props.currentTeam.id}
+                                            permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
+                                        >
+                                            {createPrivateChannelIcon}
+                                        </TeamPermissionGate>
+                                    </h4>
+                                </li>
+                                {privateChannelItems}
+                            </ul>
+                            <ul className='nav nav-pills nav-stacked'>
+                                <li>
+                                    <h4 id='directChannel'>
+                                        <FormattedMessage
+                                            id='sidebar.direct'
+                                            defaultMessage='DIRECT MESSAGES'
+                                        />
+                                        {createDirectMessageIcon}
+                                    </h4>
+                                </li>
+                                {directMessageItems}
+                                {directMessageMore}
+                            </ul>
+                        </div>
+                    </Scrollbars>
                 </div>
                 <div className='sidebar__switcher'>
                     <button
