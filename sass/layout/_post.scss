@@ -242,7 +242,7 @@
 #post-list {
     @include flex(1 1 auto);
     height: 100%;
-    overflow-y: hidden;
+    overflow: hidden;
     position: relative;
 
     .inactive {
@@ -273,7 +273,8 @@
         -webkit-overflow-scrolling: touch;
         height: 100%;
         overflow-y: scroll;
-        padding: 1em 0 0;
+        box-sizing: content-box;
+        padding-right: 17px;
         position: absolute;
         width: 100%;
 
