@@ -107,12 +107,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
@@ -288,12 +288,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
@@ -579,12 +579,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
@@ -760,12 +760,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
