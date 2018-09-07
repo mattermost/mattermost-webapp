@@ -23,7 +23,6 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import NotifyCounts from 'components/notify_counts.jsx';
@@ -39,6 +38,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
 import NavbarInfoButton from './navbar_info_button';
+import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -263,27 +263,10 @@ export default class Navbar extends React.PureComponent {
         );
     }
 
-    renderEditChannelHeaderOption = (channel) => {
-        if (!channel || !channel.id) {
-            return null;
+    hideHeaderOverlay = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
         }
-
-        return (
-            <li role='presentation'>
-                <ToggleModalButtonRedux
-                    id='editChannelHeader'
-                    role='menuitem'
-                    modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                    dialogType={EditChannelHeaderModal}
-                    dialogProps={{channel}}
-                >
-                    <FormattedMessage
-                        id='channel_header.setHeader'
-                        defaultMessage='Edit Channel Header'
-                    />
-                </ToggleModalButtonRedux>
-            </li>
-        );
     }
 
     handleUnmuteChannel = () => {
@@ -303,7 +286,6 @@ export default class Navbar extends React.PureComponent {
             let viewPinnedPostsOption;
             let addMembersOption;
             let manageMembersOption;
-            let setChannelHeaderOption;
             let setChannelPurposeOption;
             let notificationPreferenceOption;
             let renameChannelOption;
@@ -311,11 +293,11 @@ export default class Navbar extends React.PureComponent {
             let deleteChannelOption;
             let leaveChannelOption;
 
-            if (isDirect) {
-                setChannelHeaderOption = this.renderEditChannelHeaderOption(channel);
-            } else if (isGroup) {
-                setChannelHeaderOption = this.renderEditChannelHeaderOption(channel);
+            let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
 
+            if (isDirect) {
+                webrtcOption = this.generateWebrtcDropdown();
+            } else if (isGroup) {
                 notificationPreferenceOption = (
                     <li role='presentation'>
                         <ToggleModalButtonRedux
@@ -492,7 +474,7 @@ export default class Navbar extends React.PureComponent {
                             teamId={teamId}
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
-                            {this.renderEditChannelHeaderOption(channel)}
+                            <SetChannelHeaderOption channel={channel}/>
                         </ChannelPermissionGate>
                     );
 
