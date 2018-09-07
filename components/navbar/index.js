@@ -14,6 +14,7 @@ import {
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
 import {isFavoriteChannel, isDefault as isDefaultChannel} from 'mattermost-redux/utils/channel_utils';
+import {leaveChannel} from 'mattermost-redux/actions/channels';
 
 import {leaveChannel} from 'actions/views/channel';
 import {
@@ -64,22 +65,17 @@ const mapStateToProps = createSelector(
     }),
 );
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            closeLhs,
-            closeRhs,
-            closeRhsMenu,
-            leaveChannel,
-            markFavorite: favoriteChannel,
-            showPinnedPosts,
-            toggleLhs,
-            toggleRhsMenu,
-            unmarkFavorite: unfavoriteChannel,
-            updateChannelNotifyProps,
-            updateRhsState,
-        }, dispatch),
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        leaveChannel,
+        updateRhsState,
+        showPinnedPosts,
+        toggleLhs,
+        closeLhs,
+        closeRhs,
+        toggleRhsMenu,
+        closeRhsMenu,
+    }, dispatch),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

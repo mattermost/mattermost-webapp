@@ -10,8 +10,7 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import EditChannelHeaderModal from 'components/edit_channel_header_modal';
-import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
+import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -24,6 +23,8 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import NotifyCounts from 'components/notify_counts.jsx';
 import RenameChannelModal from 'components/rename_channel_modal';
@@ -101,6 +102,7 @@ export default class Navbar extends React.PureComponent {
          * Object with action creators
          */
         actions: PropTypes.shape({
+            leaveChannel: PropTypes.func.isRequired,
             updateRhsState: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             toggleLhs: PropTypes.func.isRequired,
@@ -140,7 +142,7 @@ export default class Navbar extends React.PureComponent {
         if (this.props.channel.type === Constants.PRIVATE_CHANNEL) {
             GlobalActions.showLeavePrivateChannelModal(this.props.channel);
         } else {
-            ChannelActions.leaveChannel(this.props.channel.id);
+            this.props.actions.leaveChannel(this.props.channel.id);
         }
     }
 
@@ -172,7 +174,7 @@ export default class Navbar extends React.PureComponent {
     getPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.hasPinnedPosts) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRhs();
         } else {
             this.props.actions.showPinnedPosts(this.props.channel.id);
         }
@@ -193,10 +195,13 @@ export default class Navbar extends React.PureComponent {
         this.setState({isBusy});
     }
 
-    isContactNotAvailable() {
-        const contactStatus = this.props.userStatuses[this.state.contactId];
+    isContactAvailable() {
+        if (this.state.isBusy) {
+            return false;
+        }
 
-        return contactStatus === UserStatuses.OFFLINE || contactStatus === UserStatuses.DND || this.state.isBusy;
+        const contactStatus = this.props.userStatuses[this.state.contactId];
+        return !(contactStatus === UserStatuses.OFFLINE || contactStatus === UserStatuses.DND);
     }
 
     isWebrtcEnabled() {
@@ -204,8 +209,8 @@ export default class Navbar extends React.PureComponent {
     }
 
     initWebrtc = () => {
-        if (!this.isContactNotAvailable()) {
-            GlobalActions.emitCloseRightHandSide();
+        if (this.isContactAvailable()) {
+            this.props.actions.closeRhs();
             WebrtcActions.initWebrtc(this.state.contactId, true);
         }
     }
@@ -216,7 +221,7 @@ export default class Navbar extends React.PureComponent {
         }
 
         let linkClass = '';
-        if (this.isContactNotAvailable()) {
+        if (!this.isContactAvailable()) {
             linkClass = 'disable-links';
         }
 
@@ -245,7 +250,7 @@ export default class Navbar extends React.PureComponent {
         }
 
         let circleClass = '';
-        if (this.isContactNotAvailable()) {
+        if (!this.isContactAvailable()) {
             circleClass = 'offline';
         }
 
