@@ -7,8 +7,8 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
 describe('components/multiselect/multiselect', () => {
-    const totalCount = 80;
-    const optionsNumber = 80;
+    const totalCount = 8;
+    const optionsNumber = 8;
     const users = [];
     for (var i = 0; i < optionsNumber; i++) {
         users.push({id: i, value: i});
@@ -20,7 +20,7 @@ describe('components/multiselect/multiselect', () => {
         values: [{id: 100, value: 100}],
         saving: false,
         options: users,
-        perPage: 50,
+        perPage: 5,
     };
 
     test('should match snapshot', () => {
