@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DataRetentionHint should match snapshot 1`] = `
+<li>
+  <FormattedMessage
+    defaultMessage="Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail."
+    id="search_results.usage.dataRetention"
+    values={
+      Object {
+        "days": "30",
+      }
+    }
+  />
+</li>
+`;

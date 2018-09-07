@@ -15,8 +15,10 @@ import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
-import SearchHint from 'components/search_hint';
-import FlagIcon from 'components/svg/flag_icon';
+import SearchHint from 'components/search_hint/search_hint';
+import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
+import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
+import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
 
 export function renderView(props) {
     return (
@@ -136,8 +138,7 @@ export default class SearchResults extends React.PureComponent {
             this.props.isSearchingFlaggedPost ||
             this.props.isSearchingPinnedPost
         ) {
-            ctls =
-            (
+            ctls = (
                 <div className='sidebar--right__subheader'>
                     <div className='sidebar--right__loading'>
                         <i
@@ -152,100 +153,21 @@ export default class SearchResults extends React.PureComponent {
                 </div>
             );
         } else if (this.props.isFlaggedPosts && noResults) {
-            const tips = [
-                <li key='pin1'>
-                    <FormattedMessage
-                        id='search_results.usageFlag1'
-                        defaultMessage="You haven't flagged any messages yet."
-                    />
-                </li>,
-                <li key='pin2'>
-                    <FormattedMessage
-                        id='search_results.usageFlag2'
-                        defaultMessage='You can add a flag to messages and comments by clicking the '
-                    />
-                    <FlagIcon className='usage__icon'/>
-                    <FormattedMessage
-                        id='search_results.usageFlag3'
-                        defaultMessage=' icon next to the timestamp.'
-                    />
-                </li>,
-                <li key='pin3'>
-                    <FormattedMessage
-                        id='search_results.usageFlag4'
-                        defaultMessage='Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users.'
-                    />
-                </li>,
-            ];
-
-            if (this.props.dataRetentionEnableMessageDeletion) {
-                tips.push(
-                    <li>
-                        <FormattedMessage
-                            id='search_results.usage.dataRetention'
-                            defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
-                            values={{
-                                days: this.props.dataRetentionMessageRetentionDays,
-                            }}
-                        />
-                    </li>
-                );
-            }
-
             ctls = (
                 <div className='sidebar--right__subheader'>
-                    <ul>
-                        {tips}
-                    </ul>
+                    <FlagPostSearchHint
+                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
+                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                    />
                 </div>
             );
         } else if (this.props.isPinnedPosts && noResults) {
-            const tips = [
-                <li key='pin1'>
-                    <FormattedMessage
-                        id='search_results.usagePin1'
-                        defaultMessage='There are no pinned messages yet.'
-                    />
-                </li>,
-                <li key='pin2'>
-                    <FormattedMessage
-                        id='search_results.usagePin2'
-                        defaultMessage='All members of this channel can pin important or useful messages.'
-                    />
-                </li>,
-                <li key='pin3'>
-                    <FormattedMessage
-                        id='search_results.usagePin3'
-                        defaultMessage='Pinned messages are visible to all channel members.'
-                    />
-                </li>,
-                <li key='pin4'>
-                    <FormattedMessage
-                        id='search_results.usagePin4'
-                        defaultMessage={'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'}
-                    />
-                </li>,
-            ];
-
-            if (this.props.dataRetentionEnableMessageDeletion) {
-                tips.push(
-                    <li>
-                        <FormattedMessage
-                            id='search_results.usage.dataRetention'
-                            defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
-                            values={{
-                                days: this.props.dataRetentionMessageRetentionDays,
-                            }}
-                        />
-                    </li>
-                );
-            }
-
             ctls = (
                 <div className='sidebar--right__subheader'>
-                    <ul>
-                        {tips}
-                    </ul>
+                    <PinPostSearchHint
+                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
+                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                    />
                 </div>
             );
         } else if (!searchTerms && noResults) {
@@ -255,47 +177,12 @@ export default class SearchResults extends React.PureComponent {
                 </div>
             );
         } else if (noResults) {
-            const tips = [
-                <li key='partialPhrase'>
-                    <FormattedMessage
-                        id='search_results.noResults.partialPhraseSuggestion'
-                        defaultMessage='If you&#39;re searching a partial phrase (ex. searching "rea", looking for "reach" or "reaction"), append a * to your search term.'
-                    />
-                </li>,
-                <li key='stopWords'>
-                    <FormattedMessage
-                        id='search_results.noResults.stopWordsSuggestion'
-                        defaultMessage='Two letter searches and common words like "this", "a" and "is" won&#39;t appear in search results due to the excessive results returned.'
-                    />
-                </li>,
-            ];
-
-            if (this.props.dataRetentionEnableMessageDeletion) {
-                tips.push(
-                    <li>
-                        <FormattedMessage
-                            id='search_results.usage.dataRetention'
-                            defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
-                            values={{
-                                days: this.props.dataRetentionMessageRetentionDays,
-                            }}
-                        />
-                    </li>
-                );
-            }
-
-            ctls =
-            (
+            ctls = (
                 <div className='sidebar--right__subheader'>
-                    <h4>
-                        <FormattedMessage
-                            id='search_results.noResults'
-                            defaultMessage='No results found. Try again?'
-                        />
-                    </h4>
-                    <ul>
-                        {tips}
-                    </ul>
+                    <NoResultSearchHint
+                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
+                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                    />
                 </div>
             );
         } else {
