@@ -1,0 +1,3283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/multiselect/multiselect should match snapshot 1`] = `
+<MultiSelect
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  options={
+    Array [
+      Object {
+        "id": 0,
+        "value": 0,
+      },
+      Object {
+        "id": 1,
+        "value": 1,
+      },
+      Object {
+        "id": 2,
+        "value": 2,
+      },
+      Object {
+        "id": 3,
+        "value": 3,
+      },
+      Object {
+        "id": 4,
+        "value": 4,
+      },
+      Object {
+        "id": 5,
+        "value": 5,
+      },
+      Object {
+        "id": 6,
+        "value": 6,
+      },
+      Object {
+        "id": 7,
+        "value": 7,
+      },
+      Object {
+        "id": 8,
+        "value": 8,
+      },
+      Object {
+        "id": 9,
+        "value": 9,
+      },
+      Object {
+        "id": 10,
+        "value": 10,
+      },
+      Object {
+        "id": 11,
+        "value": 11,
+      },
+      Object {
+        "id": 12,
+        "value": 12,
+      },
+      Object {
+        "id": 13,
+        "value": 13,
+      },
+      Object {
+        "id": 14,
+        "value": 14,
+      },
+      Object {
+        "id": 15,
+        "value": 15,
+      },
+      Object {
+        "id": 16,
+        "value": 16,
+      },
+      Object {
+        "id": 17,
+        "value": 17,
+      },
+      Object {
+        "id": 18,
+        "value": 18,
+      },
+      Object {
+        "id": 19,
+        "value": 19,
+      },
+      Object {
+        "id": 20,
+        "value": 20,
+      },
+      Object {
+        "id": 21,
+        "value": 21,
+      },
+      Object {
+        "id": 22,
+        "value": 22,
+      },
+      Object {
+        "id": 23,
+        "value": 23,
+      },
+      Object {
+        "id": 24,
+        "value": 24,
+      },
+      Object {
+        "id": 25,
+        "value": 25,
+      },
+      Object {
+        "id": 26,
+        "value": 26,
+      },
+      Object {
+        "id": 27,
+        "value": 27,
+      },
+      Object {
+        "id": 28,
+        "value": 28,
+      },
+      Object {
+        "id": 29,
+        "value": 29,
+      },
+      Object {
+        "id": 30,
+        "value": 30,
+      },
+      Object {
+        "id": 31,
+        "value": 31,
+      },
+      Object {
+        "id": 32,
+        "value": 32,
+      },
+      Object {
+        "id": 33,
+        "value": 33,
+      },
+      Object {
+        "id": 34,
+        "value": 34,
+      },
+      Object {
+        "id": 35,
+        "value": 35,
+      },
+      Object {
+        "id": 36,
+        "value": 36,
+      },
+      Object {
+        "id": 37,
+        "value": 37,
+      },
+      Object {
+        "id": 38,
+        "value": 38,
+      },
+      Object {
+        "id": 39,
+        "value": 39,
+      },
+      Object {
+        "id": 40,
+        "value": 40,
+      },
+      Object {
+        "id": 41,
+        "value": 41,
+      },
+      Object {
+        "id": 42,
+        "value": 42,
+      },
+      Object {
+        "id": 43,
+        "value": 43,
+      },
+      Object {
+        "id": 44,
+        "value": 44,
+      },
+      Object {
+        "id": 45,
+        "value": 45,
+      },
+      Object {
+        "id": 46,
+        "value": 46,
+      },
+      Object {
+        "id": 47,
+        "value": 47,
+      },
+      Object {
+        "id": 48,
+        "value": 48,
+      },
+      Object {
+        "id": 49,
+        "value": 49,
+      },
+      Object {
+        "id": 50,
+        "value": 50,
+      },
+      Object {
+        "id": 51,
+        "value": 51,
+      },
+      Object {
+        "id": 52,
+        "value": 52,
+      },
+      Object {
+        "id": 53,
+        "value": 53,
+      },
+      Object {
+        "id": 54,
+        "value": 54,
+      },
+      Object {
+        "id": 55,
+        "value": 55,
+      },
+      Object {
+        "id": 56,
+        "value": 56,
+      },
+      Object {
+        "id": 57,
+        "value": 57,
+      },
+      Object {
+        "id": 58,
+        "value": 58,
+      },
+      Object {
+        "id": 59,
+        "value": 59,
+      },
+      Object {
+        "id": 60,
+        "value": 60,
+      },
+      Object {
+        "id": 61,
+        "value": 61,
+      },
+      Object {
+        "id": 62,
+        "value": 62,
+      },
+      Object {
+        "id": 63,
+        "value": 63,
+      },
+      Object {
+        "id": 64,
+        "value": 64,
+      },
+      Object {
+        "id": 65,
+        "value": 65,
+      },
+      Object {
+        "id": 66,
+        "value": 66,
+      },
+      Object {
+        "id": 67,
+        "value": 67,
+      },
+      Object {
+        "id": 68,
+        "value": 68,
+      },
+      Object {
+        "id": 69,
+        "value": 69,
+      },
+      Object {
+        "id": 70,
+        "value": 70,
+      },
+      Object {
+        "id": 71,
+        "value": 71,
+      },
+      Object {
+        "id": 72,
+        "value": 72,
+      },
+      Object {
+        "id": 73,
+        "value": 73,
+      },
+      Object {
+        "id": 74,
+        "value": 74,
+      },
+      Object {
+        "id": 75,
+        "value": 75,
+      },
+      Object {
+        "id": 76,
+        "value": 76,
+      },
+      Object {
+        "id": 77,
+        "value": 77,
+      },
+      Object {
+        "id": 78,
+        "value": 78,
+      },
+      Object {
+        "id": 79,
+        "value": 79,
+      },
+    ]
+  }
+  perPage={50}
+  saving={false}
+  totalCount={80}
+  users={
+    Array [
+      Object {
+        "id": 0,
+        "value": 0,
+      },
+      Object {
+        "id": 1,
+        "value": 1,
+      },
+      Object {
+        "id": 2,
+        "value": 2,
+      },
+      Object {
+        "id": 3,
+        "value": 3,
+      },
+      Object {
+        "id": 4,
+        "value": 4,
+      },
+      Object {
+        "id": 5,
+        "value": 5,
+      },
+      Object {
+        "id": 6,
+        "value": 6,
+      },
+      Object {
+        "id": 7,
+        "value": 7,
+      },
+      Object {
+        "id": 8,
+        "value": 8,
+      },
+      Object {
+        "id": 9,
+        "value": 9,
+      },
+      Object {
+        "id": 10,
+        "value": 10,
+      },
+      Object {
+        "id": 11,
+        "value": 11,
+      },
+      Object {
+        "id": 12,
+        "value": 12,
+      },
+      Object {
+        "id": 13,
+        "value": 13,
+      },
+      Object {
+        "id": 14,
+        "value": 14,
+      },
+      Object {
+        "id": 15,
+        "value": 15,
+      },
+      Object {
+        "id": 16,
+        "value": 16,
+      },
+      Object {
+        "id": 17,
+        "value": 17,
+      },
+      Object {
+        "id": 18,
+        "value": 18,
+      },
+      Object {
+        "id": 19,
+        "value": 19,
+      },
+      Object {
+        "id": 20,
+        "value": 20,
+      },
+      Object {
+        "id": 21,
+        "value": 21,
+      },
+      Object {
+        "id": 22,
+        "value": 22,
+      },
+      Object {
+        "id": 23,
+        "value": 23,
+      },
+      Object {
+        "id": 24,
+        "value": 24,
+      },
+      Object {
+        "id": 25,
+        "value": 25,
+      },
+      Object {
+        "id": 26,
+        "value": 26,
+      },
+      Object {
+        "id": 27,
+        "value": 27,
+      },
+      Object {
+        "id": 28,
+        "value": 28,
+      },
+      Object {
+        "id": 29,
+        "value": 29,
+      },
+      Object {
+        "id": 30,
+        "value": 30,
+      },
+      Object {
+        "id": 31,
+        "value": 31,
+      },
+      Object {
+        "id": 32,
+        "value": 32,
+      },
+      Object {
+        "id": 33,
+        "value": 33,
+      },
+      Object {
+        "id": 34,
+        "value": 34,
+      },
+      Object {
+        "id": 35,
+        "value": 35,
+      },
+      Object {
+        "id": 36,
+        "value": 36,
+      },
+      Object {
+        "id": 37,
+        "value": 37,
+      },
+      Object {
+        "id": 38,
+        "value": 38,
+      },
+      Object {
+        "id": 39,
+        "value": 39,
+      },
+      Object {
+        "id": 40,
+        "value": 40,
+      },
+      Object {
+        "id": 41,
+        "value": 41,
+      },
+      Object {
+        "id": 42,
+        "value": 42,
+      },
+      Object {
+        "id": 43,
+        "value": 43,
+      },
+      Object {
+        "id": 44,
+        "value": 44,
+      },
+      Object {
+        "id": 45,
+        "value": 45,
+      },
+      Object {
+        "id": 46,
+        "value": 46,
+      },
+      Object {
+        "id": 47,
+        "value": 47,
+      },
+      Object {
+        "id": 48,
+        "value": 48,
+      },
+      Object {
+        "id": 49,
+        "value": 49,
+      },
+      Object {
+        "id": 50,
+        "value": 50,
+      },
+      Object {
+        "id": 51,
+        "value": 51,
+      },
+      Object {
+        "id": 52,
+        "value": 52,
+      },
+      Object {
+        "id": 53,
+        "value": 53,
+      },
+      Object {
+        "id": 54,
+        "value": 54,
+      },
+      Object {
+        "id": 55,
+        "value": 55,
+      },
+      Object {
+        "id": 56,
+        "value": 56,
+      },
+      Object {
+        "id": 57,
+        "value": 57,
+      },
+      Object {
+        "id": 58,
+        "value": 58,
+      },
+      Object {
+        "id": 59,
+        "value": 59,
+      },
+      Object {
+        "id": 60,
+        "value": 60,
+      },
+      Object {
+        "id": 61,
+        "value": 61,
+      },
+      Object {
+        "id": 62,
+        "value": 62,
+      },
+      Object {
+        "id": 63,
+        "value": 63,
+      },
+      Object {
+        "id": 64,
+        "value": 64,
+      },
+      Object {
+        "id": 65,
+        "value": 65,
+      },
+      Object {
+        "id": 66,
+        "value": 66,
+      },
+      Object {
+        "id": 67,
+        "value": 67,
+      },
+      Object {
+        "id": 68,
+        "value": 68,
+      },
+      Object {
+        "id": 69,
+        "value": 69,
+      },
+      Object {
+        "id": 70,
+        "value": 70,
+      },
+      Object {
+        "id": 71,
+        "value": 71,
+      },
+      Object {
+        "id": 72,
+        "value": 72,
+      },
+      Object {
+        "id": 73,
+        "value": 73,
+      },
+      Object {
+        "id": 74,
+        "value": 74,
+      },
+      Object {
+        "id": 75,
+        "value": 75,
+      },
+      Object {
+        "id": 76,
+        "value": 76,
+      },
+      Object {
+        "id": 77,
+        "value": 77,
+      },
+      Object {
+        "id": 78,
+        "value": 78,
+      },
+      Object {
+        "id": 79,
+        "value": 79,
+      },
+    ]
+  }
+  values={
+    Array [
+      Object {
+        "id": 100,
+        "value": 100,
+      },
+    ]
+  }
+>
+  <div
+    className="filtered-user-list"
+  >
+    <div
+      className="filter-row filter-row--full"
+    >
+      <div
+        className="multi-select__container"
+      >
+        <Select
+          arrowRenderer={[Function]}
+          autosize={true}
+          backspaceRemoves={true}
+          backspaceToRemoveMessage="Press backspace to remove {label}"
+          clearAllText="Clear all"
+          clearRenderer={[Function]}
+          clearValueText="Clear value"
+          clearable={false}
+          closeOnSelect={true}
+          deleteRemoves={true}
+          delimiter=","
+          disabled={false}
+          escapeClearsValue={true}
+          filterOptions={[Function]}
+          ignoreAccents={true}
+          ignoreCase={true}
+          inputProps={Object {}}
+          isLoading={false}
+          joinValues={true}
+          labelKey="label"
+          matchPos="any"
+          matchProp="any"
+          menuBuffer={0}
+          menuRenderer={[Function]}
+          multi={true}
+          noResultsText={null}
+          onBlurResetsInput={false}
+          onChange={[Function]}
+          onCloseResetsInput={false}
+          onInputChange={[Function]}
+          onInputKeyDown={[Function]}
+          onSelectResetsInput={true}
+          openOnClick={true}
+          openOnFocus={true}
+          optionComponent={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "value": 0,
+              },
+              Object {
+                "id": 1,
+                "value": 1,
+              },
+              Object {
+                "id": 2,
+                "value": 2,
+              },
+              Object {
+                "id": 3,
+                "value": 3,
+              },
+              Object {
+                "id": 4,
+                "value": 4,
+              },
+              Object {
+                "id": 5,
+                "value": 5,
+              },
+              Object {
+                "id": 6,
+                "value": 6,
+              },
+              Object {
+                "id": 7,
+                "value": 7,
+              },
+              Object {
+                "id": 8,
+                "value": 8,
+              },
+              Object {
+                "id": 9,
+                "value": 9,
+              },
+              Object {
+                "id": 10,
+                "value": 10,
+              },
+              Object {
+                "id": 11,
+                "value": 11,
+              },
+              Object {
+                "id": 12,
+                "value": 12,
+              },
+              Object {
+                "id": 13,
+                "value": 13,
+              },
+              Object {
+                "id": 14,
+                "value": 14,
+              },
+              Object {
+                "id": 15,
+                "value": 15,
+              },
+              Object {
+                "id": 16,
+                "value": 16,
+              },
+              Object {
+                "id": 17,
+                "value": 17,
+              },
+              Object {
+                "id": 18,
+                "value": 18,
+              },
+              Object {
+                "id": 19,
+                "value": 19,
+              },
+              Object {
+                "id": 20,
+                "value": 20,
+              },
+              Object {
+                "id": 21,
+                "value": 21,
+              },
+              Object {
+                "id": 22,
+                "value": 22,
+              },
+              Object {
+                "id": 23,
+                "value": 23,
+              },
+              Object {
+                "id": 24,
+                "value": 24,
+              },
+              Object {
+                "id": 25,
+                "value": 25,
+              },
+              Object {
+                "id": 26,
+                "value": 26,
+              },
+              Object {
+                "id": 27,
+                "value": 27,
+              },
+              Object {
+                "id": 28,
+                "value": 28,
+              },
+              Object {
+                "id": 29,
+                "value": 29,
+              },
+              Object {
+                "id": 30,
+                "value": 30,
+              },
+              Object {
+                "id": 31,
+                "value": 31,
+              },
+              Object {
+                "id": 32,
+                "value": 32,
+              },
+              Object {
+                "id": 33,
+                "value": 33,
+              },
+              Object {
+                "id": 34,
+                "value": 34,
+              },
+              Object {
+                "id": 35,
+                "value": 35,
+              },
+              Object {
+                "id": 36,
+                "value": 36,
+              },
+              Object {
+                "id": 37,
+                "value": 37,
+              },
+              Object {
+                "id": 38,
+                "value": 38,
+              },
+              Object {
+                "id": 39,
+                "value": 39,
+              },
+              Object {
+                "id": 40,
+                "value": 40,
+              },
+              Object {
+                "id": 41,
+                "value": 41,
+              },
+              Object {
+                "id": 42,
+                "value": 42,
+              },
+              Object {
+                "id": 43,
+                "value": 43,
+              },
+              Object {
+                "id": 44,
+                "value": 44,
+              },
+              Object {
+                "id": 45,
+                "value": 45,
+              },
+              Object {
+                "id": 46,
+                "value": 46,
+              },
+              Object {
+                "id": 47,
+                "value": 47,
+              },
+              Object {
+                "id": 48,
+                "value": 48,
+              },
+              Object {
+                "id": 49,
+                "value": 49,
+              },
+              Object {
+                "id": 50,
+                "value": 50,
+              },
+              Object {
+                "id": 51,
+                "value": 51,
+              },
+              Object {
+                "id": 52,
+                "value": 52,
+              },
+              Object {
+                "id": 53,
+                "value": 53,
+              },
+              Object {
+                "id": 54,
+                "value": 54,
+              },
+              Object {
+                "id": 55,
+                "value": 55,
+              },
+              Object {
+                "id": 56,
+                "value": 56,
+              },
+              Object {
+                "id": 57,
+                "value": 57,
+              },
+              Object {
+                "id": 58,
+                "value": 58,
+              },
+              Object {
+                "id": 59,
+                "value": 59,
+              },
+              Object {
+                "id": 60,
+                "value": 60,
+              },
+              Object {
+                "id": 61,
+                "value": 61,
+              },
+              Object {
+                "id": 62,
+                "value": 62,
+              },
+              Object {
+                "id": 63,
+                "value": 63,
+              },
+              Object {
+                "id": 64,
+                "value": 64,
+              },
+              Object {
+                "id": 65,
+                "value": 65,
+              },
+              Object {
+                "id": 66,
+                "value": 66,
+              },
+              Object {
+                "id": 67,
+                "value": 67,
+              },
+              Object {
+                "id": 68,
+                "value": 68,
+              },
+              Object {
+                "id": 69,
+                "value": 69,
+              },
+              Object {
+                "id": 70,
+                "value": 70,
+              },
+              Object {
+                "id": 71,
+                "value": 71,
+              },
+              Object {
+                "id": 72,
+                "value": 72,
+              },
+              Object {
+                "id": 73,
+                "value": 73,
+              },
+              Object {
+                "id": 74,
+                "value": 74,
+              },
+              Object {
+                "id": 75,
+                "value": 75,
+              },
+              Object {
+                "id": 76,
+                "value": 76,
+              },
+              Object {
+                "id": 77,
+                "value": 77,
+              },
+              Object {
+                "id": 78,
+                "value": 78,
+              },
+              Object {
+                "id": 79,
+                "value": 79,
+              },
+            ]
+          }
+          pageSize={5}
+          placeholder="Search and add members"
+          removeSelected={true}
+          required={false}
+          rtl={false}
+          scrollMenuIntoView={true}
+          searchable={true}
+          simpleValue={false}
+          tabSelectsValue={true}
+          trimFilter={true}
+          value={
+            Array [
+              Object {
+                "id": 100,
+                "value": 100,
+              },
+            ]
+          }
+          valueComponent={[Function]}
+          valueKey="value"
+        >
+          <div
+            className="Select has-value is-searchable Select--multi"
+          >
+            <div
+              className="Select-control"
+              onKeyDown={[Function]}
+              onMouseDown={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+            >
+              <div
+                className="Select-multi-value-wrapper"
+                id="react-select-2--value"
+              >
+                <Value
+                  disabled={false}
+                  id="react-select-2--value-0"
+                  instancePrefix="react-select-2-"
+                  key="value-0-100"
+                  onClick={null}
+                  onRemove={[Function]}
+                  placeholder="Search and add members"
+                  value={
+                    Object {
+                      "id": 100,
+                      "value": 100,
+                    }
+                  }
+                  values={
+                    Array [
+                      Object {
+                        "id": 100,
+                        "value": 100,
+                      },
+                    ]
+                  }
+                >
+                  <div
+                    className="Select-value"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Select-value-icon"
+                      onMouseDown={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchMove={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      ×
+                    </span>
+                    <span
+                      aria-selected="true"
+                      className="Select-value-label"
+                      id="react-select-2--value-0"
+                      role="option"
+                    >
+                      <span
+                        className="Select-aria-only"
+                      >
+                         
+                      </span>
+                    </span>
+                  </div>
+                </Value>
+                <AutosizeInput
+                  aria-activedescendant="react-select-2--value"
+                  aria-expanded="false"
+                  aria-haspopup="false"
+                  aria-owns=""
+                  className="Select-input"
+                  injectStyles={true}
+                  minWidth="5"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  required={false}
+                  role="combobox"
+                  value=""
+                >
+                  <div
+                    className="Select-input"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                      }
+                    }
+                  >
+                    <input
+                      aria-activedescendant="react-select-2--value"
+                      aria-expanded="false"
+                      aria-haspopup="false"
+                      aria-owns=""
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={false}
+                      role="combobox"
+                      style={
+                        Object {
+                          "boxSizing": "content-box",
+                          "width": "5px",
+                        }
+                      }
+                      value=""
+                    />
+                    <div
+                      style={
+                        Object {
+                          "height": 0,
+                          "left": 0,
+                          "overflow": "scroll",
+                          "position": "absolute",
+                          "top": 0,
+                          "visibility": "hidden",
+                          "whiteSpace": "pre",
+                        }
+                      }
+                    />
+                  </div>
+                </AutosizeInput>
+              </div>
+            </div>
+          </div>
+        </Select>
+        <SaveButton
+          btnClass="btn-primary"
+          defaultMessage="Save"
+          disabled={false}
+          extraClasses=""
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving"
+        >
+          <button
+            className="save-button btn btn-primary"
+            disabled={false}
+            id="saveSetting"
+            onClick={[Function]}
+            type="submit"
+          >
+            Save
+          </button>
+        </SaveButton>
+      </div>
+      <div
+        className="multi-select__help"
+      >
+        <FormattedMessage
+          defaultMessage="{memberOptions, number} of {totalCount, number} members"
+          id="multiselect.numMembers"
+          values={
+            Object {
+              "memberOptions": 50,
+              "totalCount": 80,
+            }
+          }
+        >
+          <span>
+            50 of 80 members
+          </span>
+        </FormattedMessage>
+      </div>
+    </div>
+    <MultiSelectList
+      onAction={[Function]}
+      onAdd={[Function]}
+      onSelect={[Function]}
+      options={
+        Array [
+          Object {
+            "id": 0,
+            "value": 0,
+          },
+          Object {
+            "id": 1,
+            "value": 1,
+          },
+          Object {
+            "id": 2,
+            "value": 2,
+          },
+          Object {
+            "id": 3,
+            "value": 3,
+          },
+          Object {
+            "id": 4,
+            "value": 4,
+          },
+          Object {
+            "id": 5,
+            "value": 5,
+          },
+          Object {
+            "id": 6,
+            "value": 6,
+          },
+          Object {
+            "id": 7,
+            "value": 7,
+          },
+          Object {
+            "id": 8,
+            "value": 8,
+          },
+          Object {
+            "id": 9,
+            "value": 9,
+          },
+          Object {
+            "id": 10,
+            "value": 10,
+          },
+          Object {
+            "id": 11,
+            "value": 11,
+          },
+          Object {
+            "id": 12,
+            "value": 12,
+          },
+          Object {
+            "id": 13,
+            "value": 13,
+          },
+          Object {
+            "id": 14,
+            "value": 14,
+          },
+          Object {
+            "id": 15,
+            "value": 15,
+          },
+          Object {
+            "id": 16,
+            "value": 16,
+          },
+          Object {
+            "id": 17,
+            "value": 17,
+          },
+          Object {
+            "id": 18,
+            "value": 18,
+          },
+          Object {
+            "id": 19,
+            "value": 19,
+          },
+          Object {
+            "id": 20,
+            "value": 20,
+          },
+          Object {
+            "id": 21,
+            "value": 21,
+          },
+          Object {
+            "id": 22,
+            "value": 22,
+          },
+          Object {
+            "id": 23,
+            "value": 23,
+          },
+          Object {
+            "id": 24,
+            "value": 24,
+          },
+          Object {
+            "id": 25,
+            "value": 25,
+          },
+          Object {
+            "id": 26,
+            "value": 26,
+          },
+          Object {
+            "id": 27,
+            "value": 27,
+          },
+          Object {
+            "id": 28,
+            "value": 28,
+          },
+          Object {
+            "id": 29,
+            "value": 29,
+          },
+          Object {
+            "id": 30,
+            "value": 30,
+          },
+          Object {
+            "id": 31,
+            "value": 31,
+          },
+          Object {
+            "id": 32,
+            "value": 32,
+          },
+          Object {
+            "id": 33,
+            "value": 33,
+          },
+          Object {
+            "id": 34,
+            "value": 34,
+          },
+          Object {
+            "id": 35,
+            "value": 35,
+          },
+          Object {
+            "id": 36,
+            "value": 36,
+          },
+          Object {
+            "id": 37,
+            "value": 37,
+          },
+          Object {
+            "id": 38,
+            "value": 38,
+          },
+          Object {
+            "id": 39,
+            "value": 39,
+          },
+          Object {
+            "id": 40,
+            "value": 40,
+          },
+          Object {
+            "id": 41,
+            "value": 41,
+          },
+          Object {
+            "id": 42,
+            "value": 42,
+          },
+          Object {
+            "id": 43,
+            "value": 43,
+          },
+          Object {
+            "id": 44,
+            "value": 44,
+          },
+          Object {
+            "id": 45,
+            "value": 45,
+          },
+          Object {
+            "id": 46,
+            "value": 46,
+          },
+          Object {
+            "id": 47,
+            "value": 47,
+          },
+          Object {
+            "id": 48,
+            "value": 48,
+          },
+          Object {
+            "id": 49,
+            "value": 49,
+          },
+        ]
+      }
+      page={0}
+      perPage={50}
+    >
+      <div
+        className="more-modal__list"
+      >
+        <div>
+          <div
+            className=""
+            key="multiselectoption0"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption1"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption2"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption3"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption4"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption5"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption6"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption7"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption8"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption9"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption10"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption11"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption12"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption13"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption14"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption15"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption16"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption17"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption18"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption19"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption20"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption21"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption22"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption23"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption24"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption25"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption26"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption27"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption28"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption29"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption30"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption31"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption32"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption33"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption34"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption35"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption36"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption37"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption38"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption39"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption40"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption41"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption42"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption43"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption44"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption45"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption46"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption47"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption48"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption49"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+    </MultiSelectList>
+    <div
+      className="filter-controls"
+    >
+      <button
+        className="btn btn-default filter-control filter-control__next"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Next"
+          id="filtered_user_list.next"
+          values={Object {}}
+        >
+          <span>
+            Next
+          </span>
+        </FormattedMessage>
+      </button>
+    </div>
+  </div>
+</MultiSelect>
+`;
+
+exports[`components/multiselect/multiselect should match snapshot for page 2 1`] = `
+<MultiSelect
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  options={
+    Array [
+      Object {
+        "id": 0,
+        "value": 0,
+      },
+      Object {
+        "id": 1,
+        "value": 1,
+      },
+      Object {
+        "id": 2,
+        "value": 2,
+      },
+      Object {
+        "id": 3,
+        "value": 3,
+      },
+      Object {
+        "id": 4,
+        "value": 4,
+      },
+      Object {
+        "id": 5,
+        "value": 5,
+      },
+      Object {
+        "id": 6,
+        "value": 6,
+      },
+      Object {
+        "id": 7,
+        "value": 7,
+      },
+      Object {
+        "id": 8,
+        "value": 8,
+      },
+      Object {
+        "id": 9,
+        "value": 9,
+      },
+      Object {
+        "id": 10,
+        "value": 10,
+      },
+      Object {
+        "id": 11,
+        "value": 11,
+      },
+      Object {
+        "id": 12,
+        "value": 12,
+      },
+      Object {
+        "id": 13,
+        "value": 13,
+      },
+      Object {
+        "id": 14,
+        "value": 14,
+      },
+      Object {
+        "id": 15,
+        "value": 15,
+      },
+      Object {
+        "id": 16,
+        "value": 16,
+      },
+      Object {
+        "id": 17,
+        "value": 17,
+      },
+      Object {
+        "id": 18,
+        "value": 18,
+      },
+      Object {
+        "id": 19,
+        "value": 19,
+      },
+      Object {
+        "id": 20,
+        "value": 20,
+      },
+      Object {
+        "id": 21,
+        "value": 21,
+      },
+      Object {
+        "id": 22,
+        "value": 22,
+      },
+      Object {
+        "id": 23,
+        "value": 23,
+      },
+      Object {
+        "id": 24,
+        "value": 24,
+      },
+      Object {
+        "id": 25,
+        "value": 25,
+      },
+      Object {
+        "id": 26,
+        "value": 26,
+      },
+      Object {
+        "id": 27,
+        "value": 27,
+      },
+      Object {
+        "id": 28,
+        "value": 28,
+      },
+      Object {
+        "id": 29,
+        "value": 29,
+      },
+      Object {
+        "id": 30,
+        "value": 30,
+      },
+      Object {
+        "id": 31,
+        "value": 31,
+      },
+      Object {
+        "id": 32,
+        "value": 32,
+      },
+      Object {
+        "id": 33,
+        "value": 33,
+      },
+      Object {
+        "id": 34,
+        "value": 34,
+      },
+      Object {
+        "id": 35,
+        "value": 35,
+      },
+      Object {
+        "id": 36,
+        "value": 36,
+      },
+      Object {
+        "id": 37,
+        "value": 37,
+      },
+      Object {
+        "id": 38,
+        "value": 38,
+      },
+      Object {
+        "id": 39,
+        "value": 39,
+      },
+      Object {
+        "id": 40,
+        "value": 40,
+      },
+      Object {
+        "id": 41,
+        "value": 41,
+      },
+      Object {
+        "id": 42,
+        "value": 42,
+      },
+      Object {
+        "id": 43,
+        "value": 43,
+      },
+      Object {
+        "id": 44,
+        "value": 44,
+      },
+      Object {
+        "id": 45,
+        "value": 45,
+      },
+      Object {
+        "id": 46,
+        "value": 46,
+      },
+      Object {
+        "id": 47,
+        "value": 47,
+      },
+      Object {
+        "id": 48,
+        "value": 48,
+      },
+      Object {
+        "id": 49,
+        "value": 49,
+      },
+      Object {
+        "id": 50,
+        "value": 50,
+      },
+      Object {
+        "id": 51,
+        "value": 51,
+      },
+      Object {
+        "id": 52,
+        "value": 52,
+      },
+      Object {
+        "id": 53,
+        "value": 53,
+      },
+      Object {
+        "id": 54,
+        "value": 54,
+      },
+      Object {
+        "id": 55,
+        "value": 55,
+      },
+      Object {
+        "id": 56,
+        "value": 56,
+      },
+      Object {
+        "id": 57,
+        "value": 57,
+      },
+      Object {
+        "id": 58,
+        "value": 58,
+      },
+      Object {
+        "id": 59,
+        "value": 59,
+      },
+      Object {
+        "id": 60,
+        "value": 60,
+      },
+      Object {
+        "id": 61,
+        "value": 61,
+      },
+      Object {
+        "id": 62,
+        "value": 62,
+      },
+      Object {
+        "id": 63,
+        "value": 63,
+      },
+      Object {
+        "id": 64,
+        "value": 64,
+      },
+      Object {
+        "id": 65,
+        "value": 65,
+      },
+      Object {
+        "id": 66,
+        "value": 66,
+      },
+      Object {
+        "id": 67,
+        "value": 67,
+      },
+      Object {
+        "id": 68,
+        "value": 68,
+      },
+      Object {
+        "id": 69,
+        "value": 69,
+      },
+      Object {
+        "id": 70,
+        "value": 70,
+      },
+      Object {
+        "id": 71,
+        "value": 71,
+      },
+      Object {
+        "id": 72,
+        "value": 72,
+      },
+      Object {
+        "id": 73,
+        "value": 73,
+      },
+      Object {
+        "id": 74,
+        "value": 74,
+      },
+      Object {
+        "id": 75,
+        "value": 75,
+      },
+      Object {
+        "id": 76,
+        "value": 76,
+      },
+      Object {
+        "id": 77,
+        "value": 77,
+      },
+      Object {
+        "id": 78,
+        "value": 78,
+      },
+      Object {
+        "id": 79,
+        "value": 79,
+      },
+    ]
+  }
+  perPage={50}
+  saving={false}
+  totalCount={80}
+  users={
+    Array [
+      Object {
+        "id": 0,
+        "value": 0,
+      },
+      Object {
+        "id": 1,
+        "value": 1,
+      },
+      Object {
+        "id": 2,
+        "value": 2,
+      },
+      Object {
+        "id": 3,
+        "value": 3,
+      },
+      Object {
+        "id": 4,
+        "value": 4,
+      },
+      Object {
+        "id": 5,
+        "value": 5,
+      },
+      Object {
+        "id": 6,
+        "value": 6,
+      },
+      Object {
+        "id": 7,
+        "value": 7,
+      },
+      Object {
+        "id": 8,
+        "value": 8,
+      },
+      Object {
+        "id": 9,
+        "value": 9,
+      },
+      Object {
+        "id": 10,
+        "value": 10,
+      },
+      Object {
+        "id": 11,
+        "value": 11,
+      },
+      Object {
+        "id": 12,
+        "value": 12,
+      },
+      Object {
+        "id": 13,
+        "value": 13,
+      },
+      Object {
+        "id": 14,
+        "value": 14,
+      },
+      Object {
+        "id": 15,
+        "value": 15,
+      },
+      Object {
+        "id": 16,
+        "value": 16,
+      },
+      Object {
+        "id": 17,
+        "value": 17,
+      },
+      Object {
+        "id": 18,
+        "value": 18,
+      },
+      Object {
+        "id": 19,
+        "value": 19,
+      },
+      Object {
+        "id": 20,
+        "value": 20,
+      },
+      Object {
+        "id": 21,
+        "value": 21,
+      },
+      Object {
+        "id": 22,
+        "value": 22,
+      },
+      Object {
+        "id": 23,
+        "value": 23,
+      },
+      Object {
+        "id": 24,
+        "value": 24,
+      },
+      Object {
+        "id": 25,
+        "value": 25,
+      },
+      Object {
+        "id": 26,
+        "value": 26,
+      },
+      Object {
+        "id": 27,
+        "value": 27,
+      },
+      Object {
+        "id": 28,
+        "value": 28,
+      },
+      Object {
+        "id": 29,
+        "value": 29,
+      },
+      Object {
+        "id": 30,
+        "value": 30,
+      },
+      Object {
+        "id": 31,
+        "value": 31,
+      },
+      Object {
+        "id": 32,
+        "value": 32,
+      },
+      Object {
+        "id": 33,
+        "value": 33,
+      },
+      Object {
+        "id": 34,
+        "value": 34,
+      },
+      Object {
+        "id": 35,
+        "value": 35,
+      },
+      Object {
+        "id": 36,
+        "value": 36,
+      },
+      Object {
+        "id": 37,
+        "value": 37,
+      },
+      Object {
+        "id": 38,
+        "value": 38,
+      },
+      Object {
+        "id": 39,
+        "value": 39,
+      },
+      Object {
+        "id": 40,
+        "value": 40,
+      },
+      Object {
+        "id": 41,
+        "value": 41,
+      },
+      Object {
+        "id": 42,
+        "value": 42,
+      },
+      Object {
+        "id": 43,
+        "value": 43,
+      },
+      Object {
+        "id": 44,
+        "value": 44,
+      },
+      Object {
+        "id": 45,
+        "value": 45,
+      },
+      Object {
+        "id": 46,
+        "value": 46,
+      },
+      Object {
+        "id": 47,
+        "value": 47,
+      },
+      Object {
+        "id": 48,
+        "value": 48,
+      },
+      Object {
+        "id": 49,
+        "value": 49,
+      },
+      Object {
+        "id": 50,
+        "value": 50,
+      },
+      Object {
+        "id": 51,
+        "value": 51,
+      },
+      Object {
+        "id": 52,
+        "value": 52,
+      },
+      Object {
+        "id": 53,
+        "value": 53,
+      },
+      Object {
+        "id": 54,
+        "value": 54,
+      },
+      Object {
+        "id": 55,
+        "value": 55,
+      },
+      Object {
+        "id": 56,
+        "value": 56,
+      },
+      Object {
+        "id": 57,
+        "value": 57,
+      },
+      Object {
+        "id": 58,
+        "value": 58,
+      },
+      Object {
+        "id": 59,
+        "value": 59,
+      },
+      Object {
+        "id": 60,
+        "value": 60,
+      },
+      Object {
+        "id": 61,
+        "value": 61,
+      },
+      Object {
+        "id": 62,
+        "value": 62,
+      },
+      Object {
+        "id": 63,
+        "value": 63,
+      },
+      Object {
+        "id": 64,
+        "value": 64,
+      },
+      Object {
+        "id": 65,
+        "value": 65,
+      },
+      Object {
+        "id": 66,
+        "value": 66,
+      },
+      Object {
+        "id": 67,
+        "value": 67,
+      },
+      Object {
+        "id": 68,
+        "value": 68,
+      },
+      Object {
+        "id": 69,
+        "value": 69,
+      },
+      Object {
+        "id": 70,
+        "value": 70,
+      },
+      Object {
+        "id": 71,
+        "value": 71,
+      },
+      Object {
+        "id": 72,
+        "value": 72,
+      },
+      Object {
+        "id": 73,
+        "value": 73,
+      },
+      Object {
+        "id": 74,
+        "value": 74,
+      },
+      Object {
+        "id": 75,
+        "value": 75,
+      },
+      Object {
+        "id": 76,
+        "value": 76,
+      },
+      Object {
+        "id": 77,
+        "value": 77,
+      },
+      Object {
+        "id": 78,
+        "value": 78,
+      },
+      Object {
+        "id": 79,
+        "value": 79,
+      },
+    ]
+  }
+  values={
+    Array [
+      Object {
+        "id": 100,
+        "value": 100,
+      },
+    ]
+  }
+>
+  <div
+    className="filtered-user-list"
+  >
+    <div
+      className="filter-row filter-row--full"
+    >
+      <div
+        className="multi-select__container"
+      >
+        <Select
+          arrowRenderer={[Function]}
+          autosize={true}
+          backspaceRemoves={true}
+          backspaceToRemoveMessage="Press backspace to remove {label}"
+          clearAllText="Clear all"
+          clearRenderer={[Function]}
+          clearValueText="Clear value"
+          clearable={false}
+          closeOnSelect={true}
+          deleteRemoves={true}
+          delimiter=","
+          disabled={false}
+          escapeClearsValue={true}
+          filterOptions={[Function]}
+          ignoreAccents={true}
+          ignoreCase={true}
+          inputProps={Object {}}
+          isLoading={false}
+          joinValues={true}
+          labelKey="label"
+          matchPos="any"
+          matchProp="any"
+          menuBuffer={0}
+          menuRenderer={[Function]}
+          multi={true}
+          noResultsText={null}
+          onBlurResetsInput={false}
+          onChange={[Function]}
+          onCloseResetsInput={false}
+          onInputChange={[Function]}
+          onInputKeyDown={[Function]}
+          onSelectResetsInput={true}
+          openOnClick={true}
+          openOnFocus={true}
+          optionComponent={[Function]}
+          options={
+            Array [
+              Object {
+                "id": 0,
+                "value": 0,
+              },
+              Object {
+                "id": 1,
+                "value": 1,
+              },
+              Object {
+                "id": 2,
+                "value": 2,
+              },
+              Object {
+                "id": 3,
+                "value": 3,
+              },
+              Object {
+                "id": 4,
+                "value": 4,
+              },
+              Object {
+                "id": 5,
+                "value": 5,
+              },
+              Object {
+                "id": 6,
+                "value": 6,
+              },
+              Object {
+                "id": 7,
+                "value": 7,
+              },
+              Object {
+                "id": 8,
+                "value": 8,
+              },
+              Object {
+                "id": 9,
+                "value": 9,
+              },
+              Object {
+                "id": 10,
+                "value": 10,
+              },
+              Object {
+                "id": 11,
+                "value": 11,
+              },
+              Object {
+                "id": 12,
+                "value": 12,
+              },
+              Object {
+                "id": 13,
+                "value": 13,
+              },
+              Object {
+                "id": 14,
+                "value": 14,
+              },
+              Object {
+                "id": 15,
+                "value": 15,
+              },
+              Object {
+                "id": 16,
+                "value": 16,
+              },
+              Object {
+                "id": 17,
+                "value": 17,
+              },
+              Object {
+                "id": 18,
+                "value": 18,
+              },
+              Object {
+                "id": 19,
+                "value": 19,
+              },
+              Object {
+                "id": 20,
+                "value": 20,
+              },
+              Object {
+                "id": 21,
+                "value": 21,
+              },
+              Object {
+                "id": 22,
+                "value": 22,
+              },
+              Object {
+                "id": 23,
+                "value": 23,
+              },
+              Object {
+                "id": 24,
+                "value": 24,
+              },
+              Object {
+                "id": 25,
+                "value": 25,
+              },
+              Object {
+                "id": 26,
+                "value": 26,
+              },
+              Object {
+                "id": 27,
+                "value": 27,
+              },
+              Object {
+                "id": 28,
+                "value": 28,
+              },
+              Object {
+                "id": 29,
+                "value": 29,
+              },
+              Object {
+                "id": 30,
+                "value": 30,
+              },
+              Object {
+                "id": 31,
+                "value": 31,
+              },
+              Object {
+                "id": 32,
+                "value": 32,
+              },
+              Object {
+                "id": 33,
+                "value": 33,
+              },
+              Object {
+                "id": 34,
+                "value": 34,
+              },
+              Object {
+                "id": 35,
+                "value": 35,
+              },
+              Object {
+                "id": 36,
+                "value": 36,
+              },
+              Object {
+                "id": 37,
+                "value": 37,
+              },
+              Object {
+                "id": 38,
+                "value": 38,
+              },
+              Object {
+                "id": 39,
+                "value": 39,
+              },
+              Object {
+                "id": 40,
+                "value": 40,
+              },
+              Object {
+                "id": 41,
+                "value": 41,
+              },
+              Object {
+                "id": 42,
+                "value": 42,
+              },
+              Object {
+                "id": 43,
+                "value": 43,
+              },
+              Object {
+                "id": 44,
+                "value": 44,
+              },
+              Object {
+                "id": 45,
+                "value": 45,
+              },
+              Object {
+                "id": 46,
+                "value": 46,
+              },
+              Object {
+                "id": 47,
+                "value": 47,
+              },
+              Object {
+                "id": 48,
+                "value": 48,
+              },
+              Object {
+                "id": 49,
+                "value": 49,
+              },
+              Object {
+                "id": 50,
+                "value": 50,
+              },
+              Object {
+                "id": 51,
+                "value": 51,
+              },
+              Object {
+                "id": 52,
+                "value": 52,
+              },
+              Object {
+                "id": 53,
+                "value": 53,
+              },
+              Object {
+                "id": 54,
+                "value": 54,
+              },
+              Object {
+                "id": 55,
+                "value": 55,
+              },
+              Object {
+                "id": 56,
+                "value": 56,
+              },
+              Object {
+                "id": 57,
+                "value": 57,
+              },
+              Object {
+                "id": 58,
+                "value": 58,
+              },
+              Object {
+                "id": 59,
+                "value": 59,
+              },
+              Object {
+                "id": 60,
+                "value": 60,
+              },
+              Object {
+                "id": 61,
+                "value": 61,
+              },
+              Object {
+                "id": 62,
+                "value": 62,
+              },
+              Object {
+                "id": 63,
+                "value": 63,
+              },
+              Object {
+                "id": 64,
+                "value": 64,
+              },
+              Object {
+                "id": 65,
+                "value": 65,
+              },
+              Object {
+                "id": 66,
+                "value": 66,
+              },
+              Object {
+                "id": 67,
+                "value": 67,
+              },
+              Object {
+                "id": 68,
+                "value": 68,
+              },
+              Object {
+                "id": 69,
+                "value": 69,
+              },
+              Object {
+                "id": 70,
+                "value": 70,
+              },
+              Object {
+                "id": 71,
+                "value": 71,
+              },
+              Object {
+                "id": 72,
+                "value": 72,
+              },
+              Object {
+                "id": 73,
+                "value": 73,
+              },
+              Object {
+                "id": 74,
+                "value": 74,
+              },
+              Object {
+                "id": 75,
+                "value": 75,
+              },
+              Object {
+                "id": 76,
+                "value": 76,
+              },
+              Object {
+                "id": 77,
+                "value": 77,
+              },
+              Object {
+                "id": 78,
+                "value": 78,
+              },
+              Object {
+                "id": 79,
+                "value": 79,
+              },
+            ]
+          }
+          pageSize={5}
+          placeholder="Search and add members"
+          removeSelected={true}
+          required={false}
+          rtl={false}
+          scrollMenuIntoView={true}
+          searchable={true}
+          simpleValue={false}
+          tabSelectsValue={true}
+          trimFilter={true}
+          value={
+            Array [
+              Object {
+                "id": 100,
+                "value": 100,
+              },
+            ]
+          }
+          valueComponent={[Function]}
+          valueKey="value"
+        >
+          <div
+            className="Select has-value is-searchable Select--multi"
+          >
+            <div
+              className="Select-control"
+              onKeyDown={[Function]}
+              onMouseDown={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+            >
+              <div
+                className="Select-multi-value-wrapper"
+                id="react-select-3--value"
+              >
+                <Value
+                  disabled={false}
+                  id="react-select-3--value-0"
+                  instancePrefix="react-select-3-"
+                  key="value-0-100"
+                  onClick={null}
+                  onRemove={[Function]}
+                  placeholder="Search and add members"
+                  value={
+                    Object {
+                      "id": 100,
+                      "value": 100,
+                    }
+                  }
+                  values={
+                    Array [
+                      Object {
+                        "id": 100,
+                        "value": 100,
+                      },
+                    ]
+                  }
+                >
+                  <div
+                    className="Select-value"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Select-value-icon"
+                      onMouseDown={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchMove={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      ×
+                    </span>
+                    <span
+                      aria-selected="true"
+                      className="Select-value-label"
+                      id="react-select-3--value-0"
+                      role="option"
+                    >
+                      <span
+                        className="Select-aria-only"
+                      >
+                         
+                      </span>
+                    </span>
+                  </div>
+                </Value>
+                <AutosizeInput
+                  aria-activedescendant="react-select-3--value"
+                  aria-expanded="false"
+                  aria-haspopup="false"
+                  aria-owns=""
+                  className="Select-input"
+                  injectStyles={true}
+                  minWidth="5"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  required={false}
+                  role="combobox"
+                  value=""
+                >
+                  <div
+                    className="Select-input"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                      }
+                    }
+                  >
+                    <input
+                      aria-activedescendant="react-select-3--value"
+                      aria-expanded="false"
+                      aria-haspopup="false"
+                      aria-owns=""
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={false}
+                      role="combobox"
+                      style={
+                        Object {
+                          "boxSizing": "content-box",
+                          "width": "5px",
+                        }
+                      }
+                      value=""
+                    />
+                    <div
+                      style={
+                        Object {
+                          "height": 0,
+                          "left": 0,
+                          "overflow": "scroll",
+                          "position": "absolute",
+                          "top": 0,
+                          "visibility": "hidden",
+                          "whiteSpace": "pre",
+                        }
+                      }
+                    />
+                  </div>
+                </AutosizeInput>
+              </div>
+            </div>
+          </div>
+        </Select>
+        <SaveButton
+          btnClass="btn-primary"
+          defaultMessage="Save"
+          disabled={false}
+          extraClasses=""
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving"
+        >
+          <button
+            className="save-button btn btn-primary"
+            disabled={false}
+            id="saveSetting"
+            onClick={[Function]}
+            type="submit"
+          >
+            Save
+          </button>
+        </SaveButton>
+      </div>
+      <div
+        className="multi-select__help"
+      >
+        <FormattedMessage
+          defaultMessage="{memberOptions, number} of {totalCount, number} members"
+          id="multiselect.numMembers"
+          values={
+            Object {
+              "memberOptions": 30,
+              "totalCount": 80,
+            }
+          }
+        >
+          <span>
+            30 of 80 members
+          </span>
+        </FormattedMessage>
+      </div>
+    </div>
+    <MultiSelectList
+      onAction={[Function]}
+      onAdd={[Function]}
+      onSelect={[Function]}
+      options={
+        Array [
+          Object {
+            "id": 50,
+            "value": 50,
+          },
+          Object {
+            "id": 51,
+            "value": 51,
+          },
+          Object {
+            "id": 52,
+            "value": 52,
+          },
+          Object {
+            "id": 53,
+            "value": 53,
+          },
+          Object {
+            "id": 54,
+            "value": 54,
+          },
+          Object {
+            "id": 55,
+            "value": 55,
+          },
+          Object {
+            "id": 56,
+            "value": 56,
+          },
+          Object {
+            "id": 57,
+            "value": 57,
+          },
+          Object {
+            "id": 58,
+            "value": 58,
+          },
+          Object {
+            "id": 59,
+            "value": 59,
+          },
+          Object {
+            "id": 60,
+            "value": 60,
+          },
+          Object {
+            "id": 61,
+            "value": 61,
+          },
+          Object {
+            "id": 62,
+            "value": 62,
+          },
+          Object {
+            "id": 63,
+            "value": 63,
+          },
+          Object {
+            "id": 64,
+            "value": 64,
+          },
+          Object {
+            "id": 65,
+            "value": 65,
+          },
+          Object {
+            "id": 66,
+            "value": 66,
+          },
+          Object {
+            "id": 67,
+            "value": 67,
+          },
+          Object {
+            "id": 68,
+            "value": 68,
+          },
+          Object {
+            "id": 69,
+            "value": 69,
+          },
+          Object {
+            "id": 70,
+            "value": 70,
+          },
+          Object {
+            "id": 71,
+            "value": 71,
+          },
+          Object {
+            "id": 72,
+            "value": 72,
+          },
+          Object {
+            "id": 73,
+            "value": 73,
+          },
+          Object {
+            "id": 74,
+            "value": 74,
+          },
+          Object {
+            "id": 75,
+            "value": 75,
+          },
+          Object {
+            "id": 76,
+            "value": 76,
+          },
+          Object {
+            "id": 77,
+            "value": 77,
+          },
+          Object {
+            "id": 78,
+            "value": 78,
+          },
+          Object {
+            "id": 79,
+            "value": 79,
+          },
+        ]
+      }
+      page={1}
+      perPage={50}
+    >
+      <div
+        className="more-modal__list"
+      >
+        <div>
+          <div
+            className="more-modal__row--selected"
+            key="multiselectoption50"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption51"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption52"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption53"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption54"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption55"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption56"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption57"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption58"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption59"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption60"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption61"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption62"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption63"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption64"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption65"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption66"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption67"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption68"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption69"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption70"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption71"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption72"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption73"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption74"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption75"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption76"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption77"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption78"
+            onClick={[Function]}
+          />
+          <div
+            className=""
+            key="multiselectoption79"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+    </MultiSelectList>
+    <div
+      className="filter-controls"
+    >
+      <button
+        className="btn btn-default filter-control filter-control__prev"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Previous"
+          id="filtered_user_list.prev"
+          values={Object {}}
+        >
+          <span>
+            Previous
+          </span>
+        </FormattedMessage>
+      </button>
+    </div>
+  </div>
+</MultiSelect>
+`;
