@@ -7,7 +7,7 @@ import $ from 'jquery';
 require('perfect-scrollbar/jquery')($);
 
 import AccessHistoryModal from 'components/access_history_modal/access_history_modal.jsx';
-import AuditTable from 'components/audit_table.jsx';
+import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 describe('components/AccessHistoryModal', () => {

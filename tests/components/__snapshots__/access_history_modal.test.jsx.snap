@@ -49,7 +49,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
     bsClass="modal-body"
     componentClass="div"
   >
-    <InjectIntl(AuditTable)
+    <Connect(InjectIntl(AuditTable))
       audits={
         Array [
           "audit1",
