@@ -20,7 +20,6 @@ import * as Utils from 'utils/utils.jsx';
 import ConvertChannelModal from 'components/convert_channel_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
@@ -39,6 +38,7 @@ import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 import NavbarInfoButton from './navbar_info_button';
 import ViewChannelInfoOption from './navbar_dropdown_items/view_channel_info';
 import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
+import NotificationPreferenceOption from './navbar_dropdown_items/notification_preferences';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -299,23 +299,11 @@ export default class Navbar extends React.PureComponent {
                 webrtcOption = this.generateWebrtcDropdown();
             } else if (isGroup) {
                 notificationPreferenceOption = (
-                    <li role='presentation'>
-                        <ToggleModalButtonRedux
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
-                            dialogType={ChannelNotificationsModal}
-                            dialogProps={{
-                                channel,
-                                channelMember: this.props.channelMembership,
-                                currentUser: this.props.currentUser,
-                            }}
-                        >
-                            <FormattedMessage
-                                id='navbar.preferences'
-                                defaultMessage='Notification Preferences'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
+                    <NotificationPreferenceOption
+                        user={this.props.currentUser}
+                        channel={channel}
+                        membership={this.props.channelMembership}
+                    />
                 );
 
                 addMembersOption = (
@@ -433,23 +421,11 @@ export default class Navbar extends React.PureComponent {
                 }
 
                 notificationPreferenceOption = (
-                    <li role='presentation'>
-                        <ToggleModalButtonRedux
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
-                            dialogType={ChannelNotificationsModal}
-                            dialogProps={{
-                                channel,
-                                channelMember: this.state.member,
-                                currentUser: this.state.currentUser,
-                            }}
-                        >
-                            <FormattedMessage
-                                id='navbar.preferences'
-                                defaultMessage='Notification Preferences'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
+                    <NotificationPreferenceOption
+                        user={this.props.currentUser}
+                        channel={channel}
+                        membership={this.props.channelMembership}
+                    />
                 );
 
                 if (!this.props.isReadOnly) {
