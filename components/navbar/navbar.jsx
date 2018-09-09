@@ -18,10 +18,8 @@ import {Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/consta
 import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
-import ChannelInviteModal from 'components/channel_invite_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import MoreDirectChannels from 'components/more_direct_channels';
 import NotifyCounts from 'components/notify_counts.jsx';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
@@ -40,6 +38,7 @@ import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
 import NotificationPreferenceOption from './navbar_dropdown_items/notification_preferences';
 import ChannelMembersOption from './navbar_dropdown_items/channel_members';
 import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
+import AddMembersOption from './navbar_dropdown_items/add_members';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -271,7 +270,6 @@ export default class Navbar extends React.PureComponent {
         if (channel) {
             let viewInfoOption;
             let webrtcOption;
-            let addMembersOption;
             let setChannelPurposeOption;
             let notificationPreferenceOption;
             let renameChannelOption;
@@ -282,6 +280,7 @@ export default class Navbar extends React.PureComponent {
             let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
             const channelMembersOption = <ChannelMembersOption channel={channel}/>;
             const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
+            const addMembersOption = <AddMembersOption channel={channel}/>;
 
             if (isDirect) {
                 webrtcOption = this.generateWebrtcDropdown();
@@ -293,52 +292,9 @@ export default class Navbar extends React.PureComponent {
                         membership={this.props.channelMembership}
                     />
                 );
-
-                addMembersOption = (
-                    <li role='presentation'>
-                        <ToggleModalButtonRedux
-                            id='channelAddMembersGroup'
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
-                            dialogType={MoreDirectChannels}
-                            dialogProps={{isExistingChannel: true}}
-                        >
-                            <FormattedMessage
-                                id='navbar.addMembers'
-                                defaultMessage='Add Members'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
-                );
             } else {
                 const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
                 viewInfoOption = <ViewChannelInfoOption channel={channel}/>;
-
-                if (!this.props.isDefault) {
-                    addMembersOption = (
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                            key='add_members_permission'
-                        >
-                            <li role='presentation'>
-                                <ToggleModalButton
-                                    ref='channelInviteModalButton'
-                                    role='menuitem'
-                                    dialogType={ChannelInviteModal}
-                                    dialogProps={{channel, currentUser: this.props.currentUser}}
-                                >
-                                    <FormattedMessage
-                                        id='navbar.addMembers'
-                                        defaultMessage='Add Members'
-                                    />
-                                </ToggleModalButton>
-                            </li>
-                        </ChannelPermissionGate>
-                    );
-                }
-
                 notificationPreferenceOption = (
                     <NotificationPreferenceOption
                         user={this.props.currentUser}
