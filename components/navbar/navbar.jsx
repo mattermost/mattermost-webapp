@@ -19,7 +19,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
-import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import NotifyCounts from 'components/notify_counts.jsx';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
@@ -35,6 +34,7 @@ import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 import NavbarInfoButton from './navbar_info_button';
 import ViewChannelInfoOption from './navbar_dropdown_items/view_channel_info';
 import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
+import SetChannelPurposeOption from './navbar_dropdown_items/set_channel_purpose';
 import NotificationPreferenceOption from './navbar_dropdown_items/notification_preferences';
 import ChannelMembersOption from './navbar_dropdown_items/channel_members';
 import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
@@ -270,14 +270,14 @@ export default class Navbar extends React.PureComponent {
         if (channel) {
             let viewInfoOption;
             let webrtcOption;
-            let setChannelPurposeOption;
-            let notificationPreferenceOption;
-            let renameChannelOption;
             let convertChannelOption;
             let deleteChannelOption;
             let leaveChannelOption;
 
             let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
+            let setChannelPurposeOption;
+            let notificationPreferenceOption;
+            let renameChannelOption;
             const channelMembersOption = <ChannelMembersOption channel={channel}/>;
             const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
             const addMembersOption = <AddMembersOption channel={channel}/>;
@@ -313,28 +313,7 @@ export default class Navbar extends React.PureComponent {
                             <SetChannelHeaderOption channel={channel}/>
                         </ChannelPermissionGate>
                     );
-
-                    setChannelPurposeOption = (
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                        >
-                            <li role='presentation'>
-                                <ToggleModalButtonRedux
-                                    role='menuitem'
-                                    modalId={ModalIdentifiers.EDIT_CHANNEL_PURPOSE}
-                                    dialogType={EditChannelPurposeModal}
-                                    dialogProps={{channel}}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.setPurpose'
-                                        defaultMessage='Edit Channel Purpose'
-                                    />
-                                </ToggleModalButtonRedux>
-                            </li>
-                        </ChannelPermissionGate>
-                    );
+                    setChannelPurposeOption = <SetChannelPurposeOption channel={channel}/>;
 
                     if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
                         convertChannelOption = (
