@@ -17,12 +17,10 @@ import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import DeleteChannelModal from 'components/delete_channel_modal';
 import NotifyCounts from 'components/notify_counts.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 import MenuIcon from 'components/svg/menu_icon';
 import SearchIcon from 'components/svg/search_icon';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
@@ -37,6 +35,7 @@ import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
 import AddMembersOption from './navbar_dropdown_items/add_members';
 import RenameChannelOption from './navbar_dropdown_items/rename_channel';
 import ConvertChannelOption from './navbar_dropdown_items/convert_channel';
+import DeleteChannelOption from './navbar_dropdown_items/delete_channel';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -268,7 +267,6 @@ export default class Navbar extends React.PureComponent {
         if (channel) {
             let viewInfoOption;
             let webrtcOption;
-            let deleteChannelOption;
             let leaveChannelOption;
 
             let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
@@ -276,6 +274,7 @@ export default class Navbar extends React.PureComponent {
             let notificationPreferenceOption;
             let renameChannelOption;
             let convertChannelOption;
+            let deleteChannelOption;
             const channelMembersOption = <ChannelMembersOption channel={channel}/>;
             const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
             const addMembersOption = <AddMembersOption channel={channel}/>;
@@ -321,26 +320,7 @@ export default class Navbar extends React.PureComponent {
                 }
 
                 if (!this.props.isDefault) {
-                    deleteChannelOption = (
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
-                        >
-                            <li role='presentation'>
-                                <ToggleModalButton
-                                    role='menuitem'
-                                    dialogType={DeleteChannelModal}
-                                    dialogProps={{channel}}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.delete'
-                                        defaultMessage='Archive Channel'
-                                    />
-                                </ToggleModalButton>
-                            </li>
-                        </ChannelPermissionGate>
-                    );
+                    deleteChannelOption = <DeleteChannelOption channel={channel}/>;
 
                     leaveChannelOption = (
                         <li role='presentation'>
