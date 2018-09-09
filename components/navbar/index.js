@@ -25,8 +25,6 @@ import {
     closeMenu as closeRhsMenu,
 } from 'actions/views/rhs';
 import {toggle as toggleLhs, close as closeLhs} from 'actions/views/lhs';
-import {getRhsState} from 'selectors/rhs';
-import {RHSStates} from 'utils/constants';
 
 import Navbar from './navbar.jsx';
 
@@ -39,7 +37,6 @@ const mapStateToProps = createSelector(
     getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
     getConfig,
-    getRhsState,
     (
         currentTeamUrl,
         currentUser,
@@ -49,7 +46,6 @@ const mapStateToProps = createSelector(
         channelMembership,
         isReadOnly,
         config,
-        rhsState,
     ) => ({
         currentTeamUrl,
         currentUser,
@@ -60,7 +56,6 @@ const mapStateToProps = createSelector(
         isDefault: channel && isDefaultChannel(channel),
         isFavorite: channel && isFavoriteChannel(channel),
         isReadOnly,
-        hasPinnedPosts: rhsState === RHSStates.PIN,
         enableWebrtc: config.EnableWebrtc === 'true',
     }),
 );

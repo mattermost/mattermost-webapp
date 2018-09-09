@@ -39,6 +39,7 @@ import ViewChannelInfoOption from './navbar_dropdown_items/view_channel_info';
 import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
 import NotificationPreferenceOption from './navbar_dropdown_items/notification_preferences';
 import ChannelMembersOption from './navbar_dropdown_items/channel_members';
+import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -87,11 +88,6 @@ export default class Navbar extends React.PureComponent {
          * Bool whether the current channel is favorite
          */
         isFavorite: PropTypes.bool,
-
-        /**
-         * Bool whether the current channel has pinned any posts
-         */
-        hasPinnedPosts: PropTypes.bool.isRequired,
 
         /**
          * Bool whether the WebRTC feature is enabled
@@ -169,15 +165,6 @@ export default class Navbar extends React.PureComponent {
 
     showSearch = () => {
         this.props.actions.updateRhsState(RHSStates.SEARCH);
-    }
-
-    getPinnedPosts = (e) => {
-        e.preventDefault();
-        if (this.props.hasPinnedPosts) {
-            this.props.actions.closeRhs();
-        } else {
-            this.props.actions.showPinnedPosts(this.props.channel.id);
-        }
     }
 
     toggleFavorite = (e) => {
@@ -283,7 +270,7 @@ export default class Navbar extends React.PureComponent {
     createDropdown = (teamId, channel, channelTitle, isDirect, isGroup) => {
         if (channel) {
             let viewInfoOption;
-            let viewPinnedPostsOption;
+            let webrtcOption;
             let addMembersOption;
             let setChannelPurposeOption;
             let notificationPreferenceOption;
@@ -294,6 +281,7 @@ export default class Navbar extends React.PureComponent {
 
             let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
             const channelMembersOption = <ChannelMembersOption channel={channel}/>;
+            const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
 
             if (isDirect) {
                 webrtcOption = this.generateWebrtcDropdown();
@@ -325,20 +313,6 @@ export default class Navbar extends React.PureComponent {
             } else {
                 const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
                 viewInfoOption = <ViewChannelInfoOption channel={channel}/>;
-                viewPinnedPostsOption = (
-                    <li role='presentation'>
-                        <button
-                            role='menuitem'
-                            className='style--none'
-                            onClick={this.getPinnedPosts}
-                        >
-                            <FormattedMessage
-                                id='navbar.viewPinnedPosts'
-                                defaultMessage='View Pinned Posts'
-                            />
-                        </button>
-                    </li>
-                );
 
                 if (!this.props.isDefault) {
                     addMembersOption = (
