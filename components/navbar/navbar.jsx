@@ -14,18 +14,16 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-import {Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/constants.jsx';
+import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import NotifyCounts from 'components/notify_counts.jsx';
-import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import MenuIcon from 'components/svg/menu_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
@@ -39,6 +37,7 @@ import NotificationPreferenceOption from './navbar_dropdown_items/notification_p
 import ChannelMembersOption from './navbar_dropdown_items/channel_members';
 import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
 import AddMembersOption from './navbar_dropdown_items/add_members';
+import RenameChannelOption from './navbar_dropdown_items/rename_channel';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -340,27 +339,7 @@ export default class Navbar extends React.PureComponent {
                         );
                     }
 
-                    renameChannelOption = (
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                        >
-                            <li role='presentation'>
-                                <ToggleModalButtonRedux
-                                    role='menuitem'
-                                    modalId={ModalIdentifiers.RENAME_CHANNEL}
-                                    dialogType={RenameChannelModal}
-                                    dialogProps={{channel}}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.rename'
-                                        defaultMessage='Rename Channel'
-                                    />
-                                </ToggleModalButtonRedux>
-                            </li>
-                        </ChannelPermissionGate>
-                    );
+                    renameChannelOption = <RenameChannelOption channel={channel}/>;
                 }
 
                 if (!this.props.isDefault) {
