@@ -17,7 +17,6 @@ import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import NotifyCounts from 'components/notify_counts.jsx';
 import StatusIcon from 'components/status_icon.jsx';
@@ -25,7 +24,6 @@ import MenuIcon from 'components/svg/menu_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
@@ -38,6 +36,7 @@ import ChannelMembersOption from './navbar_dropdown_items/channel_members';
 import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
 import AddMembersOption from './navbar_dropdown_items/add_members';
 import RenameChannelOption from './navbar_dropdown_items/rename_channel';
+import ConvertChannelOption from './navbar_dropdown_items/convert_channel';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -269,7 +268,6 @@ export default class Navbar extends React.PureComponent {
         if (channel) {
             let viewInfoOption;
             let webrtcOption;
-            let convertChannelOption;
             let deleteChannelOption;
             let leaveChannelOption;
 
@@ -277,6 +275,7 @@ export default class Navbar extends React.PureComponent {
             let setChannelPurposeOption;
             let notificationPreferenceOption;
             let renameChannelOption;
+            let convertChannelOption;
             const channelMembersOption = <ChannelMembersOption channel={channel}/>;
             const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
             const addMembersOption = <AddMembersOption channel={channel}/>;
@@ -315,28 +314,7 @@ export default class Navbar extends React.PureComponent {
                     setChannelPurposeOption = <SetChannelPurposeOption channel={channel}/>;
 
                     if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
-                        convertChannelOption = (
-                            <TeamPermissionGate
-                                teamId={teamId}
-                                permissions={[Permissions.MANAGE_TEAM]}
-                            >
-                                <li role='presentation'>
-                                    <ToggleModalButton
-                                        role='menuitem'
-                                        dialogType={ConvertChannelModal}
-                                        dialogProps={{
-                                            channelId: channel.id,
-                                            channelDisplayName: channel.display_name,
-                                        }}
-                                    >
-                                        <FormattedMessage
-                                            id='channel_header.convert'
-                                            defaultMessage='Convert to Private Channel'
-                                        />
-                                    </ToggleModalButton>
-                                </li>
-                            </TeamPermissionGate>
-                        );
+                        convertChannelOption = <ConvertChannelOption channel={channel}/>;
                     }
 
                     renameChannelOption = <RenameChannelOption channel={channel}/>;
