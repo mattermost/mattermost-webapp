@@ -11,7 +11,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
@@ -36,6 +35,7 @@ import AddMembersOption from './navbar_dropdown_items/add_members';
 import RenameChannelOption from './navbar_dropdown_items/rename_channel';
 import ConvertChannelOption from './navbar_dropdown_items/convert_channel';
 import DeleteChannelOption from './navbar_dropdown_items/delete_channel';
+import LeaveChannelOption from './navbar_dropdown_items/leave_channel';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -94,7 +94,6 @@ export default class Navbar extends React.PureComponent {
          * Object with action creators
          */
         actions: PropTypes.shape({
-            leaveChannel: PropTypes.func.isRequired,
             updateRhsState: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             toggleLhs: PropTypes.func.isRequired,
@@ -128,14 +127,6 @@ export default class Navbar extends React.PureComponent {
     componentWillUnmount() {
         WebrtcStore.removeBusyListener(this.onBusy);
         $('.inner-wrap').off('click', this.hideSidebars);
-    }
-
-    handleLeave = () => {
-        if (this.props.channel.type === Constants.PRIVATE_CHANNEL) {
-            GlobalActions.showLeavePrivateChannelModal(this.props.channel);
-        } else {
-            this.props.actions.leaveChannel(this.props.channel.id);
-        }
     }
 
     hideSidebars = (e) => {
@@ -267,7 +258,6 @@ export default class Navbar extends React.PureComponent {
         if (channel) {
             let viewInfoOption;
             let webrtcOption;
-            let leaveChannelOption;
 
             let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
             let setChannelPurposeOption;
@@ -275,6 +265,7 @@ export default class Navbar extends React.PureComponent {
             let renameChannelOption;
             let convertChannelOption;
             let deleteChannelOption;
+            let leaveChannelOption;
             const channelMembersOption = <ChannelMembersOption channel={channel}/>;
             const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
             const addMembersOption = <AddMembersOption channel={channel}/>;
@@ -321,21 +312,7 @@ export default class Navbar extends React.PureComponent {
 
                 if (!this.props.isDefault) {
                     deleteChannelOption = <DeleteChannelOption channel={channel}/>;
-
-                    leaveChannelOption = (
-                        <li role='presentation'>
-                            <button
-                                role='menuitem'
-                                className='style--none'
-                                onClick={this.handleLeave}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.leave'
-                                    defaultMessage='Leave Channel'
-                                />
-                            </button>
-                        </li>
-                    );
+                    leaveChannelOption = <LeaveChannelOption channel={channel}/>;
                 }
             }
 

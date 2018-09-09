@@ -14,7 +14,6 @@ import {
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
 import {isFavoriteChannel, isDefault as isDefaultChannel} from 'mattermost-redux/utils/channel_utils';
-import {leaveChannel} from 'mattermost-redux/actions/channels';
 
 import {leaveChannel} from 'actions/views/channel';
 import {
@@ -62,7 +61,6 @@ const mapStateToProps = createSelector(
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
-        leaveChannel,
         updateRhsState,
         showPinnedPosts,
         toggleLhs,
