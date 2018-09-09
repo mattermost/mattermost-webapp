@@ -10,7 +10,6 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
@@ -36,6 +35,7 @@ import RenameChannelOption from './navbar_dropdown_items/rename_channel';
 import ConvertChannelOption from './navbar_dropdown_items/convert_channel';
 import DeleteChannelOption from './navbar_dropdown_items/delete_channel';
 import LeaveChannelOption from './navbar_dropdown_items/leave_channel';
+import ToggleFavoriteChannelOption from './navbar_dropdown_items/toggle_favorite_channel';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -153,17 +153,6 @@ export default class Navbar extends React.PureComponent {
     showSearch = () => {
         this.props.actions.updateRhsState(RHSStates.SEARCH);
     }
-
-    toggleFavorite = (e) => {
-        const {markFavorite, unmarkFavorite} = this.props.actions;
-        e.preventDefault();
-
-        if (this.props.isFavorite) {
-            ChannelActions.unmarkFavorite(this.props.channel.id);
-        } else {
-            ChannelActions.markFavorite(this.props.channel.id);
-        }
-    };
 
     onBusy = (isBusy) => {
         this.setState({isBusy});
@@ -316,31 +305,6 @@ export default class Navbar extends React.PureComponent {
                 }
             }
 
-            const toggleFavoriteOption = (
-                <li
-                    key='toggle_favorite'
-                    role='presentation'
-                >
-                    <button
-                        role='menuitem'
-                        className='style--none'
-                        onClick={this.toggleFavorite}
-                    >
-                        {this.props.isFavorite ?
-                            <FormattedMessage
-                                id='channelHeader.removeFromFavorites'
-                                defaultMessage='Remove from Favorites'
-                            /> :
-                            <FormattedMessage
-                                id='channelHeader.addToFavorites'
-                                defaultMessage='Add to Favorites'
-                            />}
-                    </button>
-                </li>
-            );
-
-            const channelMuted = isChannelMuted(this.state.member);
-
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
@@ -372,13 +336,14 @@ export default class Navbar extends React.PureComponent {
                             {convertChannelOption}
                             {deleteChannelOption}
                             {leaveChannelOption}
-                            {toggleFavoriteOption}
-                            <li className='dropdown-item__plugin'>
-                                <MobileChannelHeaderPlug
-                                    channel={channel}
-                                    isDropdown={false}
-                                />
-                            </li>
+                            <ToggleFavoriteChannelOption
+                                channel={channel}
+                                isFavorite={this.props.isFavorite}
+                            />
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={true}
+                            />
                             <div className='close visible-xs-block'>
                                 {'×'}
                             </div>
