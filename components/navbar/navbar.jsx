@@ -19,7 +19,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
@@ -39,6 +38,7 @@ import NavbarInfoButton from './navbar_info_button';
 import ViewChannelInfoOption from './navbar_dropdown_items/view_channel_info';
 import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
 import NotificationPreferenceOption from './navbar_dropdown_items/notification_preferences';
+import ChannelMembersOption from './navbar_dropdown_items/channel_members';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -285,7 +285,6 @@ export default class Navbar extends React.PureComponent {
             let viewInfoOption;
             let viewPinnedPostsOption;
             let addMembersOption;
-            let manageMembersOption;
             let setChannelPurposeOption;
             let notificationPreferenceOption;
             let renameChannelOption;
@@ -294,6 +293,7 @@ export default class Navbar extends React.PureComponent {
             let leaveChannelOption;
 
             let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
+            const channelMembersOption = <ChannelMembersOption channel={channel}/>;
 
             if (isDirect) {
                 webrtcOption = this.generateWebrtcDropdown();
@@ -340,26 +340,7 @@ export default class Navbar extends React.PureComponent {
                     </li>
                 );
 
-                if (this.props.isDefault) {
-                    manageMembersOption = (
-                        <li
-                            key='view_members'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                role='menuitem'
-                                modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                                dialogType={ChannelMembersModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.viewMembers'
-                                    defaultMessage='View Members'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-                    );
-                } else {
+                if (!this.props.isDefault) {
                     addMembersOption = (
                         <ChannelPermissionGate
                             channelId={channel.id}
@@ -381,42 +362,6 @@ export default class Navbar extends React.PureComponent {
                                 </ToggleModalButton>
                             </li>
                         </ChannelPermissionGate>
-                    );
-
-                    manageMembersOption = (
-                        <li
-                            key='manage_members'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                role='menuitem'
-                                modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                                dialogType={ChannelMembersModal}
-                                dialogProps={{channel}}
-                            >
-                                <ChannelPermissionGate
-                                    channelId={channel.id}
-                                    teamId={teamId}
-                                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.manageMembers'
-                                        defaultMessage='Manage Members'
-                                    />
-                                </ChannelPermissionGate>
-                                <ChannelPermissionGate
-                                    channelId={channel.id}
-                                    teamId={teamId}
-                                    invert={true}
-                                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.viewMembers'
-                                        defaultMessage='View Members'
-                                    />
-                                </ChannelPermissionGate>
-                            </ToggleModalButtonRedux>
-                        </li>
                     );
                 }
 
@@ -597,7 +542,7 @@ export default class Navbar extends React.PureComponent {
                             {viewPinnedPostsOption}
                             {notificationPreferenceOption}
                             {addMembersOption}
-                            {manageMembersOption}
+                            {channelMembersOption}
                             {setChannelHeaderOption}
                             {setChannelPurposeOption}
                             {renameChannelOption}
