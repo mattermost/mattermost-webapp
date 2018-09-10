@@ -77,7 +77,7 @@ describe('components/post_view/PostAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state and call GlobalActions.postListScrollChange on handleImageHeightReceived', () => {
+    test('should match state and call GlobalActions.postListScrollChange on handleHeightChange', () => {
         const wrapper = shallow(<PostMessageView {...baseProps}/>);
         const instance = wrapper.instance();
         instance.checkOverflow = jest.fn();

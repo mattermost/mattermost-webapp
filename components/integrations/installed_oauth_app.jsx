@@ -3,11 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
 import FormError from 'components/form_error.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import DeleteIntegration from './delete_integration.jsx';
 
@@ -218,9 +219,9 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     {description}
                     <div className='item-details__row'>
                         <span className='item-details__url'>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='installed_oauth_apps.is_trusted'
-                                defaultMessage='Is Trusted: <strong>{isTrusted}</strong>'
+                                defaultMessage='Is Trusted: **{isTrusted}**'
                                 values={{
                                     isTrusted,
                                 }}
@@ -229,9 +230,9 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     </div>
                     <div className='item-details__row'>
                         <span className='item-details__token'>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='installed_integrations.client_id'
-                                defaultMessage='Client ID: <strong>{clientId}</strong>'
+                                defaultMessage='Client ID: **{clientId}**'
                                 values={{
                                     clientId: oauthApp.id,
                                 }}
@@ -240,9 +241,9 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     </div>
                     <div className='item-details__row'>
                         <span className='item-details__token'>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='installed_integrations.client_secret'
-                                defaultMessage='Client Secret: <strong>{clientSecret}</strong>'
+                                defaultMessage='Client Secret: **{clientSecret}**'
                                 values={{
                                     clientSecret: this.state.clientSecret,
                                 }}

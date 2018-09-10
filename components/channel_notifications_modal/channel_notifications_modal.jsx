@@ -38,20 +38,26 @@ export default class ChannelNotificationsModal extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, nextProps.channelMember.notify_props)) {
-            this.setState({
-                desktopNotifyLevel: nextProps.channelMember.notify_props.desktop,
-                markUnreadNotifyLevel: nextProps.channelMember.notify_props.mark_unread,
-                pushNotifyLevel: nextProps.channelMember.notify_props.push || NotificationLevels.DEFAULT,
-            });
+    componentDidUpdate(prevProps) {
+        if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, prevProps.channelMember.notify_props)) {
+            this.setStateFromNotifyProps(this.props.channelMember.notify_props);
         }
+    }
+
+    setStateFromNotifyProps(notifyProps) {
+        this.setState({
+            desktopNotifyLevel: notifyProps.desktop,
+            markUnreadNotifyLevel: notifyProps.mark_unread,
+            pushNotifyLevel: notifyProps.push || NotificationLevels.DEFAULT,
+        });
     }
 
     handleOnHide = () => {
         this.setState({
             activeSection: NotificationSections.NONE,
         });
+
+        this.setStateFromNotifyProps(this.props.channelMember.notify_props);
 
         this.props.onHide();
     }

@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/CommentedOn should match snapshot 1`] = `
+<div
+  className="post__link"
+>
+  <span>
+    <FormattedMessage
+      defaultMessage="Commented on {name}{apostrophe} message: "
+      id="post_body.commentedOn"
+      values={
+        Object {
+          "apostrophe": "'s",
+          "name": <a
+            className="theme"
+            onClick={[Function]}
+          >
+            user_displayName
+          </a>,
+        }
+      }
+    />
+    <a
+      className="theme"
+      onClick={[MockFunction]}
+    >
+      text message
+    </a>
+  </span>
+</div>
+`;
+
+exports[`components/post_view/CommentedOn should match snapshot 2`] = `
+<div
+  className="post__link"
+>
+  <span>
+    <FormattedMessage
+      defaultMessage="Commented on {name}{apostrophe} message: "
+      id="post_body.commentedOn"
+      values={
+        Object {
+          "apostrophe": "'s",
+          "name": <a
+            className="theme"
+            onClick={[Function]}
+          >
+            override_username
+          </a>,
+        }
+      }
+    />
+    <a
+      className="theme"
+      onClick={[MockFunction]}
+    >
+      text message
+    </a>
+  </span>
+</div>
+`;
+
+exports[`components/post_view/CommentedOn should match snapshot 3`] = `
+<div
+  className="post__link"
+>
+  <span>
+    <FormattedMessage
+      defaultMessage="Commented on {name}{apostrophe} message: "
+      id="post_body.commentedOn"
+      values={
+        Object {
+          "apostrophe": "'s",
+          "name": <a
+            className="theme"
+            onClick={[Function]}
+          >
+            user_displayName
+          </a>,
+        }
+      }
+    />
+    <a
+      className="theme"
+      onClick={[MockFunction]}
+    >
+      <Connect(CommentedOnFilesMessage)
+        parentPostId="post_id"
+      />
+    </a>
+  </span>
+</div>
+`;

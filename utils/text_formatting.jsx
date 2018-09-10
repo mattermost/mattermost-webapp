@@ -150,7 +150,7 @@ var reEmail = XRegExp.cache('(^|[^\\pL\\d])(' + emailStartPattern + '[\\pL\\d.\\
 function autolinkEmails(text, tokens) {
     function replaceEmailWithToken(fullMatch, prefix, email) {
         const index = tokens.size;
-        const alias = `$MM_EMAIL${index}`;
+        const alias = `$MM_EMAIL${index}$`;
 
         tokens.set(alias, {
             value: `<a class="theme" href="mailto:${email}">${email}</a>`,
@@ -169,7 +169,7 @@ function autolinkEmails(text, tokens) {
 export function autolinkAtMentions(text, tokens) {
     function replaceAtMentionWithToken(fullMatch, username) {
         const index = tokens.size;
-        const alias = `$MM_ATMENTION${index}`;
+        const alias = `$MM_ATMENTION${index}$`;
 
         tokens.set(alias, {
             value: `<span data-mention="${username}">@${username}</span>`,
@@ -191,7 +191,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
     }
     function addToken(channelName, mention, displayName) {
         const index = tokens.size;
-        const alias = `$MM_CHANNELMENTION${index}`;
+        const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
         if (team) {
             href = (window.basename || '') + '/' + team.name + '/channels/' + channelName;
@@ -276,7 +276,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
 
         if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
-            const newAlias = `$MM_SELFMENTION${index}`;
+            const newAlias = `$MM_SELFMENTION${index}$`;
 
             newTokens.set(newAlias, {
                 value: `<span class='mention--highlight'>${alias}</span>`,
@@ -294,7 +294,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     // look for self mentions in the text
     function replaceCurrentMentionWithToken(fullMatch, prefix, mention, suffix = '') {
         const index = tokens.size;
-        const alias = `$MM_SELFMENTION${index}`;
+        const alias = `$MM_SELFMENTION${index}$`;
 
         tokens.set(alias, {
             value: `<span class='mention--highlight'>${mention}</span>`,
@@ -329,7 +329,7 @@ function autolinkHashtags(text, tokens) {
     for (const [alias, token] of tokens) {
         if (token.originalText.lastIndexOf('#', 0) === 0) {
             const index = tokens.size + newTokens.size;
-            const newAlias = `$MM_HASHTAG${index}`;
+            const newAlias = `$MM_HASHTAG${index}$`;
 
             newTokens.set(newAlias, {
                 value: `<a class='mention-link' href='#' data-hashtag='${token.originalText}'>${token.originalText}</a>`,
@@ -349,7 +349,7 @@ function autolinkHashtags(text, tokens) {
     // look for hashtags in the text
     function replaceHashtagWithToken(fullMatch, prefix, originalText) {
         const index = tokens.size;
-        const alias = `$MM_HASHTAG${index}`;
+        const alias = `$MM_HASHTAG${index}$`;
 
         if (text.length < Constants.MIN_HASHTAG_LINK_LENGTH + 1) {
             // too short to be a hashtag
@@ -380,10 +380,13 @@ function parseSearchTerms(searchTerm) {
         let captured;
 
         // check for a quoted string
-        captured = (/^"(.*?)"/).exec(termString);
+        captured = (/^"([^"]*)"/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
-            terms.push(captured[1]);
+
+            if (captured[1].length > 0) {
+                terms.push(captured[1]);
+            }
             continue;
         }
 
@@ -459,7 +462,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
 
     function replaceSearchTermWithToken(match, prefix, word) {
         const index = tokens.size;
-        const alias = `$MM_SEARCHTERM${index}`;
+        const alias = `$MM_SEARCHTERM${index}$`;
 
         tokens.set(alias, {
             value: `<span class='search-highlight'>${word}</span>`,
@@ -484,12 +487,12 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
                     term = term.substr(1);
                 }
 
-                if (alias.startsWith('$MM_HASHTAG') && originalText !== term) {
+                if (alias.startsWith('$MM_HASHTAG') && alias.endsWith('$') && originalText !== term) {
                     continue;
                 }
 
                 const index = tokens.size + newTokens.size;
-                const newAlias = `$MM_SEARCHTERM${index}`;
+                const newAlias = `$MM_SEARCHTERM${index}$`;
 
                 newTokens.set(newAlias, {
                     value: `<span class='search-highlight'>${alias}</span>`,

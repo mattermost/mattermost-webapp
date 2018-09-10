@@ -21,7 +21,6 @@ import ElasticsearchSettings from 'components/admin_console/elasticsearch_settin
 import EmailSettings from 'components/admin_console/email_settings.jsx';
 import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
-import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
@@ -50,63 +49,24 @@ const SCRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disa
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
-
-        /*
-         * Object representing the config file
-         */
         config: PropTypes.object.isRequired,
-
-        /*
-         * Object containing config fields that have been set through environment variables
-         */
         environmentConfig: PropTypes.object,
-
-        /*
-         * Object representing the license
-         */
         license: PropTypes.object.isRequired,
-
-        /*
-         * Object from react-router
-         */
+        roles: PropTypes.object.isRequired,
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
         }).isRequired,
-
-        /*
-         * String whether to show prompt to navigate away
-         * from unsaved changes
-         */
         showNavigationPrompt: PropTypes.bool.isRequired,
-
         isCurrentUserSystemAdmin: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
-
-            /*
-             * Function to get the config file
-             */
             getConfig: PropTypes.func.isRequired,
-
-            /*
-             * Function to get the environment config
-             */
             getEnvironmentConfig: PropTypes.func.isRequired,
-
-            /*
-             * Function to block navigation when there are unsaved changes
-             */
             setNavigationBlocked: PropTypes.func.isRequired,
-
-            /*
-             * Function to confirm navigation
-             */
             confirmNavigation: PropTypes.func.isRequired,
-
-            /*
-             * Function to cancel navigation away from unsaved changes
-             */
             cancelNavigation: PropTypes.func.isRequired,
+            loadRolesIfNeeded: PropTypes.func.isRequired,
+            editRole: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -285,8 +245,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/oauth`}
-                                        component={OAuthSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.authentication.oauth.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/ldap`}
@@ -387,6 +350,9 @@ export default class AdminConsole extends React.Component {
                                         component={SchemaAdminSettings}
                                         extraProps={{
                                             ...extraProps,
+                                            roles: this.props.roles,
+                                            loadRolesIfNeeded: this.props.actions.loadRolesIfNeeded,
+                                            editRole: this.props.actions.editRole,
                                             schema: AdminDefinition.settings.integrations.custom_integrations.schema,
                                         }}
                                     />

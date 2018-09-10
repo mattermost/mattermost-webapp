@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -93,10 +93,32 @@ export default class GitLabSettings extends AdminSettings {
                                 defaultMessage='When true, Mattermost allows team creation and account signup using GitLab OAuth.'
                             />
                             <br/>
-                            <FormattedHTMLMessage
-                                id='admin.gitlab.EnableHtmlDesc'
-                                defaultMessage='<ol><li>Log in to your GitLab account and go to Profile Settings -> Applications.</li><li>Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete". </li><li>Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.</li><li>Complete the Endpoint URLs below. </li></ol>'
-                            />
+                            <ol>
+                                <li>
+                                    <FormattedMessage
+                                        id='admin.gitlab.EnableProcess1'
+                                        defaultMessage='Log in to your GitLab account and go to Profile Settings -> Applications.'
+                                    />
+                                </li>
+                                <li>
+                                    <FormattedMessage
+                                        id='admin.gitlab.EnableProcess2'
+                                        defaultMessage='Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".'
+                                    />
+                                </li>
+                                <li>
+                                    <FormattedMessage
+                                        id='admin.gitlab.EnableProcess3'
+                                        defaultMessage='Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.'
+                                    />
+                                </li>
+                                <li>
+                                    <FormattedMessage
+                                        id='admin.gitlab.EnableProcess4'
+                                        defaultMessage='Complete the Endpoint URLs below.'
+                                    />
+                                </li>
+                            </ol>
                         </div>
                     }
                     value={this.state.enable}

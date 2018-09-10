@@ -13,6 +13,7 @@ describe('components/AdminConsole', () => {
         match: {
             url: '',
         },
+        roles: {},
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,
         actions: {
@@ -21,6 +22,8 @@ describe('components/AdminConsole', () => {
             setNavigationBlocked: jest.fn(),
             confirmNavigation: jest.fn(),
             cancelNavigation: jest.fn(),
+            loadRolesIfNeeded: jest.fn(),
+            editRole: jest.fn(),
         },
     };
 

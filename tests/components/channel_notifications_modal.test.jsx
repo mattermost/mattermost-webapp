@@ -45,10 +45,23 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             <ChannelNotificationsModal {...props}/>
         );
 
-        wrapper.setState({activeSection: NotificationSections.DESKTOP});
+        wrapper.setState({activeSection: NotificationSections.DESKTOP, desktopNotifyLevel: NotificationLevels.NONE});
         wrapper.instance().handleOnHide();
         expect(onHide).toHaveBeenCalledTimes(1);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
+        expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
+
+        wrapper.setState({activeSection: NotificationSections.MARK_UNREAD, markUnreadNotifyLevel: NotificationLevels.NONE});
+        wrapper.instance().handleOnHide();
+        expect(onHide).toHaveBeenCalledTimes(2);
+        expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
+        expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
+
+        wrapper.setState({activeSection: NotificationSections.PUSH, pushNotifyLevel: NotificationLevels.NONE});
+        wrapper.instance().handleOnHide();
+        expect(onHide).toHaveBeenCalledTimes(3);
+        expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
+        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
     });
 
     test('should match state on updateSection', () => {
@@ -252,5 +265,31 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         instance.handleUpdatePushSection(NotificationSections.PUSH);
         expect(instance.updateSection).toHaveBeenCalledTimes(2);
         expect(instance.updateSection).toBeCalledWith(NotificationSections.PUSH);
+    });
+
+    test('should match state on setStateFromNotifyProps', () => {
+        const notifyProps = {
+            desktop: NotificationLevels.NONE,
+            mark_unread: NotificationLevels.NONE,
+            push: NotificationLevels.ALL,
+        };
+
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...baseProps}/>
+        );
+
+        wrapper.instance().setStateFromNotifyProps(notifyProps);
+        expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.NONE);
+        expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.NONE);
+        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
+
+        wrapper.instance().setStateFromNotifyProps({...notifyProps, desktop: NotificationLevels.ALL});
+        expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
+
+        wrapper.instance().setStateFromNotifyProps({...notifyProps, mark_unread: NotificationLevels.ALL});
+        expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
+
+        wrapper.instance().setStateFromNotifyProps({...notifyProps, push: NotificationLevels.NONE});
+        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.NONE);
     });
 });
