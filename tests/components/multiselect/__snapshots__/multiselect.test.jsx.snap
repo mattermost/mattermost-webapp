@@ -1,907 +1,345 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/multiselect/multiselect should match snapshot 1`] = `
-<MultiSelect
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "textComponent": "span",
-    }
-  }
-  options={
-    Array [
-      Object {
-        "id": 0,
-        "value": 0,
-      },
-      Object {
-        "id": 1,
-        "value": 1,
-      },
-      Object {
-        "id": 2,
-        "value": 2,
-      },
-      Object {
-        "id": 3,
-        "value": 3,
-      },
-      Object {
-        "id": 4,
-        "value": 4,
-      },
-      Object {
-        "id": 5,
-        "value": 5,
-      },
-      Object {
-        "id": 6,
-        "value": 6,
-      },
-      Object {
-        "id": 7,
-        "value": 7,
-      },
-    ]
-  }
-  perPage={5}
-  saving={false}
-  totalCount={8}
-  users={
-    Array [
-      Object {
-        "id": 0,
-        "value": 0,
-      },
-      Object {
-        "id": 1,
-        "value": 1,
-      },
-      Object {
-        "id": 2,
-        "value": 2,
-      },
-      Object {
-        "id": 3,
-        "value": 3,
-      },
-      Object {
-        "id": 4,
-        "value": 4,
-      },
-      Object {
-        "id": 5,
-        "value": 5,
-      },
-      Object {
-        "id": 6,
-        "value": 6,
-      },
-      Object {
-        "id": 7,
-        "value": 7,
-      },
-    ]
-  }
-  values={
-    Array [
-      Object {
-        "id": 100,
-        "value": 100,
-      },
-    ]
-  }
+<div
+  className="filtered-user-list"
 >
   <div
-    className="filtered-user-list"
+    className="filter-row filter-row--full"
   >
     <div
-      className="filter-row filter-row--full"
+      className="multi-select__container"
     >
-      <div
-        className="multi-select__container"
-      >
-        <Select
-          arrowRenderer={[Function]}
-          autosize={true}
-          backspaceRemoves={true}
-          backspaceToRemoveMessage="Press backspace to remove {label}"
-          clearAllText="Clear all"
-          clearRenderer={[Function]}
-          clearValueText="Clear value"
-          clearable={false}
-          closeOnSelect={true}
-          deleteRemoves={true}
-          delimiter=","
-          disabled={false}
-          escapeClearsValue={true}
-          filterOptions={[Function]}
-          ignoreAccents={true}
-          ignoreCase={true}
-          inputProps={Object {}}
-          isLoading={false}
-          joinValues={true}
-          labelKey="label"
-          matchPos="any"
-          matchProp="any"
-          menuBuffer={0}
-          menuRenderer={[Function]}
-          multi={true}
-          noResultsText={null}
-          onBlurResetsInput={false}
-          onChange={[Function]}
-          onCloseResetsInput={false}
-          onInputChange={[Function]}
-          onInputKeyDown={[Function]}
-          onSelectResetsInput={true}
-          openOnClick={true}
-          openOnFocus={true}
-          optionComponent={[Function]}
-          options={
-            Array [
-              Object {
-                "id": 0,
-                "value": 0,
-              },
-              Object {
-                "id": 1,
-                "value": 1,
-              },
-              Object {
-                "id": 2,
-                "value": 2,
-              },
-              Object {
-                "id": 3,
-                "value": 3,
-              },
-              Object {
-                "id": 4,
-                "value": 4,
-              },
-              Object {
-                "id": 5,
-                "value": 5,
-              },
-              Object {
-                "id": 6,
-                "value": 6,
-              },
-              Object {
-                "id": 7,
-                "value": 7,
-              },
-            ]
-          }
-          pageSize={5}
-          placeholder="Search and add members"
-          removeSelected={true}
-          required={false}
-          rtl={false}
-          scrollMenuIntoView={true}
-          searchable={true}
-          simpleValue={false}
-          tabSelectsValue={true}
-          trimFilter={true}
-          value={
-            Array [
-              Object {
-                "id": 100,
-                "value": 100,
-              },
-            ]
-          }
-          valueComponent={[Function]}
-          valueKey="value"
-        >
-          <div
-            className="Select has-value is-searchable Select--multi"
-          >
-            <div
-              className="Select-control"
-              onKeyDown={[Function]}
-              onMouseDown={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-            >
-              <div
-                className="Select-multi-value-wrapper"
-                id="react-select-2--value"
-              >
-                <Value
-                  disabled={false}
-                  id="react-select-2--value-0"
-                  instancePrefix="react-select-2-"
-                  key="value-0-100"
-                  onClick={null}
-                  onRemove={[Function]}
-                  placeholder="Search and add members"
-                  value={
-                    Object {
-                      "id": 100,
-                      "value": 100,
-                    }
-                  }
-                  values={
-                    Array [
-                      Object {
-                        "id": 100,
-                        "value": 100,
-                      },
-                    ]
-                  }
-                >
-                  <div
-                    className="Select-value"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Select-value-icon"
-                      onMouseDown={[Function]}
-                      onTouchEnd={[Function]}
-                      onTouchMove={[Function]}
-                      onTouchStart={[Function]}
-                    >
-                      ×
-                    </span>
-                    <span
-                      aria-selected="true"
-                      className="Select-value-label"
-                      id="react-select-2--value-0"
-                      role="option"
-                    >
-                      <span
-                        className="Select-aria-only"
-                      >
-                         
-                      </span>
-                    </span>
-                  </div>
-                </Value>
-                <AutosizeInput
-                  aria-activedescendant="react-select-2--value"
-                  aria-expanded="false"
-                  aria-haspopup="false"
-                  aria-owns=""
-                  className="Select-input"
-                  injectStyles={true}
-                  minWidth="5"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  required={false}
-                  role="combobox"
-                  value=""
-                >
-                  <div
-                    className="Select-input"
-                    style={
-                      Object {
-                        "display": "inline-block",
-                      }
-                    }
-                  >
-                    <input
-                      aria-activedescendant="react-select-2--value"
-                      aria-expanded="false"
-                      aria-haspopup="false"
-                      aria-owns=""
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      required={false}
-                      role="combobox"
-                      style={
-                        Object {
-                          "boxSizing": "content-box",
-                          "width": "5px",
-                        }
-                      }
-                      value=""
-                    />
-                    <div
-                      style={
-                        Object {
-                          "height": 0,
-                          "left": 0,
-                          "overflow": "scroll",
-                          "position": "absolute",
-                          "top": 0,
-                          "visibility": "hidden",
-                          "whiteSpace": "pre",
-                        }
-                      }
-                    />
-                  </div>
-                </AutosizeInput>
-              </div>
-            </div>
-          </div>
-        </Select>
-        <SaveButton
-          btnClass="btn-primary"
-          defaultMessage="Save"
-          disabled={false}
-          extraClasses=""
-          onClick={[Function]}
-          saving={false}
-          savingMessage="Saving"
-        >
-          <button
-            className="save-button btn btn-primary"
-            disabled={false}
-            id="saveSetting"
-            onClick={[Function]}
-            type="submit"
-          >
-            Save
-          </button>
-        </SaveButton>
-      </div>
-      <div
-        className="multi-select__help"
-      >
-        <FormattedMessage
-          defaultMessage="{memberOptions, number} of {totalCount, number} members"
-          id="multiselect.numMembers"
-          values={
+      <Select
+        arrowRenderer={[Function]}
+        autosize={true}
+        backspaceRemoves={true}
+        backspaceToRemoveMessage="Press backspace to remove {label}"
+        clearAllText="Clear all"
+        clearRenderer={[Function]}
+        clearValueText="Clear value"
+        clearable={false}
+        closeOnSelect={true}
+        deleteRemoves={true}
+        delimiter=","
+        disabled={false}
+        escapeClearsValue={true}
+        filterOptions={[Function]}
+        ignoreAccents={true}
+        ignoreCase={true}
+        inputProps={Object {}}
+        isLoading={false}
+        joinValues={true}
+        labelKey="label"
+        matchPos="any"
+        matchProp="any"
+        menuBuffer={0}
+        menuRenderer={[Function]}
+        multi={true}
+        noResultsText={null}
+        onBlurResetsInput={false}
+        onChange={[Function]}
+        onCloseResetsInput={false}
+        onInputChange={[Function]}
+        onInputKeyDown={[Function]}
+        onSelectResetsInput={true}
+        openOnClick={true}
+        openOnFocus={true}
+        optionComponent={[Function]}
+        options={
+          Array [
             Object {
-              "memberOptions": 5,
-              "totalCount": 8,
-            }
-          }
-        >
-          <span>
-            5 of 8 members
-          </span>
-        </FormattedMessage>
-      </div>
-    </div>
-    <MultiSelectList
-      onAction={[Function]}
-      onAdd={[Function]}
-      onSelect={[Function]}
-      options={
-        Array [
-          Object {
-            "id": 0,
-            "value": 0,
-          },
-          Object {
-            "id": 1,
-            "value": 1,
-          },
-          Object {
-            "id": 2,
-            "value": 2,
-          },
-          Object {
-            "id": 3,
-            "value": 3,
-          },
-          Object {
-            "id": 4,
-            "value": 4,
-          },
-        ]
-      }
-      page={0}
-      perPage={5}
-    >
-      <div
-        className="more-modal__list"
-      >
-        <div>
-          <div
-            className=""
-            key="multiselectoption0"
-            onClick={[Function]}
-          />
-          <div
-            className=""
-            key="multiselectoption1"
-            onClick={[Function]}
-          />
-          <div
-            className=""
-            key="multiselectoption2"
-            onClick={[Function]}
-          />
-          <div
-            className=""
-            key="multiselectoption3"
-            onClick={[Function]}
-          />
-          <div
-            className=""
-            key="multiselectoption4"
-            onClick={[Function]}
-          />
-        </div>
-      </div>
-    </MultiSelectList>
-    <div
-      className="filter-controls"
-    >
-      <button
-        className="btn btn-default filter-control filter-control__next"
+              "id": 0,
+              "value": 0,
+            },
+            Object {
+              "id": 1,
+              "value": 1,
+            },
+            Object {
+              "id": 2,
+              "value": 2,
+            },
+            Object {
+              "id": 3,
+              "value": 3,
+            },
+            Object {
+              "id": 4,
+              "value": 4,
+            },
+            Object {
+              "id": 5,
+              "value": 5,
+            },
+            Object {
+              "id": 6,
+              "value": 6,
+            },
+            Object {
+              "id": 7,
+              "value": 7,
+            },
+          ]
+        }
+        pageSize={5}
+        placeholder="Search and add members"
+        removeSelected={true}
+        required={false}
+        rtl={false}
+        scrollMenuIntoView={true}
+        searchable={true}
+        simpleValue={false}
+        tabSelectsValue={true}
+        trimFilter={true}
+        value={
+          Array [
+            Object {
+              "id": 100,
+              "value": 100,
+            },
+          ]
+        }
+        valueComponent={[Function]}
+        valueKey="value"
+      />
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={false}
+        extraClasses=""
         onClick={[Function]}
-      >
-        <FormattedMessage
-          defaultMessage="Next"
-          id="filtered_user_list.next"
-          values={Object {}}
-        >
-          <span>
-            Next
-          </span>
-        </FormattedMessage>
-      </button>
+        saving={false}
+        savingMessage="Saving"
+      />
+    </div>
+    <div
+      className="multi-select__help"
+    >
+      <FormattedMessage
+        defaultMessage="{memberOptions, number} of {totalCount, number} members"
+        id="multiselect.numMembers"
+        values={
+          Object {
+            "memberOptions": 5,
+            "totalCount": 8,
+          }
+        }
+      />
     </div>
   </div>
-</MultiSelect>
+  <MultiSelectList
+    onAction={[Function]}
+    onAdd={[Function]}
+    onSelect={[Function]}
+    options={
+      Array [
+        Object {
+          "id": 0,
+          "value": 0,
+        },
+        Object {
+          "id": 1,
+          "value": 1,
+        },
+        Object {
+          "id": 2,
+          "value": 2,
+        },
+        Object {
+          "id": 3,
+          "value": 3,
+        },
+        Object {
+          "id": 4,
+          "value": 4,
+        },
+      ]
+    }
+    page={0}
+    perPage={5}
+  />
+  <div
+    className="filter-controls"
+  >
+    <button
+      className="btn btn-default filter-control filter-control__next"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Next"
+        id="filtered_user_list.next"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
 `;
 
 exports[`components/multiselect/multiselect should match snapshot for page 2 1`] = `
-<MultiSelect
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "textComponent": "span",
-    }
-  }
-  options={
-    Array [
-      Object {
-        "id": 0,
-        "value": 0,
-      },
-      Object {
-        "id": 1,
-        "value": 1,
-      },
-      Object {
-        "id": 2,
-        "value": 2,
-      },
-      Object {
-        "id": 3,
-        "value": 3,
-      },
-      Object {
-        "id": 4,
-        "value": 4,
-      },
-      Object {
-        "id": 5,
-        "value": 5,
-      },
-      Object {
-        "id": 6,
-        "value": 6,
-      },
-      Object {
-        "id": 7,
-        "value": 7,
-      },
-    ]
-  }
-  perPage={5}
-  saving={false}
-  totalCount={8}
-  users={
-    Array [
-      Object {
-        "id": 0,
-        "value": 0,
-      },
-      Object {
-        "id": 1,
-        "value": 1,
-      },
-      Object {
-        "id": 2,
-        "value": 2,
-      },
-      Object {
-        "id": 3,
-        "value": 3,
-      },
-      Object {
-        "id": 4,
-        "value": 4,
-      },
-      Object {
-        "id": 5,
-        "value": 5,
-      },
-      Object {
-        "id": 6,
-        "value": 6,
-      },
-      Object {
-        "id": 7,
-        "value": 7,
-      },
-    ]
-  }
-  values={
-    Array [
-      Object {
-        "id": 100,
-        "value": 100,
-      },
-    ]
-  }
+<div
+  className="filtered-user-list"
 >
   <div
-    className="filtered-user-list"
+    className="filter-row filter-row--full"
   >
     <div
-      className="filter-row filter-row--full"
+      className="multi-select__container"
     >
-      <div
-        className="multi-select__container"
-      >
-        <Select
-          arrowRenderer={[Function]}
-          autosize={true}
-          backspaceRemoves={true}
-          backspaceToRemoveMessage="Press backspace to remove {label}"
-          clearAllText="Clear all"
-          clearRenderer={[Function]}
-          clearValueText="Clear value"
-          clearable={false}
-          closeOnSelect={true}
-          deleteRemoves={true}
-          delimiter=","
-          disabled={false}
-          escapeClearsValue={true}
-          filterOptions={[Function]}
-          ignoreAccents={true}
-          ignoreCase={true}
-          inputProps={Object {}}
-          isLoading={false}
-          joinValues={true}
-          labelKey="label"
-          matchPos="any"
-          matchProp="any"
-          menuBuffer={0}
-          menuRenderer={[Function]}
-          multi={true}
-          noResultsText={null}
-          onBlurResetsInput={false}
-          onChange={[Function]}
-          onCloseResetsInput={false}
-          onInputChange={[Function]}
-          onInputKeyDown={[Function]}
-          onSelectResetsInput={true}
-          openOnClick={true}
-          openOnFocus={true}
-          optionComponent={[Function]}
-          options={
-            Array [
-              Object {
-                "id": 0,
-                "value": 0,
-              },
-              Object {
-                "id": 1,
-                "value": 1,
-              },
-              Object {
-                "id": 2,
-                "value": 2,
-              },
-              Object {
-                "id": 3,
-                "value": 3,
-              },
-              Object {
-                "id": 4,
-                "value": 4,
-              },
-              Object {
-                "id": 5,
-                "value": 5,
-              },
-              Object {
-                "id": 6,
-                "value": 6,
-              },
-              Object {
-                "id": 7,
-                "value": 7,
-              },
-            ]
-          }
-          pageSize={5}
-          placeholder="Search and add members"
-          removeSelected={true}
-          required={false}
-          rtl={false}
-          scrollMenuIntoView={true}
-          searchable={true}
-          simpleValue={false}
-          tabSelectsValue={true}
-          trimFilter={true}
-          value={
-            Array [
-              Object {
-                "id": 100,
-                "value": 100,
-              },
-            ]
-          }
-          valueComponent={[Function]}
-          valueKey="value"
-        >
-          <div
-            className="Select has-value is-searchable Select--multi"
-          >
-            <div
-              className="Select-control"
-              onKeyDown={[Function]}
-              onMouseDown={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-            >
-              <div
-                className="Select-multi-value-wrapper"
-                id="react-select-3--value"
-              >
-                <Value
-                  disabled={false}
-                  id="react-select-3--value-0"
-                  instancePrefix="react-select-3-"
-                  key="value-0-100"
-                  onClick={null}
-                  onRemove={[Function]}
-                  placeholder="Search and add members"
-                  value={
-                    Object {
-                      "id": 100,
-                      "value": 100,
-                    }
-                  }
-                  values={
-                    Array [
-                      Object {
-                        "id": 100,
-                        "value": 100,
-                      },
-                    ]
-                  }
-                >
-                  <div
-                    className="Select-value"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Select-value-icon"
-                      onMouseDown={[Function]}
-                      onTouchEnd={[Function]}
-                      onTouchMove={[Function]}
-                      onTouchStart={[Function]}
-                    >
-                      ×
-                    </span>
-                    <span
-                      aria-selected="true"
-                      className="Select-value-label"
-                      id="react-select-3--value-0"
-                      role="option"
-                    >
-                      <span
-                        className="Select-aria-only"
-                      >
-                         
-                      </span>
-                    </span>
-                  </div>
-                </Value>
-                <AutosizeInput
-                  aria-activedescendant="react-select-3--value"
-                  aria-expanded="false"
-                  aria-haspopup="false"
-                  aria-owns=""
-                  className="Select-input"
-                  injectStyles={true}
-                  minWidth="5"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  required={false}
-                  role="combobox"
-                  value=""
-                >
-                  <div
-                    className="Select-input"
-                    style={
-                      Object {
-                        "display": "inline-block",
-                      }
-                    }
-                  >
-                    <input
-                      aria-activedescendant="react-select-3--value"
-                      aria-expanded="false"
-                      aria-haspopup="false"
-                      aria-owns=""
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      required={false}
-                      role="combobox"
-                      style={
-                        Object {
-                          "boxSizing": "content-box",
-                          "width": "5px",
-                        }
-                      }
-                      value=""
-                    />
-                    <div
-                      style={
-                        Object {
-                          "height": 0,
-                          "left": 0,
-                          "overflow": "scroll",
-                          "position": "absolute",
-                          "top": 0,
-                          "visibility": "hidden",
-                          "whiteSpace": "pre",
-                        }
-                      }
-                    />
-                  </div>
-                </AutosizeInput>
-              </div>
-            </div>
-          </div>
-        </Select>
-        <SaveButton
-          btnClass="btn-primary"
-          defaultMessage="Save"
-          disabled={false}
-          extraClasses=""
-          onClick={[Function]}
-          saving={false}
-          savingMessage="Saving"
-        >
-          <button
-            className="save-button btn btn-primary"
-            disabled={false}
-            id="saveSetting"
-            onClick={[Function]}
-            type="submit"
-          >
-            Save
-          </button>
-        </SaveButton>
-      </div>
-      <div
-        className="multi-select__help"
-      >
-        <FormattedMessage
-          defaultMessage="{memberOptions, number} of {totalCount, number} members"
-          id="multiselect.numMembers"
-          values={
+      <Select
+        arrowRenderer={[Function]}
+        autosize={true}
+        backspaceRemoves={true}
+        backspaceToRemoveMessage="Press backspace to remove {label}"
+        clearAllText="Clear all"
+        clearRenderer={[Function]}
+        clearValueText="Clear value"
+        clearable={false}
+        closeOnSelect={true}
+        deleteRemoves={true}
+        delimiter=","
+        disabled={false}
+        escapeClearsValue={true}
+        filterOptions={[Function]}
+        ignoreAccents={true}
+        ignoreCase={true}
+        inputProps={Object {}}
+        isLoading={false}
+        joinValues={true}
+        labelKey="label"
+        matchPos="any"
+        matchProp="any"
+        menuBuffer={0}
+        menuRenderer={[Function]}
+        multi={true}
+        noResultsText={null}
+        onBlurResetsInput={false}
+        onChange={[Function]}
+        onCloseResetsInput={false}
+        onInputChange={[Function]}
+        onInputKeyDown={[Function]}
+        onSelectResetsInput={true}
+        openOnClick={true}
+        openOnFocus={true}
+        optionComponent={[Function]}
+        options={
+          Array [
             Object {
-              "memberOptions": 3,
-              "totalCount": 8,
-            }
-          }
-        >
-          <span>
-            3 of 8 members
-          </span>
-        </FormattedMessage>
-      </div>
-    </div>
-    <MultiSelectList
-      onAction={[Function]}
-      onAdd={[Function]}
-      onSelect={[Function]}
-      options={
-        Array [
-          Object {
-            "id": 5,
-            "value": 5,
-          },
-          Object {
-            "id": 6,
-            "value": 6,
-          },
-          Object {
-            "id": 7,
-            "value": 7,
-          },
-        ]
-      }
-      page={1}
-      perPage={5}
-    >
-      <div
-        className="more-modal__list"
-      >
-        <div>
-          <div
-            className="more-modal__row--selected"
-            key="multiselectoption5"
-            onClick={[Function]}
-          />
-          <div
-            className=""
-            key="multiselectoption6"
-            onClick={[Function]}
-          />
-          <div
-            className=""
-            key="multiselectoption7"
-            onClick={[Function]}
-          />
-        </div>
-      </div>
-    </MultiSelectList>
-    <div
-      className="filter-controls"
-    >
-      <button
-        className="btn btn-default filter-control filter-control__prev"
+              "id": 0,
+              "value": 0,
+            },
+            Object {
+              "id": 1,
+              "value": 1,
+            },
+            Object {
+              "id": 2,
+              "value": 2,
+            },
+            Object {
+              "id": 3,
+              "value": 3,
+            },
+            Object {
+              "id": 4,
+              "value": 4,
+            },
+            Object {
+              "id": 5,
+              "value": 5,
+            },
+            Object {
+              "id": 6,
+              "value": 6,
+            },
+            Object {
+              "id": 7,
+              "value": 7,
+            },
+          ]
+        }
+        pageSize={5}
+        placeholder="Search and add members"
+        removeSelected={true}
+        required={false}
+        rtl={false}
+        scrollMenuIntoView={true}
+        searchable={true}
+        simpleValue={false}
+        tabSelectsValue={true}
+        trimFilter={true}
+        value={
+          Array [
+            Object {
+              "id": 100,
+              "value": 100,
+            },
+          ]
+        }
+        valueComponent={[Function]}
+        valueKey="value"
+      />
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={false}
+        extraClasses=""
         onClick={[Function]}
-      >
-        <FormattedMessage
-          defaultMessage="Previous"
-          id="filtered_user_list.prev"
-          values={Object {}}
-        >
-          <span>
-            Previous
-          </span>
-        </FormattedMessage>
-      </button>
+        saving={false}
+        savingMessage="Saving"
+      />
+    </div>
+    <div
+      className="multi-select__help"
+    >
+      <FormattedMessage
+        defaultMessage="{memberOptions, number} of {totalCount, number} members"
+        id="multiselect.numMembers"
+        values={
+          Object {
+            "memberOptions": 3,
+            "totalCount": 8,
+          }
+        }
+      />
     </div>
   </div>
-</MultiSelect>
+  <MultiSelectList
+    onAction={[Function]}
+    onAdd={[Function]}
+    onSelect={[Function]}
+    options={
+      Array [
+        Object {
+          "id": 5,
+          "value": 5,
+        },
+        Object {
+          "id": 6,
+          "value": 6,
+        },
+        Object {
+          "id": 7,
+          "value": 7,
+        },
+      ]
+    }
+    page={1}
+    perPage={5}
+  />
+  <div
+    className="filter-controls"
+  >
+    <button
+      className="btn btn-default filter-control filter-control__prev"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Previous"
+        id="filtered_user_list.prev"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
 `;

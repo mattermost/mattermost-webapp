@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallow} from 'enzyme';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
 describe('components/multiselect/multiselect', () => {
@@ -24,7 +24,7 @@ describe('components/multiselect/multiselect', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <MultiSelect {...baseProps}/>
         );
 
@@ -32,7 +32,7 @@ describe('components/multiselect/multiselect', () => {
     });
 
     test('should match snapshot for page 2', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <MultiSelect {...baseProps}/>
         );
 

@@ -32,7 +32,9 @@ export default class MultiSelect extends React.Component {
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleEnterPress);
-        this.refs.select.focus();
+        if (this.refs.select) {
+            this.refs.select.focus();
+        }
     }
 
     componentWillUnmount() {
@@ -43,7 +45,9 @@ export default class MultiSelect extends React.Component {
         if (this.props.handlePageChange) {
             this.props.handlePageChange(this.state.page + 1, this.state.page);
         }
-        this.refs.list.setSelected(0);
+        if (this.refs.list) {
+            this.refs.list.setSelected(0);
+        }
         this.setState({page: this.state.page + 1});
     }
 
