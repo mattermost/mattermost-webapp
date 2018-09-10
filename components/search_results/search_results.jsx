@@ -7,13 +7,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
-import SearchResultsHeader from 'components/search_results_header';
-import SearchResultsItem from 'components/search_results_item';
-import FlagIcon from 'components/svg/flag_icon';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import SearchResultsHeader from 'components/search_results_header';
+import SearchResultsItem from 'components/search_results_item';
+import SearchHint from 'components/search_hint';
+import FlagIcon from 'components/svg/flag_icon';
 
 export function renderView(props) {
     return (
@@ -246,40 +249,9 @@ export default class SearchResults extends React.PureComponent {
                 </div>
             );
         } else if (!searchTerms && noResults) {
-            const tips = [
-                <li key='quotes'>
-                    <FormattedMessage
-                        id='search_results.usage.phrasesSuggestion'
-                        defaultMessage='Use {quotationMarks} to search for phrases'
-                        values={{
-                            quotationMarks: (
-                                <b>
-                                    <FormattedMessage
-                                        id='search_results.usage.phrasesSuggestion.quotationMarks'
-                                        defaultMessage='"quotation marks"'
-                                    />
-                                </b>
-                            ),
-                        }}
-                    />
-                </li>,
-                <li key='fromIn'>
-                    <FormattedMessage
-                        id='search_results.usage.fromInSuggestion'
-                        defaultMessage='Use {fromUser} to find posts from specific users and {inChannel} to find posts in specific channels'
-                        values={{
-                            fromUser: 'from:',
-                            inChannel: 'in:',
-                        }}
-                    />
-                </li>,
-            ];
-
             ctls = (
                 <div className='sidebar--right__subheader'>
-                    <ul>
-                        {tips}
-                    </ul>
+                    <SearchHint/>
                 </div>
             );
         } else if (noResults) {
