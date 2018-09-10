@@ -146,8 +146,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
               onHide={[Function]}
               rightOffset={15}
               show={false}
-              spaceRequiredAbove={422}
-              spaceRequiredBelow={436}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
               target={[Function]}
               topOffset={55}
             />
@@ -380,8 +380,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
               onHide={[Function]}
               rightOffset={15}
               show={false}
-              spaceRequiredAbove={422}
-              spaceRequiredBelow={436}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
               target={[Function]}
               topOffset={55}
             />
@@ -502,8 +502,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
               onHide={[Function]}
               rightOffset={15}
               show={false}
-              spaceRequiredAbove={422}
-              spaceRequiredBelow={436}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
               target={[Function]}
               topOffset={55}
             />
