@@ -98,6 +98,10 @@ export default class PostView extends React.PureComponent {
              */
             syncChannelPosts: PropTypes.func.isRequired,
 
+            /**
+             * Function to set mobile view on resize
+             */
+            checkAndSetMobileView: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -365,6 +369,8 @@ export default class PostView extends React.PureComponent {
                     disableLoadingPosts={disableLoadingPosts}
                     lastViewedAt={this.state.lastViewedAt}
                     currentUserId={this.props.currentUserId}
+                    focusedPostId={this.props.focusedPostId}
+                    checkAndSetMobileView={this.props.actions.checkAndSetMobileView}
                 />
             );
         }

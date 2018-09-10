@@ -9,7 +9,7 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getPostThread} from 'mattermost-redux/actions/posts';
 
 import {loadPosts, loadUnreads} from 'actions/post_actions';
-import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts} from 'actions/views/channel';
+import {changeChannelPostsStatus, channelSyncCompleted, syncChannelPosts, checkAndSetMobileView} from 'actions/views/channel';
 import {makeGetChannelPostStatus, makeGetChannelSyncStatus} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
 
@@ -54,6 +54,7 @@ function mapDispatchToProps(dispatch) {
             changeChannelPostsStatus,
             channelSyncCompleted,
             syncChannelPosts,
+            checkAndSetMobileView,
         }, dispatch),
     };
 }

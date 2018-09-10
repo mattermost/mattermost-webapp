@@ -1,96 +1,408 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/post_view/post_list should match init snapshot 1`] = `
-<div>
-  <button
-    className="more-messages-text theme style--none color--link"
-    onClick={[Function]}
+<Provider
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <PostList
+    checkAndSetMobileView={[Function]}
+    currentUserId="myself"
+    disableLoadingPosts={false}
+    lastViewedAt={1532345226632}
+    loadNewerPosts={[Function]}
+    loadOlderPosts={[Function]}
+    newerPosts={
+      Object {
+        "allLoaded": false,
+        "loading": false,
+      }
+    }
+    olderPosts={
+      Object {
+        "allLoaded": false,
+        "loading": false,
+      }
+    }
+    posts={
+      Array [
+        Object {
+          "create_at": 1532345226652,
+          "id": "12345",
+          "user_id": "someone",
+        },
+        Object {
+          "create_at": 1532345226631,
+          "id": "12341",
+          "user_id": "someone",
+        },
+        Object {
+          "create_at": 1532345226631,
+          "id": "12342",
+          "user_id": "someone",
+        },
+        Object {
+          "create_at": 1532345226631,
+          "id": "12343",
+          "user_id": "someone",
+        },
+      ]
+    }
   >
-    <FormattedMessage
-      defaultMessage="Load more messages"
-      id="posts_view.loadMore"
-      values={Object {}}
-    />
-  </button>
-  <DateSeparator
-    date={2018-07-23T11:27:06.631Z}
-    key="1532345226631"
-  />
-  <Connect(Post)
-    getPostList={[Function]}
-    key="post 12343"
-    lastPostCount={-1}
-    post={
-      Object {
-        "create_at": 1532345226631,
-        "id": "12343",
-        "user_id": "someone",
-      }
-    }
-  />
-  <Connect(Post)
-    getPostList={[Function]}
-    key="post 12342"
-    lastPostCount={-1}
-    post={
-      Object {
-        "create_at": 1532345226631,
-        "id": "12342",
-        "user_id": "someone",
-      }
-    }
-  />
-  <Connect(Post)
-    getPostList={[Function]}
-    key="post 12341"
-    lastPostCount={-1}
-    post={
-      Object {
-        "create_at": 1532345226631,
-        "id": "12341",
-        "user_id": "someone",
-      }
-    }
-  />
-  <div
-    className="new-separator"
-    id="new_message_12345"
-    key="unviewed"
-  >
-    <hr
-      className="separator__hr"
-    />
     <div
-      className="separator__text"
+      id="post-list"
     >
-      <FormattedMessage
-        defaultMessage="New Messages"
-        id="posts_view.newMsg"
-        values={Object {}}
-      />
+      <FloatingTimestamp
+        createAt={0}
+        isMobile={false}
+        isScrolling={false}
+      >
+        <noscript />
+      </FloatingTimestamp>
+      <ScrollToBottomArrows
+        atBottom={true}
+        isScrolling={false}
+        onClick={[Function]}
+      >
+        <div
+          className="post-list__arrows"
+          onClick={[Function]}
+        >
+          <ScrollToBottomIcon>
+            <span>
+              <svg
+                aria-label="Down Arrow Icon"
+                id="Layer_1"
+                role="icon"
+                style={
+                  Object {
+                    "enableBackground": "new -239 239 21 23",
+                  }
+                }
+                viewBox="-239 239 21 23"
+                x="0px"
+                y="0px"
+              >
+                <path
+                  d="M-239,241.4l2.4-2.4l8.1,8.2l8.1-8.2l2.4,2.4l-10.5,10.6L-239,241.4z M-228.5,257.2l8.1-8.2l2.4,2.4l-10.5,10.6l-10.5-10.6 l2.4-2.4L-228.5,257.2z"
+                />
+              </svg>
+            </span>
+          </ScrollToBottomIcon>
+        </div>
+      </ScrollToBottomArrows>
+      <NewMessageIndicator
+        newMessages={0}
+        onClick={[Function]}
+      >
+        <div
+          className="new-messages__button disabled"
+          onTransitionEnd={[Function]}
+        >
+          <div
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="New {count, plural, one {message} other {messages}}"
+              id="posts_view.newMsgBelow"
+              values={
+                Object {
+                  "count": 0,
+                }
+              }
+            >
+              <span>
+                New messages
+              </span>
+            </FormattedMessage>
+            <UnreadBelowIcon
+              className="icon icon__unread"
+            >
+              <span
+                className="icon icon__unread"
+              >
+                <svg
+                  aria-label="Down Arrow Icon"
+                  height="10px"
+                  role="icon"
+                  style={
+                    Object {
+                      "clipRule": "evenodd",
+                      "fillRule": "evenodd",
+                      "strokeLinejoin": "round",
+                      "strokeMiterlimit": 1.41421,
+                    }
+                  }
+                  viewBox="0 0 10 10"
+                  width="10px"
+                >
+                  <g
+                    transform="matrix(1,0,0,1,-20,-18)"
+                  >
+                    <g
+                      transform="matrix(0.0330723,0,0,0.0322634,15.8132,12.3164)"
+                    >
+                      <path
+                        d="M245.803,377.493C245.803,377.493 204.794,336.485 179.398,311.088C168.55,300.24 150.962,300.24 140.114,311.088C138.327,312.875 136.517,314.686 134.73,316.473C123.882,327.321 123.882,344.908 134.73,355.756C167.972,388.998 233.949,454.975 256.949,477.975C262.158,483.184 269.223,486.111 276.591,486.111C277.38,486.111 278.176,486.111 278.965,486.111C286.332,486.111 293.397,483.184 298.607,477.975C321.607,454.975 387.584,388.998 420.826,355.756C431.674,344.908 431.674,327.321 420.826,316.473C419.039,314.686 417.228,312.875 415.441,311.088C404.593,300.24 387.005,300.24 376.158,311.088C350.761,336.485 309.753,377.493 309.753,377.493C309.753,377.493 309.753,279.687 309.753,203.94C309.753,196.573 306.826,189.508 301.617,184.298C296.408,179.089 289.342,176.162 281.975,176.162C279.191,176.162 276.364,176.162 273.58,176.162C266.213,176.162 259.148,179.089 253.939,184.298C248.729,189.508 245.803,196.573 245.803,203.94L245.803,377.493Z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+              </span>
+            </UnreadBelowIcon>
+          </div>
+        </div>
+      </NewMessageIndicator>
+      <div
+        className="post-list-holder-by-time"
+        onScroll={[Function]}
+      >
+        <div
+          className="post-list__table"
+        >
+          <div
+            className="post-list__content"
+            id="postListContent"
+          >
+            <button
+              className="more-messages-text theme style--none color--link"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Load more messages"
+                id="posts_view.loadMore"
+                values={Object {}}
+              >
+                <span>
+                  Load more messages
+                </span>
+              </FormattedMessage>
+            </button>
+            <DateSeparator
+              date={2018-07-23T11:27:06.631Z}
+              key="1532345226631"
+            >
+              <div
+                className="date-separator"
+              >
+                <hr
+                  className="separator__hr"
+                />
+                <div
+                  className="separator__text"
+                >
+                  <FormattedDate
+                    day="2-digit"
+                    month="short"
+                    value={2018-07-23T11:27:06.631Z}
+                    weekday="short"
+                    year="numeric"
+                  >
+                    <span>
+                      Mon, Jul 23, 2018
+                    </span>
+                  </FormattedDate>
+                </div>
+              </div>
+            </DateSeparator>
+            <div
+              data-key="12343"
+              key="12343"
+            >
+              <Connect(Post)
+                getPostList={[Function]}
+                lastPostCount={-1}
+                post={
+                  Object {
+                    "create_at": 1532345226631,
+                    "id": "12343",
+                    "user_id": "someone",
+                  }
+                }
+              >
+                <Post
+                  center={false}
+                  compactDisplay={false}
+                  currentUser={
+                    Object {
+                      "id": "myself",
+                    }
+                  }
+                  dispatch={[Function]}
+                  getPostList={[Function]}
+                  isFirstReply={false}
+                  lastPostCount={-1}
+                  post={Object {}}
+                />
+              </Connect(Post)>
+            </div>
+            <div
+              data-key="12342"
+              key="12342"
+            >
+              <Connect(Post)
+                getPostList={[Function]}
+                lastPostCount={-1}
+                post={
+                  Object {
+                    "create_at": 1532345226631,
+                    "id": "12342",
+                    "user_id": "someone",
+                  }
+                }
+              >
+                <Post
+                  center={false}
+                  compactDisplay={false}
+                  currentUser={
+                    Object {
+                      "id": "myself",
+                    }
+                  }
+                  dispatch={[Function]}
+                  getPostList={[Function]}
+                  isFirstReply={false}
+                  lastPostCount={-1}
+                  post={Object {}}
+                />
+              </Connect(Post)>
+            </div>
+            <div
+              data-key="12341"
+              key="12341"
+            >
+              <Connect(Post)
+                getPostList={[Function]}
+                lastPostCount={-1}
+                post={
+                  Object {
+                    "create_at": 1532345226631,
+                    "id": "12341",
+                    "user_id": "someone",
+                  }
+                }
+              >
+                <Post
+                  center={false}
+                  compactDisplay={false}
+                  currentUser={
+                    Object {
+                      "id": "myself",
+                    }
+                  }
+                  dispatch={[Function]}
+                  getPostList={[Function]}
+                  isFirstReply={false}
+                  lastPostCount={-1}
+                  post={Object {}}
+                />
+              </Connect(Post)>
+            </div>
+            <div
+              className="new-separator"
+              data-key="newMessageSeparator"
+              id="new_message_12345"
+              key="unviewed"
+            >
+              <hr
+                className="separator__hr"
+              />
+              <div
+                className="separator__text"
+              >
+                <FormattedMessage
+                  defaultMessage="New Messages"
+                  id="posts_view.newMsg"
+                  values={Object {}}
+                >
+                  <span>
+                    New Messages
+                  </span>
+                </FormattedMessage>
+              </div>
+            </div>
+            <div
+              data-key="12345"
+              key="12345"
+            >
+              <Connect(Post)
+                getPostList={[Function]}
+                lastPostCount={-1}
+                post={
+                  Object {
+                    "create_at": 1532345226652,
+                    "id": "12345",
+                    "user_id": "someone",
+                  }
+                }
+              >
+                <Post
+                  center={false}
+                  compactDisplay={false}
+                  currentUser={
+                    Object {
+                      "id": "myself",
+                    }
+                  }
+                  dispatch={[Function]}
+                  getPostList={[Function]}
+                  isFirstReply={false}
+                  lastPostCount={-1}
+                  post={Object {}}
+                />
+              </Connect(Post)>
+            </div>
+            <button
+              className="more-messages-text theme style--none color--link"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Load more messages"
+                id="posts_view.loadMore"
+                values={Object {}}
+              >
+                <span>
+                  Load more messages
+                </span>
+              </FormattedMessage>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <Connect(Post)
-    getPostList={[Function]}
-    key="post 12345"
-    lastPostCount={-1}
-    post={
-      Object {
-        "create_at": 1532345226652,
-        "id": "12345",
-        "user_id": "someone",
-      }
-    }
-  />
-  <button
-    className="more-messages-text theme style--none color--link"
-    onClick={[Function]}
-  >
-    <FormattedMessage
-      defaultMessage="Load more messages"
-      id="posts_view.loadMore"
-      values={Object {}}
-    />
-  </button>
-</div>
+  </PostList>
+</Provider>
 `;

@@ -15,6 +15,7 @@ const actionsProp = {
     changeChannelPostsStatus: emptyFunction,
     syncChannelPosts: emptyFunction,
     channelSyncCompleted: emptyFunction,
+    checkAndSetMobileView: emptyFunction,
 };
 
 let channelPostsStatus;

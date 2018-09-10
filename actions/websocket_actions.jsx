@@ -766,6 +766,7 @@ function handleChannelViewedEvent(msg) {
         // Mark previous and next channel as read
         ChannelStore.resetCounts([msg.data.channel_id]);
     }
+    store.dispatch({type: ActionTypes.UPDATE_LAST_VIEW, channel_id: msg.data.channel_id});
 }
 
 function handlePluginEnabled(msg) {
