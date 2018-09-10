@@ -1,43 +1,46 @@
-.DayPicker {
-    width: 100%;
-    margin-top: 0.3rem;
-
-    .DayPicker-NavBar {
-        position: relative;
-    }
-
-    .DayPicker-Caption {
-        border-bottom: 1px solid transparent;
-        margin: 0 0.5rem .7rem;
-        padding: 0 0.5rem .7rem;
-
-        >div {
-            font-size: inherit;
-        }
-    }
-
-    .DayPicker-Day {
-        border-radius: $border-rad * 2;
-    }
-
-    .DayPicker-wrapper {
-        padding: 0;
-    }
-
-    .DayPicker-NavButton {
-        top: 0;
-        right: .5rem;
-        margin-top: 2px;
-        outline: none;
-    }
-
-    .DayPicker-Weekday {
-        font-weight: bold;
-        color: inherit;
-    }
-
-    .DayPicker-Month {
+.app__body {
+    .DayPicker {
+        font-size: inherit;
         width: 100%;
-        margin: 0;
+        margin-top: 0.3rem;
+
+        .DayPicker-NavBar {
+            position: relative;
+        }
+
+        .DayPicker-Caption {
+            border-bottom: 1px solid transparent;
+            margin: 0 0.5rem .7rem;
+            padding: 0 0.5rem .7rem;
+
+            >div {
+                font-size: inherit;
+            }
+        }
+
+        .DayPicker-Day {
+            border-radius: $border-rad * 2;
+        }
+
+        .DayPicker-wrapper {
+            padding: 0;
+        }
+
+        .DayPicker-NavButton {
+            top: 0;
+            right: .5rem;
+            margin-top: 2px;
+            outline: none;
+        }
+
+        .DayPicker-Weekday {
+            font-weight: bold;
+            color: inherit;
+        }
+
+        .DayPicker-Month {
+            width: 100%;
+            margin: 0;
+        }
     }
 }
