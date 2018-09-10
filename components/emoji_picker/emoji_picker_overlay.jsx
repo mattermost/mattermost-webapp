@@ -8,6 +8,16 @@ import {Overlay} from 'react-bootstrap';
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 
 export default class EmojiPickerOverlay extends React.PureComponent {
+    // An emoji picker in the center channel is contained within the post list, so it needs space
+    // above for the channel header and below for the post textbox
+    static CENTER_SPACE_REQUIRED_ABOVE = 476;
+    static CENTER_SPACE_REQUIRED_BELOW = 497;
+
+    // An emoji picker in the RHS isn't constrained by the RHS, so it just needs space to fit
+    // the emoji picker itself
+    static RHS_SPACE_REQUIRED_ABOVE = 420;
+    static RHS_SPACE_REQUIRED_BELOW = 420;
+
     static propTypes = {
         show: PropTypes.bool.isRequired,
         container: PropTypes.func,
@@ -20,14 +30,14 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         spaceRequiredAbove: PropTypes.number,
         spaceRequiredBelow: PropTypes.number,
         enableGifPicker: PropTypes.bool,
-    }
+    };
 
     // Reasonable defaults calculated from from the center channel
     static defaultProps = {
-        spaceRequiredAbove: 422,
-        spaceRequiredBelow: 436,
+        spaceRequiredAbove: EmojiPickerOverlay.CENTER_SPACE_REQUIRED_ABOVE,
+        spaceRequiredBelow: EmojiPickerOverlay.CENTER_SPACE_REQUIRED_BELOW,
         enableGifPicker: false,
-    }
+    };
 
     constructor(props) {
         super(props);

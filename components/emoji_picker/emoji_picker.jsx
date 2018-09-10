@@ -17,10 +17,13 @@ import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
 const EMOJI_HEIGHT = 27;
+
+// If this changes, the spaceRequiredAbove and spaceRequiredBelow props passed to the EmojiPickerOverlay must be updated
 const EMOJI_CONTAINER_HEIGHT = 290;
 const EMOJI_CONTAINER_STYLE = {
     height: EMOJI_CONTAINER_HEIGHT,
 };
+
 const EMOJI_LAZY_LOAD_BUFFER = 75;
 const EMOJI_PER_ROW = 9;
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
