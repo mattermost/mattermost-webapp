@@ -31,7 +31,7 @@ export function handleEmoticons(text, tokens) {
 
     function replaceEmoticonWithToken(fullMatch, prefix, matchText, name) {
         const index = tokens.size;
-        const alias = `$MM_EMOTICON${index}`;
+        const alias = `$MM_EMOTICON${index}$`;
 
         tokens.set(alias, {
             value: `<span data-emoticon="${name}">${matchText}</span>`,
