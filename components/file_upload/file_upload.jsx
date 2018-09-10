@@ -457,7 +457,9 @@ export default class FileUpload extends PureComponent {
     }
 
     handleMaxUploadReached = (e) => {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
 
         const {onUploadError} = this.props;
         const {formatMessage} = this.context.intl;
@@ -469,14 +471,14 @@ export default class FileUpload extends PureComponent {
         this.setState({menuOpen: open});
     }
 
-    handleLocalFileUploaded = () => {
+    handleLocalFileUploaded = (e) => {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         if (uploadsRemaining > 0) {
             if (this.props.onClick) {
                 this.props.onClick();
             }
         } else {
-            this.handleMaxUploadReached();
+            this.handleMaxUploadReached(e);
         }
         this.setState({menuOpen: false});
     }
