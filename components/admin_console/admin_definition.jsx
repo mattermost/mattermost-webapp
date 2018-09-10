@@ -72,7 +72,7 @@ const MEBIBYTE = Math.pow(1024, 2);
 //   - dynamic_value: function that generate the value of the field based on the current value, the config, the state and the license.
 //
 // Button Widget (extends from Setting Widget)
-//   - action: A redux action to execute on click.
+//   - action: A function receiving unsavedConfig, config, callback, errorCallback to execute on click.
 //   - error_message (and error_message_default): Error to show if action doesn't work.
 //   - success_message (and success_message_default): Success message to show if action doesn't work.
 //
@@ -287,7 +287,7 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BUTTON,
-                            action: reloadConfig,
+                            action: (unsavedConfig, config, callback, error) => reloadConfig(callback, error),
                             key: 'ReloadConfigButton',
                             label: 'admin.reload.button',
                             label_default: 'Reload Configuration From Disk',
@@ -319,7 +319,7 @@ export default {
                         {
                             type: Constants.SettingsTypes.TYPE_BUTTON,
                             key: 'PurgeButton',
-                            action: invalidateAllCaches,
+                            action: (unsavedConfig, config, callback, error) => invalidateAllCaches(callback, error),
                             label: 'admin.purge.button',
                             label_default: 'Purge All Caches',
                             help_text: 'admin.purge.purgeDescription',
@@ -1181,7 +1181,7 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BUTTON,
-                            action: ldapTest,
+                            action: (unsavedConfig, config, callback, error) => ldapTest(callback, error),
                             key: 'LdapSettings.LdapTest',
                             label: 'admin.ldap.ldap_test_button',
                             label_default: 'AD/LDAP Test',
@@ -1753,7 +1753,7 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BUTTON,
-                            action: testS3Connection,
+                            action: (unsavedConfig, config, callback, error) => testS3Connection(unsavedConfig, callback, error),
                             key: 'TestS3Connection',
                             label: 'admin.s3.connectionS3Test',
                             label_default: 'Test Connection',

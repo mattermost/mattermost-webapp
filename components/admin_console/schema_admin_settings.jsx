@@ -314,7 +314,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         return (
             <RequestButton
                 key={this.props.schema.id + '_text_' + setting.key}
-                requestAction={setting.action}
+                requestAction={(callback, error) => setting.action(this.getConfigFromState(this.state), this.props.config, callback, error)}
                 helpText={this.renderHelpText(setting)}
                 loadingText={Utils.localizeMessage(setting.loading, setting.loading_default)}
                 buttonText={<span>{this.renderLabel(setting)}</span>}

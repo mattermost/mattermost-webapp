@@ -281,8 +281,8 @@ export async function elasticsearchTest(config, success, error) {
     }
 }
 
-export async function testS3Connection(success, error) {
-    const {data, error: err} = await AdminActions.testS3Connection()(dispatch, getState);
+export async function testS3Connection(config, success, error) {
+    const {data, error: err} = await AdminActions.testS3Connection(config)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
