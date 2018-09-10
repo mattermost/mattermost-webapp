@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
+
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
 describe('components/multiselect/multiselect', () => {
