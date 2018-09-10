@@ -109,11 +109,7 @@ const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
-        style: PropTypes.object,
-        rightOffset: PropTypes.number,
-        topOffset: PropTypes.number,
         listHeight: PropTypes.number,
-        placement: PropTypes.oneOf(['top', 'bottom', 'left']),
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
@@ -127,8 +123,6 @@ export default class EmojiPicker extends React.PureComponent {
 
     static defaultProps = {
         listHeight: 245,
-        rightOffset: 0,
-        topOffset: 0,
         customEmojiPage: 0,
         customEmojisEnabled: false,
     };
@@ -572,26 +566,8 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     render() {
-        let pickerStyle;
-        if (this.props.style && !(this.props.style.left === 0 || this.props.style.top === 0)) {
-            if (this.props.placement === 'top' || this.props.placement === 'bottom') {
-                // Only take the top/bottom position passed by React Bootstrap since we want to be right-aligned
-                pickerStyle = {
-                    top: this.props.style.top,
-                    bottom: this.props.style.bottom,
-                    right: this.props.rightOffset,
-                };
-            } else {
-                pickerStyle = {...this.props.style};
-            }
-        }
-        if (pickerStyle && pickerStyle.top) {
-            pickerStyle.top += this.props.topOffset;
-        }
         return (
-            <div
-                style={pickerStyle}
-            >
+            <div>
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}
