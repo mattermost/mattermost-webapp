@@ -104,5 +104,14 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
+
+        test('should match CSS class on footer', () => {
+            const wrapper = shallow(<PopoverBar {...defaultProps}/>);
+            expect(wrapper.find('div').first().hasClass('modal-button-bar footer--show')).toEqual(true);
+
+            wrapper.setProps({show: false});
+            expect(wrapper.find('div').first().hasClass('modal-button-bar')).toEqual(true);
+            expect(wrapper.find('div').first().hasClass('modal-button-bar footer--show')).toEqual(false);
+        });
     });
 });
