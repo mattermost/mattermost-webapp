@@ -391,7 +391,7 @@ export default class SamlSettings extends AdminSettings {
                     helpText={
                         <FormattedMarkdownMessage
                             id='admin.saml.enableSyncWithLdapIncludeAuthDescription'
-                            defaultMessage='When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.'
+                            defaultMessage='When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://about.mattermost.com/default-saml-ldap-sync) for more information.'
                         />
                     }
                     value={this.state.enableSyncWithLdapIncludeAuth}
