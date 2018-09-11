@@ -31,8 +31,6 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -104,8 +102,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -201,8 +197,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -298,8 +292,6 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -375,8 +367,6 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -452,8 +442,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -529,8 +517,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -606,8 +592,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -683,8 +667,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -780,8 +762,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -857,8 +837,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -954,8 +932,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -1051,8 +1027,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -1148,8 +1122,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -1225,8 +1197,6 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
@@ -1298,8 +1268,6 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[MockFunction]}
   >
     <div
       className="modal-image__wrapper"
