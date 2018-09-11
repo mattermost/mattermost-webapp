@@ -80,6 +80,7 @@
                 }
 
                 .modal-button-bar {
+                    @include opacity(1);
                     line-height: 30px;
                     padding: 5px 10px 5px 5px;
                     bottom: 20px;
