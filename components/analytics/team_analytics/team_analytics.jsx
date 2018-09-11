@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
@@ -164,9 +166,9 @@ export default class TeamAnalytics extends React.Component {
             banner = (
                 <div className='banner'>
                     <div className='banner__content'>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='analytics.system.infoAndSkippedIntensiveQueries'
-                            defaultMessage="Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team. <br><br> Some statistics have been omitted because they put too much load on the system to calculate. See <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>https://docs.mattermost.com/administration/statistics.html</a> for more details."
+                            defaultMessage='Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team. \n \n Some statistics have been omitted because they put too much load on the system to calculate. See [https://docs.mattermost.com/administration/statistics.html](!https://docs.mattermost.com/administration/statistics.html) for more details.'
                         />
                     </div>
                 </div>

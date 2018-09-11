@@ -134,13 +134,17 @@ export default class SchemaAdminSettings extends AdminSettings {
 
                 this.setConfigValue(config, setting.key, value);
             });
+
+            if (schema.onConfigSave) {
+                return schema.onConfigSave(config, this.props.config);
+            }
         }
 
         return config;
     }
 
     getStateFromConfig(config, schema = this.props.schema) {
-        const state = {};
+        let state = {};
 
         if (schema) {
             const settings = schema.settings || [];
@@ -162,6 +166,10 @@ export default class SchemaAdminSettings extends AdminSettings {
 
                 state[setting.key] = value == null ? setting.default : value;
             });
+
+            if (schema.onConfigLoad) {
+                state = {...state, ...schema.onConfigLoad(config)};
+            }
         }
 
         return state;
@@ -329,6 +337,12 @@ export default class SchemaAdminSettings extends AdminSettings {
         if (setting.type === SettingsTypes.TYPE_NUMBER) {
             inputType = 'number';
         }
+
+        let value = this.state[setting.key] || '';
+        if (setting.dynamic_value) {
+            value = setting.dynamic_value(value, this.props.config, this.state, this.props.license);
+        }
+
         return (
             <TextSetting
                 key={this.props.schema.id + '_text_' + setting.key}
@@ -337,7 +351,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
                 placeholder={Utils.localizeMessage(setting.placeholder, setting.placeholder_default)}
-                value={this.state[setting.key] || ''}
+                value={value}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
@@ -393,6 +407,15 @@ export default class SchemaAdminSettings extends AdminSettings {
     buildDropdownSetting = (setting) => {
         const options = setting.options || [];
         const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
+        const selectedValue = this.state[setting.key] || values[0].value;
+
+        let selectedOptionForHelpText = null;
+        for (const option of options) {
+            if (option.help_text && option.value === selectedValue) {
+                selectedOptionForHelpText = option;
+                break;
+            }
+        }
 
         return (
             <DropdownSetting
@@ -400,8 +423,8 @@ export default class SchemaAdminSettings extends AdminSettings {
                 id={setting.key}
                 values={values}
                 label={this.renderLabel(setting)}
-                helpText={this.renderHelpText(setting)}
-                value={this.state[setting.key] || values[0].value}
+                helpText={this.renderHelpText(selectedOptionForHelpText || setting)}
+                value={selectedValue}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}

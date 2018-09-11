@@ -85,11 +85,25 @@ exports[`components/create_post Show tutorial 1`] = `
         screens={
           Array [
             <div>
-              <FormattedHTMLMessage
-                defaultMessage="<h4>Sending Messages</h4><p>Type here to write a message and press <strong>Enter</strong> to post it.</p><p>Click the <strong>Attachment</strong> button to upload an image or a file.</p>"
-                id="create_post.tutorialTip"
-                values={Object {}}
-              />
+              <h4>
+                <FormattedMessage
+                  defaultMessage="Sending Messages"
+                  id="create_post.tutorialTip.title"
+                  values={Object {}}
+                />
+              </h4>
+              <p>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="Type here to write a message and press **Enter** to post it."
+                  id="create_post.tutorialTip1"
+                />
+              </p>
+              <p>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="Click the **Attachment** button to upload an image or a file."
+                  id="create_post.tutorialTip2"
+                />
+              </p>
             </div>,
           ]
         }

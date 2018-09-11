@@ -5,17 +5,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Popover} from 'react-bootstrap';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
 import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
-import SearchDateProvider from '../suggestion/search_date_provider.jsx';
+import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
+import SearchHint from 'components/search_hint';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
@@ -159,10 +158,7 @@ export default class SearchBar extends React.Component {
                 placement='bottom'
                 className={helpClass}
             >
-                <FormattedMarkdownMessage
-                    id='search_bar.usage'
-                    defaultMessage='#### Search Options\n\n* Use **"quotation marks"** to search for phrases\n* Use **from:** to find posts from specific users and **in:** to find posts in specific channels\n* Use **on:** to find posts on a specific date\n* Use **before:** to find posts before a specific date\n* Use **after:** to find posts after a specific date'
-                />
+                <SearchHint withTitle={true}/>
             </Popover>
         );
     }

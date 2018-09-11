@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
+import {getSiteURL} from 'utils/url';
 import {ldapTest, invalidateAllCaches, reloadConfig, testS3Connection} from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -68,6 +69,7 @@ const MEBIBYTE = Math.pow(1024, 2);
 //
 // Text Widget (extends from Setting Widget)
 //   - placeholder (and placeholder_default): Placeholder text to show in the input.
+//   - dynamic_value: function that generate the value of the field based on the current value, the config, the state and the license.
 //
 // Button Widget (extends from Setting Widget)
 //   - action: A redux action to execute on click.
@@ -80,7 +82,7 @@ const MEBIBYTE = Math.pow(1024, 2);
 //   - not_present (and not_present_default): Text to show when the default language is not present (only for multiple = true).
 //
 // Dropdown Widget (extends from Setting Widget)
-//   - options: List of options of the dropdown (each options has value, display_name and display_name_default fields).
+//   - options: List of options of the dropdown (each options has value, display_name, display_name_default and optionally help_text, help_text_default, help_text_values, help_text_markdown fields).
 //
 // Permissions Flag (extends from Setting Widget)
 //   - permissions_mapping_name: A permission name in the utils/policy_roles_adapter.js file.
@@ -108,6 +110,7 @@ export const needsUtils = {
     stateValueTrue: (key) => (config, state) => Boolean(state[key]),
     stateValueFalse: (key) => (config, state) => !state[key],
     hasLicense: (config, state, license) => license.IsLicensed === 'true',
+    hasLicenseFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
 };
 
 export default {
@@ -401,7 +404,8 @@ export default {
                             type: Constants.SettingsTypes.TYPE_BANNER,
                             label: 'admin.compliance.newComplianceExportBanner',
                             label_markdown: true,
-                            label_default: 'This feature is replaced by a new [Compliance Export](../../admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.',
+                            label_default: 'This feature is replaced by a new [Compliance Export]({siteURL}/admin_console/compliance/message_export) feature, and will be removed in a future release. We recommend migrating to the new system.',
+                            label_values: {siteURL: getSiteURL()},
                             isHidden: needsUtils.not(needsUtils.hasLicense),
                             banner_type: 'info',
                         },
@@ -569,6 +573,272 @@ export default {
             },
         },
         authentication: {
+            oauth: {
+                schema: {
+                    id: 'OAuthSettings',
+                    name: 'admin.authentication.email',
+                    name_default: 'Email Authentication',
+                    onConfigLoad: (config) => {
+                        const newState = {};
+                        if (config.GitLabSettings && config.GitLabSettings.Enable) {
+                            newState.oauthType = Constants.GITLAB_SERVICE;
+                        }
+                        if (config.Office365Settings && config.Office365Settings.Enable) {
+                            newState.oauthType = Constants.OFFICE365_SERVICE;
+                        }
+                        if (config.GoogleSettings && config.GoogleSettings.Enable) {
+                            newState.oauthType = Constants.GOOGLE_SERVICE;
+                        }
+
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+
+                        return newState;
+                    },
+                    onConfigSave: (config, prevConfig) => {
+                        const newConfig = {...config};
+                        newConfig.GitLabSettings = config.GitLabSettings || {};
+                        newConfig.Office365Settings = config.Office365Settings || {};
+                        newConfig.GoogleSettings = config.GoogleSettings || {};
+
+                        newConfig.GitLabSettings.Enable = false;
+                        newConfig.Office365Settings.Enable = false;
+                        newConfig.GoogleSettings.Enable = false;
+                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url + '/api/v4/user';
+
+                        if (config.oauthType === Constants.GITLAB_SERVICE) {
+                            newConfig.GitLabSettings.Enable = true;
+                            newConfig.Office365Settings = prevConfig.Office365Settings;
+                            newConfig.GoogleSettings = prevConfig.GoogleSettings;
+                        }
+                        if (config.oauthType === Constants.OFFICE365_SERVICE) {
+                            newConfig.Office365Settings.Enable = true;
+                            newConfig.GitLabSettings = prevConfig.GitLabSettings;
+                            newConfig.GoogleSettings = prevConfig.GoogleSettings;
+                        }
+                        if (config.oauthType === Constants.GOOGLE_SERVICE) {
+                            newConfig.GoogleSettings.Enable = true;
+                            newConfig.Office365Settings = prevConfig.Office365Settings;
+                            newConfig.GitLabSettings = prevConfig.GitLabSettings;
+                        }
+                        delete newConfig.oauthType;
+                        return newConfig;
+                    },
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                            key: 'oauthType',
+                            label: 'admin.oauth.select',
+                            label_default: 'Select OAuth 2.0 Service Provider:',
+                            options: [
+                                {
+                                    value: 'off',
+                                    display_name: 'admin.oauth.off',
+                                    display_name_default: 'Do not allow sign-in via an OAuth 2.0 provider.',
+                                },
+                                {
+                                    value: Constants.GITLAB_SERVICE,
+                                    display_name: 'admin.oauth.gitlab',
+                                    display_name_default: 'GitLab',
+                                    help_text: 'admin.gitlab.EnableMarkdownDesc',
+                                    help_text_default: '1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
+                                    help_text_markdown: true,
+                                },
+                                {
+                                    value: Constants.GOOGLE_SERVICE,
+                                    display_name: 'admin.oauth.google',
+                                    display_name_default: 'Google Apps',
+                                    isHidden: needsUtils.not(needsUtils.hasLicenseFeature('GoogleOAuth')),
+                                    help_text: 'admin.google.EnableMarkdownDesc',
+                                    help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview") and click *Enable*. This might take a few minutes to propagate through Google`s systems.',
+                                    help_text_markdown: true,
+                                },
+                                {
+                                    value: Constants.OFFICE365_SERVICE,
+                                    display_name: 'admin.oauth.office365',
+                                    display_name_default: 'Office 365 (Beta)',
+                                    isHidden: needsUtils.not(needsUtils.hasLicenseFeature('Office365OAuth')),
+                                    help_text: 'admin.office365.EnableMarkdownDesc',
+                                    help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
+                                    help_text_markdown: true,
+                                },
+                            ],
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Id',
+                            label: 'admin.gitlab.clientIdTitle',
+                            label_default: 'Application ID:',
+                            help_text: 'admin.gitlab.clientIdDescription',
+                            help_text_default: 'Obtain this value via the instructions above for logging into GitLab',
+                            placeholder: 'admin.gitlab.clientIdExample',
+                            placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Secret',
+                            label: 'admin.gitlab.clientSecretTitle',
+                            label_default: 'Application Secret Key:',
+                            help_text: 'admin.gitlab.clientSecretDescription',
+                            help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
+                            placeholder: 'admin.gitlab.clientSecretExample',
+                            placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Url',
+                            label: 'admin.gitlab.siteUrl',
+                            label_default: 'GitLab Site URL:',
+                            help_text: 'admin.gitlab.siteUrlDescription',
+                            help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
+                            placeholder: 'admin.gitlab.siteUrlExample',
+                            placeholder_default: 'E.g.: https://',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.UserApiEndpoint',
+                            label: 'admin.gitlab.userTitle',
+                            label_default: 'User API Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/api/v4/user';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.AuthEndpoint',
+                            label: 'admin.gitlab.authTitle',
+                            label_default: 'Auth Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/oauth/authorize';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.TokenEndpoint',
+                            label: 'admin.gitlab.tokenTitle',
+                            label_default: 'Token Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/oauth/token';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GoogleSettings.Id',
+                            label: 'admin.google.clientIdTitle',
+                            label_default: 'Client ID:',
+                            help_text: 'admin.google.clientIdDescription',
+                            help_text_default: 'The Client ID you received when registering your application with Google.',
+                            placeholder: 'admin.google.clientIdExample',
+                            placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GoogleSettings.Secret',
+                            label: 'admin.google.clientSecretTitle',
+                            label_default: 'Client Secret:',
+                            help_text: 'admin.google.clientSecretDescription',
+                            help_text_default: 'The Client Secret you received when registering your application with Google.',
+                            placeholder: 'admin.google.clientSecretExample',
+                            placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GoogleSettings.UserApiEndpoint',
+                            label: 'admin.google.userTitle',
+                            label_default: 'User API Endpoint:',
+                            dynamic_value: () => 'https://www.googleapis.com/plus/v1/people/me',
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GoogleSettings.AuthEndpoint',
+                            label: 'admin.google.authTitle',
+                            label_default: 'Auth Endpoint:',
+                            dynamic_value: () => 'https://accounts.google.com/o/oauth2/v2/auth',
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GoogleSettings.TokenEndpoint',
+                            label: 'admin.google.tokenTitle',
+                            label_default: 'Token Endpoint:',
+                            dynamic_value: () => 'https://www.googleapis.com/oauth2/v4/token',
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'Office365Settings.Id',
+                            label: 'admin.office365.clientIdTitle',
+                            label_default: 'Application ID:',
+                            help_text: 'admin.office365.clientIdDescription',
+                            help_text_default: 'The Application/Client ID you received when registering your application with Microsoft.',
+                            placeholder: 'admin.office365.clientIdExample',
+                            placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'Office365Settings.Secret',
+                            label: 'admin.office365.clientSecretTitle',
+                            label_default: 'Application Secret Password:',
+                            help_text: 'admin.office365.clientSecretDescription',
+                            help_text_default: 'The Application Secret Password you generated when registering your application with Microsoft.',
+                            placeholder: 'admin.office365.clientSecretExample',
+                            placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'Office365Settings.UserApiEndpoint',
+                            label: 'admin.office365.userTitle',
+                            label_default: 'User API Endpoint:',
+                            dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'Office365Settings.AuthEndpoint',
+                            label: 'admin.office365.authTitle',
+                            label_default: 'Auth Endpoint:',
+                            dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'Office365Settings.TokenEndpoint',
+                            label: 'admin.office365.tokenTitle',
+                            label_default: 'Token Endpoint:',
+                            dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                            isDisabled: () => true,
+                            isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
+                        },
+                    ],
+                },
+            },
             email: {
                 schema: {
                     id: 'EmailSettings',

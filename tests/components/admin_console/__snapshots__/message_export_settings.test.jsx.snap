@@ -31,10 +31,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\\\\\\"https://about.mattermost.com/default-compliance-export-documentation\\\\\\" target=\\\\\\"_blank\\\\\\">the documentation</a> to learn more."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
-            values={Object {}}
           />
         }
         id="enableComplianceExport"
@@ -83,10 +82,14 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       <DropdownSetting
         disabled={true}
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/files/storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
-            values={Object {}}
+            values={
+              Object {
+                "siteURL": "http://localhost:8065",
+              }
+            }
           />
         }
         id="exportFormat"
@@ -104,12 +107,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
@@ -209,10 +212,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\\\\\\"https://about.mattermost.com/default-compliance-export-documentation\\\\\\" target=\\\\\\"_blank\\\\\\">the documentation</a> to learn more."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
-            values={Object {}}
           />
         }
         id="enableComplianceExport"
@@ -261,10 +263,14 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <DropdownSetting
         disabled={true}
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/files/storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
-            values={Object {}}
+            values={
+              Object {
+                "siteURL": "http://localhost:8065",
+              }
+            }
           />
         }
         id="exportFormat"
@@ -282,12 +288,12 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
@@ -497,10 +503,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\\\\\\"https://about.mattermost.com/default-compliance-export-documentation\\\\\\" target=\\\\\\"_blank\\\\\\">the documentation</a> to learn more."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
-            values={Object {}}
           />
         }
         id="enableComplianceExport"
@@ -549,10 +554,14 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       <DropdownSetting
         disabled={false}
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/files/storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
-            values={Object {}}
+            values={
+              Object {
+                "siteURL": "http://localhost:8065",
+              }
+            }
           />
         }
         id="exportFormat"
@@ -570,12 +579,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",
@@ -675,10 +684,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\\\\\\"https://about.mattermost.com/default-compliance-export-documentation\\\\\\" target=\\\\\\"_blank\\\\\\">the documentation</a> to learn more."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
-            values={Object {}}
           />
         }
         id="enableComplianceExport"
@@ -727,10 +735,14 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <DropdownSetting
         disabled={false}
         helpText={
-          <FormattedHTMLMessage
-            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.<br><br>For Actiance XML, compliance export files are written to the \\"exports\\" subdirectory of the configured <a href=\\"/admin_console/files/storage\\">Local Storage Directory</a>. For Global Relay EML, they are emailed to the configured email address."
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/files/storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
-            values={Object {}}
+            values={
+              Object {
+                "siteURL": "http://localhost:8065",
+              }
+            }
           />
         }
         id="exportFormat"
@@ -748,12 +760,12 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         values={
           Array [
             Object {
-              "text": "CSV",
-              "value": "csv",
-            },
-            Object {
               "text": "Actiance XML",
               "value": "actiance",
+            },
+            Object {
+              "text": "CSV",
+              "value": "csv",
             },
             Object {
               "text": "GlobalRelay EML",

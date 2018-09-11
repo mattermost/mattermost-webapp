@@ -11,6 +11,8 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 function getStateFromProps(props) {
     const roles = props.user && props.user.roles ? props.user.roles : '';
 
@@ -171,9 +173,9 @@ export default class ManageRolesModal extends React.PureComponent {
             additionalRoles = (
                 <div>
                     <p>
-                        <FormattedHTMLMessage
+                        <FormattedMarkdownMessage
                             id='admin.manage_roles.additionalRoles'
-                            defaultMessage='Select additional permissions for the account. <a href="https://about.mattermost.com/default-permissions" target="_blank">Read more about roles and permissions</a>.'
+                            defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://about.mattermost.com/default-permissions).'
                         />
                     </p>
                     <div className='checkbox'>
@@ -235,9 +237,9 @@ export default class ManageRolesModal extends React.PureComponent {
                                 disabled={this.state.isSystemAdmin}
                                 onChange={this.handleUserAccessTokenChange}
                             />
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='admin.manage_roles.allowUserAccessTokens'
-                                defaultMessage='Allow this account to generate <a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">personal access tokens</a>.'
+                                defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
                             />
                             <span className='d-block padding-top padding-bottom light'>
                                 <FormattedHTMLMessage

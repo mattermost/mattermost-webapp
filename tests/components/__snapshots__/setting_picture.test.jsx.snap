@@ -520,10 +520,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
       <li
         className="setting-list-item padding-top x2"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
-          values={Object {}}
         />
       </li>
       <li
@@ -653,10 +652,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
       <li
         className="setting-list-item padding-top x2"
       >
-        <FormattedHTMLMessage
-          defaultMessage="Upload a team icon in BMP, JPG or PNG format.<br>Square images with a solid background color are recommended."
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
-          values={Object {}}
         />
       </li>
       <li

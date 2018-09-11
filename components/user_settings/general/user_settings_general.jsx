@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -16,6 +16,8 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -585,9 +587,9 @@ class UserSettingsGeneralTab extends React.Component {
                     const newEmail = UserStore.getCurrentUser().email;
                     if (newEmail) {
                         describe = (
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='user.settings.general.newAddress'
-                                defaultMessage='New Address: {email}<br />Check your email to verify the above address.'
+                                defaultMessage='New Address: {email}\nCheck your email to verify the above address.'
                                 values={{
                                     email: newEmail,
                                 }}
