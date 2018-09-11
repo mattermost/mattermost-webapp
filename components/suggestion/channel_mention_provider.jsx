@@ -145,6 +145,7 @@ export default class ChannelMentionProvider extends Provider {
         autocompleteChannels(
             prefix,
             (channels) => {
+                const myMembers = ChannelStore.getMyMembers();
                 if (this.shouldCancelDispatch(prefix)) {
                     return;
                 }
@@ -157,6 +158,9 @@ export default class ChannelMentionProvider extends Provider {
                 const wrappedMoreChannels = [];
                 const moreChannels = [];
                 channels.forEach((item) => {
+                    if (item.delete_at > 0 && !myMembers[item.id]) {
+                        return;
+                    }
                     if (ChannelStore.get(item.id)) {
                         if (!wrappedChannelIds[item.id]) {
                             wrappedChannelIds[item.id] = true;
