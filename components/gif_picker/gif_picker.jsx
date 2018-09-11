@@ -28,17 +28,8 @@ export const appProps = {
 
 export default class GifPicker extends React.Component {
     static propTypes = {
-        style: PropTypes.object,
-        rightOffset: PropTypes.number,
-        topOffset: PropTypes.number,
-        placement: PropTypes.oneOf(['top', 'bottom', 'left']),
         onGifClick: PropTypes.func.isRequired,
     }
-
-    static defaultProps = {
-        rightOffset: 0,
-        topOffset: 0,
-    };
 
     constructor(props) {
         super(props);
