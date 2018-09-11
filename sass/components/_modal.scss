@@ -485,11 +485,17 @@
             }
 
             .modal-button-bar {
+                @include single-transition(opacity, .6s);
+                @include opacity(0);
                 overflow: hidden;
                 background-color: $black;
                 line-height: 40px;
                 max-width: 100%;
                 padding: 0 10px;
+
+                &.footer--show {
+                    @include opacity(1);
+                }
 
                 .image-links {
                     a,
