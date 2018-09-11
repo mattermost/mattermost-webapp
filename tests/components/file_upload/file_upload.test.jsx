@@ -113,10 +113,10 @@ describe('components/FileUpload', () => {
             <FileUpload {...props}/>
         );
 
-        wrapper.instance().fileUploadSuccess(data);
+        wrapper.instance().fileUploadSuccess(data, 'channel_id');
 
         expect(onFileUpload).toHaveBeenCalledTimes(1);
-        expect(onFileUpload).toHaveBeenCalledWith(data.file_infos, data.client_ids, props.currentChannelId);
+        expect(onFileUpload).toHaveBeenCalledWith(data.file_infos, data.client_ids, 'channel_id');
     });
 
     test('should props.onUploadError when fileUploadFail is called', () => {
@@ -125,16 +125,17 @@ describe('components/FileUpload', () => {
         const params = {
             err: 'error_message',
             clientId: 'client_id',
+            channelId: 'channel_id',
         };
 
         const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
-        wrapper.instance().fileUploadFail(params.err, params.clientId);
+        wrapper.instance().fileUploadFail(params.err, params.clientId, params.channelId);
 
         expect(onUploadError).toHaveBeenCalledTimes(1);
-        expect(onUploadError).toHaveBeenCalledWith(params.err, params.clientId, props.currentChannelId);
+        expect(onUploadError).toHaveBeenCalledWith(params.err, params.clientId, params.channelId);
     });
 
     test('should have props.functions when uploadFiles is called', () => {
