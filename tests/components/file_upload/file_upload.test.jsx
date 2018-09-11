@@ -69,6 +69,37 @@ describe('components/FileUpload', () => {
         expect(onClick).toHaveBeenCalledTimes(1);
     });
 
+    test('should match state and call handleMaxUploadReached or props.onClick on handleLocalFileUploaded', () => {
+        const onClick = jest.fn();
+
+        const wrapper = shallow(
+            <FileUpload
+                {...baseProps}
+                onClick={onClick}
+                fileCount={4}
+            />
+        );
+
+        const evt = {preventDefault: jest.fn()};
+        wrapper.instance().handleMaxUploadReached = jest.fn();
+
+        // allow file upload
+        wrapper.setState({menuOpen: true});
+        wrapper.instance().handleLocalFileUploaded(evt);
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().handleMaxUploadReached).not.toBeCalled();
+        expect(wrapper.state('menuOpen')).toEqual(false);
+
+        // not allow file upload, max limit has been reached
+        wrapper.setState({menuOpen: true});
+        wrapper.setProps({fileCount: 5});
+        wrapper.instance().handleLocalFileUploaded(evt);
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().handleMaxUploadReached).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().handleMaxUploadReached).toBeCalledWith(evt);
+        expect(wrapper.state('menuOpen')).toEqual(false);
+    });
+
     test('should props.onFileUpload when fileUploadSuccess is called', () => {
         const onFileUpload = jest.fn();
         const props = {...baseProps, onFileUpload};
