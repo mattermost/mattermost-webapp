@@ -10,8 +10,6 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -36,6 +34,7 @@ import ConvertChannelOption from './navbar_dropdown_items/convert_channel';
 import DeleteChannelOption from './navbar_dropdown_items/delete_channel';
 import LeaveChannelOption from './navbar_dropdown_items/leave_channel';
 import ToggleFavoriteChannelOption from './navbar_dropdown_items/toggle_favorite_channel';
+import WebrtcOption from './navbar_dropdown_items/webrtc';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -103,29 +102,11 @@ export default class Navbar extends React.PureComponent {
         }).isRequired,
     };
 
-    constructor(props) {
-        super(props);
-
-        const {channel} = props;
-
-        let contactId = null;
-        if (channel && channel.type === Constants.DIRECT_CHANNEL) {
-            contactId = Utils.getUserIdFromChannelName(channel);
-        }
-
-        this.state = {
-            contactId,
-            isBusy: WebrtcStore.isBusy(),
-        };
-    }
-
     componentDidMount() {
-        WebrtcStore.addBusyListener(this.onBusy);
         $('.inner-wrap').on('click', this.hideSidebars);
     }
 
     componentWillUnmount() {
-        WebrtcStore.removeBusyListener(this.onBusy);
         $('.inner-wrap').off('click', this.hideSidebars);
     }
 
@@ -154,10 +135,6 @@ export default class Navbar extends React.PureComponent {
         this.props.actions.updateRhsState(RHSStates.SEARCH);
     }
 
-    onBusy = (isBusy) => {
-        this.setState({isBusy});
-    }
-
     isContactAvailable() {
         if (this.state.isBusy) {
             return false;
@@ -169,42 +146,6 @@ export default class Navbar extends React.PureComponent {
 
     isWebrtcEnabled() {
         return this.props.enableWebrtc && Utils.isUserMediaAvailable();
-    }
-
-    initWebrtc = () => {
-        if (this.isContactAvailable()) {
-            this.props.actions.closeRhs();
-            WebrtcActions.initWebrtc(this.state.contactId, true);
-        }
-    }
-
-    generateWebrtcDropdown() {
-        if (!this.isWebrtcEnabled()) {
-            return null;
-        }
-
-        let linkClass = '';
-        if (!this.isContactAvailable()) {
-            linkClass = 'disable-links';
-        }
-
-        return (
-            <li
-                role='presentation'
-                className='webrtc__option visible-xs-block'
-            >
-                <button
-                    role='menuitem'
-                    onClick={this.initWebrtc}
-                    className={'style--none ' + linkClass}
-                >
-                    <FormattedMessage
-                        id='navbar_dropdown.webrtc.call'
-                        defaultMessage='Start Video Call'
-                    />
-                </button>
-            </li>
-        );
     }
 
     generateWebrtcIcon() {
@@ -260,7 +201,16 @@ export default class Navbar extends React.PureComponent {
             const addMembersOption = <AddMembersOption channel={channel}/>;
 
             if (isDirect) {
-                webrtcOption = this.generateWebrtcDropdown();
+                if (this.isWebrtcEnabled()) {
+                    const contactId = Utils.getUserIdFromChannelName(channel);
+                    const contactStatus = this.props.userStatuses[this.state.contactId];
+                    webrtcOption = (
+                        <WebrtcOption
+                            contactId={contactId}
+                            contactStatus={contactStatus}
+                        />
+                    );
+                }
             } else if (isGroup) {
                 notificationPreferenceOption = (
                     <NotificationPreferenceOption
