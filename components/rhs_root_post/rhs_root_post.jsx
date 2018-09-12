@@ -229,8 +229,8 @@ export default class RhsRootPost extends React.Component {
                             target={this.getDotMenuRef}
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={15}
-                            spaceRequiredAbove={342}
-                            spaceRequiredBelow={342}
+                            spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
+                            spaceRequiredBelow={EmojiPickerOverlay.RHS_SPACE_REQUIRED_BELOW}
                         />
                         <button
                             className='reacticon__container reaction color--link style--none'
