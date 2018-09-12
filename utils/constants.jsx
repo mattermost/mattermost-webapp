@@ -504,6 +504,13 @@ export const NotificationSections = {
     NONE: '',
 };
 
+export const AdvancedSections = {
+    CONTROL_SEND: 'advancedCtrlSend',
+    FORMATTING: 'formatting',
+    JOIN_LEAVE: 'joinLeave',
+    PREVIEW_FEATURES: 'advancedPreviewFeatures',
+};
+
 export const RHSStates = {
     MENTION: 'mention',
     SEARCH: 'search',
