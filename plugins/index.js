@@ -70,9 +70,17 @@ export function getPlugins() {
     };
 }
 
+// loadedPlugins tracks which plugins have been added as script tags to the page
+const loadedPlugins = {};
+
 // loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
 // load, and then ensures the plugin has been initialized.
 export function loadPlugin(manifest) {
+    // Don't load it again if previously loaded
+    if (loadedPlugins[manifest.id]) {
+        return;
+    }
+
     function onLoad() {
         initializePlugin(manifest);
         console.log('Loaded ' + manifest.id + ' plugin'); //eslint-disable-line no-console
@@ -91,6 +99,8 @@ export function loadPlugin(manifest) {
     script.onload = onLoad;
     console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
     document.getElementsByTagName('head')[0].appendChild(script);
+
+    loadedPlugins[manifest.id] = true;
 }
 
 // initializePlugin creates a registry specific to the plugin and invokes any initialize function
@@ -109,6 +119,9 @@ function initializePlugin(manifest) {
 // for removing any of its registered components.
 export function removePlugin(manifest) {
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+
+    loadedPlugins[manifest.id] = false;
+
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {
         plugin.uninitialize();
