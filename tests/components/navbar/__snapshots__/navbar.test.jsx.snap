@@ -298,7 +298,6 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
               />
               <div
                 className="close visible-xs-block"
-                onClick={[Function]}
               >
                 ×
               </div>
@@ -760,7 +759,6 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               />
               <div
                 className="close visible-xs-block"
-                onClick={[Function]}
               >
                 ×
               </div>
@@ -1250,7 +1248,6 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               />
               <div
                 className="close visible-xs-block"
-                onClick={[Function]}
               >
                 ×
               </div>
@@ -1467,7 +1464,6 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
               />
               <div
                 className="close visible-xs-block"
-                onClick={[Function]}
               >
                 ×
               </div>
@@ -1959,7 +1955,6 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               />
               <div
                 className="close visible-xs-block"
-                onClick={[Function]}
               >
                 ×
               </div>
@@ -2453,7 +2448,6 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               />
               <div
                 className="close visible-xs-block"
-                onClick={[Function]}
               >
                 ×
               </div>

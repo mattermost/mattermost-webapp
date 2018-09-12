@@ -332,12 +332,6 @@ export default class Navbar extends React.Component {
         );
     }
 
-    hideHeaderOverlay = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
-        }
-    }
-
     renderEditChannelHeaderOption = (channel) => {
         if (!channel || !channel.id) {
             return null;
@@ -721,7 +715,6 @@ export default class Navbar extends React.Component {
                             />
                             <div
                                 className='close visible-xs-block'
-                                onClick={this.hideHeaderOverlay}
                             >
                                 {'×'}
                             </div>
