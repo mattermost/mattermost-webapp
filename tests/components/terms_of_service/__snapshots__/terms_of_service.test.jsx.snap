@@ -1,0 +1,786 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/select_team/SelectTeam should match snapshot 1`] = `
+<div>
+  <Connect(AnnouncementBar) />
+  <div
+    className="signup-header"
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      <span
+        className="fa fa-chevron-left"
+        title="Logout Icon"
+      />
+      <FormattedMessage
+        id="web.header.logout"
+        values={Object {}}
+      />
+    </a>
+  </div>
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container padding--less max-width--more"
+    >
+      <div>
+        <h2>
+          <FormattedMessage
+            defaultMessage="Terms of Service"
+            id="terms_of_service.title"
+            values={Object {}}
+          />
+        </h2>
+      </div>
+      <div
+        className="signup__markdown"
+      >
+        <h2
+          className="markdown__heading"
+          key="0"
+        >
+          Nisi hoc aquarum litor
+        </h2>
+        <p
+          key="1"
+        >
+          0.Una addidit inatten? Non 
+          <em
+            key="1"
+          >
+            surge
+          </em>
+           uterque 
+          <span
+            className="codespan__pre-wrap"
+            key="3"
+          >
+            <code
+              key="0"
+            >
+              falsa Agamemnona ecce;
+            </code>
+          </span>
+           miliaque de
+qua. Leviter 
+          <strong
+            key="5"
+          >
+            bracchia
+          </strong>
+           lacrimarum aversum 
+          <del
+            key="7"
+          >
+            depositum
+          </del>
+           parva @abc pectine emicat, fugam
+quid et gurgite tristis sine dextra, Nec aevo indoluit. Vulnera viam mendacia
+coniugis raptae, 
+          <strong
+            key="9"
+          >
+            itque
+          </strong>
+          , pocula cum paterni solus.
+        </p>
+        
+
+        <ol
+          key="3"
+        >
+          
+
+          <li
+            key="1"
+            value="1"
+          >
+            Toto freta habent
+          </li>
+          <li
+            key="2"
+          >
+            Refert et ferat ardescunt piasti ego pro
+          </li>
+          <li
+            key="3"
+          >
+            Concidere ulli cum redunco tulit ego
+          </li>
+          <li
+            key="4"
+          >
+            Divae tantum intervenit Atlante ortus exempla iacet
+          </li>
+          <li
+            key="5"
+          >
+            Se corpus genitis
+          </li>
+          <li
+            key="6"
+          >
+            Fera tantum quod latebra maximus
+          </li>
+        </ol>
+        
+
+        <p
+          key="5"
+        >
+          Freta ira dedisset mundi. Una elige recepto 
+          <strong
+            key="1"
+          >
+            se cantu Ianthe
+          </strong>
+           duasque
+pallidiora: sic respicit, est. 
+          <em
+            key="3"
+          >
+            Fit quadripedis furta
+          </em>
+           ponensque quoque,
+inpellitur evinctus antro hunc. Obmutuit virgo accipienda adhuc, ab parentis
+marem ducere cruentae?
+        </p>
+        
+
+        <p
+          key="7"
+        >
+          Animam cornum flexile rauca caestibus ut cetera miratur exemplo damnosasque
+ipse. Tangit concha 
+          <a
+            className="theme markdown__link"
+            href="http://cecropios.com/quodcuperet.html"
+            key="1"
+            rel="noreferrer"
+            target="_blank"
+          >
+            interea
+          </a>
+          . Ignibus
+carchesia, 
+          <em
+            key="3"
+          >
+            inplicet tu parte
+          </em>
+           retices totiens
+
+          <a
+            className="theme markdown__link"
+            href="http://quid-natus.org/necsidera.html"
+            key="5"
+            rel="noreferrer"
+            target="_blank"
+          >
+            emeritis
+          </a>
+           Aeneae geminaverat parte
+aquosis curre. Recumbis poterunt perfringit porrigit, ense nil constitit! Equus
+dura hokjhkhkmini, mihi graves colubrae conferat suis avari conplevit carinae nomine!
+        </p>
+        
+
+        <p
+          key="9"
+        >
+          Conspexit putavi, visceribus fecit; et modo freta mallet agunt? Et ignarus!
+        </p>
+        
+
+      </div>
+      <div
+        className="margin--extra"
+      >
+        <ButtonGroup
+          block={false}
+          bsClass="btn-group"
+          justified={false}
+          vertical={false}
+        >
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            id="acceptTerms"
+            onClick={[Function]}
+            type="submit"
+          >
+            <FormattedMessage
+              defaultMessage="I Agree"
+              id="terms_of_service.agreeButton"
+              values={Object {}}
+            />
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="link"
+            disabled={false}
+            id="rejectTerms"
+            onClick={[Function]}
+            type="reset"
+          >
+            <FormattedMessage
+              defaultMessage="I Disagree"
+              id="terms_of_service.disagreeButton"
+              values={Object {}}
+            />
+          </Button>
+        </ButtonGroup>
+      </div>
+      <div
+        className="margin--extra"
+      >
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="By choosing 'I Agree', you understand and agree to [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot access {siteName}."
+          id="terms_of_service.footnote"
+          values={
+            Object {
+              "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
+              "TermsOfServiceLink": "https://about.mattermost.com/default-about/",
+              "siteName": "Mattermost",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/select_team/SelectTeam should match snapshot, on loading agree 1`] = `
+<div>
+  <Connect(AnnouncementBar) />
+  <div
+    className="signup-header"
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      <span
+        className="fa fa-chevron-left"
+        title="Logout Icon"
+      />
+      <FormattedMessage
+        id="web.header.logout"
+        values={Object {}}
+      />
+    </a>
+  </div>
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container padding--less max-width--more"
+    >
+      <div>
+        <h2>
+          <FormattedMessage
+            defaultMessage="Terms of Service"
+            id="terms_of_service.title"
+            values={Object {}}
+          />
+        </h2>
+      </div>
+      <div
+        className="signup__markdown"
+      >
+        <h2
+          className="markdown__heading"
+          key="0"
+        >
+          Nisi hoc aquarum litor
+        </h2>
+        <p
+          key="1"
+        >
+          0.Una addidit inatten? Non 
+          <em
+            key="1"
+          >
+            surge
+          </em>
+           uterque 
+          <span
+            className="codespan__pre-wrap"
+            key="3"
+          >
+            <code
+              key="0"
+            >
+              falsa Agamemnona ecce;
+            </code>
+          </span>
+           miliaque de
+qua. Leviter 
+          <strong
+            key="5"
+          >
+            bracchia
+          </strong>
+           lacrimarum aversum 
+          <del
+            key="7"
+          >
+            depositum
+          </del>
+           parva @abc pectine emicat, fugam
+quid et gurgite tristis sine dextra, Nec aevo indoluit. Vulnera viam mendacia
+coniugis raptae, 
+          <strong
+            key="9"
+          >
+            itque
+          </strong>
+          , pocula cum paterni solus.
+        </p>
+        
+
+        <ol
+          key="3"
+        >
+          
+
+          <li
+            key="1"
+            value="1"
+          >
+            Toto freta habent
+          </li>
+          <li
+            key="2"
+          >
+            Refert et ferat ardescunt piasti ego pro
+          </li>
+          <li
+            key="3"
+          >
+            Concidere ulli cum redunco tulit ego
+          </li>
+          <li
+            key="4"
+          >
+            Divae tantum intervenit Atlante ortus exempla iacet
+          </li>
+          <li
+            key="5"
+          >
+            Se corpus genitis
+          </li>
+          <li
+            key="6"
+          >
+            Fera tantum quod latebra maximus
+          </li>
+        </ol>
+        
+
+        <p
+          key="5"
+        >
+          Freta ira dedisset mundi. Una elige recepto 
+          <strong
+            key="1"
+          >
+            se cantu Ianthe
+          </strong>
+           duasque
+pallidiora: sic respicit, est. 
+          <em
+            key="3"
+          >
+            Fit quadripedis furta
+          </em>
+           ponensque quoque,
+inpellitur evinctus antro hunc. Obmutuit virgo accipienda adhuc, ab parentis
+marem ducere cruentae?
+        </p>
+        
+
+        <p
+          key="7"
+        >
+          Animam cornum flexile rauca caestibus ut cetera miratur exemplo damnosasque
+ipse. Tangit concha 
+          <a
+            className="theme markdown__link"
+            href="http://cecropios.com/quodcuperet.html"
+            key="1"
+            rel="noreferrer"
+            target="_blank"
+          >
+            interea
+          </a>
+          . Ignibus
+carchesia, 
+          <em
+            key="3"
+          >
+            inplicet tu parte
+          </em>
+           retices totiens
+
+          <a
+            className="theme markdown__link"
+            href="http://quid-natus.org/necsidera.html"
+            key="5"
+            rel="noreferrer"
+            target="_blank"
+          >
+            emeritis
+          </a>
+           Aeneae geminaverat parte
+aquosis curre. Recumbis poterunt perfringit porrigit, ense nil constitit! Equus
+dura hokjhkhkmini, mihi graves colubrae conferat suis avari conplevit carinae nomine!
+        </p>
+        
+
+        <p
+          key="9"
+        >
+          Conspexit putavi, visceribus fecit; et modo freta mallet agunt? Et ignarus!
+        </p>
+        
+
+      </div>
+      <div
+        className="margin--extra"
+      >
+        <ButtonGroup
+          block={false}
+          bsClass="btn-group"
+          justified={false}
+          vertical={false}
+        >
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={true}
+            id="acceptTerms"
+            onClick={[Function]}
+            type="submit"
+          >
+            <span
+              className="fa fa-refresh icon--rotate"
+              title="Loading Icon"
+            />
+            <FormattedMessage
+              defaultMessage="I Agree"
+              id="terms_of_service.agreeButton"
+              values={Object {}}
+            />
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="link"
+            disabled={true}
+            id="rejectTerms"
+            onClick={[Function]}
+            type="reset"
+          >
+            <FormattedMessage
+              defaultMessage="I Disagree"
+              id="terms_of_service.disagreeButton"
+              values={Object {}}
+            />
+          </Button>
+        </ButtonGroup>
+      </div>
+      <div
+        className="margin--extra"
+      >
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="By choosing 'I Agree', you understand and agree to [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot access {siteName}."
+          id="terms_of_service.footnote"
+          values={
+            Object {
+              "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
+              "TermsOfServiceLink": "https://about.mattermost.com/default-about/",
+              "siteName": "Mattermost",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/select_team/SelectTeam should match snapshot, on loading disagree 1`] = `
+<div>
+  <Connect(AnnouncementBar) />
+  <div
+    className="signup-header"
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      <span
+        className="fa fa-chevron-left"
+        title="Logout Icon"
+      />
+      <FormattedMessage
+        id="web.header.logout"
+        values={Object {}}
+      />
+    </a>
+  </div>
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container padding--less max-width--more"
+    >
+      <div>
+        <h2>
+          <FormattedMessage
+            defaultMessage="Terms of Service"
+            id="terms_of_service.title"
+            values={Object {}}
+          />
+        </h2>
+      </div>
+      <div
+        className="signup__markdown"
+      >
+        <h2
+          className="markdown__heading"
+          key="0"
+        >
+          Nisi hoc aquarum litor
+        </h2>
+        <p
+          key="1"
+        >
+          0.Una addidit inatten? Non 
+          <em
+            key="1"
+          >
+            surge
+          </em>
+           uterque 
+          <span
+            className="codespan__pre-wrap"
+            key="3"
+          >
+            <code
+              key="0"
+            >
+              falsa Agamemnona ecce;
+            </code>
+          </span>
+           miliaque de
+qua. Leviter 
+          <strong
+            key="5"
+          >
+            bracchia
+          </strong>
+           lacrimarum aversum 
+          <del
+            key="7"
+          >
+            depositum
+          </del>
+           parva @abc pectine emicat, fugam
+quid et gurgite tristis sine dextra, Nec aevo indoluit. Vulnera viam mendacia
+coniugis raptae, 
+          <strong
+            key="9"
+          >
+            itque
+          </strong>
+          , pocula cum paterni solus.
+        </p>
+        
+
+        <ol
+          key="3"
+        >
+          
+
+          <li
+            key="1"
+            value="1"
+          >
+            Toto freta habent
+          </li>
+          <li
+            key="2"
+          >
+            Refert et ferat ardescunt piasti ego pro
+          </li>
+          <li
+            key="3"
+          >
+            Concidere ulli cum redunco tulit ego
+          </li>
+          <li
+            key="4"
+          >
+            Divae tantum intervenit Atlante ortus exempla iacet
+          </li>
+          <li
+            key="5"
+          >
+            Se corpus genitis
+          </li>
+          <li
+            key="6"
+          >
+            Fera tantum quod latebra maximus
+          </li>
+        </ol>
+        
+
+        <p
+          key="5"
+        >
+          Freta ira dedisset mundi. Una elige recepto 
+          <strong
+            key="1"
+          >
+            se cantu Ianthe
+          </strong>
+           duasque
+pallidiora: sic respicit, est. 
+          <em
+            key="3"
+          >
+            Fit quadripedis furta
+          </em>
+           ponensque quoque,
+inpellitur evinctus antro hunc. Obmutuit virgo accipienda adhuc, ab parentis
+marem ducere cruentae?
+        </p>
+        
+
+        <p
+          key="7"
+        >
+          Animam cornum flexile rauca caestibus ut cetera miratur exemplo damnosasque
+ipse. Tangit concha 
+          <a
+            className="theme markdown__link"
+            href="http://cecropios.com/quodcuperet.html"
+            key="1"
+            rel="noreferrer"
+            target="_blank"
+          >
+            interea
+          </a>
+          . Ignibus
+carchesia, 
+          <em
+            key="3"
+          >
+            inplicet tu parte
+          </em>
+           retices totiens
+
+          <a
+            className="theme markdown__link"
+            href="http://quid-natus.org/necsidera.html"
+            key="5"
+            rel="noreferrer"
+            target="_blank"
+          >
+            emeritis
+          </a>
+           Aeneae geminaverat parte
+aquosis curre. Recumbis poterunt perfringit porrigit, ense nil constitit! Equus
+dura hokjhkhkmini, mihi graves colubrae conferat suis avari conplevit carinae nomine!
+        </p>
+        
+
+        <p
+          key="9"
+        >
+          Conspexit putavi, visceribus fecit; et modo freta mallet agunt? Et ignarus!
+        </p>
+        
+
+      </div>
+      <div
+        className="margin--extra"
+      >
+        <ButtonGroup
+          block={false}
+          bsClass="btn-group"
+          justified={false}
+          vertical={false}
+        >
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={true}
+            id="acceptTerms"
+            onClick={[Function]}
+            type="submit"
+          >
+            <FormattedMessage
+              defaultMessage="I Agree"
+              id="terms_of_service.agreeButton"
+              values={Object {}}
+            />
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="link"
+            disabled={true}
+            id="rejectTerms"
+            onClick={[Function]}
+            type="reset"
+          >
+            <span
+              className="fa fa-refresh icon--rotate"
+              title="Loading Icon"
+            />
+            <FormattedMessage
+              defaultMessage="I Disagree"
+              id="terms_of_service.disagreeButton"
+              values={Object {}}
+            />
+          </Button>
+        </ButtonGroup>
+      </div>
+      <div
+        className="margin--extra"
+      >
+        <InjectIntl(FormattedMarkdownMessage)
+          defaultMessage="By choosing 'I Agree', you understand and agree to [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot access {siteName}."
+          id="terms_of_service.footnote"
+          values={
+            Object {
+              "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
+              "TermsOfServiceLink": "https://about.mattermost.com/default-about/",
+              "siteName": "Mattermost",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

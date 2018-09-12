@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
+import {buildQueryString} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
@@ -26,6 +27,7 @@ import logoImage from 'images/logo.png';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BackButton from 'components/common/back_button.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
@@ -51,6 +53,7 @@ export default class LoginController extends React.Component {
             ldapLoginFieldName: PropTypes.string,
             samlLoginButtonText: PropTypes.string,
             siteName: PropTypes.string,
+            showTermsOfService: PropTypes.bool,
         };
     }
 
@@ -242,6 +245,8 @@ export default class LoginController extends React.Component {
     }
 
     finishSignin(team) {
+        let redirectAction;
+        let redirectURL;
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
@@ -249,11 +254,26 @@ export default class LoginController extends React.Component {
 
         GlobalActions.loadCurrentLocale();
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
-            browserHistory.push(redirectTo);
+            redirectURL = decodeURIComponent(redirectTo);
         } else if (team) {
-            browserHistory.push(`/${team.name}`);
+            redirectURL = `/${team.name}`;
         } else if (primaryTeam) {
-            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+            redirectURL = `/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`;
+        } else {
+            redirectAction = Constants.DEFAULT_TEAM_REDIRECT;
+        }
+
+        if (this.props.showTermsOfService) {
+            const queryParams = {};
+            if (redirectURL) {
+                queryParams.redirect_to = redirectURL;
+            }
+            if (redirectAction) {
+                queryParams.redirect_action = redirectAction;
+            }
+            browserHistory.push(`/terms_of_service${buildQueryString(queryParams)}`);
+        } else if (redirectURL) {
+            browserHistory.push(redirectURL);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
@@ -337,7 +357,23 @@ export default class LoginController extends React.Component {
         const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
         let extraBox = '';
         if (extraParam) {
-            if (extraParam === Constants.SIGNIN_CHANGE) {
+            if (extraParam === Constants.TERMS_REJECTED) {
+                extraBox = (
+                    <div className='alert alert-warning'>
+                        <i
+                            className='fa fa-exclamation-triangle'
+                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                        />
+                        <FormattedMarkdownMessage
+                            id='login.terms_rejected'
+                            defaultMessage='You must agree to the terms of service before accessing {siteName}. Please contact your System Administrator for more details.'
+                            values={{
+                                siteName: this.props.siteName,
+                            }}
+                        />
+                    </div>
+                );
+            } else if (extraParam === Constants.SIGNIN_CHANGE) {
                 extraBox = (
                     <div className='alert alert-success'>
                         <i
@@ -628,6 +664,7 @@ export default class LoginController extends React.Component {
         if (loginControls.length === 0) {
             loginControls.push(
                 <FormError
+                    key='noMethods'
                     error={
                         <FormattedMessage
                             id='login.noMethods'
