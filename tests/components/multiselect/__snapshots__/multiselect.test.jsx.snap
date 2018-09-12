@@ -127,6 +127,9 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         }
       />
     </div>
+    <div
+      className="multi-select__help"
+    />
   </div>
   <MultiSelectList
     onAction={[Function]}
@@ -303,6 +306,9 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         }
       />
     </div>
+    <div
+      className="multi-select__help"
+    />
   </div>
   <MultiSelectList
     onAction={[Function]}

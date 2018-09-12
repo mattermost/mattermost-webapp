@@ -286,8 +286,10 @@ export default class MultiSelect extends React.Component {
                     </div>
                     <div className='multi-select__help'>
                         {numRemainingText}
-                        {noteTextContainer}
                         {memberCount}
+                    </div>
+                    <div className='multi-select__help'>
+                        {noteTextContainer}
                     </div>
                 </div>
                 <MultiSelectList
