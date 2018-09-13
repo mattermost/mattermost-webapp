@@ -1,5 +1,8 @@
 {
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 8,
     "sourceType": "module",
@@ -33,7 +36,11 @@
     "beforeEach": true
   },
   "settings": {
-    "import/resolver": "webpack"
+    "import/resolver": "webpack",
+    "react": {
+        "pragma": "React",
+        "version": "16.4"
+    }
   },
   "rules": {
     "array-bracket-spacing": [
