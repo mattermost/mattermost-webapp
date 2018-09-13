@@ -33,6 +33,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         super(props);
         this.buildSettingFunctions = {
             [SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
+            [SettingsTypes.TYPE_LONG_TEXT]: this.buildTextSetting,
             [SettingsTypes.TYPE_NUMBER]: this.buildTextSetting,
             [SettingsTypes.TYPE_COLOR]: this.buildColorSetting,
             [SettingsTypes.TYPE_BOOL]: this.buildBoolSetting,
@@ -342,6 +343,8 @@ export default class SchemaAdminSettings extends AdminSettings {
         let inputType = 'input';
         if (setting.type === SettingsTypes.TYPE_NUMBER) {
             inputType = 'number';
+        } else if (setting.type === SettingsTypes.TYPE_LONG_TEXT) {
+            inputType = 'textarea';
         }
 
         let value = this.state[setting.key] || '';
@@ -361,6 +364,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
+                maxLength={setting.max_length}
             />
         );
     }
