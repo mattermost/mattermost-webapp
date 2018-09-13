@@ -42,6 +42,21 @@ describe('TextFormatting.AtMentions', function() {
             '$MM_ATMENTION0$',
             'should capture trailing punctuation as part of mention'
         );
+        assert.equal(
+            TextFormatting.autolinkAtMentions('@foo.com @bar.com', new Map()),
+            '$MM_ATMENTION0$ $MM_ATMENTION1$',
+            'should capture two at mentions with space in between'
+        );
+        assert.equal(
+            TextFormatting.autolinkAtMentions('@foo.com@bar.com', new Map()),
+            '$MM_ATMENTION0$$MM_ATMENTION1$',
+            'should capture two at mentions without space in between'
+        );
+        assert.equal(
+            TextFormatting.autolinkAtMentions('@foo.com@bar.com@baz.com', new Map()),
+            '$MM_ATMENTION0$$MM_ATMENTION1$$MM_ATMENTION2$',
+            'should capture multiple at mentions without space in between'
+        );
     });
 
     it('Not at mentions', function() {
@@ -81,6 +96,46 @@ describe('TextFormatting.AtMentions', function() {
         assert.equal(
             TextFormatting.formatText('@ALL', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
             '<p><span class=\'mention--highlight\'><span data-mention="ALL">@ALL</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com @bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}, {key: '@bar.com'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span> <span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}, {key: '@bar.com'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span><span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+        );
+    });
+
+    it('Mix highlight at mentions', function() {
+        assert.equal(
+            TextFormatting.formatText('@foo.com @bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span> <span data-mention="bar.com">@bar.com</span></p>',
+            'should highlight first at mention, with space in between'
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com @bar.com', {atMentions: true, mentionKeys: [{key: '@bar.com'}]}).trim(),
+            '<p><span data-mention="foo.com">@foo.com</span> <span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+            'should highlight second at mention, with space in between'
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}]}).trim(),
+            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span><span data-mention="bar.com">@bar.com</span></p>',
+            'should highlight first at mention, without space in between'
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@bar.com'}]}).trim(),
+            '<p><span data-mention="foo.com">@foo.com</span><span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+            'should highlight second at mention, without space in between'
+        );
+        assert.equal(
+            TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
+            '<p><span data-mention="foo.com">@foo.com</span><span data-mention="bar.com">@bar.com</span></p>',
+            'should not highlight any at mention'
         );
     });
 });
