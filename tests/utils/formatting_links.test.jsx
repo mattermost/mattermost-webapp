@@ -7,7 +7,7 @@ import * as Markdown from 'utils/markdown';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('Markdown.Links', function() {
-    it('Not links', function(done) {
+    it('Not links', () => {
         assert.equal(
             Markdown.format('example.com').trim(),
             '<p>example.com</p>'
@@ -48,11 +48,9 @@ describe('Markdown.Links', function() {
             Markdown.format('[link](example.com').trim(),
             '<p>[link](example.com</p>'
         );
-
-        done();
     });
 
-    it('External links', function(done) {
+    it('External links', () => {
         assert.equal(
             Markdown.format('http://example.com').trim(),
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a></p>'
@@ -92,11 +90,9 @@ describe('Markdown.Links', function() {
             Markdown.format('example.com/index').trim(),
             '<p><a class="theme markdown__link" href="http://example.com/index" rel="noreferrer" target="_blank">example.com/index</a></p>'
         );
-
-        done();
     });
 
-    it('IP addresses', function(done) {
+    it('IP addresses', () => {
         assert.equal(
             Markdown.format('http://127.0.0.1').trim(),
             '<p><a class="theme markdown__link" href="http://127.0.0.1" rel="noreferrer" target="_blank">http://127.0.0.1</a></p>'
@@ -146,11 +142,9 @@ describe('Markdown.Links', function() {
             Markdown.format('http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80').trim(),
             '<p><a class="theme markdown__link" href="http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80" rel="noreferrer" target="_blank">http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80</a></p>'
         );
-
-        done();
     });
 
-    it('Links with anchors', function(done) {
+    it('Links with anchors', () => {
         assert.equal(
             Markdown.format('https://en.wikipedia.org/wiki/URLs#Syntax').trim(),
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/URLs#Syntax" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/URLs#Syntax</a></p>'
@@ -160,11 +154,9 @@ describe('Markdown.Links', function() {
             Markdown.format('https://groups.google.com/forum/#!msg').trim(),
             '<p><a class="theme markdown__link" href="https://groups.google.com/forum/#!msg" rel="noreferrer" target="_blank">https://groups.google.com/forum/#!msg</a></p>'
         );
-
-        done();
     });
 
-    it('Links with parameters', function(done) {
+    it('Links with parameters', () => {
         assert.equal(
             Markdown.format('www.example.com/index?params=1').trim(),
             '<p><a class="theme markdown__link" href="http://www.example.com/index?params=1" rel="noreferrer" target="_blank">www.example.com/index?params=1</a></p>'
@@ -189,11 +181,9 @@ describe('Markdown.Links', function() {
             Markdown.format('http://username:password@example.com').trim(),
             '<p><a class="theme markdown__link" href="http://username:password@example.com" rel="noreferrer" target="_blank">http://username:password@example.com</a></p>'
         );
-
-        done();
     });
 
-    it('Special characters', function(done) {
+    it('Special characters', () => {
         assert.equal(
             Markdown.format('http://www.example.com/_/page').trim(),
             '<p><a class="theme markdown__link" href="http://www.example.com/_/page" rel="noreferrer" target="_blank">http://www.example.com/_/page</a></p>'
@@ -213,11 +203,9 @@ describe('Markdown.Links', function() {
             Markdown.format('http://✪df.ws/1234').trim(),
             '<p><a class="theme markdown__link" href="http://✪df.ws/1234" rel="noreferrer" target="_blank">http://✪df.ws/1234</a></p>'
         );
-
-        done();
     });
 
-    it('Brackets', function(done) {
+    it('Brackets', () => {
         assert.equal(
             Markdown.format('https://en.wikipedia.org/wiki/Rendering_(computer_graphics)').trim(),
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a></p>'
@@ -237,11 +225,9 @@ describe('Markdown.Links', function() {
             Markdown.format('http://foo.com/unicode_(✪)_in_parens').trim(),
             '<p><a class="theme markdown__link" href="http://foo.com/unicode_(✪)_in_parens" rel="noreferrer" target="_blank">http://foo.com/unicode_(✪)_in_parens</a></p>'
         );
-
-        done();
     });
 
-    it('Email addresses', function(done) {
+    it('Email addresses', () => {
         assert.equal(
             Markdown.format('test@example.com').trim(),
             '<p><a class="theme" href="mailto:test@example.com">test@example.com</a></p>'
@@ -255,11 +241,9 @@ describe('Markdown.Links', function() {
             Markdown.format('mailto:test@example.com').trim(),
             '<p><a class="theme markdown__link" href="mailto:test@example.com" rel="noreferrer" target="_blank">mailto:test@example.com</a></p>'
         );
-
-        done();
     });
 
-    it('Formatted links', function(done) {
+    it('Formatted links', () => {
         assert.equal(
             Markdown.format('*https://example.com*').trim(),
             '<p><em><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></em></p>'
@@ -299,11 +283,9 @@ describe('Markdown.Links', function() {
             Markdown.format('<https://en.wikipedia.org/wiki/Rendering_(computer_graphics)>').trim(),
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a></p>'
         );
-
-        done();
     });
 
-    it('Links with text', function(done) {
+    it('Links with text', () => {
         assert.equal(
             Markdown.format('[example link](example.com)').trim(),
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">example link</a></p>'
@@ -343,11 +325,9 @@ describe('Markdown.Links', function() {
             Markdown.format('[other link](ts3server://example.com)').trim(),
             '<p><a class="theme markdown__link" href="ts3server://example.com" rel="noreferrer" target="_blank">other link</a></p>'
         );
-
-        done();
     });
 
-    it('Links with tooltips', function(done) {
+    it('Links with tooltips', () => {
         assert.equal(
             Markdown.format('[link](example.com "catch phrase!")').trim(),
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank" title="catch phrase!">link</a></p>'
@@ -361,11 +341,9 @@ describe('Markdown.Links', function() {
             Markdown.format('[link with spaces](example.com/ spaces in the url "and a title")').trim(),
             '<p><a class="theme markdown__link" href="http://example.com/ spaces in the url" rel="noreferrer" target="_blank" title="and a title">link with spaces</a></p>'
         );
-
-        done();
     });
 
-    it('Links with surrounding text', function(done) {
+    it('Links with surrounding text', () => {
         assert.equal(
             Markdown.format('This is a sentence with a http://example.com in it.').trim(),
             '<p>This is a sentence with a <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a> in it.</p>'
@@ -385,11 +363,9 @@ describe('Markdown.Links', function() {
             Markdown.format('This is a sentence with a https://[::1]:80 in it.').trim(),
             '<p>This is a sentence with a <a class="theme markdown__link" href="https://[::1]:80" rel="noreferrer" target="_blank">https://[::1]:80</a> in it.</p>'
         );
-
-        done();
     });
 
-    it('Links with trailing punctuation', function(done) {
+    it('Links with trailing punctuation', () => {
         assert.equal(
             Markdown.format('This is a link to http://example.com.').trim(),
             '<p>This is a link to <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>.</p>'
@@ -404,11 +380,9 @@ describe('Markdown.Links', function() {
             Markdown.format('This is a question about a link http://example.com?').trim(),
             '<p>This is a question about a link <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>?</p>'
         );
-
-        done();
     });
 
-    it('Links with surrounding brackets', function(done) {
+    it('Links with surrounding brackets', () => {
         assert.equal(
             Markdown.format('(http://example.com)').trim(),
             '<p>(<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>)</p>'
@@ -482,11 +456,9 @@ describe('Markdown.Links', function() {
             Markdown.format('This is a sentence with a (https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) in it.').trim(),
             '<p>This is a sentence with a (<a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a>) in it.</p>'
         );
-
-        done();
     });
 
-    it('Searching for links', function(done) {
+    it('Searching for links', () => {
         assert.equal(
             TextFormatting.formatText('https://en.wikipedia.org/wiki/Unix', {searchTerm: 'wikipedia'}).trim(),
             '<p><a class="theme markdown__link search-highlight" href="https://en.wikipedia.org/wiki/Unix" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Unix</a></p>'
@@ -496,11 +468,9 @@ describe('Markdown.Links', function() {
             TextFormatting.formatText('[Link](https://en.wikipedia.org/wiki/Unix)', {searchTerm: 'unix'}).trim(),
             '<p><a class="theme markdown__link search-highlight" href="https://en.wikipedia.org/wiki/Unix" rel="noreferrer" target="_blank">Link</a></p>'
         );
-
-        done();
     });
 
-    it('Links containing %', function(done) {
+    it('Links containing %', () => {
         assert.equal(
             Markdown.format('https://en.wikipedia.org/wiki/%C3%89').trim(),
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/%C3%89" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/%C3%89</a></p>'
@@ -510,8 +480,13 @@ describe('Markdown.Links', function() {
             Markdown.format('https://en.wikipedia.org/wiki/%E9').trim(),
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/%E9" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/%E9</a></p>'
         );
+    });
 
-        done();
+    it('Relative link', () => {
+        assert.equal(
+            Markdown.format('[A Relative Link](/static/files/5b4a7904a3e041018526a00dba59ee48.png)').trim(),
+            '<p><a class="theme markdown__link" href="/static/files/5b4a7904a3e041018526a00dba59ee48.png" rel="noreferrer" target="_blank">A Relative Link</a></p>'
+        );
     });
 
     describe('autolinkedUrlSchemes', () => {
