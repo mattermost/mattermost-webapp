@@ -4,6 +4,7 @@
 import {combineReducers} from 'redux';
 
 import admin from './admin';
+import browser from './browser';
 import channel from './channel';
 import rhs from './rhs';
 import posts from './posts';
@@ -16,6 +17,7 @@ import notice from './notice';
 
 export default combineReducers({
     admin,
+    browser,
     channel,
     rhs,
     posts,
