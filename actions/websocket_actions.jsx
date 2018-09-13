@@ -122,10 +122,7 @@ export function reconnect(includeWebSocket = true) {
     }
     dispatch({
         type: GeneralTypes.WEBSOCKET_SUCCESS,
-        data: {
-            channelIds: Object.keys(getMyChannelMemberships(getState())),
-        },
-    }, getState);
+    });
     loadPluginsIfNecessary();
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
