@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     const joinLeave = getPreference(
         state,
         Preferences.CATEGORY_ADVANCED_SETTINGS,
-        'join_leave',
+        Preferences.ADVANCED_FILTER_JOIN_LEAVE,
         'true'
     );
 

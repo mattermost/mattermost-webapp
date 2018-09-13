@@ -41,7 +41,7 @@ export default class JoinLeaveSection extends React.PureComponent {
 
     handleSubmit = () => {
         const {actions, currentUserId, onUpdateSection} = this.props;
-        const joinLeavePreference = {category: Preferences.CATEGORY_ADVANCED_SETTINGS, user_id: currentUserId, name: 'join_leave', value: this.state.joinLeaveState};
+        const joinLeavePreference = {category: Preferences.CATEGORY_ADVANCED_SETTINGS, user_id: currentUserId, name: Preferences.ADVANCED_FILTER_JOIN_LEAVE, value: this.state.joinLeaveState};
         actions.savePreferences(currentUserId, [joinLeavePreference]);
 
         onUpdateSection();
