@@ -59,6 +59,20 @@ exports[`components/error_page/ErrorMessage should match snapshot, no type nor m
 </p>
 `;
 
+exports[`components/error_page/ErrorMessage should match snapshot, oauth_access_denied type 1`] = `
+<p>
+  <FormattedMessage
+    defaultMessage="You must authorize Mattermost to log in with {service}."
+    id="error.oauth_access_denied"
+    values={
+      Object {
+        "service": "Gitlab",
+      }
+    }
+  />
+</p>
+`;
+
 exports[`components/error_page/ErrorMessage should match snapshot, oauth_missing_code type 1`] = `
 <div>
   <p>

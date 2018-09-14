@@ -148,6 +148,19 @@ export default function ErrorMessage({type, message, service}) {
                 </div>
             );
             break;
+        case ErrorPageTypes.OAUTH_ACCESS_DENIED:
+            errorMessage = (
+                <p>
+                    <FormattedMessage
+                        id='error.oauth_access_denied'
+                        defaultMessage='You must authorize Mattermost to log in with {service}.'
+                        values={{
+                            service,
+                        }}
+                    />
+                </p>
+            );
+            break;
         case ErrorPageTypes.PAGE_NOT_FOUND:
         default:
             errorMessage = (

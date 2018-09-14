@@ -85,6 +85,15 @@ export default class ErrorPage extends React.PureComponent {
                     />
                 </Link>
             );
+        } else if (type === ErrorPageTypes.OAUTH_ACCESS_DENIED || type === ErrorPageTypes.OAUTH_MISSING_CODE) {
+            backButton = (
+                <Link to='/'>
+                    <FormattedMessage
+                        id='error.generic.link_login'
+                        defaultMessage='Back to login page'
+                    />
+                </Link>
+            );
         } else {
             backButton = (
                 <Link to='/'>

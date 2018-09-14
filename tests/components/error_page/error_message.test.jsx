@@ -40,6 +40,15 @@ describe('components/error_page/ErrorMessage', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, oauth_access_denied type', () => {
+        const props = {...baseProps, type: ErrorPageTypes.OAUTH_ACCESS_DENIED, service: 'Gitlab'};
+        const wrapper = shallow(
+            <ErrorMessage {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, page_not_found type', () => {
         const props = {...baseProps, type: ErrorPageTypes.PAGE_NOT_FOUND};
         const wrapper = shallow(
