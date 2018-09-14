@@ -13,7 +13,9 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
-import ConfirmModal from '../../confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal.jsx';
+
+import JoinLeaveSection from './join_leave_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -277,88 +279,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
-    renderJoinLeaveSection = () => {
-        if (this.props.buildEnterpriseReady && this.props.isLicensed) {
-            if (this.props.activeSection === 'join_leave') {
-                return (
-                    <SettingItemMax
-                        title={
-                            <FormattedMessage
-                                id='user.settings.advance.joinLeaveTitle'
-                                defaultMessage='Enable Join/Leave Messages'
-                            />
-                        }
-                        inputs={[
-                            <div key='joinLeaveSetting'>
-                                <div className='radio'>
-                                    <label>
-                                        <input
-                                            id='joinLeaveOn'
-                                            type='radio'
-                                            name='join_leave'
-                                            checked={this.state.settings.join_leave !== 'false'}
-                                            onChange={this.updateSetting.bind(this, 'join_leave', 'true')}
-                                        />
-                                        <FormattedMessage
-                                            id='user.settings.advance.on'
-                                            defaultMessage='On'
-                                        />
-                                    </label>
-                                    <br/>
-                                </div>
-                                <div className='radio'>
-                                    <label>
-                                        <input
-                                            id='joinLeaveOff'
-                                            type='radio'
-                                            name='join_leave'
-                                            checked={this.state.settings.join_leave === 'false'}
-                                            onChange={this.updateSetting.bind(this, 'join_leave', 'false')}
-                                        />
-                                        <FormattedMessage
-                                            id='user.settings.advance.off'
-                                            defaultMessage='Off'
-                                        />
-                                    </label>
-                                    <br/>
-                                </div>
-                                <div>
-                                    <br/>
-                                    <FormattedMessage
-                                        id='user.settings.advance.joinLeaveDesc'
-                                        defaultMessage='When "On", System Messages saying a user has joined or left a channel will be visible. When "Off", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification.'
-                                    />
-                                </div>
-                            </div>,
-                        ]}
-                        setting={'join_leave'}
-                        submit={this.handleSubmit}
-                        saving={this.state.isSaving}
-                        server_error={this.state.serverError}
-                        updateSection={this.handleUpdateSection}
-                    />
-                );
-            }
-
-            return (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.joinLeaveTitle'
-                            defaultMessage='Enable Join/Leave Messages'
-                        />
-                    }
-                    describe={this.renderOnOffLabel(this.state.settings.join_leave)}
-                    focused={this.props.prevActiveSection === this.prevSections.join_leave}
-                    section={'join_leave'}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        }
-
-        return null;
-    }
-
     renderFeatureLabel(feature) {
         switch (feature) {
         case 'MARKDOWN_PREVIEW':
@@ -463,15 +383,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;
-        }
-
-        const displayJoinLeaveSection = this.renderJoinLeaveSection();
-        let displayJoinLeaveSectionDivider = null;
-        if (displayJoinLeaveSection) {
-            displayJoinLeaveSectionDivider = <div className='divider-light'/>;
-            this.prevSections.advancedPreviewFeatures = 'join_leave';
-        } else {
-            this.prevSections.advancedPreviewFeatures = this.prevSections.join_leave;
         }
 
         let previewFeaturesSection;
@@ -675,8 +586,13 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     {ctrlSendSection}
                     {formattingSectionDivider}
                     {formattingSection}
-                    {displayJoinLeaveSectionDivider}
-                    {displayJoinLeaveSection}
+                    <div className='divider-light'/>
+                    <JoinLeaveSection
+                        activeSection={this.props.activeSection}
+                        onUpdateSection={this.handleUpdateSection}
+                        prevActiveSection={this.props.prevActiveSection}
+                        renderOnOffLabel={this.renderOnOffLabel}
+                    />
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
                     {formattingSectionDivider}
@@ -696,7 +612,5 @@ AdvancedSettingsDisplay.propTypes = {
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
     enablePreviewFeatures: PropTypes.bool,
-    buildEnterpriseReady: PropTypes.bool,
-    isLicensed: PropTypes.bool,
     enableUserDeactivation: PropTypes.bool,
 };

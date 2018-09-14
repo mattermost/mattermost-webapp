@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
+<SettingItemMin
+  focused={false}
+  section="joinLeave"
+  title={
+    <FormattedMessage
+      defaultMessage="Enable Join/Leave Messages"
+      id="user.settings.advance.joinLeaveTitle"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+/>
+`;
+
+exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 2`] = `
+<SettingItemMax
+  containerStyle=""
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <div
+          className="radio"
+        >
+          <label>
+            <input
+              checked={true}
+              id="joinLeaveOn"
+              name="joinLeave"
+              onChange={[Function]}
+              type="radio"
+              value="true"
+            />
+            <FormattedMessage
+              defaultMessage="On"
+              id="user.settings.advance.on"
+              values={Object {}}
+            />
+          </label>
+          <br />
+        </div>
+        <div
+          className="radio"
+        >
+          <label>
+            <input
+              checked={false}
+              id="joinLeaveOff"
+              name="joinLeave"
+              onChange={[Function]}
+              type="radio"
+              value="false"
+            />
+            <FormattedMessage
+              defaultMessage="Off"
+              id="user.settings.advance.off"
+              values={Object {}}
+            />
+          </label>
+          <br />
+        </div>
+        <div>
+          <br />
+          <FormattedMessage
+            defaultMessage="When \\"On\\", System Messages saying a user has joined or left a channel will be visible. When \\"Off\\", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification."
+            id="user.settings.advance.joinLeaveDesc"
+            values={Object {}}
+          />
+        </div>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  setting="joinLeave"
+  submit={[Function]}
+  title={
+    <FormattedMessage
+      defaultMessage="Enable Join/Leave Messages"
+      id="user.settings.advance.joinLeaveTitle"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+/>
+`;
