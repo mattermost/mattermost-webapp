@@ -23,6 +23,8 @@ import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
 import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import JobsTable from 'components/admin_console/jobs';
+import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx';
+import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -43,6 +45,7 @@ export default class SchemaAdminSettings extends AdminSettings {
             [SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
             [SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
             [SettingsTypes.TYPE_JOBSTABLE]: this.buildJobsTableSetting,
+            [SettingsTypes.TYPE_FILE_UPLOAD]: this.buildFileUploadSetting,
             [SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
         };
     }
@@ -161,7 +164,7 @@ export default class SchemaAdminSettings extends AdminSettings {
                 let value = this.getConfigValue(config, setting.key);
 
                 if (setting.onConfigLoad) {
-                    value = setting.onConfigLoad(value);
+                    value = setting.onConfigLoad(value, config);
                 }
 
                 state[setting.key] = value == null ? setting.default : value;
@@ -191,6 +194,9 @@ export default class SchemaAdminSettings extends AdminSettings {
             if (this.isDisabled(setting)) {
                 return false;
             }
+        }
+        if (setting.type === SettingsTypes.TYPE_TEXT && setting.dynamic_value) {
+            return setting.dynamic_value(this.state[setting.key], this.props.config, this.state, this.props.license);
         }
 
         return this.state[setting.key];
@@ -598,6 +604,71 @@ export default class SchemaAdminSettings extends AdminSettings {
                         defaultMessage={setting.help_text_default}
                     />
                 }
+            />
+        );
+    }
+
+    buildFileUploadSetting = (setting) => {
+        if (this.state[setting.key]) {
+            const removeFile = (id, callback) => {
+                const successCallback = () => {
+                    this.handleChange(setting.key, '');
+                    this.setState({[setting.key]: null, [`${setting.key}Error`]: null});
+                };
+                const errorCallback = (error) => {
+                    callback();
+                    this.setState({[setting.key]: null, [`${setting.key}Error`]: error.message});
+                };
+                setting.remove_action(successCallback, errorCallback);
+            };
+            return (
+                <RemoveFileSetting
+                    id={this.props.schema.id}
+                    key={this.props.schema.id + '_fileupload_' + setting.key}
+                    label={this.renderLabel(setting)}
+                    helpText={
+                        <FormattedMessage
+                            id={setting.remove_help_text}
+                            defaultMessage={setting.remove_help_text_default}
+                        />
+                    }
+                    removeButtonText={Utils.localizeMessage(setting.remove_button_text, setting.remove_button_text_default)}
+                    removingText={Utils.localizeMessage(setting.removing_text, setting.removing_text_default)}
+                    fileName={this.state[setting.key]}
+                    onSubmit={removeFile}
+                    disabled={this.isDisabled(setting)}
+                    setByEnv={this.isSetByEnv(setting.key)}
+                />
+            );
+        }
+        const uploadFile = (id, file, callback) => {
+            const successCallback = () => {
+                const fileName = file.name;
+                this.handleChange(id, fileName);
+                this.setState({[setting.key]: fileName, [`${setting.key}Error`]: null});
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            };
+            const errorCallback = (error) => {
+                if (callback && typeof callback === 'function') {
+                    callback(error.message);
+                }
+            };
+            setting.upload_action(file, successCallback, errorCallback);
+        };
+        return (
+            <FileUploadSetting
+                id={setting.key}
+                key={this.props.schema.id + '_fileupload_' + setting.key}
+                label={this.renderLabel(setting)}
+                helpText={this.renderHelpText(setting)}
+                uploadingText={Utils.localizeMessage(setting.uploading_text, setting.uploading_text_default)}
+                disabled={this.isDisabled(setting)}
+                fileType={setting.fileType}
+                onSubmit={uploadFile}
+                error={this.state.idpCertificateFileError}
+                setByEnv={this.isSetByEnv(setting.key)}
             />
         );
     }

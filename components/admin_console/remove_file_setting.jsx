@@ -21,12 +21,7 @@ export default class RemoveFileSetting extends Setting {
         };
     }
 
-    constructor(props) {
-        super(props);
-        this.handleRemove = this.handleRemove.bind(this);
-    }
-
-    handleRemove(e) {
+    handleRemove = (e) => {
         e.preventDefault();
 
         $(this.refs.remove_button).button('loading');

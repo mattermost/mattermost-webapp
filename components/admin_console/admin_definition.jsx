@@ -6,7 +6,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
-import {ldapTest, invalidateAllCaches, reloadConfig, testS3Connection} from 'actions/admin_actions';
+import {
+    ldapTest, invalidateAllCaches, reloadConfig, testS3Connection,
+    removeIdpSamlCertificate, uploadIdpSamlCertificate,
+    removePrivateSamlCertificate, uploadPrivateSamlCertificate,
+    removePublicSamlCertificate, uploadPublicSamlCertificate,
+} from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -70,6 +75,7 @@ const MEBIBYTE = Math.pow(1024, 2);
 // Text Widget (extends from Setting Widget)
 //   - placeholder (and placeholder_default): Placeholder text to show in the input.
 //   - dynamic_value: function that generate the value of the field based on the current value, the config, the state and the license.
+//   - default_value: function that generate the default value of the field based on the config, the state and the license.
 //
 // Button Widget (extends from Setting Widget)
 //   - action: A redux action to execute on click.
@@ -86,6 +92,17 @@ const MEBIBYTE = Math.pow(1024, 2);
 //
 // Permissions Flag (extends from Setting Widget)
 //   - permissions_mapping_name: A permission name in the utils/policy_roles_adapter.js file.
+//
+// FileUpload (extends from Setting Widget)
+//   - remove_help_text (and remove_help_text_default):  Long description of the field when a file is uploaded.
+//   - remove_help_text_markdown: True if the translation text contains markdown.
+//   - remove_help_text_values: Values to fill the translation (if needed).
+//   - remove_button_text (and remove_button_text_default): Button text for remove when the file is uploaded.
+//   - removing_text (and removing_text_default): Text shown while the system is removing the file.
+//   - uploading_text (and uploading_text_default): Text shown while the system is uploading the file.
+//   - upload_action: An store action to upload the file.
+//   - remove_action: An store action to remove the file.
+//   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const needsUtils = {
     not: (func) => (config, state, license) => !func(config, state, license),
@@ -1243,6 +1260,274 @@ export default {
                                     />
                                 );
                             },
+                        },
+                    ],
+                },
+            },
+            saml: {
+                schema: {
+                    id: 'SamlSettings',
+                    name: 'admin.authentication.saml',
+                    name_default: 'SAML 2.0',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'SamlSettings.Enable',
+                            label: 'admin.saml.enableTitle',
+                            label_default: 'Enable Login With SAML 2.0:',
+                            help_text: 'admin.saml.enableDescription',
+                            help_text_default: 'When true, Mattermost allows login using SAML 2.0. Please see [documentation](!http://docs.mattermost.com/deployment/sso-saml.html) to learn more about configuring SAML for Mattermost.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'SamlSettings.EnableSyncWithLdap',
+                            label: 'admin.saml.enableSyncWithLdapTitle',
+                            label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
+                            help_text: 'admin.saml.enableSyncWithLdapDescription',
+                            help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://about.mattermost.com/default-saml-ldap-sync) to learn more.',
+                            help_text_markdown: true,
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'SamlSettings.EnableSyncWithLdapIncludeAuth',
+                            label: 'admin.saml.enableSyncWithLdapIncludeAuthTitle',
+                            label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
+                            help_text: 'admin.saml.enableSyncWithLdapIncludeAuthDescription',
+                            help_text_default: 'When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.',
+                            help_text_markdown: true,
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('SamlSettings.Enable'),
+                                needsUtils.stateValueFalse('SamlSettings.EnableSyncWithLdap'),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.IdpUrl',
+                            label: 'admin.saml.idpUrlTitle',
+                            label_default: 'SAML SSO URL:',
+                            help_text: 'admin.saml.idpUrlDesc',
+                            help_text_default: 'The URL where Mattermost sends a SAML request to start login sequence.',
+                            placeholder: 'admin.saml.idpUrlEx',
+                            placeholder_default: 'E.g.: "https://idp.example.org/SAML2/SSO/Login"',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.IdpDescriptorUrl',
+                            label: 'admin.saml.idpDescriptorUrlTitle',
+                            label_default: 'Identity Provider Issuer URL:',
+                            help_text: 'admin.saml.idpDescriptorUrlDesc',
+                            help_text_default: 'The issuer URL for the Identity Provider you use for SAML requests.',
+                            placeholder: 'admin.saml.idpDescriptorUrlEx',
+                            placeholder_default: 'E.g.: "https://idp.example.org/SAML2/issuer"',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
+                            key: 'SamlSettings.IdpCertificateFile',
+                            label: 'admin.saml.idpCertificateFileTitle',
+                            label_default: 'Identity Provider Public Certificate:',
+                            help_text: 'admin.saml.idpCertificateFileDesc',
+                            help_text_default: 'The public authentication certificate issued by your Identity Provider.',
+                            remove_help_text: 'admin.saml.idpCertificateFileRemoveDesc',
+                            remove_help_text_default: 'Remove the public authentication certificate issued by your Identity Provider.',
+                            remove_button_text: 'admin.saml.remove.idp_certificate',
+                            remove_button_text_default: 'Remove Identity Provider Certificate',
+                            removing_text: 'admin.saml.removing.certificate',
+                            removing_text_default: 'Removing Certificate...',
+                            uploading_text: 'admin.saml.uploading.certificate',
+                            uploading_text_default: 'Uploading Certificate...',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                            fileType: '.crt,.cer,.cert,.pem',
+                            upload_action: uploadIdpSamlCertificate,
+                            remove_action: removeIdpSamlCertificate,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'SamlSettings.Verify',
+                            label: 'admin.saml.verifyTitle',
+                            label_default: 'Verify Signature:',
+                            help_text: 'admin.saml.verifyDescription',
+                            help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.AssertionConsumerServiceURL',
+                            label: 'admin.saml.assertionConsumerServiceURLTitle',
+                            label_default: 'Service Provider Login URL:',
+                            help_text: 'admin.saml.assertionConsumerServiceURLPopulatedDesc',
+                            help_text_default: 'This field is also known as the Assertion Consumer Service URL.',
+                            placeholder: 'admin.saml.assertionConsumerServiceURLEx',
+                            placeholder_default: 'E.g.: "https://<your-mattermost-url>/login/sso/saml"',
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('SamlSettings.Enable'),
+                                needsUtils.stateValueFalse('SamlSettings.Verify'),
+                            ),
+                            onConfigLoad: (value, config) => {
+                                const siteUrl = config.ServiceSettings.SiteURL;
+                                if (siteUrl.length > 0 && value.length === 0) {
+                                    const addSlashIfNeeded = siteUrl[siteUrl.length - 1] === '/' ? '' : '/';
+                                    return `${siteUrl}${addSlashIfNeeded}login/sso/saml`;
+                                }
+                                return value;
+                            },
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'SamlSettings.Encrypt',
+                            label: 'admin.saml.encryptTitle',
+                            label_default: 'Enable Encryption:',
+                            help_text: 'admin.saml.encryptDescription',
+                            help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Not recommended for production environments. For testing only.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
+                            key: 'SamlSettings.PrivateKeyFile',
+                            label: 'admin.saml.privateKeyFileTitle',
+                            label_default: 'Service Provider Private Key:',
+                            help_text: 'admin.saml.privateKeyFileFileDesc',
+                            help_text_default: 'The private key used to decrypt SAML Assertions from the Identity Provider.',
+                            remove_help_text: 'admin.saml.privateKeyFileFileRemoveDesc',
+                            remove_help_text_default: 'Remove the private key used to decrypt SAML Assertions from the Identity Provider.',
+                            remove_button_text: 'admin.saml.remove.privKey',
+                            remove_button_text_default: 'Remove Service Provider Private Key',
+                            removing_text: 'admin.saml.removing.privKey',
+                            removing_text_default: 'Removing Private Key...',
+                            uploading_text: 'admin.saml.uploading.privateKey',
+                            uploading_text_default: 'Uploading Private Key...',
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('SamlSettings.Enable'),
+                                needsUtils.stateValueFalse('SamlSettings.Encrypt'),
+                            ),
+                            fileType: '.key',
+                            upload_action: uploadPrivateSamlCertificate,
+                            remove_action: removePrivateSamlCertificate,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
+                            key: 'SamlSettings.PublicCertificateFile',
+                            label: 'admin.saml.publicCertificateFileTitle',
+                            label_default: 'Service Provider Public Certificate:',
+                            help_text: 'admin.saml.publicCertificateFileDesc',
+                            help_text_default: 'The certificate used to generate the signature on a SAML request to the Identity Provider for a service provider initiated SAML login, when Mattermost is the Service Provider.',
+                            remove_help_text: 'admin.saml.publicCertificateFileRemoveDesc',
+                            remove_help_text_default: 'Remove the certificate used to generate the signature on a SAML request to the Identity Provider for a service provider initiated SAML login, when Mattermost is the Service Provider.',
+                            remove_button_text: 'admin.saml.remove.sp_certificate',
+                            remove_button_text_default: 'Remove Service Provider Certificate',
+                            removing_text: 'admin.saml.removing.certificate',
+                            removing_text_default: 'Removing Certificate...',
+                            uploading_text: 'admin.saml.uploading.certificate',
+                            uploading_text_default: 'Uploading Certificate...',
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('SamlSettings.Enable'),
+                                needsUtils.stateValueFalse('SamlSettings.Encrypt'),
+                            ),
+                            fileType: '.crt,.cer',
+                            upload_action: uploadPublicSamlCertificate,
+                            remove_action: removePublicSamlCertificate,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.EmailAttribute',
+                            label: 'admin.saml.emailAttrTitle',
+                            label_default: 'Email Attribute:',
+                            placeholder: 'admin.saml.emailAttrEx',
+                            placeholder_default: 'E.g.: "Email" or "PrimaryEmail"',
+                            help_text: 'admin.saml.emailAttrDesc',
+                            help_text_default: 'The attribute in the SAML Assertion that will be used to populate the email addresses of users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.UsernameAttribute',
+                            label: 'admin.saml.usernameAttrTitle',
+                            label_default: 'Username Attribute:',
+                            placeholder: 'admin.saml.usernameAttrEx',
+                            placeholder_default: 'E.g.: "Username"',
+                            help_text: 'admin.saml.usernameAttrDesc',
+                            help_text_default: 'The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.IdAttribute',
+                            label: 'admin.saml.idAttrTitle',
+                            label_default: 'Id Attribute:',
+                            placeholder: 'admin.saml.idAttrEx',
+                            placeholder_default: 'E.g.: "Id"',
+                            help_text: 'admin.saml.idAttrDesc',
+                            help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.FirstNameAttribute',
+                            label: 'admin.saml.firstnameAttrTitle',
+                            label_default: 'First Name Attribute:',
+                            placeholder: 'admin.saml.firstnameAttrEx',
+                            placeholder_default: 'E.g.: "FirstName"',
+                            help_text: 'admin.saml.firstnameAttrDesc',
+                            help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.LastNameAttribute',
+                            label: 'admin.saml.lastnameAttrTitle',
+                            label_default: 'Last Name Attribute:',
+                            placeholder: 'admin.saml.lastnameAttrEx',
+                            placeholder_default: 'E.g.: "LastName"',
+                            help_text: 'admin.saml.lastnameAttrDesc',
+                            help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.NicknameAttribute',
+                            label: 'admin.saml.nicknameAttrTitle',
+                            label_default: 'Nickname Attribute:',
+                            placeholder: 'admin.saml.nicknameAttrEx',
+                            placeholder_default: 'E.g.: "Nickname"',
+                            help_text: 'admin.saml.nicknameAttrDesc',
+                            help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.PositionAttribute',
+                            label: 'admin.saml.positionAttrTitle',
+                            label_default: 'Position Attribute:',
+                            placeholder: 'admin.saml.positionAttrEx',
+                            placeholder_default: 'E.g.: "Role"',
+                            help_text: 'admin.saml.positionAttrDesc',
+                            help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the position of users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.LocaleAttribute',
+                            label: 'admin.saml.localeAttrTitle',
+                            label_default: 'Preferred Language Attribute:',
+                            placeholder: 'admin.saml.localeAttrEx',
+                            placeholder_default: 'E.g.: "Locale" or "PrimaryLanguage"',
+                            help_text: 'admin.saml.localeAttrDesc',
+                            help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the language of users in Mattermost.',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'SamlSettings.LoginButtonText',
+                            label: 'admin.saml.loginButtonTextTitle',
+                            label_default: 'Login Button Text:',
+                            placeholder: 'admin.saml.loginButtonTextEx',
+                            placeholder_default: 'E.g.: "With OKTA"',
+                            help_text: 'admin.saml.loginButtonTextDesc',
+                            help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "With SAML".',
+                            isDisabled: needsUtils.stateValueFalse('SamlSettings.Enable'),
                         },
                     ],
                 },
