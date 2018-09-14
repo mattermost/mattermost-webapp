@@ -24,6 +24,7 @@ import PermissionSystemSchemeSettings from './permission_schemes_settings/permis
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
 import SystemUsers from './system_users';
 import ServerLogs from './server_logs';
+import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -76,6 +77,7 @@ const MEBIBYTE = Math.pow(1024, 2);
 //   - placeholder (and placeholder_default): Placeholder text to show in the input.
 //   - dynamic_value: function that generate the value of the field based on the current value, the config, the state and the license.
 //   - default_value: function that generate the default value of the field based on the config, the state and the license.
+//   - max_length: The maximun length allowed
 //
 // Button Widget (extends from Setting Widget)
 //   - action: A redux action to execute on click.
@@ -2131,6 +2133,60 @@ export default {
             },
         },
         customization: {
+            customBrand: {
+                schema: {
+                    id: 'CustomBrandSettings',
+                    name: 'admin.customization.customBrand',
+                    name_default: 'Custom Branding',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'TeamSettings.SiteName',
+                            label: 'admin.team.siteNameTitle',
+                            label_default: 'Site Name:',
+                            help_text: 'admin.team.siteNameDescription',
+                            help_text_default: 'Name of service shown in login screens and UI.',
+                            placeholder: 'admin.team.siteNameExample',
+                            placeholder_default: 'E.g.: "Mattermost"',
+                            max_length: Constants.MAX_SITENAME_LENGTH,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'TeamSettings.CustomDescriptionText',
+                            label: 'admin.team.brandDescriptionTitle',
+                            label_default: 'Site Description: ',
+                            help_text: 'admin.team.brandDescriptionHelp',
+                            help_text_default: 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.',
+                            placeholder: 'web.root.signup_info',
+                            placeholder_default: 'All team communication in one place, searchable and accessible anywhere',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'TeamSettings.EnableCustomBrand',
+                            label: 'admin.team.brandTitle',
+                            label_default: 'Enable Custom Branding: ',
+                            help_text: 'admin.team.brandDesc',
+                            help_text_default: 'Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_CUSTOM,
+                            component: BrandImageSetting,
+                            isDisabled: needsUtils.stateValueFalse('TeamSettings.EnableCustomBrand'),
+                            key: 'CustomBrandImage',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_LONG_TEXT,
+                            key: 'TeamSettings.CustomBrandText',
+                            label: 'admin.team.brandTextTitle',
+                            label_default: 'Custom Brand Text:',
+                            help_text: 'admin.team.brandTextDescription',
+                            help_text_default: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.',
+                            isDisabled: needsUtils.stateValueFalse('TeamSettings.EnableCustomBrand'),
+                            max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
+                        },
+                    ],
+                },
+            },
             announcement: {
                 schema: {
                     id: 'AnnouncementSettings',

@@ -12,7 +12,6 @@ import SystemNotice from 'components/system_notice';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import ClientVersionsSettings from 'components/admin_console/client_versions_settings.jsx';
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
-import CustomBrandSettings from 'components/admin_console/custom_brand_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
 import CustomGifSettings from 'components/admin_console/custom_gif_settings.jsx';
 import DataRetentionSettings from 'components/admin_console/data_retention_settings.jsx';
@@ -426,8 +425,11 @@ export default class AdminConsole extends React.Component {
                                 <Switch>
                                     <SCRoute
                                         path={`${props.match.url}/custom_brand`}
-                                        component={CustomBrandSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.customization.customBrand.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/announcement`}
