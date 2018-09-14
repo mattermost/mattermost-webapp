@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getProfilesByUsernames} from 'mattermost-redux/actions/users';
+import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getChannel, getCurrentChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -17,7 +17,7 @@ import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
-export async function sendDesktopNotification(post, msgProps) {
+export function sendDesktopNotification(post, msgProps) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -28,6 +28,14 @@ export async function sendDesktopNotification(post, msgProps) {
 
         if (isSystemMessage(post)) {
             return;
+        }
+
+        let userFromPost = getUser(state, post.user_id);
+        if (!userFromPost) {
+            const missingProfileResponse = await dispatch(getProfilesByIds([post.user_id]));
+            if (missingProfileResponse.data && missingProfileResponse.data.length) {
+                userFromPost = missingProfileResponse.data[0];
+            }
         }
 
         let mentions = [];
@@ -57,19 +65,13 @@ export async function sendDesktopNotification(post, msgProps) {
         }
 
         const config = getConfig(state);
-        const userFromPost = getUser(state, post.user_id);
         let username = '';
         if (post.props.override_username && config.EnablePostUsernameOverride === 'true') {
             username = post.props.override_username;
         } else if (userFromPost) {
             username = displayUsername(userFromPost, getTeammateNameDisplaySetting(state), false);
         } else {
-            const missingProfileResponse = await dispatch(getProfilesByUsernames([msgProps.sender_name]));
-            if (missingProfileResponse.data && missingProfileResponse.data.length) {
-                username = displayUsername(missingProfileResponse.data[0], getTeammateNameDisplaySetting(state), false);
-            } else {
-                username = Utils.localizeMessage('channel_loader.someone', 'Someone');
-            }
+            username = Utils.localizeMessage('channel_loader.someone', 'Someone');
         }
 
         let title = Utils.localizeMessage('channel_loader.posted', 'Posted');
