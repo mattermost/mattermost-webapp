@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FilePreview from 'components/file_preview.jsx';
+import FilePreview from 'components/file_preview/file_preview.jsx';
 
 describe('component/FilePreview', () => {
     const onRemove = jest.fn();
@@ -51,7 +51,7 @@ describe('component/FilePreview', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot', () => {
+    test('should call handleRemove when file removed', () => {
         const newOnRemove = jest.fn();
         const props = {...baseProps, onRemove: newOnRemove};
         const wrapper = shallow(

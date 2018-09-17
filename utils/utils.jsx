@@ -794,6 +794,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .post .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
         changeCss('.app__body .post .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
+        changeCss('.file-upload-progress__circle .file-upload-progress__circle-path, .file-upload-progress__circle .file-upload-progress__inside-text', 'stroke:' + theme.centerChannelColor);
+        changeCss('.file-upload-progress__circle .file-upload-progress__circle-path, .file-upload-progress__circle .file-upload-progress__inside-text', 'fill:' + theme.centerChannelColor);
 
         if (theme.centerChannelBg) {
             const ownPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);

@@ -20,7 +20,7 @@ import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview.jsx';
+import FilePreview from 'components/file_preview/file_preview.jsx';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
@@ -223,6 +223,7 @@ export default class CreatePost extends React.Component {
             enableSendButton: false,
             showEmojiPicker: false,
             showConfirmModal: false,
+            handleUploadProgress: {},
         };
 
         this.lastBlurAt = 0;
@@ -544,6 +545,11 @@ export default class CreatePost extends React.Component {
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
         this.focusTextbox();
+    }
+
+    handleUploadProgress = (clientId, name, percent) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name}};
+        this.setState({uploadsProgressPercent});
     }
 
     handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
@@ -897,6 +903,7 @@ export default class CreatePost extends React.Component {
                     fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
                 />
             );
         }
@@ -935,6 +942,7 @@ export default class CreatePost extends React.Component {
                     getTarget={this.getFileUploadTarget}
                     onFileUploadChange={this.handleFileUploadChange}
                     onUploadStart={this.handleUploadStart}
+                    onUploadProgress={this.handleUploadProgress}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
                     postType='post'
