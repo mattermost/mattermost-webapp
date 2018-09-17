@@ -35,10 +35,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
          */
         openGraphData: PropTypes.object,
 
-        /**
-         * Set to collapse the preview
-         */
-        previewCollapsed: PropTypes.string,
+        isEmbedVisible: PropTypes.bool,
+        toggleEmbedVisibility: PropTypes.func.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -72,7 +71,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         };
 
         this.fetchData = this.fetchData.bind(this);
-        this.toggleImageVisibility = this.toggleImageVisibility.bind(this);
         this.onImageLoad = this.onImageLoad.bind(this);
         this.onImageError = this.onImageError.bind(this);
         this.handleRemovePreview = this.handleRemovePreview.bind(this);
@@ -83,7 +81,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         this.setState({
             imageLoaded: this.IMAGE_LOADED.LOADING,
-            imageVisible: this.props.previewCollapsed.startsWith('false'),
             hasLargeImage: false,
             removePreview,
         });
@@ -99,11 +96,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
         if (nextProps.link !== this.props.link) {
             this.fetchData(nextProps.link);
-        }
-        if (nextProps.previewCollapsed !== this.props.previewCollapsed) {
-            this.setState({
-                imageVisible: nextProps.previewCollapsed.startsWith('false'),
-            });
         }
     }
 
@@ -124,10 +116,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         const bestImage = CommonUtils.getNearestPoint(this.imageDimentions, data.images, 'width', 'height');
         return bestImage.secure_url || bestImage.url;
-    }
-
-    toggleImageVisibility() {
-        this.setState({imageVisible: !this.state.imageVisible});
     }
 
     onImageLoad(image) {
@@ -162,9 +150,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             return (
                 <a
                     className={'post__embed-visibility'}
-                    data-expanded={this.state.imageVisible}
+                    data-expanded={this.props.isEmbedVisible}
                     aria-label='Toggle Embed Visibility'
-                    onClick={this.toggleImageVisibility}
+                    onClick={this.props.toggleEmbedVisibility}
                 />
             );
         }
@@ -194,7 +182,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         var element = null;
         if (
             imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
-            (!renderingForLargeImage || (renderingForLargeImage && this.state.imageVisible))
+            (!renderingForLargeImage || (renderingForLargeImage && this.props.isEmbedVisible))
         ) {
             if (this.state.imageLoaded === this.IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {

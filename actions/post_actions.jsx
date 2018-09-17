@@ -9,14 +9,21 @@ import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 import {comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
+import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
+import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
-import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
+import {
+    ActionTypes,
+    Constants,
+    RHSStates,
+    StoragePrefixes,
+} from 'utils/constants';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
@@ -352,4 +359,16 @@ export function deleteAndRemovePost(post) {
 
         return {data: true};
     };
+}
+
+export function toggleEmbedVisibility(postId) {
+    return (doDispatch, doGetState) => {
+        const visible = isEmbedVisible(doGetState(), postId);
+
+        doDispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + postId, !visible));
+    };
+}
+
+export function resetEmbedVisibility() {
+    return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }

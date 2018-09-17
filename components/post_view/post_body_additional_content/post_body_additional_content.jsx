@@ -4,9 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import BrowserStore from 'stores/browser_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {StoragePrefixes} from 'utils/constants.jsx';
 import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 import Constants from 'utils/constants';
@@ -28,11 +26,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
          * The post's message
          */
         children: PropTypes.element.isRequired,
-
-        /**
-         * Set to collapse image and video previews
-         */
-        previewCollapsed: PropTypes.string,
 
         /**
          * User's preference to link previews
@@ -61,11 +54,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
         actions: PropTypes.shape({
             getRedirectLocation: PropTypes.func.isRequired,
+            toggleEmbedVisibility: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     static defaultProps = {
-        previewCollapsed: '',
         previewEnabled: false,
     }
 
@@ -126,8 +119,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     toggleEmbedVisibility = () => {
-        // save the toggle info in the localstorage
-        BrowserStore.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + this.props.post.id, !this.props.isEmbedVisible);
+        this.props.actions.toggleEmbedVisibility(this.props.post.id);
     }
 
     getSlackAttachment() {
@@ -258,8 +250,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return (
                 <PostAttachmentOpenGraph
                     link={link}
-                    previewCollapsed={this.props.previewCollapsed}
+                    isEmbedVisible={this.props.isEmbedVisible}
                     post={this.props.post}
+                    toggleEmbedVisibility={this.toggleEmbedVisibility}
                 />
             );
         }

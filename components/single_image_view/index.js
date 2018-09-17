@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import {toggleEmbedVisibility} from 'actions/post_actions';
 
 import {getIsRhsOpen} from 'selectors/rhs';
 
@@ -15,4 +18,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(SingleImageView);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            toggleEmbedVisibility,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleImageView);

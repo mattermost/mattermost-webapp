@@ -8,7 +8,6 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
-import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
@@ -19,7 +18,7 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, Preferences, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, Preferences} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
@@ -111,7 +110,7 @@ export function executeCommand(message, args, success, error) {
         return;
     case '/collapse':
     case '/expand':
-        actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null)(dispatch, getState);
+        dispatch(PostActions.resetEmbedVisibility());
     }
 
     Client4.executeCommand(msg, args).then(

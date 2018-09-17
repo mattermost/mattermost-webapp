@@ -9,13 +9,12 @@ import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost} from 'mattermost-redux/actions/posts';
 
 import {Preferences} from 'utils/constants.jsx';
-import {getSelectedPost, makeGetPostsEmbedVisibleObj} from 'selectors/rhs.jsx';
+import {getSelectedPost} from 'selectors/rhs.jsx';
 
 import RhsThread from './rhs_thread.jsx';
 
 function makeMapStateToProps() {
     const getPostsForThread = makeGetPostsForThread();
-    const getPostsEmbedVisibleObj = makeGetPostsEmbedVisibleObj();
 
     return function mapStateToProps(state) {
         const selected = getSelectedPost(state);
@@ -28,14 +27,12 @@ function makeMapStateToProps() {
         }
 
         const previewCollapsed = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT);
-        const postsEmbedVisibleObj = getPostsEmbedVisibleObj(state, posts);
 
         return {
             selected,
             channel,
             posts,
             previewCollapsed,
-            postsEmbedVisibleObj,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
         };
     };

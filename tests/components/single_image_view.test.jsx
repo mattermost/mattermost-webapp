@@ -4,13 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import BrowserStore from 'stores/browser_store.jsx';
-
 import SingleImageView from 'components/single_image_view/single_image_view.jsx';
-
-jest.mock('stores/browser_store.jsx', () => ({
-    setGlobalItem: jest.fn(),
-}));
 
 describe('components/SingleImageView', () => {
     const baseProps = {
@@ -25,7 +19,11 @@ describe('components/SingleImageView', () => {
         },
         isRhsOpen: false,
         isEmbedVisible: true,
+        actions: {
+            toggleEmbedVisibility: () => null,
+        },
     };
+
     test('should match snapshot', () => {
         const wrapper = shallow(
             <SingleImageView {...baseProps}/>
@@ -130,13 +128,21 @@ describe('components/SingleImageView', () => {
         expect(wrapper.instance().computeImageDimensions()).toEqual({previewHeight: 350, previewWidth: 204.16666666666669});
     });
 
-    test('should call BrowserStore.setGlobalItem on toggleEmbedVisibility', () => {
+    test('should call toggleEmbedVisibility with post id', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                toggleEmbedVisibility: jest.fn(),
+            },
+        };
+
         const wrapper = shallow(
-            <SingleImageView {...baseProps}/>
+            <SingleImageView {...props}/>
         );
 
         wrapper.instance().toggleEmbedVisibility();
-        expect(BrowserStore.setGlobalItem).toHaveBeenCalledTimes(1);
-        expect(BrowserStore.setGlobalItem).toBeCalledWith('isVisible_post_id', false);
+        expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
+        expect(props.actions.toggleEmbedVisibility).toBeCalledWith('post_id');
     });
 });

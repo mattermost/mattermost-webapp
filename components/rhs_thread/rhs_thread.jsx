@@ -59,7 +59,6 @@ export default class RhsThread extends React.Component {
         currentUser: PropTypes.object.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
-        postsEmbedVisibleObj: PropTypes.object,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
         }).isRequired,
@@ -175,9 +174,6 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextState.topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
-            return true;
-        }
-        if (nextProps.postsEmbedVisibleObj !== this.props.postsEmbedVisibleObj) {
             return true;
         }
 
@@ -372,7 +368,6 @@ export default class RhsThread extends React.Component {
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
-                    isEmbedVisible={this.props.postsEmbedVisibleObj[comPost.id]}
                 />
             );
         }
@@ -460,7 +455,6 @@ export default class RhsThread extends React.Component {
                             previewCollapsed={this.props.previewCollapsed}
                             previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}
-                            isEmbedVisible={this.props.postsEmbedVisibleObj[selected.id]}
                         />
                         {isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                         <div
