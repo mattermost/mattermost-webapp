@@ -90,12 +90,13 @@ export default class ActionMenu extends React.PureComponent {
         let submitted;
         if (this.state.selected) {
             submitted = (
-                <span>
+                <div className='alert alert-success'>
+                    <i className='fa fa-check margin-right margin-right--half'/>
                     <FormattedMessage
                         id='action_menu.submitted'
                         defaultMessage='Submitted'
                     />
-                </span>
+                </div>
             );
         }
 

@@ -71,6 +71,10 @@
 .margin-right {
     margin-right: 7px;
 
+    &.margin-right--half {
+        margin-right: 3px;
+    }
+
     &.x2 {
         margin-right: 14px;
     }

@@ -314,6 +314,7 @@
 
         .attachment-actions {
             margin-top: 9px;
+            position: relative;
 
             button {
                 @include border-radius(3px);
@@ -324,6 +325,13 @@
                 height: 30px;
                 font-size: 13px;
                 font-weight: 700;
+            }
+
+            .alert {
+                position: absolute;
+                top: 0;
+                left: 23rem;
+                padding: 5px 10px;
             }
         }
     }

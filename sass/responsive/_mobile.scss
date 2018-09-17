@@ -1414,6 +1414,16 @@
 
     .post {
         .attachment {
+            .attachment-actions {
+                .alert {
+                    position: relative;
+                    left: 0;
+                    top: 0;
+                    margin: 1rem 0 0.4rem;
+                    display: inline-block;
+                }
+            }
+
             .attachment__body__wrap {
                 .btn-close {
                     height: 30px;

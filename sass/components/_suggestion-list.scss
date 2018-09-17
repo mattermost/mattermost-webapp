@@ -36,7 +36,8 @@
     background-color: $white;
     border: $border-gray;
     max-height: 292px;
-    overflow-x: hidden;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     overflow-y: scroll;
     padding-bottom: 5px;
     width: 100%;
@@ -102,12 +103,8 @@
 
 .suggestion-list__no-results {
     line-height: 21px;
-    margin: 5px 0 5px 5px;
+    margin: 7px 10px 2px;
     position: relative;
-
-    &:first-child {
-        margin-top: 5px;
-    }
 
     > span {
         display: inline-block;
