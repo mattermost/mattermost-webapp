@@ -8,6 +8,7 @@ import * as PostActions from 'actions/post_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions';
 
 import {isUrlSafe} from 'utils/url.jsx';
+import * as Utils from 'utils/utils';
 
 import Markdown from 'components/markdown';
 
@@ -322,6 +323,7 @@ export default class PostAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
+                                onClick={Utils.handleFormattedTextClick}
                             >
                                 {attachmentText}
                                 {image}
