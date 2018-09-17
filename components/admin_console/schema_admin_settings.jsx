@@ -2,17 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {Overlay, Tooltip} from 'react-bootstrap';
 
 import * as I18n from 'i18n/i18n.jsx';
 
-import {SettingsTypes} from 'utils/constants.jsx';
+import {saveConfig} from 'actions/admin_actions.jsx';
+import Constants from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import LoadingScreen from 'components/loading_screen.jsx';
-import AdminSettings from 'components/admin_console/admin_settings.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
 import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
@@ -25,44 +27,60 @@ import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import JobsTable from 'components/admin_console/jobs';
 import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx';
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
+import SaveButton from 'components/save_button.jsx';
+import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class SchemaAdminSettings extends AdminSettings {
+export default class SchemaAdminSettings extends React.Component {
+    static propTypes = {
+        config: PropTypes.object,
+        environmentConfig: PropTypes.object,
+        setNavigationBlocked: PropTypes.func,
+    }
+
     constructor(props) {
         super(props);
+        this.isPlugin = false;
+
         this.buildSettingFunctions = {
-            [SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
-            [SettingsTypes.TYPE_LONG_TEXT]: this.buildTextSetting,
-            [SettingsTypes.TYPE_NUMBER]: this.buildTextSetting,
-            [SettingsTypes.TYPE_COLOR]: this.buildColorSetting,
-            [SettingsTypes.TYPE_BOOL]: this.buildBoolSetting,
-            [SettingsTypes.TYPE_PERMISSION]: this.buildPermissionSetting,
-            [SettingsTypes.TYPE_DROPDOWN]: this.buildDropdownSetting,
-            [SettingsTypes.TYPE_RADIO]: this.buildRadioSetting,
-            [SettingsTypes.TYPE_BANNER]: this.buildBannerSetting,
-            [SettingsTypes.TYPE_GENERATED]: this.buildGeneratedSetting,
-            [SettingsTypes.TYPE_USERNAME]: this.buildUsernameSetting,
-            [SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
-            [SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
-            [SettingsTypes.TYPE_JOBSTABLE]: this.buildJobsTableSetting,
-            [SettingsTypes.TYPE_FILE_UPLOAD]: this.buildFileUploadSetting,
-            [SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
+            [Constants.SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
+            [Constants.SettingsTypes.TYPE_LONG_TEXT]: this.buildTextSetting,
+            [Constants.SettingsTypes.TYPE_NUMBER]: this.buildTextSetting,
+            [Constants.SettingsTypes.TYPE_COLOR]: this.buildColorSetting,
+            [Constants.SettingsTypes.TYPE_BOOL]: this.buildBoolSetting,
+            [Constants.SettingsTypes.TYPE_PERMISSION]: this.buildPermissionSetting,
+            [Constants.SettingsTypes.TYPE_DROPDOWN]: this.buildDropdownSetting,
+            [Constants.SettingsTypes.TYPE_RADIO]: this.buildRadioSetting,
+            [Constants.SettingsTypes.TYPE_BANNER]: this.buildBannerSetting,
+            [Constants.SettingsTypes.TYPE_GENERATED]: this.buildGeneratedSetting,
+            [Constants.SettingsTypes.TYPE_USERNAME]: this.buildUsernameSetting,
+            [Constants.SettingsTypes.TYPE_BUTTON]: this.buildButtonSetting,
+            [Constants.SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
+            [Constants.SettingsTypes.TYPE_JOBSTABLE]: this.buildJobsTableSetting,
+            [Constants.SettingsTypes.TYPE_FILE_UPLOAD]: this.buildFileUploadSetting,
+            [Constants.SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
+        };
+        this.state = {
+            saveNeeded: false,
+            saving: false,
+            serverError: null,
+            errorTooltip: false,
         };
     }
 
-    componentDidMount() {
-        if (this.props.loadRolesIfNeeded) {
-            this.props.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']).then(() => {
-                this.setState(this.getStateFromConfig(this.props.config, this.props.schema));
-            });
+    static getDerivedStateFromProps(props, state) {
+        if (props.schema && props.schema.id !== state.prevSchemaId) {
+            return {
+                prevSchemaId: props.schema.id,
+                saveNeeded: false,
+                saving: false,
+                serverError: null,
+                errorTooltip: false,
+                ...SchemaAdminSettings.getStateFromConfig(props.config, props.schema, props.roles),
+            };
         }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.schema !== this.props.schema) {
-            this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
-        }
+        return null;
     }
 
     handleSubmit = async (e) => {
@@ -76,7 +94,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'permissions') {
             const settings = (this.props.schema && this.props.schema.settings) || [];
             const rolesBinding = settings.reduce((acc, val) => {
-                if (val.type === SettingsTypes.TYPE_PERMISSION) {
+                if (val.type === Constants.SettingsTypes.TYPE_PERMISSION) {
                     acc[val.permissions_mapping_name] = this.state[val.key].toString();
                 }
                 return acc;
@@ -103,7 +121,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         }
 
         if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'config') {
-            this.doSubmit();
+            this.doSubmit(null, this.getStateFromConfig);
         } else {
             this.setState({
                 saving: false,
@@ -124,13 +142,13 @@ export default class SchemaAdminSettings extends AdminSettings {
                     return;
                 }
 
-                if (setting.type === SettingsTypes.TYPE_PERMISSION) {
+                if (setting.type === Constants.SettingsTypes.TYPE_PERMISSION) {
                     this.setConfigValue(config, setting.key, null);
                     return;
                 }
 
                 let value = this.getSettingValue(setting);
-                const previousValue = this.getConfigValue(config, setting.key);
+                const previousValue = SchemaAdminSettings.getConfigValue(config, setting.key);
 
                 if (setting.onConfigSave) {
                     value = setting.onConfigSave(value, previousValue);
@@ -147,7 +165,7 @@ export default class SchemaAdminSettings extends AdminSettings {
         return config;
     }
 
-    getStateFromConfig(config, schema = this.props.schema) {
+    static getStateFromConfig(config, schema, roles) {
         let state = {};
 
         if (schema) {
@@ -157,12 +175,16 @@ export default class SchemaAdminSettings extends AdminSettings {
                     return;
                 }
 
-                if (setting.type === SettingsTypes.TYPE_PERMISSION && this.props.roles) {
-                    state[setting.key] = mappingValueFromRoles(setting.permissions_mapping_name, this.props.roles) === 'true';
+                if (setting.type === Constants.SettingsTypes.TYPE_PERMISSION) {
+                    try {
+                        state[setting.key] = mappingValueFromRoles(setting.permissions_mapping_name, roles) === 'true';
+                    } catch (e) {
+                        state[setting.key] = false;
+                    }
                     return;
                 }
 
-                let value = this.getConfigValue(config, setting.key);
+                let value = SchemaAdminSettings.getConfigValue(config, setting.key);
 
                 if (setting.onConfigLoad) {
                     value = setting.onConfigLoad(value, config);
@@ -191,12 +213,12 @@ export default class SchemaAdminSettings extends AdminSettings {
 
     getSettingValue(setting) {
         // Force boolean values to false when disabled.
-        if (setting.type === SettingsTypes.TYPE_BOOL) {
+        if (setting.type === Constants.SettingsTypes.TYPE_BOOL) {
             if (this.isDisabled(setting)) {
                 return false;
             }
         }
-        if (setting.type === SettingsTypes.TYPE_TEXT && setting.dynamic_value) {
+        if (setting.type === Constants.SettingsTypes.TYPE_TEXT && setting.dynamic_value) {
             return setting.dynamic_value(this.state[setting.key], this.props.config, this.state, this.props.license);
         }
 
@@ -341,9 +363,9 @@ export default class SchemaAdminSettings extends AdminSettings {
 
     buildTextSetting = (setting) => {
         let inputType = 'input';
-        if (setting.type === SettingsTypes.TYPE_NUMBER) {
+        if (setting.type === Constants.SettingsTypes.TYPE_NUMBER) {
             inputType = 'number';
-        } else if (setting.type === SettingsTypes.TYPE_LONG_TEXT) {
+        } else if (setting.type === Constants.SettingsTypes.TYPE_LONG_TEXT) {
             inputType = 'textarea';
         }
 
@@ -741,6 +763,98 @@ export default class SchemaAdminSettings extends AdminSettings {
         );
     }
 
+    closeTooltip = () => {
+        this.setState({errorTooltip: false});
+    }
+
+    openTooltip = (e) => {
+        const elm = e.currentTarget.querySelector('.control-label');
+        const isElipsis = elm.offsetWidth < elm.scrollWidth;
+        this.setState({errorTooltip: isElipsis});
+    }
+
+    doSubmit = (callback, getStateFromConfig) => {
+        this.setState({
+            saving: true,
+            serverError: null,
+        });
+
+        // clone config so that we aren't modifying data in the stores
+        let config = JSON.parse(JSON.stringify(this.props.config));
+        config = this.getConfigFromState(config);
+
+        saveConfig(
+            config,
+            (savedConfig) => {
+                this.setState(getStateFromConfig(savedConfig));
+
+                this.setState({
+                    saveNeeded: false,
+                    saving: false,
+                });
+
+                this.props.setNavigationBlocked(false);
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            },
+            (err) => {
+                this.setState({
+                    saving: false,
+                    serverError: err.message,
+                    serverErrorId: err.id,
+                });
+
+                if (callback) {
+                    callback();
+                }
+
+                if (this.handleSaved) {
+                    this.handleSaved(config);
+                }
+            }
+        );
+    };
+
+    static getConfigValue(config, path) {
+        const pathParts = path.split('.');
+
+        return pathParts.reduce((obj, pathPart) => {
+            if (!obj) {
+                return null;
+            }
+
+            return obj[pathPart];
+        }, config);
+    }
+
+    setConfigValue(config, path, value) {
+        function setValue(obj, pathParts) {
+            const part = pathParts[0];
+
+            if (pathParts.length === 1) {
+                obj[part] = value;
+            } else {
+                if (obj[part] == null) {
+                    obj[part] = {};
+                }
+
+                setValue(obj[part], pathParts.slice(1));
+            }
+        }
+
+        setValue(config, path.split('.'));
+    }
+
+    isSetByEnv = (path) => {
+        return Boolean(SchemaAdminSettings.getConfigValue(this.props.environmentConfig, path));
+    };
+
     render = () => {
         const schema = this.props.schema;
 
@@ -748,6 +862,45 @@ export default class SchemaAdminSettings extends AdminSettings {
             const CustomComponent = schema.component;
             return (<CustomComponent {...this.props}/>);
         }
-        return AdminSettings.prototype.render.call(this);
+        return (
+            <div className='wrapper--fixed'>
+                <h3 className='admin-console-header'>
+                    {this.renderTitle()}
+                </h3>
+                <form
+                    className='form-horizontal'
+                    role='form'
+                    onSubmit={this.handleSubmit}
+                >
+                    {this.renderSettings()}
+                    <div className='admin-console-save'>
+                        <SaveButton
+                            saving={this.state.saving}
+                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                            onClick={this.handleSubmit}
+                            savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
+                        />
+                        <div
+                            className='error-message'
+                            ref='errorMessage'
+                            onMouseOver={this.openTooltip}
+                            onMouseOut={this.closeTooltip}
+                        >
+                            <FormError error={this.state.serverError}/>
+                        </div>
+                        <Overlay
+                            show={this.state.errorTooltip}
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='top'
+                            target={this.refs.errorMessage}
+                        >
+                            <Tooltip id='error-tooltip' >
+                                {this.state.serverError}
+                            </Tooltip>
+                        </Overlay>
+                    </div>
+                </form>
+            </div>
+        );
     }
 }

@@ -7,15 +7,21 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
     constructor(props) {
         super(props);
         this.isPlugin = true;
+        this.getStateFromConfig = CustomPluginSettings.getStateFromConfig;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const id = this.props.schema ? this.props.schema.id : '';
-        const nextId = nextProps.schema ? nextProps.schema.id : '';
-
-        if ((!this.props.schema && nextProps.schema) || (id !== nextId)) {
-            this.setState(this.getStateFromConfig(nextProps.config, nextProps.schema));
+    static getDerivedStateFromProps(props, state) {
+        if (props.schema && props.schema.id !== state.prevSchemaId) {
+            return {
+                prevSchemaId: props.schema.id,
+                saveNeeded: false,
+                saving: false,
+                serverError: null,
+                errorTooltip: false,
+                ...CustomPluginSettings.getStateFromConfig(props.config, props.schema, props.roles),
+            };
         }
+        return null;
     }
 
     getConfigFromState(config) {
@@ -43,7 +49,7 @@ export default class CustomPluginSettings extends SchemaAdminSettings {
         return config;
     }
 
-    getStateFromConfig(config, schema = this.props.schema) {
+    static getStateFromConfig(config, schema) {
         const state = {};
 
         if (schema) {

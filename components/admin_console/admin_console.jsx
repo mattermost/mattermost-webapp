@@ -69,7 +69,20 @@ export default class AdminConsole extends React.Component {
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
         reloadIfServerVersionChanged();
+    }
+
+    mainRolesLoaded(roles) {
+        return (
+            roles &&
+            roles.channel_admin &&
+            roles.channel_user &&
+            roles.team_admin &&
+            roles.team_user &&
+            roles.system_admin &&
+            roles.system_user
+        );
     }
 
     render() {
@@ -85,6 +98,10 @@ export default class AdminConsole extends React.Component {
             return (
                 <Redirect to='/'/>
             );
+        }
+
+        if (!this.mainRolesLoaded(this.props.roles)) {
+            return null;
         }
 
         if (Object.keys(config).length === 0) {
@@ -356,7 +373,6 @@ export default class AdminConsole extends React.Component {
                                         extraProps={{
                                             ...extraProps,
                                             roles: this.props.roles,
-                                            loadRolesIfNeeded: this.props.actions.loadRolesIfNeeded,
                                             editRole: this.props.actions.editRole,
                                             schema: AdminDefinition.settings.integrations.custom_integrations.schema,
                                         }}

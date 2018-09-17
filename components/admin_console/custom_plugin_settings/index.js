@@ -3,6 +3,8 @@
 
 import {connect} from 'react-redux';
 
+import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+
 import CustomPluginSettings from './custom_plugin_settings.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -14,6 +16,7 @@ function mapStateToProps(state, ownProps) {
     const translate = (plugin && plugin.translate) || false;
     return {
         schema: plugin ? {...plugin.settings_schema, id: plugin.id, name: plugin.name, settings, translate} : null,
+        roles: getRoles(state),
     };
 }
 
