@@ -308,6 +308,20 @@ export async function autocompleteChannels(term, success, error) {
     }
 }
 
+export async function autocompleteChannelsForSearch(term, success, error) {
+    const teamId = TeamStore.getCurrentId();
+    if (!teamId) {
+        return;
+    }
+
+    const {data, error: err} = await ChannelActions.autocompleteChannelsForSearch(teamId, term)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export async function createChannel(channel, success, error) {
     const {data, error: err} = await ChannelActions.createChannel(channel)(dispatch, getState);
     if (data && success) {
