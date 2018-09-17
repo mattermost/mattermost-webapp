@@ -114,7 +114,7 @@ export function sendDesktopNotification(post, msgProps) {
             strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
         }
 
-        let body = `@${username}: `;
+        let body = `@${username}`;
         if (strippedMarkdownNotifyText.length === 0) {
             if (msgProps.image) {
                 body += Utils.localizeMessage('channel_loader.uploadedImage', ' uploaded an image');
@@ -126,7 +126,7 @@ export function sendDesktopNotification(post, msgProps) {
                 body += Utils.localizeMessage('channel_loader.something', ' did something new');
             }
         } else {
-            body += strippedMarkdownNotifyText;
+            body += `: ${strippedMarkdownNotifyText}`;
         }
 
         //Play a sound if explicitly set in settings
