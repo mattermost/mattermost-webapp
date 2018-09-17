@@ -90,9 +90,5 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
       }
     />
   </div>
-  <Connect(Pluggable)
-    onHeightChange={[Function]}
-    pluggableName="PostMessageAttachment"
-  />
 </Connect(ShowMore)>
 `;

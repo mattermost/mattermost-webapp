@@ -5,13 +5,11 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const holders = defineMessages({
     removing: {
@@ -213,9 +211,9 @@ class LicenseSettings extends React.Component {
                     <br/>
                     {serverError}
                     <p className='help-text no-margin'>
-                        <FormattedMarkdownMessage
+                        <FormattedHTMLMessage
                             id='admin.license.uploadDesc'
-                            defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key.'
+                            defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. <a href="http://mattermost.com" target="_blank">Visit us online</a> to learn more about the benefits of Enterprise Edition or to purchase a key.'
                         />
                     </p>
                 </div>
