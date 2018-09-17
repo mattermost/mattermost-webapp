@@ -28,6 +28,14 @@ export default function ErrorTitle({type, title}) {
                 />
             );
             break;
+        case ErrorPageTypes.OAUTH_ACCESS_DENIED:
+            errorTitle = (
+                <FormattedMessage
+                    id='error.oauth_access_denied.title'
+                    defaultMessage='Authorization Error'
+                />
+            );
+            break;
         case ErrorPageTypes.OAUTH_MISSING_CODE:
             errorTitle = (
                 <FormattedMessage

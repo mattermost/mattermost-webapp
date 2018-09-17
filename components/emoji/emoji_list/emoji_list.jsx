@@ -109,7 +109,7 @@ export default class EmojiList extends React.Component {
 
             this.setState({loading: true});
 
-            const {data} = await this.props.actions.searchCustomEmojis(term);
+            const {data} = await this.props.actions.searchCustomEmojis(term, {}, true);
 
             if (data) {
                 this.setState({searchEmojis: data.map((em) => em.id), loading: false});

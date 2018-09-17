@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SearchHint from 'components/search_hint';
+import SearchHint from 'components/search_hint/search_hint';
 
 describe('components/SearchHint', () => {
     test('should match snapshot, with title', () => {

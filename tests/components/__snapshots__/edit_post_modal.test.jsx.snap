@@ -85,8 +85,8 @@ exports[`components/EditPostModal should match with default config 1`] = `
           onHide={[Function]}
           rightOffset={50}
           show={false}
-          spaceRequiredAbove={422}
-          spaceRequiredBelow={436}
+          spaceRequiredAbove={476}
+          spaceRequiredBelow={497}
           target={[Function]}
           topOffset={-20}
         />
@@ -323,8 +323,8 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           onHide={[Function]}
           rightOffset={50}
           show={true}
-          spaceRequiredAbove={422}
-          spaceRequiredBelow={436}
+          spaceRequiredAbove={476}
+          spaceRequiredBelow={497}
           target={[Function]}
           topOffset={-20}
         />
@@ -453,8 +453,8 @@ exports[`components/EditPostModal should show errors when it is set in the state
           onHide={[Function]}
           rightOffset={50}
           show={false}
-          spaceRequiredAbove={422}
-          spaceRequiredBelow={436}
+          spaceRequiredAbove={476}
+          spaceRequiredBelow={497}
           target={[Function]}
           topOffset={-20}
         />

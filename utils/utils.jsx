@@ -663,6 +663,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
 
+        // Fade out effect for collapsed posts (not hovered, not from current user)
         changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__gradient, ' +
             '.app__body .sidebar-right__body .post:not(.current--user) .post-collapse__gradient, ' +
@@ -671,12 +672,11 @@ export function applyTheme(theme) {
             `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
         );
         changeCss(
-            '.app__body .post-list__table .post:not(.current--user) .post-attachment-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post:not(.current--user) .post-attachment-collapse__gradient, ' +
-            '.app__body .post-list__table .post.post--compact .post-attachment-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post.post--compact .post-attachment-collapse__gradient',
+            '.app__body .post-list__table .post-attachment-collapse__gradient, ' +
+            '.app__body .sidebar-right__body .post-attachment-collapse__gradient',
             `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
         );
+
         changeCss(
             '.app__body .post-list__table .post:not(.current--user) .post-collapse__show-more, ' +
             '.app__body .sidebar-right__body .post:not(.current--user) .post-collapse__show-more, ' +
@@ -685,12 +685,11 @@ export function applyTheme(theme) {
             `background-color:${theme.centerChannelBg}`,
         );
         changeCss(
-            '.app__body .post-list__table .post:not(.current--user) .post-attachment-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post:not(.current--user) .post-attachment-collapse__show-more, ' +
-            '.app__body .post-list__table .post.post--compact .post-attachment-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post.post--compact .post-attachment-collapse__show-more',
+            '.app__body .post-list__table .post-attachment-collapse__show-more, ' +
+            '.app__body .sidebar-right__body .post-attachment-collapse__show-more',
             `background-color:${theme.centerChannelBg}`,
         );
+
         changeCss('.app__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
         changeCss('.app__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
     }
@@ -708,7 +707,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header__icon .icon--stroke.icon__search svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.55));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('.app__body .DayPicker-Caption, .app__body .modal .settings-modal .team-img-preview div, .app__body .modal .settings-modal .team-img__container div, .app__body .system-notice__footer, .app__body .system-notice__footer .btn:last-child, .app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command, .app__body .channel-archived__message', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
+        changeCss('.app__body .DayPicker .DayPicker-Caption, .app__body .modal .settings-modal .team-img-preview div, .app__body .modal .settings-modal .team-img__container div, .app__body .system-notice__footer, .app__body .system-notice__footer .btn:last-child, .app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command, .app__body .channel-archived__message', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .post.post--system .post__body, .app__body .modal .channel-switch-modal .modal-header .close', 'color:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .suggestion-list__content .command, .app__body .modal .modal-content, .app__body .dropdown-menu, .app__body .popover, .app__body .mentions__name, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .post .post__link', 'color:' + changeOpacity(theme.centerChannelColor, 0.65));
@@ -806,7 +805,7 @@ export function applyTheme(theme) {
             const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.08);
             const hoveredPostBgLight = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
 
-            // Apply a gradient to fade out the text in a collapsed post
+            // Fade out effect for collapsed posts made by the current user
             changeCss(
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
@@ -824,6 +823,7 @@ export function applyTheme(theme) {
                 `background:${ownPostBg}`,
             );
 
+            // Fade out effect for collapsed posts that are being hovered over
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
                 '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
@@ -877,25 +877,20 @@ export function applyTheme(theme) {
                 `background:${hoveredPostBg}`
             );
 
+            // Fade out effect for permalinked posts
             if (theme.mentionHighlightBg) {
                 const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
                 const ownPostHighlightBg = blendColors(highlightBg, theme.centerChannelColor, 0.05);
 
+                // For permalinked posts made by another user
                 changeCss(
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient, ' +
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
                 );
                 changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-attachment-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-attachment-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-                changeCss(
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__show-more, ' +
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-attachment-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-attachment-collapse__show-more, ' +
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .post-image__columns, ' +
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-image__columns, ' +
                     '.app__body .post-list__table .post:not(.current--user).post--highlight .file-view--single, ' +
@@ -903,22 +898,19 @@ export function applyTheme(theme) {
                     `background:${highlightBg}`,
                 );
 
+                // For permalinked posts made by the current user
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
                 );
                 changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-attachment-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-                changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-attachment-collapse__show-more, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-image__columns, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .file-view--single',
                     `background:${ownPostHighlightBg}`,
                 );
 
+                // For hovered posts
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
@@ -927,8 +919,6 @@ export function applyTheme(theme) {
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__show-more, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-attachment-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-attachment-collapse__show-more, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-image__columns, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-image__columns, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .file-view--single, ' +

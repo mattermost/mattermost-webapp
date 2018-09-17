@@ -17,10 +17,13 @@ import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
 const EMOJI_HEIGHT = 27;
+
+// If this changes, the spaceRequiredAbove and spaceRequiredBelow props passed to the EmojiPickerOverlay must be updated
 const EMOJI_CONTAINER_HEIGHT = 290;
 const EMOJI_CONTAINER_STYLE = {
     height: EMOJI_CONTAINER_HEIGHT,
 };
+
 const EMOJI_LAZY_LOAD_BUFFER = 75;
 const EMOJI_PER_ROW = 9;
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
@@ -109,11 +112,7 @@ const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
-        style: PropTypes.object,
-        rightOffset: PropTypes.number,
-        topOffset: PropTypes.number,
         listHeight: PropTypes.number,
-        placement: PropTypes.oneOf(['top', 'bottom', 'left']),
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
@@ -127,8 +126,6 @@ export default class EmojiPicker extends React.PureComponent {
 
     static defaultProps = {
         listHeight: 245,
-        rightOffset: 0,
-        topOffset: 0,
         customEmojiPage: 0,
         customEmojisEnabled: false,
     };
@@ -572,26 +569,8 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     render() {
-        let pickerStyle;
-        if (this.props.style && !(this.props.style.left === 0 || this.props.style.top === 0)) {
-            if (this.props.placement === 'top' || this.props.placement === 'bottom') {
-                // Only take the top/bottom position passed by React Bootstrap since we want to be right-aligned
-                pickerStyle = {
-                    top: this.props.style.top,
-                    bottom: this.props.style.bottom,
-                    right: this.props.rightOffset,
-                };
-            } else {
-                pickerStyle = {...this.props.style};
-            }
-        }
-        if (pickerStyle && pickerStyle.top) {
-            pickerStyle.top += this.props.topOffset;
-        }
         return (
-            <div
-                style={pickerStyle}
-            >
+            <div>
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}

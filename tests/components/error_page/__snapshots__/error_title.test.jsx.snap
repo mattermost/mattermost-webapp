@@ -20,6 +20,14 @@ exports[`components/error_page/ErrorTitle should match snapshot, no type but wit
 
 exports[`components/error_page/ErrorTitle should match snapshot, no type nor title 1`] = `"Error"`;
 
+exports[`components/error_page/ErrorTitle should match snapshot, oauth_access_denied type 1`] = `
+<FormattedMessage
+  defaultMessage="Authorization Error"
+  id="error.oauth_access_denied.title"
+  values={Object {}}
+/>
+`;
+
 exports[`components/error_page/ErrorTitle should match snapshot, oauth_missing_code type 1`] = `
 <FormattedMessage
   defaultMessage="Mattermost needs your help"

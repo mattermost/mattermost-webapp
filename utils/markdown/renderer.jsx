@@ -143,14 +143,16 @@ export default class Renderer extends marked.Renderer {
     link(href, title, text, isUrl) {
         let outHref = href;
 
-        const scheme = getScheme(href);
-        if (!scheme) {
-            outHref = `http://${outHref}`;
-        } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
-            const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(scheme) !== -1;
+        if (!href.startsWith('/')) {
+            const scheme = getScheme(href);
+            if (!scheme) {
+                outHref = `http://${outHref}`;
+            } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
+                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(scheme) !== -1;
 
-            if (!isValidUrl) {
-                return text;
+                if (!isValidUrl) {
+                    return text;
+                }
             }
         }
 
