@@ -58,7 +58,6 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.onChange = this.onChange.bind(this);
         this.onShow = this.onShow.bind(this);
         this.onHide = this.onHide.bind(this);
-        this.onExited = this.onExited.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.switchToChannel = this.switchToChannel.bind(this);
@@ -108,13 +107,14 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     onHide() {
+        this.focusPostTextbox();
         this.setState({
             text: '',
         });
         this.props.onHide();
     }
 
-    onExited() {
+    focusPostTextbox = () => {
         if (!UserAgent.isMobile()) {
             setTimeout(() => {
                 const textbox = document.querySelector('#post_textbox');
@@ -312,7 +312,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 ref='modal'
                 show={this.props.show}
                 onHide={this.onHide}
-                onExited={this.onExited}
+                enforceFocus={false}
             >
                 <Modal.Header closeButton={true}/>
                 <Modal.Body>

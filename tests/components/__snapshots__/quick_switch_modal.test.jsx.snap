@@ -8,7 +8,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   bsClass="modal"
   dialogClassName="channel-switch-modal modal--overflow"
   dialogComponentClass={[Function]}
-  enforceFocus={true}
+  enforceFocus={false}
   keyboard={true}
   manager={
     ModalManager {
@@ -22,7 +22,6 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
