@@ -18,10 +18,18 @@ describe('component/FilePreview', () => {
         },
     ];
     const uploadsInProgress = ['clientID_1'];
+    const uploadsProgressPercent = {
+        clientID_1: {
+            name: 'file',
+            percent: '50',
+        },
+    };
+
     const baseProps = {
         fileInfos,
         uploadsInProgress,
         onRemove,
+        uploadsProgressPercent,
     };
 
     test('should match snapshot', () => {
