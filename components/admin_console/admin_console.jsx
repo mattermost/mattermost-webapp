@@ -10,7 +10,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
-import ClientVersionsSettings from 'components/admin_console/client_versions_settings.jsx';
 import ClusterSettings from 'components/admin_console/cluster_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
 import CustomGifSettings from 'components/admin_console/custom_gif_settings.jsx';
@@ -319,8 +318,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/client_versions`}
-                                        component={ClientVersionsSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.security.clientVersions.schema,
+                                        }}
                                     />
                                     <Redirect to={`${props.match.url}/sign_up`}/>
                                 </Switch>
