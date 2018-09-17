@@ -96,6 +96,22 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       className="divider-light"
     />
     <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Click 'Edit' to add an email domain whitelist."
+          id="general_tab.allowedDomainsEdit"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="allowed_domains"
+      title="allowedDomains"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
       describe="No"
       focused={false}
       section="open_invite"
@@ -209,6 +225,22 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       src={null}
       submitActive={false}
       title="Team Icon"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Click 'Edit' to add an email domain whitelist."
+          id="general_tab.allowedDomainsEdit"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="allowed_domains"
+      title="allowedDomains"
       updateSection={[Function]}
     />
     <div
