@@ -4,16 +4,22 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {doPostAction} from 'mattermost-redux/actions/posts';
+import {selectAttachmentMenuAction} from 'actions/views/posts';
 
 import ActionMenu from './action_menu.jsx';
+
+function mapStateToProps(state, ownProps) {
+    return {
+        selected: state.views.posts.menuActions[ownProps.postId],
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            doPostAction,
+            selectAttachmentMenuAction,
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(ActionMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(ActionMenu);

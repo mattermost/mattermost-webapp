@@ -16,8 +16,10 @@ export default class ActionMenu extends React.PureComponent {
     static propTypes = {
         postId: PropTypes.string.isRequired,
         action: PropTypes.object.isRequired,
+        selected: PropTypes.object,
         actions: PropTypes.shape({
             doPostAction: PropTypes.func.isRequired,
+            selectAttachmentMenuAction: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -40,9 +42,19 @@ export default class ActionMenu extends React.PureComponent {
         }
 
         this.state = {
-            selected: null,
             input: '',
         };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.selected && props.selected !== state.selected) {
+            return {
+                input: props.selected.displayText,
+                selected: props.selected,
+            };
+        }
+
+        return null;
     }
 
     onChange = (e) => {
@@ -54,16 +66,22 @@ export default class ActionMenu extends React.PureComponent {
             return;
         }
 
+        const {action} = this.props;
+
         let value = '';
-        if (this.props.action.data_source === 'users' || this.props.action.data_source === 'channels') {
+        let displayText = '';
+        if (action.data_source === 'users') {
+            displayText = selected.username;
+            value = selected.id;
+        } else if (action.data_source === 'channels') {
+            displayText = selected.display_name;
             value = selected.id;
         } else {
+            displayText = selected.text;
             value = selected.value;
         }
 
-        this.setState({selected});
-
-        this.props.actions.doPostAction(this.props.postId, this.props.action.id, value);
+        this.props.actions.selectAttachmentMenuAction(this.props.postId, this.props.action.id, this.props.action.data_source, displayText, value);
 
         if (this.suggestionRef) {
             requestAnimationFrame(() => this.suggestionRef.blur());
@@ -88,7 +106,7 @@ export default class ActionMenu extends React.PureComponent {
         const {action} = this.props;
 
         let submitted;
-        if (this.state.selected) {
+        if (this.props.selected) {
             submitted = (
                 <div className='alert alert-success'>
                     <i className='fa fa-check margin-right margin-right--half'/>
