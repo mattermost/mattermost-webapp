@@ -199,7 +199,7 @@ describe('components/EditPostModal', () => {
         const options = new ReactRouterEnzymeContext();
         const wrapper = mountWithIntl(createEditPost(), options.get());
         const instance = wrapper.instance();
-        const ref = wrapper.ref('editbox');
+        const ref = instance.editbox;
         ref.focus = jest.fn();
         ref.recalculateSize = jest.fn();
         expect(ref.focus).not.toBeCalled();
@@ -213,7 +213,7 @@ describe('components/EditPostModal', () => {
         const options = new ReactRouterEnzymeContext();
         const wrapper = mountWithIntl(createEditPost(), options.get());
         const instance = wrapper.instance();
-        const ref = wrapper.ref('editbox');
+        const ref = instance.editbox;
         ref.hidePreview = jest.fn();
         expect(ref.hidePreview).not.toBeCalled();
         instance.handleExit();
