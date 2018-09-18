@@ -69,6 +69,11 @@ export default class ChannelMentionProvider extends Provider {
             return false;
         }
 
+        if (captured.index > 0 && pretext[captured.index - 1] === '~') {
+            // Multiple ~'s in a row so let's return and not show the autocomplete
+            return false;
+        }
+
         const prefix = captured[2];
 
         if (this.lastPrefixTrimmed && prefix.trim() === this.lastPrefixTrimmed) {
