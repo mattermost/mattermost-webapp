@@ -6,11 +6,21 @@ import React from 'react';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
+
+function itemToName(item) {
+    if (item.type === Constants.DM_CHANNEL) {
+        return '@' + item.display_name;
+    }
+    if (item.type === Constants.GM_CHANNEL) {
+        return '@' + item.display_name.replace(/ /g, '');
+    }
+    return item.name;
+}
 
 class SearchChannelSuggestion extends Suggestion {
     render() {
@@ -21,6 +31,8 @@ class SearchChannelSuggestion extends Suggestion {
             className += ' selected';
         }
 
+        const name = itemToName(item);
+
         return (
             <div
                 onClick={this.handleClick}
@@ -30,7 +42,7 @@ class SearchChannelSuggestion extends Suggestion {
                 <i
                     className='fa fa fa-plus-square'
                     title={localizeMessage('generic_icons.select', 'Select Icon')}
-                />{item.name}
+                />{name}
             </div>
         );
     }
@@ -51,10 +63,10 @@ export default class SearchChannelProvider extends Provider {
                         return;
                     }
                     const channels = data.sort(sortChannelsByDisplayName);
-                    const channelNames = channels.map((channel) => channel.name);
+                    const channelNames = channels.map(itemToName);
 
                     AppDispatcher.handleServerAction({
-                        type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                        type: Constants.ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
                         id: suggestionId,
                         matchedPretext: channelPrefix,
                         terms: channelNames,
