@@ -87,6 +87,20 @@
         }
     }
 
+    .sidebar--right & {
+        .attachment {
+            .attachment-actions {
+                .alert {
+                    position: relative;
+                    left: 0;
+                    top: 0;
+                    margin: 1rem 0 0.4rem;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
     .attachment {
         margin-left: -20px;
         position: relative;
