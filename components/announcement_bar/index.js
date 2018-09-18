@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -45,4 +47,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(AnnouncementBar);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            sendVerificationEmail,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementBar);

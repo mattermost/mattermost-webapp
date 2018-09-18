@@ -8,7 +8,7 @@ import {defineMessages, FormattedDate, FormattedMessage, FormattedHTMLMessage, i
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {updateUser, uploadProfileImage, resendVerification} from 'actions/user_actions.jsx';
+import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
@@ -99,6 +99,7 @@ class UserSettingsGeneralTab extends React.Component {
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
+            sendVerificationEmail: PropTypes.func.isRequred,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -139,15 +140,13 @@ class UserSettingsGeneralTab extends React.Component {
         this.setState({resendStatus: 'sending', showSpinner: true}, () => {
             this.handleEmailVerificationError();
         });
-        resendVerification(
-            email,
-            () => {
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+            if (data) {
                 this.setState({resendStatus: 'success'});
-            },
-            () => {
+            } else if (err) {
                 this.setState({resendStatus: 'failure'});
             }
-        );
+        });
     }
 
     createEmailResendLink = (email) => {

@@ -7,7 +7,6 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import {resendVerification} from 'actions/user_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 
@@ -48,6 +47,13 @@ export default class AnnouncementBar extends React.PureComponent {
             email: PropTypes.string.isRequired,
             email_verified: PropTypes.bool,
         }),
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to send a verification email to the user
+             */
+            sendVerificationEmail: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -79,16 +85,15 @@ export default class AnnouncementBar extends React.PureComponent {
 
     handleEmailResend = (email) => {
         this.setState({resendStatus: 'sending', showSpinner: true});
-        resendVerification(
-            email,
-            () => {
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+            if (data) {
                 this.setState({resendStatus: 'success'});
-            },
-            () => {
+            } else if (err) {
                 this.setState({resendStatus: 'failure'});
             }
-        );
+        });
     }
+
     createEmailResendLink = (email) => {
         let resendHTML;
         if (this.state && this.state.showSpinner) {

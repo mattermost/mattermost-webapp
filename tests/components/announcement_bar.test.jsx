@@ -22,6 +22,9 @@ describe('components/AnnouncementBar', () => {
         bannerColor: 'green',
         bannerTextColor: 'black',
         enableSignUpWithGitLab: false,
+        actions: {
+            sendVerificationEmail: jest.fn(),
+        },
     };
 
     test('should match snapshot, bar showing', () => {

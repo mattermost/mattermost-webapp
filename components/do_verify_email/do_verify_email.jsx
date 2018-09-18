@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import ErrorStore from 'stores/error_store.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {updateUser} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants.jsx';
 import logoImage from 'images/logo.png';
@@ -36,6 +35,11 @@ export default class DoVerifyEmail extends React.PureComponent {
              * Action creator to verify the user's email
              */
             verifyUserEmail: PropTypes.func.isRequired,
+
+            /*
+             * Action creator to update the user in the redux store
+             */
+            updateMe: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -78,15 +82,13 @@ export default class DoVerifyEmail extends React.PureComponent {
             const user = Object.assign({}, this.props.user);
             user.email_verified = true;
             trackEvent('settings', 'verify_email');
-            updateUser(
-                user,
-                () => {
+            this.props.actions.updateMe(user).then(({data, error: err}) => {
+                if (data) {
                     this.handleRedirect();
-                },
-                () => {
+                } else if (err) {
                     this.handleError(VerifyEmailErrors.FAILED_USER_STATE_UPDATE);
                 }
-            );
+            });
         } else {
             this.handleRedirect();
         }

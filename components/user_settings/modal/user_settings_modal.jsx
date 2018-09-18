@@ -16,7 +16,6 @@ import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 import loadUserSettings from 'bundle-loader?lazy!../user_settings.jsx';
 import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
-import {resendVerification} from 'actions/user_actions.jsx';
 
 const holders = defineMessages({
     general: {
@@ -87,15 +86,13 @@ class UserSettingsModal extends React.Component {
     handleResend = (email) => {
         this.setState({resendStatus: 'sending'});
 
-        resendVerification(
-            email,
-            () => {
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+            if (data) {
                 this.setState({resendStatus: 'success'});
-            },
-            () => {
+            } else if (err) {
                 this.setState({resendStatus: 'failure'});
             }
-        );
+        });
     }
 
     onUserChanged = () => {
@@ -339,6 +336,9 @@ UserSettingsModal.propTypes = {
     experimentalGroupUnreadChannels: PropTypes.string,
     sendEmailNotifications: PropTypes.bool,
     requireEmailVerification: PropTypes.bool,
+    actions: PropTypes.shape({
+        sendVerificationEmail: PropTypes.func.isRequred,
+    }).isRequired,
 };
 
 export default injectIntl(UserSettingsModal);

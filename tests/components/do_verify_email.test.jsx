@@ -15,7 +15,10 @@ describe('components/DoVerifyEmail', () => {
             },
         },
         siteName: 'Mattermost',
-        actions: {verifyUserEmail: jest.fn()},
+        actions: {
+            verifyUserEmail: jest.fn(),
+            updateMe: jest.fn(),
+        },
         isLoggedIn: false,
     };
 
