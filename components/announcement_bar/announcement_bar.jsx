@@ -155,7 +155,7 @@ export default class AnnouncementBar extends React.PureComponent {
             ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.LICENSE_EXPIRING, type: AnnouncementBarTypes.CRITICAL});
         }
 
-        if (this.props.isLoggedIn && !Utils.isEmailVerified(this.props.user) && this.props.requireEmailVerification) {
+        if (this.props.isLoggedIn && this.props.user && this.props.user.email_verified && this.props.requireEmailVerification) {
             ErrorStore.storeLastError({
                 notification: true,
                 message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
