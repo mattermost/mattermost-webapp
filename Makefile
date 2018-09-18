@@ -13,10 +13,6 @@ test: node_modules ## Runs tests
 
 	npm run test
 
-# TODO remove this once Jenkins has been updated to no longer run `make .npminstall` manually
-.PHONY: .npmisntall
-.npminstall: ;
-
 node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
