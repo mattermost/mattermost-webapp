@@ -49,4 +49,23 @@ describe('stores/SuggestionStore', () => {
         });
         assert.equal(SuggestionStore.suggestions.has(id), false);
     });
+
+    test('hasSuggestions should ignore loading items', () => {
+        const id = 'id1';
+        const suggestion = {render: () => null};
+
+        SuggestionStore.registerSuggestionBox(id);
+        assert.equal(SuggestionStore.hasSuggestions(id), false);
+
+        SuggestionStore.addSuggestion(id, '', {
+            type: 'type',
+            loading: true,
+        }, suggestion, 'captured');
+        assert.equal(SuggestionStore.hasSuggestions(id), false);
+
+        SuggestionStore.addSuggestion(id, 'a', {
+            type: 'type',
+        }, suggestion, 'captured');
+        assert.equal(SuggestionStore.hasSuggestions(id), true);
+    });
 });
