@@ -3,23 +3,20 @@
 BUILD_SERVER_DIR = ../mattermost-server
 EMOJI_TOOLS_DIR = ./build/emoji
 
-check-style: .npminstall ## Checks JS file for ESLint confirmity
+check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
 	npm run check
 
-test: .npminstall ## Runs tests
+test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
 
 	npm run test
 
-.npminstall: package.json package-lock.json
+node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
 	npm install
-	cd node_modules/mattermost-redux; npm run build
-
-	touch $@
 
 package: build ## Packages app
 	@echo Packaging webapp
@@ -30,19 +27,19 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-build: .npminstall ## Builds the app
+build: node_modules ## Builds the app
 	@echo Building mattermost Webapp
 
 	rm -rf dist
 
 	npm run build
 
-run: .npminstall ## Runs app
+run: node_modules ## Runs app
 	@echo Running mattermost Webapp for development
 
 	npm run run &
 
-run-fullmap: .npminstall ## Runs the app with the JS mapped to source (good for debugger)
+run-fullmap: node_modules ## Runs the app with the JS mapped to source (good for debugger)
 	@echo FULL SOURCE MAP Running mattermost Webapp for development FULL SOURCE MAP
 
 	npm run run-fullmap &
@@ -66,7 +63,6 @@ clean: ## Clears cached; deletes node_modules and dist directories
 
 	rm -rf dist
 	rm -rf node_modules
-	rm -f .npminstall
 
 emojis: ## Creates emoji JSX file and extracts emoji images from the system font
 	gem install bundler

@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'make .npminstall'
+                sh 'make node_modules'
             }
         }
 
