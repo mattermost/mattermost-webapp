@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -14,7 +14,6 @@ import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import ResetEmailModal from 'components/admin_console/reset_email_modal/reset_email_modal.jsx';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
 import UserListRowWithError from 'components/user_list_row_with_error.jsx';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import SystemUsersDropdown from '../system_users_dropdown.jsx';
 
@@ -192,10 +191,10 @@ export default class SystemUsersList extends React.Component {
             }
 
             info.push(
-                <FormattedMarkdownMessage
+                <FormattedHTMLMessage
                     key='admin.user_item.authServiceNotEmail'
                     id='admin.user_item.authServiceNotEmail'
-                    defaultMessage='**Sign-in Method:** {service}'
+                    defaultMessage='<strong>Sign-in Method:</strong> {service}'
                     values={{
                         service,
                     }}
@@ -203,10 +202,10 @@ export default class SystemUsersList extends React.Component {
             );
         } else {
             info.push(
-                <FormattedMarkdownMessage
+                <FormattedHTMLMessage
                     key='admin.user_item.authServiceEmail'
                     id='admin.user_item.authServiceEmail'
-                    defaultMessage='**Sign-in Method:** Email'
+                    defaultMessage='<strong>Sign-in Method:</strong> Email'
                 />
             );
         }
@@ -216,18 +215,18 @@ export default class SystemUsersList extends React.Component {
 
             if (user.mfa_active) {
                 info.push(
-                    <FormattedMarkdownMessage
+                    <FormattedHTMLMessage
                         key='admin.user_item.mfaYes'
                         id='admin.user_item.mfaYes'
-                        defaultMessage='**MFA**: Yes'
+                        defaultMessage='<strong>MFA</strong>: Yes'
                     />
                 );
             } else {
                 info.push(
-                    <FormattedMarkdownMessage
+                    <FormattedHTMLMessage
                         key='admin.user_item.mfaNo'
                         id='admin.user_item.mfaNo'
-                        defaultMessage='**MFA**: No'
+                        defaultMessage='<strong>MFA</strong>: No'
                     />
                 );
             }

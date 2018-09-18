@@ -2,9 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -74,9 +72,9 @@ export default class CustomGifSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedHTMLMessage
                             id='admin.customization.gfycatApiKeyDescription'
-                            defaultMessage='Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.'
+                            defaultMessage='Request an API key at <a href="https://developers.gfycat.com/signup/#" target="_blank">https://developers.gfycat.com/signup/#</a>. Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.'
                         />
                     }
                     value={this.state.gfycatApiKey}

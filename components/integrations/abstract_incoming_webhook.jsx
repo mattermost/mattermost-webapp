@@ -214,7 +214,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <input
                                     id='description'
                                     type='text'
-                                    maxLength='500'
+                                    maxLength='128'
                                     className='form-control'
                                     value={this.state.description}
                                     onChange={this.updateDescription}

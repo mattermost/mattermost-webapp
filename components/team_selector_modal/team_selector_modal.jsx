@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -12,8 +12,6 @@ import {localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import TeamInfo from 'components/team_info.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const TEAMS_PER_PAGE = 50;
 
@@ -234,9 +232,9 @@ export default class TeamSelectorModal extends React.Component {
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMarkdownMessage
+                        <FormattedHTMLMessage
                             id='add_teams_to_scheme.title'
-                            defaultMessage='Add Teams To **Team Selection** List'
+                            defaultMessage='Add Teams To <strong>Team Selection</strong> List'
                         />
                     </Modal.Title>
                 </Modal.Header>

@@ -3,6 +3,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+
 import GeneralTab from 'components/team_general_tab/team_general_tab.jsx';
 
 describe('components/TeamSettings', () => {
@@ -22,15 +24,15 @@ describe('components/TeamSettings', () => {
     };
 
     test('should handle bad updateTeamIcon function call', () => {
-        const wrapper = shallow(<GeneralTab {...defaultProps}/>);
+        const wrapper = mountWithIntl(<GeneralTab {...defaultProps}/>);
 
         wrapper.instance().updateTeamIcon(null);
 
-        expect(wrapper.state('clientError')).toEqual('An error occured while selecting the image.');
+        expect(wrapper.state('clientError')).not.toBe('');
     });
 
     test('should handle invalid file selection', () => {
-        const wrapper = shallow(<GeneralTab {...defaultProps}/>);
+        const wrapper = mountWithIntl(<GeneralTab {...defaultProps}/>);
 
         wrapper.instance().updateTeamIcon({
             target: {
@@ -40,11 +42,11 @@ describe('components/TeamSettings', () => {
             },
         });
 
-        expect(wrapper.state('clientError')).toEqual('Only BMP, JPG or PNG images may be used for team icons');
+        expect(wrapper.state('clientError')).not.toBe('');
     });
 
     test('should handle too large files', () => {
-        const wrapper = shallow(<GeneralTab {...defaultProps}/>);
+        const wrapper = mountWithIntl(<GeneralTab {...defaultProps}/>);
 
         wrapper.instance().updateTeamIcon({
             target: {
@@ -55,7 +57,7 @@ describe('components/TeamSettings', () => {
             },
         });
 
-        expect(wrapper.state('clientError')).toEqual('Unable to upload team icon. File is too large.');
+        expect(wrapper.state('clientError')).not.toBe('');
     });
 
     test('should call actions.setTeamIcon on handleTeamIconSubmit', () => {

@@ -4,7 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -19,8 +19,6 @@ import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 
@@ -381,9 +379,9 @@ class InviteMemberModal extends React.Component {
                         <br/>
                         <br/>
                         <span>
-                            <FormattedMarkdownMessage
+                            <FormattedHTMLMessage
                                 id='invite_member.autoJoin'
-                                defaultMessage='People invited automatically join the **{channel}** channel.'
+                                defaultMessage='People invited automatically join the <strong>{channel}</strong> channel.'
                                 values={{
                                     channel: defaultChannelName,
                                 }}
