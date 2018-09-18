@@ -98,34 +98,38 @@ export default class AnnouncementBar extends React.PureComponent {
         let resendHTML;
         if (this.state && this.state.showSpinner) {
             resendHTML = (
-                <span>
-                    <span
-                        className='fa fa-spinner icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
+                <React.Fragment>
+                    <span className='fa-wrapper'>
+                        <span
+                            className='fa fa-spinner icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                    </span>
                     <FormattedMessage
                         id='announcement_bar.error.sending'
-                        defaultMessage=' Sending'
+                        defaultMessage='Sending'
                     />
-                </span>
+                </React.Fragment>
             );
         } else {
             resendHTML = (
-                <a
-                    onClick={() => {
-                        this.handleEmailResend(email);
-                        setTimeout(() => {
-                            this.setState({
-                                showSpinner: false,
-                            });
-                        }, 500);
-                    }}
-                >
-                    <FormattedMessage
-                        id='announcement_bar.error.send_again'
-                        defaultMessage='Send again'
-                    />
-                </a>
+                <span className='resend-verification-wrapper'>
+                    <a
+                        onClick={() => {
+                            this.handleEmailResend(email);
+                            setTimeout(() => {
+                                this.setState({
+                                    showSpinner: false,
+                                });
+                            }, 500);
+                        }}
+                    >
+                        <FormattedMessage
+                            id='announcement_bar.error.send_again'
+                            defaultMessage='Send again'
+                        />
+                    </a>
+                </span>
             );
         }
         return resendHTML;
@@ -155,7 +159,7 @@ export default class AnnouncementBar extends React.PureComponent {
             ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.LICENSE_EXPIRING, type: AnnouncementBarTypes.CRITICAL});
         }
 
-        if (this.props.isLoggedIn && this.props.user && this.props.user.email_verified && this.props.requireEmailVerification) {
+        if (this.props.isLoggedIn && this.props.user && !this.props.user.email_verified && this.props.requireEmailVerification) {
             ErrorStore.storeLastError({
                 notification: true,
                 message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
@@ -414,7 +418,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 <React.Fragment>
                     <FormattedHTMLMessage
                         id={AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED}
-                        defaultMessage='Check your email at {email} to verify the address. Cannot find the email? '
+                        defaultMessage='Check your email at {email} to verify the address. Cannot find the email?'
                         values={{
                             email: this.props.user.email,
                         }}
@@ -428,7 +432,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     <i className='fa fa-check'/>
                     <FormattedHTMLMessage
                         id={AnnouncementBarMessages.EMAIL_VERIFIED}
-                        defaultMessage=' Email verified'
+                        defaultMessage='Email verified'
                     />
                 </React.Fragment>
             );

@@ -43,8 +43,19 @@
                 text-decoration: none;
             }
         }
+
+    }
+
+    .fa-wrapper {
+        margin: 0 5px;
+    }
+
+    .resend-verification-wrapper:before {
+        content: "\00a0 ";
     }
 }
+
+
 
 .announcement-bar-critical {
     background-color: #B0171F;

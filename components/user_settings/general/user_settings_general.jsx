@@ -154,10 +154,12 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.state.showSpinner) {
             resendHTML = (
                 <span>
-                    <span
-                        className='fa fa-spinner icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
+                    <span className='fa-wrapper'>
+                        <span
+                            className='fa fa-spinner icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                    </span>
                     <FormattedMessage
                         id='user.settings.general.sending'
                         defaultMessage='Sending'
@@ -166,23 +168,25 @@ class UserSettingsGeneralTab extends React.Component {
             );
         } else {
             resendHTML = (
-                <a
-                    onClick={() => {
-                        this.handleEmailResend(email);
-                        setTimeout(() => {
-                            this.setState({
-                                showSpinner: false,
-                            }, () => {
-                                this.handleEmailVerificationError();
-                            });
-                        }, 500);
-                    }}
-                >
-                    <FormattedMessage
-                        id='user.settings.general.sendAgain'
-                        defaultMessage='Send again'
-                    />
-                </a>
+                <span className='resend-verification-wrapper'>
+                    <a
+                        onClick={() => {
+                            this.handleEmailResend(email);
+                            setTimeout(() => {
+                                this.setState({
+                                    showSpinner: false,
+                                }, () => {
+                                    this.handleEmailVerificationError();
+                                });
+                            }, 500);
+                        }}
+                    >
+                        <FormattedMessage
+                            id='user.settings.general.sendAgain'
+                            defaultMessage='Send again'
+                        />
+                    </a>
+                </span>
             );
         }
         return resendHTML;
@@ -458,7 +462,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <React.Fragment>
                             <FormattedHTMLMessage
                                 id='user.settings.general.emailHelp4'
-                                defaultMessage='A verification email was sent to {email}. <br />Cannot find the email? '
+                                defaultMessage='A verification email was sent to {email}. <br />Cannot find the email?'
                                 values={{
                                     email: newEmail,
                                 }}
