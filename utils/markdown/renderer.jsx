@@ -209,6 +209,14 @@ export default class Renderer extends marked.Renderer {
         return `<div class="table-responsive"><table class="markdown__table"><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
     }
 
+    tablerow(content) {
+        return `<tr>${content}</tr>`;
+    }
+
+    tablecell(content, flags) {
+        return marked.Renderer.prototype.tablecell(content, flags).trim();
+    }
+
     listitem(text, bullet) {
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
