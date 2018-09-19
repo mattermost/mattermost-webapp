@@ -42,6 +42,10 @@ const holders = defineMessages({
         id: 'user.settings.modal.advanced',
         defaultMessage: 'Advanced',
     },
+    checkEmail: {
+        id: 'user.settings.general.checkEmail',
+        defaultMessage: 'Check your email at {email} to verify the address. Cannot find the email?',
+    },
     confirmTitle: {
         id: 'user.settings.modal.confirmTitle',
         defaultMessage: 'Discard Changes?',
@@ -77,6 +81,18 @@ class UserSettingsModal extends React.Component {
         // If set by a child, it will be called in place of showing the regular confirm
         // modal. It will be passed a function to call on modal confirm
         this.customConfirmAction = null;
+    }
+
+    handleResend = (email) => {
+        this.setState({resendStatus: 'sending'});
+
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+            if (data) {
+                this.setState({resendStatus: 'success'});
+            } else if (err) {
+                this.setState({resendStatus: 'failure'});
+            }
+        });
     }
 
     onUserChanged = () => {
@@ -318,6 +334,11 @@ UserSettingsModal.propTypes = {
     intl: intlShape.isRequired,
     closeUnusedDirectMessages: PropTypes.bool,
     experimentalGroupUnreadChannels: PropTypes.string,
+    sendEmailNotifications: PropTypes.bool,
+    requireEmailVerification: PropTypes.bool,
+    actions: PropTypes.shape({
+        sendVerificationEmail: PropTypes.func.isRequred,
+    }).isRequired,
 };
 
 export default injectIntl(UserSettingsModal);

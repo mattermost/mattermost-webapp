@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -16,8 +16,6 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -35,10 +33,6 @@ const holders = defineMessages({
     emailMatch: {
         id: 'user.settings.general.emailMatch',
         defaultMessage: 'The new emails you entered do not match.',
-    },
-    checkEmail: {
-        id: 'user.settings.general.checkEmail',
-        defaultMessage: 'Check your email at {email} to verify the address.',
     },
     validImage: {
         id: 'user.settings.general.validImage',
@@ -105,6 +99,7 @@ class UserSettingsGeneralTab extends React.Component {
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
+            sendVerificationEmail: PropTypes.func.isRequred,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -123,6 +118,70 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitActive = false;
 
         this.state = this.setupInitialState(props);
+    }
+
+    handleEmailVerificationError = () => {
+        ErrorStore.storeLastError({
+            notification: true,
+            message: Constants.AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
+        });
+        ErrorStore.emitChange();
+    }
+
+    handleEmailResend = (email) => {
+        this.setState({resendStatus: 'sending', showSpinner: true}, () => {
+            this.handleEmailVerificationError();
+        });
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+            if (data) {
+                this.setState({resendStatus: 'success'});
+            } else if (err) {
+                this.setState({resendStatus: 'failure'});
+            }
+        });
+    }
+
+    createEmailResendLink = (email) => {
+        let resendHTML;
+        if (this.state.showSpinner) {
+            resendHTML = (
+                <React.Fragment>
+                    <span className='fa-wrapper'>
+                        <span
+                            className='fa fa-spinner icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                    </span>
+                    <FormattedMessage
+                        id='user.settings.general.sending'
+                        defaultMessage='Sending'
+                    />
+                </React.Fragment>
+            );
+        } else {
+            resendHTML = (
+                <span className='resend-verification-wrapper'>
+                    <a
+                        onClick={() => {
+                            this.handleEmailResend(email);
+                            setTimeout(() => {
+                                this.setState({
+                                    showSpinner: false,
+                                }, () => {
+                                    this.handleEmailVerificationError();
+                                });
+                            }, 500);
+                        }}
+                    >
+                        <FormattedMessage
+                            id='user.settings.general.sendAgain'
+                            defaultMessage='Send again'
+                        />
+                    </a>
+                </span>
+            );
+        }
+        return resendHTML;
     }
 
     submitUsername = () => {
@@ -214,17 +273,14 @@ class UserSettingsGeneralTab extends React.Component {
 
     submitUser = (user, emailUpdated) => {
         this.setState({sectionIsSaving: true});
-
         updateUser(
             user,
             () => {
                 this.updateSection('');
                 this.props.actions.getMe();
                 const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
-
                 if (verificationEnabled) {
-                    ErrorStore.storeLastError({message: this.props.intl.formatMessage(holders.checkEmail, {email: user.email})});
-                    ErrorStore.emitChange();
+                    this.handleEmailVerificationError();
                     this.setState({emailChangeInProgress: true});
                 }
             },
@@ -356,14 +412,13 @@ class UserSettingsGeneralTab extends React.Component {
             confirmEmail: '',
             pictureFile: null,
             loadingPicture: false,
-            emailChangeInProgress: false,
+            emailChangeInProgress: props.sendEmailNotifications && props.requireEmailVerification && !user.email_verified,
             sectionIsSaving: false,
         };
     }
 
     createEmailSection() {
         let emailSection;
-
         if (this.props.activeSection === 'email') {
             const emailEnabled = this.props.sendEmailNotifications;
             const emailVerificationEnabled = this.props.requireEmailVerification;
@@ -396,13 +451,16 @@ class UserSettingsGeneralTab extends React.Component {
                 const newEmail = UserStore.getCurrentUser().email;
                 if (newEmail) {
                     helpText = (
-                        <FormattedMessage
-                            id='user.settings.general.emailHelp4'
-                            defaultMessage='A verification email was sent to {email}.'
-                            values={{
-                                email: newEmail,
-                            }}
-                        />
+                        <React.Fragment>
+                            <FormattedHTMLMessage
+                                id='user.settings.general.emailHelp4'
+                                defaultMessage='A verification email was sent to {email}. <br />Cannot find the email?'
+                                values={{
+                                    email: newEmail,
+                                }}
+                            />
+                            {this.createEmailResendLink(newEmail)}
+                        </React.Fragment>
                     );
                 }
             }
@@ -587,13 +645,15 @@ class UserSettingsGeneralTab extends React.Component {
                     const newEmail = UserStore.getCurrentUser().email;
                     if (newEmail) {
                         describe = (
-                            <FormattedMarkdownMessage
-                                id='user.settings.general.newAddress'
-                                defaultMessage='New Address: {email}\nCheck your email to verify the above address.'
-                                values={{
-                                    email: newEmail,
-                                }}
-                            />
+                            <React.Fragment>
+                                <FormattedHTMLMessage
+                                    id='user.settings.general.newAddress'
+                                    defaultMessage='Check your email to verify {email}'
+                                    values={{
+                                        email: newEmail,
+                                    }}
+                                />
+                            </React.Fragment>
                         );
                     } else {
                         describe = (

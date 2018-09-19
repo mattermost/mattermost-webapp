@@ -447,6 +447,14 @@
                     margin-top: 20px;
                 }
 
+                .fa-wrapper {
+                    margin: 0 5px;
+                }
+
+                .resend-verification-wrapper:before {
+                    content: "\00a0 ";
+                }
+
                 .mentions-input {
                     margin-top: 10px;
                 }

@@ -469,13 +469,27 @@ export const JobStatuses = {
     CANCELED: 'canceled',
 };
 
-export const ErrorBarTypes = {
-    LICENSE_EXPIRING: 'error_bar.license_expiring',
-    LICENSE_EXPIRED: 'error_bar.license_expired',
-    LICENSE_PAST_GRACE: 'error_bar.past_grace',
-    PREVIEW_MODE: 'error_bar.preview_mode',
-    SITE_URL: 'error_bar.site_url',
+export const AnnouncementBarTypes = {
+    ANNOUNCEMENT: 'announcement',
+    CRITICAL: 'critical',
+    DEVELOPER: 'developer',
+    SUCCESS: 'success',
+};
+
+export const AnnouncementBarMessages = {
+    EMAIL_VERIFICATION_REQUIRED: 'announcement_bar.error.email_verification_required',
+    EMAIL_VERIFIED: 'announcement_bar.notification.email_verified',
+    LICENSE_EXPIRED: 'announcement_bar.error.license_expired',
+    LICENSE_EXPIRING: 'announcement_bar.error.license_expiring',
+    LICENSE_PAST_GRACE: 'announcement_bar.error.past_grace',
+    PREVIEW_MODE: 'announcement_bar.error.preview_mode',
+    SITE_URL: 'announcement_bar.error.site_url',
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
+};
+
+export const VerifyEmailErrors = {
+    FAILED_EMAIL_VERIFICATION: 'failed_email_verification',
+    FAILED_USER_STATE_UPDATE: 'failed_update_user_state',
 };
 
 export const FileTypes = {
@@ -650,7 +664,8 @@ export const Constants = {
     TutorialSteps,
     PostTypes,
     ErrorPageTypes,
-    ErrorBarTypes,
+    AnnouncementBarTypes,
+    AnnouncementBarMessages,
     FileTypes,
 
     MAX_POST_VISIBILITY: 1000000,

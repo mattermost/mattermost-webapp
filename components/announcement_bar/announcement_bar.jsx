@@ -10,7 +10,7 @@ import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 
-import {ErrorBarTypes, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
+import {AnnouncementBarTypes, AnnouncementBarMessages, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -18,10 +18,6 @@ import * as Utils from 'utils/utils.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
-
-const BAR_DEVELOPER_TYPE = 'developer';
-const BAR_CRITICAL_TYPE = 'critical';
-const BAR_ANNOUNCEMENT_TYPE = 'announcement';
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -46,6 +42,18 @@ export default class AnnouncementBar extends React.PureComponent {
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
+        requireEmailVerification: PropTypes.bool,
+        user: PropTypes.shape({
+            email: PropTypes.string.isRequired,
+            email_verified: PropTypes.bool,
+        }),
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to send a verification email to the user
+             */
+            sendVerificationEmail: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -55,7 +63,10 @@ export default class AnnouncementBar extends React.PureComponent {
         this.onAnalyticsChange = this.onAnalyticsChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
-        ErrorStore.clearLastError(true);
+        const lastError = ErrorStore.getLastError();
+        if (lastError && lastError.message !== AnnouncementBarMessages.EMAIL_VERIFIED) {
+            ErrorStore.clearLastError(true);
+        }
 
         this.setInitialError();
 
@@ -72,29 +83,87 @@ export default class AnnouncementBar extends React.PureComponent {
         }
     }
 
+    handleEmailResend = (email) => {
+        this.setState({resendStatus: 'sending', showSpinner: true});
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+            if (data) {
+                this.setState({resendStatus: 'success'});
+            } else if (err) {
+                this.setState({resendStatus: 'failure'});
+            }
+        });
+    }
+
+    createEmailResendLink = (email) => {
+        let resendHTML;
+        if (this.state && this.state.showSpinner) {
+            resendHTML = (
+                <React.Fragment>
+                    <span className='fa-wrapper'>
+                        <span
+                            className='fa fa-spinner icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                    </span>
+                    <FormattedMessage
+                        id='announcement_bar.error.sending'
+                        defaultMessage='Sending'
+                    />
+                </React.Fragment>
+            );
+        } else {
+            resendHTML = (
+                <span className='resend-verification-wrapper'>
+                    <a
+                        onClick={() => {
+                            this.handleEmailResend(email);
+                            setTimeout(() => {
+                                this.setState({
+                                    showSpinner: false,
+                                });
+                            }, 500);
+                        }}
+                    >
+                        <FormattedMessage
+                            id='announcement_bar.error.send_again'
+                            defaultMessage='Send again'
+                        />
+                    </a>
+                </span>
+            );
+        }
+        return resendHTML;
+    };
     setInitialError = () => {
         const errorIgnored = ErrorStore.getIgnoreNotification();
 
         if (!errorIgnored) {
             if (this.props.canViewSystemErrors && this.props.siteURL === '') {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.SITE_URL});
+                ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.SITE_URL});
                 return;
             } else if (!this.props.sendEmailNotifications && this.props.enablePreviewMode) {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.PREVIEW_MODE});
+                ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.PREVIEW_MODE});
                 return;
             }
         }
 
         if (isLicensePastGracePeriod()) {
             if (this.props.canViewSystemErrors) {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
+                ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.LICENSE_EXPIRED, type: AnnouncementBarTypes.CRITICAL});
             } else {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_PAST_GRACE, type: BAR_CRITICAL_TYPE});
+                ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.LICENSE_PAST_GRACE, type: AnnouncementBarTypes.CRITICAL});
             }
         } else if (isLicenseExpired() && this.props.canViewSystemErrors) {
-            ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
+            ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.LICENSE_EXPIRED, type: AnnouncementBarTypes.CRITICAL});
         } else if (isLicenseExpiring() && this.props.canViewSystemErrors) {
-            ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRING, type: BAR_CRITICAL_TYPE});
+            ErrorStore.storeLastError({notification: true, message: AnnouncementBarMessages.LICENSE_EXPIRING, type: AnnouncementBarTypes.CRITICAL});
+        }
+
+        if (this.props.isLoggedIn && this.props.user && !this.props.user.email_verified && this.props.requireEmailVerification) {
+            ErrorStore.storeLastError({
+                notification: true,
+                message: AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
+            });
         }
     }
 
@@ -118,7 +187,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 message: bannerText,
                 color: props.bannerColor,
                 textColor: props.bannerTextColor,
-                type: BAR_ANNOUNCEMENT_TYPE,
+                type: AnnouncementBarTypes.ANNOUNCEMENT,
                 allowDismissal,
             };
         }
@@ -135,7 +204,7 @@ export default class AnnouncementBar extends React.PureComponent {
             return false;
         }
 
-        if (s.message === ErrorBarTypes.LICENSE_EXPIRING && !this.state.totalUsers) {
+        if (s.message === AnnouncementBarMessages.LICENSE_EXPIRING && !this.state.totalUsers) {
             return false;
         }
 
@@ -144,15 +213,22 @@ export default class AnnouncementBar extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.isLoggedIn && !this.state.allowDismissal) {
-            document.body.classList.add('error-bar--fixed');
+            document.body.classList.add('announcement-bar--fixed');
         }
 
         ErrorStore.addChangeListener(this.onErrorChange);
         AnalyticsStore.addChangeListener(this.onAnalyticsChange);
+
+        if (this.state.message === AnnouncementBarMessages.EMAIL_VERIFIED) {
+            setTimeout(() => {
+                ErrorStore.storeLastError('');
+                ErrorStore.emitChange();
+            }, 4000);
+        }
     }
 
     componentWillUnmount() {
-        document.body.classList.remove('error-bar--fixed');
+        document.body.classList.remove('announcement-bar--fixed');
         ErrorStore.removeChangeListener(this.onErrorChange);
         AnalyticsStore.removeChangeListener(this.onAnalyticsChange);
     }
@@ -163,16 +239,23 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         if (!prevState.allowDismissal && this.state.allowDismissal) {
-            document.body.classList.remove('error-bar--fixed');
+            document.body.classList.remove('announcement-bar--fixed');
         } else if (prevState.allowDismissal && !this.state.allowDismissal) {
-            document.body.classList.add('error-bar--fixed');
+            document.body.classList.add('announcement-bar--fixed');
         }
     }
 
     onErrorChange() {
         const newState = this.getState();
-        if (newState.message === ErrorBarTypes.LICENSE_EXPIRING && !this.state.totalUsers) {
+        if (newState.message === AnnouncementBarMessages.LICENSE_EXPIRING && !this.state.totalUsers) {
             AdminActions.getStandardAnalytics();
+        }
+
+        if (newState.message === AnnouncementBarMessages.EMAIL_VERIFIED) {
+            setTimeout(() => {
+                ErrorStore.storeLastError('');
+                ErrorStore.emitChange();
+            }, 4000);
         }
         this.setState(newState);
     }
@@ -187,7 +270,7 @@ export default class AnnouncementBar extends React.PureComponent {
             e.preventDefault();
         }
 
-        if (this.state.type === BAR_ANNOUNCEMENT_TYPE) {
+        if (this.state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
             localStorage.setItem(StoragePrefixes.ANNOUNCEMENT + this.state.message, true);
         }
 
@@ -205,22 +288,24 @@ export default class AnnouncementBar extends React.PureComponent {
             return <div/>;
         }
 
-        if (!this.props.isLoggedIn && this.state.type === BAR_ANNOUNCEMENT_TYPE) {
+        if (!this.props.isLoggedIn && this.state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
             return <div/>;
         }
 
-        let errClass = 'error-bar';
-        let dismissClass = ' error-bar--fixed';
+        let barClass = 'announcement-bar';
+        let dismissClass = ' announcement-bar--fixed';
         const barStyle = {};
         const linkStyle = {};
         if (this.state.color && this.state.textColor) {
             barStyle.backgroundColor = this.state.color;
             barStyle.color = this.state.textColor;
             linkStyle.color = this.state.textColor;
-        } else if (this.state.type === BAR_DEVELOPER_TYPE) {
-            errClass = 'error-bar error-bar-developer';
-        } else if (this.state.type === BAR_CRITICAL_TYPE) {
-            errClass = 'error-bar error-bar-critical';
+        } else if (this.state.type === AnnouncementBarTypes.DEVELOPER) {
+            barClass = 'announcement-bar announcement-bar-developer';
+        } else if (this.state.type === AnnouncementBarTypes.CRITICAL) {
+            barClass = 'announcement-bar announcement-bar-critical';
+        } else if (this.state.type === AnnouncementBarTypes.SUCCESS) {
+            barClass = 'announcement-bar announcement-bar-success';
         }
 
         let closeButton;
@@ -229,7 +314,7 @@ export default class AnnouncementBar extends React.PureComponent {
             closeButton = (
                 <a
                     href='#'
-                    className='error-bar__close'
+                    className='announcement-bar__close'
                     style={linkStyle}
                     onClick={this.handleClose}
                 >
@@ -241,23 +326,23 @@ export default class AnnouncementBar extends React.PureComponent {
         const renewalLink = RENEWAL_LINK + '?id=' + this.props.licenseId + '&user_count=' + this.state.totalUsers;
 
         let message = this.state.message;
-        if (this.state.type === BAR_ANNOUNCEMENT_TYPE) {
+        if (this.state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
             message = (
                 <span
                     dangerouslySetInnerHTML={{__html: TextFormatting.formatText(message, {singleline: true, mentionHighlight: false})}}
                 />
             );
-        } else if (message === ErrorBarTypes.PREVIEW_MODE) {
+        } else if (message === AnnouncementBarMessages.PREVIEW_MODE) {
             message = (
                 <FormattedMessage
-                    id={ErrorBarTypes.PREVIEW_MODE}
+                    id={AnnouncementBarMessages.PREVIEW_MODE}
                     defaultMessage='Preview Mode: Email notifications have not been configured'
                 />
             );
-        } else if (message === ErrorBarTypes.LICENSE_EXPIRING) {
+        } else if (message === AnnouncementBarMessages.LICENSE_EXPIRING) {
             message = (
                 <FormattedHTMLMessage
-                    id={ErrorBarTypes.LICENSE_EXPIRING}
+                    id={AnnouncementBarMessages.LICENSE_EXPIRING}
                     defaultMessage='Enterprise license expires on {date}. <a href="{link}" target="_blank">Please renew</a>.'
                     values={{
                         date: displayExpiryDate(),
@@ -265,38 +350,38 @@ export default class AnnouncementBar extends React.PureComponent {
                     }}
                 />
             );
-        } else if (message === ErrorBarTypes.LICENSE_EXPIRED) {
+        } else if (message === AnnouncementBarMessages.LICENSE_EXPIRED) {
             message = (
                 <FormattedHTMLMessage
-                    id={ErrorBarTypes.LICENSE_EXPIRED}
+                    id={AnnouncementBarMessages.LICENSE_EXPIRED}
                     defaultMessage='Enterprise license is expired and some features may be disabled. <a href="{link}" target="_blank">Please renew</a>.'
                     values={{
                         link: renewalLink,
                     }}
                 />
             );
-        } else if (message === ErrorBarTypes.LICENSE_PAST_GRACE) {
+        } else if (message === AnnouncementBarMessages.LICENSE_PAST_GRACE) {
             message = (
                 <FormattedMessage
-                    id={ErrorBarTypes.LICENSE_PAST_GRACE}
+                    id={AnnouncementBarMessages.LICENSE_PAST_GRACE}
                     defaultMessage='Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.'
                 />
             );
-        } else if (message === ErrorBarTypes.WEBSOCKET_PORT_ERROR) {
+        } else if (message === AnnouncementBarMessages.WEBSOCKET_PORT_ERROR) {
             message = (
                 <FormattedMarkdownMessage
-                    id={ErrorBarTypes.WEBSOCKET_PORT_ERROR}
+                    id={AnnouncementBarMessages.WEBSOCKET_PORT_ERROR}
                     defaultMessage={'Please check connection, Mattermost unreachable. If issue persists, ask administrator to [check WebSocket port](!https://about.mattermost.com/default-websocket-port-help).'}
                 />
             );
-        } else if (message === ErrorBarTypes.SITE_URL) {
+        } else if (message === AnnouncementBarMessages.SITE_URL) {
             let id;
             let defaultMessage;
             if (this.props.enableSignUpWithGitLab) {
-                id = 'error_bar.site_url_gitlab';
+                id = 'announcement_bar.error.site_url_gitlab';
                 defaultMessage = 'Please configure your {docsLink} in the System Console or in gitlab.rb if you\'re using GitLab Mattermost.';
             } else {
-                id = 'error_bar.site_url';
+                id = 'announcement_bar.error.site_url';
                 defaultMessage = 'Please configure your {docsLink} in the System Console.';
             }
 
@@ -312,7 +397,7 @@ export default class AnnouncementBar extends React.PureComponent {
                                 target='_blank'
                             >
                                 <FormattedMessage
-                                    id='error_bar.site_url.docsLink'
+                                    id='announcement_bar.error.site_url.docsLink'
                                     defaultMessage='Site URL'
                                 />
                             </a>
@@ -320,7 +405,7 @@ export default class AnnouncementBar extends React.PureComponent {
                         link: (
                             <Link to='/admin_console/general/configuration'>
                                 <FormattedMessage
-                                    id='error_bar.site_url.link'
+                                    id='announcement_bar.error.site_url.link'
                                     defaultMessage='the System Console'
                                 />
                             </Link>
@@ -328,11 +413,34 @@ export default class AnnouncementBar extends React.PureComponent {
                     }}
                 />
             );
+        } else if (message === AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED) {
+            message = (
+                <React.Fragment>
+                    <FormattedHTMLMessage
+                        id={AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED}
+                        defaultMessage='Check your email at {email} to verify the address. Cannot find the email?'
+                        values={{
+                            email: this.props.user.email,
+                        }}
+                    />
+                    {this.createEmailResendLink(this.props.user.email)}
+                </React.Fragment>
+            );
+        } else if (message === AnnouncementBarMessages.EMAIL_VERIFIED) {
+            message = (
+                <React.Fragment>
+                    <i className='fa fa-check'/>
+                    <FormattedHTMLMessage
+                        id={AnnouncementBarMessages.EMAIL_VERIFIED}
+                        defaultMessage='Email verified'
+                    />
+                </React.Fragment>
+            );
         }
 
         return (
             <div
-                className={errClass + dismissClass}
+                className={barClass + dismissClass}
                 style={barStyle}
             >
                 <span>{message}</span>

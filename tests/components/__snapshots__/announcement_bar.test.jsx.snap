@@ -4,7 +4,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
 
 exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
 <div
-  className="error-bar"
+  className="announcement-bar"
   style={
     Object {
       "backgroundColor": "green",
@@ -22,7 +22,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
     />
   </span>
   <a
-    className="error-bar__close"
+    className="announcement-bar__close"
     href="#"
     onClick={[Function]}
     style={
@@ -38,7 +38,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
 
 exports[`components/AnnouncementBar should match snapshot, bar showing, no dismissal 1`] = `
 <div
-  className="error-bar error-bar--fixed"
+  className="announcement-bar announcement-bar--fixed"
   style={
     Object {
       "backgroundColor": "green",
@@ -60,7 +60,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
 
 exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
 <div
-  className="error-bar"
+  className="announcement-bar"
   style={
     Object {
       "backgroundColor": "green",
@@ -78,7 +78,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
     />
   </span>
   <a
-    className="error-bar__close"
+    className="announcement-bar__close"
     href="#"
     onClick={[Function]}
     style={
@@ -98,7 +98,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `<div
 
 exports[`components/AnnouncementBar should match snapshot, dismissal 4`] = `
 <div
-  className="error-bar"
+  className="announcement-bar"
   style={
     Object {
       "backgroundColor": "yellow",
@@ -116,7 +116,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 4`] = `
     />
   </span>
   <a
-    className="error-bar__close"
+    className="announcement-bar__close"
     href="#"
     onClick={[Function]}
     style={
@@ -132,7 +132,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 4`] = `
 
 exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
 <div
-  className="error-bar"
+  className="announcement-bar"
   style={
     Object {
       "backgroundColor": "green",
@@ -150,7 +150,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
     />
   </span>
   <a
-    className="error-bar__close"
+    className="announcement-bar__close"
     href="#"
     onClick={[Function]}
     style={
@@ -166,7 +166,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
 
 exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
 <div
-  className="error-bar"
+  className="announcement-bar"
   style={
     Object {
       "backgroundColor": "yellow",
@@ -184,7 +184,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
     />
   </span>
   <a
-    className="error-bar__close"
+    className="announcement-bar__close"
     href="#"
     onClick={[Function]}
     style={
@@ -200,7 +200,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
 
 exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
 <div
-  className="error-bar error-bar--fixed"
+  className="announcement-bar announcement-bar--fixed"
   style={
     Object {
       "backgroundColor": "yellow",

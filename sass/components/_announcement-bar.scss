@@ -1,6 +1,6 @@
 @charset 'UTF-8';
 
-.error-bar {
+.announcement-bar {
     background-color: darken($primary-color, 5%);
     color: $white;
     padding: 5px 30px;
@@ -10,7 +10,7 @@
     width: 100%;
     z-index: 9999;
 
-    &.error-bar--fixed {
+    &.announcement-bar--fixed {
         overflow: hidden;
         padding: 1px 30px;
         text-overflow: ellipsis;
@@ -27,7 +27,7 @@
             color: inherit !important;
         }
 
-        &.error-bar__close {
+        &.announcement-bar__close {
             color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 20px;
@@ -43,13 +43,29 @@
                 text-decoration: none;
             }
         }
+
+    }
+
+    .fa-wrapper {
+        margin: 0 5px;
+    }
+
+    .resend-verification-wrapper:before {
+        content: "\00a0 ";
     }
 }
 
-.error-bar-critical {
+
+
+.announcement-bar-critical {
     background-color: #B0171F;
 }
 
-.error-bar-developer {
+.announcement-bar-developer {
     background-color: purple;
+}
+
+.announcement-bar-success {
+    color: #3c763d;
+    background-color: #dff0d8;
 }
