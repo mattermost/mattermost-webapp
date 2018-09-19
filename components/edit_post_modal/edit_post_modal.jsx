@@ -225,6 +225,8 @@ export default class EditPostModal extends React.PureComponent {
     handleKeyDown = (e) => {
         if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
+        } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+            this.handleHide();
         }
     }
 
@@ -297,6 +299,7 @@ export default class EditPostModal extends React.PureComponent {
                 onEntered={this.handleEntered}
                 onExit={this.handleExit}
                 onExited={this.handleExited}
+                keyboard={false}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

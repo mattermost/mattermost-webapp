@@ -9,7 +9,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -139,7 +139,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -247,7 +247,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -377,7 +377,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
   dialogClassName="edit-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
