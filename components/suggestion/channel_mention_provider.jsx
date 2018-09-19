@@ -62,6 +62,8 @@ export default class ChannelMentionProvider extends Provider {
     }
 
     handlePretextChanged(suggestionId, pretext) {
+        this.resetRequest();
+
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
 
         if (!captured) {
