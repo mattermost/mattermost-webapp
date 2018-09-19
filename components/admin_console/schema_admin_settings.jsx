@@ -121,7 +121,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'config') {
-            this.doSubmit(null, this.getStateFromConfig);
+            this.doSubmit(null, SchemaAdminSettings.getStateFromConfig);
         } else {
             this.setState({
                 saving: false,
