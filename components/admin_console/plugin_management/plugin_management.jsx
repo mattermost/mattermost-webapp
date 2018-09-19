@@ -149,6 +149,7 @@ const PluginItem = ({
     handleDisable,
     handleRemove,
     showInstances,
+    hasSettings,
 }) => {
     let activateButton;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
@@ -193,8 +194,8 @@ const PluginItem = ({
         );
     }
 
-    let settingsButton;
-    if (pluginStatus.settings_schema) {
+    let settingsButton = null;
+    if (hasSettings) {
         settingsButton = (
             <span>
                 {' - '}
@@ -383,12 +384,14 @@ PluginItem.propTypes = {
     handleDisable: PropTypes.func.isRequired,
     handleRemove: PropTypes.func.isRequired,
     showInstances: PropTypes.bool.isRequired,
+    hasSettings: PropTypes.bool.isRequired,
 };
 
 export default class PluginManagement extends React.Component {
     static propTypes = {
         config: PropTypes.object.isRequired,
         pluginStatuses: PropTypes.object.isRequired,
+        plugins: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             uploadPlugin: PropTypes.func.isRequired,
             removePlugin: PropTypes.func.isRequired,
@@ -563,6 +566,7 @@ export default class PluginManagement extends React.Component {
 
                 return 0;
             });
+
             pluginsList = plugins.map((pluginStatus) => (
                 <PluginItem
                     key={pluginStatus.id}
@@ -572,6 +576,7 @@ export default class PluginManagement extends React.Component {
                     handleDisable={this.handleDisable}
                     handleRemove={this.handleRemove}
                     showInstances={showInstances}
+                    hasSettings={Boolean(this.props.plugins[pluginStatus.id] && this.props.plugins[pluginStatus.id].settings_schema)}
                 />
             ));
 

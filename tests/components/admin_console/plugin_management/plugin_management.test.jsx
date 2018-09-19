@@ -55,6 +55,34 @@ describe('components/PluginManagement', () => {
                 ],
             },
         },
+        plugins: {
+            plugin_0: {
+                active: false,
+                description: 'The plugin 0.',
+                id: 'plugin_0',
+                name: 'Plugin 0',
+                version: '0.1.0',
+                settings_schema: {
+                    footer: 'This is a footer',
+                    header: 'This is a header',
+                    settings: [],
+                },
+                webapp: {},
+            },
+            plugin_1: {
+                active: true,
+                description: 'The plugin 1.',
+                id: 'plugin_1',
+                name: 'Plugin 1',
+                version: '0.1.0',
+                settings_schema: {
+                    footer: 'This is a footer',
+                    header: 'This is a header',
+                    settings: [],
+                },
+                webapp: {},
+            },
+        },
         actions: {
             uploadPlugin: jest.fn(),
             removePlugin: jest.fn(),
