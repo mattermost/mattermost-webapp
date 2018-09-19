@@ -630,6 +630,13 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        // Bit of a hack to not steal focus from the channel switch modal if it's open
+        // This is a special case as the channel switch modal does not enforce focus like
+        // most modals do
+        if (document.getElementsByClassName('channel-switch-modal').length) {
+            return;
+        }
+
         if (PostUtils.shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
         }
