@@ -326,14 +326,41 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
           spaceRequiredBelow={497}
           target={[Function]}
         />
-        <button
-          className="reacticon__container color--link style--none"
-          onClick={[Function]}
+        <OverlayTrigger
+          className="hidden-xs"
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="reaction-icon-tooltip"
+              placement="right"
+            >
+              <FormattedMessage
+                defaultMessage="Add Reaction"
+                id="post_info.tooltip.add_reactions"
+                values={Object {}}
+              />
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
         >
-          <EmojiIcon
-            className="icon icon--emoji"
-          />
-        </button>
+          <button
+            className="reacticon__container color--link style--none"
+            onClick={[Function]}
+          >
+            <EmojiIcon
+              className="icon icon--emoji"
+            />
+          </button>
+        </OverlayTrigger>
       </div>
     </Connect(ChannelPermissionGate)>
     <CommentIcon

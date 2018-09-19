@@ -3,6 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import ReplyIcon from 'components/svg/reply_icon';
 import * as Utils from 'utils/utils.jsx';
@@ -47,15 +49,34 @@ export default class CommentIcon extends React.PureComponent {
 
         const id = Utils.createSafeId(this.props.idPrefix + '_' + this.props.id);
 
-        return (
-            <button
-                id={id}
-                className={iconStyle + ' color--link style--none ' + selectorId + ' ' + this.props.extraClass}
-                onClick={this.props.handleCommentClick}
+        const tooltip = (
+            <Tooltip
+                id='comment-icon-tooltip'
+                className='hidden-xs'
             >
-                <ReplyIcon className='comment-icon'/>
-                {commentCountSpan}
-            </button>
+                <FormattedMessage
+                    id='post_info.comment_icon.tooltip.reply'
+                    defaultMessage='Reply'
+                />
+            </Tooltip>
+        );
+
+        return (
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={tooltip}
+            >
+                <button
+                    id={id}
+                    className={iconStyle + ' color--link style--none ' + selectorId + ' ' + this.props.extraClass}
+                    onClick={this.props.handleCommentClick}
+                >
+                    <ReplyIcon className='comment-icon'/>
+                    {commentCountSpan}
+                </button>
+            </OverlayTrigger>
         );
     }
 }
