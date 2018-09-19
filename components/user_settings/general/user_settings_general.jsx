@@ -118,13 +118,11 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitActive = false;
 
         this.state = this.setupInitialState(props);
-    }
 
-    componentWillMount() {
-        const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification;
+        const verificationEnabled = props.sendEmailNotifications && props.requireEmailVerification;
 
-        if (verificationEnabled && !this.props.user.email_verified) {
-            this.setState({emailChangeInProgress: true});
+        if (verificationEnabled && !props.user.email_verified) {
+            this.state = Object.assign({}, this.state, {emailChangeInProgress: true});
         }
     }
 
