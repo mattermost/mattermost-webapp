@@ -92,6 +92,23 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                 </button>
               </li>
               <li
+                key="dropdown_mute"
+                role="presentation"
+              >
+                <button
+                  className="style--none"
+                  id="channelMute"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Mute Channel"
+                    id="channel_header.mute"
+                    values={Object {}}
+                  />
+                </button>
+              </li>
+              <li
                 className="divider"
                 key="divider-1"
               />
@@ -380,6 +397,23 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 </button>
               </li>
               <li
+                key="dropdown_mute"
+                role="presentation"
+              >
+                <button
+                  className="style--none"
+                  id="channelMute"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Mute Channel"
+                    id="channel_header.mute"
+                    values={Object {}}
+                  />
+                </button>
+              </li>
+              <li
                 className="divider"
                 key="divider-1"
               />
@@ -661,6 +695,23 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   <FormattedMessage
                     defaultMessage="View Members"
                     id="channel_header.viewMembers"
+                    values={Object {}}
+                  />
+                </button>
+              </li>
+              <li
+                key="dropdown_mute"
+                role="presentation"
+              >
+                <button
+                  className="style--none"
+                  id="channelMute"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Mute Channel"
+                    id="channel_header.mute"
                     values={Object {}}
                   />
                 </button>
