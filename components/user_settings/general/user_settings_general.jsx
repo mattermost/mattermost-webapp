@@ -118,12 +118,6 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitActive = false;
 
         this.state = this.setupInitialState(props);
-
-        const verificationEnabled = props.sendEmailNotifications && props.requireEmailVerification;
-
-        if (verificationEnabled && !props.user.email_verified) {
-            this.state = Object.assign({}, this.state, {emailChangeInProgress: true});
-        }
     }
 
     handleEmailVerificationError = () => {
@@ -418,7 +412,7 @@ class UserSettingsGeneralTab extends React.Component {
             confirmEmail: '',
             pictureFile: null,
             loadingPicture: false,
-            emailChangeInProgress: false,
+            emailChangeInProgress: props.sendEmailNotifications && props.requireEmailVerification && !user.email_verified,
             sectionIsSaving: false,
         };
     }
