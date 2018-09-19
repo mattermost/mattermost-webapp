@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {getDirectTeammate, isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 
 const holders = defineMessages({
     sessionRevoked: {
@@ -218,16 +216,13 @@ function AuditTable(props) {
     const {formatMessage} = props.intl;
     for (var i = 0; i < props.audits.length; i++) {
         const audit = props.audits[i];
-        const auditInfo = formatAuditInfo(audit, formatMessage);
+        const auditInfo = formatAuditInfo(audit, formatMessage, props.currentUser, props.getByName, props.getUser);
 
         let uContent;
         if (props.showUserId) {
-            var profile = UserStore.getProfile(auditInfo.userId);
-            if (profile) {
-                uContent = <td className='word-break--all'>{profile.email}</td>;
-            } else {
-                uContent = <td className='word-break--all'>{auditInfo.userId}</td>;
-            }
+            const profile = props.getUser(auditInfo.userId);
+            const data = profile ? profile.email : auditInfo.userId;
+            uContent = <td className='word-break--all'>{data}</td>;
         }
 
         let iContent;
@@ -330,11 +325,14 @@ AuditTable.propTypes = {
     showUserId: PropTypes.bool,
     showIp: PropTypes.bool,
     showSession: PropTypes.bool,
+    currentUser: PropTypes.object.isRequired,
+    getUser: PropTypes.func.isRequired,
+    getByName: PropTypes.func.isRequired,
 };
 
 export default injectIntl(AuditTable);
 
-export function formatAuditInfo(audit, formatMessage) {
+export function formatAuditInfo(audit, formatMessage, currentUser, getByName, getUser) {
     const actionURL = audit.action.replace(/\/api\/v[1-9]/, '');
     let auditDesc = '';
 
@@ -347,7 +345,7 @@ export function formatAuditInfo(audit, formatMessage) {
         let channelName = '';
         if (channelNameField.indexOf('name') >= 0) {
             channelURL = channelNameField[channelNameField.indexOf('name') + 1];
-            channelObj = ChannelStore.getByName(channelURL);
+            channelObj = getByName(channelURL);
             if (channelObj) {
                 channelName = channelObj.display_name;
             } else {
@@ -360,7 +358,7 @@ export function formatAuditInfo(audit, formatMessage) {
             auditDesc = formatMessage(holders.channelCreated, {channelName});
             break;
         case '/channels/create_direct':
-            auditDesc = formatMessage(holders.establishedDM, {username: Utils.getDirectTeammate(channelObj.id).username});
+            auditDesc = formatMessage(holders.establishedDM, {username: getDirectTeammate(channelObj.id).username});
             break;
         case '/channels/update':
             auditDesc = formatMessage(holders.nameUpdated, {channelName});
@@ -379,7 +377,7 @@ export function formatAuditInfo(audit, formatMessage) {
 
                 if (userIdField.indexOf('user_id') >= 0) {
                     userId = userIdField[userIdField.indexOf('user_id') + 1];
-                    var profile = UserStore.getProfile(userId);
+                    var profile = getUser(userId);
                     if (profile) {
                         username = profile.username;
                     }
@@ -498,9 +496,9 @@ export function formatAuditInfo(audit, formatMessage) {
 
                 const actingUserInfo = userInfo[1].split('=');
                 if (actingUserInfo[0] === 'session_user') {
-                    const actingUser = UserStore.getProfile(actingUserInfo[1]);
-                    const user = UserStore.getCurrentUser();
-                    if (user && actingUser && (Utils.isSystemAdmin(user.roles))) {
+                    const actingUser = getUser(actingUserInfo[1]);
+                    const user = currentUser;
+                    if (user && actingUser && isSystemAdmin(user.roles)) {
                         auditDesc += formatMessage(holders.by, {username: actingUser.username});
                     } else if (user && actingUser) {
                         auditDesc += formatMessage(holders.byAdmin);
@@ -579,7 +577,7 @@ export function formatAuditInfo(audit, formatMessage) {
             break;
         }
     } else if (actionURL.indexOf('/admin/download_compliance_report') === 0) {
-        auditDesc = Utils.toTitleCase(audit.extra_info);
+        auditDesc = toTitleCase(audit.extra_info);
     } else {
         switch (actionURL) {
         case '/logout':
@@ -602,7 +600,7 @@ export function formatAuditInfo(audit, formatMessage) {
             let actionDesc = '';
             if (actionURL && actionURL.lastIndexOf('/') !== -1) {
                 actionDesc = actionURL.substring(actionURL.lastIndexOf('/') + 1).replace('_', ' ');
-                actionDesc = Utils.toTitleCase(actionDesc);
+                actionDesc = toTitleCase(actionDesc);
             }
 
             let extraInfoDesc = '';

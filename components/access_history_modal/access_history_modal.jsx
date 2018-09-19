@@ -8,7 +8,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
-import AuditTable from 'components/audit_table.jsx';
+import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class AccessHistoryModal extends React.PureComponent {

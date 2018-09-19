@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import ComplianceReports from 'components/admin_console/compliance_reports';
 import {localizeMessage} from 'utils/utils.jsx';
-import AuditTable from 'components/audit_table.jsx';
+import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class Audits extends React.PureComponent {
