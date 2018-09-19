@@ -153,7 +153,7 @@ class UserSettingsGeneralTab extends React.Component {
         let resendHTML;
         if (this.state.showSpinner) {
             resendHTML = (
-                <span>
+                <React.Fragment>
                     <span className='fa-wrapper'>
                         <span
                             className='fa fa-spinner icon--rotate'
@@ -164,7 +164,7 @@ class UserSettingsGeneralTab extends React.Component {
                         id='user.settings.general.sending'
                         defaultMessage='Sending'
                     />
-                </span>
+                </React.Fragment>
             );
         } else {
             resendHTML = (
