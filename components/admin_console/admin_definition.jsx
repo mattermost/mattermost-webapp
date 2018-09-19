@@ -362,7 +362,7 @@ export default {
                             label: 'admin.general.localization.serverLocaleTitle',
                             label_default: 'Default Server Language:',
                             help_text: 'admin.general.localization.serverLocaleDescription',
-                            help_text_default: 'Default language for system messages and logs. Changing this will require a server restart before taking effect.',
+                            help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_LANGUAGE,
