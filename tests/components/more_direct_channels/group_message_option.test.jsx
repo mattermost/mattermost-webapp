@@ -4,7 +4,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import GroupMessageOption from 'components/more_direct_channels/group_message_option';
-import TestHelper from '../../helpers/client-test-helper';
+import TestHelper from 'tests/helpers/client-test-helper';
 
 describe('components/more_direct_channels/GroupMessageOption', () => {
     const user = TestHelper.fakeUser();

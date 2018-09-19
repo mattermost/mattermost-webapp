@@ -254,6 +254,7 @@ export default class MoreDirectChannels extends React.Component {
         if (option.type && option.type === 'G') {
             return (
                 <GroupMessageOption
+                    key={option.id}
                     channel={option}
                     isSelected={isSelected}
                     onAdd={onAdd}

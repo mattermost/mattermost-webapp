@@ -14,34 +14,20 @@ import {
     getCurrentUserId,
     getProfiles as selectProfiles,
     getProfilesInCurrentChannel,
-    getProfilesInCurrentTeam, makeGetProfilesInChannel,
-    searchProfiles as searchProfilesSelector,
+    getProfilesInCurrentTeam, searchProfiles as searchProfilesSelector,
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
-import {getGroupChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {setModalSearchTerm} from 'actions/views/search';
 
+import {matchExistsInChannelProfiles, getChannelsWithUserProfiles} from 'selectors/more_direct_channels';
+
 import MoreDirectChannels from './more_direct_channels.jsx';
-
-function getChannelsWithProfiles(state, currentUserId, searchTerm) {
-    const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const channels = getGroupChannels(state);
-
-    const channelsWithUserProfiles = channels.map((channel) => {
-        const profiles = doGetProfilesInChannel(state, channel.id).
-            filter((profile) => profile.id !== currentUserId);
-        return Object.assign({}, channel, {profiles});
-    }).filter((channel) => channel.display_name.indexOf(searchTerm) !== -1);
-
-    return channelsWithUserProfiles;
-}
 
 function mapStateToProps(state, ownProps) {
     const currentUserId = getCurrentUserId(state);
@@ -67,8 +53,9 @@ function mapStateToProps(state, ownProps) {
     } else {
         users = getProfilesInCurrentTeam(state);
     }
-    const channelsWithUserProfiles = getChannelsWithProfiles(state, currentUserId, searchTerm);
-    users = [...users, ...channelsWithUserProfiles];
+    const filteredDirectChannels = getChannelsWithUserProfiles(state).
+        filter((channel) => matchExistsInChannelProfiles(channel.profiles, searchTerm));
+    users = [...users, ...filteredDirectChannels];
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
