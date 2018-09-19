@@ -21,7 +21,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {getPostDraft} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
@@ -54,6 +54,7 @@ function mapStateToProps(state, ownProps) {
         enableGifPicker,
         locale: getCurrentLocale(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
+        rhsExpanded: getIsRhsExpanded(state),
     };
 }
 
