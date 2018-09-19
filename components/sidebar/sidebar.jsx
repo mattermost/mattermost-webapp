@@ -19,6 +19,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
@@ -120,6 +121,11 @@ export default class Sidebar extends React.PureComponent {
          * Flag to display the Unread channels section
          */
         showUnreadSection: PropTypes.bool.isRequired,
+
+        /**
+         * Flag to display the Switch channel shortcut
+         */
+        channelSwitcherOption: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
@@ -486,6 +492,7 @@ export default class Sidebar extends React.PureComponent {
             privateChannelIds,
             unreadChannelIds,
             showUnreadSection,
+            channelSwitcherOption,
         } = this.props;
 
         // Check if we have all info needed to render
@@ -648,21 +655,40 @@ export default class Sidebar extends React.PureComponent {
             );
         }
 
-        let quickSwitchTextShortcutId = 'quick_switch_modal.channelsShortcut.windows';
-        let quickSwitchTextShortcutDefault = '- CTRL+K';
-        if (Utils.isMac()) {
-            quickSwitchTextShortcutId = 'quick_switch_modal.channelsShortcut.mac';
-            quickSwitchTextShortcutDefault = '- ⌘K';
-        }
+        let quickSwitchText = null;
+        if (channelSwitcherOption) {
+            let quickSwitchTextShortcutId = t('quick_switch_modal.channelsShortcut.windows');
+            let quickSwitchTextShortcutDefault = '- CTRL+K';
+            if (Utils.isMac()) {
+                quickSwitchTextShortcutId = t('quick_switch_modal.channelsShortcut.mac');
+                quickSwitchTextShortcutDefault = '- ⌘K';
+            }
 
-        const quickSwitchTextShortcut = (
-            <span className='switch__shortcut hidden-xs'>
-                <FormattedMessage
-                    id={quickSwitchTextShortcutId}
-                    defaultMessage={quickSwitchTextShortcutDefault}
-                />
-            </span>
-        );
+            const quickSwitchTextShortcut = (
+                <span className='switch__shortcut hidden-xs'>
+                    <FormattedMessage
+                        id={quickSwitchTextShortcutId}
+                        defaultMessage={quickSwitchTextShortcutDefault}
+                    />
+                </span>
+            );
+
+            quickSwitchText = (
+                <div className='sidebar__switcher'>
+                    <button
+                        id='sidebarSwitcherButton'
+                        className='btn btn-link'
+                        onClick={this.openQuickSwitcher}
+                    >
+                        <FormattedMessage
+                            id={'channel_switch_modal.title'}
+                            defaultMessage='Switch Channels'
+                        />
+                        {quickSwitchTextShortcut}
+                    </button>
+                </div>
+            );
+        }
 
         return (
             <div
@@ -808,19 +834,7 @@ export default class Sidebar extends React.PureComponent {
                         </div>
                     </Scrollbars>
                 </div>
-                <div className='sidebar__switcher'>
-                    <button
-                        id='sidebarSwitcherButton'
-                        className='btn btn-link'
-                        onClick={this.openQuickSwitcher}
-                    >
-                        <FormattedMessage
-                            id={'channel_switch_modal.title'}
-                            defaultMessage='Switch Channels'
-                        />
-                        {quickSwitchTextShortcut}
-                    </button>
-                </div>
+                {quickSwitchText}
             </div>
         );
     }

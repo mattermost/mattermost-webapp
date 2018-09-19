@@ -14,6 +14,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         displayUnreadSection: 'true',
         showUnusedOption: false,
         showUnreadOption: true,
+        channelSwitcherOption: 'true',
         user: {
             id: 'someuserid',
         },
@@ -33,6 +34,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             show_unread_section: defaultProps.displayUnreadSection,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
         });
     });
 
@@ -58,12 +60,14 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             show_unread_section: 'false',
+            channel_switcher_section: defaultProps.channelSwitcherOption,
         });
 
         wrapper.find('#unreadSectionEnabled').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
             show_unread_section: 'true',
+            channel_switcher_section: defaultProps.channelSwitcherOption,
         });
     });
 });

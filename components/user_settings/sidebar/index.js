@@ -30,6 +30,12 @@ function mapStateToProps(state) {
             'show_unread_section',
             (config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON).toString()
         ),
+        channelSwitcherOption: getPreference(
+            state,
+            Preferences.CATEGORY_SIDEBAR_SETTINGS,
+            'channel_switcher_section',
+            'true'
+        ),
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         showUnreadOption: config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED,
         user: getCurrentUser(state),

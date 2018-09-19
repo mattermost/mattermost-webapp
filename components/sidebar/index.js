@@ -45,6 +45,13 @@ function mapStateToProps(state) {
         config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON
     );
 
+    const channelSwitcherOption = getBoolPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'channel_switcher_section',
+        'true'
+    );
+
     const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;
 
     if (showUnreadSection) {
@@ -63,6 +70,7 @@ function mapStateToProps(state) {
         config,
         isOpen: getIsLhsOpen(state),
         showUnreadSection,
+        channelSwitcherOption,
         publicChannelIds,
         privateChannelIds,
         favoriteChannelIds,
