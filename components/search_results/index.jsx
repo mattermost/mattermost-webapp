@@ -27,25 +27,40 @@ function makeMapStateToProps() {
     let isFlaggedByPostId;
 
     return function mapStateToProps(state) {
+        const config = getConfig(state);
+
+        const dataRetentionEnableMessageDeletion = config.DataRetentionEnableMessageDeletion === 'true';
+        const dataRetentionMessageRetentionDays = config.DataRetentionMessageRetentionDays;
+        const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+
         const newResults = getSearchResults(state);
 
         // Cache posts and channels
         if (newResults && newResults !== results) {
             results = newResults;
 
-            posts = results.filter((post) => Boolean(post));
-
             channels = new Map();
 
-            const channelIds = posts.map((post) => post.channel_id);
-
-            for (const id of channelIds) {
-                if (channels.has(id)) {
-                    continue;
+            posts = [];
+            results.forEach((post) => {
+                if (!post) {
+                    return;
                 }
 
-                channels.set(id, getChannel(state, id));
-            }
+                let channel;
+                if (channels.has(post.channel_id)) {
+                    channel = channels.get(post.channel_id);
+                } else {
+                    channel = getChannel(state, post.channel_id);
+                    channels.set(post.channel_id, channel);
+                }
+
+                if (channel && channel.delete_at !== 0 && !viewArchivedChannels) {
+                    return;
+                }
+
+                posts.push(post);
+            });
         }
 
         const newFlaggedPosts = getCategory(state, Preferences.CATEGORY_FLAGGED_POST);
@@ -60,11 +75,6 @@ function makeMapStateToProps() {
                 isFlaggedByPostId.set(pref.name, true);
             }
         }
-
-        const config = getConfig(state);
-
-        const dataRetentionEnableMessageDeletion = config.DataRetentionEnableMessageDeletion === 'true';
-        const dataRetentionMessageRetentionDays = config.DataRetentionMessageRetentionDays;
 
         return {
             results: posts,
