@@ -1142,10 +1142,6 @@
             width: 260px;
         }
 
-        .badge {
-            top: 15px;
-        }
-
         .team__header {
             @include clearfix;
             pointer-events: none;
@@ -1192,17 +1188,18 @@
                 }
 
                 .sidebar-item {
-                    padding: 12px 0 12px 17px;
+                    padding: 0 0 0 17px;
+                    height: 45px;
 
                     &.has-close {
                         .btn-close {
                             @include opacity(.5);
                             display: block;
                             font-size: 25px;
-                            right: 4px;
-                            text-align: center;
-                            top: 4px;
-                            width: 40px;
+                            right: 12px;
+                            width: 30px;
+                            height: 30px;
+                            line-height: 30px;
                         }
                     }
                 }

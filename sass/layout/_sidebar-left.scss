@@ -47,10 +47,10 @@
 
     .sidebar-item__name {
         display: inline-block;
-        max-width: 160px;
         overflow: hidden;
         text-overflow: ellipsis;
         vertical-align: top;
+        padding-right: 20px;
     }
 
     .sidebar__divider {
@@ -136,9 +136,8 @@
         line-height: 16px;
         min-width: 18px;
         padding: 0 5px;
-        position: absolute;
+        position: relative;
         right: 15px;
-        top: 8px;
     }
 
     .sidebar--left__list {
@@ -229,7 +228,9 @@
 
             .sidebar-item {
                 @include single-transition(none);
+                align-items: center;
                 border-radius: 0;
+                display: flex;
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
@@ -239,6 +240,10 @@
                 white-space: nowrap;
                 width: 100%;
 
+                .status {
+                    flex: 0 0 auto;
+                }
+
                 .icon {
                     &.icon__archive,
                     &.icon__globe,
@@ -247,18 +252,8 @@
                     }
                 }
 
-                &.has-badge {
-                    .sidebar-item__name {
-                        max-width: 142px;
-                    }
-                }
-
                 &.has-close {
                     &:hover {
-                        .sidebar-item__name {
-                            max-width: 152px;
-                        }
-
                         .btn-close {
                             @include opacity(.8);
                             display: block;
@@ -271,9 +266,12 @@
                         font-family: 'Open Sans', sans-serif;
                         font-size: 21px;
                         font-weight: 600;
-                        position: absolute;
+                        position: relative;
                         right: 15px;
-                        top: 0px;
+                        width: 24px;
+                        height: 20px;
+                        line-height: 20px;
+                        text-align: center;
 
                         &:hover {
                             @include opacity(1);
