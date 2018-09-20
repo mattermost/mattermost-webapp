@@ -173,17 +173,7 @@ export default class Navbar extends React.PureComponent {
         }
     }
 
-    handleUnmuteChannel = () => {
-        const {channel, currentUser} = this.state;
-
-        if (!currentUser || !channel) {
-            return;
-        }
-
-        const props = {mark_unread: NotificationLevels.ALL};
-        this.props.actions.updateChannelNotifyProps(currentUser.id, channel.id, props);
-    };
-
+    // TODO: Clean hear
     createDropdown = (teamId, channel, channelTitle, isDirect, isGroup) => {
         if (channel) {
             let viewInfoOption;
