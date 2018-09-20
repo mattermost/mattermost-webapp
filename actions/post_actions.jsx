@@ -96,7 +96,7 @@ function dispatchPostActions(post, websocketMessageProps) {
         websocketMessageProps,
     });
 
-    sendDesktopNotification(post, websocketMessageProps);
+    dispatch(sendDesktopNotification(post, websocketMessageProps));
 }
 
 export async function flagPost(postId) {

@@ -463,7 +463,7 @@ export function toggleSideBarRightMenuAction() {
 }
 
 export function emitBrowserFocus(focus) {
-    AppDispatcher.handleViewAction({
+    dispatch({
         type: ActionTypes.BROWSER_CHANGE_FOCUS,
         focus,
     });
