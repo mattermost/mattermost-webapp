@@ -185,17 +185,13 @@
             @include border-radius(4px);
             bottom: 0;
             cursor: 'pointer';
-            display: inline-block;
-            left: 0;
+            display: flex;
+            min-height: 40px;
             max-height: 350px;
             max-width: 100%;
-            display: inline-block;
             opacity: 0;
             overflow: hidden;
-            position: absolute;
             position: relative;
-            right: 0;
-            top: 0;
             z-index: 2;
 
             &:hover {
@@ -204,11 +200,12 @@
 
             img {
                 @include single-transition(all, .1s, linear);
+                align-self: center;
                 max-height: 350px;
 
                 &.min-preview {
                     max-height: 50px;
-                    max-width: initial;
+                    max-width: 100%;
                 }
 
                 &.min-preview--portrait {
