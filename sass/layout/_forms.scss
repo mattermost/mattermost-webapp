@@ -97,6 +97,12 @@
         display: inline-block;
         width: auto;
     }
+
+    &::-moz-placeholder,
+    &:-moz-placeholder {
+        color: inherit !important;
+        opacity: .6;
+    }
 }
 
 .form-control[disabled],
