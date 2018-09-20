@@ -32,24 +32,33 @@ export default class CommentedOn extends PureComponent {
     makeUsername = () => {
         const postProps = this.props.post.props;
         let username = this.props.displayName;
-        if (
-            this.props.enablePostUsernameOverride &&
-            postProps &&
-            postProps.from_webhook === 'true' &&
-            postProps.override_username
-        ) {
+        if (this.props.enablePostUsernameOverride && postProps && postProps.from_webhook === 'true' && postProps.override_username) {
             username = postProps.override_username;
         }
         return username;
     }
 
+    makeCommentedOnMessage = () => {
+        const {post} = this.props;
+        let message = '';
+        if (post.message) {
+            message = Utils.replaceHtmlEntities(post.message);
+        } else if (post.file_ids && post.file_ids.length > 0) {
+            message = (
+                <CommentedOnFilesMessage parentPostId={post.id}/>
+            );
+        } else {
+            const attachment = post.props.attachments[0];
+            const webhookMessage = attachment.pretext || attachment.title || attachment.text || attachment.fallback;
+            message = Utils.replaceHtmlEntities(webhookMessage);
+        }
+
+        return message;
+    }
+
     render() {
-        const {
-            post,
-        } = this.props;
-
         const username = this.makeUsername();
-
+        const message = this.makeCommentedOnMessage();
         let apostrophe = '\'s';
         if (username.slice(-1) === 's') {
             apostrophe = '\'';
@@ -63,19 +72,6 @@ export default class CommentedOn extends PureComponent {
                 {username}
             </a>
         );
-
-        let message = '';
-        if (post.message === '' && post.props && post.props.attachments) {
-            const attachment = post.props.attachments[0];
-            const webhookMessage = attachment.pretext || attachment.title || attachment.text || attachment.fallback;
-            message = Utils.replaceHtmlEntities(webhookMessage);
-        } else if (post.file_ids && post.file_ids.length > 0) {
-            message = (
-                <CommentedOnFilesMessage parentPostId={post.id}/>
-            );
-        } else {
-            message = Utils.replaceHtmlEntities(post.message);
-        }
 
         return (
             <div className='post__link'>

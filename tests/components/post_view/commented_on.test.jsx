@@ -165,7 +165,7 @@ describe('components/post_view/CommentedOn', () => {
         expect(baseProps.actions.showSearchResults).toHaveBeenCalledTimes(1);
     });
 
-    test('Should trigger search with ', () => {
+    test('Should trigger search with override_username', () => {
         const wrapper = shallow(<CommentedOn {...baseProps}/>);
         wrapper.setProps({enablePostUsernameOverride: true});
 
