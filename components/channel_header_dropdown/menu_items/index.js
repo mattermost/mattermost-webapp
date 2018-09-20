@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// export {default as ViewChannelInfo} from './view_channel_info';
+export {default as ViewChannelInfo} from './view_channel_info';
+
 // export {default as ViewPinnedPosts} from './view_pinned_posts';
 // export {default as NotificationPreferences} from './notification_preferences';
 // export {default as ToggleFavoriteChannel} from './toggle_favorite_channel';
