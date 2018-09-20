@@ -157,8 +157,7 @@ export function shouldFocusMainTextbox(e, activeElement) {
     }
 
     // Do not focus for non-character or non-number keys
-    // Note this does not work for some non-English characters
-    if (e.key.length !== 1 || !e.key.match(/[a-zA-ZÀ-ÿ0-9!@#$%^&*()-=+[\]{}\\|;:'",.<>/?`~ ]/i)) {
+    if (e.key.length !== 1 || !e.key.match(/./)) {
         return false;
     }
 
