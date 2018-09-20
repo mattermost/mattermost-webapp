@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderDropdown/MenuItem.SetChannelHeader should match snapshot 1`] = `
+<Connect(ChannelPermissionGate)
+  channelId="channel_id"
+  permissions={
+    Array [
+      "manage_public_channel_properties",
+    ]
+  }
+  teamId="team_id"
+>
+  <li
+    role="presentation"
+  >
+    <Connect(ModalToggleButtonRedux)
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "channel_id",
+            "team_id": "team_id",
+            "type": "O",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="editChannelHeader"
+      modalId="edit_channel_header"
+      role="menuitem"
+    >
+      <FormattedMessage
+        defaultMessage="Edit Channel Header"
+        id="channel_header.setHeader"
+        values={Object {}}
+      />
+    </Connect(ModalToggleButtonRedux)>
+  </li>
+</Connect(ChannelPermissionGate)>
+`;
