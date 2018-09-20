@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
@@ -24,12 +25,6 @@ export default class FilePreview extends React.PureComponent {
         uploadsInProgress: [],
         uploadsProgressPercent: {},
     };
-
-    componentDidUpdate() {
-        if (this.props.uploadsInProgress.length > 0) {
-            this.refs[this.props.uploadsInProgress[0]].scrollIntoView();
-        }
-    }
 
     handleRemove = (id) => {
         this.props.onRemove(id);
@@ -123,13 +118,21 @@ export default class FilePreview extends React.PureComponent {
             if (uploadsInProgress[clientId]) {
                 percent = uploadsInProgress[clientId].percent;
                 fileNameComponent = (
-                    <FilenameOverlay
-                        fileInfo={uploadsInProgress[clientId]}
-                        index={clientId}
-                        handleImageClick={null}
-                        compactDisplay={false}
-                        canDownload={false}
-                    />
+                    <React.Fragment>
+                        <FilenameOverlay
+                            fileInfo={uploadsInProgress[clientId]}
+                            index={clientId}
+                            handleImageClick={null}
+                            compactDisplay={false}
+                            canDownload={false}
+                        />
+                        <span className='post-image__uploadingTxt'>
+                            <FormattedMessage
+                                id='admin.plugin.uploading'
+                                defaultMessage='Uploading...'
+                            />
+                        </span>
+                    </React.Fragment>
                 );
             }
             previews.push(

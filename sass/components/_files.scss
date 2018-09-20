@@ -360,7 +360,7 @@
                 text-decoration: none;
             }
 
-            .post-image__type {
+            .post-image__type, .post-image__text {
                 @include opacity(.6);
             }
 

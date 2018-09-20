@@ -103,6 +103,15 @@ exports[`component/FilePreview should match snapshot 1`] = `
             handleImageClick={null}
             index="clientID_1"
           />
+          <span
+            className="post-image__uploadingTxt"
+          >
+            <FormattedMessage
+              defaultMessage="Uploading..."
+              id="admin.plugin.uploading"
+              values={Object {}}
+            />
+          </span>
         </div>
       </div>
       <div>
@@ -224,6 +233,15 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
             handleImageClick={null}
             index="clientID_1"
           />
+          <span
+            className="post-image__uploadingTxt"
+          >
+            <FormattedMessage
+              defaultMessage="Uploading..."
+              id="admin.plugin.uploading"
+              values={Object {}}
+            />
+          </span>
         </div>
       </div>
       <div>
