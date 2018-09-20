@@ -64,6 +64,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
             "disableDispatches": false,
             "latestComplete": true,
             "latestPrefix": "",
+            "requestStarted": false,
           },
         ]
       }
