@@ -83,9 +83,11 @@ export default class ActionMenu extends React.PureComponent {
 
         this.props.actions.selectAttachmentMenuAction(this.props.postId, this.props.action.id, this.props.action.data_source, displayText, value);
 
-        if (this.suggestionRef) {
-            requestAnimationFrame(() => this.suggestionRef.blur());
-        }
+        requestAnimationFrame(() => {
+            if (this.suggestionRef) {
+                this.suggestionRef.blur();
+            }
+        });
     }
 
     setSuggestionRef = (ref) => {
