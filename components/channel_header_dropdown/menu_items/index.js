@@ -11,8 +11,8 @@ export {default as AddMembers} from './add_members';
 export {default as ViewMembers} from './view_members';
 export {default as ManageMembers} from './manage_members';
 export {default as ConvertChannel} from './convert_channel';
+export {default as RenameChannel} from './rename_channel';
 
-// export {default as RenameChannel} from './rename_channel';
 // export {default as DeleteChannel} from './delete_channel';
 // export {default as LeaveChannel} from './leave_channel';
 // export {default as Webrtc} from './webrtc';
