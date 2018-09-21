@@ -118,6 +118,7 @@ export default class EmojiPicker extends React.PureComponent {
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
+        visible: PropTypes.bool,
         actions: PropTypes.shape({
             getCustomEmojis: PropTypes.func.isRequired,
             searchCustomEmojis: PropTypes.func.isRequired,
@@ -227,6 +228,12 @@ export default class EmojiPicker extends React.PureComponent {
         await this.props.actions.incrementEmojiPickerPage();
 
         this.loadingMoreEmojis = false;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.visible && !prevProps.visible) {
+            this.searchInput.focus();
+        }
     }
 
     lastVisibleEmojiRef = (lastVisibleEmoji) => {

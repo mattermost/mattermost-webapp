@@ -28,6 +28,26 @@ export default class EmojiPickerTabs extends PureComponent {
         topOffset: 0,
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            emojiTabVisible: true,
+        };
+    }
+
+    handleEnterEmojiTab = () => {
+        this.setState({
+            emojiTabVisible: true,
+        });
+    };
+
+    handleExitEmojiTab = () => {
+        this.setState({
+            emojiTabVisible: false,
+        });
+    };
+
     render() {
         let pickerStyle;
         if (this.props.style && !(this.props.style.left === 0 && this.props.style.top === 0)) {
@@ -63,12 +83,15 @@ export default class EmojiPickerTabs extends PureComponent {
                 >
                     <Tab
                         eventKey={1}
+                        onEnter={this.handleEnterEmojiTab}
+                        onExit={this.handleExitEmojiTab}
                         title={<EmojiIcon/>}
                     >
                         <EmojiPicker
                             style={this.props.style}
                             onEmojiClick={this.props.onEmojiClick}
                             customEmojis={this.props.customEmojis}
+                            visible={this.state.emojiTabVisible}
                         />
                     </Tab>
                     <Tab
