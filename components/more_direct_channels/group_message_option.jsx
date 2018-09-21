@@ -14,7 +14,7 @@ const GroupMessageOption = (props) => {
     }
 
     const displayName = channel.profiles.map((profile) => '@' + profile.username).join(', ');
-    const icon = <div className='status status--group--direct--option'>{channel.profiles.length}</div>;
+    const icon = <div className='more-modal__gm-icon bg-text-200'>{channel.profiles.length}</div>;
 
     const addValue = () => {
         onAdd(channel.profiles);
