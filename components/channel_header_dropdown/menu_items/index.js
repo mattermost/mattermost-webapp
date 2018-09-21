@@ -8,6 +8,7 @@ export {default as ToggleFavoriteChannel} from './toggle_favorite_channel';
 export {default as SetChannelHeader} from './set_channel_header';
 export {default as SetChannelPurpose} from './set_channel_purpose';
 export {default as AddMembers} from './add_members';
+export {default as ViewMembers} from './view_members';
 
 // export {default as ChannelMembers} from './channel_members';
 // export {default as ConvertChannel} from './convert_channel';
