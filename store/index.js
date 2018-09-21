@@ -14,7 +14,7 @@ import {storageRehydrate} from 'actions/storage';
 import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
 import {detect} from 'utils/network.js';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {getBasePath} from 'selectors/general';
 
 function getAppReducer() {
@@ -143,10 +143,15 @@ export default function configureStore(initialState) {
 
                     if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
                         purging = true;
+                        const expired = state.entities.users.mySession.expired;
 
                         persistor.purge().then(() => {
                             document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            window.location.href = basePath;
+                            if (expired) {
+                                window.location.href = basePath + '?extra=' + Constants.SESSION_EXPIRED;
+                            } else {
+                                window.location.href = basePath;
+                            }
 
                             store.dispatch({
                                 type: General.OFFLINE_STORE_RESET,

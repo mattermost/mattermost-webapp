@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
@@ -29,9 +29,11 @@ import FormError from 'components/form_error.jsx';
 import BackButton from 'components/common/back_button.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
-export default class LoginController extends React.Component {
+class LoginController extends React.Component {
     static get propTypes() {
         return {
+            intl: intlShape.isRequired,
+
             location: PropTypes.object.isRequired,
             isLicensed: PropTypes.bool.isRequired,
 
@@ -82,13 +84,80 @@ export default class LoginController extends React.Component {
     }
 
     componentDidMount() {
-        document.title = this.props.siteName;
+        this.configureTitle();
+
         if (UserStore.getCurrentUser()) {
             GlobalActions.redirectUserToDefaultTeam();
+            return;
         }
 
-        if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
+        const search = new URLSearchParams(this.props.location.search);
+        const extra = search.get('extra');
+        const email = search.get('email');
+
+        if (extra === Constants.SIGNIN_VERIFIED && email) {
             this.refs.password.focus();
+        }
+
+        this.showSessionExpiredNotificationIfNeeded();
+    }
+
+    componentDidUpdate() {
+        this.configureTitle();
+        this.showSessionExpiredNotificationIfNeeded();
+    }
+
+    componentWillUnmount() {
+        if (this.closeSessionExpiredNotification) {
+            this.closeSessionExpiredNotification();
+            this.closeSessionExpiredNotification = null;
+        }
+    }
+
+    configureTitle() {
+        const search = new URLSearchParams(this.props.location.search);
+        const extra = search.get('extra');
+
+        switch (extra) {
+        case Constants.SESSION_EXPIRED:
+            document.title = this.props.intl.formatMessage({
+                id: 'login.session_expired.title',
+                defaultMessage: '* {siteName} - Session Expired',
+            }, {
+                siteName: this.props.siteName,
+            });
+            break;
+
+        default:
+            document.title = this.props.siteName;
+            break;
+        }
+    }
+
+    showSessionExpiredNotificationIfNeeded() {
+        const search = new URLSearchParams(this.props.location.search);
+        const extra = search.get('extra');
+
+        if (extra === Constants.SESSION_EXPIRED) {
+            Utils.showNotification({
+                title: this.props.siteName,
+                body: Utils.localizeMessage(
+                    'login.session_expired.notification',
+                    'Session Expired: Please sign in to continue receiving notifications.'
+                ),
+                requireInteraction: true,
+                silent: false,
+                onClick: () => {
+                    window.focus();
+                },
+            }).then((closeNotification) => {
+                this.closeSessionExpiredNotification = closeNotification;
+            }).catch(() => {
+                // Ignore the failure to display the notification.
+            });
+        } else if (this.closeSessionExpiredNotification) {
+            this.closeSessionExpiredNotification();
+            this.closeSessionExpiredNotification = null;
         }
     }
 
@@ -370,10 +439,18 @@ export default class LoginController extends React.Component {
                             className='fa fa-exclamation-triangle'
                             title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
                         />
+                        {' '}
                         <FormattedMessage
                             id='login.session_expired'
-                            defaultMessage=' Your session has expired. Please login again.'
+                            defaultMessage='Your session has expired. Please login again.'
                         />
+                        {' '}
+                        <Link to='/login'>
+                            <FormattedMessage
+                                id='login.session_expired.dismiss'
+                                defaultMessage='(Dismiss)'
+                            />
+                        </Link>
                     </div>
                 );
             } else if (extraParam === Constants.PASSWORD_CHANGE) {
@@ -705,3 +782,5 @@ export default class LoginController extends React.Component {
         );
     }
 }
+
+export default injectIntl(LoginController);
