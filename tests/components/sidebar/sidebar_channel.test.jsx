@@ -50,6 +50,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         channelFake: false,
         channelTeammateId: 'teammate-id',
         channelTeammateDeletedAt: 1,
+        hasDraft: false,
         handleClose: jest.fn,
         unreadMsgs: 0,
         unreadMentions: 0,
@@ -131,6 +132,18 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             ...defaultProps,
             currentUserId: 'myself',
             channelTeammateId: 'myself',
+        };
+        const wrapper = shallow(<SidebarChannel {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+        expect(props.actions.openLhs).not.toBeCalled();
+    });
+
+    test('should match snapshot, on channel with draft', () => {
+        const props = {
+            ...defaultProps,
+            currentUserId: 'myself',
+            channelTeammateId: 'myself',
+            hasDraft: true,
         };
         const wrapper = shallow(<SidebarChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();

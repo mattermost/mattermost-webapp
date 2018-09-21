@@ -15,6 +15,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
                 channelStatus={'test'}
+                hasDraft={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -28,6 +29,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelId={'test-channel-id'}
                 teammateId={'test'}
                 teammateDeletedAt={1}
+                hasDraft={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -40,6 +42,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelType={Constants.GM_CHANNEL}
                 channelId={'test-channel-id'}
                 membersCount={3}
+                hasDraft={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -51,6 +54,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelIsArchived={false}
                 channelType={Constants.PRIVATE_CHANNEL}
                 channelId={'test-channel-id'}
+                hasDraft={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -62,6 +66,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelIsArchived={false}
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
+                hasDraft={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -73,6 +78,19 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelIsArchived={true}
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
+                hasDraft={false}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with draft in public channel', () => {
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLinkIcon
+                channelIsArchived={false}
+                channelType={Constants.OPEN_CHANNEL}
+                channelId={'test-channel-id'}
+                hasDraft={true}
             />
         );
         expect(wrapper).toMatchSnapshot();

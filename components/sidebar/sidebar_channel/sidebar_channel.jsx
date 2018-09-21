@@ -76,6 +76,11 @@ export default class SidebarChannel extends React.PureComponent {
         channelTeammateDeletedAt: PropTypes.number,
 
         /**
+         * Whether the channel contains a draft in the center channel
+         */
+        hasDraft: PropTypes.bool.isRequired,
+
+        /**
          * Whether or not to mark the channel as unread when it has unread messages and no mentions
          */
         showUnreadForMsgs: PropTypes.bool.isRequired,
@@ -284,6 +289,7 @@ export default class SidebarChannel extends React.PureComponent {
                     channelType={this.props.channelType}
                     displayName={displayName}
                     handleClose={closeHandler}
+                    hasDraft={this.props.hasDraft}
                     badge={badge}
                     unreadMentions={this.props.unreadMentions}
                     membersCount={this.props.membersCount}

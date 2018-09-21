@@ -18,9 +18,32 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 rowClass={'test-class'}
                 displayName={'test-channel-name'}
                 handleClose={jest.fn()}
+                hasDraft={false}
                 badge={true}
                 membersCount={3}
                 unreadMentions={6}
+                teammateId={'test-teammate-id'}
+                teammateDeletedAt={1}
+                channelIsArchived={false}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on desktop with draft', () => {
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLink
+                channelType={Constants.DM_CHANNEL}
+                channelId={'test-channel-id'}
+                channelStatus={'test'}
+                link={'test-link'}
+                rowClass={'test-class'}
+                displayName={'test-channel-name'}
+                handleClose={jest.fn()}
+                hasDraft={true}
+                badge={false}
+                membersCount={3}
+                unreadMentions={0}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
                 channelIsArchived={false}
@@ -39,6 +62,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 rowClass={'test-class'}
                 displayName={'test-channel-name'}
                 handleClose={jest.fn()}
+                hasDraft={false}
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
@@ -70,6 +94,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 rowClass={'test-class'}
                 displayName={'test-channel-name'}
                 handleClose={jest.fn()}
+                hasDraft={false}
                 badge={true}
                 membersCount={3}
                 unreadMentions={6}
@@ -94,6 +119,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 rowClass={'test-class'}
                 displayName={'test-channel-name'}
                 handleClose={jest.fn()}
+                hasDraft={false}
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
