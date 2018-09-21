@@ -14,6 +14,7 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
+import {logout} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -444,25 +445,21 @@ export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {
 }
 
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true) {
-    Client4.logout().then(
-        () => {
-            if (shouldSignalLogout) {
-                BrowserStore.signalLogout();
-            }
+    dispatch(logout()).then(() => {
+        if (shouldSignalLogout) {
+            BrowserStore.signalLogout();
+        }
 
-            BrowserStore.clear();
-            ErrorStore.clearLastError();
-            ChannelStore.clear();
-            stopPeriodicStatusUpdates();
-            WebsocketActions.close();
-            document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            browserHistory.push(redirectTo);
-        }
-    ).catch(
-        () => {
-            browserHistory.push(redirectTo);
-        }
-    );
+        BrowserStore.clear();
+        ErrorStore.clearLastError();
+        ChannelStore.clear();
+        stopPeriodicStatusUpdates();
+        WebsocketActions.close();
+        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        browserHistory.push(redirectTo);
+    }).catch(() => {
+        browserHistory.push(redirectTo);
+    });
 }
 
 export function toggleSideBarRightMenuAction() {
