@@ -420,7 +420,7 @@
 
     .custom-textarea {
         bottom: 0;
-        max-height: 162px;
+        max-height: calc(50vh - 40px);
         overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
