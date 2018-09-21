@@ -22,7 +22,6 @@ import MessageExportSettings from 'components/admin_console/message_export_setti
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
-import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PushSettings from 'components/admin_console/push_settings.jsx';
@@ -169,8 +168,13 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/users_and_teams`}
-                                        component={UsersAndTeamsSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            roles: this.props.roles,
+                                            editRole: this.props.actions.editRole,
+                                            schema: AdminDefinition.settings.general.users_and_teams.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/privacy`}
