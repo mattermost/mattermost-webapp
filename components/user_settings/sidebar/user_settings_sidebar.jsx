@@ -6,7 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, isMac} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
@@ -42,6 +43,11 @@ export default class UserSettingsSidebar extends React.Component {
         showUnusedOption: PropTypes.bool.isRequired,
 
         /**
+         * The preferences to show the channel switcher in the sidebar
+         */
+        channelSwitcherOption: PropTypes.string.isRequired,
+
+        /**
          * Display the unread channels sections options
          */
         showUnreadOption: PropTypes.bool.isRequired,
@@ -58,11 +64,12 @@ export default class UserSettingsSidebar extends React.Component {
     }
 
     getStateFromStores = () => {
-        const {closeUnusedDirectMessages, displayUnreadSection} = this.props;
+        const {closeUnusedDirectMessages, displayUnreadSection, channelSwitcherOption} = this.props;
         return {
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
                 show_unread_section: displayUnreadSection,
+                channel_switcher_section: channelSwitcherOption,
             },
             isSaving: false,
         };
@@ -213,6 +220,24 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
+    renderChannelSwitcherLabel = (value) => {
+        if (value === 'true') {
+            return (
+                <FormattedMessage
+                    id='user.settings.sidebar.on'
+                    defaultMessage='On'
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                id='user.settings.sidebar.off'
+                defaultMessage='Off'
+            />
+        );
+    };
+
     renderUnreadSection = () => {
         if (this.props.activeSection === 'unreadChannels') {
             return (
@@ -290,10 +315,99 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
+    renderChannelSwitcherSection = () => {
+        let channelSwitcherSectionDescId = t('user.settings.sidebar.channelSwitcherSectionDesc.windows');
+        let channelSwitcherSectionDescDefault = 'The channel switcher is shown at the bottom of the sidebar and is used to jump between channels quickly. It can also be accessed using CTRL + K.';
+        if (isMac()) {
+            channelSwitcherSectionDescId = t('user.settings.sidebar.channelSwitcherSectionDesc.mac');
+            channelSwitcherSectionDescDefault = 'The channel switcher is shown at the bottom of the sidebar and is used to jump between channels quickly. It can also be accessed using CMD + K.';
+        }
+
+        const helpChannelSwitcherText = (
+            <FormattedMessage
+                id={channelSwitcherSectionDescId}
+                defaultMessage={channelSwitcherSectionDescDefault}
+            />
+        );
+
+        if (this.props.activeSection === 'channelSwitcher') {
+            return (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage
+                            id='user.settings.sidebar.channelSwitcherSectionTitle'
+                            defaultMessage='Channel Switcher'
+                        />
+                    }
+                    inputs={[
+                        <div key='channelSwitcherSectionSetting'>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='channelSwitcherSectionEnabled'
+                                        type='radio'
+                                        name='channelSwitcher'
+                                        checked={this.state.settings.channel_switcher_section === 'true'}
+                                        onChange={this.updateSetting.bind(this, 'channel_switcher_section', 'true')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.on'
+                                        defaultMessage='On'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='channelSwitcherSectionOff'
+                                        type='radio'
+                                        name='channelSwitcher'
+                                        checked={this.state.settings.channel_switcher_section === 'false'}
+                                        onChange={this.updateSetting.bind(this, 'channel_switcher_section', 'false')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.off'
+                                        defaultMessage='Off'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div>
+                                <br/>
+                                {helpChannelSwitcherText}
+                            </div>
+                        </div>,
+                    ]}
+                    setting={'channel_switcher_section'}
+                    submit={this.handleSubmit}
+                    saving={this.state.isSaving}
+                    server_error={this.state.serverError}
+                    updateSection={this.updateSection}
+                />
+            );
+        }
+
+        return (
+            <SettingItemMin
+                title={
+                    <FormattedMessage
+                        id='user.settings.sidebar.channelSwitcherSectionTitle'
+                        defaultMessage='Channel Switcher'
+                    />
+                }
+                describe={this.renderChannelSwitcherLabel(this.state.settings.channel_switcher_section)}
+                section={'channelSwitcher'}
+                updateSection={this.updateSection}
+            />
+        );
+    };
+
     render() {
         const {showUnusedOption, showUnreadOption} = this.props;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
         const unreadSection = showUnreadOption ? this.renderUnreadSection() : null;
+        const channelSwitcherSection = this.renderChannelSwitcherSection();
 
         return (
             <div>
@@ -335,6 +449,7 @@ export default class UserSettingsSidebar extends React.Component {
                     <div className='divider-dark first'/>
                     {unreadSection}
                     {showUnreadOption && <div className='divider-light'/>}
+                    {channelSwitcherSection}
                     {autoCloseDMSection}
                     <div className='divider-dark'/>
                 </div>

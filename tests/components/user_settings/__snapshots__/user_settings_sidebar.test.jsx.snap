@@ -75,6 +75,25 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-light"
     />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="On"
+          id="user.settings.sidebar.on"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="channelSwitcher"
+      title={
+        <FormattedMessage
+          defaultMessage="Channel Switcher"
+          id="user.settings.sidebar.channelSwitcherSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
     <div
       className="divider-dark"
     />
