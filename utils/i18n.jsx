@@ -9,3 +9,7 @@ export function getMonthLong(locale) {
 
     return 'long';
 }
+
+export function t(v) {
+    return v;
+}

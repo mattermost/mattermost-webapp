@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {t} from 'utils/i18n';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -95,14 +97,14 @@ export default class PermissionSchemesSettings extends React.PureComponent {
 
         if (this.props.jobsAreEnabled && !this.props.clusterIsEnabled) {
             return this.teamOverrideUnavalableView(
-                'admin.permissions.teamOverrideSchemesInProgress',
+                t('admin.permissions.teamOverrideSchemesInProgress'),
                 'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.',
                 docLink
             );
         }
 
         return this.teamOverrideUnavalableView(
-            'admin.permissions.teamOverrideSchemesNoJobsEnabled',
+            t('admin.permissions.teamOverrideSchemesNoJobsEnabled'),
             'Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}.',
             docLink,
         );
@@ -254,3 +256,107 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         );
     };
 }
+
+t('admin.permissions.group.delete_posts.description');
+t('admin.permissions.group.delete_posts.name');
+t('admin.permissions.group.integrations.description');
+t('admin.permissions.group.integrations.name');
+t('admin.permissions.group.posts.description');
+t('admin.permissions.group.posts.name');
+t('admin.permissions.group.private_channel.description');
+t('admin.permissions.group.private_channel.name');
+t('admin.permissions.group.public_channel.description');
+t('admin.permissions.group.public_channel.name');
+t('admin.permissions.group.reactions.description');
+t('admin.permissions.group.reactions.name');
+t('admin.permissions.group.send_invites.description');
+t('admin.permissions.group.send_invites.name');
+t('admin.permissions.group.teams.description');
+t('admin.permissions.group.teams.name');
+t('admin.permissions.group.edit_posts.description');
+t('admin.permissions.group.edit_posts.name');
+t('admin.permissions.group.teams_team_scope.description');
+t('admin.permissions.group.teams_team_scope.name');
+t('admin.permissions.permission.assign_system_admin_role.description');
+t('admin.permissions.permission.assign_system_admin_role.name');
+t('admin.permissions.permission.create_direct_channel.description');
+t('admin.permissions.permission.create_direct_channel.name');
+t('admin.permissions.permission.create_group_channel.description');
+t('admin.permissions.permission.create_group_channel.name');
+t('admin.permissions.permission.create_private_channel.description');
+t('admin.permissions.permission.create_private_channel.name');
+t('admin.permissions.permission.create_public_channel.description');
+t('admin.permissions.permission.create_public_channel.name');
+t('admin.permissions.permission.create_team.description');
+t('admin.permissions.permission.create_team.name');
+t('admin.permissions.permission.create_user_access_token.description');
+t('admin.permissions.permission.create_user_access_token.name');
+t('admin.permissions.permission.delete_others_posts.description');
+t('admin.permissions.permission.delete_others_posts.name');
+t('admin.permissions.permission.delete_post.description');
+t('admin.permissions.permission.delete_post.name');
+t('admin.permissions.permission.delete_private_channel.description');
+t('admin.permissions.permission.delete_private_channel.name');
+t('admin.permissions.permission.delete_public_channel.description');
+t('admin.permissions.permission.delete_public_channel.name');
+t('admin.permissions.permission.edit_other_users.description');
+t('admin.permissions.permission.edit_other_users.name');
+t('admin.permissions.permission.edit_post.description');
+t('admin.permissions.permission.edit_post.name');
+t('admin.permissions.permission.import_team.description');
+t('admin.permissions.permission.import_team.name');
+t('admin.permissions.permission.list_team_channels.description');
+t('admin.permissions.permission.list_team_channels.name');
+t('admin.permissions.permission.list_users_without_team.description');
+t('admin.permissions.permission.list_users_without_team.name');
+t('admin.permissions.permission.manage_channel_roles.description');
+t('admin.permissions.permission.manage_channel_roles.name');
+t('admin.permissions.permission.manage_emojis.description');
+t('admin.permissions.permission.manage_emojis.name');
+t('admin.permissions.permission.manage_jobs.description');
+t('admin.permissions.permission.manage_jobs.name');
+t('admin.permissions.permission.manage_oauth.description');
+t('admin.permissions.permission.manage_oauth.name');
+t('admin.permissions.permission.manage_private_channel_members.description');
+t('admin.permissions.permission.manage_private_channel_members.name');
+t('admin.permissions.permission.manage_private_channel_properties.description');
+t('admin.permissions.permission.manage_private_channel_properties.name');
+t('admin.permissions.permission.manage_public_channel_members.description');
+t('admin.permissions.permission.manage_public_channel_members.name');
+t('admin.permissions.permission.manage_public_channel_properties.description');
+t('admin.permissions.permission.manage_public_channel_properties.name');
+t('admin.permissions.permission.manage_roles.description');
+t('admin.permissions.permission.manage_roles.name');
+t('admin.permissions.permission.manage_slash_commands.description');
+t('admin.permissions.permission.manage_slash_commands.name');
+t('admin.permissions.permission.manage_system.description');
+t('admin.permissions.permission.manage_system.name');
+t('admin.permissions.permission.manage_team.description');
+t('admin.permissions.permission.manage_team.name');
+t('admin.permissions.permission.manage_team_roles.description');
+t('admin.permissions.permission.manage_team_roles.name');
+t('admin.permissions.permission.manage_webhooks.description');
+t('admin.permissions.permission.manage_webhooks.name');
+t('admin.permissions.permission.permanent_delete_user.description');
+t('admin.permissions.permission.permanent_delete_user.name');
+t('admin.permissions.permission.read_channel.description');
+t('admin.permissions.permission.read_channel.name');
+t('admin.permissions.permission.read_user_access_token.description');
+t('admin.permissions.permission.read_user_access_token.name');
+t('admin.permissions.permission.remove_user_from_team.description');
+t('admin.permissions.permission.remove_user_from_team.name');
+t('admin.permissions.permission.revoke_user_access_token.description');
+t('admin.permissions.permission.revoke_user_access_token.name');
+t('admin.permissions.permission.upload_file.description');
+t('admin.permissions.permission.upload_file.name');
+t('admin.permissions.permission.view_team.description');
+t('admin.permissions.permission.view_team.name');
+t('admin.permissions.permission.edit_others_posts.description');
+t('admin.permissions.permission.edit_others_posts.name');
+t('admin.permissions.roles.all_users.name');
+t('admin.permissions.roles.channel_admin.name');
+t('admin.permissions.roles.channel_user.name');
+t('admin.permissions.roles.system_admin.name');
+t('admin.permissions.roles.system_user.name');
+t('admin.permissions.roles.team_admin.name');
+t('admin.permissions.roles.team_user.name');

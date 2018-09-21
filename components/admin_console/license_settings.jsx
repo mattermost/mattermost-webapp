@@ -10,16 +10,17 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const holders = defineMessages({
     removing: {
-        id: 'admin.license.removing',
+        id: t('admin.license.removing'),
         defaultMessage: 'Removing License...',
     },
     uploading: {
-        id: 'admin.license.uploading',
+        id: t('admin.license.uploading'),
         defaultMessage: 'Uploading License...',
     },
 });

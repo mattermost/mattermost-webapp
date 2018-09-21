@@ -6,6 +6,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "acorn-stage3": "^0.6.0",
+    "acorn-static-class-property-initializer": "^1.0.0",
     "bootstrap": "3.3.7",
     "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.7.2",

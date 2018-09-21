@@ -11,6 +11,7 @@ import FlagIcon from 'components/svg/flag_icon';
 import FlagIconFilled from 'components/svg/flag_icon_filled';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 export default class PostFlagIcon extends React.PureComponent {
     static propTypes = {
@@ -66,7 +67,7 @@ export default class PostFlagIcon extends React.PureComponent {
                 overlay={
                     <Tooltip id='flagTooltip'>
                         <FormattedMessage
-                            id={isFlagged ? 'flag_post.unflag' : 'flag_post.flag'}
+                            id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
                             defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
                         />
                     </Tooltip>

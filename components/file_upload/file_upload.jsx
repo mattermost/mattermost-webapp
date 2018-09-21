@@ -11,6 +11,7 @@ import {Dropdown} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
+import {t} from 'utils/i18n';
 import {
     isIosChrome,
     isMobileApp,
@@ -29,27 +30,27 @@ import AttachmentIcon from 'components/svg/attachment_icon';
 
 const holders = defineMessages({
     limited: {
-        id: 'file_upload.limited',
+        id: t('file_upload.limited'),
         defaultMessage: 'Uploads limited to {count, number} files maximum. Please use additional posts for more files.',
     },
     filesAbove: {
-        id: 'file_upload.filesAbove',
+        id: t('file_upload.filesAbove'),
         defaultMessage: 'Files above {max}MB could not be uploaded: {filenames}',
     },
     fileAbove: {
-        id: 'file_upload.fileAbove',
+        id: t('file_upload.fileAbove'),
         defaultMessage: 'File above {max}MB could not be uploaded: {filename}',
     },
     zeroBytesFiles: {
-        id: 'file_upload.zeroBytesFiles',
+        id: t('file_upload.zeroBytesFiles'),
         defaultMessage: 'You are uploading empty files: {filenames}',
     },
     zeroBytesFile: {
-        id: 'file_upload.zeroBytesFile',
+        id: t('file_upload.zeroBytesFile'),
         defaultMessage: 'You are uploading an empty file: {filename}',
     },
     pasted: {
-        id: 'file_upload.pasted',
+        id: t('file_upload.pasted'),
         defaultMessage: 'Image Pasted at ',
     },
 });

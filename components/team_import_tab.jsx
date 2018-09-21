@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import * as utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import SettingUpload from './setting_upload.jsx';
 
 const holders = defineMessages({
     importSlack: {
-        id: 'team_import_tab.importSlack',
+        id: t('team_import_tab.importSlack'),
         defaultMessage: 'Import from Slack (Beta)',
     },
 });

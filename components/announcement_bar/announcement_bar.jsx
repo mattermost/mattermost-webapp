@@ -14,6 +14,7 @@ import {AnnouncementBarTypes, AnnouncementBarMessages, StatTypes, StoragePrefixe
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -378,10 +379,10 @@ export default class AnnouncementBar extends React.PureComponent {
             let id;
             let defaultMessage;
             if (this.props.enableSignUpWithGitLab) {
-                id = 'announcement_bar.error.site_url_gitlab';
+                id = t('announcement_bar.error.site_url_gitlab');
                 defaultMessage = 'Please configure your {docsLink} in the System Console or in gitlab.rb if you\'re using GitLab Mattermost.';
             } else {
-                id = 'announcement_bar.error.site_url';
+                id = t('announcement_bar.error.site_url');
                 defaultMessage = 'Please configure your {docsLink} in the System Console.';
             }
 

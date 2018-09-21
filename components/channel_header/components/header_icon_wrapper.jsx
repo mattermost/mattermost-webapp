@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
+import {t} from 'utils/i18n';
 
 export default function HeaderIconWrapper({
     iconComponent,
@@ -20,25 +21,25 @@ export default function HeaderIconWrapper({
             flaggedPosts: {
                 class: 'text-nowrap',
                 id: 'flaggedTooltip',
-                messageID: 'channel_header.flagged',
+                messageID: t('channel_header.flagged'),
                 message: 'Flagged Posts',
             },
             pinnedPosts: {
                 class: '',
                 id: 'pinnedPostTooltip',
-                messageID: 'channel_header.pinnedPosts',
+                messageID: t('channel_header.pinnedPosts'),
                 message: 'Pinned Posts',
             },
             recentMentions: {
                 class: '',
                 id: 'recentMentionsTooltip',
-                messageID: 'channel_header.recentMentions',
+                messageID: t('channel_header.recentMentions'),
                 message: 'Recent Mentions',
             },
             search: {
                 class: '',
                 id: 'searchTooltip',
-                messageID: 'channel_header.search',
+                messageID: t('channel_header.search'),
                 message: 'Search',
             },
         };

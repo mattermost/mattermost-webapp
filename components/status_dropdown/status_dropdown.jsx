@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import BootstrapSpan from 'components/bootstrap_span.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon.jsx';
@@ -217,3 +218,9 @@ export default class StatusDropdown extends React.Component {
         );
     }
 }
+
+t('status_dropdown.set_away');
+t('status_dropdown.set_dnd');
+t('status_dropdown.set_offline');
+t('status_dropdown.set_online');
+t('status_dropdown.set_ooo');

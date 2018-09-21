@@ -508,7 +508,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                     />
                                     <div className='form__help'>
                                         <FormattedMessage
-                                            id='add_incoming_webhook.username.help'
+                                            id='add_outgoing_webhook.username.help'
                                             defaultMessage='Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols "-", "_", and ".".'
                                         />
                                     </div>

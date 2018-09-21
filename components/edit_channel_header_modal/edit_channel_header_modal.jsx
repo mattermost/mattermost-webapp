@@ -12,12 +12,13 @@ import Textbox from 'components/textbox.jsx';
 import Constants from 'utils/constants.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 const KeyCodes = Constants.KeyCodes;
 
 const holders = defineMessages({
     error: {
-        id: 'edit_channel_header_modal.error',
+        id: t('edit_channel_header_modal.error'),
         defaultMessage: 'This channel header is too long, please enter a shorter one',
     },
 });

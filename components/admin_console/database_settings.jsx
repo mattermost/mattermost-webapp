@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {recycleDatabaseConnection} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -97,7 +98,7 @@ export default class DatabaseSettings extends AdminSettings {
                     }
                     showSuccessMessage={false}
                     errorMessage={{
-                        id: 'admin.recycle.reloadFail',
+                        id: t('admin.recycle.reloadFail'),
                         defaultMessage: 'Recycling unsuccessful: {error}',
                     }}
                     includeDetailedError={true}

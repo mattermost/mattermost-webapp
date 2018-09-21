@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 export default class EditPostTimeLimitButton extends React.Component {
     static propTypes = {
@@ -16,9 +17,9 @@ export default class EditPostTimeLimitButton extends React.Component {
     render = () => {
         let messageID;
         if (this.props.timeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT) {
-            messageID = 'edit_post.time_limit_button.no_limit';
+            messageID = t('edit_post.time_limit_button.no_limit');
         } else {
-            messageID = 'edit_post.time_limit_button.for_n_seconds';
+            messageID = t('edit_post.time_limit_button.for_n_seconds');
         }
 
         return (

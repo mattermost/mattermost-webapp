@@ -9,6 +9,7 @@ import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import {AsyncComponent} from 'components/async_load';
 import loadSettingsSidebar from 'bundle-loader?lazy!./settings_sidebar.jsx';
 
@@ -16,11 +17,11 @@ import TeamSettings from './team_settings.jsx';
 
 const holders = defineMessages({
     generalTab: {
-        id: 'team_settings_modal.generalTab',
+        id: t('team_settings_modal.generalTab'),
         defaultMessage: 'General',
     },
     importTab: {
-        id: 'team_settings_modal.importTab',
+        id: t('team_settings_modal.importTab'),
         defaultMessage: 'Import',
     },
 });

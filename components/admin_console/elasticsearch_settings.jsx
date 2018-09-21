@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {elasticsearchPurgeIndexes, elasticsearchTest} from 'actions/admin_actions.jsx';
 import {JobStatuses, JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -283,7 +284,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                         />
                     }
                     successMessage={{
-                        id: 'admin.elasticsearch.testConfigSuccess',
+                        id: t('admin.elasticsearch.testConfigSuccess'),
                         defaultMessage: 'Test successful. Configuration saved.',
                     }}
                     disabled={!this.state.enableIndexing}
@@ -334,11 +335,11 @@ export default class ElasticsearchSettings extends AdminSettings {
                         />
                     }
                     successMessage={{
-                        id: 'admin.elasticsearch.purgeIndexesButton.success',
+                        id: t('admin.elasticsearch.purgeIndexesButton.success'),
                         defaultMessage: 'Indexes purged successfully.',
                     }}
                     errorMessage={{
-                        id: 'admin.elasticsearch.purgeIndexesButton.error',
+                        id: t('admin.elasticsearch.purgeIndexesButton.error'),
                         defaultMessage: 'Failed to purge indexes: {error}',
                     }}
                     disabled={!this.state.canPurgeAndIndex}

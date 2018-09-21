@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
+import {t} from 'utils/i18n';
 import AtMention from 'components/at_mention';
 
 export default class PostAddChannelMember extends React.PureComponent {
@@ -127,20 +128,20 @@ export default class PostAddChannelMember extends React.PureComponent {
         let linkId;
         let linkText;
         if (channelType === Constants.PRIVATE_CHANNEL) {
-            linkId = 'post_body.check_for_out_of_channel_mentions.link.private';
+            linkId = t('post_body.check_for_out_of_channel_mentions.link.private');
             linkText = 'add them to this private channel';
         } else if (channelType === Constants.OPEN_CHANNEL) {
-            linkId = 'post_body.check_for_out_of_channel_mentions.link.public';
+            linkId = t('post_body.check_for_out_of_channel_mentions.link.public');
             linkText = 'add them to the channel';
         }
 
         let messageId;
         let messageText;
         if (usernames.length === 1) {
-            messageId = 'post_body.check_for_out_of_channel_mentions.message.one';
+            messageId = t('post_body.check_for_out_of_channel_mentions.message.one');
             messageText = 'was mentioned but is not in the channel. Would you like to ';
         } else if (usernames.length > 1) {
-            messageId = 'post_body.check_for_out_of_channel_mentions.message.multiple';
+            messageId = t('post_body.check_for_out_of_channel_mentions.message.multiple');
             messageText = 'were mentioned but they are not in the channel. Would you like to ';
         }
 
