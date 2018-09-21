@@ -362,7 +362,7 @@ export default {
                             label: 'admin.general.localization.serverLocaleTitle',
                             label_default: 'Default Server Language:',
                             help_text: 'admin.general.localization.serverLocaleDescription',
-                            help_text_default: 'Default language for system messages and logs. Changing this will require a server restart before taking effect.',
+                            help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_LANGUAGE,
@@ -2385,7 +2385,7 @@ export default {
                             label: 'admin.customization.enableLinkPreviewsTitle',
                             label_default: 'Enable Link Previews:',
                             help_text: 'admin.customization.enableLinkPreviewsDesc',
-                            help_text_default: 'Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews.',
+                            help_text_default: 'Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews. This setting only applies to websites with OpenGraph metadata and not for image links or YouTube previews.',
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_CUSTOM,

@@ -286,7 +286,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             const newAlias = `$MM_SELFMENTION${index}$`;
 
             newTokens.set(newAlias, {
-                value: `<span class='mention--highlight'>${alias}</span>`,
+                value: `<span class="mention--highlight">${alias}</span>`,
                 originalText: token.originalText,
             });
             output = output.replace(alias, newAlias);
@@ -304,7 +304,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
         const alias = `$MM_SELFMENTION${index}$`;
 
         tokens.set(alias, {
-            value: `<span class='mention--highlight'>${mention}</span>`,
+            value: `<span class="mention--highlight">${mention}</span>`,
             originalText: mention,
         });
 
@@ -472,7 +472,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
         const alias = `$MM_SEARCHTERM${index}$`;
 
         tokens.set(alias, {
-            value: `<span class='search-highlight'>${word}</span>`,
+            value: `<span class="search-highlight">${word}</span>`,
             originalText: word,
         });
 
@@ -502,7 +502,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
                 const newAlias = `$MM_SEARCHTERM${index}$`;
 
                 newTokens.set(newAlias, {
-                    value: `<span class='search-highlight'>${alias}</span>`,
+                    value: `<span class="search-highlight">${alias}</span>`,
                     originalText: token.originalText,
                 });
 

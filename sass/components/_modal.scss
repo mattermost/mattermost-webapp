@@ -327,6 +327,7 @@
             }
 
             .modal-image__content {
+                background: #F3F3F3;
                 max-height: 91.5vh;
                 max-width: 96vw;
                 overflow-x: hidden;
@@ -437,16 +438,6 @@
                 height: 100%;
                 padding: 0;
                 width: 100%;
-            }
-
-            .modal-image__body {
-                display: table-cell;
-                height: 100%;
-                overflow: visible;
-                padding: 0;
-                position: relative;
-                text-align: center;
-                vertical-align: middle;
             }
 
             .image-control {

@@ -74,62 +74,62 @@ describe('TextFormatting.AtMentions', function() {
     it('Highlighted at mentions', function() {
         assert.equal(
             TextFormatting.formatText('@user', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="user">@user</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="user">@user</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@channel', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="channel">@channel</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="channel">@channel</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@all', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="all">@all</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="all">@all</span></span></p>',
         );
 
         assert.equal(
             TextFormatting.formatText('@USER', {atMentions: true, mentionKeys: [{key: '@user'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="USER">@USER</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="USER">@USER</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@CHanNEL', {atMentions: true, mentionKeys: [{key: '@channel'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="CHanNEL">@CHanNEL</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="CHanNEL">@CHanNEL</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@ALL', {atMentions: true, mentionKeys: [{key: '@all'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="ALL">@ALL</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="ALL">@ALL</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@foo.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="foo.com">@foo.com</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@foo.com @bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}, {key: '@bar.com'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span> <span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="foo.com">@foo.com</span></span> <span class="mention--highlight"><span data-mention="bar.com">@bar.com</span></span></p>',
         );
         assert.equal(
             TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}, {key: '@bar.com'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span><span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+            '<p><span class="mention--highlight"><span data-mention="foo.com">@foo.com</span></span><span class="mention--highlight"><span data-mention="bar.com">@bar.com</span></span></p>',
         );
     });
 
     it('Mix highlight at mentions', function() {
         assert.equal(
             TextFormatting.formatText('@foo.com @bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span> <span data-mention="bar.com">@bar.com</span></p>',
+            '<p><span class="mention--highlight"><span data-mention="foo.com">@foo.com</span></span> <span data-mention="bar.com">@bar.com</span></p>',
             'should highlight first at mention, with space in between'
         );
         assert.equal(
             TextFormatting.formatText('@foo.com @bar.com', {atMentions: true, mentionKeys: [{key: '@bar.com'}]}).trim(),
-            '<p><span data-mention="foo.com">@foo.com</span> <span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+            '<p><span data-mention="foo.com">@foo.com</span> <span class="mention--highlight"><span data-mention="bar.com">@bar.com</span></span></p>',
             'should highlight second at mention, with space in between'
         );
         assert.equal(
             TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@foo.com'}]}).trim(),
-            '<p><span class=\'mention--highlight\'><span data-mention="foo.com">@foo.com</span></span><span data-mention="bar.com">@bar.com</span></p>',
+            '<p><span class="mention--highlight"><span data-mention="foo.com">@foo.com</span></span><span data-mention="bar.com">@bar.com</span></p>',
             'should highlight first at mention, without space in between'
         );
         assert.equal(
             TextFormatting.formatText('@foo.com@bar.com', {atMentions: true, mentionKeys: [{key: '@bar.com'}]}).trim(),
-            '<p><span data-mention="foo.com">@foo.com</span><span class=\'mention--highlight\'><span data-mention="bar.com">@bar.com</span></span></p>',
+            '<p><span data-mention="foo.com">@foo.com</span><span class="mention--highlight"><span data-mention="bar.com">@bar.com</span></span></p>',
             'should highlight second at mention, without space in between'
         );
         assert.equal(
