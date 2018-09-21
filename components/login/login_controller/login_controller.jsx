@@ -628,6 +628,7 @@ export default class LoginController extends React.Component {
         if (loginControls.length === 0) {
             loginControls.push(
                 <FormError
+                    key='noMethods'
                     error={
                         <FormattedMessage
                             id='login.noMethods'
