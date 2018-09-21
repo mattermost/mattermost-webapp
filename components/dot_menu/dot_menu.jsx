@@ -313,6 +313,7 @@ export default class DotMenu extends Component {
                         delayShow={500}
                         placement='top'
                         overlay={tooltip}
+                        rootClose={true}
                     >
                         <button
                             ref='dropdownToggle'
