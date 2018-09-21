@@ -447,8 +447,8 @@ export default {
                             label_default: 'Compliance Report Directory:',
                             help_text: t('admin.compliance.directoryDescription'),
                             help_text_default: 'Directory to which compliance reports are written. If blank, will be set to ./data/.',
-                            placeholder: t('admin.sql.maxOpenExample'),
-                            placeholder_default: 'E.g.: "10"',
+                            placeholder: t('admin.compliance.directoryExample'),
+                            placeholder_default: 'E.g.: "./data/"',
                             isDisabled: needsUtils.stateValueFalse('ComplianceSettings.Enable'),
                             isHidden: needsUtils.not(needsUtils.hasLicense),
                         },
@@ -2138,6 +2138,17 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'FileSettings.AmazonS3Endpoint',
+                            label: t('admin.image.amazonS3EndpointTitle'),
+                            label_default: 'Amazon S3 Endpoint:',
+                            help_text: t('admin.image.amazonS3EndpointDescription'),
+                            help_text_default: 'Hostname of your S3 Compatible Storage provider. Defaults to "s3.amazonaws.com".',
+                            placeholder: t('admin.image.amazonS3EndpointExample'),
+                            placeholder_default: 'E.g.: "s3.amazonaws.com"',
+                            isDisabled: needsUtils.not(needsUtils.stateValueEqual('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'FileSettings.AmazonS3SecretAccessKey',
                             label: t('admin.image.amazonS3SecretTitle'),
                             label_default: 'Amazon S3 Secret Access Key:',
@@ -2659,3 +2670,25 @@ export default {
         },
     },
 };
+
+t('admin.field_names.allowBannerDismissal');
+t('admin.field_names.bannerColor');
+t('admin.field_names.bannerText');
+t('admin.field_names.bannerTextColor');
+t('admin.field_names.enableBanner');
+t('admin.field_names.enableCommands');
+t('admin.field_names.enableConfirmNotificationsToChannel');
+t('admin.field_names.enableIncomingWebhooks');
+t('admin.field_names.enableOAuthServiceProvider');
+t('admin.field_names.enableOutgoingWebhooks');
+t('admin.field_names.enablePostIconOverride');
+t('admin.field_names.enablePostUsernameOverride');
+t('admin.field_names.enableUserAccessTokens');
+t('admin.field_names.enableUserCreation');
+t('admin.field_names.maxChannelsPerTeam');
+t('admin.field_names.maxNotificationsPerChannel');
+t('admin.field_names.maxUsersPerTeam');
+t('admin.field_names.postEditTimeLimit');
+t('admin.field_names.restrictCreationToDomains');
+t('admin.field_names.restrictDirectMessage');
+t('admin.field_names.teammateNameDisplay');
