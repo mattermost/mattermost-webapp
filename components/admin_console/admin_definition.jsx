@@ -735,6 +735,106 @@ export default {
             },
         },
         authentication: {
+            gitlab: {
+                schema: {
+                    id: 'GitLabSettings',
+                    name: t('admin.authentication.gitlab'),
+                    name_default: 'GitLab',
+                    onConfigLoad: (config) => {
+                        const newState = {};
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                        return newState;
+                    },
+                    onConfigSave: (config) => {
+                        const newConfig = {...config};
+                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url + '/api/v4/user';
+                        return newConfig;
+                    },
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'GitLabSettings.Enable',
+                            label: t('admin.gitlab.enableTitle'),
+                            label_default: 'Enable authentication with GitLab: ',
+                            help_text: t('admin.gitlab.enableDescription'),
+                            help_text_default: 'When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Id',
+                            label: t('admin.gitlab.clientIdTitle'),
+                            label_default: 'Application ID:',
+                            help_text: t('admin.gitlab.clientIdDescription'),
+                            help_text_default: 'Obtain this value via the instructions above for logging into GitLab',
+                            placeholder: t('admin.gitlab.clientIdExample'),
+                            placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                            isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Secret',
+                            label: t('admin.gitlab.clientSecretTitle'),
+                            label_default: 'Application Secret Key:',
+                            help_text: t('admin.gitlab.clientSecretDescription'),
+                            help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
+                            placeholder: t('admin.gitlab.clientSecretExample'),
+                            placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                            isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Url',
+                            label: t('admin.gitlab.siteUrl'),
+                            label_default: 'GitLab Site URL:',
+                            help_text: t('admin.gitlab.siteUrlDescription'),
+                            help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
+                            placeholder: t('admin.gitlab.siteUrlExample'),
+                            placeholder_default: 'E.g.: https://',
+                            isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.UserApiEndpoint',
+                            label: t('admin.gitlab.userTitle'),
+                            label_default: 'User API Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/api/v4/user';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.AuthEndpoint',
+                            label: t('admin.gitlab.authTitle'),
+                            label_default: 'Auth Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/oauth/authorize';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.TokenEndpoint',
+                            label: t('admin.gitlab.tokenTitle'),
+                            label_default: 'Token Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/oauth/token';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                        },
+                    ],
+                },
+            },
             oauth: {
                 schema: {
                     id: 'OAuthSettings',
