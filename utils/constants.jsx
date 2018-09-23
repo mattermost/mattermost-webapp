@@ -1308,4 +1308,11 @@ export const Constants = {
     PREV_CHANNEL_KEY: 'team_prev_channel:',
 };
 
+t('suggestion.mention.channels');
+t('suggestion.mention.morechannels');
+t('suggestion.mention.unread.channels');
+t('suggestion.mention.members');
+t('suggestion.mention.nonmembers');
+t('suggestion.mention.special');
+
 export default Constants;
