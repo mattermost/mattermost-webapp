@@ -437,10 +437,7 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
                 BrowserStore.signalLogout();
             }
 
-            BrowserStore.clear({exclude: [
-                Constants.RECENT_EMOJI_KEY,
-                'selected_teams',
-            ]});
+            BrowserStore.clear();
             ErrorStore.clearLastError();
             ChannelStore.clear();
             stopPeriodicStatusUpdates();
