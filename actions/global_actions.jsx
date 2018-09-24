@@ -24,10 +24,11 @@ import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
+import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
@@ -36,7 +37,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -59,12 +60,15 @@ export function emitChannelClickEvent(channel) {
         }
     }
     function switchToChannel(chan) {
-        const getMyChannelMemberPromise = getMyChannelMember(chan.id)(dispatch, getState);
+        const state = getState();
+        const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
         const oldChannelId = ChannelStore.getCurrentId();
-        const teamId = chan.team_id || getCurrentTeamId(getState());
+        const teamId = chan.team_id || getCurrentTeamId(state);
+        const isRHSOpened = getIsRhsOpen(state);
+        const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
 
         getMyChannelMemberPromise.then(() => {
-            getChannelStats(chan.id)(dispatch, getState);
+            dispatch(getChannelStats(chan.id));
 
             // Mark previous and next channel as read
             dispatch(markChannelAsRead(chan.id, oldChannelId));
@@ -73,6 +77,12 @@ export function emitChannelClickEvent(channel) {
 
         if (chan.delete_at === 0) {
             BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, chan.name);
+        }
+
+        // When switching to a different channel if the pinned posts is showing
+        // Update the RHS state to reflect the pinned post of the selected channel
+        if (isRHSOpened && isPinnedPostsShowing) {
+            dispatch(updateRhsState(RHSStates.PIN, chan.id));
         }
 
         loadProfilesForSidebar();
