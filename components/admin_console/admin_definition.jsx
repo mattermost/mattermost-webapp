@@ -15,6 +15,9 @@ import {
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
+import PluginManagement from 'components/admin_console/plugin_management';
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Audits from './audits';
@@ -2188,6 +2191,18 @@ export default {
                             help_text_markdown: true,
                         },
                     ],
+                },
+            },
+            management: {
+                schema: {
+                    id: 'PluginManagementSettings',
+                    component: PluginManagement,
+                },
+            },
+            custom: {
+                schema: {
+                    id: 'CustomPluginSettings',
+                    component: CustomPluginSettings,
                 },
             },
         },
