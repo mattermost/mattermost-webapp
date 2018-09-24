@@ -65,21 +65,16 @@ export function isKeyPressed(event, key) {
     if (event.keyCode === Constants.KeyCodes.COMPOSING[1]) {
         return false;
     }
-    if (typeof event.code !== 'undefined' && event.code !== 'Unidentified' && key[2]) {
-        const isPressedByCode = typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
 
-        // Returns true if the position of the key is validated. i.e Key K position irrespective of language.
-        // Works consistently across different languages keyboards.
-        // Do not return false because Layouts such as Dvorak will have Key k will be in different position.
+    // checks for event.key for older browsers and also for the case of different English layout keyboards.
+    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
+        const isPressedByCode = event.key === key[0] || event.key === key[0].toUpperCase();
         if (isPressedByCode) {
             return true;
         }
     }
 
-    // checks for event.key for older browsers and also for the case of different English layout keyboards.
-    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
-        return event.key === key[0] || event.key === key[0].toUpperCase();
-    }
+    // used for different language keyboards to detect the position of keys
     return event.keyCode === key[1];
 }
 

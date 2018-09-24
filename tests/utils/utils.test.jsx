@@ -361,14 +361,14 @@ describe('Utils.isKeyPressed', function() {
     test('Key match is used over keyCode if it exists', function() {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55, code: 'Slash'}),
+                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55}),
                 key: ['/', 191, 'Slash'],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191, code: 'KeyK'}),
+                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191}),
                 key: ['/', 191, 'Slash'],
-                valid: false,
+                valid: true,
             },
         ]) {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
@@ -473,16 +473,16 @@ describe('Utils.isKeyPressed', function() {
         }
     });
 
-    test('code is used for determining if it exists', function() {
+    test('keyCode is used for determining if it exists', function() {
         for (const data of [
             {
-                event: {key: 'a', code: 'KeyA'},
-                key: ['', 2221, 'KeyA'],
+                event: {key: 'a', keyCode: 65},
+                key: ['k', 65],
                 valid: true,
             },
             {
-                event: {key: 'differentLanguage', code: 'KeyA'},
-                key: [null, 2222, 'KeyA'],
+                event: {key: 'b', keyCode: 66},
+                key: ['y', 66],
                 valid: true,
             },
         ]) {
@@ -493,7 +493,7 @@ describe('Utils.isKeyPressed', function() {
     test('key should be tested as fallback for different layout of english keyboards', function() {
         //key will be k for keyboards like dvorak but code will be keyV as `v` is pressed
         const event = {key: 'k', code: 'KeyV'};
-        const key = ['k', 2221, 'KeyK'];
+        const key = ['k', 2221];
         expect(Utils.isKeyPressed(event, key)).toEqual(true);
     });
 });
