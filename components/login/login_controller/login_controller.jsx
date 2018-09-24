@@ -160,7 +160,7 @@ class LoginController extends React.Component {
                 },
             }).then((closeNotification) => {
                 this.closeSessionExpiredNotification = closeNotification;
-            }).catch((e) => {
+            }).catch(() => {
                 // Ignore the failure to display the notification.
             });
         } else if (!show && this.closeSessionExpiredNotification) {
