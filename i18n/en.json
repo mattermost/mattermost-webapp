@@ -1503,6 +1503,8 @@
   "channel_header.flagged": "Flagged Posts",
   "channel_header.leave": "Leave Channel",
   "channel_header.manageMembers": "Manage Members",
+  "channel_header.unmute": "Unmute Channel",
+  "channel_header.mute": "Mute Channel",
   "channel_header.notificationPreferences": "Notification Preferences",
   "channel_header.pinnedPosts": "Pinned Posts",
   "channel_header.recentMentions": "Recent Mentions",

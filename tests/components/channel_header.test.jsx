@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelHeader from 'components/channel_header/channel_header';
+import {NotificationLevels} from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
     const baseProps = {
@@ -93,6 +94,18 @@ describe('components/ChannelHeader', () => {
         const props = {
             ...populatedProps,
             channel: {...populatedProps.channel, delete_at: 1234},
+        };
+
+        const wrapper = shallow(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render correct menu when muted', () => {
+        const props = {
+            ...populatedProps,
+            channelMember: {...populatedProps.channelMember, notify_props: {mark_unread: NotificationLevels.MENTION}},
         };
 
         const wrapper = shallow(
