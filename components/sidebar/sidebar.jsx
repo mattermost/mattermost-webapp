@@ -178,7 +178,7 @@ export default class Sidebar extends React.PureComponent {
 
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
-            this.refs.container.scrollTop = 0;
+            this.refs.scrollbar.scrollToTop();
         }
 
         // close the LHS on mobile when you change channels
@@ -285,27 +285,23 @@ export default class Sidebar extends React.PureComponent {
     scrollToFirstUnreadChannel = () => {
         if (this.firstUnreadChannel) {
             const unreadMargin = 15;
-            const container = $(ReactDOM.findDOMNode(this.refs.container));
             const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
-            const scrollTop = (container.scrollTop() + firstUnreadElement.position().top) - unreadMargin;
-            container.stop().animate({scrollTop}, 500, 'swing');
+            const scrollTop = firstUnreadElement.position().top - unreadMargin;
+            this.refs.scrollbar.scrollTop(scrollTop);
         }
     }
 
     scrollToLastUnreadChannel = () => {
         if (this.lastUnreadChannel) {
             const unreadMargin = 15;
-            const container = $(ReactDOM.findDOMNode(this.refs.container));
             const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const elementBottom = lastUnreadElement.position().top + lastUnreadElement.height();
-            const scrollTop = (container.scrollTop() + (elementBottom - container.height())) + unreadMargin;
-            container.stop().animate({scrollTop}, 500, 'swing');
+            const scrollTop = (elementBottom - this.refs.scrollbar.getClientHeight()) + unreadMargin;
+            this.refs.scrollbar.scrollTop(scrollTop);
         }
     }
 
     updateUnreadIndicators = () => {
-        const container = $(ReactDOM.findDOMNode(this.refs.container));
-
         let showTopUnread = false;
         let showBottomUnread = false;
 
@@ -314,9 +310,9 @@ export default class Sidebar extends React.PureComponent {
 
         if (this.firstUnreadChannel) {
             const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
-            const fistUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
+            const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
 
-            if (fistUnreadPosition && fistUnreadPosition.top + firstUnreadElement.height() < unreadMargin) {
+            if (firstUnreadPosition && ((firstUnreadPosition.top + firstUnreadElement.height()) - unreadMargin) < this.refs.scrollbar.getScrollTop()) {
                 showTopUnread = true;
             }
         }
@@ -325,7 +321,7 @@ export default class Sidebar extends React.PureComponent {
             const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.position() : null;
 
-            if (lastUnreadPosition && lastUnreadPosition.top > container.height() - unreadMargin) {
+            if (lastUnreadPosition && (lastUnreadPosition.top + unreadMargin) > (this.refs.scrollbar.getScrollTop() + this.refs.scrollbar.getClientHeight())) {
                 showBottomUnread = true;
             }
         }
@@ -746,7 +742,6 @@ export default class Sidebar extends React.PureComponent {
                     >
                         <div
                             id='sidebarChannelContainer'
-                            ref='container'
                             className='nav-pills__container'
                         >
                             {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
