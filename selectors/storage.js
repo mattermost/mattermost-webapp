@@ -1,13 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
-
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {getPrefix} from 'utils/storage_utils';
-
-import Constants from 'utils/constants';
 
 export const getGlobalItem = (state, name, defaultValue) => {
     const storage = state && state.storage && state.storage.storage;
@@ -38,14 +32,3 @@ export const getItemFromStorage = (storage, name, defaultValue) => {
 
     return defaultValue;
 };
-
-export const getStorage = (state) => state.storage;
-
-export const getLastViewedChannelName = createSelector(
-    getStorage,
-    getCurrentTeamId,
-    (storage, currentTeamId) => {
-        const entry = storage.storage[`${Constants.PREV_CHANNEL_KEY}${currentTeamId}`];
-        return entry ? entry.value : null;
-    }
-);

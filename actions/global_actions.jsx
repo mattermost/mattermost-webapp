@@ -17,6 +17,7 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
@@ -34,6 +35,7 @@ import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
@@ -59,9 +61,11 @@ export function emitChannelClickEvent(channel) {
         }
     }
     function switchToChannel(chan) {
-        const getMyChannelMemberPromise = getMyChannelMember(chan.id)(dispatch, getState);
+        const state = getState();
+        const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
         const oldChannelId = ChannelStore.getCurrentId();
-        const teamId = chan.team_id || getCurrentTeamId(getState());
+        const userId = getCurrentUserId(state);
+        const teamId = chan.team_id || getCurrentTeamId(state);
 
         getMyChannelMemberPromise.then(() => {
             getChannelStats(chan.id)(dispatch, getState);
@@ -72,7 +76,7 @@ export function emitChannelClickEvent(channel) {
         });
 
         if (chan.delete_at === 0) {
-            BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, chan.name);
+            LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
         }
 
         loadProfilesForSidebar();
@@ -466,9 +470,10 @@ export function emitBrowserFocus(focus) {
 }
 
 export async function redirectUserToDefaultTeam() {
+    const userId = getCurrentUserId(getState());
     const teams = TeamStore.getAll();
     const teamMembers = TeamStore.getMyTeamMembers();
-    let teamId = BrowserStore.getGlobalItem('team');
+    let teamId = LocalStorageStore.getPreviousTeamId(userId);
 
     function redirect(teamName, channelName) {
         browserHistory.push(`/${teamName}/channels/${channelName}`);
@@ -492,8 +497,8 @@ export async function redirectUserToDefaultTeam() {
     }
 
     const team = teams[teamId];
-    if (team) {
-        let channelName = BrowserStore.getGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, Constants.DEFAULT_CHANNEL);
+    if (userId && team) {
+        let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
         const channel = ChannelStore.getChannelNamesMap()[channelName];
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
