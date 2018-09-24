@@ -26,6 +26,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         </Tooltip>
       }
       placement="top"
+      rootClose={true}
       trigger={
         Array [
           "hover",
@@ -116,6 +117,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         </Tooltip>
       }
       placement="top"
+      rootClose={true}
       trigger={
         Array [
           "hover",
