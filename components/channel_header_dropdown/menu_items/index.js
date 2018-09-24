@@ -14,5 +14,4 @@ export {default as ConvertChannel} from './convert_channel';
 export {default as RenameChannel} from './rename_channel';
 export {default as DeleteChannel} from './delete_channel';
 export {default as LeaveChannel} from './leave_channel';
-
-// export {default as Webrtc} from './webrtc';
+export {default as Webrtc} from './webrtc';
