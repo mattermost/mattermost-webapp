@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
+
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -19,6 +20,8 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
+
+const GET_MORE_BUFFER = 30;
 
 export function renderView(props) {
     return (
@@ -54,6 +57,7 @@ export default class SearchResults extends React.PureComponent {
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
+        isSearchGettingMore: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -61,6 +65,9 @@ export default class SearchResults extends React.PureComponent {
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
+        actions: PropTypes.shape({
+            getMorePostsForSearch: PropTypes.func.isRequired,
+        }),
     };
 
     static defaultProps = {
@@ -122,8 +129,21 @@ export default class SearchResults extends React.PureComponent {
     }
 
     scrollToTop = () => {
-        $('#search-items-container').scrollTop(0);
+        this.refs.scrollbars.scrollToTop();
     }
+
+    handleScroll = () => {
+        const scrollHeight = this.refs.scrollbars.getScrollHeight();
+        const scrollTop = this.refs.scrollbars.getScrollTop();
+        const clientHeight = this.refs.scrollbars.getClientHeight();
+        if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
+            this.loadMorePosts();
+        }
+    }
+
+    loadMorePosts = debounce(() => {
+        this.props.actions.getMorePostsForSearch();
+    }, 100);
 
     render() {
         const results = this.props.results;
@@ -243,6 +263,7 @@ export default class SearchResults extends React.PureComponent {
                     isLoading={this.props.isSearchingTerm}
                 />
                 <Scrollbars
+                    ref='scrollbars'
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}

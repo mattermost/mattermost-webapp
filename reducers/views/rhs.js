@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import {PostTypes, SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {PostTypes, TeamTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
@@ -72,18 +72,6 @@ function searchResultsTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS:
         return action.terms;
-    default:
-        return state;
-    }
-}
-
-function isSearchingTerm(state = false, action) {
-    switch (action.type) {
-    case SearchTypes.SEARCH_POSTS_REQUEST:
-        return true;
-    case SearchTypes.SEARCH_POSTS_FAILURE:
-    case SearchTypes.SEARCH_POSTS_SUCCESS:
-        return false;
     default:
         return state;
     }
@@ -185,7 +173,6 @@ export default combineReducers({
     rhsState,
     searchTerms,
     searchResultsTerms,
-    isSearchingTerm,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,

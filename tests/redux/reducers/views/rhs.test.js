@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {TeamTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
@@ -14,7 +14,6 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
-        isSearchingTerm: false,
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
@@ -65,52 +64,6 @@ describe('Reducers.RHS', () => {
             selectedPostId: '',
             rhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
-        });
-    });
-
-    test('should match isSearchingTerm state to true', () => {
-        const nextState = rhsReducer(
-            {},
-            {
-                type: SearchTypes.SEARCH_POSTS_REQUEST,
-            }
-        );
-
-        expect(nextState).toEqual({
-            ...initialState,
-            isSearchingTerm: true,
-        });
-    });
-
-    test('should match isSearchingTerm state to false', () => {
-        const nextState = rhsReducer(
-            {
-                isSearchingTerm: true,
-            },
-            {
-                type: SearchTypes.SEARCH_POSTS_FAILURE,
-            }
-        );
-
-        expect(nextState).toEqual({
-            ...initialState,
-            isSearchingTerm: false,
-        });
-    });
-
-    test('should match isSearchingTerm state to false', () => {
-        const nextState = rhsReducer(
-            {
-                isSearchingTerm: true,
-            },
-            {
-                type: SearchTypes.SEARCH_POSTS_SUCCESS,
-            }
-        );
-
-        expect(nextState).toEqual({
-            ...initialState,
-            isSearchingTerm: false,
         });
     });
 
