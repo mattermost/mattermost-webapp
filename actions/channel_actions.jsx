@@ -122,7 +122,7 @@ export function executeCommand(message, args, success, error) {
             const hasGotoLocation = data.goto_location && isUrlSafe(data.goto_location);
 
             if (msg.trim() === '/logout') {
-                GlobalActions.clientLogout(hasGotoLocation ? data.goto_location : '/');
+                GlobalActions.emitUserLoggedOutEvent(hasGotoLocation ? data.goto_location : '/');
                 return;
             }
 

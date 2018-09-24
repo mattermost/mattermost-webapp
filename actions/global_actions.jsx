@@ -437,23 +437,22 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
                 BrowserStore.signalLogout();
             }
 
-            clientLogout(redirectTo);
+            BrowserStore.clear({exclude: [
+                Constants.RECENT_EMOJI_KEY,
+                'selected_teams',
+            ]});
+            ErrorStore.clearLastError();
+            ChannelStore.clear();
+            stopPeriodicStatusUpdates();
+            WebsocketActions.close();
+            document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            browserHistory.push(redirectTo);
         }
     ).catch(
         () => {
             browserHistory.push(redirectTo);
         }
     );
-}
-
-export function clientLogout(redirectTo = '/') {
-    BrowserStore.clear({exclude: [Constants.RECENT_EMOJI_KEY, 'selected_teams']});
-    ErrorStore.clearLastError();
-    ChannelStore.clear();
-    stopPeriodicStatusUpdates();
-    WebsocketActions.close();
-    document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    browserHistory.push(redirectTo);
 }
 
 export function toggleSideBarRightMenuAction() {
