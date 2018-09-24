@@ -20,8 +20,6 @@ import EmailSettings from 'components/admin_console/email_settings.jsx';
 import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
-import PluginManagement from 'components/admin_console/plugin_management';
-import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import PushSettings from 'components/admin_console/push_settings.jsx';
@@ -415,13 +413,19 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/management`}
-                                        component={PluginManagement}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.plugins.management.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/custom/:plugin_id`}
-                                        component={CustomPluginSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.plugins.custom.schema,
+                                        }}
                                     />
                                     <Redirect to={`${props.match.url}/configuration`}/>
                                 </Switch>
