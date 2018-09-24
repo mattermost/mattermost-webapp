@@ -713,3 +713,140 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
   </li>
 </ul>
 `;
+
+exports[`components/SettingItemMin should match snapshot, user icon on source 1`] = `
+<ul
+  className="section-max form-horizontal"
+>
+  <li
+    className="col-xs-12 section-title"
+  >
+    Profile Picture
+  </li>
+  <li
+    className="col-xs-offset-3 col-xs-8"
+  >
+    <ul
+      className="setting-list"
+    >
+      <li
+        className="setting-list-item"
+      >
+         
+        <div
+          className="profile-img__container"
+        >
+          <div
+            className="img-preview__image"
+          >
+            <img
+              alt="profile image"
+              className="profile-img"
+              src="http://localhost:8065/api/v4/users/src_id"
+            />
+          </div>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="removeIcon"
+                placement="right"
+              >
+                <FormattedMessage
+                  defaultMessage="Remove profile picture"
+                  id="setting_picture.remove_profile_picture"
+                  values={Object {}}
+                />
+              </Tooltip>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <a
+              className="profile-img__remove"
+              onClick={[Function]}
+            >
+              <span>
+                ×
+              </span>
+            </a>
+          </OverlayTrigger>
+        </div>
+         
+      </li>
+      <li
+        className="setting-list-item padding-top x2"
+      >
+        <FormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": "200MB",
+            }
+          }
+        />
+      </li>
+      <li
+        className="setting-list-item"
+      >
+        <hr />
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              "",
+            ]
+          }
+          type="modal"
+        />
+        <div
+          className="btn btn-sm btn-primary btn-file sel-btn"
+          disabled={false}
+        >
+          <FormattedMessage
+            defaultMessage="Select"
+            id="setting_picture.select"
+            values={Object {}}
+          />
+          <input
+            accept=".jpg,.png,.bmp"
+            disabled={false}
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <a
+          className="btn btn-sm btn-inactive disabled"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Save"
+            id="setting_picture.save"
+            values={Object {}}
+          />
+        </a>
+        <a
+          className="btn btn-sm theme"
+          href="#"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="setting_picture.cancel"
+            values={Object {}}
+          />
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;

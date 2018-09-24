@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getMe, sendVerificationEmail} from 'mattermost-redux/actions/users';
+import {getMe, sendVerificationEmail, setDefaultProfileImage} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UserSettingsGeneralTab from './user_settings_general.jsx';
@@ -41,6 +41,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getMe,
             sendVerificationEmail,
+            setDefaultProfileImage,
         }, dispatch),
     };
 }

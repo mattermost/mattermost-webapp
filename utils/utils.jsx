@@ -1362,6 +1362,14 @@ export function imageURLForUser(userIdOrObject) {
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
+export function defaultImageURLForUser(userIdOrObject) {
+    let userId = userIdOrObject;
+    if (typeof userIdOrObject !== 'string') {
+        userId = userIdOrObject.id;
+    }
+    return Client4.getUsersRoute() + '/' + userId + '/image/default';
+}
+
 // in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
 export function imageURLForTeam(teamIdOrObject) {
     if (typeof teamIdOrObject == 'string') {
