@@ -138,7 +138,7 @@ class LoginController extends React.Component {
         const search = new URLSearchParams(this.props.location.search);
         const extra = search.get('extra');
 
-        if (extra === Constants.SESSION_EXPIRED) {
+        if (extra === Constants.SESSION_EXPIRED && !this.closeSessionExpiredNotification) {
             Utils.showNotification({
                 title: this.props.siteName,
                 body: Utils.localizeMessage(
@@ -155,7 +155,7 @@ class LoginController extends React.Component {
             }).catch(() => {
                 // Ignore the failure to display the notification.
             });
-        } else if (this.closeSessionExpiredNotification) {
+        } else if (extra !== Constants.SESSION_EXPIRED && this.closeSessionExpiredNotification) {
             this.closeSessionExpiredNotification();
             this.closeSessionExpiredNotification = null;
         }
