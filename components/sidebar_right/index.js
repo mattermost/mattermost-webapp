@@ -8,7 +8,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import PostStore from 'stores/post_store';
-import {getPinnedPosts, getFlaggedPosts, setRhsExpanded} from 'actions/views/rhs';
+import {getPinnedPosts, getFlaggedPosts, setRhsExpanded, showPinnedPosts} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
@@ -61,6 +61,7 @@ function mapDispatchToProps(dispatch) {
             getPinnedPosts,
             getFlaggedPosts,
             setRhsExpanded,
+            showPinnedPosts,
         }, dispatch),
     };
 }
