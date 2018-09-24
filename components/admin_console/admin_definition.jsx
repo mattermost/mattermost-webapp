@@ -511,6 +511,16 @@ export default {
                             ],
                         },
                         {
+                            type: Constants.SettingsTypes.TYPE_PERMISSION,
+                            key: 'TeamSettings.EditOthersPosts',
+                            label: t('admin.team.editOthersPostsTitle'),
+                            label_default: 'Allow Team Administrators to edit others posts:',
+                            help_text: t('admin.team.editOthersPostsDesc'),
+                            help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
+                            permissions_mapping_name: 'editOthersPosts',
+                            isHidden: needsUtils.hasLicense,
+                        },
+                        {
                             type: Constants.SettingsTypes.TYPE_BOOL,
                             key: 'TeamSettings.ExperimentalViewArchivedChannels',
                             label: t('admin.viewArchivedChannelsTitle'),
