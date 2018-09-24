@@ -46,11 +46,17 @@
     }
 
     .sidebar-item__name {
-        display: inline-block;
+        display: flex;
+        flex: 1;
+        padding-right: 10px;
         overflow: hidden;
-        text-overflow: ellipsis;
         vertical-align: top;
-        padding-right: 20px;
+
+        > span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
     }
 
     .sidebar__divider {
@@ -137,7 +143,6 @@
         min-width: 18px;
         padding: 0 5px;
         position: relative;
-        right: 15px;
     }
 
     .sidebar--left__list {
@@ -234,7 +239,7 @@
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
-                padding: 5px 0 5px 15px;
+                padding: 5px 5px 5px 15px;
                 text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -267,10 +272,10 @@
                         font-size: 21px;
                         font-weight: 600;
                         position: relative;
-                        right: 15px;
                         width: 24px;
                         height: 20px;
                         line-height: 20px;
+                        margin-right: 7px;
                         text-align: center;
 
                         &:hover {

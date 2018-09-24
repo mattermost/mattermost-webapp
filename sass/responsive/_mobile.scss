@@ -1188,7 +1188,6 @@
                 }
 
                 .sidebar-item {
-                    padding: 0 0 0 17px;
                     height: 45px;
 
                     &.has-close {
@@ -1196,7 +1195,7 @@
                             @include opacity(.5);
                             display: block;
                             font-size: 25px;
-                            right: 12px;
+                            margin-right: 4px;
                             width: 30px;
                             height: 30px;
                             line-height: 30px;
