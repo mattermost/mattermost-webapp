@@ -55,6 +55,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
             isReadonly,
             isArchived,
         } = this.props;
+        console.log(isFavorite);
 
         return (
             <div className='navbar-brand'>

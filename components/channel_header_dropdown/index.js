@@ -12,6 +12,7 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {
     isDefault as isDefaultChannel,
     isFavoriteChannel,
@@ -28,8 +29,9 @@ const isCurrentChannelDefault = createSelector(
 );
 
 const isCurrentChannelFavorite = createSelector(
+    getMyPreferences,
     getCurrentChannel,
-    (channel) => isFavoriteChannel(channel),
+    (preferences, channel) => isFavoriteChannel(preferences, channel.id) || false,
 );
 
 const isCurrentChannelArchived = createSelector(
