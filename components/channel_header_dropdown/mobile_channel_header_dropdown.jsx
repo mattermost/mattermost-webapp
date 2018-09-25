@@ -15,16 +15,15 @@ import * as MenuItem from './menu_items';
 
 export default class MobileChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
-        teamUrl: PropTypes.string.isRequired,
         user: PropTypes.object.isRequired,
-        channel: PropTypes.object,
-        membership: PropTypes.object,
+        channel: PropTypes.object.isRequired,
+        membership: PropTypes.object.isRequired,
+        isDefault: PropTypes.bool.isRequired,
+        isFavorite: PropTypes.bool.isRequired,
+        isReadonly: PropTypes.bool.isRequired,
+        isArchived: PropTypes.bool.isRequired,
         teammateId: PropTypes.string,
         teammateStatus: PropTypes.string,
-        isDefault: PropTypes.bool,
-        isFavorite: PropTypes.bool,
-        isReadonly: PropTypes.bool,
-        isArchived: PropTypes.bool,
     }
 
     getChannelTitle = () => {
@@ -48,7 +47,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
 
     render() {
         const {
-            teamUrl,
             user,
             channel,
             membership,
@@ -58,19 +56,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
             isReadonly,
             isArchived,
         } = this.props;
-
-        if (!channel) {
-            return (
-                <div className='navbar-brand'>
-                    <Link
-                        to={`${teamUrl}/channels/${Constants.DEFAULT_CHANNEL}`}
-                        className='heading'
-                    >
-                        {'Town Square'}
-                    </Link>
-                </div>
-            );
-        }
 
         return (
             <div className='navbar-brand'>

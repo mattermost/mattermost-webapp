@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getUserStatuses,
@@ -62,7 +61,6 @@ const getTeammateStatus = createSelector(
 );
 
 const mapStateToProps = createSelector(
-    getCurrentTeamUrl,
     getCurrentUser,
     getCurrentChannel,
     getMyCurrentChannelMembership,
@@ -73,7 +71,6 @@ const mapStateToProps = createSelector(
     getTeammateId,
     getTeammateStatus,
     (
-        teamUrl,
         user,
         channel,
         membership,
@@ -84,7 +81,6 @@ const mapStateToProps = createSelector(
         teammateId,
         teammateStatus,
     ) => ({
-        teamUrl,
         user,
         channel,
         membership,
