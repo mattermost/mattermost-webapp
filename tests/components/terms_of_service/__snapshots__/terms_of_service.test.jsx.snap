@@ -90,7 +90,7 @@ exports[`components/terms_of_service/TermsOfService should match snapshot 1`] = 
           values={
             Object {
               "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
-              "TermsOfServiceLink": "https://about.mattermost.com/default-about/",
+              "TermsOfServiceLink": "https://about.mattermost.com/default-terms/",
               "siteName": "Mattermost",
             }
           }
@@ -202,7 +202,7 @@ exports[`components/terms_of_service/TermsOfService should match snapshot, on ac
           values={
             Object {
               "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
-              "TermsOfServiceLink": "https://about.mattermost.com/default-about/",
+              "TermsOfServiceLink": "https://about.mattermost.com/default-terms/",
               "siteName": "Mattermost",
             }
           }
@@ -307,7 +307,7 @@ exports[`components/terms_of_service/TermsOfService should match snapshot, on re
           values={
             Object {
               "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
-              "TermsOfServiceLink": "https://about.mattermost.com/default-about/",
+              "TermsOfServiceLink": "https://about.mattermost.com/default-terms/",
               "siteName": "Mattermost",
             }
           }

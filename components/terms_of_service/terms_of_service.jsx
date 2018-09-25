@@ -34,7 +34,7 @@ export default class TermsOfService extends React.PureComponent {
         privacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
         siteName: 'Mattermost',
         termsEnabled: true,
-        termsOfServiceLink: 'https://about.mattermost.com/default-about/',
+        termsOfServiceLink: 'https://about.mattermost.com/default-terms/',
     };
 
     constructor(props) {

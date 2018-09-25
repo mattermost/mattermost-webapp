@@ -24,7 +24,7 @@ describe('components/terms_of_service/TermsOfService', () => {
         privacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
         siteName: 'Mattermost',
         termsEnabled: true,
-        termsOfServiceLink: 'https://about.mattermost.com/default-about/',
+        termsOfServiceLink: 'https://about.mattermost.com/default-terms/',
     };
 
     test('should match snapshot', () => {

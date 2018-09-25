@@ -14,7 +14,7 @@ function mapStateToProps(state) {
         privacyPolicyLink: config.PrivacyPolicyLink,
         siteName: config.SiteName,
         termsEnabled: config.EnableCustomServiceTerms === 'true',
-        termsOfServiceLink: config.AboutLink,
+        termsOfServiceLink: config.TermsOfServiceLink,
     };
 }
 
