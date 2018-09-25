@@ -20,7 +20,7 @@ jest.mock('actions/user_actions.jsx', () => ({
 
 describe('components/terms_of_service/TermsOfService', () => {
     const baseProps = {
-        customServiceTermsId: '1234',
+        customServiceTermsId: '1',
         privacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
         siteName: 'Mattermost',
         termsEnabled: true,
@@ -31,6 +31,13 @@ describe('components/terms_of_service/TermsOfService', () => {
         const props = {...baseProps};
         const wrapper = shallow(<TermsOfService {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call getServiceTerms on change of customServiceTermsId', () => {
+        const props = {...baseProps};
+        const wrapper = shallow(<TermsOfService {...props}/>);
+        wrapper.setProps({customServiceTermsId: '2'});
+        expect(getServiceTerms).toHaveBeenCalledTimes(2);
     });
 
     test('should match snapshot on loading', () => {

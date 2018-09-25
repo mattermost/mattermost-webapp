@@ -52,10 +52,10 @@ export default class TermsOfService extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (!this.props.termsEnabled) {
-            GlobalActions.redirectUserToDefaultTeam();
-        } else {
+        if (this.props.termsEnabled) {
             this.getServiceTerms();
+        } else {
+            GlobalActions.redirectUserToDefaultTeam();
         }
     }
 
