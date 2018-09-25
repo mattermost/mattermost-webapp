@@ -46,11 +46,6 @@ export default class CommentedOn extends PureComponent {
             username = post.props.override_username;
         }
 
-        let apostrophe = '\'s';
-        if (username.slice(-1) === 's') {
-            apostrophe = '\'';
-        }
-
         const name = (
             <a
                 className='theme'
@@ -74,10 +69,9 @@ export default class CommentedOn extends PureComponent {
                 <span>
                     <FormattedMessage
                         id='post_body.commentedOn'
-                        defaultMessage='Commented on {name}{apostrophe} message: '
+                        defaultMessage='Commented on {name} message: '
                         values={{
                             name,
-                            apostrophe,
                         }}
                     />
                     <a
