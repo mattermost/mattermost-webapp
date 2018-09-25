@@ -161,30 +161,28 @@ export default class Navbar extends React.PureComponent {
         const collapseButtons = this.createCollapseButtons(currentUser.id);
 
         return (
-            <div>
-                <nav
-                    className='navbar navbar-default navbar-fixed-top'
-                    role='navigation'
-                >
-                    <div className='container-fluid theme'>
-                        <div className='navbar-header'>
-                            {collapseButtons}
-                            <ShowSearchButton/>
-                            <NavbarInfoButton
-                                ref='headerOverlay'
-                                channel={channel}
-                                isReadOnly={this.props.isReadOnly}
-                            />
-                            {searchButton}
-                            <MobileChannelHeaderPlug
-                                channel={channel}
-                                isDropdown={false}
-                            />
-                            <MobileChannelHeaderDropdown/>
-                        </div>
+            <nav
+                id='navbar'
+                className='navbar navbar-default navbar-fixed-top'
+                role='navigation'
+            >
+                <div className='container-fluid theme'>
+                    <div className='navbar-header'>
+                        {collapseButtons}
+                        <ShowSearchButton/>
+                        <NavbarInfoButton
+                            ref='headerOverlay'
+                            channel={channel}
+                            isReadOnly={this.props.isReadOnly}
+                        />
+                        <MobileChannelHeaderPlug
+                            channel={channel}
+                            isDropdown={false}
+                        />
+                        <MobileChannelHeaderDropdown/>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
         );
     }
 }
