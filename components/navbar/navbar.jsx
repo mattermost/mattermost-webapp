@@ -173,7 +173,6 @@ export default class Navbar extends React.PureComponent {
                             <NavbarInfoButton
                                 ref='headerOverlay'
                                 channel={channel}
-                                showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                                 isReadOnly={this.props.isReadOnly}
                             />
                             {searchButton}
