@@ -47,9 +47,9 @@ export default class CommentedOn extends PureComponent {
             message = (
                 <CommentedOnFilesMessage parentPostId={post.id}/>
             );
-        } else {
+        } else if (post.props && post.props.attachments && post.props.attachments.length > 0) {
             const attachment = post.props.attachments[0];
-            const webhookMessage = attachment.pretext || attachment.title || attachment.text || attachment.fallback;
+            const webhookMessage = attachment.pretext || attachment.title || attachment.text || attachment.fallback || '';
             message = Utils.replaceHtmlEntities(webhookMessage);
         }
 
