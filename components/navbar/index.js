@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
     isCurrentChannelReadOnly,
@@ -20,15 +19,12 @@ import {close as closeLhs} from 'actions/views/lhs';
 import Navbar from './navbar.jsx';
 
 const mapStateToProps = createSelector(
-    getCurrentUser,
     getCurrentChannel,
     isCurrentChannelReadOnly,
     (
-        currentUser,
         channel,
         isReadOnly,
     ) => ({
-        currentUser,
         channel,
         isReadOnly,
     }),

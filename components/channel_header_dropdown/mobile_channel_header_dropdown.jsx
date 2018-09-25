@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import StatusIcon from 'components/status_icon';
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
