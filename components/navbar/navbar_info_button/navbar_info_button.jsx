@@ -16,8 +16,8 @@ const headerMarkdownOptions = {mentionHighlight: false};
 
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
-        channel: PropTypes.object,
-        isReadOnly: PropTypes.bool,
+        channel: PropTypes.object.isRequired,
+        isReadOnly: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -45,51 +45,51 @@ export default class NavbarInfoButton extends React.PureComponent {
     }
 
     render() {
-        let popoverContent = null;
-        if (this.props.channel) {
-            if (this.props.channel.header) {
-                popoverContent = (
-                    <Markdown
-                        message={this.props.channel.header}
-                        options={headerMarkdownOptions}
-                    />
-                );
-            } else {
-                let addOne;
-                if (!this.props.isReadOnly) {
-                    const link = (
-                        <a
-                            href='#'
-                            onClick={this.showEditChannelHeaderModal}
-                        >
-                            <FormattedMessage
-                                id='navbar.click'
-                                defaultMessage='Click here'
-                            />
-                        </a>
-                    );
-                    addOne = (
-                        <React.Fragment>
-                            <br/>
-                            <FormattedMessage
-                                id='navbar.clickToAddHeader'
-                                defaultMessage='{clickHere} to add one.'
-                                values={{clickHere: link}}
-                            />
-                        </React.Fragment>
-                    );
-                }
+        const {channel, isReadOnly} = this.props;
 
-                popoverContent = (
-                    <div>
+        let popoverContent = null;
+        if (channel.header) {
+            popoverContent = (
+                <Markdown
+                    message={channel.header}
+                    options={headerMarkdownOptions}
+                />
+            );
+        } else {
+            let addOne;
+            if (!isReadOnly) {
+                const link = (
+                    <a
+                        href='#'
+                        onClick={this.showEditChannelHeaderModal}
+                    >
                         <FormattedMessage
-                            id='navbar.noHeader'
-                            defaultMessage='No channel header yet.'
+                            id='navbar.click'
+                            defaultMessage='Click here'
                         />
-                        {addOne}
-                    </div>
+                    </a>
+                );
+                addOne = (
+                    <React.Fragment>
+                        <br/>
+                        <FormattedMessage
+                            id='navbar.clickToAddHeader'
+                            defaultMessage='{clickHere} to add one.'
+                            values={{clickHere: link}}
+                        />
+                    </React.Fragment>
                 );
             }
+
+            popoverContent = (
+                <div>
+                    <FormattedMessage
+                        id='navbar.noHeader'
+                        defaultMessage='No channel header yet.'
+                    />
+                    {addOne}
+                </div>
+            );
         }
 
         const popover = (
