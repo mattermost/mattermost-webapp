@@ -5,15 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
-    getCurrentChannelStats,
-    getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
-import {isFavoriteChannel, isDefault as isDefaultChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {leaveChannel} from 'actions/views/channel';
 import {
@@ -28,32 +24,18 @@ import {toggle as toggleLhs, close as closeLhs} from 'actions/views/lhs';
 import Navbar from './navbar.jsx';
 
 const mapStateToProps = createSelector(
-    getCurrentTeamUrl,
     getCurrentUser,
-    getUserStatuses,
     getCurrentChannel,
-    getCurrentChannelStats,
-    getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
     getConfig,
     (
-        currentTeamUrl,
         currentUser,
-        userStatuses,
         channel,
-        channelStats,
-        channelMembership,
         isReadOnly,
         config,
     ) => ({
-        currentTeamUrl,
         currentUser,
-        userStatuses,
         channel,
-        channelMembership,
-        memberCount: channelStats && channelStats.member_count,
-        isDefault: channel && isDefaultChannel(channel),
-        isFavorite: channel && isFavoriteChannel(channel),
         isReadOnly,
         enableWebrtc: config.EnableWebrtc === 'true',
     }),

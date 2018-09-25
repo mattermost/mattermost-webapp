@@ -5,44 +5,22 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
-
-import {Permissions} from 'mattermost-redux/constants';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import NotifyCounts from 'components/notify_counts.jsx';
-import StatusIcon from 'components/status_icon.jsx';
 import MenuIcon from 'components/svg/menu_icon';
 import SearchIcon from 'components/svg/search_icon';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
+import {MobileChannelHeaderDropdown} from 'components/channel_header_dropdown';
+
 import NavbarInfoButton from './navbar_info_button';
-import ViewChannelInfoOption from './navbar_dropdown_items/view_channel_info';
-import SetChannelHeaderOption from './navbar_dropdown_items/set_channel_header';
-import SetChannelPurposeOption from './navbar_dropdown_items/set_channel_purpose';
-import NotificationPreferenceOption from './navbar_dropdown_items/notification_preferences';
-import ChannelMembersOption from './navbar_dropdown_items/channel_members';
-import ViewPinnedPostsOption from './navbar_dropdown_items/view_pinned_posts';
-import AddMembersOption from './navbar_dropdown_items/add_members';
-import RenameChannelOption from './navbar_dropdown_items/rename_channel';
-import ConvertChannelOption from './navbar_dropdown_items/convert_channel';
-import DeleteChannelOption from './navbar_dropdown_items/delete_channel';
-import LeaveChannelOption from './navbar_dropdown_items/leave_channel';
-import ToggleFavoriteChannelOption from './navbar_dropdown_items/toggle_favorite_channel';
-import WebrtcOption from './navbar_dropdown_items/webrtc';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * String that is URL of current team
-         */
-        currentTeamUrl: PropTypes.string.isRequired,
 
         /**
          * Object with info about current user
@@ -60,29 +38,9 @@ export default class Navbar extends React.PureComponent {
         channel: PropTypes.object,
 
         /**
-         * Object with info about my membership of current channel
-         */
-        channelMembership: PropTypes.object.isRequired,
-
-        /**
-         * Number that online user count of current channel
-         */
-        userCount: PropTypes.number,
-
-        /**
-         * Bool whether the current channel is default channel
-         */
-        isDefault: PropTypes.bool,
-
-        /**
          * Bool whether the current channel is read only
          */
         isReadOnly: PropTypes.bool,
-
-        /**
-         * Bool whether the current channel is favorite
-         */
-        isFavorite: PropTypes.bool,
 
         /**
          * Bool whether the WebRTC feature is enabled
@@ -173,149 +131,8 @@ export default class Navbar extends React.PureComponent {
         }
     }
 
-    // TODO: Clean hear
-    createDropdown = (teamId, channel, channelTitle, isDirect, isGroup) => {
-        if (channel) {
-            let viewInfoOption;
-            let webrtcOption;
-
-            let setChannelHeaderOption = <SetChannelHeaderOption channel={channel}/>;
-            let setChannelPurposeOption;
-            let notificationPreferenceOption;
-            let renameChannelOption;
-            let convertChannelOption;
-            let deleteChannelOption;
-            let leaveChannelOption;
-            const channelMembersOption = <ChannelMembersOption channel={channel}/>;
-            const viewPinnedPostsOption = <ViewPinnedPostsOption channel={channel}/>;
-            const addMembersOption = <AddMembersOption channel={channel}/>;
-
-            if (isDirect) {
-                if (this.isWebrtcEnabled()) {
-                    const contactId = Utils.getUserIdFromChannelName(channel);
-                    const contactStatus = this.props.userStatuses[this.state.contactId];
-                    webrtcOption = (
-                        <WebrtcOption
-                            contactId={contactId}
-                            contactStatus={contactStatus}
-                        />
-                    );
-                }
-            } else if (isGroup) {
-                notificationPreferenceOption = (
-                    <NotificationPreferenceOption
-                        user={this.props.currentUser}
-                        channel={channel}
-                        membership={this.props.channelMembership}
-                    />
-                );
-            } else {
-                const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-                viewInfoOption = <ViewChannelInfoOption channel={channel}/>;
-                notificationPreferenceOption = (
-                    <NotificationPreferenceOption
-                        user={this.props.currentUser}
-                        channel={channel}
-                        membership={this.props.channelMembership}
-                    />
-                );
-
-                if (!this.props.isReadOnly) {
-                    setChannelHeaderOption = (
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                        >
-                            <SetChannelHeaderOption channel={channel}/>
-                        </ChannelPermissionGate>
-                    );
-                    setChannelPurposeOption = <SetChannelPurposeOption channel={channel}/>;
-
-                    if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL) {
-                        convertChannelOption = <ConvertChannelOption channel={channel}/>;
-                    }
-
-                    renameChannelOption = <RenameChannelOption channel={channel}/>;
-                }
-
-                if (!this.props.isDefault) {
-                    deleteChannelOption = <DeleteChannelOption channel={channel}/>;
-                    leaveChannelOption = <LeaveChannelOption channel={channel}/>;
-                }
-            }
-
-            return (
-                <div className='navbar-brand'>
-                    <div className='dropdown'>
-                        <a
-                            href='#'
-                            className='dropdown-toggle theme'
-                            type='button'
-                            aria-expanded='true'
-                            data-toggle='dropdown'
-                        >
-                            <span className='heading'><StatusIcon status={this.getTeammateStatus()}/>{channelTitle} </span>
-                            <span
-                                className='fa fa-angle-down header-dropdown__icon'
-                                title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
-                            />
-                        </a>
-                        <ul
-                            className='dropdown-menu'
-                            role='menu'
-                        >
-                            {viewInfoOption}
-                            {viewPinnedPostsOption}
-                            {notificationPreferenceOption}
-                            {addMembersOption}
-                            {channelMembersOption}
-                            {setChannelHeaderOption}
-                            {setChannelPurposeOption}
-                            {renameChannelOption}
-                            {convertChannelOption}
-                            {deleteChannelOption}
-                            {leaveChannelOption}
-                            <ToggleFavoriteChannelOption
-                                channel={channel}
-                                isFavorite={this.props.isFavorite}
-                            />
-                            <MobileChannelHeaderPlug
-                                channel={channel}
-                                isDropdown={true}
-                            />
-                            <div className='close visible-xs-block'>
-                                {'×'}
-                            </div>
-                        </ul>
-                    </div>
-                    {channelMuted &&
-                        <button
-                            type='button'
-                            className='navbar-toggle icon icon__mute'
-                            onClick={this.handleUnmuteChannel}
-                        >
-                            <span className='fa fa-bell-slash-o icon'/>
-                        </button>
-                    }
-                </div>
-            );
-        }
-
-        return (
-            <div className='navbar-brand'>
-                <Link
-                    to={`${this.props.currentTeamUrl}/channels/${Constants.DEFAULT_CHANNEL}`}
-                    className='heading'
-                >
-                    {channelTitle}
-                </Link>
-            </div>
-        );
-    }
-
-    createLhsButton = (currentId) => {
-        let lhsButton;
+    createCollapseButtons = (currentId) => {
+        var buttons = [];
 
         if (currentId == null) {
             lhsButton = (
@@ -407,31 +224,7 @@ export default class Navbar extends React.PureComponent {
             return null;
         }
 
-        const isDirect = channel.type === Constants.DM_CHANNEL;
-        const isGroup = channel.type === Constants.GM_CHANNEL;
-        const teamId = channel.team_id;
-
-        let channelTitle = channel.display_name;
-
-        if (isDirect) {
-            const teammateId = Utils.getUserIdFromChannelName(channel);
-            if (currentUser.id === teammateId) {
-                channelTitle = (
-                    <FormattedMessage
-                        id='channel_header.directchannel.you'
-                        defaultMessage='{displayname} (you) '
-                        values={{
-                            displayname: Utils.getDisplayNameByUserId(teammateId),
-                        }}
-                    />
-                );
-            } else {
-                channelTitle = Utils.getDisplayNameByUserId(teammateId);
-            }
-        }
-
         const collapseButtons = this.createCollapseButtons(currentUser.id);
-        const channelMenuDropdown = this.createDropdown(teamId, channel, channelTitle, isDirect, isGroup);
 
         const searchButton = (
             <button
@@ -463,7 +256,11 @@ export default class Navbar extends React.PureComponent {
                                 isReadOnly={this.props.isReadOnly}
                             />
                             {searchButton}
-                            {this.createRhsButton(currentId)}
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={false}
+                            />
+                            <MobileChannelHeaderDropdown/>
                         </div>
                     </div>
                 </nav>
