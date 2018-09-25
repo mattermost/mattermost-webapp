@@ -124,6 +124,7 @@ export default class LoginController extends React.Component {
             t('login.noLdapUsername');
             t('login.noUsername');
             t('login.noUsernameLdapUsername');
+
             // it's slightly weird to be constructing the message ID, but it's a bit nicer than triply nested if statements
             let msgId = 'login.no';
             if (this.state.emailSigninEnabled) {
