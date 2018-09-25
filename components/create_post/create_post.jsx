@@ -146,6 +146,7 @@ export default class CreatePost extends React.Component {
          * Whether to display a confirmation modal to reset status.
          */
         userIsOutOfOffice: PropTypes.bool.isRequired,
+        rhsExpanded: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -240,7 +241,7 @@ export default class CreatePost extends React.Component {
 
     componentDidMount() {
         this.focusTextbox();
-        document.addEventListener('keydown', this.showShortcuts);
+        document.addEventListener('keydown', this.documentKeyHandler);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -262,7 +263,7 @@ export default class CreatePost extends React.Component {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.showShortcuts);
+        document.removeEventListener('keydown', this.documentKeyHandler);
     }
 
     handlePostError = (postError) => {
@@ -623,12 +624,33 @@ export default class CreatePost extends React.Component {
         this.handleFileUploadChange();
     }
 
-    showShortcuts(e) {
+    focusTextboxIfNecessary = (e) => {
+        // Focus should go to the RHS when it is expanded
+        if (this.props.rhsExpanded) {
+            return;
+        }
+
+        // Bit of a hack to not steal focus from the channel switch modal if it's open
+        // This is a special case as the channel switch modal does not enforce focus like
+        // most modals do
+        if (document.getElementsByClassName('channel-switch-modal').length) {
+            return;
+        }
+
+        if (PostUtils.shouldFocusMainTextbox(e, document.activeElement)) {
+            this.focusTextbox();
+        }
+    }
+
+    documentKeyHandler = (e) => {
         if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
+            return;
         }
+
+        this.focusTextboxIfNecessary(e);
     }
 
     getFileCount = () => {
