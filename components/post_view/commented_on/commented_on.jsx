@@ -69,7 +69,7 @@ export default class CommentedOn extends PureComponent {
                 <span>
                     <FormattedMessage
                         id='post_body.commentedOn'
-                        defaultMessage='Commented on {name} message: '
+                        defaultMessage="Commented on {name}'s message: "
                         values={{
                             name,
                         }}
