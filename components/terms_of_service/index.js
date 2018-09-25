@@ -10,8 +10,11 @@ import TermsOfService from './terms_of_service';
 function mapStateToProps(state) {
     const config = getConfig(state);
     return {
-        config,
-        termsEnabled: config.CustomServiceTermsEnabled === 'true',
+        customServiceTermsId: config.CustomServiceTermsId,
+        privacyPolicyLink: config.PrivacyPolicyLink,
+        siteName: config.SiteName,
+        termsEnabled: config.EnableCustomServiceTerms === 'true',
+        termsOfServiceLink: config.AboutLink,
     };
 }
 

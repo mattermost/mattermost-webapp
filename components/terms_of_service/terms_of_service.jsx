@@ -9,60 +9,82 @@ import {FormattedMessage} from 'react-intl';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {updateServiceTermsStatus} from 'actions/user_actions.jsx';
+import {getServiceTerms, updateServiceTermsStatus} from 'actions/user_actions.jsx';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import AnnouncementBar from 'components/announcement_bar';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import {formatText} from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 
 export default class TermsOfService extends React.PureComponent {
     static propTypes = {
-
-        /*
-         * Mattermost configuration
-         */
-        config: PropTypes.object,
-
-        /*
-         * Whether the terms feature is enabled
-         */
+        customServiceTermsId: PropTypes.string.isRequired,
+        privacyPolicyLink: PropTypes.string,
+        siteName: PropTypes.string,
         termsEnabled: PropTypes.bool,
+        termsOfServiceLink: PropTypes.string,
     };
 
     static defaultProps = {
-        config: {
-            AboutLink: 'https://about.mattermost.com/default-about/',
-            PrivacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
-            SiteName: 'Mattermost',
-            CustomServiceTermsText: '',
-        },
+        privacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
+        siteName: 'Mattermost',
         termsEnabled: true,
+        termsOfServiceLink: 'https://about.mattermost.com/default-about/',
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
+            customServiceTermsText: '',
+            loading: true,
             loadingAgree: false,
             loadingDisagree: false,
             serverError: null,
         };
 
-        this.formattedText = memoizeResult((CustomServiceTermsText) => {
-            return TextFormatting.formatText(CustomServiceTermsText);
-        });
+        this.formattedText = memoizeResult((text) => formatText(text));
     }
 
     componentDidMount() {
         if (!this.props.termsEnabled) {
             GlobalActions.redirectUserToDefaultTeam();
+        } else {
+            this.getServiceTerms();
         }
     }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.customServiceTermsId !== this.props.customServiceTermsId) {
+            this.getServiceTerms();
+        }
+    }
+
+    getServiceTerms = () => {
+        this.setState({
+            customServiceTermsText: '',
+            loading: false,
+        });
+        getServiceTerms(
+            (data) => {
+                this.setState({
+                    customServiceTermsText: data.text,
+                    loading: false,
+                });
+            },
+            () => {
+                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
+                this.setState({
+                    loading: false,
+                });
+            }
+        );
+    };
 
     handleLogoutClick = (e) => {
         e.preventDefault();
@@ -117,25 +139,29 @@ export default class TermsOfService extends React.PureComponent {
 
     registerUserAction = (accepted, success) => {
         updateServiceTermsStatus(
-            this.props.config.CustomServiceTermsId,
+            this.props.customServiceTermsId,
             accepted,
             success,
-            (err) => {
+            () => {
                 this.setState({
                     loadingAgree: false,
                     loadingDisagree: false,
-                    serverError: err.message || (
+                    serverError: (
                         <FormattedMessage
                             id='terms_of_service.api_error'
                             defaultMessage='Unable to complete the request. If this issue persists, contact your System Administrator.'
                         />
                     ),
                 });
-            }
+            },
         );
-    }
+    };
 
     render() {
+        if (this.state.loading) {
+            return <LoadingScreen/>;
+        }
+
         return (
             <div>
                 <AnnouncementBar/>
@@ -162,7 +188,7 @@ export default class TermsOfService extends React.PureComponent {
                             </h2>
                         </div>
                         <div className='signup__markdown'>
-                            {messageHtmlToComponent(this.formattedText(this.props.config.CustomServiceTermsText), false, {mentions: false})}
+                            {messageHtmlToComponent(this.formattedText(this.state.customServiceTermsText), false, {mentions: false})}
                         </div>
                         <div className='margin--extra'>
                             <ButtonGroup>
@@ -219,9 +245,9 @@ export default class TermsOfService extends React.PureComponent {
                                 id='terms_of_service.footnote'
                                 defaultMessage={'By choosing \'I Agree\', you understand and agree to [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot access {siteName}.'}
                                 values={{
-                                    siteName: this.props.config.SiteName,
-                                    TermsOfServiceLink: this.props.config.AboutLink,
-                                    PrivacyPolicyLink: this.props.config.PrivacyPolicyLink,
+                                    siteName: this.props.siteName,
+                                    TermsOfServiceLink: this.props.termsOfServiceLink,
+                                    PrivacyPolicyLink: this.props.privacyPolicyLink,
                                 }}
                             />
                         </div>

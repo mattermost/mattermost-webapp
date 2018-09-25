@@ -754,6 +754,7 @@ export const Constants = {
     USERNAME_SERVICE: 'username',
     SIGNIN_CHANGE: 'signin_change',
     PASSWORD_CHANGE: 'password_change',
+    GET_TERMS_ERROR: 'get_terms_error',
     TERMS_REJECTED: 'terms_rejected',
     DEFAULT_TEAM_REDIRECT: 'default_team_redirect',
     SIGNIN_VERIFIED: 'verified',

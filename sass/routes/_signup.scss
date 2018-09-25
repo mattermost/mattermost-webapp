@@ -354,6 +354,10 @@
     }
 
     .has-error {
+        &.no-padding {
+            padding: 0;
+        }
+
         .control-label {
             @include border-radius(3px);
             background: #f2f2f2;

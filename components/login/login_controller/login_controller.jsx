@@ -357,7 +357,18 @@ export default class LoginController extends React.Component {
         const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
         let extraBox = '';
         if (extraParam) {
-            if (extraParam === Constants.TERMS_REJECTED) {
+            if (extraParam === Constants.GET_TERMS_ERROR) {
+                extraBox = (
+                    <div className='alert has-error no-padding'>
+                        <label className='control-label'>
+                            <FormattedMessage
+                                id='login.get_terms_error'
+                                defaultMessage='Unable to load terms of service. If this issue persists, contact your System Administrator.'
+                            />
+                        </label>
+                    </div>
+                );
+            } else if (extraParam === Constants.TERMS_REJECTED) {
                 extraBox = (
                     <div className='alert alert-warning'>
                         <i

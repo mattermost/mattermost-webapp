@@ -565,6 +565,15 @@ export async function updateServiceTermsStatus(serviceTermsId, accepted, success
     }
 }
 
+export async function getServiceTerms(success, error) {
+    const {data, error: err} = await UserActions.getServiceTerms()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export async function webLoginByLdap(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
     if (ok && success) {
