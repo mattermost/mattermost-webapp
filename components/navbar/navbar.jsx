@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {RHSStates} from 'utils/constants.jsx';
 
 import NotifyCounts from 'components/notify_counts.jsx';
 import MenuIcon from 'components/svg/menu_icon';
@@ -28,11 +27,6 @@ export default class Navbar extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
 
         /**
-         * Object that is map of user id and user status
-         */
-        userStatuses: PropTypes.object.isRequired,
-
-        /**
          * Object with info about current channel
          */
         channel: PropTypes.object,
@@ -41,11 +35,6 @@ export default class Navbar extends React.PureComponent {
          * Bool whether the current channel is read only
          */
         isReadOnly: PropTypes.bool,
-
-        /**
-         * Bool whether the WebRTC feature is enabled
-         */
-        enableWebrtc: PropTypes.bool.isRequired,
 
         /**
          * Object with action creators
@@ -91,38 +80,6 @@ export default class Navbar extends React.PureComponent {
 
     showSearch = () => {
         this.props.actions.updateRhsState(RHSStates.SEARCH);
-    }
-
-    isContactAvailable() {
-        if (this.state.isBusy) {
-            return false;
-        }
-
-        const contactStatus = this.props.userStatuses[this.state.contactId];
-        return !(contactStatus === UserStatuses.OFFLINE || contactStatus === UserStatuses.DND);
-    }
-
-    isWebrtcEnabled() {
-        return this.props.enableWebrtc && Utils.isUserMediaAvailable();
-    }
-
-    generateWebrtcIcon() {
-        if (!this.isWebrtcEnabled() || this.props.channel.type !== Constants.DM_CHANNEL) {
-            return null;
-        }
-
-        let circleClass = '';
-        if (!this.isContactAvailable()) {
-            circleClass = 'offline';
-        }
-
-        return (
-            <div className={'pull-right description navbar-right__icon webrtc__button hidden-xs ' + circleClass}>
-                <a onClick={this.initWebrtc}>
-                    {'WebRTC'}
-                </a>
-            </div>
-        );
     }
 
     hideHeaderOverlay = () => {
@@ -199,18 +156,6 @@ export default class Navbar extends React.PureComponent {
         return rhsButton;
     }
 
-    getTeammateStatus = () => {
-        const {channel, userStatuses} = this.props;
-
-        if (channel && channel.type === 'D') {
-            const teammateId = Utils.getUserIdFromChannelName(channel);
-            if (teammateId) {
-                return userStatuses[teammateId];
-            }
-        }
-        return null;
-    }
-
     showChannelInviteModalButton = () => {
         if (this.refs.channelInviteModalButton) {
             this.refs.channelInviteModalButton.show();
@@ -220,24 +165,7 @@ export default class Navbar extends React.PureComponent {
     render() {
         const {channel, currentUser} = this.props;
 
-        if (!channel) {
-            return null;
-        }
-
         const collapseButtons = this.createCollapseButtons(currentUser.id);
-
-        const searchButton = (
-            <button
-                type='button'
-                className='navbar-toggle navbar-right__icon navbar-search pull-right'
-                onClick={this.showSearch}
-            >
-                <SearchIcon
-                    className='icon icon__search'
-                    aria-hidden='true'
-                />
-            </button>
-        );
 
         return (
             <div>
@@ -247,8 +175,17 @@ export default class Navbar extends React.PureComponent {
                 >
                     <div className='container-fluid theme'>
                         <div className='navbar-header'>
-                            {this.createLhsButton(currentId)}
-                            {channelMenuDropdown}
+                            {collapseButtons}
+                            <button
+                                type='button'
+                                className='navbar-toggle navbar-right__icon navbar-search pull-right'
+                                onClick={this.showSearch}
+                            >
+                                <SearchIcon
+                                    className='icon icon__search'
+                                    aria-hidden='true'
+                                />
+                            </button>
                             <NavbarInfoButton
                                 ref='headerOverlay'
                                 channel={channel}
