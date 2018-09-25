@@ -154,7 +154,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                             isDropdown={true}
                         />
                         <div className='close visible-xs-block'>
-                            {'X'}
+                            {'×'}
                         </div>
                     </ul>
                 </div>
