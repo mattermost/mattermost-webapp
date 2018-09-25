@@ -15,14 +15,14 @@ import * as MenuItem from './menu_items';
 export default class MobileChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
-        channel: PropTypes.object.isRequired,
-        membership: PropTypes.object.isRequired,
-        teammateId: PropTypes.string.isRequired,
-        teammateStatus: PropTypes.string.isRequired,
-        isDefault: PropTypes.bool.isRequired,
-        isFavorite: PropTypes.bool.isRequired,
-        isReadonly: PropTypes.bool.isRequired,
-        isArchived: PropTypes.bool.isRequired,
+        channel: PropTypes.object,
+        membership: PropTypes.object,
+        teammateId: PropTypes.string,
+        teammateStatus: PropTypes.string,
+        isDefault: PropTypes.bool,
+        isFavorite: PropTypes.bool,
+        isReadonly: PropTypes.bool,
+        isArchived: PropTypes.bool,
     }
 
     getChannelTitle = () => {
@@ -61,7 +61,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         }
 
         return (
-            <div clsssName='navbar-brand'>
+            <div className='navbar-brand'>
                 <div className='dropdown'>
                     {/* this.generateWebrtcIcon() */}
                     <a
@@ -72,13 +72,12 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         aria-expanded='true'
                     >
                         <span className='heading'>
-                            <StatusIcon status={teammateStatus}>
-                                {this.getChannelTitle()}
-                            </StatusIcon>
+                            <StatusIcon status={teammateStatus}/>
+                            {this.getChannelTitle()}
                         </span>
                         <span
                             className='fa fa-angle-down header-dropdown__icon'
-                            title={Utils.localizeMessaeg('generic_icons.dropdown', 'Dropdown Icon')}
+                            title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                         />
                     </a>
 
@@ -86,7 +85,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         className='dropdown-menu'
                         role='menu'
                     >
-                        {/* This part could be more clean with HOC */}
+                        {/* This part could be more clean with HoC */}
                         <MenuItem.ViewChannelInfo
                             channel={channel}
                         />
