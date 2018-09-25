@@ -144,7 +144,7 @@ class LoginController extends React.Component {
     showSessionExpiredNotificationIfNeeded = () => {
         const search = new URLSearchParams(this.props.location.search);
         const extra = search.get('extra');
-        const show = (extra === Constants.SESSION_EXPIRED) && !this.state.focused;
+        const show = ((extra === Constants.SESSION_EXPIRED) && !this.state.focused) || this.closeSessionExpiredNotification;
 
         if (show && !this.closeSessionExpiredNotification) {
             Utils.showNotification({
