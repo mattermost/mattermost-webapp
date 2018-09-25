@@ -2171,7 +2171,7 @@
   "login.password": "Password",
   "login.passwordChanged": " Password updated successfully",
   "login.placeholderOr": " or ",
-  "login.session_expired": "Your session has expired. Please login again.",
+  "login.session_expired": "Your session has expired. Please log in again.",
   "login.session_expired.title": "* {siteName} - Session Expired",
   "login.session_expired.notification": "Session Expired: Please sign in to continue receiving notifications.",
   "login.session_expired.dismiss": "(Dismiss)",

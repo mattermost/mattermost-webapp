@@ -462,7 +462,7 @@ class LoginController extends React.Component {
                         {' '}
                         <FormattedMessage
                             id='login.session_expired'
-                            defaultMessage='Your session has expired. Please login again.'
+                            defaultMessage='Your session has expired. Please log in again.'
                         />
                         {' '}
                         <Link to='/login'>

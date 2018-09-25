@@ -74,13 +74,13 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
               className="fa fa-exclamation-triangle"
               title="Warning Icon"
             />
-             
+
             <FormattedMessage
-              defaultMessage="Your session has expired. Please login again."
+              defaultMessage="Your session has expired. Please log in again."
               id="login.session_expired"
               values={Object {}}
             />
-             
+
             <Link
               replace={false}
               to="/login"
