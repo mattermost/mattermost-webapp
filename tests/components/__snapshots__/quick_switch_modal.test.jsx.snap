@@ -48,6 +48,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
     <SuggestionBox
       className="form-control focused"
       completeOnTab={false}
+      containerClass=""
       delayInputUpdate={true}
       isRHS={false}
       listComponent={[Function]}
@@ -69,6 +70,8 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         ]
       }
       renderDividers={true}
+      renderNoResults={false}
+      replaceAllInputOnSelect={false}
       requiredCharacters={1}
       value=""
     />

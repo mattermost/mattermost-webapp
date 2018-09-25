@@ -3,92 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Client4} from 'mattermost-redux/client';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {autocompleteUsers} from 'actions/user_actions.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import Setting from 'components/admin_console/setting.jsx';
-import Provider from 'components/suggestion/provider.jsx';
-import Suggestion from 'components/suggestion/suggestion.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-
-class UserSuggestion extends Suggestion {
-    render() {
-        const {item, isSelection} = this.props;
-
-        let className = 'suggestion-list__item mentions__name';
-        if (isSelection) {
-            className += ' suggestion--selected';
-        }
-
-        const username = item.username;
-        let description = '';
-
-        if ((item.first_name || item.last_name) && item.nickname) {
-            description = `- ${Utils.getFullName(item)} (${item.nickname})`;
-        } else if (item.nickname) {
-            description = `- (${item.nickname})`;
-        } else if (item.first_name || item.last_name) {
-            description = `- ${Utils.getFullName(item)}`;
-        }
-
-        return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-                {...Suggestion.baseProps}
-            >
-                <div className='pull-left'>
-                    <img
-                        className='admin-setting-user__image'
-                        src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
-                    />
-                </div>
-                <div className='pull-left admin-setting-user--align'>
-                    <span>
-                        {'@' + username}
-                    </span>
-                    <span className='admin-setting-user__fullname'>
-                        {' '}
-                        {description}
-                    </span>
-                </div>
-            </div>
-        );
-    }
-}
-
-class UserProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
-        const normalizedPretext = pretext.toLowerCase();
-        this.startNewRequest(suggestionId, normalizedPretext);
-
-        autocompleteUsers(
-            normalizedPretext,
-            (data) => {
-                if (this.shouldCancelDispatch(normalizedPretext)) {
-                    return;
-                }
-
-                const users = Object.assign([], data.users);
-
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: normalizedPretext,
-                    terms: users.map((user) => user.username),
-                    items: users,
-                    component: UserSuggestion,
-                });
-            }
-        );
-
-        return true;
-    }
-}
 
 export default class UserAutocompleteSetting extends React.Component {
     static get propTypes() {
@@ -106,7 +25,7 @@ export default class UserAutocompleteSetting extends React.Component {
     constructor(props) {
         super(props);
 
-        this.userSuggestionProviders = [new UserProvider()];
+        this.userSuggestionProviders = [new GenericUserProvider()];
     }
 
     handleChange = (e) => {

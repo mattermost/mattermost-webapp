@@ -273,6 +273,8 @@ export const ActionTypes = keyMirror({
     DISMISS_NOTICE: null,
 
     UPDATE_BUSY_WEBRTC: null,
+
+    SELECT_ATTACHMENT_MENU_ACTION: null,
 });
 
 export const WebrtcActionTypes = keyMirror({

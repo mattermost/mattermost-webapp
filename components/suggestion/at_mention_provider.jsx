@@ -94,18 +94,14 @@ class AtMentionSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
-                <div className='pull-left'>
-                    {icon}
-                </div>
-                <div className='pull-left mention--align'>
-                    <span>
-                        {'@' + username}
-                    </span>
-                    <span className='mention__fullname'>
-                        {' '}
-                        {description}
-                    </span>
-                </div>
+                {icon}
+                <span className='mention--align'>
+                    {'@' + username}
+                </span>
+                <span className='mention__fullname'>
+                    {' '}
+                    {description}
+                </span>
             </div>
         );
     }
