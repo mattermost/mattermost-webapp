@@ -1906,6 +1906,13 @@
         // components/post/post_message_view/post_message_view.jsx must
         // be changed to match it
         max-height: 600px;
+        .all-emoji {
+            .emoticon {
+                min-height: 32px;
+                min-width: 32px;
+                vertical-align: top;
+            }
+        }
     }
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
