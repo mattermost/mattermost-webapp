@@ -6,17 +6,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {RHSStates} from 'utils/constants.jsx';
-
 import NotifyCounts from 'components/notify_counts.jsx';
 import MenuIcon from 'components/svg/menu_icon';
-import SearchIcon from 'components/svg/search_icon';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
 import {MobileChannelHeaderDropdown} from 'components/channel_header_dropdown';
 
 import NavbarInfoButton from './navbar_info_button';
+import ShowSearchButton from './show_search_button';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
@@ -40,7 +38,6 @@ export default class Navbar extends React.PureComponent {
          * Object with action creators
          */
         actions: PropTypes.shape({
-            updateRhsState: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             toggleLhs: PropTypes.func.isRequired,
             closeLhs: PropTypes.func.isRequired,
@@ -76,10 +73,6 @@ export default class Navbar extends React.PureComponent {
 
     toggleRightSidebar = () => {
         this.props.actions.toggleRhsMenu();
-    }
-
-    showSearch = () => {
-        this.props.actions.updateRhsState(RHSStates.SEARCH);
     }
 
     hideHeaderOverlay = () => {
@@ -176,16 +169,7 @@ export default class Navbar extends React.PureComponent {
                     <div className='container-fluid theme'>
                         <div className='navbar-header'>
                             {collapseButtons}
-                            <button
-                                type='button'
-                                className='navbar-toggle navbar-right__icon navbar-search pull-right'
-                                onClick={this.showSearch}
-                            >
-                                <SearchIcon
-                                    className='icon icon__search'
-                                    aria-hidden='true'
-                                />
-                            </button>
+                            <ShowSearchButton/>
                             <NavbarInfoButton
                                 ref='headerOverlay'
                                 channel={channel}

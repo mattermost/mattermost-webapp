@@ -14,7 +14,6 @@ import {
 import {leaveChannel} from 'actions/views/channel';
 import {
     closeRightHandSide as closeRhs,
-    updateRhsState,
     showPinnedPosts,
     toggleMenu as toggleRhsMenu,
     closeMenu as closeRhsMenu,
@@ -43,7 +42,6 @@ const mapStateToProps = createSelector(
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
-        updateRhsState,
         showPinnedPosts,
         toggleLhs,
         closeLhs,
