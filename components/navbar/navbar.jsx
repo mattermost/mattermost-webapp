@@ -85,7 +85,8 @@ export default class Navbar extends React.PureComponent {
         var buttons = [];
 
         if (currentId == null) {
-            lhsButton = (
+            // FIXME: This is never called, currentUserId cannot to be null.
+            buttons.push(
                 <button
                     key='navbar-toggle-collapse'
                     type='button'
@@ -147,12 +148,6 @@ export default class Navbar extends React.PureComponent {
         }
 
         return rhsButton;
-    }
-
-    showChannelInviteModalButton = () => {
-        if (this.refs.channelInviteModalButton) {
-            this.refs.channelInviteModalButton.show();
-        }
     }
 
     render() {
