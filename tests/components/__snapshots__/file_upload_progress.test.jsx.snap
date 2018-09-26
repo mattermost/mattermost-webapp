@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component/file_preview/file_upload_progress should match snapshot 1`] = `
-<div>
+<div
+  className="file-upload-progress"
+>
   <svg
     className="file-upload-progress__circle"
     viewBox="0 0 100 100"

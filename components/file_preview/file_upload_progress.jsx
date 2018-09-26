@@ -4,6 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CheckmarkIcon from 'components/svg/checkmark_icon.jsx';
+
 const UploadProgress = {
     prefixClass: 'file-upload-progress',
     strokeWidth: 7,
@@ -33,7 +35,7 @@ export default class FileUploadProgress extends React.PureComponent {
         const {pathString, pathStyle} = this.computePathString(radius, percent);
 
         return (
-            <div>
+            <div className={prefixClass}>
                 <svg
                     className={`${prefixClass}__circle`}
                     viewBox='0 0 100 100'
@@ -67,9 +69,9 @@ export default class FileUploadProgress extends React.PureComponent {
                 </svg>
 
                 {percent === 100 && (
-                    <div className='load-complete'>
-                        <div className='checkmark draw'/>
-                    </div>
+                    <span className='checkmark'>
+                        <CheckmarkIcon/>
+                    </span>
                 )}
 
             </div>
