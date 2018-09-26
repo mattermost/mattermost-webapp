@@ -32,6 +32,10 @@
         margin: 0 5px 0 2px;
     }
 
+    .navbar-header {
+        display: flex;
+    }
+
     .navbar-default {
         background: $primary-color;
         border: none;
@@ -98,41 +102,52 @@
                 }
             }
 
+            &.icon__mute {
+                width: 30px;
+                padding: 0;
+                opacity: .6;
+                font-size: 15px;
+            }
+
             .icon--white {
                 color: $white;
             }
         }
 
         .navbar-brand {
-            float: none;
+            flex: 1;
             font-size: 16px;
             height: 50px;
             line-height: 50px;
-            padding: 0 .5em;
+            overflow: hidden;
+            padding: 0;
+            display: flex;
+
+            .dropdown {
+                max-width: calc(100% - 40px);
+            }
 
             .heading {
-                display: inline-block;
-                font-weight: 600;
-                line-height: 50px;
-                margin-right: 5px;
-                max-width: calc(100% - 240px);
+                white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                vertical-align: top;
-                white-space: nowrap;
+                width: auto;
             }
 
             .header-dropdown__icon {
-                margin-left: 0;
-                top: 2px;
+                margin-left: 6px;
             }
 
             .dropdown-toggle {
-                color: $white;
+                align-items: center;
+                color: inherit;
+                display: flex;
+                overflow: hidden;
+                text-decoration: none;
             }
 
             .description {
-                color: $white;
+                color: inherit;
                 display: inline-block;
                 margin-right: 1em;
 

@@ -3,6 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
+import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 
@@ -42,6 +44,7 @@ function mapDispatchToProps(dispatch) {
             closeRhs,
             toggleRhsMenu,
             closeRhsMenu,
+            updateChannelNotifyProps,
         }, dispatch),
     };
 }

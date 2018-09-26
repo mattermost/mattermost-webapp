@@ -16,6 +16,7 @@ describe('components/navbar/Navbar', () => {
             closeRhs: jest.fn(),
             toggleRhsMenu: jest.fn(),
             closeRhsMenu: jest.fn(),
+            updateChannelNotifyProps: jest.fn(),
         },
         isLicensed: true,
         enableWebrtc: true,
