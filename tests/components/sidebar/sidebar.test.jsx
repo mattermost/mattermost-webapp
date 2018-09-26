@@ -70,6 +70,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         },
         isOpen: false,
         showUnreadSection: false,
+        channelSwitcherOption: true,
         publicChannelIds: ['c1', 'c2'],
         privateChannelIds: ['c3', 'c4'],
         favoriteChannelIds: [],
@@ -146,6 +147,19 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     ...defaultProps,
                     unreadChannelIds: ['c3', 'c5'],
                     showUnreadSection: true,
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on sidebar not show the channel switcher', () => {
+        const wrapper = shallow(
+            <Sidebar
+                {...{
+                    ...defaultProps,
+                    unreadChannelIds: ['c3', 'c5'],
+                    channelSwitcherOption: true,
                 }}
             />
         );

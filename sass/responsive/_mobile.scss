@@ -911,6 +911,16 @@
     }
 
     #navbar {
+        .browser--ie & {
+            .navbar-default {
+                .dropdown-menu {
+                    .close {
+                        top: 70px;
+                    }
+                }
+            }
+        }
+
         .navbar-default {
             .navbar-header {
                 float: none;
@@ -1192,7 +1202,6 @@
                 }
 
                 .sidebar-item {
-                    padding: 0 0 0 17px;
                     height: 45px;
 
                     &.has-close {
@@ -1200,7 +1209,7 @@
                             @include opacity(.5);
                             display: block;
                             font-size: 25px;
-                            right: 12px;
+                            margin-right: 4px;
                             width: 30px;
                             height: 30px;
                             line-height: 30px;
@@ -1419,6 +1428,16 @@
 
     .post {
         .attachment {
+            .attachment-actions {
+                .alert {
+                    position: relative;
+                    left: 0;
+                    top: 0;
+                    margin: 1rem 0 0.4rem;
+                    display: inline-block;
+                }
+            }
+
             .attachment__body__wrap {
                 .btn-close {
                     height: 30px;
@@ -1804,6 +1823,15 @@
 
         .signup-team__name {
             font-size: 2em;
+        }
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .post-attachment-dropdown {
+        &:after {
+            left: auto;
+            right: 12px;
         }
     }
 }

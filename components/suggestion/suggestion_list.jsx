@@ -10,16 +10,21 @@ import {FormattedMessage} from 'react-intl';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-export default class SuggestionList extends React.Component {
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
+export default class SuggestionList extends React.PureComponent {
     static propTypes = {
+        open: PropTypes.bool.isRequired,
         suggestionId: PropTypes.string.isRequired,
         location: PropTypes.string,
         renderDividers: PropTypes.bool,
+        renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
         renderDividers: false,
+        renderNoResults: false,
     };
 
     constructor(props) {
@@ -40,11 +45,13 @@ export default class SuggestionList extends React.Component {
         const suggestions = SuggestionStore.getSuggestions(suggestionId || this.props.suggestionId);
 
         return {
+            pretext: suggestions.pretext,
             matchedPretext: suggestions.matchedPretext,
             items: suggestions.items,
             terms: suggestions.terms,
             components: suggestions.components,
             selection: suggestions.selection,
+            cleared: suggestions.cleared,
         };
     }
 
@@ -126,12 +133,37 @@ export default class SuggestionList extends React.Component {
         );
     }
 
+    renderNoResults() {
+        return (
+            <div
+                key='list-no-results'
+                className='suggestion-list__no-results'
+            >
+                <FormattedMarkdownMessage
+                    id='suggestion_list.no_matches'
+                    defaultMessage='No items match __{value}__'
+                    values={{
+                        value: this.state.pretext || '""',
+                    }}
+                />
+            </div>
+        );
+    }
+
     render() {
-        if (this.state.items.length === 0) {
+        if (!this.props.open || this.state.cleared) {
             return null;
         }
 
         const items = [];
+        if (this.state.items.length === 0) {
+            if (!this.props.renderNoResults) {
+                return null;
+            }
+
+            items.push(this.renderNoResults());
+        }
+
         let lastType;
         for (let i = 0; i < this.state.items.length; i++) {
             const item = this.state.items[i];

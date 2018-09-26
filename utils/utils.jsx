@@ -65,21 +65,16 @@ export function isKeyPressed(event, key) {
     if (event.keyCode === Constants.KeyCodes.COMPOSING[1]) {
         return false;
     }
-    if (typeof event.code !== 'undefined' && event.code !== 'Unidentified' && key[2]) {
-        const isPressedByCode = typeof key[2] === 'function' ? key[2](event.code) : event.code === key[2];
 
-        // Returns true if the position of the key is validated. i.e Key K position irrespective of language.
-        // Works consistently across different languages keyboards.
-        // Do not return false because Layouts such as Dvorak will have Key k will be in different position.
+    // checks for event.key for older browsers and also for the case of different English layout keyboards.
+    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
+        const isPressedByCode = event.key === key[0] || event.key === key[0].toUpperCase();
         if (isPressedByCode) {
             return true;
         }
     }
 
-    // checks for event.key for older browsers and also for the case of different English layout keyboards.
-    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
-        return event.key === key[0] || event.key === key[0].toUpperCase();
-    }
+    // used for different language keyboards to detect the position of keys
     return event.keyCode === key[1];
 }
 
@@ -581,7 +576,7 @@ export function applyTheme(theme) {
         changeCss('.sidebar--left .team__header .user__name, .app__body .sidebar--menu .team__header .user__name', 'color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.8));
         changeCss('.sidebar--left .team__header:hover .user__name, .app__body .sidebar--menu .team__header:hover .user__name', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .modal .modal-header .modal-title, .app__body .modal .modal-header .modal-title .name, .app__body .modal .modal-header button.close', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body #navbar .navbar-default .navbar-brand .dropdown-toggle', 'color:' + theme.sidebarHeaderTextColor);
+        changeCss('.app__body #navbar .navbar-default .navbar-brand', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn__content, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn__content', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('.app__body .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
@@ -698,7 +693,7 @@ export function applyTheme(theme) {
     if (theme.centerChannelColor) {
         changeCss('.app__body .svg-text-color', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .mentions__name .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
-        changeCss('.app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .dropdown .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
+        changeCss('.app__body .form-control, .app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .dropdown .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .post-list__arrows, .app__body .post .flag-icon__container', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('@media(min-width: 768px){.app__body .search__icon svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
@@ -714,9 +709,9 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .post__link', 'color:' + changeOpacity(theme.centerChannelColor, 0.65));
         changeCss('.app__body #archive-link-home, .video-div .video-thumbnail__error', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
         changeCss('.app__body #post-create', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .mentions--top, .app__body .suggestion-list', 'box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px');
-        changeCss('.app__body .mentions--top, .app__body .suggestion-list', '-webkit-box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px');
-        changeCss('.app__body .mentions--top, .app__body .suggestion-list', '-moz-box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px');
+        changeCss('.app__body .mentions--top, .app__body .suggestion-list__content', 'box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px');
+        changeCss('.app__body .mentions--top, .app__body .suggestion-list__content', '-webkit-box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px');
+        changeCss('.app__body .mentions--top, .app__body .suggestion-list__content', '-moz-box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px');
         changeCss('.app__body .dropdown-menu, .app__body .popover ', 'box-shadow: 0 17px 50px 0 ' + changeOpacity(theme.centerChannelColor, 0.1) + ', 0 12px 15px 0 ' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .dropdown-menu, .app__body .popover ', '-moz-box-shadow: 0 17px 50px 0 ' + changeOpacity(theme.centerChannelColor, 0.1) + ', 0 12px 15px 0 ' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .dropdown-menu, .app__body .popover ', '-webkit-box-shadow: 0 17px 50px 0 ' + changeOpacity(theme.centerChannelColor, 0.1) + ', 0 12px 15px 0 ' + changeOpacity(theme.centerChannelColor, 0.1));
@@ -744,10 +739,9 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-image__details', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .post-image__column a, .app__body .post-image__column a:hover, .app__body .post-image__column a:focus', 'color:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .search-bar__container .search__form .search-bar, .app__body .form-control', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .input-group-addon, .app__body .form-control, .app__body .post-create__container .post-body__actions > span, .app__body .post-create__container .post-body__actions > a', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .input-group-addon, .app__body .post-create__container .post-body__actions > span, .app__body .post-create__container .post-body__actions > a', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .form-control:focus', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -784,7 +778,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post.post--comment.current--user .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .channel-header__info .status .offline--icon', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .navbar .status .offline--icon', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .post-reaction:not(.post-reaction--current-user)', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.25));
+        changeCss('.app__body .form-control:focus, .app__body .form-control:hover, .app__body .post-reaction:not(.post-reaction--current-user)', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .post-reaction:not(.post-reaction--current-user)', 'color:' + changeOpacity(theme.centerChannelColor, 0.7));
         changeCss('.app__body .emoji-picker', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -1648,7 +1642,7 @@ export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     return emailInterval;
 }
 
-export function copyToClipboard(e, data) {
+export function copyToClipboard(data) {
     // creates a tiny temporary text area to copy text out of
     // see https://stackoverflow.com/a/30810322/591374 for details
     var textArea = document.createElement('textarea');
@@ -1662,7 +1656,11 @@ export function copyToClipboard(e, data) {
     textArea.style.outline = 'none';
     textArea.style.boxShadow = 'none';
     textArea.style.background = 'transparent';
-    textArea.value = getSiteURL() + data.link;
+    if (typeof data === 'string') {
+        textArea.value = data;
+    } else {
+        textArea.value = getSiteURL() + data.link;
+    }
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand('copy');

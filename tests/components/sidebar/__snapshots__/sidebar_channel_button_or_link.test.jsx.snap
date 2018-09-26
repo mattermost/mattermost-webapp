@@ -18,7 +18,9 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   <span
     className="sidebar-item__name"
   >
-    test-channel-name
+    <span>
+      test-channel-name
+    </span>
   </span>
   <span
     className="badge"
@@ -53,7 +55,9 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   <span
     className="sidebar-item__name"
   >
-    test-channel-name
+    <span>
+      test-channel-name
+    </span>
   </span>
   <SidebarChannelButtonOrLinkCloseButton
     channelId="test-channel-id"
@@ -82,7 +86,9 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   <span
     className="sidebar-item__name"
   >
-    test-channel-name
+    <span>
+      test-channel-name
+    </span>
   </span>
   <span
     className="badge"
@@ -117,7 +123,9 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   <span
     className="sidebar-item__name"
   >
-    test-channel-name
+    <span>
+      test-channel-name
+    </span>
   </span>
   <SidebarChannelButtonOrLinkCloseButton
     channelId="test-channel-id"

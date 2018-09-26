@@ -177,6 +177,17 @@ export default class ChannelHeader extends React.Component {
         actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
     };
 
+    mute = () => {
+        const {actions, channel, channelMember, currentUser} = this.props;
+
+        if (!channelMember || !currentUser || !channel) {
+            return;
+        }
+
+        const options = {mark_unread: NotificationLevels.MENTION};
+        actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
+    };
+
     searchMentions = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.MENTION) {
@@ -349,6 +360,9 @@ export default class ChannelHeader extends React.Component {
         const isDirect = (this.props.channel.type === Constants.DM_CHANNEL);
         const isGroup = (this.props.channel.type === Constants.GM_CHANNEL);
         const isPrivate = (this.props.channel.type === Constants.PRIVATE_CHANNEL);
+
+        const channelMuted = isChannelMuted(this.props.channelMember);
+
         const teamId = TeamStore.getCurrentId();
         let webrtc;
 
@@ -593,6 +607,48 @@ export default class ChannelHeader extends React.Component {
                         </button>
                     </li>
                 );
+            }
+
+            if (!isDirect) {
+                if (channelMuted) {
+                    dropdownContents.push(
+                        <li
+                            key='dropdown_unmute'
+                            role='presentation'
+                        >
+                            <button
+                                className='style--none'
+                                id='channelUnmute'
+                                role='menuitem'
+                                onClick={this.unmute}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.unmute'
+                                    defaultMessage='Unmute Channel'
+                                />
+                            </button>
+                        </li>
+                    );
+                } else {
+                    dropdownContents.push(
+                        <li
+                            key='dropdown_mute'
+                            role='presentation'
+                        >
+                            <button
+                                className='style--none'
+                                id='channelMute'
+                                role='menuitem'
+                                onClick={this.mute}
+                            >
+                                <FormattedMessage
+                                    id='channel_header.mute'
+                                    defaultMessage='Mute Channel'
+                                />
+                            </button>
+                        </li>
+                    );
+                }
             }
 
             if (!this.props.isDefault) {
@@ -1007,7 +1063,6 @@ export default class ChannelHeader extends React.Component {
             );
         }
 
-        const channelMuted = isChannelMuted(this.props.channelMember);
         const channelMutedTooltip = (
             <Tooltip id='channelMutedTooltip'>
                 <FormattedMessage

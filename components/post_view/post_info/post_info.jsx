@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -206,6 +208,18 @@ export default class PostInfo extends React.PureComponent {
             }
 
             if (hover && !isReadOnly && this.props.enableEmojiPicker) {
+                const tooltip = (
+                    <Tooltip
+                        id='reaction-icon-tooltip'
+                        className='hidden-xs'
+                    >
+                        <FormattedMessage
+                            id='post_info.tooltip.add_reactions'
+                            defaultMessage='Add Reaction'
+                        />
+                    </Tooltip>
+                );
+
                 react = (
                     <ChannelPermissionGate
                         channelId={post.channel_id}
@@ -221,12 +235,19 @@ export default class PostInfo extends React.PureComponent {
                                 onEmojiClick={this.reactEmojiClick}
                                 rightOffset={7}
                             />
-                            <button
-                                className='reacticon__container color--link style--none'
-                                onClick={this.toggleEmojiPicker}
+                            <OverlayTrigger
+                                className='hidden-xs'
+                                delayShow={500}
+                                placement='top'
+                                overlay={tooltip}
                             >
-                                <EmojiIcon className='icon icon--emoji'/>
-                            </button>
+                                <button
+                                    className='reacticon__container color--link style--none'
+                                    onClick={this.toggleEmojiPicker}
+                                >
+                                    <EmojiIcon className='icon icon--emoji'/>
+                                </button>
+                            </OverlayTrigger>
                         </div>
                     </ChannelPermissionGate>
                 );

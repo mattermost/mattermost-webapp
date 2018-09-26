@@ -93,6 +93,12 @@ const settingCustom = yup.object().shape({
     component: yup.object().required(),
 });
 
+const settingPermission = yup.object().shape({
+    type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_PERMISSION]),
+    ...fieldShape,
+    permissions_mapping_name: yup.string().required(),
+});
+
 const settingJobsTable = yup.object().shape({
     type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_JOBSTABLE]),
     ...baseShape,
@@ -114,6 +120,7 @@ const setting = yup.mixed().test('is-setting', 'not a valid setting: ${path}', (
     valid = valid || settingDropdown.isValidSync(value);
     valid = valid || settingCustom.isValidSync(value);
     valid = valid || settingJobsTable.isValidSync(value);
+    valid = valid || settingPermission.isValidSync(value);
     return valid;
 });
 

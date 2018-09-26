@@ -153,6 +153,7 @@ export default class CreateComment extends React.PureComponent {
          * The maximum length of a post
          */
         maxPostSize: PropTypes.number.isRequired,
+        rhsExpanded: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -180,10 +181,12 @@ export default class CreateComment extends React.PureComponent {
 
     componentDidMount() {
         this.focusTextbox();
+        document.addEventListener('keydown', this.focusTextboxIfNecessary);
     }
 
     componentWillUnmount() {
         this.props.resetCreatePostRequest();
+        document.removeEventListener('keydown', this.focusTextboxIfNecessary);
     }
 
     UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
@@ -205,6 +208,24 @@ export default class CreateComment extends React.PureComponent {
         }
 
         if (prevProps.rootId !== this.props.rootId) {
+            this.focusTextbox();
+        }
+    }
+
+    focusTextboxIfNecessary = (e) => {
+        // Should only focus if RHS is expanded
+        if (!this.props.rhsExpanded) {
+            return;
+        }
+
+        // Bit of a hack to not steal focus from the channel switch modal if it's open
+        // This is a special case as the channel switch modal does not enforce focus like
+        // most modals do
+        if (document.getElementsByClassName('channel-switch-modal').length) {
+            return;
+        }
+
+        if (PostUtils.shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
         }
     }

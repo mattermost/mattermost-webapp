@@ -15,6 +15,9 @@ import {
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
+import PluginManagement from 'components/admin_console/plugin_management';
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Audits from './audits';
@@ -390,6 +393,144 @@ export default {
                     ],
                 },
             },
+            users_and_teams: {
+                schema: {
+                    id: 'UserAndTeamsSettings',
+                    name: t('admin.general.usersAndTeams'),
+                    name_default: 'Users and Teams',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'TeamSettings.EnableUserCreation',
+                            label: t('admin.team.userCreationTitle'),
+                            label_default: 'Enable Account Creation: ',
+                            help_text: t('admin.team.userCreationDescription'),
+                            help_text_default: 'When false, the ability to create accounts is disabled. The create account button displays error when pressed.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_PERMISSION,
+                            key: 'TeamSettings.EnableTeamCreation',
+                            label: t('admin.team.teamCreationTitle'),
+                            label_default: 'Enable Team Creation: ',
+                            help_text: t('admin.team.teamCreationDescription'),
+                            help_text_default: 'When false, only System Administrators can create teams.',
+                            permissions_mapping_name: 'enableTeamCreation',
+                            isHidden: needsUtils.hasLicense,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'TeamSettings.MaxUsersPerTeam',
+                            label: t('admin.team.maxUsersTitle'),
+                            label_default: 'Max Users Per Team:',
+                            help_text: t('admin.team.maxUsersDescription'),
+                            help_text_default: 'Maximum total number of users per team, including both active and inactive users.',
+                            placeholder: t('admin.team.maxUsersExample'),
+                            placeholder_default: 'E.g.: "25"',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'TeamSettings.MaxChannelsPerTeam',
+                            label: t('admin.team.maxChannelsTitle'),
+                            label_default: 'Max Channels Per Team:',
+                            help_text: t('admin.team.maxChannelsDescription'),
+                            help_text_default: 'Maximum total number of channels per team, including both active and archived channels.',
+                            placeholder: t('admin.team.maxChannelsExample'),
+                            placeholder_default: 'E.g.: "100"',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_NUMBER,
+                            key: 'TeamSettings.MaxNotificationsPerChannel',
+                            label: t('admin.team.maxNotificationsPerChannelTitle'),
+                            label_default: 'Max Notifications Per Channel:',
+                            help_text: t('admin.team.maxNotificationsPerChannelDescription'),
+                            help_text_default: 'Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.',
+                            placeholder: t('admin.team.maxNotificationsPerChannelExample'),
+                            placeholder_default: 'E.g.: "1000"',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'TeamSettings.EnableConfirmNotificationsToChannel',
+                            label: t('admin.team.enableConfirmNotificationsToChannelTitle'),
+                            label_default: 'Show @channel and @all confirmation dialog: ',
+                            help_text: t('admin.team.enableConfirmNotificationsToChannelDescription'),
+                            help_text_default: 'When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'TeamSettings.RestrictCreationToDomains',
+                            label: t('admin.team.restrictTitle'),
+                            label_default: 'Restrict account creation to specified email domains:',
+                            help_text: t('admin.team.restrictDescription'),
+                            help_text_default: 'Teams and user accounts can only be created from a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org").',
+                            placeholder: t('admin.team.restrictExample'),
+                            placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                            key: 'TeamSettings.RestrictDirectMessage',
+                            label: t('admin.team.restrictDirectMessage'),
+                            label_default: 'Enable users to open Direct Message channels with:',
+                            help_text: t('admin.team.restrictDirectMessageDesc'),
+                            help_text_default: '"Any user on the Mattermost server" enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. "Any member of the team" limits the ability in the Direct Messages "More" menu to only open Direct Message channels with users who are in the same team.\n \nNote: This setting only affects the UI, not permissions on the server.',
+                            options: [
+                                {
+                                    value: 'any',
+                                    display_name: t('admin.team.restrict_direct_message_any'),
+                                    display_name_default: 'Any user on the Mattermost server',
+                                },
+                                {
+                                    value: 'team',
+                                    display_name: t('admin.team.restrict_direct_message_team'),
+                                    display_name_default: 'Any member of the team',
+                                },
+                            ],
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                            key: 'TeamSettings.TeammateNameDisplay',
+                            label: t('admin.team.teammateNameDisplay'),
+                            label_default: 'Teammate Name Display:',
+                            help_text: t('admin.team.teammateNameDisplayDesc'),
+                            help_text_default: 'Set how to display users\' names in posts and the Direct Messages list.',
+                            options: [
+                                {
+                                    value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+                                    display_name: t('admin.team.showUsername'),
+                                    display_name_default: 'Show username (default)',
+                                },
+                                {
+                                    value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
+                                    display_name: t('admin.team.showNickname'),
+                                    display_name_default: 'Show nickname if one exists, otherwise show first and last name',
+                                },
+                                {
+                                    value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME,
+                                    display_name: t('admin.team.showFullname'),
+                                    display_name_default: 'Show first and last name',
+                                },
+                            ],
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_PERMISSION,
+                            key: 'TeamSettings.EditOthersPosts',
+                            label: t('admin.team.editOthersPostsTitle'),
+                            label_default: 'Allow Team Administrators to edit others posts:',
+                            help_text: t('admin.team.editOthersPostsDesc'),
+                            help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
+                            permissions_mapping_name: 'editOthersPosts',
+                            isHidden: needsUtils.hasLicense,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'TeamSettings.ExperimentalViewArchivedChannels',
+                            label: t('admin.viewArchivedChannelsTitle'),
+                            label_default: 'Allow users to view archived channels: ',
+                            help_text: t('admin.viewArchivedChannelsHelpText'),
+                            help_text_default: '(Experimental) When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        },
+                    ],
+                },
+            },
             privacy: {
                 schema: {
                     id: 'PrivacySettings',
@@ -594,6 +735,106 @@ export default {
             },
         },
         authentication: {
+            gitlab: {
+                schema: {
+                    id: 'GitLabSettings',
+                    name: t('admin.authentication.gitlab'),
+                    name_default: 'GitLab',
+                    onConfigLoad: (config) => {
+                        const newState = {};
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                        return newState;
+                    },
+                    onConfigSave: (config) => {
+                        const newConfig = {...config};
+                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url + '/api/v4/user';
+                        return newConfig;
+                    },
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'GitLabSettings.Enable',
+                            label: t('admin.gitlab.enableTitle'),
+                            label_default: 'Enable authentication with GitLab: ',
+                            help_text: t('admin.gitlab.enableDescription'),
+                            help_text_default: 'When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Id',
+                            label: t('admin.gitlab.clientIdTitle'),
+                            label_default: 'Application ID:',
+                            help_text: t('admin.gitlab.clientIdDescription'),
+                            help_text_default: 'Obtain this value via the instructions above for logging into GitLab',
+                            placeholder: t('admin.gitlab.clientIdExample'),
+                            placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                            isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Secret',
+                            label: t('admin.gitlab.clientSecretTitle'),
+                            label_default: 'Application Secret Key:',
+                            help_text: t('admin.gitlab.clientSecretDescription'),
+                            help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
+                            placeholder: t('admin.gitlab.clientSecretExample'),
+                            placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                            isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.Url',
+                            label: t('admin.gitlab.siteUrl'),
+                            label_default: 'GitLab Site URL:',
+                            help_text: t('admin.gitlab.siteUrlDescription'),
+                            help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
+                            placeholder: t('admin.gitlab.siteUrlExample'),
+                            placeholder_default: 'E.g.: https://',
+                            isDisabled: needsUtils.stateValueFalse('GitLabSettings.Enable'),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.UserApiEndpoint',
+                            label: t('admin.gitlab.userTitle'),
+                            label_default: 'User API Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/api/v4/user';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.AuthEndpoint',
+                            label: t('admin.gitlab.authTitle'),
+                            label_default: 'Auth Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/oauth/authorize';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'GitLabSettings.TokenEndpoint',
+                            label: t('admin.gitlab.tokenTitle'),
+                            label_default: 'Token Endpoint:',
+                            dynamic_value: (value, config, state) => {
+                                if (state['GitLabSettings.Url']) {
+                                    return state['GitLabSettings.Url'] + '/oauth/token';
+                                }
+                                return '';
+                            },
+                            isDisabled: () => true,
+                        },
+                    ],
+                },
+            },
             oauth: {
                 schema: {
                     id: 'OAuthSettings',
@@ -2062,6 +2303,18 @@ export default {
                     ],
                 },
             },
+            management: {
+                schema: {
+                    id: 'PluginManagementSettings',
+                    component: PluginManagement,
+                },
+            },
+            custom: {
+                schema: {
+                    id: 'CustomPluginSettings',
+                    component: CustomPluginSettings,
+                },
+            },
         },
         files: {
             storage: {
@@ -2332,6 +2585,65 @@ export default {
                             help_text_default: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.',
                             isDisabled: needsUtils.stateValueFalse('TeamSettings.EnableCustomBrand'),
                             max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
+                        },
+                    ],
+                },
+            },
+            emoji: {
+                schema: {
+                    id: 'EmojiSettings',
+                    name: t('admin.customization.emoji'),
+                    name_default: 'Emoji',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableEmojiPicker',
+                            label: t('admin.customization.enableEmojiPickerTitle'),
+                            label_default: 'Enable Emoji Picker:',
+                            help_text: t('admin.customization.enableEmojiPickerDesc'),
+                            help_text_default: 'The emoji picker allows users to select emoji to add as reactions or use in messages. Enabling the emoji picker with a large number of custom emoji may slow down performance.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableCustomEmoji',
+                            label: t('admin.customization.enableCustomEmojiTitle'),
+                            label_default: 'Enable Custom Emoji:',
+                            help_text: t('admin.customization.enableCustomEmojiDesc'),
+                            help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, Custom Emoji settings can be accessed by switching to a team and clicking the three dots above the channel sidebar, and selecting "Custom Emoji".',
+                        },
+                    ],
+                },
+            },
+            gif: {
+                schema: {
+                    id: 'EmojiSettings',
+                    name: t('admin.customization.gif'),
+                    name_default: 'GIF (Beta)',
+                    settings: [
+                        {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'ServiceSettings.EnableGifPicker',
+                            label: t('admin.customization.enableGifPickerTitle'),
+                            label_default: 'Enable GIF Picker:',
+                            help_text: t('admin.customization.enableGifPickerDesc'),
+                            help_text_default: 'Allow users to select GIFs from the emoji picker via a Gfycat integration.',
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'ServiceSettings.GfycatApiKey',
+                            label: t('admin.customization.gfycatApiKey'),
+                            label_default: 'Gfycat API Key:',
+                            help_text: t('admin.customization.gfycatApiKeyDescription'),
+                            help_text_default: 'Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.',
+                            help_text_markdown: true,
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'ServiceSettings.GfycatApiSecret',
+                            label: t('admin.customization.gfycatApiSecret'),
+                            label_default: 'Gfycat API Secret:',
+                            help_text: t('admin.customization.gfycatApiSecretDescription'),
+                            help_text_default: 'The API secret generated by Gfycat for your API key. When blank, uses the default API secret provided by Gfycat.',
                         },
                     ],
                 },

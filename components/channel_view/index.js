@@ -11,7 +11,7 @@ import {withRouter} from 'react-router-dom';
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {TutorialSteps, Preferences, Constants} from 'utils/constants.jsx';
 
-import {getLastViewedChannelName} from 'selectors/storage';
+import {getLastViewedChannelName} from 'selectors/local_storage';
 
 import ChannelView from './channel_view.jsx';
 

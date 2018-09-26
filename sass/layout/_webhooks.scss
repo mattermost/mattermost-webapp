@@ -8,6 +8,46 @@
     padding: 0 13px 15px;
 }
 
+.post-attachment-dropdown {
+    position: relative;
+
+    &:hover {
+        &:after {
+            opacity: .6;
+        }
+    }
+
+    &:after {
+        @include single-transition(opacity, .15s, ease);
+        content: '\F107';
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        top: 8px;
+        position: absolute;
+        left: 20rem;
+        opacity: .4;
+        font-size: 16px;
+        pointer-events: none;
+    }
+
+    .form-control {
+        cursor: pointer;
+        font-size: 13px;
+        height: auto;
+        max-width: 100%;
+        width: 22rem;
+        padding-right: 3rem;
+    }
+
+    .suggestion-list__content {
+        border-radius: 3px 3px 3px 0;
+    }
+}
+
 .webhook__item {
     font-size: 13px;
     position: relative;
@@ -47,6 +87,20 @@
         }
     }
 
+    .sidebar--right & {
+        .attachment {
+            .attachment-actions {
+                .alert {
+                    position: relative;
+                    left: 0;
+                    top: 0;
+                    margin: 1rem 0 0.4rem;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
     .attachment {
         margin-left: -20px;
         position: relative;
@@ -64,11 +118,11 @@
         }
 
         .attachment__content {
-            border-radius: 4px;
+            border-radius: 0 4px 4px 0;
             border-style: solid;
             border-width: 1px;
             margin: 5px 0 5px 20px;
-            padding: 2px 5px;
+            border-left: none;
         }
 
         .attachment__thumb-pretext {
@@ -80,7 +134,7 @@
         .attachment__container {
             border-left-style: solid;
             border-left-width: 4px;
-            padding: 10px;
+            padding: 12px;
 
             &.attachment__container--good {
                 border-left-color: #00c100;
@@ -160,8 +214,6 @@
 
         .attachment__body {
             float: left;
-            overflow-x: auto;
-            overflow-y: hidden;
             padding-right: 5px;
             width: 80%;
 
@@ -276,6 +328,7 @@
 
         .attachment-actions {
             margin-top: 9px;
+            position: relative;
 
             button {
                 @include border-radius(3px);
@@ -286,6 +339,13 @@
                 height: 30px;
                 font-size: 13px;
                 font-weight: 700;
+            }
+
+            .alert {
+                position: absolute;
+                top: 0;
+                left: 23rem;
+                padding: 5px 10px;
             }
         }
     }

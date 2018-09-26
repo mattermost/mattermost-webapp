@@ -42,7 +42,7 @@ const actionsProp = {
     getTeams: emptyFunction,
     joinTeam: emptyFunction,
     selectTeam: emptyFunction,
-    setGlobalItem: emptyFunction,
+    setPreviousTeamId: emptyFunction,
 };
 
 const teamsList = [{
@@ -164,7 +164,7 @@ describe('components/needs_team', () => {
 
         const getMyTeamUnreads = jest.fn();
         const selectTeam = jest.fn();
-        const setGlobalItem = jest.fn();
+        const setPreviousTeamId = jest.fn();
 
         const wrapper = shallow(
             <NeedsTeam
@@ -174,7 +174,7 @@ describe('components/needs_team', () => {
                     joinTeam,
                     getMyTeamUnreads,
                     selectTeam,
-                    setGlobalItem,
+                    setPreviousTeamId,
                 }}
                 theme={{}}
                 mfaRequired={false}
@@ -192,7 +192,7 @@ describe('components/needs_team', () => {
         expect(wrapper.state().team.name).toEqual('new');
         expect(selectTeam).toBeCalledWith(wrapper.state().team);
         expect(getMyTeamUnreads).toHaveBeenCalledTimes(1);
-        expect(setGlobalItem).toBeCalledWith('team', wrapper.state().team.id);
+        expect(setPreviousTeamId).toBeCalledWith(wrapper.state().team.id);
 
         const existingTeamMatch = {
             params: {

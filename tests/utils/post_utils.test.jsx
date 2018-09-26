@@ -171,3 +171,76 @@ describe('PostUtils.containsAtChannel', function() {
         }
     });
 });
+
+describe('PostUtils.shouldFocusMainTextbox', function() {
+    test('basic cases', function() {
+        for (const data of [
+            {
+                event: null,
+                expected: false,
+            },
+            {
+                event: {},
+                expected: false,
+            },
+            {
+                event: {ctrlKey: true},
+                activeElement: {tagName: 'BODY'},
+                expected: false,
+            },
+            {
+                event: {metaKey: true},
+                activeElement: {tagName: 'BODY'},
+                expected: false,
+            },
+            {
+                event: {altKey: true},
+                activeElement: {tagName: 'BODY'},
+                expected: false,
+            },
+            {
+                event: {},
+                activeElement: {tagName: 'BODY'},
+                expected: false,
+            },
+            {
+                event: {key: 'a'},
+                activeElement: {tagName: 'BODY'},
+                expected: true,
+            },
+            {
+                event: {key: 'a'},
+                activeElement: {tagName: 'INPUT'},
+                expected: false,
+            },
+            {
+                event: {key: 'a'},
+                activeElement: {tagName: 'TEXTAREA'},
+                expected: false,
+            },
+            {
+                event: {key: '0'},
+                activeElement: {tagName: 'BODY'},
+                expected: true,
+            },
+            {
+                event: {key: '!'},
+                activeElement: {tagName: 'BODY'},
+                expected: true,
+            },
+            {
+                event: {key: ' '},
+                activeElement: {tagName: 'BODY'},
+                expected: true,
+            },
+            {
+                event: {key: 'BACKSPACE'},
+                activeElement: {tagName: 'BODY'},
+                expected: false,
+            },
+        ]) {
+            const shouldFocus = PostUtils.shouldFocusMainTextbox(data.event, data.activeElement);
+            assert.equal(shouldFocus, data.expected);
+        }
+    });
+});

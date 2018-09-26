@@ -19,6 +19,7 @@ import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 
 import logoImage from 'images/logo.png';
 
@@ -116,6 +117,14 @@ export default class LoginController extends React.Component {
         loginId = loginId.trim().toLowerCase();
 
         if (!loginId) {
+            t('login.noEmail');
+            t('login.noEmailLdapUsername');
+            t('login.noEmailUsername');
+            t('login.noEmailUsernameLdapUsername');
+            t('login.noLdapUsername');
+            t('login.noUsername');
+            t('login.noUsernameLdapUsername');
+
             // it's slightly weird to be constructing the message ID, but it's a bit nicer than triply nested if statements
             let msgId = 'login.no';
             if (this.state.emailSigninEnabled) {

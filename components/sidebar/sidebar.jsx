@@ -19,6 +19,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
@@ -121,6 +122,11 @@ export default class Sidebar extends React.PureComponent {
          */
         showUnreadSection: PropTypes.bool.isRequired,
 
+        /**
+         * Flag to display the Switch channel shortcut
+         */
+        channelSwitcherOption: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
         }).isRequired,
@@ -172,7 +178,7 @@ export default class Sidebar extends React.PureComponent {
 
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
-            this.refs.container.scrollTop = 0;
+            this.refs.scrollbar.scrollToTop();
         }
 
         // close the LHS on mobile when you change channels
@@ -279,27 +285,23 @@ export default class Sidebar extends React.PureComponent {
     scrollToFirstUnreadChannel = () => {
         if (this.firstUnreadChannel) {
             const unreadMargin = 15;
-            const container = $(ReactDOM.findDOMNode(this.refs.container));
             const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
-            const scrollTop = (container.scrollTop() + firstUnreadElement.position().top) - unreadMargin;
-            container.stop().animate({scrollTop}, 500, 'swing');
+            const scrollTop = firstUnreadElement.position().top - unreadMargin;
+            this.refs.scrollbar.scrollTop(scrollTop);
         }
     }
 
     scrollToLastUnreadChannel = () => {
         if (this.lastUnreadChannel) {
             const unreadMargin = 15;
-            const container = $(ReactDOM.findDOMNode(this.refs.container));
             const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const elementBottom = lastUnreadElement.position().top + lastUnreadElement.height();
-            const scrollTop = (container.scrollTop() + (elementBottom - container.height())) + unreadMargin;
-            container.stop().animate({scrollTop}, 500, 'swing');
+            const scrollTop = (elementBottom - this.refs.scrollbar.getClientHeight()) + unreadMargin;
+            this.refs.scrollbar.scrollTop(scrollTop);
         }
     }
 
     updateUnreadIndicators = () => {
-        const container = $(ReactDOM.findDOMNode(this.refs.container));
-
         let showTopUnread = false;
         let showBottomUnread = false;
 
@@ -308,9 +310,9 @@ export default class Sidebar extends React.PureComponent {
 
         if (this.firstUnreadChannel) {
             const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
-            const fistUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
+            const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
 
-            if (fistUnreadPosition && fistUnreadPosition.top + firstUnreadElement.height() < unreadMargin) {
+            if (firstUnreadPosition && ((firstUnreadPosition.top + firstUnreadElement.height()) - unreadMargin) < this.refs.scrollbar.getScrollTop()) {
                 showTopUnread = true;
             }
         }
@@ -319,7 +321,7 @@ export default class Sidebar extends React.PureComponent {
             const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.position() : null;
 
-            if (lastUnreadPosition && lastUnreadPosition.top > container.height() - unreadMargin) {
+            if (lastUnreadPosition && (lastUnreadPosition.top + unreadMargin) > (this.refs.scrollbar.getScrollTop() + this.refs.scrollbar.getClientHeight())) {
                 showBottomUnread = true;
             }
         }
@@ -486,6 +488,7 @@ export default class Sidebar extends React.PureComponent {
             privateChannelIds,
             unreadChannelIds,
             showUnreadSection,
+            channelSwitcherOption,
         } = this.props;
 
         // Check if we have all info needed to render
@@ -648,21 +651,40 @@ export default class Sidebar extends React.PureComponent {
             );
         }
 
-        let quickSwitchTextShortcutId = 'quick_switch_modal.channelsShortcut.windows';
-        let quickSwitchTextShortcutDefault = '- CTRL+K';
-        if (Utils.isMac()) {
-            quickSwitchTextShortcutId = 'quick_switch_modal.channelsShortcut.mac';
-            quickSwitchTextShortcutDefault = '- ⌘K';
-        }
+        let quickSwitchText = null;
+        if (channelSwitcherOption) {
+            let quickSwitchTextShortcutId = t('quick_switch_modal.channelsShortcut.windows');
+            let quickSwitchTextShortcutDefault = '- CTRL+K';
+            if (Utils.isMac()) {
+                quickSwitchTextShortcutId = t('quick_switch_modal.channelsShortcut.mac');
+                quickSwitchTextShortcutDefault = '- ⌘K';
+            }
 
-        const quickSwitchTextShortcut = (
-            <span className='switch__shortcut hidden-xs'>
-                <FormattedMessage
-                    id={quickSwitchTextShortcutId}
-                    defaultMessage={quickSwitchTextShortcutDefault}
-                />
-            </span>
-        );
+            const quickSwitchTextShortcut = (
+                <span className='switch__shortcut hidden-xs'>
+                    <FormattedMessage
+                        id={quickSwitchTextShortcutId}
+                        defaultMessage={quickSwitchTextShortcutDefault}
+                    />
+                </span>
+            );
+
+            quickSwitchText = (
+                <div className='sidebar__switcher'>
+                    <button
+                        id='sidebarSwitcherButton'
+                        className='btn btn-link'
+                        onClick={this.openQuickSwitcher}
+                    >
+                        <FormattedMessage
+                            id={'channel_switch_modal.title'}
+                            defaultMessage='Switch Channels'
+                        />
+                        {quickSwitchTextShortcut}
+                    </button>
+                </div>
+            );
+        }
 
         return (
             <div
@@ -720,7 +742,6 @@ export default class Sidebar extends React.PureComponent {
                     >
                         <div
                             id='sidebarChannelContainer'
-                            ref='container'
                             className='nav-pills__container'
                         >
                             {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
@@ -808,19 +829,7 @@ export default class Sidebar extends React.PureComponent {
                         </div>
                     </Scrollbars>
                 </div>
-                <div className='sidebar__switcher'>
-                    <button
-                        id='sidebarSwitcherButton'
-                        className='btn btn-link'
-                        onClick={this.openQuickSwitcher}
-                    >
-                        <FormattedMessage
-                            id={'channel_switch_modal.title'}
-                            defaultMessage='Switch Channels'
-                        />
-                        {quickSwitchTextShortcut}
-                    </button>
-                </div>
+                {quickSwitchText}
             </div>
         );
     }

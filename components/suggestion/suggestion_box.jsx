@@ -44,9 +44,19 @@ export default class SuggestionBox extends React.Component {
         listStyle: PropTypes.string,
 
         /**
+         * CSS class for the div parent of the input box
+         */
+        containerClass: PropTypes.string,
+
+        /**
          * Set to true to draw dividers between types of list items, defaults to false
          */
         renderDividers: PropTypes.bool,
+
+        /**
+         * Set to true to render a message when there were no results found, defaults to false
+         */
+        renderNoResults: PropTypes.bool,
 
         /**
          * Set to allow TAB to select an item in the list, defaults to true
@@ -107,16 +117,24 @@ export default class SuggestionBox extends React.Component {
          * If true, it displays allow to display a default list when empty
          */
         openWhenEmpty: PropTypes.bool,
+
+        /**
+         * If true, replace all input in the suggestion box with the selected option after a select, defaults to false
+         */
+        replaceAllInputOnSelect: PropTypes.bool,
     }
 
     static defaultProps = {
         listStyle: 'top',
+        containerClass: '',
         renderDividers: false,
+        renderNoResults: false,
         completeOnTab: true,
         isRHS: false,
         requiredCharacters: 1,
         openOnFocus: false,
         openWhenEmpty: false,
+        replaceAllInputOnSelect: false,
     }
 
     constructor(props) {
@@ -138,8 +156,12 @@ export default class SuggestionBox extends React.Component {
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
 
-        // Keep track of weather a list based or date based suggestion provider has been triggered
+        // Keep track of whether a list based or date based suggestion provider has been triggered
         this.presentationType = 'text';
+
+        this.state = {
+            focused: false,
+        };
     }
 
     componentDidMount() {
@@ -199,6 +221,8 @@ export default class SuggestionBox extends React.Component {
             return;
         }
 
+        this.setState({focused: false});
+
         if (UserAgent.isIos() && !e.relatedTarget) {
             // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
             // blur so that click handlers on the list items still register
@@ -220,6 +244,8 @@ export default class SuggestionBox extends React.Component {
         if (this.container.contains(e.relatedTarget)) {
             return;
         }
+
+        this.setState({focused: true});
 
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
@@ -339,8 +365,27 @@ export default class SuggestionBox extends React.Component {
         });
     }
 
+    replaceText(term) {
+        const textbox = this.getTextbox();
+        textbox.value = term;
+
+        if (this.props.onChange) {
+            // fake an input event to send back to parent components
+            const e = {
+                target: textbox,
+            };
+
+            // don't call handleChange or we'll get into an event loop
+            this.props.onChange(e);
+        }
+    }
+
     handleCompleteWord(term, matchedPretext) {
-        this.addTextAtCaret(term, matchedPretext);
+        if (this.props.replaceAllInputOnSelect) {
+            this.replaceText(term);
+        } else {
+            this.addTextAtCaret(term, matchedPretext);
+        }
 
         if (this.props.onItemSelected) {
             const items = SuggestionStore.getItems(this.suggestionId);
@@ -438,6 +483,7 @@ export default class SuggestionBox extends React.Component {
             dateComponent,
             listStyle,
             renderDividers,
+            renderNoResults,
             ...props
         } = this.props;
 
@@ -453,13 +499,18 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'openWhenEmpty');
         Reflect.deleteProperty(props, 'onFocus');
         Reflect.deleteProperty(props, 'onBlur');
+        Reflect.deleteProperty(props, 'containerClass');
+        Reflect.deleteProperty(props, 'replaceAllInputOnSelect');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
         const SuggestionDateComponent = dateComponent;
 
         return (
-            <div ref={this.setContainerRef}>
+            <div
+                ref={this.setContainerRef}
+                className={this.props.containerClass}
+            >
                 <QuickInput
                     ref='input'
                     autoComplete='off'
@@ -472,9 +523,11 @@ export default class SuggestionBox extends React.Component {
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'text' &&
                     <SuggestionListComponent
+                        open={this.state.focused}
                         suggestionId={this.suggestionId}
                         location={listStyle}
                         renderDividers={renderDividers}
+                        renderNoResults={renderNoResults}
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }

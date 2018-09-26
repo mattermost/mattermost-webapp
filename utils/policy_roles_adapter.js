@@ -9,6 +9,17 @@ const MAPPING = {
         false: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}],
     },
 
+    editOthersPosts: {
+        true: [
+            {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
+            {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
+        ],
+        false: [
+            {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: false},
+            {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: false},
+        ],
+    },
+
     enableOnlyAdminIntegrations: {
         true: [
             {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: false},

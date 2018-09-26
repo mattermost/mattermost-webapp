@@ -41,7 +41,7 @@ export default class NeedsTeam extends React.Component {
             getTeams: PropTypes.func.isRequired,
             joinTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
-            setGlobalItem: PropTypes.func.isRequired,
+            setPreviousTeamId: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -178,7 +178,7 @@ export default class NeedsTeam extends React.Component {
         // The first load action pulls team unreads
         this.props.actions.getMyTeamUnreads();
         this.props.actions.selectTeam(team);
-        this.props.actions.setGlobalItem('team', team.id);
+        this.props.actions.setPreviousTeamId(team.id);
         GlobalActions.emitCloseRightHandSide();
 
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(

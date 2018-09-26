@@ -23,3 +23,15 @@ export function editPost(post) {
         return result;
     };
 }
+
+export function selectAttachmentMenuAction(postId, actionId, dataSource, displayText, value) {
+    return async (dispatch) => {
+        dispatch({
+            type: ActionTypes.SELECT_ATTACHMENT_MENU_ACTION,
+            postId,
+            data: {displayText, value},
+        });
+
+        dispatch(PostActions.doPostAction(postId, actionId, value));
+    };
+}

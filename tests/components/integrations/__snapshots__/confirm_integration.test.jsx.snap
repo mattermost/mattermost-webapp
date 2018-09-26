@@ -53,6 +53,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
           }
         }
       />
+      <CopyText
+        defaultMessage="Copy"
+        idMessage="integrations.copy"
+        value="jb6oyqh95irpbx8fo9zmndkp1r"
+      />
     </p>
     <div
       className="backstage-form__footer"
@@ -124,6 +129,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
             "url": "http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic",
           }
         }
+      />
+      <CopyText
+        defaultMessage="Copy Client Secret"
+        idMessage="integrations.copy_client_secret"
+        value="http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic"
       />
     </p>
     <div
@@ -199,7 +209,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
           }
         }
       />
-       
+      <CopyText
+        defaultMessage="Copy Client Id"
+        idMessage="integrations.copy_client_id"
+        value="r5tpgt4iepf45jt768jz84djic"
+      />
       <br />
       <InjectIntl(FormattedMarkdownMessage)
         defaultMessage="**Client Secret**: {secret}"
@@ -209,6 +223,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
             "secret": "<==secret==>",
           }
         }
+      />
+      <CopyText
+        defaultMessage="Copy Client Secret"
+        idMessage="integrations.copy_client_secret"
+        value="<==secret==>"
       />
     </p>
     <p
@@ -305,6 +324,11 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
             "token": "jb6oyqh95irpbx8fo9zmndkp1r",
           }
         }
+      />
+      <CopyText
+        defaultMessage="Copy"
+        idMessage="integrations.copy"
+        value="jb6oyqh95irpbx8fo9zmndkp1r"
       />
     </p>
     <div

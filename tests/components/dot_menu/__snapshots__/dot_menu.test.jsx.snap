@@ -7,12 +7,40 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   <div
     id="CENTER_dropdown_post_id_1"
   >
-    <button
-      aria-expanded="false"
-      className="dropdown-toggle post__dropdown color--link style--none"
-      data-toggle="dropdown"
-      type="button"
-    />
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="dotmenu-icon-tooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="More Actions"
+            id="post_info.dot_menu.tooltip.more_actions"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <button
+        aria-expanded="false"
+        className="dropdown-toggle post__dropdown color--link style--none"
+        data-toggle="dropdown"
+        type="button"
+      />
+    </OverlayTrigger>
     <div
       className="dropdown-menu__content"
     >
@@ -70,12 +98,40 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   <div
     id="CENTER_dropdown_post_id_1"
   >
-    <button
-      aria-expanded="false"
-      className="dropdown-toggle post__dropdown color--link style--none"
-      data-toggle="dropdown"
-      type="button"
-    />
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="dotmenu-icon-tooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="More Actions"
+            id="post_info.dot_menu.tooltip.more_actions"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <button
+        aria-expanded="false"
+        className="dropdown-toggle post__dropdown color--link style--none"
+        data-toggle="dropdown"
+        type="button"
+      />
+    </OverlayTrigger>
     <div
       className="dropdown-menu__content"
     >

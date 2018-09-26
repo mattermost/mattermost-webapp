@@ -17,6 +17,8 @@ import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
+t('emoji_picker.searchResults');
+
 const EMOJI_HEIGHT = 27;
 
 // If this changes, the spaceRequiredAbove and spaceRequiredBelow props passed to the EmojiPickerOverlay must be updated
@@ -118,6 +120,7 @@ export default class EmojiPicker extends React.PureComponent {
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
+        visible: PropTypes.bool,
         actions: PropTypes.shape({
             getCustomEmojis: PropTypes.func.isRequired,
             searchCustomEmojis: PropTypes.func.isRequired,
@@ -227,6 +230,12 @@ export default class EmojiPicker extends React.PureComponent {
         await this.props.actions.incrementEmojiPickerPage();
 
         this.loadingMoreEmojis = false;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.visible && !prevProps.visible) {
+            this.searchInput.focus();
+        }
     }
 
     lastVisibleEmojiRef = (lastVisibleEmoji) => {

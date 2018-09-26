@@ -112,7 +112,7 @@ hlJS.registerLanguage('scheme', hljsScheme);
 hlJS.registerLanguage('scss', hljsScss);
 hlJS.registerLanguage('smalltalk', hljsSmalltalk);
 hlJS.registerLanguage('sql', hljsSql);
-hlJS.registerLanguage('styl', hljsStylus);
+hlJS.registerLanguage('stylus', hljsStylus);
 hlJS.registerLanguage('swift', hljsSwift);
 hlJS.registerLanguage('tex', hljsTex);
 hlJS.registerLanguage('vbnet', hljsVbnet);

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/PostAttachment should call PostActions.doPostAction on handleActionButtonClick 1`] = `
+exports[`components/post_view/MessageAttachment should call PostActions.doPostAction on handleAction 1`] = `
 <div
   className="attachment attachment--pretext"
 >
@@ -80,13 +80,16 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
           <div
             className="attachment-actions"
           >
-            <button
-              data-action-id="action_id_1"
+            <ActionButton
+              action={
+                Object {
+                  "id": "action_id_1",
+                  "name": "action_name_1",
+                }
+              }
+              handleAction={[Function]}
               key="action_id_1"
-              onClick={[Function]}
-            >
-              action_name_1
-            </button>
+            />
           </div>
         </div>
         <div
@@ -109,7 +112,7 @@ exports[`components/post_view/PostAttachment should call PostActions.doPostActio
 </div>
 `;
 
-exports[`components/post_view/PostAttachment should match snapshot 1`] = `
+exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
 <div
   className="attachment attachment--pretext"
 >
@@ -207,30 +210,47 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
 </div>
 `;
 
-exports[`components/post_view/PostAttachment should match value on getActionView 1`] = `""`;
+exports[`components/post_view/MessageAttachment should match value on getActionView 1`] = `""`;
 
-exports[`components/post_view/PostAttachment should match value on getActionView 2`] = `
+exports[`components/post_view/MessageAttachment should match value on getActionView 2`] = `
 <div
   className="attachment-actions"
 >
-  <button
-    data-action-id="action_id_1"
-    onClick={[Function]}
-  >
-    action_name_1
-  </button>
-  <button
-    data-action-id="action_id_2"
-    onClick={[Function]}
-  >
-    action_name_2
-  </button>
+  <ActionButton
+    action={
+      Object {
+        "id": "action_id_1",
+        "name": "action_name_1",
+      }
+    }
+    handleAction={[Function]}
+  />
+  <ActionButton
+    action={
+      Object {
+        "id": "action_id_2",
+        "name": "action_name_2",
+      }
+    }
+    handleAction={[Function]}
+  />
+  <Connect(ActionMenu)
+    action={
+      Object {
+        "data_source": "users",
+        "id": "action_id_3",
+        "name": "action_name_3",
+        "type": "select",
+      }
+    }
+    postId="post_id"
+  />
 </div>
 `;
 
-exports[`components/post_view/PostAttachment should match value on getFieldsTable 1`] = `""`;
+exports[`components/post_view/MessageAttachment should match value on getFieldsTable 1`] = `""`;
 
-exports[`components/post_view/PostAttachment should match value on getFieldsTable 2`] = `
+exports[`components/post_view/MessageAttachment should match value on getFieldsTable 2`] = `
 <div>
   <table
     className="attachment-fields"
