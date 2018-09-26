@@ -464,14 +464,20 @@
 }
 
 .file-upload-progress {
-    margin: 2px;
-    > svg {
-      margin: 1px 2px;
-    }
     .checkmark {
         position: absolute;
-        left: 27px;
+        left: 31px;
         top: 31px;
         fill: $link-color;
+    }
+}
+
+
+.file-upload-progress__circle {
+    margin: 10%;
+    height: 80%;
+    .file-upload-progress__inside-text {
+        font-size: 20px;
+        stroke: none !important;
     }
 }

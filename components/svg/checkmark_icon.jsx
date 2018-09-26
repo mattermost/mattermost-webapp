@@ -8,8 +8,8 @@ export default class CheckmarkIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='46px'
-                    height='38px'
+                    width='40px'
+                    height='35px'
                     viewBox='0 0 64 49'
                     version='1.1'
                 >
