@@ -78,10 +78,10 @@ export default class TermsOfService extends React.PureComponent {
                 });
             },
             () => {
-                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
                 this.setState({
                     loading: false,
                 });
+                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
             }
         );
     };
@@ -99,24 +99,16 @@ export default class TermsOfService extends React.PureComponent {
         this.registerUserAction(
             true,
             () => {
-                const query = new URLSearchParams(this.props.location.search);
-                const redirectTo = query.get('redirect_to');
-                const redirectAction = query.get('redirect_action');
-                if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
-                    browserHistory.push(redirectTo);
-                }
-                if (redirectAction === Constants.DEFAULT_TEAM_REDIRECT) {
-                    GlobalActions.redirectUserToDefaultTeam();
-                }
-
-                // Default action if redirectTo and redirectAction is not provided.
-                // This occurs when user directly opens '/terms_of_service'
-                if (!redirectTo && !redirectAction) {
-                    GlobalActions.redirectUserToDefaultTeam();
-                }
                 this.setState({
                     loadingAgree: false,
                 });
+                const query = new URLSearchParams(this.props.location.search);
+                const redirectTo = query.get('redirect_to');
+                if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
+                    browserHistory.push(redirectTo);
+                } else {
+                    GlobalActions.redirectUserToDefaultTeam();
+                }
             }
         );
     };
@@ -129,10 +121,10 @@ export default class TermsOfService extends React.PureComponent {
         this.registerUserAction(
             false,
             () => {
-                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
                 this.setState({
                     loadingDisagree: false,
                 });
+                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
             }
         );
     };

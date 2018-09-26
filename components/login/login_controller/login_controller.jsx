@@ -245,7 +245,6 @@ export default class LoginController extends React.Component {
     }
 
     finishSignin(team) {
-        let redirectAction;
         let redirectURL;
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
@@ -259,17 +258,12 @@ export default class LoginController extends React.Component {
             redirectURL = `/${team.name}`;
         } else if (primaryTeam) {
             redirectURL = `/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`;
-        } else {
-            redirectAction = Constants.DEFAULT_TEAM_REDIRECT;
         }
 
         if (this.props.showTermsOfService) {
             const queryParams = {};
             if (redirectURL) {
                 queryParams.redirect_to = encodeURIComponent(redirectURL);
-            }
-            if (redirectAction) {
-                queryParams.redirect_action = redirectAction;
             }
             browserHistory.push(`/terms_of_service${buildQueryString(queryParams)}`);
         } else if (redirectURL) {
