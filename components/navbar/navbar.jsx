@@ -11,9 +11,15 @@ import CollapseLhsButton from './collapse_lhs_button';
 import CollapseRhsButton from './collapse_rhs_button';
 import NavbarInfoButton from './navbar_info_button';
 import ShowSearchButton from './show_search_button';
+import UnmuteChannelButton from './unmute_channel_button';
 
 export default class Navbar extends React.PureComponent {
     static propTypes = {
+
+        /**
+         *
+         */
+        user: PropTypes.object.isRequired,
 
         /**
          * Object with info about current channel
@@ -24,6 +30,11 @@ export default class Navbar extends React.PureComponent {
          * Bool whether the current channel is read only
          */
         isReadOnly: PropTypes.bool,
+
+        /**
+         * Bool whether the current channel is muted
+         */
+        isMuted: PropTypes.bool,
 
         /**
          * Object with action creators
@@ -56,7 +67,7 @@ export default class Navbar extends React.PureComponent {
     }
 
     render() {
-        const {channel} = this.props;
+        const {user, channel, isMuted} = this.props;
 
         return (
             <nav
@@ -84,6 +95,12 @@ export default class Navbar extends React.PureComponent {
                             </React.Fragment>
                         )}
                     </div>
+                    {isMuted && (
+                        <UnmuteChannelButton
+                            user={user}
+                            channel={channel}
+                        />
+                    )}
                 </div>
             </nav>
         );

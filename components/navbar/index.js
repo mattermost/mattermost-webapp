@@ -4,10 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
+    getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {leaveChannel} from 'actions/views/channel';
 import {
@@ -18,14 +21,25 @@ import {close as closeLhs} from 'actions/views/lhs';
 
 import Navbar from './navbar.jsx';
 
+const isCurrentChannelMuted = createSelector(
+    getMyCurrentChannelMembership,
+    (membership) => isChannelMuted(membership),
+);
+
 const mapStateToProps = createSelector(
+    getCurrentUser,
     getCurrentChannel,
+    isCurrentChannelMuted,
     isCurrentChannelReadOnly,
     (
+        user,
         channel,
+        isMuted,
         isReadOnly,
     ) => ({
+        user,
         channel,
+        isMuted,
         isReadOnly,
     }),
 );
