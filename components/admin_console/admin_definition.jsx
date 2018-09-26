@@ -2517,7 +2517,7 @@ export default {
             gif: {
                 schema: {
                     id: 'EmojiSettings',
-                    name: t('admin.customization.'),
+                    name: t('admin.customization.gif'),
                     name_default: 'GIF (Beta)',
                     settings: [
                         {
