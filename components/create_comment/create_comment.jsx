@@ -171,10 +171,12 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress: [],
                 fileInfos: [],
             },
+            actualDrafts: {},
             uploadsProgressPercent: {},
         };
 
         this.lastBlurAt = 0;
+        this.draftsTimeout = null;
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -191,6 +193,12 @@ export default class CreateComment extends React.PureComponent {
     componentWillUnmount() {
         this.props.resetCreatePostRequest();
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+
+        if (this.draftsTimeout) {
+            const {draft, actualDrafts} = this.state;
+            clearTimeout(this.draftsTimeout);
+            this.props.onUpdateCommentDraft({...draft, fileInfos: actualDrafts.fileInfos, uploadsInProgress: actualDrafts.uploadsInProgress});
+        }
     }
 
     UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
@@ -485,8 +493,15 @@ export default class CreateComment extends React.PureComponent {
             }
         }
 
-        this.props.onUpdateCommentDraft({...draft, fileInfos: newFileInfos, uploadsInProgress});
-        this.setState({draft: {...draft, fileInfos: newFileInfos, uploadsInProgress}});
+        this.setState({
+            actualDrafts: {...draft, fileInfos: newFileInfos, uploadsInProgress},
+        });
+
+        this.draftsTimeout = setTimeout(() => {
+            clearTimeout(this.draftsTimeout);
+            this.props.onUpdateCommentDraft({...draft, fileInfos: newFileInfos, uploadsInProgress});
+            this.setState({draft: {...draft, fileInfos: newFileInfos, uploadsInProgress}});
+        }, 500);
 
         // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
         // the preview will be undefined and the switch will fail

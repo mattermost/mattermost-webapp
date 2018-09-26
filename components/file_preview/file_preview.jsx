@@ -112,7 +112,7 @@ export default class FilePreview extends React.PureComponent {
         });
 
         this.props.uploadsInProgress.forEach((clientId) => {
-            let percent;
+            let percent = 0;
             let fileNameComponent;
             const uploadsInProgress = this.props.uploadsProgressPercent;
             if (uploadsInProgress[clientId]) {
@@ -143,7 +143,7 @@ export default class FilePreview extends React.PureComponent {
                     data-client-id={clientId}
                 >
                     <div className='post-image__thumbnail'>
-                        <FileUploadProgress percent={Math.min(percent, 98)}/>
+                        <FileUploadProgress percent={percent}/>
                     </div>
                     <div className='post-image__details'>
                         <div className='post-image__detail_wrapper'>

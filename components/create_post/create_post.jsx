@@ -224,9 +224,11 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             handleUploadProgress: {},
+            actualDrafts: {},
         };
 
         this.lastBlurAt = 0;
+        this.draftsTimeout = null;
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -269,6 +271,12 @@ export default class CreatePost extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.documentKeyHandler);
+        if (this.draftsTimeout) {
+            clearTimeout(this.draftsTimeout);
+            const draft = {...this.state.actualDrafts};
+            draft.message = this.props.draft.message;
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, draft);
+        }
     }
 
     handlePostError = (postError) => {
@@ -565,13 +573,20 @@ export default class CreatePost extends React.Component {
         }
 
         draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
 
-        if (channelId === this.props.currentChannel.id) {
-            this.setState({
-                enableSendButton: true,
-            });
-        }
+        this.setState({
+            actualDrafts: draft,
+        });
+
+        this.draftsTimeout = setTimeout(() => {
+            clearTimeout(this.draftsTimeout);
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+            if (channelId === this.props.currentChannel.id) {
+                this.setState({
+                    enableSendButton: true,
+                });
+            }
+        }, 500);
     }
 
     handleUploadError = (err, clientId, channelId) => {

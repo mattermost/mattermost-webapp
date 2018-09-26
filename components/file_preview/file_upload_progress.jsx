@@ -33,37 +33,46 @@ export default class FileUploadProgress extends React.PureComponent {
         const {pathString, pathStyle} = this.computePathString(radius, percent);
 
         return (
-            <svg
-                className={`${prefixClass}__circle`}
-                viewBox='0 0 100 100'
-            >
-                <path
-                    className={`${prefixClass}__circle-trail`}
-                    d={pathString}
-                    stroke={trailColor}
-                    strokeWidth={trailWidth || strokeWidth}
-                    fillOpacity='0'
-                />
-                <path
-                    className={`${prefixClass}__circle-path`}
-                    d={pathString}
-                    strokeLinecap={strokeLinecap}
-                    stroke={strokeColor}
-                    strokeWidth={strokeWidth}
-                    fillOpacity='0'
-                    style={pathStyle}
-                />
-                <text
-                    className={`${prefixClass}__inside-text`}
-                    x='50%'
-                    y='50%'
-                    textAnchor='middle'
-                    stroke='#00'
-                    dy='.3em'
+            <div>
+                <svg
+                    className={`${prefixClass}__circle`}
+                    viewBox='0 0 100 100'
                 >
-                    {`${percent}%`}
-                </text>
-            </svg>
+                    <path
+                        className={`${prefixClass}__circle-trail`}
+                        d={pathString}
+                        stroke={trailColor}
+                        strokeWidth={trailWidth || strokeWidth}
+                        fillOpacity='0'
+                    />
+                    <path
+                        className={`${prefixClass}__circle-path`}
+                        d={pathString}
+                        strokeLinecap={strokeLinecap}
+                        stroke={strokeColor}
+                        strokeWidth={strokeWidth}
+                        fillOpacity='0'
+                        style={pathStyle}
+                    />
+                    <text
+                        className={`${prefixClass}__inside-text`}
+                        x='50%'
+                        y='50%'
+                        textAnchor='middle'
+                        stroke='#00'
+                        dy='.3em'
+                    >
+                        {percent !== 100 && `${percent}%`}
+                    </text>
+                </svg>
+
+                {percent === 100 && (
+                    <div className='load-complete'>
+                        <div className='checkmark draw'/>
+                    </div>
+                )}
+
+            </div>
         );
     }
 
