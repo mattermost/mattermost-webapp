@@ -17,6 +17,7 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
@@ -24,19 +25,21 @@ import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
+import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -59,12 +62,16 @@ export function emitChannelClickEvent(channel) {
         }
     }
     function switchToChannel(chan) {
-        const getMyChannelMemberPromise = getMyChannelMember(chan.id)(dispatch, getState);
+        const state = getState();
+        const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
         const oldChannelId = ChannelStore.getCurrentId();
-        const teamId = chan.team_id || getCurrentTeamId(getState());
+        const userId = getCurrentUserId(state);
+        const teamId = chan.team_id || getCurrentTeamId(state);
+        const isRHSOpened = getIsRhsOpen(state);
+        const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
 
         getMyChannelMemberPromise.then(() => {
-            getChannelStats(chan.id)(dispatch, getState);
+            dispatch(getChannelStats(chan.id));
 
             // Mark previous and next channel as read
             dispatch(markChannelAsRead(chan.id, oldChannelId));
@@ -72,7 +79,13 @@ export function emitChannelClickEvent(channel) {
         });
 
         if (chan.delete_at === 0) {
-            BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, chan.name);
+            LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
+        }
+
+        // When switching to a different channel if the pinned posts is showing
+        // Update the RHS state to reflect the pinned post of the selected channel
+        if (isRHSOpened && isPinnedPostsShowing) {
+            dispatch(updateRhsState(RHSStates.PIN, chan.id));
         }
 
         loadProfilesForSidebar();
@@ -437,23 +450,19 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
                 BrowserStore.signalLogout();
             }
 
-            clientLogout(redirectTo);
+            BrowserStore.clear();
+            ErrorStore.clearLastError();
+            ChannelStore.clear();
+            stopPeriodicStatusUpdates();
+            WebsocketActions.close();
+            document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            browserHistory.push(redirectTo);
         }
     ).catch(
         () => {
             browserHistory.push(redirectTo);
         }
     );
-}
-
-export function clientLogout(redirectTo = '/') {
-    BrowserStore.clear({exclude: [Constants.RECENT_EMOJI_KEY, 'selected_teams']});
-    ErrorStore.clearLastError();
-    ChannelStore.clear();
-    stopPeriodicStatusUpdates();
-    WebsocketActions.close();
-    document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    browserHistory.push(redirectTo);
 }
 
 export function toggleSideBarRightMenuAction() {
@@ -470,9 +479,10 @@ export function emitBrowserFocus(focus) {
 }
 
 export async function redirectUserToDefaultTeam() {
+    const userId = getCurrentUserId(getState());
     const teams = TeamStore.getAll();
     const teamMembers = TeamStore.getMyTeamMembers();
-    let teamId = BrowserStore.getGlobalItem('team');
+    let teamId = LocalStorageStore.getPreviousTeamId(userId);
 
     function redirect(teamName, channelName) {
         browserHistory.push(`/${teamName}/channels/${channelName}`);
@@ -496,8 +506,8 @@ export async function redirectUserToDefaultTeam() {
     }
 
     const team = teams[teamId];
-    if (team) {
-        let channelName = BrowserStore.getGlobalItem(Constants.PREV_CHANNEL_KEY + teamId, Constants.DEFAULT_CHANNEL);
+    if (userId && team) {
+        let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
         const channel = ChannelStore.getChannelNamesMap()[channelName];
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));

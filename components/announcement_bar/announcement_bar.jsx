@@ -430,7 +430,9 @@ export default class AnnouncementBar extends React.PureComponent {
         } else if (message === AnnouncementBarMessages.EMAIL_VERIFIED) {
             message = (
                 <React.Fragment>
-                    <i className='fa fa-check'/>
+                    <span className='fa-wrapper'>
+                        <i className='fa fa-check'/>
+                    </span>
                     <FormattedHTMLMessage
                         id={AnnouncementBarMessages.EMAIL_VERIFIED}
                         defaultMessage='Email verified'

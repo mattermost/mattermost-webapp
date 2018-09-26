@@ -10,7 +10,7 @@ import ViewImageModal from 'components/view_image';
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 
-import PostAttachmentList from '../post_attachment_list.jsx';
+import MessageAttachmentList from '../message_attachments/message_attachment_list.jsx';
 import PostAttachmentOpenGraph from '../post_attachment_opengraph';
 import PostImage from '../post_image';
 
@@ -129,7 +129,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         return (
-            <PostAttachmentList
+            <MessageAttachmentList
                 attachments={attachments}
                 postId={this.props.post.id}
                 key={this.props.post.id}

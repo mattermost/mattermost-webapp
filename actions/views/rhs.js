@@ -21,7 +21,7 @@ import * as Utils from 'utils/utils';
 
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 
-export function updateRhsState(rhsState) {
+export function updateRhsState(rhsState, channelId) {
     return (dispatch, getState) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
@@ -29,7 +29,7 @@ export function updateRhsState(rhsState) {
         };
 
         if (rhsState === RHSStates.PIN) {
-            action.channelId = getCurrentChannelId(getState());
+            action.channelId = channelId || getCurrentChannelId(getState());
         }
 
         dispatch(action);

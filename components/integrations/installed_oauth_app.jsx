@@ -10,6 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import CopyText from 'components/copy_text.jsx';
 
 import DeleteIntegration from './delete_integration.jsx';
 
@@ -238,6 +239,11 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                     clientId: oauthApp.id,
                                 }}
                             />
+                            <CopyText
+                                idMessage='integrations.copy_client_id'
+                                defaultMessage='Copy Client Id'
+                                value={oauthApp.id}
+                            />
                         </span>
                     </div>
                     <div className='item-details__row'>
@@ -248,6 +254,11 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 values={{
                                     clientSecret: this.state.clientSecret,
                                 }}
+                            />
+                            <CopyText
+                                idMessage='integrations.copy_client_secret'
+                                defaultMessage='Copy Client Secret'
+                                value={this.state.clientSecret}
                             />
                         </span>
                     </div>

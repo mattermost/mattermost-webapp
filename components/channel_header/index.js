@@ -14,7 +14,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 
 import {withRouter} from 'react-router-dom';
 
-import {getLastViewedChannelName} from 'selectors/storage';
+import {getLastViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants.jsx';
 
 import {

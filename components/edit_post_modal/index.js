@@ -10,7 +10,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
 import {hideEditPostModal} from 'actions/post_actions';
-import {editPost} from 'actions/views/edit_post_modal';
+import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import Constants from 'utils/constants';
 

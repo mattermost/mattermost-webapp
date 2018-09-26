@@ -28,7 +28,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
-import {getPostDraft} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
@@ -77,6 +77,7 @@ function mapStateToProps() {
             enableConfirmNotificationsToChannel,
             maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             userIsOutOfOffice,
+            rhsExpanded: getIsRhsExpanded(state),
         };
     };
 }

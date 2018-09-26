@@ -32,8 +32,9 @@ export default class SidebarRight extends React.Component {
             getPinnedPosts: PropTypes.func.isRequired,
             getFlaggedPosts: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func.isRequired,
         }),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -56,6 +57,12 @@ export default class SidebarRight extends React.Component {
         if (!isOpen && willOpen) {
             trackEvent('ui', 'ui_rhs_opened');
         }
+
+        if (nextProps.isPinnedPosts && nextProps.channel &&
+            this.props.isPinnedPosts === nextProps.isPinnedPosts &&
+            this.props.channel !== nextProps.channel) {
+            this.props.actions.showPinnedPosts(nextProps.channel.id);
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -72,7 +79,7 @@ export default class SidebarRight extends React.Component {
         if (this.props.channel && this.props.isPinnedPosts) {
             this.props.actions.getPinnedPosts(this.props.channel.id);
         }
-    }
+    };
 
     onShrink = () => {
         this.props.actions.setRhsExpanded(false);

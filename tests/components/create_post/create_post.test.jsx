@@ -119,6 +119,7 @@ function createPost({
             enableGifPicker={true}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             userIsOutOfOffice={false}
+            rhsExpanded={false}
         />
     );
 }
@@ -527,13 +528,13 @@ describe('components/create_post', () => {
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
-        instance.showShortcuts({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn});
         expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
-        instance.showShortcuts({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.showShortcuts({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.showShortcuts({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 

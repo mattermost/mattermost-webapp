@@ -36,7 +36,8 @@
     background-color: $white;
     border: $border-gray;
     max-height: 292px;
-    overflow-x: hidden;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     overflow-y: scroll;
     padding-bottom: 5px;
     width: 100%;
@@ -97,5 +98,19 @@
         position: absolute;
         top: 11px;
         width: 100%;
+    }
+}
+
+.suggestion-list__no-results {
+    line-height: 21px;
+    margin: 7px 10px 2px;
+    position: relative;
+
+    > span {
+        display: inline-block;
+        font-size: .9em;
+        padding: 0 10px 0 5px;
+        position: relative;
+        z-index: 5;
     }
 }

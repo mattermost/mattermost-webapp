@@ -7,6 +7,12 @@
     }
 }
 
+.form-control {
+    @include input-placeholder {
+        color: inherit;
+    }
+}
+
 .form-horizontal {
     .modal-intro {
         margin: -10px 0 30px;

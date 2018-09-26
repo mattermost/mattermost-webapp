@@ -129,3 +129,37 @@ export function containsAtChannel(text) {
 
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }
+
+export function shouldFocusMainTextbox(e, activeElement) {
+    if (!e) {
+        return false;
+    }
+
+    // Do not focus if we're currently focused on a textarea or input
+    const keepFocusTags = ['TEXTAREA', 'INPUT'];
+    if (!activeElement || keepFocusTags.includes(activeElement.tagName)) {
+        return false;
+    }
+
+    // Focus if it is an attempted paste
+    if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.V)) {
+        return true;
+    }
+
+    // Do not focus if a modifier key is pressed
+    if (e.ctrlKey || e.metaKey || e.altKey) {
+        return false;
+    }
+
+    // Do not focus if the key is undefined or null
+    if (e.key == null) {
+        return false;
+    }
+
+    // Do not focus for non-character or non-number keys
+    if (e.key.length !== 1 || !e.key.match(/./)) {
+        return false;
+    }
+
+    return true;
+}

@@ -35,6 +35,15 @@
     white-space: nowrap;
     width: 100%;
     z-index: 101;
+    display: flex;
+
+    &.no-flex {
+        display: block;
+    }
+
+    .admin-setting-user--align {
+        margin-right: 5px;
+    }
 
     .icon {
         @include opacity(.5);
@@ -69,7 +78,7 @@
     .mention--align {
         @include clearfix;
         text-overflow: ellipsis;
-        width: calc(100% - 50px);
+        margin-right: 5px;
     }
 }
 
