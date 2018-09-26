@@ -23,7 +23,7 @@ import {
     addReaction,
     removeReaction,
 } from 'mattermost-redux/actions/posts';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
@@ -60,6 +60,7 @@ function mapStateToProps() {
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
+            codeBlockOnCtrlEnter: getBool(state, PreferencesRedux.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,

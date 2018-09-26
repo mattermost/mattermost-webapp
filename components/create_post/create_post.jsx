@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -14,7 +13,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -61,6 +60,11 @@ export default class CreatePost extends React.Component {
         *  Data used for posting message
         */
         currentUserId: PropTypes.string,
+
+        /**
+         * Force message submission on CTRL/CMD + ENTER
+         */
+        codeBlockOnCtrlEnter: PropTypes.bool,
 
         /**
         *  Flag used for handling submit
@@ -390,7 +394,7 @@ export default class CreatePost extends React.Component {
 
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            PostUtils.containsAtChannel(this.state.message)) {
+            containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
             return;
         }
@@ -485,16 +489,22 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
-            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
-                e.preventDefault();
-                ReactDOM.findDOMNode(this.refs.textbox).blur();
+        const {ctrlSend, codeBlockOnCtrlEnter, currentChannel} = this.props;
+
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter);
+
+        if (allowSending) {
+            e.persist();
+            this.refs.textbox.blur();
+
+            if (withClosedCodeBlock && message) {
+                this.setState({message}, () => this.handleSubmit(e));
+            } else {
                 this.handleSubmit(e);
             }
         }
 
-        GlobalActions.emitLocalUserTypingEvent(this.props.currentChannel.id, '');
+        GlobalActions.emitLocalUserTypingEvent(currentChannel.id, '');
     }
 
     handleChange = (e) => {
@@ -637,7 +647,7 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        if (PostUtils.shouldFocusMainTextbox(e, document.activeElement)) {
+        if (shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
         }
     }
@@ -679,7 +689,7 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;

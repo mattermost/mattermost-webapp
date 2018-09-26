@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
+<Fragment>
+  <div
+    className="divider-light"
+  />
+  <SettingItemMin
+    focused={false}
+    section="codeBlockOnCtrlEnter"
+    title={
+      <FormattedMessage
+        defaultMessage="Send code block messages on CTRL + ENTER"
+        id="user.settings.advance.codeBlockOnCtrlEnterSendTitle"
+        values={Object {}}
+      />
+    }
+    updateSection={[MockFunction]}
+  />
+</Fragment>
+`;
+
+exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 2`] = `
+<Fragment>
+  <div
+    className="divider-light"
+  />
+  <SettingItemMax
+    containerStyle=""
+    infoPosition="bottom"
+    inputs={
+      Array [
+        <div>
+          <div
+            className="radio"
+          >
+            <label>
+              <input
+                checked={true}
+                id="codeBlockOnCtrlEnterOn"
+                name="codeBlockOnCtrlEnter"
+                onChange={[Function]}
+                type="radio"
+                value="true"
+              />
+              <FormattedMessage
+                defaultMessage="On"
+                id="user.settings.advance.on"
+                values={Object {}}
+              />
+            </label>
+            <br />
+          </div>
+          <div
+            className="radio"
+          >
+            <label>
+              <input
+                checked={false}
+                id="codeBlockOnCtrlEnterOff"
+                name="codeBlockOnCtrlEnter"
+                onChange={[Function]}
+                type="radio"
+                value="false"
+              />
+              <FormattedMessage
+                defaultMessage="Off"
+                id="user.settings.advance.off"
+                values={Object {}}
+              />
+            </label>
+            <br />
+          </div>
+          <div>
+            <br />
+            <FormattedMessage
+              defaultMessage="If enabled, ENTER inserts a new line within messages formatted as code starting with \`\`\`. CTRL + ENTER submits the message."
+              id="user.settings.advance.codeBlockOnCtrlEnterSendDesc"
+              values={Object {}}
+            />
+          </div>
+        </div>,
+      ]
+    }
+    saving={false}
+    section=""
+    setting="codeBlockOnCtrlEnter"
+    submit={[Function]}
+    title={
+      <FormattedMessage
+        defaultMessage="Send code block messages on CTRL + ENTER"
+        id="user.settings.advance.codeBlockOnCtrlEnterSendTitle"
+        values={Object {}}
+      />
+    }
+    updateSection={[MockFunction]}
+  />
+</Fragment>
+`;
