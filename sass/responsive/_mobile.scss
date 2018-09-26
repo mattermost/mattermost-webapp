@@ -907,6 +907,16 @@
     }
 
     #navbar {
+        .browser--ie & {
+            .navbar-default {
+                .dropdown-menu {
+                    .close {
+                        top: 70px;
+                    }
+                }
+            }
+        }
+
         .navbar-default {
             .navbar-header {
                 float: none;
