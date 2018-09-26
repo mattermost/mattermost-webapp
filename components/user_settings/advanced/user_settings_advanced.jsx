@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreferences, updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
-import {clientLogout} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
@@ -155,7 +155,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         revokeAllSessions(userId,
             () => {
-                clientLogout();
+                emitUserLoggedOutEvent();
             },
             (err) => {
                 this.setState({serverError: err.message});

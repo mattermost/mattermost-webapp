@@ -14,7 +14,7 @@ import UserStore from 'stores/user_store.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import {clientLogout} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import {browserHistory} from 'utils/browser_history';
@@ -239,7 +239,7 @@ export default class SystemUsersDropdown extends React.Component {
         revokeAllSessions(this.props.user.id,
             () => {
                 if (this.props.user.id === me.id) {
-                    clientLogout();
+                    emitUserLoggedOutEvent();
                 }
             },
             this.props.onError
