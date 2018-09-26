@@ -15,7 +15,6 @@ import DataRetentionSettings from 'components/admin_console/data_retention_setti
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
 import ElasticsearchSettings from 'components/admin_console/elasticsearch_settings.jsx';
 import EmailSettings from 'components/admin_console/email_settings.jsx';
-import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
 import MessageExportSettings from 'components/admin_console/message_export_settings';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 
@@ -253,8 +252,11 @@ export default class AdminConsole extends React.Component {
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/gitlab`}
-                                        component={GitLabSettings}
-                                        extraProps={extraProps}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.authentication.gitlab.schema,
+                                        }}
                                     />
                                     <SCRoute
                                         path={`${props.match.url}/oauth`}
