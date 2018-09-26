@@ -68,7 +68,7 @@ export default class TermsOfService extends React.PureComponent {
     getServiceTerms = () => {
         this.setState({
             customServiceTermsText: '',
-            loading: false,
+            loading: true,
         });
         getServiceTerms(
             (data) => {
@@ -174,7 +174,10 @@ export default class TermsOfService extends React.PureComponent {
                             className='fa fa-chevron-left'
                             title={Utils.localizeMessage('generic_icons.logout', 'Logout Icon')}
                         />
-                        <FormattedMessage id='web.header.logout'/>
+                        <FormattedMessage
+                            id='web.header.logout'
+                            defaultMessage='Logout'
+                        />
                     </a>
                 </div>
                 <div className='col-sm-12'>

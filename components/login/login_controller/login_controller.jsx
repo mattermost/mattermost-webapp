@@ -254,7 +254,7 @@ export default class LoginController extends React.Component {
 
         GlobalActions.loadCurrentLocale();
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
-            redirectURL = decodeURIComponent(redirectTo);
+            redirectURL = redirectTo;
         } else if (team) {
             redirectURL = `/${team.name}`;
         } else if (primaryTeam) {
@@ -266,7 +266,7 @@ export default class LoginController extends React.Component {
         if (this.props.showTermsOfService) {
             const queryParams = {};
             if (redirectURL) {
-                queryParams.redirect_to = redirectURL;
+                queryParams.redirect_to = encodeURIComponent(redirectURL);
             }
             if (redirectAction) {
                 queryParams.redirect_action = redirectAction;

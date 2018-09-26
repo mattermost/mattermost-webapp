@@ -185,5 +185,5 @@ LoggedIn.propTypes = {
     actions: PropTypes.shape({
         autoUpdateTimezone: PropTypes.func.isRequired,
     }).isRequired,
-    showTermsOfService: PropTypes.bool,
+    showTermsOfService: PropTypes.bool.isRequired,
 };
