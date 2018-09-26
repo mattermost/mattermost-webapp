@@ -767,7 +767,7 @@ export default class Navbar extends React.Component {
     }
 
     createLhsButton = (currentId) => {
-        var lhsButton;
+        let lhsButton;
 
         if (currentId == null) {
             lhsButton = (
@@ -815,7 +815,7 @@ export default class Navbar extends React.Component {
     }
 
     createRhsButton = (currentId) => {
-        var rhsButton;
+        let rhsButton;
         if (currentId != null) {
             rhsButton = (
                 <button
@@ -941,9 +941,6 @@ export default class Navbar extends React.Component {
             );
         }
 
-        var lhsButton = this.createLhsButton(currentId);
-        var rhsButton = this.createRhsButton(currentId);
-
         const searchButton = (
             <button
                 type='button'
@@ -967,7 +964,7 @@ export default class Navbar extends React.Component {
                 >
                     <div className='container-fluid theme'>
                         <div className='navbar-header'>
-                            {lhsButton}
+                            {this.createLhsButton(currentId)}
                             {channelMenuDropdown}
                             <NavbarInfoButton
                                 ref='headerOverlay'
@@ -980,7 +977,7 @@ export default class Navbar extends React.Component {
                                 channel={channel}
                                 isDropdown={false}
                             />
-                            {rhsButton}
+                            {this.createRhsButton(currentId)}
                         </div>
                     </div>
                 </nav>
