@@ -23,29 +23,42 @@ export default class CommentedOn extends PureComponent {
     }
 
     handleOnClick = () => {
-        const {actions, displayName} = this.props;
-
+        const {actions} = this.props;
+        const displayName = this.makeUsername();
         actions.updateSearchTerms(displayName);
         actions.showSearchResults();
     }
 
-    render() {
-        const {
-            displayName,
-            enablePostUsernameOverride,
-            post,
-        } = this.props;
+    makeUsername = () => {
+        const postProps = this.props.post.props;
+        let username = this.props.displayName;
+        if (this.props.enablePostUsernameOverride && postProps && postProps.from_webhook === 'true' && postProps.override_username) {
+            username = postProps.override_username;
+        }
+        return username;
+    }
 
-        let username = displayName;
-        if (
-            enablePostUsernameOverride &&
-            post.props &&
-            post.props.from_webhook &&
-            post.props.override_username
-        ) {
-            username = post.props.override_username;
+    makeCommentedOnMessage = () => {
+        const {post} = this.props;
+        let message = '';
+        if (post.message) {
+            message = Utils.replaceHtmlEntities(post.message);
+        } else if (post.file_ids && post.file_ids.length > 0) {
+            message = (
+                <CommentedOnFilesMessage parentPostId={post.id}/>
+            );
+        } else if (post.props && post.props.attachments && post.props.attachments.length > 0) {
+            const attachment = post.props.attachments[0];
+            const webhookMessage = attachment.pretext || attachment.title || attachment.text || attachment.fallback || '';
+            message = Utils.replaceHtmlEntities(webhookMessage);
         }
 
+        return message;
+    }
+
+    render() {
+        const username = this.makeUsername();
+        const message = this.makeCommentedOnMessage();
         let apostrophe = '\'s';
         if (username.slice(-1) === 's') {
             apostrophe = '\'';
@@ -59,15 +72,6 @@ export default class CommentedOn extends PureComponent {
                 {username}
             </a>
         );
-
-        let message = '';
-        if (post.message) {
-            message = Utils.replaceHtmlEntities(post.message);
-        } else if (post.file_ids && post.file_ids.length > 0) {
-            message = (
-                <CommentedOnFilesMessage parentPostId={post.id}/>
-            );
-        }
 
         return (
             <div className='post__link'>
