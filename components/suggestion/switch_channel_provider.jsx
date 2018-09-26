@@ -25,13 +25,15 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 
+import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {ActionTypes, Constants, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
@@ -44,6 +46,7 @@ class SwitchChannelSuggestion extends Suggestion {
         return {
             ...super.propTypes,
             channelMember: PropTypes.object,
+            hasDraft: PropTypes.bool,
         };
     }
 
@@ -70,6 +73,10 @@ class SwitchChannelSuggestion extends Suggestion {
         if (channelIsArchived) {
             icon = (
                 <ArchiveIcon className='icon icon__archive'/>
+            );
+        } else if (this.props.hasDraft) {
+            icon = (
+                <DraftIcon className='icon icon__draft icon--body'/>
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
@@ -109,8 +116,11 @@ class SwitchChannelSuggestion extends Suggestion {
 
 function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const channelId = ownProps.item && ownProps.item.channel ? ownProps.item.channel.id : '';
+    const draft = getPostDraft(state, StoragePrefixes.DRAFT, channelId);
+
     return {
         channelMember: getMyChannelMemberships(state)[channelId],
+        hasDraft: Boolean(draft.message || draft.fileInfos.length || draft.uploadsInProgress.length),
     };
 }
 

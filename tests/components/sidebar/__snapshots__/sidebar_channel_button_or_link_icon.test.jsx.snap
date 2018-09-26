@@ -39,3 +39,9 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
   className="icon icon__globe"
 />
 `;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, with draft in public channel 1`] = `
+<DraftIcon
+  className="icon icon__draft"
+/>
+`;

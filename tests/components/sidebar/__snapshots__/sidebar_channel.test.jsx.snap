@@ -13,6 +13,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
@@ -38,6 +39,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
@@ -61,6 +63,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="O"
     displayName="Town Square"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
@@ -88,6 +91,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item unread-title has-badge"
@@ -111,11 +115,46 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel with draft 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={false}
+    channelId="test-channel-id"
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    displayName={
+      <FormattedMessage
+        defaultMessage="{displayname} (you)"
+        id="sidebar.directchannel.you"
+        values={
+          Object {
+            "displayname": "Channel display name",
+          }
+        }
+      />
+    }
+    handleClose={[Function]}
+    hasDraft={true}
+    link="/current-team/messages/@undefined"
+    membersCount={8}
+    rowClass="sidebar-item has-close"
+    teammateDeletedAt={1}
+    teammateId="myself"
     unreadMentions={0}
   />
 </li>
@@ -134,6 +173,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="P"
     displayName="Channel display name"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
@@ -157,6 +197,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="O"
     displayName="Channel display name"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
@@ -180,6 +221,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/channels/channel-name?fakechannel=%7B%22display_name%22%3A%22Channel%20display%20name%22%2C%22name%22%3A%22channel-name%22%2C%22type%22%3A%22D%22%2C%22id%22%3A%22test-channel-id%22%2C%22status%22%3A%22test%22%2C%22fake%22%3Atrue%7D"
     membersCount={8}
     rowClass="sidebar-item has-close"
@@ -203,6 +245,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="P"
     displayName="Channel display name"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
@@ -226,6 +269,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="P"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
@@ -259,6 +303,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       />
     }
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
@@ -282,6 +327,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="P"
     displayName="Channel display name"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
@@ -305,6 +351,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="P"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
@@ -328,6 +375,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="O"
     displayName="Channel display name"
     handleClose={null}
+    hasDraft={false}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
@@ -351,6 +399,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="O"
     displayName="Channel display name"
     handleClose={[Function]}
+    hasDraft={false}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"

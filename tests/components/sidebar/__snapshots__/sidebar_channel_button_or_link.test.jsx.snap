@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with draft 1`] = `
+<Link
+  className="test-class"
+  onClick={[Function]}
+  replace={false}
+  to="test-link"
+>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    hasDraft={true}
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    <span>
+      test-channel-name
+    </span>
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    badge={false}
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
+</Link>
+`;
+
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with mentions badge 1`] = `
 <Link
   className="test-class"
@@ -11,6 +44,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelIsArchived={false}
     channelStatus="test"
     channelType="D"
+    hasDraft={false}
     membersCount={3}
     teammateDeletedAt={1}
     teammateId="test-teammate-id"
@@ -48,6 +82,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelIsArchived={false}
     channelStatus="test"
     channelType="D"
+    hasDraft={false}
     membersCount={3}
     teammateDeletedAt={1}
     teammateId="test-teammate-id"
@@ -79,6 +114,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelIsArchived={false}
     channelStatus="test"
     channelType="D"
+    hasDraft={false}
     membersCount={3}
     teammateDeletedAt={1}
     teammateId="test-teammate-id"
@@ -116,6 +152,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelIsArchived={false}
     channelStatus="test"
     channelType="D"
+    hasDraft={false}
     membersCount={3}
     teammateDeletedAt={1}
     teammateId="test-teammate-id"

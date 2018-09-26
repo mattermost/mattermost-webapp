@@ -8,6 +8,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {leaveChannel} from 'mattermost-redux/actions/channels';
 
 import {
+    getCurrentChannelId,
     getChannelsNameMapInCurrentTeam,
     makeGetChannel,
     shouldHideDefaultChannel,
@@ -20,9 +21,10 @@ import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import {Constants, NotificationLevels} from 'utils/constants.jsx';
+import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants.jsx';
 
 import {open as openLhs} from 'actions/views/lhs.js';
+import {getPostDraft} from 'selectors/rhs';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -33,7 +35,9 @@ function makeMapStateToProps() {
         const channelId = ownProps.channelId;
 
         const config = getConfig(state);
+        const currentChannelId = getCurrentChannelId(state);
         const channel = getChannel(state, {id: channelId}) || {};
+        const draft = channel.id ? getPostDraft(state, StoragePrefixes.DRAFT, channel.id) : false;
 
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, Constants.Preferences.TUTORIAL_STEP, ownProps.currentUserId, Constants.TutorialSteps.FINISHED);
@@ -105,6 +109,7 @@ function makeMapStateToProps() {
             channelTeammateId,
             channelTeammateUsername,
             channelTeammateDeletedAt,
+            hasDraft: Boolean(draft.message || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel.id,
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
