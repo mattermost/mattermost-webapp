@@ -16,38 +16,19 @@ import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
+import {Constants} from 'utils/constants.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * ID of the channel to display
-         */
         channelId: PropTypes.string.isRequired,
-
-        /**
-         * Set if this channel is deactivated, primarily used for DMs with inactive users
-         */
         deactivatedChannel: PropTypes.bool.isRequired,
-
-        /**
-         * Object from react-router
-         */
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
         }).isRequired,
-
-        /**
-         * Set to show the tutorial
-         */
         showTutorial: PropTypes.bool.isRequired,
-
-        /**
-         * Whether the channel is archived
-         */
         channelIsArchived: PropTypes.bool.isRequired,
-
+        viewArchivedChannels: PropTypes.bool.isRequired,
         lastViewedChannelName: PropTypes.string.isRequired,
     };
 
@@ -110,6 +91,9 @@ export default class ChannelView extends React.PureComponent {
             }
             if (dur2 !== -1) {
                 trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
+            }
+            if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
+                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
             }
         }
     }

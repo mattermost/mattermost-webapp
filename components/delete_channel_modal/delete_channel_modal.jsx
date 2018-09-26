@@ -29,6 +29,7 @@ export default class DeleteChannelModal extends React.PureComponent {
         currentTeamDetails: PropTypes.object.isRequired,
 
         canViewArchivedChannels: PropTypes.bool,
+        penultimateViewedChannelName: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
 
@@ -52,7 +53,10 @@ export default class DeleteChannelModal extends React.PureComponent {
         if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
-        browserHistory.push('/' + this.props.currentTeamDetails.name + '/channels/' + Constants.DEFAULT_CHANNEL);
+        if (!this.props.canViewArchivedChannels) {
+            const {penultimateViewedChannelName} = this.props;
+            browserHistory.push('/' + this.props.currentTeamDetails.name + '/channels/' + penultimateViewedChannelName);
+        }
         this.props.actions.deleteChannel(this.props.channel.id);
         this.onHide();
     }
