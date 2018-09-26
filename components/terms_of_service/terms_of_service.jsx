@@ -97,7 +97,7 @@ export default class TermsOfService extends React.PureComponent {
             serverError: null,
         });
         this.registerUserAction(
-            'true',
+            true,
             () => {
                 const query = new URLSearchParams(this.props.location.search);
                 const redirectTo = query.get('redirect_to');
@@ -127,7 +127,7 @@ export default class TermsOfService extends React.PureComponent {
             serverError: null,
         });
         this.registerUserAction(
-            'false',
+            false,
             () => {
                 GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
                 this.setState({
