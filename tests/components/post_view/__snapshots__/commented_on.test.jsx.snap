@@ -95,11 +95,10 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
 >
   <span>
     <FormattedMessage
-      defaultMessage="Commented on {name}{apostrophe} message: "
+      defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
         Object {
-          "apostrophe": "'s",
           "name": <a
             className="theme"
             onClick={[Function]}
@@ -125,11 +124,10 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
 >
   <span>
     <FormattedMessage
-      defaultMessage="Commented on {name}{apostrophe} message: "
+      defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
         Object {
-          "apostrophe": "'s",
           "name": <a
             className="theme"
             onClick={[Function]}
@@ -155,11 +153,10 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
 >
   <span>
     <FormattedMessage
-      defaultMessage="Commented on {name}{apostrophe} message: "
+      defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
         Object {
-          "apostrophe": "'s",
           "name": <a
             className="theme"
             onClick={[Function]}
@@ -185,11 +182,10 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
 >
   <span>
     <FormattedMessage
-      defaultMessage="Commented on {name}{apostrophe} message: "
+      defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
         Object {
-          "apostrophe": "'s",
           "name": <a
             className="theme"
             onClick={[Function]}
