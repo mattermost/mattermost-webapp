@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import CopyText from 'components/copy_text.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -57,6 +58,8 @@ export default class ConfirmIntegration extends React.Component {
         const oauthApp = this.props.oauthApps[this.state.id];
 
         if (this.state.type === Constants.Integrations.COMMAND && command) {
+            const commandToken = command.token;
+
             headerText = (
                 <FormattedMessage
                     id={'installed_commands.header'}
@@ -77,12 +80,17 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_command.token'
                         defaultMessage='**Token**: {token}'
                         values={{
-                            token: command.token,
+                            token: commandToken,
                         }}
+                    />
+                    <CopyText
+                        value={commandToken}
                     />
                 </p>
             );
         } else if (this.state.type === Constants.Integrations.INCOMING_WEBHOOK && incomingHook) {
+            const incomingHookToken = getSiteURL() + '/hooks/' + incomingHook.id;
+
             headerText = (
                 <FormattedMessage
                     id={'installed_incoming_webhooks.header'}
@@ -103,12 +111,19 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_incoming_webhook.url'
                         defaultMessage='**URL**: {url}'
                         values={{
-                            url: getSiteURL() + '/hooks/' + incomingHook.id,
+                            url: incomingHookToken,
                         }}
+                    />
+                    <CopyText
+                        idMessage='integrations.copy_client_secret'
+                        defaultMessage='Copy Client Secret'
+                        value={incomingHookToken}
                     />
                 </p>
             );
         } else if (this.state.type === Constants.Integrations.OUTGOING_WEBHOOK && outgoingHook) {
+            const outgoingHookToken = outgoingHook.token;
+
             headerText = (
                 <FormattedMessage
                     id={'installed_outgoing_webhooks.header'}
@@ -129,12 +144,18 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_outgoing_webhook.token'
                         defaultMessage='**Token**: {token}'
                         values={{
-                            token: outgoingHook.token,
+                            token: outgoingHookToken,
                         }}
+                    />
+                    <CopyText
+                        value={outgoingHookToken}
                     />
                 </p>
             );
         } else if (this.state.type === Constants.Integrations.OAUTH_APP && oauthApp) {
+            const oauthAppToken = oauthApp.id;
+            const oauthAppSecret = oauthApp.client_secret;
+
             headerText = (
                 <FormattedMessage
                     id={'installed_oauth_apps.header'}
@@ -157,15 +178,26 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_oauth_app.clientId'
                         defaultMessage='**Client ID**: {id}'
                         values={{
-                            id: oauthApp.id,
+                            id: oauthAppToken,
                         }}
-                    /> <br/>
+                    />
+                    <CopyText
+                        idMessage='integrations.copy_client_id'
+                        defaultMessage='Copy Client Id'
+                        value={oauthAppToken}
+                    />
+                    <br/>
                     <FormattedMarkdownMessage
                         id='add_oauth_app.clientSecret'
                         defaultMessage='**Client Secret**: {secret}'
                         values={{
-                            secret: oauthApp.client_secret,
+                            secret: oauthAppSecret,
                         }}
+                    />
+                    <CopyText
+                        idMessage='integrations.copy_client_secret'
+                        defaultMessage='Copy Client Secret'
+                        value={oauthAppSecret}
                     />
                 </p>
             );
