@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
 
+jest.useFakeTimers();
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
@@ -458,6 +459,46 @@ describe('components/create_post', () => {
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
+        jest.runAllTimers();
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+    });
+
+    it('check for setDraft callback on unmount if timer is running', () => {
+        const setDraft = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    setDraft,
+                },
+            })
+        );
+
+        const instance = wrapper.instance();
+        const clientIds = ['a'];
+        const uploadsInProgressDraft = {
+            ...draftProp,
+            uploadsInProgress: [
+                ...draftProp.uploadsInProgress,
+                'a',
+            ],
+        };
+
+        wrapper.setProps({draft: uploadsInProgressDraft});
+        const fileInfos = {
+            id: 'a',
+        };
+        const expectedDraft = {
+            ...draftProp,
+            fileInfos: [
+                ...draftProp.fileInfos,
+                fileInfos,
+            ],
+        };
+
+        instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
+        wrapper.unmount();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
     });
 

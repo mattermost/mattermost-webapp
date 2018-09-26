@@ -143,7 +143,7 @@ export default class FilePreview extends React.PureComponent {
                     data-client-id={clientId}
                 >
                     <div className='post-image__thumbnail'>
-                        <FileUploadProgress percent={percent}/>
+                        <FileUploadProgress percent={parseInt(percent, 10)}/>
                     </div>
                     <div className='post-image__details'>
                         <div className='post-image__detail_wrapper'>
