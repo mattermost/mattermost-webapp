@@ -34,49 +34,6 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
           />
           <NotifyCounts />
         </button>
-        <button
-          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
-          data-target="#sidebar-nav"
-          data-toggle="collapse"
-          key="navbar-toggle-menu"
-          onClick={[Function]}
-          type="button"
-        >
-          <MenuIcon />
-        </button>
-        <button
-          className="navbar-toggle navbar-right__icon navbar-search pull-right"
-          onClick={[Function]}
-          type="button"
-        >
-          <SearchIcon
-            aria-hidden="true"
-            className="icon icon__search"
-          />
-        </button>
-        <Connect(NavbarInfoButton)
-          channel={
-            Object {
-              "display_name": "Town Square",
-              "id": "123",
-              "name": "town-square",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-        />
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "Town Square",
-              "id": "123",
-              "name": "town-square",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <div
           className="navbar-brand"
         >
@@ -304,6 +261,49 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
             </ul>
           </div>
         </div>
+        <Connect(NavbarInfoButton)
+          channel={
+            Object {
+              "display_name": "Town Square",
+              "id": "123",
+              "name": "town-square",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+        />
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "Town Square",
+              "id": "123",
+              "name": "town-square",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
+        />
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
       </div>
     </div>
   </nav>
@@ -385,47 +385,6 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
           />
           <NotifyCounts />
         </button>
-        <button
-          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
-          data-target="#sidebar-nav"
-          data-toggle="collapse"
-          key="navbar-toggle-menu"
-          onClick={[Function]}
-          type="button"
-        >
-          <MenuIcon />
-        </button>
-        <button
-          className="navbar-toggle navbar-right__icon navbar-search pull-right"
-          onClick={[Function]}
-          type="button"
-        >
-          <SearchIcon
-            aria-hidden="true"
-            className="icon icon__search"
-          />
-        </button>
-        <Connect(NavbarInfoButton)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "P",
-            }
-          }
-        />
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "P",
-            }
-          }
-          isDropdown={false}
-        />
         <div
           className="navbar-brand"
         >
@@ -765,6 +724,47 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
             </ul>
           </div>
         </div>
+        <Connect(NavbarInfoButton)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "P",
+            }
+          }
+        />
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "P",
+            }
+          }
+          isDropdown={false}
+        />
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
       </div>
     </div>
   </nav>
@@ -844,47 +844,6 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
           />
           <NotifyCounts />
         </button>
-        <button
-          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
-          data-target="#sidebar-nav"
-          data-toggle="collapse"
-          key="navbar-toggle-menu"
-          onClick={[Function]}
-          type="button"
-        >
-          <MenuIcon />
-        </button>
-        <button
-          className="navbar-toggle navbar-right__icon navbar-search pull-right"
-          onClick={[Function]}
-          type="button"
-        >
-          <SearchIcon
-            aria-hidden="true"
-            className="icon icon__search"
-          />
-        </button>
-        <Connect(NavbarInfoButton)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-        />
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <div
           className="navbar-brand"
         >
@@ -1254,6 +1213,47 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
             </ul>
           </div>
         </div>
+        <Connect(NavbarInfoButton)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+        />
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
+        />
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
       </div>
     </div>
   </nav>
@@ -1333,49 +1333,6 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
           />
           <NotifyCounts />
         </button>
-        <button
-          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
-          data-target="#sidebar-nav"
-          data-toggle="collapse"
-          key="navbar-toggle-menu"
-          onClick={[Function]}
-          type="button"
-        >
-          <MenuIcon />
-        </button>
-        <button
-          className="navbar-toggle navbar-right__icon navbar-search pull-right"
-          onClick={[Function]}
-          type="button"
-        >
-          <SearchIcon
-            aria-hidden="true"
-            className="icon icon__search"
-          />
-        </button>
-        <Connect(NavbarInfoButton)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "name": "user_id_1__user_id_2",
-              "team_id": "team_id",
-              "type": "D",
-            }
-          }
-        />
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "name": "user_id_1__user_id_2",
-              "team_id": "team_id",
-              "type": "D",
-            }
-          }
-          isDropdown={false}
-        />
         <div
           className="navbar-brand"
         >
@@ -1470,6 +1427,49 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
             </ul>
           </div>
         </div>
+        <Connect(NavbarInfoButton)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "name": "user_id_1__user_id_2",
+              "team_id": "team_id",
+              "type": "D",
+            }
+          }
+        />
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "name": "user_id_1__user_id_2",
+              "team_id": "team_id",
+              "type": "D",
+            }
+          }
+          isDropdown={false}
+        />
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
       </div>
     </div>
   </nav>
@@ -1551,47 +1551,6 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
           />
           <NotifyCounts />
         </button>
-        <button
-          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
-          data-target="#sidebar-nav"
-          data-toggle="collapse"
-          key="navbar-toggle-menu"
-          onClick={[Function]}
-          type="button"
-        >
-          <MenuIcon />
-        </button>
-        <button
-          className="navbar-toggle navbar-right__icon navbar-search pull-right"
-          onClick={[Function]}
-          type="button"
-        >
-          <SearchIcon
-            aria-hidden="true"
-            className="icon icon__search"
-          />
-        </button>
-        <Connect(NavbarInfoButton)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-        />
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <div
           className="navbar-brand"
         >
@@ -1961,6 +1920,47 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
             </ul>
           </div>
         </div>
+        <Connect(NavbarInfoButton)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+        />
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
+        />
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
       </div>
     </div>
   </nav>
@@ -2044,47 +2044,6 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
           />
           <NotifyCounts />
         </button>
-        <button
-          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
-          data-target="#sidebar-nav"
-          data-toggle="collapse"
-          key="navbar-toggle-menu"
-          onClick={[Function]}
-          type="button"
-        >
-          <MenuIcon />
-        </button>
-        <button
-          className="navbar-toggle navbar-right__icon navbar-search pull-right"
-          onClick={[Function]}
-          type="button"
-        >
-          <SearchIcon
-            aria-hidden="true"
-            className="icon icon__search"
-          />
-        </button>
-        <Connect(NavbarInfoButton)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-        />
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <div
           className="navbar-brand"
         >
@@ -2454,6 +2413,47 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
             </ul>
           </div>
         </div>
+        <Connect(NavbarInfoButton)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+        />
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <SearchIcon
+            aria-hidden="true"
+            className="icon icon__search"
+          />
+        </button>
+        <Connect(MobileChannelHeaderPlug)
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "team_id": "team_id",
+              "type": "O",
+            }
+          }
+          isDropdown={false}
+        />
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <MenuIcon />
+        </button>
       </div>
     </div>
   </nav>

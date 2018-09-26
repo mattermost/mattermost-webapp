@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {Permissions} from 'mattermost-redux/constants';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -20,7 +22,14 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/constants.jsx';
+import {
+    ActionTypes,
+    Constants,
+    ModalIdentifiers,
+    NotificationLevels,
+    RHSStates,
+    UserStatuses,
+} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ConvertChannelModal from 'components/convert_channel_modal';
@@ -59,6 +68,7 @@ export default class Navbar extends React.Component {
             closeRhs: PropTypes.func.isRequired,
             toggleRhsMenu: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
+            updateChannelNotifyProps: PropTypes.func.isRequired,
         }),
     };
 
@@ -354,6 +364,17 @@ export default class Navbar extends React.Component {
             </li>
         );
     }
+
+    handleUnmuteChannel = () => {
+        const {channel, currentUser} = this.state;
+
+        if (!currentUser || !channel) {
+            return;
+        }
+
+        const props = {mark_unread: NotificationLevels.ALL};
+        this.props.actions.updateChannelNotifyProps(currentUser.id, channel.id, props);
+    };
 
     createDropdown = (teamId, channel, channelTitle, isDirect, isGroup) => {
         if (channel) {
@@ -675,6 +696,8 @@ export default class Navbar extends React.Component {
                 </li>
             );
 
+            const channelMuted = isChannelMuted(this.state.member);
+
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
@@ -683,8 +706,8 @@ export default class Navbar extends React.Component {
                             href='#'
                             className='dropdown-toggle theme'
                             type='button'
-                            data-toggle='dropdown'
                             aria-expanded='true'
+                            data-toggle='dropdown'
                         >
                             <span className='heading'><StatusIcon status={this.getTeammateStatus()}/>{channelTitle} </span>
                             <span
@@ -713,13 +736,20 @@ export default class Navbar extends React.Component {
                                 channel={channel}
                                 isDropdown={true}
                             />
-                            <div
-                                className='close visible-xs-block'
-                            >
+                            <div className='close visible-xs-block'>
                                 {'×'}
                             </div>
                         </ul>
                     </div>
+                    {channelMuted &&
+                        <button
+                            type='button'
+                            className='navbar-toggle icon icon__mute'
+                            onClick={this.handleUnmuteChannel}
+                        >
+                            <span className='fa fa-bell-slash-o icon'/>
+                        </button>
+                    }
                 </div>
             );
         }
@@ -736,11 +766,11 @@ export default class Navbar extends React.Component {
         );
     }
 
-    createCollapseButtons = (currentId) => {
-        var buttons = [];
+    createLhsButton = (currentId) => {
+        let lhsButton;
 
         if (currentId == null) {
-            buttons.push(
+            lhsButton = (
                 <button
                     key='navbar-toggle-collapse'
                     type='button'
@@ -760,7 +790,7 @@ export default class Navbar extends React.Component {
                 </button>
             );
         } else {
-            buttons.push(
+            lhsButton = (
                 <button
                     key='navbar-toggle-sidebar'
                     type='button'
@@ -779,8 +809,15 @@ export default class Navbar extends React.Component {
                     <NotifyCounts/>
                 </button>
             );
+        }
 
-            buttons.push(
+        return lhsButton;
+    }
+
+    createRhsButton = (currentId) => {
+        let rhsButton;
+        if (currentId != null) {
+            rhsButton = (
                 <button
                     key='navbar-toggle-menu'
                     type='button'
@@ -794,7 +831,7 @@ export default class Navbar extends React.Component {
             );
         }
 
-        return buttons;
+        return rhsButton;
     }
 
     getTeammateStatus = () => {
@@ -904,8 +941,6 @@ export default class Navbar extends React.Component {
             );
         }
 
-        var collapseButtons = this.createCollapseButtons(currentId);
-
         const searchButton = (
             <button
                 type='button'
@@ -919,7 +954,7 @@ export default class Navbar extends React.Component {
             </button>
         );
 
-        var channelMenuDropdown = this.createDropdown(teamId, channel, channelTitle, isDirect, isGroup);
+        const channelMenuDropdown = this.createDropdown(teamId, channel, channelTitle, isDirect, isGroup);
 
         return (
             <div>
@@ -929,19 +964,20 @@ export default class Navbar extends React.Component {
                 >
                     <div className='container-fluid theme'>
                         <div className='navbar-header'>
-                            {collapseButtons}
-                            {searchButton}
+                            {this.createLhsButton(currentId)}
+                            {channelMenuDropdown}
                             <NavbarInfoButton
                                 ref='headerOverlay'
                                 channel={channel}
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                                 isReadOnly={this.props.isReadOnly}
                             />
+                            {searchButton}
                             <MobileChannelHeaderPlug
                                 channel={channel}
                                 isDropdown={false}
                             />
-                            {channelMenuDropdown}
+                            {this.createRhsButton(currentId)}
                         </div>
                     </div>
                 </nav>
