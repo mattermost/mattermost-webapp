@@ -394,9 +394,9 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft});
-
-        this.scrollToBottom();
+        this.setState({draft: updatedDraft}, () => {
+            this.scrollToBottom();
+        });
     }
 
     handleKeyDown = (e) => {

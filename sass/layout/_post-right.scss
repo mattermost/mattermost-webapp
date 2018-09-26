@@ -63,6 +63,7 @@
         }
 
         .custom-textarea {
+            max-height: calc(50vh - 80px);
             min-height: 100px;
         }
 

@@ -67,6 +67,10 @@
                 display: block;
             }
 
+            .custom-textarea {
+                max-height: 162px;
+            }
+
             textarea {
                 .app-content & {
                     border-left: none;
