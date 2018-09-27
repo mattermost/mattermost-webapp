@@ -103,7 +103,9 @@ class LoginController extends React.Component {
         }
         if (LocalStorageStore.getWasLoggedIn()) {
             // Although the authority remains the local sessionExpired bit on the state, set this
-            // extra field in the querystring to signal the desktop app.
+            // extra field in the querystring to signal the desktop app. And although eslint
+            // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
+            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({sessionExpired: true});
             search.set('extra', Constants.SESSION_EXPIRED);
             browserHistory.replace(`${this.props.location.pathname}?${search}`);
@@ -425,7 +427,7 @@ class LoginController extends React.Component {
             this.props.enableSaml;
     }
 
-    onDismissSessionExpired = (e) => {
+    onDismissSessionExpired = () => {
         LocalStorageStore.setWasLoggedIn(false);
         this.setState({sessionExpired: false});
     }
@@ -446,7 +448,10 @@ class LoginController extends React.Component {
                         defaultMessage='Your session has expired. Please log in again.'
                     />
                     {' '}
-                    <Link to='/login' onClick={this.onDismissSessionExpired}>
+                    <Link
+                        to='/login'
+                        onClick={this.onDismissSessionExpired}
+                    >
                         <FormattedMessage
                             id='login.session_expired.dismiss'
                             defaultMessage='(Dismiss)'
@@ -455,18 +460,18 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_CHANGE) {
-                extraBox = (
-                    <div className='alert alert-success'>
-                        <i
-                            className='fa fa-check'
-                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                        />
-                        <FormattedMessage
-                            id='login.changed'
-                            defaultMessage=' Sign-in method changed successfully'
-                        />
-                    </div>
-                );
+            extraBox = (
+                <div className='alert alert-success'>
+                    <i
+                        className='fa fa-check'
+                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                    />
+                    <FormattedMessage
+                        id='login.changed'
+                        defaultMessage=' Sign-in method changed successfully'
+                    />
+                </div>
+            );
         } else if (extraParam === Constants.SIGNIN_VERIFIED) {
             extraBox = (
                 <div className='alert alert-success'>

@@ -42,13 +42,11 @@ describe('components/login/LoginController', () => {
     test('should match snapshot when expired', () => {
         const props = {
             ...baseProps,
-            location: {
-                search: 'extra=expired',
-            },
         };
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
         ).dive();
+        wrapper.setState({sessionExpired: true});
 
         expect(wrapper).toMatchSnapshot();
     });
