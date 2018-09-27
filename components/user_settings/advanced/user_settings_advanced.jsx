@@ -16,6 +16,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 import JoinLeaveSection from './join_leave_section';
+import CodeBlockCtrlEnterSection from './code_block_ctrl_enter_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -584,6 +585,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     </h3>
                     <div className='divider-dark first'/>
                     {ctrlSendSection}
+                    <CodeBlockCtrlEnterSection
+                        activeSection={this.props.activeSection}
+                        onUpdateSection={this.handleUpdateSection}
+                        prevActiveSection={this.props.prevActiveSection}
+                        renderOnOffLabel={this.renderOnOffLabel}
+                    />
                     {formattingSectionDivider}
                     {formattingSection}
                     <div className='divider-light'/>

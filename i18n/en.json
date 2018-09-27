@@ -2662,6 +2662,8 @@
   "user_profile.webrtc.call": "Start Video Call",
   "user_profile.webrtc.offline": "The user is offline",
   "user_profile.webrtc.unavailable": "New call unavailable until your existing call ends",
+  "user.settings.advance.codeBlockOnCtrlEnterSendDesc": "If enabled, ENTER inserts a new line within messages formatted as code starting with ```. CTRL + ENTER submits the message.",
+  "user.settings.advance.codeBlockOnCtrlEnterSendTitle": "Send code block messages on CTRL + ENTER",
   "user.settings.advance.confirmDeactivateAccountTitle": "Confirm Deactivation",
   "user.settings.advance.confirmDeactivateDesc": "Are you sure you want to deactivate your account? This can only be reversed by your System Administrator.",
   "user.settings.advance.deactivate_member_modal.deactivateButton": "Yes, deactivate my account",

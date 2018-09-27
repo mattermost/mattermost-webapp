@@ -526,6 +526,7 @@ export const NotificationSections = {
 
 export const AdvancedSections = {
     CONTROL_SEND: 'advancedCtrlSend',
+    CODE_BLOCK_ON_CTRL_ENTER: 'codeBlockOnCtrlEnter',
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
@@ -1307,6 +1308,7 @@ export const Constants = {
     SEARCH_POST: 'searchpost',
     CHANNEL_ID_LENGTH: 26,
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+    TRIPLE_BACK_TICKS: /```/g,
 };
 
 t('suggestion.mention.channels');
