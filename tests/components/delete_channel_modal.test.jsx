@@ -40,6 +40,7 @@ describe('components/delete_channel_modal', () => {
             deleteChannel: emptyFunction,
         },
         onHide: emptyFunction,
+        penultimateViewedChannelName: 'my-prev-channel',
     };
 
     test('should match snapshot for delete_channel_modal', () => {
@@ -72,7 +73,7 @@ describe('components/delete_channel_modal', () => {
 
         expect(actions.deleteChannel).toHaveBeenCalledTimes(1);
         expect(actions.deleteChannel).toHaveBeenCalledWith(props.channel.id);
-        expect(browserHistory.push).toHaveBeenCalledWith('/mattermostDev/channels/town-square');
+        expect(browserHistory.push).toHaveBeenCalledWith('/mattermostDev/channels/my-prev-channel');
         expect(wrapper.state('show')).toEqual(false);
     });
 

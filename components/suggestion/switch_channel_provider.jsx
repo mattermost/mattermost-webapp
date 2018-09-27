@@ -323,6 +323,10 @@ export default class SwitchChannelProvider extends Provider {
 
         const channelFilter = makeChannelSearchFilter(channelPrefix);
 
+        const state = getState();
+        const config = getConfig(state);
+        const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
 
@@ -330,13 +334,17 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            if (channelFilter(channel) && channel.delete_at === 0) {
+            if (channelFilter(channel)) {
                 const newChannel = Object.assign({}, channel);
                 const channelIsArchived = channel.delete_at !== 0;
 
                 let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
-                if (channelIsArchived) {
+                if (!viewArchivedChannels && channelIsArchived) {
+                    continue;
+                } else if (channelIsArchived && members[channel.id]) {
                     wrappedChannel.type = Constants.ARCHIVED_CHANNEL;
+                } else if (channelIsArchived && !members[channel.id]) {
+                    continue;
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = getChannelDisplayName(newChannel);
                     wrappedChannel.name = newChannel.name;

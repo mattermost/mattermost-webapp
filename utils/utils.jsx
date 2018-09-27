@@ -123,49 +123,82 @@ export function isSystemAdmin(roles) {
     return false;
 }
 
-var requestedNotificationPermission = false;
+let requestedNotificationPermission = false;
+
+// showNotification displays a platform notification with the configured parameters.
+//
+// If successful in showing a notification, it resolves with a callback to manually close the
+// notification. Notifications that do not require interaction will be closed automatically after
+// the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
+// choose different semantics for the notifications.
+export async function showNotification({title, body, requireInteraction, silent, onClick}) {
+    let icon = icon50;
+    if (UserAgent.isEdge()) {
+        icon = iconWS;
+    }
+
+    if (!('Notification' in window)) {
+        throw new Error('Notification not supported');
+    }
+
+    if (typeof Notification.requestPermission !== 'function') {
+        throw new Error('Notifications.requestPermission not supported');
+    }
+
+    if (Notification.permission !== 'granted' && requestedNotificationPermission) {
+        throw new Error('Notifications already requested but not granted');
+    }
+
+    requestedNotificationPermission = true;
+
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+        throw new Error('Notifications not granted');
+    }
+
+    const notification = new Notification(title, {
+        body,
+        tag: body,
+        icon,
+        requireInteraction,
+        silent,
+    });
+
+    if (onClick) {
+        notification.onclick = onClick;
+    }
+
+    if (!requireInteraction) {
+        setTimeout(() => {
+            notification.close();
+        }, Constants.DEFAULT_NOTIFICATION_DURATION);
+    }
+
+    return () => {
+        notification.close();
+    };
+}
 
 export function notifyMe(title, body, channel, teamId, silent) {
-    if (!('Notification' in window)) {
-        return;
-    }
-
-    if (Notification.permission === 'granted' || (Notification.permission === 'default' && !requestedNotificationPermission)) {
-        requestedNotificationPermission = true;
-
-        if (typeof Notification.requestPermission === 'function') {
-            Notification.requestPermission((permission) => {
-                if (permission === 'granted') {
-                    try {
-                        let icon = icon50;
-                        if (UserAgent.isEdge()) {
-                            icon = iconWS;
-                        }
-
-                        const notification = new Notification(title, {body, tag: body, icon, requireInteraction: false, silent});
-                        notification.onclick = () => {
-                            window.focus();
-                            if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
-                                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-                            } else if (channel) {
-                                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + '/channels/' + channel.name);
-                            } else if (teamId) {
-                                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
-                            } else {
-                                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
-                            }
-                        };
-
-                        setTimeout(() => {
-                            notification.close();
-                        }, Constants.DEFAULT_NOTIFICATION_DURATION);
-                    } catch (e) {
-                        console.error(e); //eslint-disable-line no-console
-                    }
-                }
-            });
-        }
-    }
+    showNotification({title,
+        body,
+        requireInteraction: false,
+        silent,
+        onClick: () => {
+            window.focus();
+            if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+            } else if (channel) {
+                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + '/channels/' + channel.name);
+            } else if (teamId) {
+                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
+            } else {
+                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
+            }
+        },
+    }).catch(() => {
+        // Ignore the failure to display the notification.
+    });
 }
 
 var canDing = true;

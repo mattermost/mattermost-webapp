@@ -790,6 +790,45 @@
         }
     }
 
+    &.post--thread {
+        &.same--user {
+            padding: 0 .5em 0 1em;
+
+            .post__header {
+                margin-bottom: 0;
+
+                .post__pinned-badge {
+                    margin-left: -7px;
+                }
+
+                .post__header--info {
+                    position: absolute;
+                    left: -5px;
+
+                    .post__time {
+                        font-size: 0.7em;
+                        display: inline-block;
+                        left: -14px;
+                        line-height: 20px;
+                        position: absolute;
+                        text-align: right;
+                        text-rendering: auto;
+                        top: 4px;
+                        width: 51px;
+
+                    }
+
+                    .flag-icon__container {
+                        left: 36px;
+                        margin-left: 7px;
+                        position: absolute;
+                        top: 6px;
+                    }
+                }
+            }
+        }
+    }
+
     &.post--compact {
         &.post--thread {
             .post__header {

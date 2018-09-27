@@ -31,6 +31,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const enableTutorial = config.EnableTutorial === 'true';
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
+    const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
     let lastViewedChannelName = getLastViewedChannelName(state);
     if (!lastViewedChannelName) {
@@ -43,6 +44,7 @@ function mapStateToProps(state) {
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         lastViewedChannelName,
+        viewArchivedChannels,
     };
 }
 

@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/login/LoginController should match snapshot 1`] = `
+<div>
+  <Connect(AnnouncementBar) />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container undefined"
+    >
+      <div
+        className="signup__markdown"
+      />
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <SiteNameAndDescription
+          customDescriptionText=""
+          siteName=""
+        />
+        <div>
+          <FormError
+            error={
+              <FormattedMessage
+                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
+                id="login.noMethods"
+                values={Object {}}
+              />
+            }
+            errors={Array []}
+            key="noMethods"
+            margin={true}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/login/LoginController should match snapshot when expired 1`] = `
+<div>
+  <Connect(AnnouncementBar) />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container undefined"
+    >
+      <div
+        className="signup__markdown"
+      />
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <SiteNameAndDescription
+          customDescriptionText=""
+          siteName=""
+        />
+        <div>
+          <div
+            className="alert alert-warning"
+          >
+            <i
+              className="fa fa-exclamation-triangle"
+              title="Warning Icon"
+            />
+             
+            <FormattedMessage
+              defaultMessage="Your session has expired. Please log in again."
+              id="login.session_expired"
+              values={Object {}}
+            />
+             
+            <Link
+              className="btn-close"
+              onClick={[Function]}
+              replace={false}
+              to="/login"
+            >
+              <span>
+                ×
+              </span>
+            </Link>
+          </div>
+          <FormError
+            error={
+              <FormattedMessage
+                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
+                id="login.noMethods"
+                values={Object {}}
+              />
+            }
+            errors={Array []}
+            key="noMethods"
+            margin={true}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
