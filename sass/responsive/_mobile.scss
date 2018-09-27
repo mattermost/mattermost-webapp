@@ -644,6 +644,10 @@
         margin-bottom: 30px;
         padding: 60px 10px 0;
 
+        .min-height--fill {
+            min-height: calc(100vh - 526px);
+        }
+
         .signup-team__name {
             font-size: 2em;
         }
@@ -1823,6 +1827,14 @@
 
         .signup-team__name {
             font-size: 2em;
+        }
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .signup-team__container {
+        .min-height--fill {
+            min-height: 0;
         }
     }
 }

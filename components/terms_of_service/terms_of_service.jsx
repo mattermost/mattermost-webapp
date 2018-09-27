@@ -41,6 +41,7 @@ export default class TermsOfService extends React.PureComponent {
         super(props);
 
         this.state = {
+            customServiceTermsId: '',
             customServiceTermsText: '',
             loading: true,
             loadingAgree: false,
@@ -59,28 +60,21 @@ export default class TermsOfService extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.customServiceTermsId !== this.props.customServiceTermsId) {
-            this.getServiceTerms();
-        }
-    }
-
     getServiceTerms = () => {
         this.setState({
+            customServiceTermsId: '',
             customServiceTermsText: '',
             loading: true,
         });
         getServiceTerms(
             (data) => {
                 this.setState({
+                    customServiceTermsId: data.id,
                     customServiceTermsText: data.text,
                     loading: false,
                 });
             },
             () => {
-                this.setState({
-                    loading: false,
-                });
                 GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
             }
         );
@@ -99,9 +93,6 @@ export default class TermsOfService extends React.PureComponent {
         this.registerUserAction(
             true,
             () => {
-                this.setState({
-                    loadingAgree: false,
-                });
                 const query = new URLSearchParams(this.props.location.search);
                 const redirectTo = query.get('redirect_to');
                 if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
@@ -121,9 +112,6 @@ export default class TermsOfService extends React.PureComponent {
         this.registerUserAction(
             false,
             () => {
-                this.setState({
-                    loadingDisagree: false,
-                });
                 GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
             }
         );
@@ -131,7 +119,7 @@ export default class TermsOfService extends React.PureComponent {
 
     registerUserAction = (accepted, success) => {
         updateServiceTermsStatus(
-            this.props.customServiceTermsId,
+            this.state.customServiceTermsId,
             accepted,
             success,
             () => {
@@ -182,7 +170,7 @@ export default class TermsOfService extends React.PureComponent {
                                 />
                             </h2>
                         </div>
-                        <div className='signup__markdown'>
+                        <div className='signup__markdown min-height--fill'>
                             {messageHtmlToComponent(this.formattedText(this.state.customServiceTermsText), false, {mentions: false})}
                         </div>
                         <div className='margin--extra'>

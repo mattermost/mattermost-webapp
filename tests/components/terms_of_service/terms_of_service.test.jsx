@@ -33,11 +33,10 @@ describe('components/terms_of_service/TermsOfService', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call getServiceTerms on change of customServiceTermsId', () => {
+    test('should call getServiceTerms on mount', () => {
         const props = {...baseProps};
-        const wrapper = shallow(<TermsOfService {...props}/>);
-        wrapper.setProps({customServiceTermsId: '2'});
-        expect(getServiceTerms).toHaveBeenCalledTimes(2);
+        shallow(<TermsOfService {...props}/>);
+        expect(getServiceTerms).toHaveBeenCalledTimes(1);
     });
 
     test('should match snapshot on loading', () => {
