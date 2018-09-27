@@ -17,6 +17,13 @@ export const getLastViewedChannelName = (state) => {
     return localStorageStore.getPreviousChannelName(userId, teamId);
 };
 
+export const getPenultimateViewedChannelName = (state) => {
+    const userId = getCurrentUserId(state);
+    const teamId = getCurrentTeamId(state);
+
+    return localStorageStore.getPenultimateChannelName(userId, teamId);
+};
+
 // getLastViewedChannelNameByTeamName combines data from the Redux store and localStorage to return
 // the url to the previously selected channel, returning the path to the default channel if none
 // exists.

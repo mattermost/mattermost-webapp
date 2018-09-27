@@ -80,6 +80,7 @@ export default class ChannelHeader extends React.Component {
             Object.values(RHSStates)
         ),
         lastViewedChannelName: PropTypes.string.isRequired,
+        penultimateViewedChannelName: PropTypes.string.isRequired,
         enableWebrtc: PropTypes.bool.isRequired,
     };
 
@@ -858,7 +859,7 @@ export default class ChannelHeader extends React.Component {
                                 role='menuitem'
                                 modalId={ModalIdentifiers.DELETE_CHANNEL}
                                 dialogType={DeleteChannelModal}
-                                dialogProps={{channel}}
+                                dialogProps={{channel, penultimateViewedChannelName: this.props.penultimateViewedChannelName}}
                             >
                                 <FormattedMessage
                                     id='channel_header.delete'

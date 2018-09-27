@@ -4,6 +4,7 @@ import {Constants} from 'utils/constants.jsx';
 
 const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
+const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
 
 // LocalStorageStore exposes an interface for accessing entries in the localStorage.
 //
@@ -17,6 +18,14 @@ class LocalStorageStoreClass {
 
     setPreviousChannelName(userId, teamId, channelName) {
         localStorage.setItem(getPreviousChannelNameKey(userId, teamId), channelName);
+    }
+
+    getPenultimateChannelName(userId, teamId) {
+        return localStorage.getItem(getPenultimateChannelNameKey(userId, teamId)) || Constants.DEFAULT_CHANNEL;
+    }
+
+    setPenultimateChannelName(userId, teamId, channelName) {
+        localStorage.setItem(getPenultimateChannelNameKey(userId, teamId), channelName);
     }
 
     getPreviousTeamId(userId) {

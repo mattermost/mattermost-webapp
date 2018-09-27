@@ -14,7 +14,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 
 import {withRouter} from 'react-router-dom';
 
-import {getLastViewedChannelName} from 'selectors/local_storage';
+import {getLastViewedChannelName, getPenultimateViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants.jsx';
 
 import {
@@ -50,6 +50,11 @@ function mapStateToProps(state, ownProps) {
         lastViewedChannelName = Constants.DEFAULT_CHANNEL;
     }
 
+    let penultimateViewedChannelName = getPenultimateViewedChannelName(state);
+    if (!penultimateViewedChannelName) {
+        penultimateViewedChannelName = Constants.DEFAULT_CHANNEL;
+    }
+
     return {
         channel,
         channelMember: getMyChannelMember(state, ownProps.channelId),
@@ -64,6 +69,7 @@ function mapStateToProps(state, ownProps) {
         enableWebrtc: config.EnableWebrtc === 'true',
         isReadOnly: isCurrentChannelReadOnly(state),
         lastViewedChannelName,
+        penultimateViewedChannelName,
     };
 }
 

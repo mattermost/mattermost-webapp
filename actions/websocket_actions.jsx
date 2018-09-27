@@ -641,7 +641,10 @@ function handleChannelCreatedEvent(msg) {
 }
 
 function handleChannelDeletedEvent(msg) {
-    if (ChannelStore.getCurrentId() === msg.data.channel_id) {
+    const state = getState();
+    const config = getConfig(state);
+    const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+    if (ChannelStore.getCurrentId() === msg.data.channel_id && !viewArchivedChannels) {
         const teamUrl = TeamStore.getCurrentTeamRelativeUrl();
         browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
     }
