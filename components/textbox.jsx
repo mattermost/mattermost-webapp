@@ -149,8 +149,7 @@ export default class Textbox extends React.Component {
 
     setInputCursorPosition = (position) => {
         const textbox = this.refs.message.getTextbox();
-        textbox.selectionStart = position;
-        textbox.selectionEnd = position;
+        Utils.setCaretPosition(textbox, position);
     }
 
     recalculateSize = () => {

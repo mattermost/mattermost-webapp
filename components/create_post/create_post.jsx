@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -708,7 +707,6 @@ export default class CreatePost extends React.Component {
         if (!UserAgent.isMobile() && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             if (this.comboKeyToSendMessage(e)) {
                 e.preventDefault();
-                ReactDOM.findDOMNode(this.refs.textbox).blur();
                 this.handleSubmit(e);
             } else if (this.comboKeyToEnterNewLine(e)) {
                 this.addNewLine(e);
