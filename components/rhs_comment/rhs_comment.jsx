@@ -50,6 +50,7 @@ export default class RhsComment extends React.Component {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        isConsecutivePost: PropTypes.bool,
     };
 
     constructor(props) {
@@ -115,6 +116,10 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
+        if (this.state.hover !== nextState.hover) {
+            return true;
+        }
+
         return false;
     }
 
@@ -168,7 +173,7 @@ export default class RhsComment extends React.Component {
     };
 
     getClassName = (post, isSystemMessage) => {
-        let className = 'post post--thread';
+        let className = 'post post--thread same--root post--comment';
 
         if (this.props.currentUser.id === post.user_id) {
             className += ' current--user';
@@ -190,6 +195,10 @@ export default class RhsComment extends React.Component {
             className += ' post--hovered';
         }
 
+        if (this.props.isConsecutivePost) {
+            className += ' same--user';
+        }
+
         return className;
     };
 
@@ -203,8 +212,16 @@ export default class RhsComment extends React.Component {
         return this.refs.dotMenu;
     };
 
+    setHover = () => {
+        this.setState({hover: true});
+    }
+
+    unsetHover = () => {
+        this.setState({hover: false});
+    }
+
     render() {
-        const {post, isReadOnly, channelIsArchived} = this.props;
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
@@ -221,86 +238,101 @@ export default class RhsComment extends React.Component {
         }
 
         let botIndicator;
-        let userProfile = (
-            <UserProfile
-                user={this.props.user}
-                status={status}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
+        let userProfile;
+        let profilePicture;
         let visibleMessage;
-        if (post.props && post.props.from_webhook) {
-            if (post.props.override_username && this.props.enablePostUsernameOverride) {
-                userProfile = (
-                    <UserProfile
-                        user={this.props.user}
-                        overwriteName={post.props.override_username}
-                        disablePopover={true}
-                    />
-                );
-            } else {
-                userProfile = (
-                    <UserProfile
-                        user={this.props.user}
-                        disablePopover={true}
-                    />
-                );
-            }
-
-            botIndicator = (
-                <div className='col col__name bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        } else if (fromAutoResponder) {
-            userProfile = (
-                <span className='auto-responder'>
-                    <UserProfile
-                        user={this.props.user}
-                        status={status}
-                        isBusy={this.props.isBusy}
-                        isRHS={true}
-                        hasMention={true}
-                    />
-                </span>
-            );
-            botIndicator = (
-                <div className='col col__name bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.auto_responder'
-                        defaultMessage='AUTOMATIC REPLY'
-                    />
-                </div>
-            );
-        } else if (isSystemMessage) {
-            userProfile = (
-                <UserProfile
-                    user={{}}
-                    overwriteName={
-                        <FormattedMessage
-                            id='post_info.system'
-                            defaultMessage='System'
-                        />
-                    }
-                    overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
-                    disablePopover={true}
+        if (!this.props.isConsecutivePost) {
+            profilePicture = (
+                <PostProfilePicture
+                    compactDisplay={this.props.compactDisplay}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    post={post}
+                    status={this.props.status}
+                    user={this.props.user}
                 />
             );
 
-            visibleMessage = (
-                <span className='post__visibility'>
-                    <FormattedMessage
-                        id='post_info.message.visible'
-                        defaultMessage='(Only visible to you)'
-                    />
-                </span>
+            userProfile = (
+                <UserProfile
+                    user={this.props.user}
+                    status={status}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
+                />
             );
+
+            if (post.props && post.props.from_webhook) {
+                if (post.props.override_username && this.props.enablePostUsernameOverride) {
+                    userProfile = (
+                        <UserProfile
+                            user={this.props.user}
+                            overwriteName={post.props.override_username}
+                            disablePopover={true}
+                        />
+                    );
+                } else {
+                    userProfile = (
+                        <UserProfile
+                            user={this.props.user}
+                            disablePopover={true}
+                        />
+                    );
+                }
+
+                botIndicator = (
+                    <div className='col col__name bot-indicator'>
+                        <FormattedMessage
+                            id='post_info.bot'
+                            defaultMessage='BOT'
+                        />
+                    </div>
+                );
+            } else if (fromAutoResponder) {
+                userProfile = (
+                    <span className='auto-responder'>
+                        <UserProfile
+                            user={this.props.user}
+                            status={status}
+                            isBusy={this.props.isBusy}
+                            isRHS={true}
+                            hasMention={true}
+                        />
+                    </span>
+                );
+                botIndicator = (
+                    <div className='col col__name bot-indicator'>
+                        <FormattedMessage
+                            id='post_info.auto_responder'
+                            defaultMessage='AUTOMATIC REPLY'
+                        />
+                    </div>
+                );
+            } else if (isSystemMessage) {
+                userProfile = (
+                    <UserProfile
+                        user={{}}
+                        overwriteName={
+                            <FormattedMessage
+                                id='post_info.system'
+                                defaultMessage='System'
+                            />
+                        }
+                        overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
+                        disablePopover={true}
+                    />
+                );
+
+                visibleMessage = (
+                    <span className='post__visibility'>
+                        <FormattedMessage
+                            id='post_info.message.visible'
+                            defaultMessage='(Only visible to you)'
+                        />
+                    </span>
+                );
+            }
         }
 
         let failedPostOptions;
@@ -397,21 +429,26 @@ export default class RhsComment extends React.Component {
             );
         }
 
+        const flagIcon = (
+            <PostFlagIcon
+                idPrefix={'rhsCommentFlag'}
+                idCount={idCount}
+                postId={post.id}
+                isFlagged={this.props.isFlagged}
+                isEphemeral={isEphemeral}
+            />
+        );
+
         return (
             <div
                 ref={'post_body_' + post.id}
                 className={this.getClassName(post, isSystemMessage)}
+                onMouseOver={this.setHover}
+                onMouseLeave={this.unsetHover}
             >
                 <div className='post__content'>
                     <div className='post__img'>
-                        <PostProfilePicture
-                            compactDisplay={this.props.compactDisplay}
-                            isBusy={this.props.isBusy}
-                            isRHS={true}
-                            post={post}
-                            status={this.props.status}
-                            user={this.props.user}
-                        />
+                        {profilePicture}
                     </div>
                     <div>
                         <div className='post__header'>
@@ -420,16 +457,18 @@ export default class RhsComment extends React.Component {
                             </div>
                             {botIndicator}
                             <div className='col'>
-                                {this.renderPostTime(isEphemeral)}
+                                {!isConsecutivePost && this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
-                                <PostFlagIcon
-                                    idPrefix={'rhsCommentFlag'}
-                                    idCount={idCount}
-                                    postId={post.id}
-                                    isFlagged={this.props.isFlagged}
-                                    isEphemeral={isEphemeral}
-                                />
+                                {!isConsecutivePost && flagIcon}
                                 {visibleMessage}
+                                {isConsecutivePost &&
+                                <div className='post__header--info'>
+                                    <div className='col'>
+                                        {this.state.hover && this.renderPostTime(isEphemeral)}
+                                        {flagIcon}
+                                    </div>
+                                </div>
+                                }
                             </div>
                             {options}
                         </div>

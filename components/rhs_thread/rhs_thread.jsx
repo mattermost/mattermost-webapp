@@ -323,6 +323,7 @@ export default class RhsThread extends React.Component {
         const postsLength = postsArray.length;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
+            const previousPostId = i > 0 ? postsArray[i - 1].id : '';
             let p;
             if (UserStore.getCurrentId() === comPost.user_id) {
                 p = UserStore.getCurrentUser();
@@ -352,11 +353,13 @@ export default class RhsThread extends React.Component {
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
             const reverseCount = postsLength - i - 1;
+
             commentsLists.push(
                 <RhsComment
                     key={keyPrefix + 'commentKey'}
                     ref={comPost.id}
                     post={comPost}
+                    previousPostId={previousPostId}
                     teamId={this.props.channel.team_id}
                     lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                     user={p}
