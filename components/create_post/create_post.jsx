@@ -484,19 +484,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
-            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
-                e.preventDefault();
-                ReactDOM.findDOMNode(this.refs.textbox).blur();
-                this.handleSubmit(e);
-            }
-        }
-
-        GlobalActions.emitLocalUserTypingEvent(this.props.currentChannel.id, '');
-    }
-
     handleChange = (e) => {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
@@ -675,17 +662,56 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    comboKeyIsPressed = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        return ctrlOrMetaKeyPressed || e.shiftKey || e.altKey;
+    }
+
+    comboKeyToSendMessage = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const comboKeyIsPressed = this.comboKeyIsPressed(e);
+        return (!this.props.ctrlSend && !comboKeyIsPressed) || (this.props.ctrlSend && ctrlOrMetaKeyPressed);
+    }
+
+    comboKeyToEnterNewLine = (e) => {
+        return this.comboKeyIsPressed(e);
+    }
+
+    addNewLine = (e) => {
+        e.preventDefault();
+        const end = e.target.selectionEnd;
+        const start = e.target.selectionStart;
+        const message = this.state.message.substring(0, start) + '\n' + this.state.message.substring(end);
+        this.setState({
+            message,
+        }, () => {
+            this.refs.textbox.setInputCursorPosition(start + 1);
+        });
+        const draft = {
+            ...this.props.draft,
+            message,
+        };
+
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, draft);
+    }
+
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo = this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
-        if (ctrlEnterKeyCombo) {
-            this.postMsgKeyPress(e);
+        if (!UserAgent.isMobile() && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            if (this.comboKeyToSendMessage(e)) {
+                e.preventDefault();
+                ReactDOM.findDOMNode(this.refs.textbox).blur();
+                this.handleSubmit(e);
+            } else if (this.comboKeyToEnterNewLine(e)) {
+                this.addNewLine(e);
+            }
+            GlobalActions.emitLocalUserTypingEvent(this.props.currentChannel.id, '');
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
@@ -976,7 +1002,6 @@ export default class CreatePost extends React.Component {
                         <div className='post-body__cell'>
                             <Textbox
                                 onChange={this.handleChange}
-                                onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
