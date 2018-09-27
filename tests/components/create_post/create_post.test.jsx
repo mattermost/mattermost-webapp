@@ -229,7 +229,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         const postTextbox = wrapper.find('#post_textbox');
-        postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn()});
+        postTextbox.simulate('KeyDown', {key: KeyCodes.ENTER[0], preventDefault: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
