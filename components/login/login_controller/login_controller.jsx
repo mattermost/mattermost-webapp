@@ -81,7 +81,7 @@ class LoginController extends React.Component {
             password: '',
             showMfa: false,
             loading: false,
-            focused: false,
+            focused: document.hasFocus(),
             sessionExpired: false,
         };
     }
@@ -140,7 +140,7 @@ class LoginController extends React.Component {
     }
 
     showSessionExpiredNotificationIfNeeded = () => {
-        const show = (this.state.sessionExpired && !this.state.focused) || this.closeSessionExpiredNotification;
+        const show = this.state.sessionExpired && (!this.state.focused || this.closeSessionExpiredNotification);
 
         if (show && !this.closeSessionExpiredNotification) {
             Utils.showNotification({
