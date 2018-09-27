@@ -82,15 +82,14 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
             />
              
             <Link
+              className="btn-close"
               onClick={[Function]}
               replace={false}
               to="/login"
             >
-              <FormattedMessage
-                defaultMessage="(Dismiss)"
-                id="login.session_expired.dismiss"
-                values={Object {}}
-              />
+              <span>
+                ×
+              </span>
             </Link>
           </div>
           <FormError

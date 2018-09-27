@@ -449,11 +449,13 @@ class LoginController extends React.Component {
                     />
                     {' '}
                     <Link
-                        className="btn-close"
+                        className='btn-close'
                         to='/login'
                         onClick={this.onDismissSessionExpired}
                     >
-                        <span>×</span>
+                        <span>
+                            {'×'}
+                        </span>
                     </Link>
                 </div>
             );
