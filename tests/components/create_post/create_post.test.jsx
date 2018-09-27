@@ -549,6 +549,77 @@ describe('components/create_post', () => {
         }, 0);
     });
 
+    it('Should add new line for keyCombos with ctrlSend false', () => {
+        const draft = {
+            ...draftProp,
+            message: 'test',
+        };
+
+        const wrapper = shallow(createPost({
+            ctrlSend: false,
+            draft,
+        }));
+        const instance = wrapper.instance();
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('test\n');
+        instance.handleKeyDown({shiftKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('test\n\n');
+        instance.handleKeyDown({altKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('test\n\n\n');
+        instance.handleKeyDown({metaKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('test\n\n\n\n');
+    });
+
+    it('Should add new line for keyCombos with ctrlSend true', () => {
+        const draft = {
+            ...draftProp,
+            message: 'test',
+        };
+
+        const wrapper = shallow(createPost({
+            ctrlSend: true,
+            draft,
+        }));
+        const instance = wrapper.instance();
+        instance.handleKeyDown({shiftKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('test\n');
+        instance.handleKeyDown({altKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('test\n\n');
+    });
+
+    it('Should clear message state for ctrlSend true and key combo with metaKey or ctrlKey', () => {
+        const draft = {
+            ...draftProp,
+            message: 'test',
+        };
+
+        const wrapper = shallow(createPost({
+            ctrlSend: true,
+            draft,
+        }));
+        const instance = wrapper.instance();
+        instance.handleKeyDown({metaKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('');
+        wrapper.setProps({draft});
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('message')).toEqual('');
+    });
+
+    it('Should add new line in the middle', () => {
+        const draft = {
+            ...draftProp,
+            message: 'test',
+        };
+
+        const wrapper = shallow(createPost({
+            ctrlSend: false,
+            draft,
+        }));
+        const instance = wrapper.instance();
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 1, selectionEnd: 1}});
+        expect(wrapper.state('message')).toEqual('t\nest');
+    });
+
     it('Should call edit action as comment for arrow up', () => {
         const setEditingPost = jest.fn();
         const wrapper = shallow(createPost({

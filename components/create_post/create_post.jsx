@@ -685,7 +685,9 @@ export default class CreatePost extends React.Component {
         this.setState({
             message,
         }, () => {
-            this.refs.textbox.setInputCursorPosition(start + 1);
+            if (this.refs.textbox) {
+                this.refs.textbox.setInputCursorPosition(start + 1);
+            }
         });
         const draft = {
             ...this.props.draft,
@@ -699,7 +701,7 @@ export default class CreatePost extends React.Component {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const upKeyOnly = !this.comboKeyIsPressed(e) && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
