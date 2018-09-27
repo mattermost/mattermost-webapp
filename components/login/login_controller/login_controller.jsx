@@ -102,7 +102,11 @@ class LoginController extends React.Component {
             this.refs.password.focus();
         }
         if (LocalStorageStore.getWasLoggedIn()) {
+            // Although the authority remains the local sessionExpired bit on the state, set this
+            // extra field in the querystring to signal the desktop app.
             this.setState({sessionExpired: true});
+            search.set('extra', Constants.SESSION_EXPIRED);
+            browserHistory.replace(`${this.props.location.pathname}?${search}`);
         }
 
         this.showSessionExpiredNotificationIfNeeded();
@@ -422,8 +426,6 @@ class LoginController extends React.Component {
     }
 
     onDismissSessionExpired = (e) => {
-        e.preventDefault();
-
         LocalStorageStore.setWasLoggedIn(false);
         this.setState({sessionExpired: false});
     }
@@ -444,12 +446,12 @@ class LoginController extends React.Component {
                         defaultMessage='Your session has expired. Please log in again.'
                     />
                     {' '}
-                    <a onClick={this.onDismissSessionExpired}>
+                    <Link to='/login' onClick={this.onDismissSessionExpired}>
                         <FormattedMessage
                             id='login.session_expired.dismiss'
                             defaultMessage='(Dismiss)'
                         />
-                    </a>
+                    </Link>
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_CHANGE) {
