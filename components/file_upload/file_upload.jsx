@@ -124,6 +124,7 @@ export default class FileUpload extends PureComponent {
          * Plugin file upload methods to be added
          */
         pluginFileUploadMethods: PropTypes.arrayOf(PropTypes.object),
+        pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
     };
 
     static contextTypes = {
@@ -132,6 +133,7 @@ export default class FileUpload extends PureComponent {
 
     static defaultProps = {
         pluginFileUploadMethods: [],
+        pluginFilesWillUploadHooks: [],
     };
 
     constructor(props) {
@@ -184,12 +186,36 @@ export default class FileUpload extends PureComponent {
         this.props.onUploadError(err, clientId, this.props.currentChannelId);
     }
 
-    uploadFiles = (files) => {
-        const sortedFiles = sortFilesByName(files);
+    pluginUploadFiles = (files) => {
+        // clear any existing errors
+        this.props.onUploadError(null);
+        this.uploadFiles(files);
+    }
 
+    checkPluginHooksAndUploadFiles = (files) => {
         // clear any existing errors
         this.props.onUploadError(null);
 
+        let sortedFiles = sortFilesByName(files);
+
+        const willUploadHooks = this.props.pluginFilesWillUploadHooks;
+        for (const h of willUploadHooks) {
+            const result = h.hook(sortedFiles, this.pluginUploadFiles);
+
+            // Display an error message if there is one but don't reject the upload
+            if (result.message) {
+                this.props.onUploadError(result.message);
+            }
+
+            sortedFiles = result.files;
+        }
+
+        if (sortedFiles) {
+            this.uploadFiles(sortedFiles);
+        }
+    }
+
+    uploadFiles = (sortedFiles) => {
         const {currentChannelId} = this.props;
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
@@ -221,9 +247,7 @@ export default class FileUpload extends PureComponent {
                 (e) => this.fileUploadFail(e, clientId)
             );
 
-            const requests = this.state.requests;
-            requests[clientId] = request;
-            this.setState({requests});
+            this.setState({requests: {...this.state.requests, [clientId]: request}});
             clientIds.push(clientId);
 
             numUploads += 1;
@@ -260,7 +284,7 @@ export default class FileUpload extends PureComponent {
 
     handleChange = (e) => {
         if (e.target.files.length > 0) {
-            this.uploadFiles(e.target.files);
+            this.checkPluginHooksAndUploadFiles(e.target.files);
 
             clearFileInput(e.target);
         }
@@ -279,7 +303,7 @@ export default class FileUpload extends PureComponent {
         var files = e.originalEvent.dataTransfer.files;
 
         if (typeof files !== 'string' && files.length) {
-            this.uploadFiles(files);
+            this.checkPluginHooksAndUploadFiles(files);
         }
 
         this.props.onFileUploadChange();
@@ -364,30 +388,19 @@ export default class FileUpload extends PureComponent {
             items.push(item);
         }
 
-        // This looks redundant, but must be done this way due to
-        // setState being an asynchronous call
         if (items && items.length > 0) {
             if (!this.props.canUploadFiles) {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
-            const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
-            var numToUpload = Math.min(uploadsRemaining, items.length);
 
-            if (items.length > numToUpload) {
-                this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
-            }
+            const files = [];
 
-            const {currentChannelId} = this.props;
-
-            for (var i = 0; i < items.length && i < numToUpload; i++) {
-                var file = items[i].getAsFile();
+            for (let i = 0; i < items.length; i++) {
+                const file = items[i].getAsFile();
                 if (!file) {
                     continue;
                 }
-
-                // generate a unique id that can be used by other components to refer back to this file upload
-                const clientId = generateId();
 
                 var d = new Date();
                 let hour = d.getHours();
@@ -407,23 +420,11 @@ export default class FileUpload extends PureComponent {
 
                 const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
 
-                const request = this.props.uploadFile(
-                    file,
-                    name,
-                    currentChannelId,
-                    clientId,
-                    (data) => this.fileUploadSuccess(data),
-                    (err) => this.fileUploadFail(err, clientId)
-                );
-
-                const requests = this.state.requests;
-                requests[clientId] = request;
-                this.setState({requests});
-
-                this.props.onUploadStart([clientId], currentChannelId);
+                files.push(new File([file], name));
             }
 
-            if (numToUpload > 0) {
+            if (files.length > 0) {
+                this.checkPluginHooksAndUploadFiles(files);
                 this.props.onFileUploadChange();
             }
         }
@@ -484,10 +485,6 @@ export default class FileUpload extends PureComponent {
         this.setState({menuOpen: false});
     }
 
-    pluginUploadFiles = (files) => {
-        this.uploadFiles(files);
-    }
-
     render() {
         let multiple = true;
         if (isMobileApp()) {
@@ -528,7 +525,7 @@ export default class FileUpload extends PureComponent {
                         key={item.pluginId + '_fileuploadpluginmenuitem'}
                         onClick={() => {
                             if (item.action) {
-                                item.action(this.pluginUploadFiles);
+                                item.action(this.checkPluginHooksAndUploadFiles);
                             }
                             this.setState({menuOpen: false});
                         }}

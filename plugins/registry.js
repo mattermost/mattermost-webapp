@@ -210,7 +210,30 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Unregister a component using the unique identifier returned after registration.
+    // Register a hook to intercept file uploads before they take place.
+    // Accepts a function to run before files get uploaded. Receives an array of
+    // files and a function to upload files at a later time as arguments. Must
+    // return an object that can contain two properties:
+    // - message - An error message to display, leave blank or null to display no message
+    // - files - Modified array of files to upload, set to null to reject all files
+    // Returns a unique identifier.
+    registerFilesWillUploadHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FilesWillUploadHook',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
+    // Unregister a component, action or hook using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.
     unregisterComponent(componentId) {
