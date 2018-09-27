@@ -70,7 +70,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
     rootClose={true}
     trigger="click"
   >
-    <div
+    <button
       className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
       onClick={[Function]}
     >
@@ -117,7 +117,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
           </svg>
         </span>
       </InfoIcon>
-    </div>
+    </button>
   </OverlayTrigger>
 </NavbarInfoButton>
 `;
@@ -211,7 +211,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
     rootClose={true}
     trigger="click"
   >
-    <div
+    <button
       className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
       onClick={[Function]}
     >
@@ -258,7 +258,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
           </svg>
         </span>
       </InfoIcon>
-    </div>
+    </button>
   </OverlayTrigger>
 </NavbarInfoButton>
 `;
