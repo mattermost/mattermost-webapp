@@ -2780,7 +2780,7 @@ export default {
                             label_default: 'Enable Custom Terms of Service (Beta)',
                             help_text: 'admin.support.serviceTermsHelp',
                             help_text_default: 'When true, new users must accept the terms of service before accessing any Mattermost teams on desktop, web or mobile. Existing users must accept them after login or a page refresh.\n \n Users on mobile do not have to accept the terms of service with mobile support scheduled for an upcoming release',
-                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('EnableCustomServiceTerms')),
+                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_LONG_TEXT,
@@ -2788,7 +2788,7 @@ export default {
                             label: 'admin.support.serviceTermsTextTitle',
                             label_default: 'Custom Terms of Service Text (Beta)',
                             isDisabled: needsUtils.stateValueFalse('SupportSettings.CustomServiceTermsEnabled'),
-                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('EnableCustomServiceTerms')),
+                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
                             help_text: 'admin.support.serviceTermsTextHelp',
                             help_text_default: 'Text that will appear in your custom Terms of Service. Supports Markdown-formatted text.',
                         },
