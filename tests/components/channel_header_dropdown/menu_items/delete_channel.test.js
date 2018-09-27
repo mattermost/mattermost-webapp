@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {DeleteChannel} from 'components/channel_header_dropdown/menu_items';
+import DeleteChannel from 'components/channel_header_dropdown/menu_items/delete_channel/delete_channel';
 import {Constants} from 'utils/constants';
 
 describe('components/ChannelHeaderDropdown/MenuItem.DeleteChannel', () => {
@@ -15,6 +15,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.DeleteChannel', () => {
             team_id: 'team_id',
             type: Constants.OPEN_CHANNEL,
         },
+        penultimateViewedChannelName: '',
     };
 
     it('should match snapshot', () => {

@@ -26,8 +26,6 @@ import {
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
-import {getPenultimateViewedChannelName} from 'selectors/local_storage';
-import {Constants} from 'utils/constants';
 import {
     showFlaggedPosts,
     showPinnedPosts,

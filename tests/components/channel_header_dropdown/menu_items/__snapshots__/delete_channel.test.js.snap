@@ -21,6 +21,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.DeleteChannel should match sn
             "team_id": "team_id",
             "type": "O",
           },
+          "penultimateViewedChannelName": "",
         }
       }
       dialogType={[Function]}

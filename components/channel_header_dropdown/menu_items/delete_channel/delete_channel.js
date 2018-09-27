@@ -11,7 +11,7 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
-const DeleteChannel = ({channel}) => {
+const DeleteChannel = ({channel, penultimateViewedChannelName}) => {
     if (channel.type === Constants.DM_CHANNEL) {
         return null;
     }
@@ -34,7 +34,7 @@ const DeleteChannel = ({channel}) => {
                     role='menuitem'
                     modalId={ModalIdentifiers.DELETE_CHANNEL}
                     dialogType={DeleteChannelModal}
-                    dialogProps={{channel}}
+                    dialogProps={{channel, penultimateViewedChannelName}}
                 >
                     <FormattedMessage
                         id='channel_header.delete'
@@ -47,11 +47,8 @@ const DeleteChannel = ({channel}) => {
 };
 
 DeleteChannel.propTypes = {
-
-    /**
-     * Object with info about channel
-     */
     channel: PropTypes.object.isRequired,
+    penultimateViewedChannelName: PropTypes.string.isRequired,
 };
 
 export default DeleteChannel;
