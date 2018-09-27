@@ -491,7 +491,7 @@
   "admin.general.privacy": "Privacy",
   "admin.general.usersAndTeams": "Users and Teams",
   "admin.gitlab.authTitle": "Auth Endpoint:",
-  "admin.gitlab.clientIdDescription": "Obtain this value via the instructions above for logging into GitLab",
+  "admin.gitlab.clientIdDescription": "Obtain this value via the instructions above for logging into GitLab.",
   "admin.gitlab.clientIdExample": "E.g.: \"jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY\"",
   "admin.gitlab.clientIdTitle": "Application ID:",
   "admin.gitlab.clientSecretDescription": "Obtain this value via the instructions above for logging into GitLab.",
