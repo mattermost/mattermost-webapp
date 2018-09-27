@@ -369,18 +369,6 @@ export default class CreateComment extends React.PureComponent {
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
     }
 
-    commentMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && (e.ctrlKey || e.metaKey)) || !this.props.ctrlSend)) {
-            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
-                e.preventDefault();
-                this.refs.textbox.blur();
-                this.handleSubmit(e);
-            }
-        }
-
-        GlobalActions.emitLocalUserTypingEvent(this.props.channelId, this.props.rootId);
-    }
-
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
@@ -399,9 +387,47 @@ export default class CreateComment extends React.PureComponent {
         });
     }
 
+    addNewLine = (e) => {
+        e.preventDefault();
+        const end = e.target.selectionEnd;
+        const start = e.target.selectionStart;
+        const message = this.state.draft.message.substring(0, start) + '\n' + this.state.draft.message.substring(end);
+        const draft = {
+            ...this.state.draft,
+            message,
+        };
+        this.setState({
+            draft,
+        }, () => {
+            if (this.refs.textbox) {
+                this.refs.textbox.setInputCursorPosition(start + 1);
+            }
+        });
+
+        this.props.onUpdateCommentDraft(draft);
+    }
+
+    comboKeyIsPressed = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        return ctrlOrMetaKeyPressed || e.shiftKey || e.altKey;
+    }
+
+    comboKeyToSendMessage = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const comboKeyIsPressed = this.comboKeyIsPressed(e);
+        return (!this.props.ctrlSend && !comboKeyIsPressed) || (this.props.ctrlSend && ctrlOrMetaKeyPressed);
+    }
+
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && (e.ctrlKey || e.metaKey)) {
-            this.commentMsgKeyPress(e);
+        if (!UserAgent.isMobile() && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            if (this.comboKeyToSendMessage(e)) {
+                e.preventDefault();
+                this.handleSubmit(e);
+            } else if (this.comboKeyIsPressed(e)) {
+                this.addNewLine(e);
+            }
+
+            GlobalActions.emitLocalUserTypingEvent(this.props.channelId, this.props.rootId);
             return;
         }
 
@@ -691,7 +717,6 @@ export default class CreateComment extends React.PureComponent {
                         <div className='post-body__cell'>
                             <Textbox
                                 onChange={this.handleChange}
-                                onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}

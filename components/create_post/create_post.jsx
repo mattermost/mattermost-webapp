@@ -672,10 +672,6 @@ export default class CreatePost extends React.Component {
         return (!this.props.ctrlSend && !comboKeyIsPressed) || (this.props.ctrlSend && ctrlOrMetaKeyPressed);
     }
 
-    comboKeyToEnterNewLine = (e) => {
-        return this.comboKeyIsPressed(e);
-    }
-
     addNewLine = (e) => {
         e.preventDefault();
         const end = e.target.selectionEnd;
@@ -708,7 +704,7 @@ export default class CreatePost extends React.Component {
             if (this.comboKeyToSendMessage(e)) {
                 e.preventDefault();
                 this.handleSubmit(e);
-            } else if (this.comboKeyToEnterNewLine(e)) {
+            } else if (this.comboKeyIsPressed(e)) {
                 this.addNewLine(e);
             }
             GlobalActions.emitLocalUserTypingEvent(this.props.currentChannel.id, '');
