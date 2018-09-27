@@ -339,7 +339,12 @@ export default class Root extends React.Component {
                         path={'/:team'}
                         component={NeedsTeam}
                     />
-                    <Redirect to={'/login'}/>
+                    <Redirect
+                        to={{
+                            ...this.props.location,
+                            pathname: '/login',
+                        }}
+                    />
                 </Switch>
             </IntlProvider>
         );

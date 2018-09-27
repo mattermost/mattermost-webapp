@@ -35,6 +35,18 @@ class LocalStorageStoreClass {
     setPreviousTeamId(userId, teamId) {
         localStorage.setItem(getPreviousTeamIdKey(userId), teamId);
     }
+
+    setWasLoggedIn(wasLoggedIn) {
+        if (wasLoggedIn) {
+            localStorage.setItem('was_logged_in', 'true');
+        } else {
+            localStorage.setItem('was_logged_in', 'false');
+        }
+    }
+
+    getWasLoggedIn() {
+        return localStorage.getItem('was_logged_in') === 'true';
+    }
 }
 
 const LocalStorageStore = new LocalStorageStoreClass();

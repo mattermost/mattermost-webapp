@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
@@ -13,6 +13,7 @@ import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {checkMfa, webLogin} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
+import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
@@ -29,9 +30,11 @@ import FormError from 'components/form_error.jsx';
 import BackButton from 'components/common/back_button.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
-export default class LoginController extends React.Component {
+class LoginController extends React.Component {
     static get propTypes() {
         return {
+            intl: intlShape.isRequired,
+
             location: PropTypes.object.isRequired,
             isLicensed: PropTypes.bool.isRequired,
 
@@ -78,18 +81,106 @@ export default class LoginController extends React.Component {
             password: '',
             showMfa: false,
             loading: false,
+            focused: document.hasFocus(),
+            sessionExpired: false,
         };
     }
 
     componentDidMount() {
-        document.title = this.props.siteName;
+        this.configureTitle();
+
         if (UserStore.getCurrentUser()) {
             GlobalActions.redirectUserToDefaultTeam();
+            return;
         }
 
-        if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
+        const search = new URLSearchParams(this.props.location.search);
+        const extra = search.get('extra');
+        const email = search.get('email');
+
+        if (extra === Constants.SIGNIN_VERIFIED && email) {
             this.refs.password.focus();
         }
+        if (LocalStorageStore.getWasLoggedIn()) {
+            // Although the authority remains the local sessionExpired bit on the state, set this
+            // extra field in the querystring to signal the desktop app. And although eslint
+            // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
+            // eslint-disable-next-line react/no-did-mount-set-state
+            this.setState({sessionExpired: true});
+            search.set('extra', Constants.SESSION_EXPIRED);
+            browserHistory.replace(`${this.props.location.pathname}?${search}`);
+        }
+
+        this.showSessionExpiredNotificationIfNeeded();
+
+        window.addEventListener('focus', this.handleFocus);
+        window.addEventListener('blur', this.handleBlur);
+    }
+
+    componentDidUpdate() {
+        this.configureTitle();
+        this.showSessionExpiredNotificationIfNeeded();
+    }
+
+    componentWillUnmount() {
+        if (this.closeSessionExpiredNotification) {
+            this.closeSessionExpiredNotification();
+            this.closeSessionExpiredNotification = null;
+        }
+
+        window.removeEventListener('focus', this.handleFocus);
+        window.removeEventListener('blur', this.handleBlur);
+    }
+
+    configureTitle() {
+        if (this.state.sessionExpired) {
+            document.title = this.props.intl.formatMessage({
+                id: 'login.session_expired.title',
+                defaultMessage: '* {siteName} - Session Expired',
+            }, {
+                siteName: this.props.siteName,
+            });
+        } else {
+            document.title = this.props.siteName;
+        }
+    }
+
+    showSessionExpiredNotificationIfNeeded = () => {
+        const show = this.state.sessionExpired && (!this.state.focused || this.closeSessionExpiredNotification);
+
+        if (show && !this.closeSessionExpiredNotification) {
+            Utils.showNotification({
+                title: this.props.siteName,
+                body: Utils.localizeMessage(
+                    'login.session_expired.notification',
+                    'Session Expired: Please sign in to continue receiving notifications.'
+                ),
+                requireInteraction: true,
+                silent: false,
+                onClick: () => {
+                    window.focus();
+                },
+            }).then((closeNotification) => {
+                this.closeSessionExpiredNotification = closeNotification;
+            }).catch(() => {
+                // Ignore the failure to display the notification.
+            });
+        } else if (!show && this.closeSessionExpiredNotification) {
+            this.closeSessionExpiredNotification();
+            this.closeSessionExpiredNotification = null;
+        }
+    }
+
+    handleFocus = () => {
+        this.setState({
+            focused: true,
+        });
+    }
+
+    handleBlur = () => {
+        this.setState({
+            focused: false,
+        });
     }
 
     preSubmit(e) {
@@ -247,6 +338,9 @@ export default class LoginController extends React.Component {
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
 
+        // Record a successful login to local storage. If an unintentional logout occurs, e.g.
+        // via session expiration, this bit won't get reset and we can notify the user as such.
+        LocalStorageStore.setWasLoggedIn(true);
         GlobalActions.loadCurrentLocale();
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
             browserHistory.push(redirectTo);
@@ -333,63 +427,77 @@ export default class LoginController extends React.Component {
             this.props.enableSaml;
     }
 
+    onDismissSessionExpired = () => {
+        LocalStorageStore.setWasLoggedIn(false);
+        this.setState({sessionExpired: false});
+    }
+
     createLoginOptions() {
         const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
         let extraBox = '';
-        if (extraParam) {
-            if (extraParam === Constants.SIGNIN_CHANGE) {
-                extraBox = (
-                    <div className='alert alert-success'>
-                        <i
-                            className='fa fa-check'
-                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                        />
-                        <FormattedMessage
-                            id='login.changed'
-                            defaultMessage=' Sign-in method changed successfully'
-                        />
-                    </div>
-                );
-            } else if (extraParam === Constants.SIGNIN_VERIFIED) {
-                extraBox = (
-                    <div className='alert alert-success'>
-                        <i
-                            className='fa fa-check'
-                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                        />
-                        <FormattedMessage
-                            id='login.verified'
-                            defaultMessage=' Email Verified'
-                        />
-                    </div>
-                );
-            } else if (extraParam === Constants.SESSION_EXPIRED) {
-                extraBox = (
-                    <div className='alert alert-warning'>
-                        <i
-                            className='fa fa-exclamation-triangle'
-                            title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                        />
-                        <FormattedMessage
-                            id='login.session_expired'
-                            defaultMessage=' Your session has expired. Please login again.'
-                        />
-                    </div>
-                );
-            } else if (extraParam === Constants.PASSWORD_CHANGE) {
-                extraBox = (
-                    <div className='alert alert-success'>
-                        <i
-                            className='fa fa-check'
-                            title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
-                        />
-                        <FormattedMessage
-                            id='login.passwordChanged'
-                            defaultMessage=' Password updated successfully'
-                        />
-                    </div>
-                );
-            }
+        if (this.state.sessionExpired) {
+            extraBox = (
+                <div className='alert alert-warning'>
+                    <i
+                        className='fa fa-exclamation-triangle'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                    />
+                    {' '}
+                    <FormattedMessage
+                        id='login.session_expired'
+                        defaultMessage='Your session has expired. Please log in again.'
+                    />
+                    {' '}
+                    <Link
+                        className='btn-close'
+                        to='/login'
+                        onClick={this.onDismissSessionExpired}
+                    >
+                        <span>
+                            {'×'}
+                        </span>
+                    </Link>
+                </div>
+            );
+        } else if (extraParam === Constants.SIGNIN_CHANGE) {
+            extraBox = (
+                <div className='alert alert-success'>
+                    <i
+                        className='fa fa-check'
+                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                    />
+                    <FormattedMessage
+                        id='login.changed'
+                        defaultMessage=' Sign-in method changed successfully'
+                    />
+                </div>
+            );
+        } else if (extraParam === Constants.SIGNIN_VERIFIED) {
+            extraBox = (
+                <div className='alert alert-success'>
+                    <i
+                        className='fa fa-check'
+                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                    />
+                    <FormattedMessage
+                        id='login.verified'
+                        defaultMessage=' Email Verified'
+                    />
+                </div>
+            );
+        } else if (extraParam === Constants.PASSWORD_CHANGE) {
+            extraBox = (
+                <div className='alert alert-success'>
+                    <i
+                        className='fa fa-check'
+                        title={Utils.localizeMessage('generic_icons.success', 'Success Icon')}
+                    />
+                    <FormattedMessage
+                        id='login.passwordChanged'
+                        defaultMessage=' Password updated successfully'
+                    />
+                </div>
+            );
         }
 
         const loginControls = [];
@@ -628,6 +736,7 @@ export default class LoginController extends React.Component {
         if (loginControls.length === 0) {
             loginControls.push(
                 <FormError
+                    key='noMethods'
                     error={
                         <FormattedMessage
                             id='login.noMethods'
@@ -704,3 +813,5 @@ export default class LoginController extends React.Component {
         );
     }
 }
+
+export default injectIntl(LoginController);
