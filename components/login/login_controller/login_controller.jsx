@@ -449,13 +449,11 @@ class LoginController extends React.Component {
                     />
                     {' '}
                     <Link
+                        className="btn-close"
                         to='/login'
                         onClick={this.onDismissSessionExpired}
                     >
-                        <FormattedMessage
-                            id='login.session_expired.dismiss'
-                            defaultMessage='(Dismiss)'
-                        />
+                        <span>×</span>
                     </Link>
                 </div>
             );
