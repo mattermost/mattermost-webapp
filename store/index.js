@@ -143,15 +143,10 @@ export default function configureStore(initialState) {
 
                     if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
                         purging = true;
-                        const expired = state.entities.users.mySession.expired;
 
                         persistor.purge().then(() => {
                             document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            if (expired) {
-                                window.location.href = basePath + '?extra=' + Constants.SESSION_EXPIRED;
-                            } else {
-                                window.location.href = basePath;
-                            }
+                            window.location.href = basePath;
 
                             store.dispatch({
                                 type: General.OFFLINE_STORE_RESET,
