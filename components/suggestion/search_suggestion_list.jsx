@@ -29,11 +29,18 @@ export default class SearchSuggestionList extends SuggestionList {
                     defaultMessage='Public Channels'
                 />
             );
-        } else {
+        } else if (type === Constants.PRIVATE_CHANNEL) {
             text = (
                 <FormattedMessage
                     id='suggestion.search.private'
                     defaultMessage='Private Channels'
+                />
+            );
+        } else {
+            text = (
+                <FormattedMessage
+                    id='suggestion.search.direct'
+                    defaultMessage='Direct Messages'
                 />
             );
         }
@@ -68,6 +75,8 @@ export default class SearchSuggestionList extends SuggestionList {
                     items.push(this.renderChannelDivider(Constants.OPEN_CHANNEL));
                 } else if (item.type === Constants.PRIVATE_CHANNEL) {
                     items.push(this.renderChannelDivider(Constants.PRIVATE_CHANNEL));
+                } else if (i === 0 || this.state.items[i - 1].type === Constants.OPEN_CHANNEL || this.state.items[i - 1].type === Constants.PRIVATE_CHANNEL) {
+                    items.push(this.renderChannelDivider(Constants.DM_CHANNEL));
                 }
             }
 
