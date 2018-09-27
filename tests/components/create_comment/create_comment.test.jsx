@@ -601,4 +601,44 @@ describe('components/CreateComment', () => {
         instance.handleFileUploadChange();
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
     });
+
+    it('Should add new line for keyCombos with ctrlSend false', () => {
+        const draft = {
+            message: 'test',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+        const props = {...baseProps, draft, ctrlSend: false};
+        const wrapper = shallow(
+            <CreateComment {...props}/>
+        );
+        const instance = wrapper.instance();
+
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('draft').message).toEqual('test\n');
+        instance.handleKeyDown({shiftKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('draft').message).toEqual('test\n\n');
+        instance.handleKeyDown({altKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('draft').message).toEqual('test\n\n\n');
+        instance.handleKeyDown({metaKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('draft').message).toEqual('test\n\n\n\n');
+    });
+
+    it('Should add new line for keyCombos with ctrlSend true', () => {
+        const draft = {
+            message: 'test',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+        const props = {...baseProps, draft, ctrlSend: true};
+        const wrapper = shallow(
+            <CreateComment {...props}/>
+        );
+        const instance = wrapper.instance();
+
+        instance.handleKeyDown({shiftKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('draft').message).toEqual('test\n');
+        instance.handleKeyDown({altKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn, target: {selectionStart: 4, selectionEnd: 4}});
+        expect(wrapper.state('draft').message).toEqual('test\n\n');
+    });
 });
