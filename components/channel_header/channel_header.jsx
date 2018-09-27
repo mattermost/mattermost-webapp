@@ -1085,11 +1085,9 @@ export default class ChannelHeader extends React.Component {
                         id='toggleMute'
                         onClick={this.unmute}
                         className={'style--none color--link channel-header__mute inactive'}
+                        aria-label={Utils.localizeMessage('generic_icons.muted', 'Muted Icon')}
                     >
-                        <i
-                            className={'icon fa fa-bell-slash-o'}
-                            title={Utils.localizeMessage('generic_icons.muted', 'Muted Icon')}
-                        />
+                        <i className={'icon fa fa-bell-slash-o'}/>
                     </button>
                 </OverlayTrigger>
             );
