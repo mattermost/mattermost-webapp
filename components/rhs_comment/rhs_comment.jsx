@@ -173,7 +173,7 @@ export default class RhsComment extends React.Component {
     };
 
     getClassName = (post, isSystemMessage) => {
-        let className = 'post post--thread same--root post--comment';
+        let className = 'post post--thread same--root';
 
         if (this.props.currentUser.id === post.user_id) {
             className += ' current--user';
