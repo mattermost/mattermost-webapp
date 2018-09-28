@@ -466,8 +466,8 @@
 .file-upload-progress {
     .checkmark {
         position: absolute;
-        left: 31px;
-        top: 31px;
+        left: 30px;
+        top: 33px;
         fill: $link-color;
     }
 }
@@ -476,6 +476,7 @@
 .file-upload-progress__circle {
     margin: 10%;
     height: 80%;
+
     .file-upload-progress__inside-text {
         font-size: 20px;
         stroke: none !important;

@@ -59,7 +59,7 @@ export default class FileUploadProgress extends React.PureComponent {
                     <text
                         className={`${prefixClass}__inside-text`}
                         x='50%'
-                        y='50%'
+                        y='51%'
                         textAnchor='middle'
                         stroke='#00'
                         dy='.3em'
