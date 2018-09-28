@@ -1456,6 +1456,17 @@
 }
 
 @media screen and (max-width: 640px) {
+    .multi-select__help {
+        flex-direction: column;
+
+        > span {
+            &:first-child {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+
+
     .post__header {
         .dropdown-menu {
             > li {
