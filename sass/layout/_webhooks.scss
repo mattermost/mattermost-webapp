@@ -241,6 +241,7 @@
             margin-bottom: 1em;
             max-height: 300px;
             max-width: 500px;
+            border: 1px solid transparent;
 
             &.attachment__image--opengraph {
                 margin-bottom: 0;
@@ -249,6 +250,7 @@
 
                 &.loading {
                     height: 80px;
+                    border-color: transparent;
                 }
 
                 &.large_image {
@@ -260,6 +262,7 @@
 
                     &.loading {
                         height: 150px;
+                        border-color: transparent;
                     }
                 }
             }
