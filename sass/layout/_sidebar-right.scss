@@ -71,6 +71,12 @@
             }
         }
 
+        &.post--comment {
+            .post__body {
+                border-left: none;
+            }
+        }
+
         .post__content {
             padding: 0 10px 0 0;
         }

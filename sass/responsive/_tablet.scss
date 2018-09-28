@@ -255,6 +255,18 @@
     }
 
     .post {
+        .sidebar--right & {
+            &.same--root {
+                &.post--comment {
+                    &:not(.post--compact) {
+                        .post__pinned-badge {
+                            margin-left: 7px;
+                        }
+                    }
+                }
+            }
+        }
+
         &.post--compact {
             .post-message {
                 &.post-message--overflow {

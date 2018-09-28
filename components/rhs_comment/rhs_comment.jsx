@@ -238,10 +238,20 @@ export default class RhsComment extends React.Component {
         }
 
         let botIndicator;
-        let userProfile;
         let profilePicture;
         let visibleMessage;
-        if (!this.props.isConsecutivePost) {
+
+        let userProfile = (
+            <UserProfile
+                user={this.props.user}
+                status={status}
+                isBusy={this.props.isBusy}
+                isRHS={true}
+                hasMention={true}
+            />
+        );
+
+        if (!isConsecutivePost) {
             profilePicture = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
@@ -250,16 +260,6 @@ export default class RhsComment extends React.Component {
                     post={post}
                     status={this.props.status}
                     user={this.props.user}
-                />
-            );
-
-            userProfile = (
-                <UserProfile
-                    user={this.props.user}
-                    status={status}
-                    isBusy={this.props.isBusy}
-                    isRHS={true}
-                    hasMention={true}
                 />
             );
 
@@ -457,18 +457,10 @@ export default class RhsComment extends React.Component {
                             </div>
                             {botIndicator}
                             <div className='col'>
-                                {!isConsecutivePost && this.renderPostTime(isEphemeral)}
+                                {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
-                                {!isConsecutivePost && flagIcon}
+                                {flagIcon}
                                 {visibleMessage}
-                                {isConsecutivePost &&
-                                <div className='post__header--info'>
-                                    <div className='col'>
-                                        {this.state.hover && this.renderPostTime(isEphemeral)}
-                                        {flagIcon}
-                                    </div>
-                                </div>
-                                }
                             </div>
                             {options}
                         </div>
