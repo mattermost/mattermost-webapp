@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import ErrorStore from 'stores/error_store.jsx';
-import {ErrorBarTypes} from 'utils/constants.jsx';
+import {AnnouncementBarMessages} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import EmailConnectionTest from 'components/admin_console/email_connection_test';
@@ -53,7 +53,7 @@ export default class EmailSettings extends AdminSettings {
 
     handleSaved(newConfig) {
         if (newConfig.EmailSettings.SendEmailNotifications || !newConfig.EmailSettings.EnablePreviewModeBanner) {
-            ErrorStore.clearError(ErrorBarTypes.PREVIEW_MODE);
+            ErrorStore.clearError(AnnouncementBarMessages.PREVIEW_MODE);
         }
     }
 

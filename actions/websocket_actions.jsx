@@ -36,7 +36,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 
@@ -188,7 +188,7 @@ function handleFirstConnect() {
 
 function handleClose(failCount) {
     if (failCount > MAX_WEBSOCKET_FAILS) {
-        ErrorStore.storeLastError({message: ErrorBarTypes.WEBSOCKET_PORT_ERROR});
+        ErrorStore.storeLastError({message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR});
     }
 
     ErrorStore.setConnectionErrorCount(failCount);

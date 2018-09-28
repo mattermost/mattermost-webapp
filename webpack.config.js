@@ -169,10 +169,13 @@ var config = {
                                     ios: 11,
                                 },
                                 modules: false,
-                                debug: true,
+                                debug: false,
                                 useBuiltIns: 'usage',
+                                shippedProposals: true,
                             }],
-                            '@babel/preset-react',
+                            ['@babel/preset-react', {
+                                useBuiltIns: true,
+                            }],
                         ],
                         plugins: [
                             '@babel/plugin-proposal-class-properties',
