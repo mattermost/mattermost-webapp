@@ -146,7 +146,18 @@ export default function configureStore(initialState) {
 
                         persistor.purge().then(() => {
                             document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            window.location.href = basePath;
+
+                            // Preserve any `extra` query string parameter on logout to trigger
+                            // the corresponding message on the login page. This would probably be
+                            // better modelled by persistent data in the Redux store, but we're
+                            // clearing that out here.
+                            const search = new URLSearchParams(window.location.search);
+                            const extra = search.get('extra');
+                            if (extra) {
+                                window.location.href = `${basePath}?extra=${extra}`;
+                            } else {
+                                window.location.href = basePath;
+                            }
 
                             store.dispatch({
                                 type: General.OFFLINE_STORE_RESET,
