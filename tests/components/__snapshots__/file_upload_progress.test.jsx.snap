@@ -40,7 +40,7 @@ exports[`component/file_preview/file_upload_progress should match snapshot 1`] =
       stroke="#00"
       textAnchor="middle"
       x="50%"
-      y="50%"
+      y="51%"
     >
       50%
     </text>
