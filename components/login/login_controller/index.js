@@ -3,14 +3,12 @@
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {showCustomTerms} from 'mattermost-redux/selectors/entities/users';
 
 import LoginController from './login_controller.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
-    const showTermsOfService = showCustomTerms(state);
 
     const isLicensed = license.IsLicensed === 'true';
 
@@ -49,7 +47,6 @@ function mapStateToProps(state) {
         ldapLoginFieldName,
         samlLoginButtonText,
         siteName,
-        showTermsOfService,
     };
 }
 

@@ -7,7 +7,6 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
-import {buildQueryString} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
@@ -56,7 +55,6 @@ class LoginController extends React.Component {
             ldapLoginFieldName: PropTypes.string,
             samlLoginButtonText: PropTypes.string,
             siteName: PropTypes.string,
-            showTermsOfService: PropTypes.bool,
         };
     }
 
@@ -336,7 +334,6 @@ class LoginController extends React.Component {
     }
 
     finishSignin(team) {
-        let redirectURL;
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
@@ -347,21 +344,11 @@ class LoginController extends React.Component {
         LocalStorageStore.setWasLoggedIn(true);
         GlobalActions.loadCurrentLocale();
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
-            redirectURL = redirectTo;
+            browserHistory.push(redirectTo);
         } else if (team) {
-            redirectURL = `/${team.name}`;
+            browserHistory.push(`/${team.name}`);
         } else if (primaryTeam) {
-            redirectURL = `/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`;
-        }
-
-        if (this.props.showTermsOfService) {
-            const queryParams = {};
-            if (redirectURL) {
-                queryParams.redirect_to = encodeURIComponent(redirectURL);
-            }
-            browserHistory.push(`/terms_of_service${buildQueryString(queryParams)}`);
-        } else if (redirectURL) {
-            browserHistory.push(redirectURL);
+            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
