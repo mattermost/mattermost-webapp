@@ -2,16 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 
 import {
     getSearchResultsTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
     getIsSearchingPinnedPost,
+    getIsSearchGettingMore,
 } from 'selectors/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
@@ -85,6 +89,7 @@ function makeMapStateToProps() {
             isSearchingTerm: getIsSearchingTerm(state),
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
+            isSearchGettingMore: getIsSearchGettingMore(state),
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             dataRetentionEnableMessageDeletion,
             dataRetentionMessageRetentionDays,
@@ -92,4 +97,12 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(SearchResults);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getMorePostsForSearch,
+        }, dispatch),
+    };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);

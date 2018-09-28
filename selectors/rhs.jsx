@@ -59,7 +59,7 @@ export function getSearchResultsTerms(state) {
 }
 
 export function getIsSearchingTerm(state) {
-    return state.views.rhs.isSearchingTerm;
+    return state.entities.search.isSearchingTerm;
 }
 
 export function getIsSearchingFlaggedPost(state) {
@@ -68,6 +68,10 @@ export function getIsSearchingFlaggedPost(state) {
 
 export function getIsSearchingPinnedPost(state) {
     return state.views.rhs.isSearchingPinnedPost;
+}
+
+export function getIsSearchGettingMore(state) {
+    return state.entities.search.isSearchGettingMore;
 }
 
 export function getPostDraft(state, prefixId, suffixId) {
