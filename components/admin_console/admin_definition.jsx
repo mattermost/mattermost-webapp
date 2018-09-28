@@ -804,7 +804,7 @@ export default {
                                 }
                                 return '';
                             },
-                            isDisabled: () => true,
+                            isDisabled: true,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -817,7 +817,7 @@ export default {
                                 }
                                 return '';
                             },
-                            isDisabled: () => true,
+                            isDisabled: true,
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
@@ -830,7 +830,7 @@ export default {
                                 }
                                 return '';
                             },
-                            isDisabled: () => true,
+                            isDisabled: true,
                         },
                     ],
                 },
@@ -969,7 +969,7 @@ export default {
                                 }
                                 return '';
                             },
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
                         },
                         {
@@ -983,7 +983,7 @@ export default {
                                 }
                                 return '';
                             },
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
                         },
                         {
@@ -997,7 +997,7 @@ export default {
                                 }
                                 return '';
                             },
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'gitlab')),
                         },
                         {
@@ -1028,7 +1028,7 @@ export default {
                             label: t('admin.google.userTitle'),
                             label_default: 'User API Endpoint:',
                             dynamic_value: () => 'https://www.googleapis.com/plus/v1/people/me',
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
                         },
                         {
@@ -1037,7 +1037,7 @@ export default {
                             label: t('admin.google.authTitle'),
                             label_default: 'Auth Endpoint:',
                             dynamic_value: () => 'https://accounts.google.com/o/oauth2/v2/auth',
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
                         },
                         {
@@ -1046,7 +1046,7 @@ export default {
                             label: t('admin.google.tokenTitle'),
                             label_default: 'Token Endpoint:',
                             dynamic_value: () => 'https://www.googleapis.com/oauth2/v4/token',
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'google')),
                         },
                         {
@@ -1077,7 +1077,7 @@ export default {
                             label: t('admin.office365.userTitle'),
                             label_default: 'User API Endpoint:',
                             dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
                         },
                         {
@@ -1086,7 +1086,7 @@ export default {
                             label: t('admin.office365.authTitle'),
                             label_default: 'Auth Endpoint:',
                             dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
                         },
                         {
@@ -1095,7 +1095,7 @@ export default {
                             label: t('admin.office365.tokenTitle'),
                             label_default: 'Token Endpoint:',
                             dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-                            isDisabled: () => true,
+                            isDisabled: true,
                             isHidden: needsUtils.not(needsUtils.stateValueEqual('oauthType', 'office365')),
                         },
                     ],

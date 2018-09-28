@@ -324,19 +324,17 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     isDisabled = (setting) => {
-        if (!setting.isDisabled || typeof setting.isDisabled !== 'function') {
-            return false;
+        if (typeof setting.isDisabled === 'function') {
+            return setting.isDisabled(this.props.config, this.state, this.props.license);
         }
-
-        return setting.isDisabled(this.props.config, this.state, this.props.license);
+        return Boolean(setting.isDisabled);
     }
 
     isHidden = (setting) => {
-        if (!setting.isHidden || typeof setting.isHidden !== 'function') {
-            return false;
+        if (typeof setting.isHidden === 'function') {
+            return setting.isHidden(this.props.config, this.state, this.props.license);
         }
-
-        return setting.isHidden(this.props.config, this.state, this.props.license);
+        return Boolean(setting.isHidden);
     }
 
     buildButtonSetting = (setting) => {
