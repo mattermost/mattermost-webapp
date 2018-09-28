@@ -501,13 +501,13 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             }
           >
             <button
+              aria-label="Muted Icon"
               className="style--none color--link channel-header__mute inactive"
               id="toggleMute"
               onClick={[Function]}
             >
               <i
                 className="icon fa fa-bell-slash-o"
-                title="Muted Icon"
               />
             </button>
           </OverlayTrigger>
