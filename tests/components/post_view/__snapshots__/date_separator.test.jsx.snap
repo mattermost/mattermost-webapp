@@ -25,7 +25,9 @@ exports[`components/post_view/DateSeparator should match snapshot 1`] = `
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
 >

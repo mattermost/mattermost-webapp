@@ -28,7 +28,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   onCancel={[MockFunction]}
@@ -339,7 +341,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   onCancel={[MockFunction]}

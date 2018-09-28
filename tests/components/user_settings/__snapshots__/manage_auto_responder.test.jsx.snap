@@ -27,7 +27,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   saving={false}
@@ -222,7 +224,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   saving={false}

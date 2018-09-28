@@ -44,7 +44,9 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
             "test.vals": "*Hi* {petName}!",
           },
           "now": [Function],
+          "onError": [Function],
           "textComponent": "span",
+          "timeZone": null,
         }
       }
     >
@@ -104,7 +106,9 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
             "test.vals": "*Hi* {petName}!",
           },
           "now": [Function],
+          "onError": [Function],
           "textComponent": "span",
+          "timeZone": null,
         }
       }
     >
@@ -164,7 +168,9 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
             "test.vals": "*Hi* {petName}!",
           },
           "now": [Function],
+          "onError": [Function],
           "textComponent": "span",
+          "timeZone": null,
         }
       }
     >
@@ -229,7 +235,9 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
             "test.vals": "*Hi* {petName}!",
           },
           "now": [Function],
+          "onError": [Function],
           "textComponent": "span",
+          "timeZone": null,
         }
       }
       values={
