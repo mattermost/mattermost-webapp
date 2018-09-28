@@ -143,7 +143,7 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['babel-polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
+    entry: ['@babel/polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath,
@@ -155,20 +155,31 @@ var config = {
             {
                 test: /\.(js|jsx)?$/,
                 exclude: STANDARD_EXCLUDE,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                'react',
-                                ['es2015', {modules: false}],
-                                'stage-0',
-                            ],
-                            plugins: ['transform-runtime'],
-                            cacheDirectory: true,
-                        },
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+                        presets: [
+                            ['@babel/preset-env', {
+                                targets: {
+                                    chrome: 66,
+                                    firefox: 60,
+                                    edge: 41,
+                                    ie: 11,
+                                    ios: 11,
+                                },
+                                modules: false,
+                                debug: true,
+                                useBuiltIns: 'usage',
+                            }],
+                            '@babel/preset-react',
+                        ],
+                        plugins: [
+                            '@babel/plugin-proposal-class-properties',
+                            '@babel/plugin-syntax-dynamic-import',
+                        ],
                     },
-                ],
+                },
             },
             {
                 type: 'javascript/auto',
@@ -306,7 +317,7 @@ config.plugins.push(new webpack.DefinePlugin({
 
 // Test mode configuration
 if (TEST) {
-    config.entry = ['babel-polyfill', './root.jsx'];
+    config.entry = ['@babel/polyfill', './root.jsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
 } else {
