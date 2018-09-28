@@ -37,6 +37,10 @@
     display: flex;
     justify-content: space-between;
 
+    &:empty {
+        display: none;
+    }
+
     > div:not(.multi-select__note),
     > span {
         @include opacity(.6);
