@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/file_preview/file_upload_progress should match snapshot 1`] = `
+<div
+  className="file-upload-progress"
+>
+  <svg
+    className="file-upload-progress__circle"
+    viewBox="0 0 100 100"
+  >
+    <path
+      className="file-upload-progress__circle-trail"
+      d="M 50, 50 m 0, -46.5
+                         a 46.5, 46.5 0 1 1 0,  93
+                         a 46.5, 46.5 0 1 1 0, -93"
+      fillOpacity="0"
+      stroke="#6C7783"
+      strokeWidth={7}
+    />
+    <path
+      className="file-upload-progress__circle-path"
+      d="M 50, 50 m 0, -46.5
+                         a 46.5, 46.5 0 1 1 0,  93
+                         a 46.5, 46.5 0 1 1 0, -93"
+      fillOpacity="0"
+      stroke="#333333"
+      strokeLinecap="round"
+      strokeWidth={7}
+      style={
+        Object {
+          "strokeDasharray": "292.16811678385073px 292.16811678385073px",
+          "strokeDashoffset": "146.08405839192537px",
+          "transition": "stroke-dashoffset 0.2s ease 0s, stroke 0.2s ease",
+        }
+      }
+    />
+    <text
+      className="file-upload-progress__inside-text"
+      dy=".3em"
+      stroke="#00"
+      textAnchor="middle"
+      x="50%"
+      y="51%"
+    >
+      50%
+    </text>
+  </svg>
+</div>
+`;

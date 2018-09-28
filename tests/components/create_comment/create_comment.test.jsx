@@ -8,6 +8,7 @@ import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 
+jest.useFakeTimers();
 jest.mock('stores/post_store.jsx', () => ({
     clearCommentDraftUploads: jest.fn(),
 }));
@@ -295,6 +296,7 @@ describe('components/CreateComment', () => {
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
         wrapper.instance().handleFileUploadComplete(uploadCompleteFileInfo, [3]);
+        jest.runAllTimers();
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos})
@@ -302,6 +304,32 @@ describe('components/CreateComment', () => {
 
         expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
         expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
+    });
+
+    test('handleFileUploadComplete should update comment draft on unmount if timeout is running', () => {
+        const onUpdateCommentDraft = jest.fn();
+        const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos,
+        };
+        const props = {...baseProps, onUpdateCommentDraft, draft};
+
+        const wrapper = shallow(
+            <CreateComment {...props}/>
+        );
+
+        wrapper.setState({draft});
+
+        const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
+        const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
+        wrapper.instance().handleFileUploadComplete(uploadCompleteFileInfo, [3]);
+        wrapper.unmount();
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos})
+        );
     });
 
     test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {

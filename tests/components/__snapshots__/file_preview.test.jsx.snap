@@ -71,23 +71,61 @@ exports[`component/FilePreview should match snapshot 1`] = `
     </div>
   </div>
   <div
-    className="file-preview"
+    className="file-preview post-image__column"
     data-client-id="clientID_1"
     key="clientID_1"
   >
-    <img
-      className="spinner"
-      src={null}
-    />
-    <a
-      className="file-preview__remove"
-      onClick={[Function]}
+    <div
+      className="post-image__thumbnail"
     >
-      <i
-        className="fa fa-remove"
-        title="Remove Icon"
+      <FileUploadProgress
+        percent={50}
       />
-    </a>
+    </div>
+    <div
+      className="post-image__details"
+    >
+      <div
+        className="post-image__detail_wrapper"
+      >
+        <div
+          className="post-image__detail"
+        >
+          <FilenameOverlay
+            canDownload={false}
+            compactDisplay={false}
+            fileInfo={
+              Object {
+                "name": "file",
+                "percent": "50",
+              }
+            }
+            handleImageClick={null}
+            index="clientID_1"
+          />
+          <span
+            className="post-image__uploadingTxt"
+          >
+            <FormattedMessage
+              defaultMessage="Uploading..."
+              id="admin.plugin.uploading"
+              values={Object {}}
+            />
+          </span>
+        </div>
+      </div>
+      <div>
+        <a
+          className="file-preview__remove"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-remove"
+            title="Remove Icon"
+          />
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -163,23 +201,61 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
     </div>
   </div>
   <div
-    className="file-preview"
+    className="file-preview post-image__column"
     data-client-id="clientID_1"
     key="clientID_1"
   >
-    <img
-      className="spinner"
-      src={null}
-    />
-    <a
-      className="file-preview__remove"
-      onClick={[Function]}
+    <div
+      className="post-image__thumbnail"
     >
-      <i
-        className="fa fa-remove"
-        title="Remove Icon"
+      <FileUploadProgress
+        percent={50}
       />
-    </a>
+    </div>
+    <div
+      className="post-image__details"
+    >
+      <div
+        className="post-image__detail_wrapper"
+      >
+        <div
+          className="post-image__detail"
+        >
+          <FilenameOverlay
+            canDownload={false}
+            compactDisplay={false}
+            fileInfo={
+              Object {
+                "name": "file",
+                "percent": "50",
+              }
+            }
+            handleImageClick={null}
+            index="clientID_1"
+          />
+          <span
+            className="post-image__uploadingTxt"
+          >
+            <FormattedMessage
+              defaultMessage="Uploading..."
+              id="admin.plugin.uploading"
+              values={Object {}}
+            />
+          </span>
+        </div>
+      </div>
+      <div>
+        <a
+          className="file-preview__remove"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-remove"
+            title="Remove Icon"
+          />
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;

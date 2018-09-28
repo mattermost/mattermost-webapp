@@ -11,7 +11,7 @@ import {Client4} from 'mattermost-redux/client';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export function uploadFile(file, name, channelId, clientId, successCallback, errorCallback) {
+export function uploadFile(file, name, channelId, clientId, successCallback, errorCallback, progress) {
     const {dispatch, getState} = store;
 
     function handleResponse(err, res) {
@@ -75,6 +75,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
         field('channel_id', channelId).
         field('client_ids', clientId).
         accept('application/json').
+        on('progress', (e) => progress(e, name, clientId)).
         end(handleResponse);
 }
 
