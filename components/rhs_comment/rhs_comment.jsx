@@ -251,7 +251,7 @@ export default class RhsComment extends React.Component {
             />
         );
 
-        if (!this.props.isConsecutivePost) {
+        if (!isConsecutivePost) {
             profilePicture = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
