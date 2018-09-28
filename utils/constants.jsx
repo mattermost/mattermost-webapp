@@ -754,6 +754,8 @@ export const Constants = {
     USERNAME_SERVICE: 'username',
     SIGNIN_CHANGE: 'signin_change',
     PASSWORD_CHANGE: 'password_change',
+    GET_TERMS_ERROR: 'get_terms_error',
+    TERMS_REJECTED: 'terms_rejected',
     SIGNIN_VERIFIED: 'verified',
     SESSION_EXPIRED: 'expired',
     POST_CHUNK_SIZE: 60,

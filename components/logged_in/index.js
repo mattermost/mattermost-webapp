@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {showCustomTerms} from 'mattermost-redux/selectors/entities/users';
+
 import {checkIfMFARequired} from 'utils/route';
 
 import LoggedIn from './logged_in.jsx';
@@ -13,10 +15,12 @@ import LoggedIn from './logged_in.jsx';
 function mapStateToProps(state, ownProps) {
     const license = getLicense(state);
     const config = getConfig(state);
+    const showTermsOfService = showCustomTerms(state);
 
     return {
         mfaRequired: checkIfMFARequired(license, config, ownProps.match.url),
         enableTimezone: config.ExperimentalTimezone === 'true',
+        showTermsOfService,
     };
 }
 

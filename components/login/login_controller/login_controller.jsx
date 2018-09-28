@@ -27,6 +27,7 @@ import logoImage from 'images/logo.png';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BackButton from 'components/common/back_button.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
@@ -457,6 +458,33 @@ class LoginController extends React.Component {
                             {'×'}
                         </span>
                     </Link>
+                </div>
+            );
+        } else if (extraParam === Constants.GET_TERMS_ERROR) {
+            extraBox = (
+                <div className='alert has-error no-padding'>
+                    <label className='control-label'>
+                        <FormattedMessage
+                            id='login.get_terms_error'
+                            defaultMessage='Unable to load terms of service. If this issue persists, contact your System Administrator.'
+                        />
+                    </label>
+                </div>
+            );
+        } else if (extraParam === Constants.TERMS_REJECTED) {
+            extraBox = (
+                <div className='alert alert-warning'>
+                    <i
+                        className='fa fa-exclamation-triangle'
+                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
+                    />
+                    <FormattedMarkdownMessage
+                        id='login.terms_rejected'
+                        defaultMessage='You must agree to the terms of service before accessing {siteName}. Please contact your System Administrator for more details.'
+                        values={{
+                            siteName: this.props.siteName,
+                        }}
+                    />
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_CHANGE) {

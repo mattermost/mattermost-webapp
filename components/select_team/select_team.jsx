@@ -267,7 +267,10 @@ export default class SelectTeam extends React.Component {
                             className='fa fa-chevron-left'
                             title={Utils.localizeMessage('generic_icons.logout', 'Logout Icon')}
                         />
-                        <FormattedMessage id='web.header.logout'/>
+                        <FormattedMessage
+                            id='web.header.logout'
+                            defaultMessage='Logout'
+                        />
                     </a>
                 </div>
             );

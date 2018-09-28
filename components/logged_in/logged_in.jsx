@@ -15,6 +15,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
@@ -95,6 +96,10 @@ export default class LoggedIn extends React.Component {
         if (!this.state.user) {
             $('#root').attr('class', '');
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname));
+        }
+
+        if (this.props.showTermsOfService && this.props.location.pathname !== '/terms_of_service') {
+            browserHistory.push('/terms_of_service?redirect_to=' + encodeURIComponent(this.props.location.pathname));
         }
 
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
@@ -180,4 +185,5 @@ LoggedIn.propTypes = {
     actions: PropTypes.shape({
         autoUpdateTimezone: PropTypes.func.isRequired,
     }).isRequired,
+    showTermsOfService: PropTypes.bool.isRequired,
 };

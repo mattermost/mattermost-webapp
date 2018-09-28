@@ -40,6 +40,7 @@ import loadPasswordResetSendLink from 'bundle-loader?lazy!components/password_re
 import loadPasswordResetForm from 'bundle-loader?lazy!components/password_reset_form';
 import loadSignupController from 'bundle-loader?lazy!components/signup/signup_controller';
 import loadSignupEmail from 'bundle-loader?lazy!components/signup/signup_email';
+import loadTermsOfService from 'bundle-loader?lazy!components/terms_of_service';
 import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_email';
 import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
 import loadClaimController from 'bundle-loader?lazy!components/claim';
@@ -55,6 +56,7 @@ import {getSiteURL} from 'utils/url.jsx';
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
+const TermsOfService = makeAsyncComponent(loadTermsOfService);
 const LoginController = makeAsyncComponent(loadLoginController);
 const AdminConsole = makeAsyncComponent(loadAdminConsole);
 const LoggedIn = makeAsyncComponent(loadLoggedIn);
@@ -89,6 +91,7 @@ export default class Root extends React.Component {
         diagnosticId: PropTypes.string,
         noAccounts: PropTypes.bool,
         children: PropTypes.object,
+        showTermsOfService: PropTypes.bool,
     }
 
     constructor(props) {
@@ -235,6 +238,8 @@ export default class Root extends React.Component {
         if (props.location.pathname === '/') {
             if (this.props.noAccounts) {
                 this.props.history.push('/signup_user_complete');
+            } else if (props.showTermsOfService) {
+                this.props.history.push('/terms_of_service');
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
             }
@@ -306,6 +311,10 @@ export default class Root extends React.Component {
                     <HFTRoute
                         path={'/help'}
                         component={HelpController}
+                    />
+                    <LoggedInHFTRoute
+                        path={'/terms_of_service'}
+                        component={TermsOfService}
                     />
                     <Route
                         path={'/get_ios_app'}
