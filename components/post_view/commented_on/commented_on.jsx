@@ -59,10 +59,6 @@ export default class CommentedOn extends PureComponent {
     render() {
         const username = this.makeUsername();
         const message = this.makeCommentedOnMessage();
-        let apostrophe = '\'s';
-        if (username.slice(-1) === 's') {
-            apostrophe = '\'';
-        }
 
         const name = (
             <a
@@ -78,10 +74,9 @@ export default class CommentedOn extends PureComponent {
                 <span>
                     <FormattedMessage
                         id='post_body.commentedOn'
-                        defaultMessage='Commented on {name}{apostrophe} message: '
+                        defaultMessage="Commented on {name}'s message: "
                         values={{
                             name,
-                            apostrophe,
                         }}
                     />
                     <a
