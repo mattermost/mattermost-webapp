@@ -16,6 +16,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             notify_props: {
                 desktop: NotificationLevels.ALL,
                 mark_unread: NotificationLevels.ALL,
+                push: NotificationLevels.DEFAULT,
             },
         },
         currentUser: {
@@ -36,6 +37,19 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should provide default notify props when missing', () => {
+        const wrapper = shallow(
+            <ChannelNotificationsModal
+                {...baseProps}
+                channelMember={{notify_props: {}}}
+            />
+        );
+
+        expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
+        expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
+        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
     });
 
     test('should call onHide and match state on handleOnHide', () => {
@@ -74,6 +88,21 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.DESKTOP);
     });
 
+    test('should reset state when collapsing a section', () => {
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...baseProps}/>
+        );
+
+        wrapper.instance().updateSection(NotificationSections.DESKTOP);
+        wrapper.instance().handleUpdateDesktopNotifyLevel(NotificationLevels.NONE);
+
+        expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.NONE);
+
+        wrapper.instance().updateSection('');
+
+        expect(wrapper.state('desktopNotifyLevel')).toEqual(baseProps.channelMember.notify_props.desktop);
+    });
+
     test('should match state on handleSubmitDesktopNotifyLevel', () => {
         const wrapper = shallow(
             <ChannelNotificationsModal {...baseProps}/>
@@ -101,26 +130,6 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         wrapper.setState({desktopNotifyLevel: NotificationLevels.ALL});
         wrapper.instance().handleUpdateDesktopNotifyLevel(NotificationLevels.MENTION);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.MENTION);
-    });
-
-    test('should match state on handleUpdateDesktopSection', () => {
-        const wrapper = shallow(
-            <ChannelNotificationsModal {...baseProps}/>
-        );
-
-        const instance = wrapper.instance();
-        instance.updateSection = jest.fn();
-
-        wrapper.setState({desktopNotifyLevel: NotificationLevels.NONE});
-        instance.handleUpdateDesktopSection();
-        expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
-
-        expect(instance.updateSection).toHaveBeenCalledTimes(1);
-        expect(instance.updateSection).toBeCalledWith(NotificationSections.NONE);
-
-        instance.handleUpdateDesktopSection(NotificationSections.DESKTOP);
-        expect(instance.updateSection).toHaveBeenCalledTimes(2);
-        expect(instance.updateSection).toBeCalledWith(NotificationSections.DESKTOP);
     });
 
     test('should match state on handleSubmitMarkUnreadLevel', () => {
@@ -164,33 +173,6 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         wrapper.setState({markUnreadNotifyLevel: NotificationLevels.ALL});
         wrapper.instance().handleUpdateMarkUnreadLevel(NotificationLevels.MENTION);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.MENTION);
-    });
-
-    test('should match state on handleUpdateMarkUnreadSection', () => {
-        const channelMember = {
-            notify_props: {
-                desktop: NotificationLevels.NONE,
-                mark_unread: NotificationLevels.ALL,
-            },
-        };
-        const props = {...baseProps, channelMember};
-        const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
-        );
-
-        const instance = wrapper.instance();
-        instance.updateSection = jest.fn();
-
-        wrapper.setState({markUnreadNotifyLevel: NotificationLevels.NONE});
-        instance.handleUpdateMarkUnreadSection();
-        expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
-
-        expect(instance.updateSection).toHaveBeenCalledTimes(1);
-        expect(instance.updateSection).toBeCalledWith(NotificationSections.NONE);
-
-        instance.handleUpdateMarkUnreadSection(NotificationSections.MARK_UNREAD);
-        expect(instance.updateSection).toHaveBeenCalledTimes(2);
-        expect(instance.updateSection).toBeCalledWith(NotificationSections.MARK_UNREAD);
     });
 
     test('should match state on handleSubmitPushNotificationLevel', () => {
@@ -238,36 +220,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.MENTION);
     });
 
-    test('should match state on handleUpdatePushSection', () => {
-        const channelMember = {
-            notify_props: {
-                desktop: NotificationLevels.NONE,
-                mark_unread: NotificationLevels.NONE,
-                push: NotificationLevels.ALL,
-            },
-        };
-
-        const props = {...baseProps, channelMember};
-        const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>
-        );
-
-        const instance = wrapper.instance();
-        instance.updateSection = jest.fn();
-
-        wrapper.setState({pushNotifyLevel: NotificationLevels.NONE});
-        instance.handleUpdatePushSection();
-        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
-
-        expect(instance.updateSection).toHaveBeenCalledTimes(1);
-        expect(instance.updateSection).toBeCalledWith(NotificationSections.NONE);
-
-        instance.handleUpdatePushSection(NotificationSections.PUSH);
-        expect(instance.updateSection).toHaveBeenCalledTimes(2);
-        expect(instance.updateSection).toBeCalledWith(NotificationSections.PUSH);
-    });
-
-    test('should match state on setStateFromNotifyProps', () => {
+    test('should match state on resetStateFromNotifyProps', () => {
         const notifyProps = {
             desktop: NotificationLevels.NONE,
             mark_unread: NotificationLevels.NONE,
@@ -278,18 +231,18 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             <ChannelNotificationsModal {...baseProps}/>
         );
 
-        wrapper.instance().setStateFromNotifyProps(notifyProps);
+        wrapper.instance().resetStateFromNotifyProps(notifyProps);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.NONE);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.NONE);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
 
-        wrapper.instance().setStateFromNotifyProps({...notifyProps, desktop: NotificationLevels.ALL});
+        wrapper.instance().resetStateFromNotifyProps({...notifyProps, desktop: NotificationLevels.ALL});
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
 
-        wrapper.instance().setStateFromNotifyProps({...notifyProps, mark_unread: NotificationLevels.ALL});
+        wrapper.instance().resetStateFromNotifyProps({...notifyProps, mark_unread: NotificationLevels.ALL});
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
 
-        wrapper.instance().setStateFromNotifyProps({...notifyProps, push: NotificationLevels.NONE});
+        wrapper.instance().resetStateFromNotifyProps({...notifyProps, push: NotificationLevels.NONE});
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.NONE);
     });
 });
