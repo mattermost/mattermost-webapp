@@ -26,6 +26,7 @@ export default class MoreChannels extends React.Component {
         teamName: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
+        channelsRequestStarted: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
         }).isRequired,
@@ -41,6 +42,7 @@ export default class MoreChannels extends React.Component {
             search: false,
             searchedChannels: [],
             serverError: null,
+            searching: false,
         };
     }
 
@@ -98,10 +100,11 @@ export default class MoreChannels extends React.Component {
 
         if (term === '') {
             this.onChange(true);
-            this.setState({search: false, searchedChannels: []});
+            this.setState({search: false, searchedChannels: [], searching: false});
             this.searchTimeoutId = '';
             return;
         }
+        this.setState({search: true, searching: true});
 
         const searchTimeoutId = setTimeout(
             () => {
@@ -122,13 +125,14 @@ export default class MoreChannels extends React.Component {
     }
 
     setSearchResults = (channels) => {
-        this.setState({search: true, searchedChannels: channels.filter((c) => c.delete_at === 0)});
+        this.setState({searchedChannels: channels.filter((c) => c.delete_at === 0), searching: false});
     }
 
     render() {
         const {
             channels,
             teamId,
+            channelsRequestStarted,
         } = this.props;
 
         const {
@@ -136,6 +140,7 @@ export default class MoreChannels extends React.Component {
             searchedChannels,
             serverError: serverErrorState,
             show,
+            searching,
         } = this.state;
 
         let serverError;
@@ -201,6 +206,7 @@ export default class MoreChannels extends React.Component {
                         search={this.search}
                         handleJoin={this.handleJoin}
                         noResultsText={createChannelHelpText}
+                        loading={search ? searching : channelsRequestStarted}
                     />
                     {serverError}
                 </Modal.Body>
