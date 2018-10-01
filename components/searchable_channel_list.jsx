@@ -36,7 +36,7 @@ export default class SearchableChannelList extends React.Component {
 
     componentDidMount() {
         // only focus the search box on desktop so that we don't cause the keyboard to open on mobile
-        if (!UserAgent.isMobile()) {
+        if (!UserAgent.isMobile() && this.refs.filter) {
             this.refs.filter.focus();
         }
     }
@@ -131,8 +131,8 @@ export default class SearchableChannelList extends React.Component {
         let nextButton;
         let previousButton;
 
-        if (channels == null) {
-            listContent = <LoadingScreen/>;
+        if (this.props.loading && channels.length === 0) {
+            listContent = <LoadingScreen style={{marginTop: '50%'}}/>;
         } else if (channels.length === 0) {
             listContent = (
                 <div className='no-channel-message'>
@@ -224,4 +224,5 @@ SearchableChannelList.propTypes = {
     search: PropTypes.func.isRequired,
     handleJoin: PropTypes.func.isRequired,
     noResultsText: PropTypes.object,
+    loading: PropTypes.bool,
 };
