@@ -447,7 +447,7 @@ export default class ChannelHeader extends React.Component {
                             >
                                 <div
                                     id='webrtc-btn'
-                                    className={'webrtc__button ' + circleClass}
+                                    className={'webrtc__button hidden-xs ' + circleClass}
                                 >
                                     {'WebRTC'}
                                 </div>
