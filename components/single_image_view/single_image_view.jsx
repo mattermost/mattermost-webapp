@@ -243,7 +243,6 @@ export default class SingleImageView extends React.PureComponent {
                     ref={this.setImageLoadedRef}
                     style={imageStyle}
                     className={`${minPreviewClass} ${svgClass}`}
-                    onClick={this.handleImageClick}
                 />
             );
         }
@@ -266,6 +265,7 @@ export default class SingleImageView extends React.PureComponent {
                         <div
                             className={`image-loaded ${fadeInClass}`}
                             style={imageLoadedStyle}
+                            onClick={this.handleImageClick}
                         >
                             {image}
                         </div>
