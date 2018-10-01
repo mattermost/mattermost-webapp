@@ -81,6 +81,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       channelsPerPage={50}
       handleJoin={[Function]}
       isSearch={false}
+      loading={false}
       nextPage={[Function]}
       noResultsText={
         <Connect(TeamPermissionGate)

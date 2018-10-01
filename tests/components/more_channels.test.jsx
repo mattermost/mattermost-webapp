@@ -5,12 +5,14 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import MoreChannels from 'components/more_channels/more_channels.jsx';
+import SearchableChannelList from 'components/searchable_channel_list.jsx';
 
 describe('components/MoreChannels', () => {
     const baseProps = {
         channels: [{id: 'channel_id_1', delete_at: 0}],
         teamId: 'team_id',
         teamName: 'team_name',
+        channelsRequestStarted: false,
         onModalDismissed: () => {}, // eslint-disable-line no-empty-function
         handleNewChannel: () => {}, // eslint-disable-line no-empty-function
         actions: {
@@ -29,6 +31,7 @@ describe('components/MoreChannels', () => {
         expect(wrapper.state('show')).toEqual(true);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
+        expect(wrapper.state('searching')).toEqual(false);
 
         // on componentDidMount
         expect(actions.getChannels).toHaveBeenCalledTimes(1);
@@ -79,5 +82,15 @@ describe('components/MoreChannels', () => {
 
         expect(actions.getChannels).toHaveBeenCalledTimes(2);
         expect(actions.getChannels).toHaveBeenCalledWith(props.teamId, 2, 50);
+    });
+
+    test('should have loading prop true when searching state is true', () => {
+        const wrapper = shallow(
+            <MoreChannels {...baseProps}/>
+        );
+
+        wrapper.setState({search: true, searching: true});
+        const searchList = wrapper.find(SearchableChannelList);
+        expect(searchList.props().loading).toEqual(true);
     });
 });

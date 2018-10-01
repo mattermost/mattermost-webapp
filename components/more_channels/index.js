@@ -6,9 +6,9 @@ import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
 import {getChannels} from 'mattermost-redux/actions/channels';
-
 import {getOtherChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {RequestStatus} from 'mattermost-redux/constants';
 
 import MoreChannels from './more_channels.jsx';
 
@@ -24,6 +24,7 @@ function mapStateToProps(state) {
         channels: getNotArchivedOtherChannels(state) || [],
         teamId: team.id,
         teamName: team.name,
+        channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
     };
 }
 
