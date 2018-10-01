@@ -36,6 +36,18 @@
         display: flex;
     }
 
+    .browser--ie & {
+        .navbar-default {
+            .navbar-brand {
+                overflow: visible;
+
+                .heading {
+                    max-width: 100px;
+                }
+            }
+        }
+    }
+
     .navbar-default {
         background: $primary-color;
         border: none;
