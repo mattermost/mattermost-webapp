@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {RequestStatus} from 'mattermost-redux/constants';
 
 import LoginController from './login_controller.jsx';
 
@@ -28,6 +29,7 @@ function mapStateToProps(state) {
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
     const siteName = config.SiteName;
+    const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
     return {
         isLicensed,
@@ -47,6 +49,7 @@ function mapStateToProps(state) {
         ldapLoginFieldName,
         samlLoginButtonText,
         siteName,
+        initializing,
     };
 }
 
