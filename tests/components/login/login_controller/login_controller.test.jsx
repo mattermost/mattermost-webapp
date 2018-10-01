@@ -50,4 +50,16 @@ describe('components/login/LoginController', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot when initializing', () => {
+        const props = {
+            ...baseProps,
+            initializing: true,
+        };
+        const wrapper = shallowWithIntl(
+            <LoginController {...props}/>
+        ).dive();
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

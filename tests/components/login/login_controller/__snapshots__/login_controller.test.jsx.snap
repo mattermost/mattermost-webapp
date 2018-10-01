@@ -110,3 +110,10 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
   </div>
 </div>
 `;
+
+exports[`components/login/LoginController should match snapshot when initializing 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
+`;
