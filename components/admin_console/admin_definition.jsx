@@ -1275,6 +1275,20 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
+                            key: 'LdapSettings.GroupFilter',
+                            label: t('admin.ldap.groupFilterTitle'),
+                            label_default: 'Group Filter:',
+                            help_text: t('admin.ldap.groupFilterFilterDesc'),
+                            help_text_default: '(Optional) Enter an AD/LDAP Filter to use when searching for group objects.',
+                            placeholder: t('admin.ldap.groupFilterEx'),
+                            placeholder_default: 'E.g.: "(objectClass=group)"',
+                            isDisabled: needsUtils.or(
+                                needsUtils.stateValueFalse('LdapSettings.Enable'),
+                                needsUtils.stateValueFalse('LdapSettings.EnableSync'),
+                            ),
+                        },
+                        {
+                            type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'LdapSettings.FirstNameAttribute',
                             label: t('admin.ldap.firstnameAttrTitle'),
                             label_default: 'First Name Attribute:',
