@@ -133,11 +133,13 @@ export default class SearchResults extends React.PureComponent {
     }
 
     handleScroll = () => {
-        const scrollHeight = this.refs.scrollbars.getScrollHeight();
-        const scrollTop = this.refs.scrollbars.getScrollTop();
-        const clientHeight = this.refs.scrollbars.getClientHeight();
-        if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
-            this.loadMorePosts();
+        if (!this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+            const scrollHeight = this.refs.scrollbars.getScrollHeight();
+            const scrollTop = this.refs.scrollbars.getScrollTop();
+            const clientHeight = this.refs.scrollbars.getClientHeight();
+            if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
+                this.loadMorePosts();
+            }
         }
     }
 
