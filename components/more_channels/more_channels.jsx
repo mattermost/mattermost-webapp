@@ -26,7 +26,7 @@ export default class MoreChannels extends React.Component {
         teamName: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
-        channelsRequestStatus: PropTypes.bool,
+        channelsRequestStarted: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
         }).isRequired,
@@ -132,7 +132,7 @@ export default class MoreChannels extends React.Component {
         const {
             channels,
             teamId,
-            channelsRequestStatus,
+            channelsRequestStarted,
         } = this.props;
 
         const {
@@ -206,7 +206,7 @@ export default class MoreChannels extends React.Component {
                         search={this.search}
                         handleJoin={this.handleJoin}
                         noResultsText={createChannelHelpText}
-                        loading={search ? searching : channelsRequestStatus}
+                        loading={search ? searching : channelsRequestStarted}
                     />
                     {serverError}
                 </Modal.Body>

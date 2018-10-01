@@ -12,7 +12,7 @@ describe('components/MoreChannels', () => {
         channels: [{id: 'channel_id_1', delete_at: 0}],
         teamId: 'team_id',
         teamName: 'team_name',
-        channelsRequestStatus: false,
+        channelsRequestStarted: false,
         onModalDismissed: () => {}, // eslint-disable-line no-empty-function
         handleNewChannel: () => {}, // eslint-disable-line no-empty-function
         actions: {

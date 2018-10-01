@@ -24,7 +24,7 @@ function mapStateToProps(state) {
         channels: getNotArchivedOtherChannels(state) || [],
         teamId: team.id,
         teamName: team.name,
-        channelsRequestStatus: state.requests.channels.getChannels.status === RequestStatus.STARTED,
+        channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
     };
 }
 
