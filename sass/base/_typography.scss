@@ -44,6 +44,10 @@ body {
     white-space: nowrap;
 }
 
+.whitespace--normal {
+    white-space: normal;
+}
+
 .overflow--ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
