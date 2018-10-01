@@ -29,6 +29,7 @@ exports[`components/SingleImageView should match snapshot 1`] = `
     >
       <div
         className="image-loaded "
+        onClick={[Function]}
         style={
           Object {
             "height": 200,
@@ -37,7 +38,6 @@ exports[`components/SingleImageView should match snapshot 1`] = `
       >
         <img
           className=" "
-          onClick={[Function]}
           style={
             Object {
               "height": 200,
@@ -87,11 +87,11 @@ exports[`components/SingleImageView should match snapshot 2`] = `
     >
       <div
         className="image-loaded image-fade-in"
+        onClick={[Function]}
         style={Object {}}
       >
         <img
           className=" "
-          onClick={[Function]}
           style={
             Object {
               "cursor": "pointer",
@@ -158,11 +158,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
     >
       <div
         className="image-loaded "
+        onClick={[Function]}
         style={Object {}}
       >
         <img
           className=" post-image normal"
-          onClick={[Function]}
           style={Object {}}
         />
       </div>
@@ -212,11 +212,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
     >
       <div
         className="image-loaded image-fade-in"
+        onClick={[Function]}
         style={Object {}}
       >
         <img
           className=" post-image normal"
-          onClick={[Function]}
           style={
             Object {
               "cursor": "pointer",
