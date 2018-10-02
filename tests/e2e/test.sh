@@ -37,6 +37,9 @@ function modify_config {
     echo "config: enable email invitation"
     sed -i'' -e 's|"EnableEmailInvitations": false|"EnableEmailInvitations": true|g' config/config.json
 
+    echo "config: enable email notification"
+    sed -i'' -e 's|"SendEmailNotifications": false|"SendEmailNotifications": true|g' config/config.json
+
     echo "config: enable mobile push notification"
     sed -i'' -e 's|"SendPushNotifications": false|"SendPushNotifications": true|g' config/config.json
     sed -i'' -e 's|"PushNotificationServer": ".*"|"PushNotificationServer": "https://push.mattermost.com"|g' config/config.json
@@ -46,11 +49,14 @@ function modify_config {
     sleep 5
 }
 
-function restart_server {
+function run_server {
     cd ../mattermost-server
 
-    echo "restart the server"
-    make restart-server
+    echo "stop the server"
+    make stop
+    sleep 5
+    echo "start the server"
+    make run
 
     cd ../mattermost-webapp
     sleep 5
@@ -117,7 +123,7 @@ function local_tests {
     local_setup
 
     modify_config
-    restart_server
+    run_server
 
     if [ -n "$1" ]; then
         message "Tag: ${1} local E2E starts..."
