@@ -84,7 +84,6 @@ class LoginController extends React.Component {
             password: '',
             showMfa: false,
             loading: false,
-            focused: document.hasFocus(),
             sessionExpired: false,
         };
     }
@@ -115,9 +114,6 @@ class LoginController extends React.Component {
         }
 
         this.showSessionExpiredNotificationIfNeeded();
-
-        window.addEventListener('focus', this.handleFocus);
-        window.addEventListener('blur', this.handleBlur);
     }
 
     componentDidUpdate() {
@@ -130,9 +126,6 @@ class LoginController extends React.Component {
             this.closeSessionExpiredNotification();
             this.closeSessionExpiredNotification = null;
         }
-
-        window.removeEventListener('focus', this.handleFocus);
-        window.removeEventListener('blur', this.handleBlur);
     }
 
     configureTitle() {
@@ -149,9 +142,7 @@ class LoginController extends React.Component {
     }
 
     showSessionExpiredNotificationIfNeeded = () => {
-        const show = this.state.sessionExpired && (!this.state.focused || this.closeSessionExpiredNotification);
-
-        if (show && !this.closeSessionExpiredNotification) {
+        if (this.state.sessionExpired && !this.closeSessionExpiredNotification) {
             Utils.showNotification({
                 title: this.props.siteName,
                 body: Utils.localizeMessage(
@@ -162,28 +153,20 @@ class LoginController extends React.Component {
                 silent: false,
                 onClick: () => {
                     window.focus();
+                    if (this.closeSessionExpiredNotification()) {
+                        this.closeSessionExpiredNotification();
+                        this.closeSessionExpiredNotification = null;
+                    }
                 },
             }).then((closeNotification) => {
                 this.closeSessionExpiredNotification = closeNotification;
             }).catch(() => {
                 // Ignore the failure to display the notification.
             });
-        } else if (!show && this.closeSessionExpiredNotification) {
+        } else if (!this.state.sessionExpired && this.closeSessionExpiredNotification) {
             this.closeSessionExpiredNotification();
             this.closeSessionExpiredNotification = null;
         }
-    }
-
-    handleFocus = () => {
-        this.setState({
-            focused: true,
-        });
-    }
-
-    handleBlur = () => {
-        this.setState({
-            focused: false,
-        });
     }
 
     preSubmit(e) {

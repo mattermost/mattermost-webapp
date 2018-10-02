@@ -446,11 +446,12 @@ export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {
     });
 }
 
-export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true) {
-    // If the logout was intentional (as it should be if emitUserLoggedOutEvent is called),
-    // discard knowledge about having previously been logged in. This bit is otherwise used to
-    // detect session expirations on the login page.
-    LocalStorageStore.setWasLoggedIn(false);
+export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
+    // If the logout was intentional, discard knowledge about having previously been logged in.
+    // This bit is otherwise used to detect session expirations on the login page.
+    if (userAction) {
+        LocalStorageStore.setWasLoggedIn(false);
+    }
 
     dispatch(logout()).then(() => {
         if (shouldSignalLogout) {
