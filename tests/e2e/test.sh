@@ -29,6 +29,39 @@ function selenium_start {
     nohup npm run selenium-start > ./tests/reports/selenium.log 2>&1&
 }
 
+function modify_config {
+    message "Modifying config..."
+
+    cd ../mattermost-server
+
+    echo "config: enable email invitation"
+    sed -i'' -e 's|"EnableEmailInvitations": false|"EnableEmailInvitations": true|g' config/config.json
+
+    echo "config: enable email notification"
+    sed -i'' -e 's|"SendEmailNotifications": false|"SendEmailNotifications": true|g' config/config.json
+
+    echo "config: enable mobile push notification"
+    sed -i'' -e 's|"SendPushNotifications": false|"SendPushNotifications": true|g' config/config.json
+    sed -i'' -e 's|"PushNotificationServer": ".*"|"PushNotificationServer": "https://push.mattermost.com"|g' config/config.json
+    sed -i'' -e 's|"PushNotificationContents": ".*"|"PushNotificationContents": "generic"|g' config/config.json
+
+    cd ../mattermost-webapp
+    sleep 5
+}
+
+function restart_server {
+    cd ../mattermost-server
+
+    echo "stop the server"
+    make stop
+    sleep 5
+    echo "start the server"
+    make run
+
+    cd ../mattermost-webapp
+    sleep 5
+}
+
 function local_cleanup {
     message "Closing selenium server..."
     pkill -f selenium-standalone
@@ -88,6 +121,9 @@ function skip_tutorial {
 
 function local_tests {
     local_setup
+
+    modify_config
+    restart_server
 
     if [ -n "$1" ]; then
         message "Tag: ${1} local E2E starts..."
