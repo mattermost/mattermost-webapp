@@ -498,7 +498,6 @@ export default class CreateComment extends React.PureComponent {
         });
 
         this.draftsTimeout = setTimeout(() => {
-            clearTimeout(this.draftsTimeout);
             this.props.onUpdateCommentDraft({...draft, fileInfos: newFileInfos, uploadsInProgress});
             this.setState({draft: {...draft, fileInfos: newFileInfos, uploadsInProgress}});
         }, 500);
