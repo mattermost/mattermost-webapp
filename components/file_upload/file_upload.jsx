@@ -175,9 +175,9 @@ export default class FileUpload extends PureComponent {
         target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
     }
 
-    fileUploadSuccess = (data) => {
+    fileUploadSuccess = (data, channelId) => {
         if (data) {
-            this.props.onFileUpload(data.file_infos, data.client_ids, this.props.currentChannelId);
+            this.props.onFileUpload(data.file_infos, data.client_ids, channelId);
 
             const requests = Object.assign({}, this.state.requests);
             for (var j = 0; j < data.client_ids.length; j++) {
@@ -187,8 +187,8 @@ export default class FileUpload extends PureComponent {
         }
     }
 
-    fileUploadFail = (err, clientId) => {
-        this.props.onUploadError(err, clientId, this.props.currentChannelId);
+    fileUploadFail = (err, clientId, channelId) => {
+        this.props.onUploadError(err, clientId, channelId);
     }
 
     pluginUploadFiles = (files) => {
@@ -252,8 +252,8 @@ export default class FileUpload extends PureComponent {
                 sortedFiles[i].name,
                 currentChannelId,
                 clientId,
-                (data) => this.fileUploadSuccess(data),
-                (e) => this.fileUploadFail(e, clientId),
+                (data, channelId) => this.fileUploadSuccess(data, channelId),
+                (e, clientIdOnError, channelId) => this.fileUploadFail(e, clientIdOnError, channelId),
                 (progressEvent) => this.fileUploadProgress(progressEvent, sortedFiles[i].name, clientId),
             );
 
