@@ -224,7 +224,6 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             handleUploadProgress: {},
-            actualDrafts: {},
         };
 
         this.lastBlurAt = 0;
@@ -272,9 +271,10 @@ export default class CreatePost extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.documentKeyHandler);
+        const channelId = this.props.currentChannel.id;
         if (this.draftsTimeout) {
             clearTimeout(this.draftsTimeout);
-            const draft = {...this.state.actualDrafts};
+            const draft = {...this.draftsForChannel[channelId]};
             draft.message = this.props.draft.message;
             this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, draft);
         }
@@ -583,14 +583,11 @@ export default class CreatePost extends React.Component {
             draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
         }
 
-        this.setState({
-            actualDrafts: draft,
-        });
-
+        this.draftsForChannel[channelId] = draft;
         this.draftsTimeout = setTimeout(() => {
             clearTimeout(this.draftsTimeout);
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-            this.draftsForChannel[channelId] = draft;
+
             if (channelId === this.props.currentChannel.id) {
                 this.setState({
                     enableSendButton: true,
