@@ -16,14 +16,25 @@ import CombinedSystemMessage from 'components/post_view/combined_system_message'
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 function renderUsername(value) {
-    return renderFormattedText(value, {markdown: false});
+    const username = (value[0] === '@') ? value : `@${value}`;
+
+    const options = {
+        atMentions: true,
+        mentionKeys: [{key: username}],
+        mentionHighlight: false,
+        markdown: false,
+    };
+
+    return renderFormattedText(username, options);
 }
 
 function renderUsernameForUserIdAndUsername(userId, username) {
     const displayUsername = Utils.getDisplayNameByUserId(userId);
+
     if (displayUsername && displayUsername.trim() !== '') {
         return renderUsername(displayUsername);
     }
+
     return renderUsername(username);
 }
 
