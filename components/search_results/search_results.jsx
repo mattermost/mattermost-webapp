@@ -133,7 +133,7 @@ export default class SearchResults extends React.PureComponent {
     }
 
     handleScroll = () => {
-        if (!this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+        if (!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isSearchingTerm && !this.props.isSearchGettingMore) {
             const scrollHeight = this.refs.scrollbars.getScrollHeight();
             const scrollTop = this.refs.scrollbars.getScrollTop();
             const clientHeight = this.refs.scrollbars.getClientHeight();
