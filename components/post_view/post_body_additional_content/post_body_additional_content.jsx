@@ -91,7 +91,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     async loadShortenedImageLink() {
-        if (!this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link)) {
+        if (!this.isLinkImage(this.state.link) && !YoutubeVideo.isYoutubeLink(this.state.link) && this.props.enableLinkPreviews) {
             const {data} = await this.props.actions.getRedirectLocation(this.state.link);
             const {link} = this.state;
             if (data && data.location && this.mounted) {
