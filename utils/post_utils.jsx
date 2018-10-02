@@ -203,7 +203,6 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
 export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter) {
     if (
         !event ||
-        message.trim() === '' ||
         isMobile() ||
         !Utils.isKeyPressed(event, Constants.KeyCodes.ENTER) ||
         event.shiftKey ||
@@ -212,7 +211,10 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
         return {allowSending: false};
     }
 
-    if (!(sendMessageOnCtrlEnter || sendCodeBlockOnCtrlEnter)) {
+    if (
+        message.trim() === '' ||
+        !(sendMessageOnCtrlEnter || sendCodeBlockOnCtrlEnter)
+    ) {
         return {allowSending: true};
     }
 

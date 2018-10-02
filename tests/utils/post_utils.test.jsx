@@ -283,6 +283,14 @@ describe('PostUtils.postMessageOnKeyPress', function() {
         name: 'no override: Test no override setting',
         input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
         expected: {allowSending: true},
+    }, {
+        name: 'no override: empty message',
+        input: {event: {keyCode: 13}, message: '', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
+        expected: {allowSending: true},
+    }, {
+        name: 'no override: empty message on ctrl + enter',
+        input: {event: {keyCode: 13}, message: '', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
+        expected: {allowSending: true},
     }];
 
     for (const testCase of noOverrideCases) {
@@ -406,11 +414,11 @@ describe('PostUtils.postMessageOnKeyPress', function() {
     }, {
         name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with line break',
         input: {event: {keyCode: 13, ctrlKey: true}, message: '\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: false},
+        expected: {allowSending: true},
     }, {
         name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with multiple line breaks',
         input: {event: {keyCode: 13, ctrlKey: true}, message: '\n\n\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: false},
+        expected: {allowSending: true},
     }, {
         name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks',
         input: {event: {keyCode: 13, ctrlKey: true}, message: '```', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
