@@ -3,7 +3,7 @@
 pipeline {
     agent {
         docker {
-            image 'mattermost/mattermost-build-webapp:latest'
+            image 'mattermost/mattermost-build-webapp:oct-2-2018'
         }
     }
 
