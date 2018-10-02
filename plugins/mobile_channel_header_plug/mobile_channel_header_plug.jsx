@@ -28,14 +28,14 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
 
     createButton(plug) {
         return (
-            <div
+            <button
                 className='navbar-toggle navbar-right__icon pull-right'
                 onClick={() => this.fireAction(plug)}
             >
                 <span className='icon navbar-plugin-button'>
                     {plug.icon}
                 </span>
-            </div>
+            </button>
         );
     }
 
