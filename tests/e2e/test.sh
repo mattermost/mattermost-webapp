@@ -49,7 +49,7 @@ function modify_config {
     sleep 5
 }
 
-function run_server {
+function restart_server {
     cd ../mattermost-server
 
     echo "stop the server"
@@ -123,7 +123,7 @@ function local_tests {
     local_setup
 
     modify_config
-    run_server
+    restart_server
 
     if [ -n "$1" ]; then
         message "Tag: ${1} local E2E starts..."
