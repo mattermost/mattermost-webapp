@@ -112,4 +112,30 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         expect(wrapper.instance().fireAction).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().fireAction).toBeCalledWith(testPlug);
     });
+
+    test('should call plugin.action on fireAction', () => {
+        const channel = {id: 'channel_id'};
+        const channelMember = {id: 'channel_member_id'};
+        const newTestPlug = {
+            id: 'someid',
+            pluginId: 'pluginid',
+            icon: <i className='fa fa-anchor'/>,
+            action: jest.fn(),
+            dropdownText: 'some dropdown text',
+        };
+
+        const wrapper = mount(
+            <MobileChannelHeaderPlug
+                components={[newTestPlug]}
+                channel={channel}
+                channelMember={channelMember}
+                theme={{}}
+                isDropdown={true}
+            />
+        );
+
+        wrapper.instance().fireAction(newTestPlug);
+        expect(newTestPlug.action).toHaveBeenCalledTimes(1);
+        expect(newTestPlug.action).toBeCalledWith(channel, channelMember);
+    });
 });
