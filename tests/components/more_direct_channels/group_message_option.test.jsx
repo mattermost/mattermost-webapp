@@ -42,7 +42,7 @@ describe('components/more_direct_channels/GroupMessageOption', () => {
     it('should have the right number in the icon', () => {
         const wrapper = renderElement();
 
-        const count = wrapper.find('.status--group--direct--option').first();
+        const count = wrapper.find('.more-modal__gm-icon').first();
 
         expect(count.text()).toBe('2');
     });

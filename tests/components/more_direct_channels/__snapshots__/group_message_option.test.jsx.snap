@@ -6,7 +6,7 @@ exports[`components/more_direct_channels/GroupMessageOption should render the op
   onClick={[Function]}
 >
   <div
-    className="status status--group--direct--option"
+    className="more-modal__gm-icon bg-text-200"
   >
     2
   </div>
