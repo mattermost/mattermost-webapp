@@ -166,12 +166,12 @@ export function shouldFocusMainTextbox(e, activeElement) {
 }
 
 function allowSendingAMessage(message) {
-    const splitMessage = message.split('\n');
-    let lastLineMessage = splitMessage[splitMessage.length - 1];
+    let splitMessage = message.split('\n');
+    let lastPart = splitMessage[splitMessage.length - 1];
 
-    if (splitMessage.length > 1 && !lastLineMessage.includes('```')) {
-        while (splitMessage.length > 1 && !lastLineMessage.includes('```')) {
-            if (lastLineMessage.trim() !== '') {
+    if (splitMessage.length > 1 && !lastPart.includes('```')) {
+        while (splitMessage.length > 1 && !lastPart.includes('```')) {
+            if (lastPart.trim() !== '') {
                 return {
                     allowSending: true,
                     message: message.endsWith('\n') ? message.concat('```') : message.concat('\n```'),
@@ -180,8 +180,18 @@ function allowSendingAMessage(message) {
             }
 
             splitMessage.splice(splitMessage.length - 1);
-            lastLineMessage = splitMessage[splitMessage.length - 1];
+            lastPart = splitMessage[splitMessage.length - 1];
         }
+    }
+
+    splitMessage = message.split('```');
+    lastPart = splitMessage[splitMessage.length - 1];
+    if (lastPart.split(' ').length > 1) {
+        return {
+            allowSending: true,
+            message: message.concat('```'),
+            withClosedCodeBlock: true,
+        };
     }
 
     return {allowSending: false};
