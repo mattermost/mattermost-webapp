@@ -229,6 +229,7 @@ export default class CreatePost extends React.Component {
 
         this.lastBlurAt = 0;
         this.draftsTimeout = null;
+        this.draftsForChannel = {};
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -360,6 +361,7 @@ export default class CreatePost extends React.Component {
         });
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+        this.draftsForChannel[channelId] = null;
 
         const fasterThanHumanWillClick = 150;
         const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
@@ -489,6 +491,7 @@ export default class CreatePost extends React.Component {
         }
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+        this.draftsForChannel[channelId] = null;
     }
 
     focusTextbox = (keepFocus = false) => {
@@ -531,6 +534,7 @@ export default class CreatePost extends React.Component {
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.draftsForChannel[channelId] = draft;
     }
 
     handleFileUploadChange = () => {
@@ -549,6 +553,7 @@ export default class CreatePost extends React.Component {
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.draftsForChannel[channelId] = draft;
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
@@ -561,18 +566,22 @@ export default class CreatePost extends React.Component {
     }
 
     handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
-        const draft = {...this.props.draft};
+        const draft = {...this.draftsForChannel[channelId]};
 
         // remove each finished file from uploads
         for (let i = 0; i < clientIds.length; i++) {
-            const index = draft.uploadsInProgress.indexOf(clientIds[i]);
+            if (draft.uploadsInProgress) {
+                const index = draft.uploadsInProgress.indexOf(clientIds[i]);
 
-            if (index !== -1) {
-                draft.uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+                if (index !== -1) {
+                    draft.uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+                }
             }
         }
 
-        draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
+        if (draft.fileInfos) {
+            draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
+        }
 
         this.setState({
             actualDrafts: draft,
@@ -581,6 +590,7 @@ export default class CreatePost extends React.Component {
         this.draftsTimeout = setTimeout(() => {
             clearTimeout(this.draftsTimeout);
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+            this.draftsForChannel[channelId] = draft;
             if (channelId === this.props.currentChannel.id) {
                 this.setState({
                     enableSendButton: true,
@@ -607,6 +617,7 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
                 this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+                this.draftsForChannel[channelId] = modifiedDraft;
             }
         }
 
@@ -648,6 +659,7 @@ export default class CreatePost extends React.Component {
         }
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+        this.draftsForChannel[channelId] = modifiedDraft;
         const enableSendButton = this.handleEnableSendButton(this.state.message, draft.fileInfos);
 
         this.setState({enableSendButton});

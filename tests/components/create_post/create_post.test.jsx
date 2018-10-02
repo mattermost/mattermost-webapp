@@ -446,6 +446,8 @@ describe('components/create_post', () => {
             ],
         };
 
+        instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
+
         wrapper.setProps({draft: uploadsInProgressDraft});
         const fileInfos = {
             id: 'a',
@@ -484,6 +486,8 @@ describe('components/create_post', () => {
                 'a',
             ],
         };
+
+        instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
 
         wrapper.setProps({draft: uploadsInProgressDraft});
         const fileInfos = {
