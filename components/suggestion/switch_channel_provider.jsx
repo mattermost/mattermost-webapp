@@ -120,7 +120,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
 
     return {
         channelMember: getMyChannelMemberships(state)[channelId],
-        hasDraft: Boolean(draft.message || draft.fileInfos.length || draft.uploadsInProgress.length),
+        hasDraft: Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length),
     };
 }
 
