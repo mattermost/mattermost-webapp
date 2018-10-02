@@ -585,7 +585,6 @@ export default class CreatePost extends React.Component {
 
         this.draftsForChannel[channelId] = draft;
         this.draftsTimeout = setTimeout(() => {
-            clearTimeout(this.draftsTimeout);
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
 
             if (channelId === this.props.currentChannel.id) {
