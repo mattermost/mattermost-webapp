@@ -56,11 +56,10 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
           values={Object {}}
         />
       </p>
-      <Textbox
+      <Connect(Textbox)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
-        isRHS={false}
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
@@ -163,11 +162,10 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
           values={Object {}}
         />
       </p>
-      <Textbox
+      <Connect(Textbox)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
-        isRHS={false}
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
@@ -280,11 +278,10 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
           values={Object {}}
         />
       </p>
-      <Textbox
+      <Connect(Textbox)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
-        isRHS={false}
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
@@ -397,11 +394,10 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
           values={Object {}}
         />
       </p>
-      <Textbox
+      <Connect(Textbox)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
-        isRHS={false}
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
@@ -504,11 +500,10 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
           values={Object {}}
         />
       </p>
-      <Textbox
+      <Connect(Textbox)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
-        isRHS={false}
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
@@ -611,11 +606,10 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
           values={Object {}}
         />
       </p>
-      <Textbox
+      <Connect(Textbox)
         characterLimit={1024}
         createMessage="Edit the Channel Header..."
         id="edit_textbox"
-        isRHS={false}
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}

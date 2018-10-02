@@ -8,7 +8,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import Textbox from 'components/textbox.jsx';
+import Textbox from 'components/textbox';
 import Constants from 'utils/constants.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';

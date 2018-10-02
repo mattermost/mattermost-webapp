@@ -65,6 +65,10 @@ export default class SuggestionList extends React.PureComponent {
             const contentBottomPadding = parseInt(content.css('padding-top'), 10);
 
             const item = $(ReactDOM.findDOMNode(this.refs[term]));
+            if (!item[0]) {
+                return;
+            }
+
             const itemTop = item[0].offsetTop - parseInt(item.css('margin-top'), 10);
             const itemBottomMargin = parseInt(item.css('margin-bottom'), 10) + parseInt(item.css('padding-bottom'), 10);
             const itemBottom = item[0].offsetTop + item.height() + itemBottomMargin;

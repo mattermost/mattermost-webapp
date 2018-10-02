@@ -359,15 +359,6 @@ export async function searchUsers(term, teamId = getCurrentTeamId(getState()), o
     }
 }
 
-export async function autocompleteUsersInChannel(username, channelId, success) {
-    const channel = getChannel(getState(), channelId);
-    const teamId = channel ? channel.team_id : getCurrentTeamId(getState());
-    const {data} = await UserActions.autocompleteUsers(username, teamId, channelId)(dispatch, getState);
-    if (success) {
-        success(data);
-    }
-}
-
 export async function autocompleteUsersInTeam(username, success) {
     const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
     if (success) {
