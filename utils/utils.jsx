@@ -1362,11 +1362,7 @@ export function imageURLForUser(userIdOrObject) {
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
-export function defaultImageURLForUser(userIdOrObject) {
-    let userId = userIdOrObject;
-    if (typeof userIdOrObject !== 'string') {
-        userId = userIdOrObject.id;
-    }
+export function defaultImageURLForUser(userId) {
     return Client4.getUsersRoute() + '/' + userId + '/image/default';
 }
 

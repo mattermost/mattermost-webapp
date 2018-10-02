@@ -1216,7 +1216,7 @@ class UserSettingsGeneralTab extends React.Component {
                     onSubmit={this.submitPicture}
                     onSetDefault={user.last_picture_update > 0 ? this.setDefaultProfilePicture : null}
                     src={Utils.imageURLForUser(user)}
-                    defaultImageSrc={Utils.defaultImageURLForUser(user)}
+                    defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
                     updateSection={(e) => {
