@@ -40,6 +40,14 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
         this.setState({codeBlockOnCtrlEnterState: value});
     }
 
+    handleUpdateSection = (section) => {
+        if (!section) {
+            this.setState({codeBlockOnCtrlEnterState: this.props.codeBlockOnCtrlEnter});
+        }
+
+        this.props.onUpdateSection(section);
+    }
+
     handleSubmit = () => {
         const {actions, currentUserId, onUpdateSection} = this.props;
         const codeBlockOnCtrlEnterPreference = {
@@ -71,7 +79,7 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
                 describe={this.props.renderOnOffLabel(codeBlockOnCtrlEnterState)}
                 focused={this.props.prevActiveSection === AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
                 section={AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
-                updateSection={this.props.onUpdateSection}
+                updateSection={this.handleUpdateSection}
             />
         );
         if (this.props.activeSection === AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER) {
@@ -132,7 +140,7 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={this.state.serverError}
-                    updateSection={this.props.onUpdateSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }

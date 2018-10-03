@@ -11,7 +11,7 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
       values={Object {}}
     />
   }
-  updateSection={[MockFunction]}
+  updateSection={[Function]}
 />
 `;
 
@@ -84,6 +84,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
       values={Object {}}
     />
   }
-  updateSection={[MockFunction]}
+  updateSection={[Function]}
 />
 `;
