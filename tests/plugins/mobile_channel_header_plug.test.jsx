@@ -39,6 +39,14 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+
+        wrapper.instance().fireAction = jest.fn();
+        expect(wrapper.find('button').exists()).toEqual(true);
+        expect(wrapper.find('li').exists()).toEqual(false);
+
+        wrapper.find('button').first().simulate('click');
+        expect(wrapper.instance().fireAction).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().fireAction).toBeCalledWith(testPlug);
     });
 
     test('should match snapshot with two extended components', () => {
@@ -78,6 +86,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+
+        wrapper.instance().fireAction = jest.fn();
+        expect(wrapper.find('button').exists()).toEqual(true);
+        expect(wrapper.find('li').exists()).toEqual(false);
     });
 
     test('should match snapshot with two extended components, in dropdown', () => {
@@ -91,5 +103,39 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+
+        wrapper.instance().fireAction = jest.fn();
+        expect(wrapper.find('button').exists()).toEqual(false);
+        expect(wrapper.find('li').exists()).toEqual(true);
+
+        wrapper.find('a').first().simulate('click');
+        expect(wrapper.instance().fireAction).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().fireAction).toBeCalledWith(testPlug);
+    });
+
+    test('should call plugin.action on fireAction', () => {
+        const channel = {id: 'channel_id'};
+        const channelMember = {id: 'channel_member_id'};
+        const newTestPlug = {
+            id: 'someid',
+            pluginId: 'pluginid',
+            icon: <i className='fa fa-anchor'/>,
+            action: jest.fn(),
+            dropdownText: 'some dropdown text',
+        };
+
+        const wrapper = mount(
+            <MobileChannelHeaderPlug
+                components={[newTestPlug]}
+                channel={channel}
+                channelMember={channelMember}
+                theme={{}}
+                isDropdown={true}
+            />
+        );
+
+        wrapper.instance().fireAction(newTestPlug);
+        expect(newTestPlug.action).toHaveBeenCalledTimes(1);
+        expect(newTestPlug.action).toBeCalledWith(channel, channelMember);
     });
 });

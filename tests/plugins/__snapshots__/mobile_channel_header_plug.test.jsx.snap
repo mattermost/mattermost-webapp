@@ -40,7 +40,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   isDropdown={false}
   theme={Object {}}
 >
-  <div
+  <button
     className="navbar-toggle navbar-right__icon pull-right"
     onClick={[Function]}
   >
@@ -51,7 +51,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
         className="fa fa-anchor"
       />
     </span>
-  </div>
+  </button>
 </MobileChannelHeaderPlug>
 `;
 
@@ -75,7 +75,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   isDropdown={true}
   theme={Object {}}
 >
-  <div
+  <button
     className="navbar-toggle navbar-right__icon pull-right"
     onClick={[Function]}
   >
@@ -86,7 +86,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
         className="fa fa-anchor"
       />
     </span>
-  </div>
+  </button>
 </MobileChannelHeaderPlug>
 `;
 
