@@ -114,7 +114,6 @@ describe('components/SettingItemMin', () => {
 
         wrapper.instance().handleSave(evt);
         expect(props.onRemove).toHaveBeenCalledTimes(1);
-        expect(props.onRemove).toHaveBeenCalledWith(evt);
     });
 
     test('should call props.onSetDefault on handleSave', () => {
@@ -127,7 +126,6 @@ describe('components/SettingItemMin', () => {
 
         wrapper.instance().handleSave(evt);
         expect(props.onSetDefault).toHaveBeenCalledTimes(1);
-        expect(props.onSetDefault).toHaveBeenCalledWith(evt);
     });
 
     test('should match state and call props.onSubmit on handleSave', () => {
@@ -140,7 +138,6 @@ describe('components/SettingItemMin', () => {
 
         wrapper.instance().handleSave(evt);
         expect(props.onSubmit).toHaveBeenCalledTimes(1);
-        expect(props.onSubmit).toHaveBeenCalledWith(evt);
 
         wrapper.update();
         expect(wrapper.state('removeSrc')).toEqual(false);

@@ -68,12 +68,13 @@ export default class SettingPicture extends Component {
     }
 
     handleSave = (e) => {
+        e.preventDefault();
         if (this.state.removeSrc) {
-            this.props.onRemove(e);
+            this.props.onRemove();
         } else if (this.state.setDefaultSrc) {
-            this.props.onSetDefault(e);
+            this.props.onSetDefault();
         } else {
-            this.props.onSubmit(e);
+            this.props.onSubmit();
         }
     }
 

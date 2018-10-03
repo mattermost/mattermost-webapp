@@ -299,8 +299,7 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    setDefaultProfilePicture = async (e) => {
-        e.preventDefault();
+    setDefaultProfilePicture = async () => {
         try {
             await this.props.actions.setDefaultProfileImage(this.props.user.id);
             this.updateSection('');
@@ -316,9 +315,7 @@ class UserSettingsGeneralTab extends React.Component {
         }
     }
 
-    submitPicture = (e) => {
-        e.preventDefault();
-
+    submitPicture = () => {
         if (!this.state.pictureFile) {
             return;
         }
