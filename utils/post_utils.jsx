@@ -165,36 +165,19 @@ export function shouldFocusMainTextbox(e, activeElement) {
     return true;
 }
 
-function allowSendingAMessage(message) {
-    let splitMessage = message.split('\n');
-    let lastPart = splitMessage[splitMessage.length - 1];
+function canAutomaticallyCloseBackticks(message) {
+    const splitMessage = message.split('\n').filter((line) => line.trim() !== '');
+    const lastPart = splitMessage[splitMessage.length - 1];
 
     if (splitMessage.length > 1 && !lastPart.includes('```')) {
-        while (splitMessage.length > 1 && !lastPart.includes('```')) {
-            if (lastPart.trim() !== '') {
-                return {
-                    allowSending: true,
-                    message: message.endsWith('\n') ? message.concat('```') : message.concat('\n```'),
-                    withClosedCodeBlock: true,
-                };
-            }
-
-            splitMessage.splice(splitMessage.length - 1);
-            lastPart = splitMessage[splitMessage.length - 1];
-        }
-    }
-
-    splitMessage = message.split('```');
-    lastPart = splitMessage[splitMessage.length - 1];
-    if (lastPart.split(' ').length > 1) {
         return {
             allowSending: true,
-            message: message.concat('```'),
+            message: message.endsWith('\n') ? message.concat('```') : message.concat('\n```'),
             withClosedCodeBlock: true,
         };
     }
 
-    return {allowSending: false};
+    return {allowSending: true};
 }
 
 function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter) {
@@ -204,7 +187,7 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     } else if (!isSendMessageOnCtrlEnter && (!match || match.length % 2 === 0)) {
         return {allowSending: true};
     } else if (ctrlOrMetaKeyPressed && match && match.length % 2 !== 0) {
-        return allowSendingAMessage(message);
+        return canAutomaticallyCloseBackticks(message);
     }
 
     return {allowSending: false};
