@@ -17,6 +17,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 
 import JoinLeaveSection from './join_leave_section';
 import CodeBlockCtrlEnterSection from './code_block_ctrl_enter_section';
+import SendCtrlEnterSection from './send_ctrl_enter_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -38,11 +39,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
     getStateFromStores = () => {
         const advancedSettings = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS);
         const settings = {
-            send_on_ctrl_enter: PreferenceStore.get(
-                Constants.Preferences.CATEGORY_ADVANCED_SETTINGS,
-                'send_on_ctrl_enter',
-                'false'
-            ),
             formatting: PreferenceStore.get(
                 Constants.Preferences.CATEGORY_ADVANCED_SETTINGS,
                 'formatting',
@@ -296,89 +292,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
     render() {
         const serverError = this.state.serverError || null;
-        let ctrlSendSection;
-
-        if (this.props.activeSection === 'advancedCtrlSend') {
-            const ctrlSendActive = [
-                this.state.settings.send_on_ctrl_enter === 'true',
-                this.state.settings.send_on_ctrl_enter === 'false',
-            ];
-
-            const inputs = [
-                <div key='ctrlSendSetting'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='ctrlSendOn'
-                                type='radio'
-                                name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[0]}
-                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', 'true')}
-                            />
-                            <FormattedMessage
-                                id='user.settings.advance.on'
-                                defaultMessage='On'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='ctrlSendOff'
-                                type='radio'
-                                name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[1]}
-                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', 'false')}
-                            />
-                            <FormattedMessage
-                                id='user.settings.advance.off'
-                                defaultMessage='Off'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage
-                            id='user.settings.advance.sendDesc'
-                            defaultMessage='If enabled ENTER inserts a new line and CTRL+ENTER submits the message.'
-                        />
-                    </div>
-                </div>,
-            ];
-            ctrlSendSection = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage='Send messages on CTRL+ENTER'
-                        />
-                    }
-                    inputs={inputs}
-                    setting={'send_on_ctrl_enter'}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={serverError}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        } else {
-            ctrlSendSection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage='Send messages on CTRL+ENTER'
-                        />
-                    }
-                    describe={this.renderOnOffLabel(this.state.settings.send_on_ctrl_enter)}
-                    focused={this.props.prevActiveSection === this.prevSections.advancedCtrlSend}
-                    section={'advancedCtrlSend'}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        }
 
         const formattingSection = this.renderFormattingSection();
         let formattingSectionDivider = null;
@@ -584,7 +497,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {ctrlSendSection}
+                    <SendCtrlEnterSection
+                        activeSection={this.props.activeSection}
+                        onUpdateSection={this.handleUpdateSection}
+                        prevActiveSection={this.props.prevActiveSection}
+                        renderOnOffLabel={this.renderOnOffLabel}
+                    />
                     <CodeBlockCtrlEnterSection
                         activeSection={this.props.activeSection}
                         onUpdateSection={this.handleUpdateSection}

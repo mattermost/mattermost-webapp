@@ -12,12 +12,11 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 
 import {AdvancedSections} from 'utils/constants.jsx';
 
-export default class CodeBlockCtrlEnterSection extends React.PureComponent {
+export default class SendCtrlEnterSection extends React.PureComponent {
     static propTypes = {
         activeSection: PropTypes.string,
         currentUserId: PropTypes.string.isRequired,
-        codeBlockOnCtrlEnter: PropTypes.string,
-        sendMessageOnCtrlEnter: PropTypes.bool,
+        sendMessageOnCtrlEnter: PropTypes.string,
         onUpdateSection: PropTypes.func.isRequired,
         prevActiveSection: PropTypes.string,
         renderOnOffLabel: PropTypes.func.isRequired,
@@ -30,69 +29,67 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
         super(props);
 
         this.state = {
-            codeBlockOnCtrlEnterState: props.codeBlockOnCtrlEnter,
+            sendMessageOnCtrlEnterState: props.sendMessageOnCtrlEnter,
+            isSaving: false,
         };
     }
 
     handleOnChange = (e) => {
         const value = e.currentTarget.value;
 
-        this.setState({codeBlockOnCtrlEnterState: value});
+        this.setState({sendMessageOnCtrlEnterState: value});
     }
 
     handleSubmit = () => {
         const {actions, currentUserId, onUpdateSection} = this.props;
-        const codeBlockOnCtrlEnterPreference = {
+        const sendOnCtrlEnterPreference = {
             user_id: currentUserId,
             category: Preferences.CATEGORY_ADVANCED_SETTINGS,
-            name: Preferences.ADVANCED_CODE_BLOCK_ON_CTRL_ENTER,
-            value: this.state.codeBlockOnCtrlEnterState,
+            name: Preferences.ADVANCED_SEND_ON_CTRL_ENTER,
+            value: this.state.sendMessageOnCtrlEnterState,
         };
 
-        actions.savePreferences(currentUserId, [codeBlockOnCtrlEnterPreference]);
+        this.setState({isSaving: true});
+        actions.savePreferences(currentUserId, [sendOnCtrlEnterPreference]);
         onUpdateSection();
     }
 
     render() {
-        if (this.props.sendMessageOnCtrlEnter) {
-            return null;
-        }
+        const {sendMessageOnCtrlEnterState} = this.state;
 
-        const {codeBlockOnCtrlEnterState} = this.state;
-
-        let codeBlockOnCtrlEnterSection = (
+        let sendOnCtrlEnterSection = (
             <SettingItemMin
                 title={
                     <FormattedMessage
-                        id='user.settings.advance.codeBlockOnCtrlEnterSendTitle'
-                        defaultMessage='Send code block messages on CTRL + ENTER'
+                        id='user.settings.advance.sendTitle'
+                        defaultMessage='Send messages on CTRL+ENTER'
                     />
                 }
-                describe={this.props.renderOnOffLabel(codeBlockOnCtrlEnterState)}
-                focused={this.props.prevActiveSection === AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
-                section={AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
-                updateSection={this.props.onUpdateSection}
+                describe={this.props.renderOnOffLabel(sendMessageOnCtrlEnterState)}
+                focused={this.props.prevActiveSection === AdvancedSections.CONTROL_SEND}
+                section={AdvancedSections.CONTROL_SEND}
+                updateSection={this.handleUpdateSection}
             />
         );
-        if (this.props.activeSection === AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER) {
-            codeBlockOnCtrlEnterSection = (
+        if (this.props.activeSection === AdvancedSections.CONTROL_SEND) {
+            sendOnCtrlEnterSection = (
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.advance.codeBlockOnCtrlEnterSendTitle'
-                            defaultMessage='Send code block messages on CTRL + ENTER'
+                            id='user.settings.advance.sendTitle'
+                            defaultMessage='Send messages on CTRL+ENTER'
                         />
                     }
                     inputs={[
-                        <div key='codeBlockOnCtrlEnterSetting'>
+                        <div key='ctrlSendSetting'>
                             <div className='radio'>
                                 <label>
                                     <input
-                                        id='codeBlockOnCtrlEnterOn'
+                                        id='sendOnCtrlEnterOn'
                                         type='radio'
                                         value={'true'}
-                                        name={AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
-                                        checked={codeBlockOnCtrlEnterState === 'true'}
+                                        name={AdvancedSections.CONTROL_SEND}
+                                        checked={sendMessageOnCtrlEnterState === 'true'}
                                         onChange={this.handleOnChange}
                                     />
                                     <FormattedMessage
@@ -105,11 +102,11 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
                             <div className='radio'>
                                 <label>
                                     <input
-                                        id='codeBlockOnCtrlEnterOff'
+                                        id='sendOnCtrlEnterOff'
                                         type='radio'
                                         value={'false'}
-                                        name={AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
-                                        checked={codeBlockOnCtrlEnterState === 'false'}
+                                        name={AdvancedSections.CONTROL_SEND}
+                                        checked={sendMessageOnCtrlEnterState === 'false'}
                                         onChange={this.handleOnChange}
                                     />
                                     <FormattedMessage
@@ -122,17 +119,16 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
                             <div>
                                 <br/>
                                 <FormattedMessage
-                                    id='user.settings.advance.codeBlockOnCtrlEnterSendDesc'
-                                    defaultMessage='If enabled, ENTER inserts a new line within messages formatted as code starting with ```. CTRL + ENTER submits the message.'
+                                    id='user.settings.advance.sendDesc'
+                                    defaultMessage='If enabled ENTER inserts a new line and CTRL+ENTER submits the message.'
                                 />
                             </div>
                         </div>,
                     ]}
-                    setting={AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER}
+                    setting={Preferences.ADVANCED_SEND_ON_CTRL_ENTER}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.props.onUpdateSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -140,7 +136,7 @@ export default class CodeBlockCtrlEnterSection extends React.PureComponent {
         return (
             <React.Fragment>
                 <div className='divider-light'/>
-                {codeBlockOnCtrlEnterSection}
+                {sendOnCtrlEnterSection}
             </React.Fragment>
         );
     }

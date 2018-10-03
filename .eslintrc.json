@@ -489,7 +489,6 @@
       2,
       "never"
     ],
-    "react/jsx-filename-extension": 2,
     "react/jsx-first-prop-new-line": [
       2,
       "multiline"
