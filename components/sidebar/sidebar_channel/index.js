@@ -109,7 +109,7 @@ function makeMapStateToProps() {
             channelTeammateId,
             channelTeammateUsername,
             channelTeammateDeletedAt,
-            hasDraft: Boolean(draft.message || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel.id,
+            hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel.id,
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
