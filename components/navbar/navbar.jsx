@@ -732,10 +732,6 @@ export default class Navbar extends React.Component {
                             {deleteChannelOption}
                             {leaveChannelOption}
                             {toggleFavoriteOption}
-                            <MobileChannelHeaderPlug
-                                channel={channel}
-                                isDropdown={true}
-                            />
                             <div className='close visible-xs-block'>
                                 {'×'}
                             </div>
@@ -966,6 +962,10 @@ export default class Navbar extends React.Component {
                         <div className='navbar-header'>
                             {this.createLhsButton(currentId)}
                             {channelMenuDropdown}
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={true}
+                            />
                             <NavbarInfoButton
                                 ref='headerOverlay'
                                 channel={channel}
@@ -973,10 +973,12 @@ export default class Navbar extends React.Component {
                                 isReadOnly={this.props.isReadOnly}
                             />
                             {searchButton}
-                            <MobileChannelHeaderPlug
-                                channel={channel}
-                                isDropdown={false}
-                            />
+                            <li className='dropdown-item__plugin'>
+                                <MobileChannelHeaderPlug
+                                    channel={channel}
+                                    isDropdown={false}
+                                />
+                            </li>
                             {this.createRhsButton(currentId)}
                         </div>
                     </div>
