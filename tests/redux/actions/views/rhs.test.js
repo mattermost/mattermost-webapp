@@ -73,6 +73,11 @@ jest.mock('actions/diagnostics_actions.jsx', () => ({
 describe('rhs view actions', () => {
     const initialState = {
         entities: {
+            general: {
+                config: {
+                    ExperimentalViewArchivedChannels: 'false',
+                },
+            },
             channels: {
                 currentChannelId,
             },
@@ -183,12 +188,12 @@ describe('rhs view actions', () => {
             const timeZoneOffset = getBrowserUtcOffset() * 60;
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(searchPostsWithParams(currentTeamId, {terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
+            compareStore.dispatch(searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(searchPostsWithParams(currentTeamId, {terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
+            compareStore.dispatch(searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
