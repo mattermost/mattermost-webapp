@@ -1288,6 +1288,15 @@ export default {
                             ),
                         },
                         {
+                            type: Constants.SettingsTypes.TYPE_BOOL,
+                            key: 'LdapSettings.UseMemberOfOverlay',
+                            label: t('admin.ldap.memberOverlayTitle'),
+                            label_default: 'Use \'memberOf\' Overlay:',
+                            help_text: t('admin.ldap.memberOverlayDesc'),
+                            help_text_default: 'Set this to false only if the AD/LDAP instance does not support [reverse group membership maintenance](!https://www.openldap.org/doc/admin24/overlays.html#Reverse%20Group%20Membership%20Maintenance) using the \'memberOf\' overlay or if there is a known reason not to use it. Setting this to false will make group syncs slower.',
+                            help_text_markdown: true,
+                        },
+                        {
                             type: Constants.SettingsTypes.TYPE_TEXT,
                             key: 'LdapSettings.FirstNameAttribute',
                             label: t('admin.ldap.firstnameAttrTitle'),
