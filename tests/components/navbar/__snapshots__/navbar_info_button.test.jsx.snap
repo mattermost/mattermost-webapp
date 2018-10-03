@@ -35,7 +35,9 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
 >
@@ -156,7 +158,9 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
 >

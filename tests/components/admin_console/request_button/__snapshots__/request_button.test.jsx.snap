@@ -79,7 +79,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   requestAction={
@@ -217,7 +219,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   requestAction={
@@ -363,7 +367,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   requestAction={
@@ -497,7 +503,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   requestAction={

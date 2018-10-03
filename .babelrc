@@ -1,11 +1,49 @@
 {
-  "presets": [
-    ["es2015", { "modules": false }],
-    "react",
-    "stage-0"
-  ],
-  "plugins": [
-    "transform-es2015-modules-commonjs",
-    "dynamic-import-node"
-  ]
+    presets: [
+        ['@babel/preset-env', {
+            targets: {
+                chrome: 66,
+                firefox: 60,
+                edge: 41,
+                ie: 11,
+                ios: 11,
+            },
+            modules: false,
+            debug: false,
+            useBuiltIns: 'usage',
+            shippedProposals: true,
+        }],
+        ['@babel/preset-react', {
+            useBuiltIns: true,
+        }],
+    ],
+    plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-syntax-dynamic-import',
+    ],
+    env: {
+        test: {
+            presets: [
+                ['@babel/preset-env', {
+                    targets: {
+                        chrome: 66,
+                        firefox: 60,
+                        edge: 41,
+                        ie: 11,
+                        ios: 11,
+                    },
+                    debug: false,
+                    useBuiltIns: 'usage',
+                    shippedProposals: true,
+                }],
+                ['@babel/preset-react', {
+                    useBuiltIns: true,
+                }],
+            ],
+            plugins: [
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-syntax-dynamic-import',
+            ],
+        }
+    }
 }

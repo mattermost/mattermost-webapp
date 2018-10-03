@@ -143,7 +143,7 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['babel-polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
+    entry: ['@babel/polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath,
@@ -155,20 +155,14 @@ var config = {
             {
                 test: /\.(js|jsx)?$/,
                 exclude: STANDARD_EXCLUDE,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                'react',
-                                ['es2015', {modules: false}],
-                                'stage-0',
-                            ],
-                            plugins: ['transform-runtime'],
-                            cacheDirectory: true,
-                        },
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+
+                        // Babel configuration is in .babelrc because jest requires it to be there.
                     },
-                ],
+                },
             },
             {
                 type: 'javascript/auto',
@@ -257,16 +251,92 @@ var config = {
             $: 'jquery',
             jQuery: 'jquery',
         }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: !DEV,
-            debug: false,
-        }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contentHash].css',
             chunkFilename: '[name].[contentHash].css',
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'root.html',
+            inject: 'head',
+            template: 'root.html',
+        }),
+        new CopyWebpackPlugin([
+            {from: 'images/emoji', to: 'emoji'},
+            {from: 'images/img_trans.gif', to: 'images'},
+            {from: 'images/logo-email.png', to: 'images'},
+            {from: 'images/circles.png', to: 'images'},
+            {from: 'images/favicon', to: 'images/favicon'},
+            {from: 'images/appIcons.png', to: 'images'},
+            {from: 'images/warning.png', to: 'images'},
+        ]),
+
+        // Generate manifest.json, honouring any configured publicPath. This also handles injecting
+        // <link rel="apple-touch-icon" ... /> and <meta name="apple-*" ... /> tags into root.html.
+        new WebpackPwaManifest({
+            name: 'Mattermost',
+            short_name: 'Mattermost',
+            description: 'Mattermost is an open source, self-hosted Slack-alternative',
+            background_color: '#ffffff',
+            inject: true,
+            ios: true,
+            fingerprints: false,
+            orientation: 'any',
+            filename: 'manifest.json',
+            icons: [{
+                src: path.resolve('images/favicon/android-chrome-192x192.png'),
+                type: 'image/png',
+                sizes: '192x192',
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-120x120.png'),
+                type: 'image/png',
+                sizes: '120x120',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-144x144.png'),
+                type: 'image/png',
+                sizes: '144x144',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-152x152.png'),
+                type: 'image/png',
+                sizes: '152x152',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-57x57.png'),
+                type: 'image/png',
+                sizes: '57x57',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-60x60.png'),
+                type: 'image/png',
+                sizes: '60x60',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-72x72.png'),
+                type: 'image/png',
+                sizes: '72x72',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/apple-touch-icon-76x76.png'),
+                type: 'image/png',
+                sizes: '76x76',
+                ios: true,
+            }, {
+                src: path.resolve('images/favicon/favicon-16x16.png'),
+                type: 'image/png',
+                sizes: '16x16',
+            }, {
+                src: path.resolve('images/favicon/favicon-32x32.png'),
+                type: 'image/png',
+                sizes: '32x32',
+            }, {
+                src: path.resolve('images/favicon/favicon-96x96.png'),
+                type: 'image/png',
+                sizes: '96x96',
+            }],
         }),
     ],
 };
@@ -289,9 +359,6 @@ if (DEV) {
 if (!DEV) {
     config.mode = 'production';
     config.devtool = 'source-map';
-    config.plugins.push(
-        new webpack.optimize.OccurrenceOrderPlugin(true)
-    );
 }
 
 const env = {};
@@ -306,97 +373,9 @@ config.plugins.push(new webpack.DefinePlugin({
 
 // Test mode configuration
 if (TEST) {
-    config.entry = ['babel-polyfill', './root.jsx'];
+    config.entry = ['@babel/polyfill', './root.jsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
-} else {
-    // For some reason these break mocha. So they go here.
-    config.plugins.push(
-        new HtmlWebpackPlugin({
-            filename: 'root.html',
-            inject: 'head',
-            template: 'root.html',
-        })
-    );
-    config.plugins.push(
-        new CopyWebpackPlugin([
-            {from: 'images/emoji', to: 'emoji'},
-            {from: 'images/img_trans.gif', to: 'images'},
-            {from: 'images/logo-email.png', to: 'images'},
-            {from: 'images/circles.png', to: 'images'},
-            {from: 'images/favicon', to: 'images/favicon'},
-            {from: 'images/appIcons.png', to: 'images'},
-            {from: 'images/warning.png', to: 'images'},
-        ])
-    );
 }
-
-// Generate manifest.json, honouring any configured publicPath. This also handles injecting
-// <link rel="apple-touch-icon" ... /> and <meta name="apple-*" ... /> tags into root.html.
-config.plugins.push(
-    new WebpackPwaManifest({
-        name: 'Mattermost',
-        short_name: 'Mattermost',
-        description: 'Mattermost is an open source, self-hosted Slack-alternative',
-        background_color: '#ffffff',
-        inject: true,
-        ios: true,
-        fingerprints: false,
-        orientation: 'any',
-        filename: 'manifest.json',
-        icons: [{
-            src: path.resolve('images/favicon/android-chrome-192x192.png'),
-            type: 'image/png',
-            sizes: '192x192',
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-120x120.png'),
-            type: 'image/png',
-            sizes: '120x120',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-144x144.png'),
-            type: 'image/png',
-            sizes: '144x144',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-152x152.png'),
-            type: 'image/png',
-            sizes: '152x152',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-57x57.png'),
-            type: 'image/png',
-            sizes: '57x57',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-60x60.png'),
-            type: 'image/png',
-            sizes: '60x60',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-72x72.png'),
-            type: 'image/png',
-            sizes: '72x72',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/apple-touch-icon-76x76.png'),
-            type: 'image/png',
-            sizes: '76x76',
-            ios: true,
-        }, {
-            src: path.resolve('images/favicon/favicon-16x16.png'),
-            type: 'image/png',
-            sizes: '16x16',
-        }, {
-            src: path.resolve('images/favicon/favicon-32x32.png'),
-            type: 'image/png',
-            sizes: '32x32',
-        }, {
-            src: path.resolve('images/favicon/favicon-96x96.png'),
-            type: 'image/png',
-            sizes: '96x96',
-        }],
-    })
-);
 
 module.exports = config;

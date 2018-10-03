@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {loadMe} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
-import Utils from 'utils/utils.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -29,7 +29,7 @@ export default class Confirm extends React.Component {
     }
 
     onKeyPress = (e) => {
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+        if (isKeyPressed(e, KeyCodes.ENTER)) {
             this.submit(e);
         }
     }

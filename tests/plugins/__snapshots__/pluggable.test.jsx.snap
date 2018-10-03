@@ -81,7 +81,9 @@ exports[`plugins/Pluggable should match snapshot with extended component with pl
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   pluggableName="PopoverSection1"
@@ -114,7 +116,9 @@ exports[`plugins/Pluggable should match snapshot with extended component with pl
         "locale": "en",
         "messages": Object {},
         "now": [Function],
+        "onError": [Function],
         "textComponent": "span",
+        "timeZone": null,
       }
     }
     key="PopoverSection1undefined"
@@ -157,7 +161,9 @@ exports[`plugins/Pluggable should match snapshot with no extended component 1`] 
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   store={
@@ -202,7 +208,9 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
       "locale": "en",
       "messages": Object {},
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   store={
