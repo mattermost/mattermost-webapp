@@ -228,9 +228,10 @@ describe('components/create_post', () => {
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallow(createPost());
+        wrapper.instance().refs = {textbox: {blur: jest.fn()}};
 
         const postTextbox = wrapper.find('#post_textbox');
-        postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn()});
+        postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
@@ -573,13 +574,13 @@ describe('components/create_post', () => {
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn});
+        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
@@ -587,8 +588,11 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost({
             ctrlSend: true,
         }));
+
         const instance = wrapper.instance();
-        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn, persist: jest.fn});
+        instance.refs = {textbox: {blur: jest.fn()}};
+
+        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {
             expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
         }, 0);
