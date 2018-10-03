@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FilePreview from 'components/file_preview/file_preview.jsx';
+import FilePreview from 'components/file_preview.jsx';
 
 describe('component/FilePreview', () => {
     const onRemove = jest.fn();
@@ -18,18 +18,11 @@ describe('component/FilePreview', () => {
         },
     ];
     const uploadsInProgress = ['clientID_1'];
-    const uploadsProgressPercent = {
-        clientID_1: {
-            name: 'file',
-            percent: '50',
-        },
-    };
 
     const baseProps = {
         fileInfos,
         uploadsInProgress,
         onRemove,
-        uploadsProgressPercent,
     };
 
     test('should match snapshot', () => {
