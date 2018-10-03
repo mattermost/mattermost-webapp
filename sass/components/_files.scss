@@ -184,11 +184,14 @@
             @include single-transition(all, .1s, linear);
             @include border-radius(4px);
             bottom: 0;
-            cursor: 'pointer';
-            display: flex;
+            cursor: pointer;
+            display: inline-flex;
             min-height: 40px;
+            min-width: 40px;
             max-height: 350px;
             max-width: 100%;
+            align-content: center;
+            justify-content: center;
             opacity: 0;
             overflow: hidden;
             position: relative;
