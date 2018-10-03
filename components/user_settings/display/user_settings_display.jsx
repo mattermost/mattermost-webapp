@@ -6,7 +6,7 @@ import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 
-import {deletePreferences, savePreferences} from 'actions/user_actions.jsx';
+import {savePreferences} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
@@ -110,12 +110,14 @@ export default class UserSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        const preferences = [timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference];
-        if (this.state.teammateNameDisplay === this.props.configTeammateNameDisplay) {
-            deletePreferences([teammateNameDisplayPreference]);
-        } else {
-            preferences.push(teammateNameDisplayPreference);
-        }
+        const preferences = [
+            timePreference,
+            channelDisplayModePreference,
+            messageDisplayPreference,
+            collapseDisplayPreference,
+            linkPreviewDisplayPreference,
+            teammateNameDisplayPreference,
+        ];
 
         savePreferences(preferences, () => {
             this.updateSection('');
