@@ -39,6 +39,14 @@ export default class JoinLeaveSection extends React.PureComponent {
         this.setState({joinLeaveState: value});
     }
 
+    handleUpdateSection = (section) => {
+        if (!section) {
+            this.setState({joinLeaveState: this.props.joinLeave});
+        }
+
+        this.props.onUpdateSection(section);
+    }
+
     handleSubmit = () => {
         const {actions, currentUserId, onUpdateSection} = this.props;
         const joinLeavePreference = {category: Preferences.CATEGORY_ADVANCED_SETTINGS, user_id: currentUserId, name: Preferences.ADVANCED_FILTER_JOIN_LEAVE, value: this.state.joinLeaveState};
@@ -107,7 +115,7 @@ export default class JoinLeaveSection extends React.PureComponent {
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={this.state.serverError}
-                    updateSection={this.props.onUpdateSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -123,7 +131,7 @@ export default class JoinLeaveSection extends React.PureComponent {
                 describe={this.props.renderOnOffLabel(joinLeaveState)}
                 focused={this.props.prevActiveSection === AdvancedSections.JOIN_LEAVE}
                 section={AdvancedSections.JOIN_LEAVE}
-                updateSection={this.props.onUpdateSection}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
