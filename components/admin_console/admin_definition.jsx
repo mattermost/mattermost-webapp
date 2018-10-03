@@ -747,7 +747,7 @@ export default {
                     },
                     onConfigSave: (config) => {
                         const newConfig = {...config};
-                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url + '/api/v4/user';
+                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
                         return newConfig;
                     },
                     settings: [
@@ -800,7 +800,7 @@ export default {
                             label_default: 'User API Endpoint:',
                             dynamic_value: (value, config, state) => {
                                 if (state['GitLabSettings.Url']) {
-                                    return state['GitLabSettings.Url'] + '/api/v4/user';
+                                    return state['GitLabSettings.Url'].replace(/\/$/, '') + '/api/v4/user';
                                 }
                                 return '';
                             },
@@ -813,7 +813,7 @@ export default {
                             label_default: 'Auth Endpoint:',
                             dynamic_value: (value, config, state) => {
                                 if (state['GitLabSettings.Url']) {
-                                    return state['GitLabSettings.Url'] + '/oauth/authorize';
+                                    return state['GitLabSettings.Url'].replace(/\/$/, '') + '/oauth/authorize';
                                 }
                                 return '';
                             },
@@ -826,7 +826,7 @@ export default {
                             label_default: 'Token Endpoint:',
                             dynamic_value: (value, config, state) => {
                                 if (state['GitLabSettings.Url']) {
-                                    return state['GitLabSettings.Url'] + '/oauth/token';
+                                    return state['GitLabSettings.Url'].replace(/\/$/, '') + '/oauth/token';
                                 }
                                 return '';
                             },
@@ -865,7 +865,7 @@ export default {
                         newConfig.GitLabSettings.Enable = false;
                         newConfig.Office365Settings.Enable = false;
                         newConfig.GoogleSettings.Enable = false;
-                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url + '/api/v4/user';
+                        newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
                         if (config.oauthType === Constants.GITLAB_SERVICE) {
                             newConfig.GitLabSettings.Enable = true;
@@ -965,7 +965,7 @@ export default {
                             label_default: 'User API Endpoint:',
                             dynamic_value: (value, config, state) => {
                                 if (state['GitLabSettings.Url']) {
-                                    return state['GitLabSettings.Url'] + '/api/v4/user';
+                                    return state['GitLabSettings.Url'].replace(/\/$/, '') + '/api/v4/user';
                                 }
                                 return '';
                             },
@@ -979,7 +979,7 @@ export default {
                             label_default: 'Auth Endpoint:',
                             dynamic_value: (value, config, state) => {
                                 if (state['GitLabSettings.Url']) {
-                                    return state['GitLabSettings.Url'] + '/oauth/authorize';
+                                    return state['GitLabSettings.Url'].replace(/\/$/, '') + '/oauth/authorize';
                                 }
                                 return '';
                             },
@@ -993,7 +993,7 @@ export default {
                             label_default: 'Token Endpoint:',
                             dynamic_value: (value, config, state) => {
                                 if (state['GitLabSettings.Url']) {
-                                    return state['GitLabSettings.Url'] + '/oauth/token';
+                                    return state['GitLabSettings.Url'].replace(/\/$/, '') + '/oauth/token';
                                 }
                                 return '';
                             },
