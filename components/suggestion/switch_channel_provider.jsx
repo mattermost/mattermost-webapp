@@ -116,11 +116,11 @@ class SwitchChannelSuggestion extends Suggestion {
 
 function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const channelId = ownProps.item && ownProps.item.channel ? ownProps.item.channel.id : '';
-    const draft = getPostDraft(state, StoragePrefixes.DRAFT, channelId);
+    const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
 
     return {
         channelMember: getMyChannelMemberships(state)[channelId],
-        hasDraft: Boolean(draft.message || draft.fileInfos.length || draft.uploadsInProgress.length),
+        hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length),
     };
 }
 
