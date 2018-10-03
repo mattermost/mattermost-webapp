@@ -112,7 +112,7 @@ export default class Root extends React.Component {
                 }
 
                 console.log('detected logout from a different tab'); //eslint-disable-line no-console
-                GlobalActions.emitUserLoggedOutEvent('/', false);
+                GlobalActions.emitUserLoggedOutEvent('/', false, false);
             }
 
             if (e.originalEvent.key === StoragePrefixes.LOGIN && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
