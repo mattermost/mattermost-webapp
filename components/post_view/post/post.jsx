@@ -265,6 +265,7 @@ export default class Post extends React.PureComponent {
                 className={this.getClassName(post, isSystemMessage, fromWebhook, fromAutoResponder)}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
+                onTouchStart={this.setHover}
             >
                 <div className={'post__content ' + centerClass}>
                     <div className='post__img'>
