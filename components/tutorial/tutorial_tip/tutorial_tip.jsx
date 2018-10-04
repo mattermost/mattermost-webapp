@@ -8,8 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {savePreference} from 'actions/user_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import tutorialGif from 'images/tutorialTip.gif';
 import tutorialGifWhite from 'images/tutorialTipWhite.gif';
@@ -18,6 +16,22 @@ const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
 export default class TutorialTip extends React.Component {
+    static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
+        step: PropTypes.number.isRequired,
+        screens: PropTypes.array.isRequired,
+        placement: PropTypes.string.isRequired,
+        overlayClass: PropTypes.string,
+        diagnosticsTag: PropTypes.string,
+        actions: PropTypes.shape({
+            closeRhsMenu: PropTypes.func.isRequired,
+        }),
+    }
+
+    static defaultProps = {
+        overlayClass: '',
+    }
+
     constructor(props) {
         super(props);
 
@@ -57,11 +71,10 @@ export default class TutorialTip extends React.Component {
         this.props.actions.closeRhsMenu();
         this.hide();
 
-        const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
         savePreference(
             Preferences.TUTORIAL_STEP,
-            UserStore.getCurrentId(),
-            (step + 1).toString()
+            this.props.currentUserId,
+            (this.props.step + 1).toString()
         );
     }
 
@@ -79,7 +92,7 @@ export default class TutorialTip extends React.Component {
 
         savePreference(
             Preferences.TUTORIAL_STEP,
-            UserStore.getCurrentId(),
+            this.props.currentUserId,
             TutorialSteps.FINISHED.toString()
         );
     }
@@ -194,17 +207,3 @@ export default class TutorialTip extends React.Component {
         );
     }
 }
-
-TutorialTip.defaultProps = {
-    overlayClass: '',
-};
-
-TutorialTip.propTypes = {
-    screens: PropTypes.array.isRequired,
-    placement: PropTypes.string.isRequired,
-    overlayClass: PropTypes.string,
-    diagnosticsTag: PropTypes.string,
-    actions: PropTypes.shape({
-        closeRhsMenu: PropTypes.func.isRequired,
-    }),
-};
