@@ -103,10 +103,16 @@ export default class EditPostModal extends React.PureComponent {
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
+        if (!this.state.showEmojiPicker && this.editbox) {
+            this.editbox.focus();
+        }
     }
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
+        if (this.editbox) {
+            this.editbox.focus();
+        }
     }
 
     handleEmojiClick = (emoji) => {
@@ -225,7 +231,7 @@ export default class EditPostModal extends React.PureComponent {
     handleKeyDown = (e) => {
         if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
-        } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+        } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
             this.handleHide();
         }
     }
