@@ -17,6 +17,7 @@ import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -453,9 +454,9 @@ class UserSettingsGeneralTab extends React.Component {
                 if (newEmail) {
                     helpText = (
                         <React.Fragment>
-                            <FormattedHTMLMessage
+                            <FormattedMarkdownMessage
                                 id='user.settings.general.emailHelp4'
-                                defaultMessage='A verification email was sent to {email}. <br />Cannot find the email?'
+                                defaultMessage='A verification email was sent to {email}. \nCannot find the email?'
                                 values={{
                                     email: newEmail,
                                 }}
