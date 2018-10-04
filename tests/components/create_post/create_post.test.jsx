@@ -487,6 +487,7 @@ describe('components/create_post', () => {
 
         wrapper.setProps({draft: uploadsInProgressDraft});
 
+        instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
         instance.handleUploadError('error message', 'a', currentChannelProp.id);
 
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);

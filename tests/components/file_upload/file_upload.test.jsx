@@ -47,6 +47,7 @@ describe('components/FileUpload', () => {
         uploadFile: emptyFunction,
         maxFileSize: MaxFileSize,
         canUploadFiles: true,
+        rootId: 'root_id',
     };
 
     test('should match snapshot', () => {
@@ -112,10 +113,10 @@ describe('components/FileUpload', () => {
             <FileUpload {...props}/>
         );
 
-        wrapper.instance().fileUploadSuccess(data, 'channel_id');
+        wrapper.instance().fileUploadSuccess(data, 'channel_id', 'root_id');
 
         expect(onFileUpload).toHaveBeenCalledTimes(1);
-        expect(onFileUpload).toHaveBeenCalledWith(data.file_infos, data.client_ids, 'channel_id');
+        expect(onFileUpload).toHaveBeenCalledWith(data.file_infos, data.client_ids, 'channel_id', 'root_id');
     });
 
     test('should props.onUploadError when fileUploadFail is called', () => {
@@ -125,16 +126,17 @@ describe('components/FileUpload', () => {
             err: 'error_message',
             clientId: 'client_id',
             channelId: 'channel_id',
+            rootId: 'root_id',
         };
 
         const wrapper = shallow(
             <FileUpload {...props}/>
         );
 
-        wrapper.instance().fileUploadFail(params.err, params.clientId, params.channelId);
+        wrapper.instance().fileUploadFail(params.err, params.clientId, params.channelId, params.rootId);
 
         expect(onUploadError).toHaveBeenCalledTimes(1);
-        expect(onUploadError).toHaveBeenCalledWith(params.err, params.clientId, params.channelId);
+        expect(onUploadError).toHaveBeenCalledWith(params.err, params.clientId, params.channelId, params.rootId);
     });
 
     test('should have props.functions when uploadFiles is called', () => {

@@ -100,6 +100,7 @@ function makeMapDispatchToProps() {
         return bindActionCreators({
             clearCommentDraftUploads,
             onUpdateCommentDraft,
+            updateCommentDraftWithRootId: updateCommentDraft,
             onSubmit,
             onResetHistoryIndex,
             onMoveHistoryIndexBack,
