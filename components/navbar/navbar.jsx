@@ -78,29 +78,31 @@ export default class Navbar extends React.PureComponent {
                 <div className='container-fluid theme'>
                     <div className='navbar-header'>
                         <CollapseLhsButton/>
-                        <CollapseRhsButton/>
-                        <ShowSearchButton/>
                         {channel && (
                             <React.Fragment>
+                                <div className='navbar-brand'>
+                                    <MobileChannelHeaderDropdown/>
+                                    {isMuted && (
+                                        <UnmuteChannelButton
+                                            user={user}
+                                            channel={channel}
+                                        />
+                                    )}
+                                </div>
                                 <NavbarInfoButton
                                     ref='headerOverlay'
                                     channel={channel}
                                     isReadOnly={this.props.isReadOnly}
                                 />
+                                <ShowSearchButton/>
                                 <MobileChannelHeaderPlug
                                     channel={channel}
                                     isDropdown={false}
                                 />
-                                <MobileChannelHeaderDropdown/>
                             </React.Fragment>
                         )}
+                        <CollapseRhsButton/>
                     </div>
-                    {isMuted && (
-                        <UnmuteChannelButton
-                            user={user}
-                            channel={channel}
-                        />
-                    )}
                 </div>
             </nav>
         );

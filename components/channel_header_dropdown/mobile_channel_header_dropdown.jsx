@@ -55,94 +55,91 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
             isReadonly,
             isArchived,
         } = this.props;
-        console.log(isFavorite);
 
         return (
-            <div className='navbar-brand'>
-                <div className='dropdown'>
-                    {/* this.generateWebrtcIcon() */}
-                    <a
-                        href='#'
-                        className='dropdown-toggle theme'
-                        type='button'
-                        data-toggle='dropdown'
-                        aria-expanded='true'
-                    >
-                        <span className='heading'>
-                            <StatusIcon status={teammateStatus}/>
-                            {this.getChannelTitle()}
-                        </span>
-                        <span
-                            className='fa fa-angle-down header-dropdown__icon'
-                            title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
-                        />
-                    </a>
+            <div className='dropdown'>
+                {/* this.generateWebrtcIcon() */}
+                <a
+                    href='#'
+                    className='dropdown-toggle theme'
+                    type='button'
+                    data-toggle='dropdown'
+                    aria-expanded='true'
+                >
+                    <span className='heading'>
+                        <StatusIcon status={teammateStatus}/>
+                        {this.getChannelTitle()}
+                    </span>
+                    <span
+                        className='fa fa-angle-down header-dropdown__icon'
+                        title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
+                    />
+                </a>
 
-                    <ul
-                        className='dropdown-menu'
-                        role='menu'
-                    >
-                        {/* This part could be more clean with HoC */}
-                        <MenuItem.ViewChannelInfo
-                            channel={channel}
-                        />
-                        <MenuItem.ViewPinnedPosts
-                            channel={channel}
-                        />
-                        <MenuItem.NotificationPreferences
-                            user={user}
-                            channel={channel}
-                            membership={membership}
-                        />
-                        <MenuItem.AddMembers
-                            channel={channel}
-                            isDefault={isDefault}
-                        />
-                        <MenuItem.ViewMembers
-                            channel={channel}
-                            isDefault={isDefault}
-                        />
-                        <MenuItem.ManageMembers
-                            channel={channel}
-                            isDefault={isDefault}
-                        />
-                        <MenuItem.SetChannelHeader
-                            channel={channel}
-                            isReadonly={isReadonly}
-                        />
-                        <MenuItem.SetChannelPurpose
-                            channel={channel}
-                            isReadonly={isReadonly}
-                        />
-                        <MenuItem.RenameChannel
-                            channel={channel}
-                            isDefault={isDefault}
-                            isArchived={isArchived}
-                        />
-                        <MenuItem.ConvertChannel
-                            channel={channel}
-                        />
-                        <MenuItem.DeleteChannel
-                            channel={channel}
-                        />
-                        <MenuItem.LeaveChannel
-                            channel={channel}
-                            isDefault={isDefault}
-                        />
-                        <MenuItem.ToggleFavoriteChannel
-                            channel={channel}
-                            isFavorite={isFavorite}
-                        />
+                <ul
+                    className='dropdown-menu'
+                    role='menu'
+                >
+                    {/* This part could be more clean with HoC */}
+                    <MenuItem.ViewChannelInfo
+                        channel={channel}
+                    />
+                    <MenuItem.ViewPinnedPosts
+                        channel={channel}
+                    />
+                    <MenuItem.NotificationPreferences
+                        user={user}
+                        channel={channel}
+                        membership={membership}
+                    />
+                    <MenuItem.AddMembers
+                        channel={channel}
+                        isDefault={isDefault}
+                    />
+                    <MenuItem.ViewMembers
+                        channel={channel}
+                        isDefault={isDefault}
+                    />
+                    <MenuItem.ManageMembers
+                        channel={channel}
+                        isDefault={isDefault}
+                    />
+                    <MenuItem.SetChannelHeader
+                        channel={channel}
+                        isReadonly={isReadonly}
+                    />
+                    <MenuItem.SetChannelPurpose
+                        channel={channel}
+                        isReadonly={isReadonly}
+                    />
+                    <MenuItem.RenameChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                        isArchived={isArchived}
+                    />
+                    <MenuItem.ConvertChannel
+                        channel={channel}
+                    />
+                    <MenuItem.DeleteChannel
+                        channel={channel}
+                    />
+                    <MenuItem.LeaveChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                    />
+                    <MenuItem.ToggleFavoriteChannel
+                        channel={channel}
+                        isFavorite={isFavorite}
+                    />
 
-                        <MobileChannelHeaderPlug
-                            channel={channel}
-                            isDropdown={true}
-                        />
-                        <div className='close visible-xs-block'>
-                            {'×'}
-                        </div>
-                    </ul>
-                </div>
+                    <MobileChannelHeaderPlug
+                        channel={channel}
+                        isDropdown={true}
+                    />
+                    <div className='close visible-xs-block'>
+                        {'×'}
+                    </div>
+                </ul>
             </div>
         );
     }
