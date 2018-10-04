@@ -10,7 +10,7 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import {ModalIdentifiers} from 'utils/constants';
 
-const NotificationPreferences = ({user, channel, membership}) => (
+const NotificationPreferences = ({user, channel}) => (
     <li role='presentation'>
         <ToggleModalButtonRedux
             role='menuitem'
@@ -18,7 +18,6 @@ const NotificationPreferences = ({user, channel, membership}) => (
             dialogType={ChannelNotificationsModal}
             dialogProps={{
                 channel,
-                channelMember: membership,
                 currentUser: user,
             }}
         >
@@ -41,11 +40,6 @@ NotificationPreferences.propTypes = {
      * Object with info about channel
      */
     channel: PropTypes.object.isRequired,
-
-    /**
-     * Object with info about user's channel membership
-     */
-    membership: PropTypes.object.isRequired,
 };
 
 export default NotificationPreferences;

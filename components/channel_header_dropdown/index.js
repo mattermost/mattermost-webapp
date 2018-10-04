@@ -9,7 +9,6 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
-    getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
@@ -65,7 +64,6 @@ const getTeammateStatus = createSelector(
 const mapStateToProps = createSelector(
     getCurrentUser,
     getCurrentChannel,
-    getMyCurrentChannelMembership,
     isCurrentChannelDefault,
     isCurrentChannelFavorite,
     isCurrentChannelReadOnly,
@@ -75,7 +73,6 @@ const mapStateToProps = createSelector(
     (
         user,
         channel,
-        membership,
         isDefault,
         isFavorite,
         isReadonly,
@@ -85,7 +82,6 @@ const mapStateToProps = createSelector(
     ) => ({
         user,
         channel,
-        membership,
         isDefault,
         isFavorite,
         isReadonly,

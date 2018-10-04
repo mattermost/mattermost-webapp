@@ -16,7 +16,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         channel: PropTypes.object.isRequired,
-        membership: PropTypes.object.isRequired,
         isDefault: PropTypes.bool.isRequired,
         isFavorite: PropTypes.bool.isRequired,
         isReadonly: PropTypes.bool.isRequired,
@@ -48,7 +47,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         const {
             user,
             channel,
-            membership,
             teammateStatus,
             isDefault,
             isFavorite,
@@ -90,7 +88,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
-                        membership={membership}
                     />
                     <MenuItem.AddMembers
                         channel={channel}
