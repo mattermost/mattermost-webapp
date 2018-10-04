@@ -125,11 +125,6 @@ export default class FileUpload extends PureComponent {
          */
         pluginFileUploadMethods: PropTypes.arrayOf(PropTypes.object),
         pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
-
-        /**
-         * Function called when superAgent fires progress event.
-         */
-        onUploadProgress: PropTypes.func.isRequired,
     };
 
     static contextTypes = {
@@ -197,10 +192,6 @@ export default class FileUpload extends PureComponent {
         this.uploadFiles(files);
     }
 
-    fileUploadProgress = (progressEvent, name, clientId) => {
-        this.props.onUploadProgress(clientId, name, progressEvent.percent);
-    }
-
     checkPluginHooksAndUploadFiles = (files) => {
         // clear any existing errors
         this.props.onUploadError(null);
@@ -253,8 +244,7 @@ export default class FileUpload extends PureComponent {
                 currentChannelId,
                 clientId,
                 (data, channelId) => this.fileUploadSuccess(data, channelId),
-                (e, clientIdOnError, channelId) => this.fileUploadFail(e, clientIdOnError, channelId),
-                (progressEvent) => this.fileUploadProgress(progressEvent, sortedFiles[i].name, clientId),
+                (e, clientIdOnError, channelId) => this.fileUploadFail(e, clientIdOnError, channelId)
             );
 
             this.setState({requests: {...this.state.requests, [clientId]: request}});

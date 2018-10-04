@@ -20,7 +20,7 @@ import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview/file_preview.jsx';
+import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
@@ -223,11 +223,9 @@ export default class CreatePost extends React.Component {
             enableSendButton: false,
             showEmojiPicker: false,
             showConfirmModal: false,
-            handleUploadProgress: {},
         };
 
         this.lastBlurAt = 0;
-        this.draftsTimeout = null;
         this.draftsForChannel = {};
     }
 
@@ -271,13 +269,6 @@ export default class CreatePost extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.documentKeyHandler);
-        const channelId = this.props.currentChannel.id;
-        if (this.draftsTimeout) {
-            clearTimeout(this.draftsTimeout);
-            const draft = {...this.draftsForChannel[channelId]};
-            draft.message = this.props.draft.message;
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, draft);
-        }
     }
 
     handlePostError = (postError) => {
@@ -560,11 +551,6 @@ export default class CreatePost extends React.Component {
         this.focusTextbox();
     }
 
-    handleUploadProgress = (clientId, name, percent) => {
-        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name}};
-        this.setState({uploadsProgressPercent});
-    }
-
     handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
 
@@ -584,15 +570,7 @@ export default class CreatePost extends React.Component {
         }
 
         this.draftsForChannel[channelId] = draft;
-        this.draftsTimeout = setTimeout(() => {
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-
-            if (channelId === this.props.currentChannel.id) {
-                this.setState({
-                    enableSendButton: true,
-                });
-            }
-        }, 500);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
     handleUploadError = (err, clientId, channelId) => {
@@ -926,7 +904,6 @@ export default class CreatePost extends React.Component {
                     fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
-                    uploadsProgressPercent={this.state.uploadsProgressPercent}
                 />
             );
         }
@@ -965,7 +942,6 @@ export default class CreatePost extends React.Component {
                     getTarget={this.getFileUploadTarget}
                     onFileUploadChange={this.handleFileUploadChange}
                     onUploadStart={this.handleUploadStart}
-                    onUploadProgress={this.handleUploadProgress}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
                     postType='post'
