@@ -134,6 +134,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             onUploadError={[Function]}
             onUploadStart={[Function]}
             postType="comment"
+            rootId=""
           />
           <span
             className="emoji-picker__container"
@@ -256,6 +257,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
             onUploadError={[Function]}
             onUploadStart={[Function]}
             postType="comment"
+            rootId=""
           />
         </span>
       </div>
@@ -368,6 +370,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             onUploadError={[Function]}
             onUploadStart={[Function]}
             postType="comment"
+            rootId=""
           />
           <span
             className="emoji-picker__container"
@@ -490,6 +493,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             onUploadError={[Function]}
             onUploadStart={[Function]}
             postType="comment"
+            rootId=""
           />
           <span
             className="emoji-picker__container"

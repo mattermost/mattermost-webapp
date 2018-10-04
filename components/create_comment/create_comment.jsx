@@ -103,6 +103,11 @@ export default class CreateComment extends React.PureComponent {
         onUpdateCommentDraft: PropTypes.func.isRequired,
 
         /**
+         * Called when comment draft needs to be updated for an specific root ID
+         */
+        updateCommentDraftWithRootId: PropTypes.func.isRequired,
+
+        /**
          * Called when submitting the comment
          */
         onSubmit: PropTypes.func.isRequired,
@@ -174,6 +179,7 @@ export default class CreateComment extends React.PureComponent {
         };
 
         this.lastBlurAt = 0;
+        this.draftsForPost = {};
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -274,11 +280,17 @@ export default class CreateComment extends React.PureComponent {
             newMessage = `${draft.message} :${emojiAlias}: `;
         }
 
-        this.props.onUpdateCommentDraft({...draft, message: newMessage});
+        const modifiedDraft = {
+            ...draft,
+            message: newMessage,
+        };
+
+        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.setState({
             showEmojiPicker: false,
-            draft: {...draft, message: newMessage},
+            draft: modifiedDraft,
         });
 
         this.focusTextbox();
@@ -297,11 +309,17 @@ export default class CreateComment extends React.PureComponent {
             newMessage = `${draft.message} ${gif} `;
         }
 
-        this.props.onUpdateCommentDraft({...draft, message: newMessage});
+        const modifiedDraft = {
+            ...draft,
+            message: newMessage,
+        };
+
+        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.setState({
             showEmojiPicker: false,
-            draft: {...draft, message: newMessage},
+            draft: modifiedDraft,
         });
 
         this.focusTextbox();
@@ -391,6 +409,7 @@ export default class CreateComment extends React.PureComponent {
                 const updatedDraft = {...draft, message};
                 this.props.onUpdateCommentDraft(updatedDraft);
                 this.setState({draft: updatedDraft}, () => this.handleSubmit(e));
+                this.draftsForPost[this.props.rootId] = updatedDraft;
             } else {
                 this.handleSubmit(e);
             }
@@ -415,6 +434,7 @@ export default class CreateComment extends React.PureComponent {
         this.setState({draft: updatedDraft}, () => {
             this.scrollToBottom();
         });
+        this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
     handleKeyDown = (e) => {
@@ -457,16 +477,21 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const uploadsInProgress = [...draft.uploadsInProgress, ...clientIds];
 
-        this.props.onUpdateCommentDraft({...draft, uploadsInProgress});
-        this.setState({draft: {...draft, uploadsInProgress}});
+        const modifiedDraft = {
+            ...draft,
+            uploadsInProgress,
+        };
+        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.setState({draft: modifiedDraft});
+        this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
         this.focusTextbox();
     }
 
-    handleFileUploadComplete = (fileInfos, clientIds) => {
-        const {draft} = this.state;
+    handleFileUploadComplete = (fileInfos, clientIds, channelId, rootId) => {
+        const draft = this.draftsForPost[rootId];
         const uploadsInProgress = [...draft.uploadsInProgress];
         const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);
 
@@ -479,8 +504,16 @@ export default class CreateComment extends React.PureComponent {
             }
         }
 
-        this.props.onUpdateCommentDraft({...draft, fileInfos: newFileInfos, uploadsInProgress});
-        this.setState({draft: {...draft, fileInfos: newFileInfos, uploadsInProgress}});
+        const modifiedDraft = {
+            ...draft,
+            fileInfos: newFileInfos,
+            uploadsInProgress,
+        };
+        this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
+        this.draftsForPost[rootId] = modifiedDraft;
+        if (this.props.rootId === rootId) {
+            this.setState({draft: modifiedDraft});
+        }
 
         // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
         // the preview will be undefined and the switch will fail
@@ -489,9 +522,9 @@ export default class CreateComment extends React.PureComponent {
         }
     }
 
-    handleUploadError = (err, clientId = -1) => {
+    handleUploadError = (err, clientId = -1, rootId = -1) => {
         if (clientId !== -1) {
-            const {draft} = this.state;
+            const draft = {...this.draftsForPost[rootId]};
             const uploadsInProgress = [...draft.uploadsInProgress];
 
             const index = uploadsInProgress.indexOf(clientId);
@@ -499,8 +532,15 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress.splice(index, 1);
             }
 
-            this.props.onUpdateCommentDraft({...draft, uploadsInProgress});
-            this.setState({draft: {...draft, uploadsInProgress}});
+            const modifiedDraft = {
+                ...draft,
+                uploadsInProgress,
+            };
+            this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
+            this.draftsForPost[rootId] = modifiedDraft;
+            if (this.props.rootId === rootId) {
+                this.setState({draft: modifiedDraft});
+            }
         }
 
         this.setState({serverError: err});
@@ -530,8 +570,15 @@ export default class CreateComment extends React.PureComponent {
             fileInfos.splice(index, 1);
         }
 
-        this.props.onUpdateCommentDraft({...draft, fileInfos, uploadsInProgress});
-        this.setState({draft: {...draft, fileInfos, uploadsInProgress}});
+        const modifiedDraft = {
+            ...draft,
+            fileInfos,
+            uploadsInProgress,
+        };
+
+        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.setState({draft: modifiedDraft});
+        this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.handleFileUploadChange();
     }
@@ -668,6 +715,7 @@ export default class CreateComment extends React.PureComponent {
                     onUploadStart={this.handleUploadStart}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
+                    rootId={this.props.rootId}
                     postType='comment'
                 />
             );
