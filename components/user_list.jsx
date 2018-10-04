@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import UserListRow from './user_list_row.jsx';
+import UserListRow from './user_list_row';
 
 export default class UserList extends React.Component {
     constructor(props) {
