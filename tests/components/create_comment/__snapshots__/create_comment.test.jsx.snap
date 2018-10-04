@@ -132,7 +132,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
-            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
           />
@@ -255,7 +254,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
-            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
           />
@@ -285,7 +283,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         }
         onRemove={[Function]}
         uploadsInProgress={Array []}
-        uploadsProgressPercent={Object {}}
       />
     </div>
   </div>
@@ -369,7 +366,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
-            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
           />
@@ -492,7 +488,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
-            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
           />
@@ -556,7 +551,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             Object {},
           ]
         }
-        uploadsProgressPercent={Object {}}
       />
     </div>
   </div>

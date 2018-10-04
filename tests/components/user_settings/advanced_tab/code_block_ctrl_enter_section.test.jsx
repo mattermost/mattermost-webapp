@@ -85,4 +85,24 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         expect(actions.savePreferences).toHaveBeenCalledTimes(2);
         expect(actions.savePreferences).toHaveBeenCalledWith(defaultProps.currentUserId, [codeBlockOnCtrlEnterPreference]);
     });
+
+    test('should match state and call props.onUpdateSection on handleUpdateSection', () => {
+        const onUpdateSection = jest.fn();
+        const wrapper = shallow(
+            <CodeBlockCtrlEnterSection
+                {...defaultProps}
+                onUpdateSection={onUpdateSection}
+            />
+        );
+
+        wrapper.setState({codeBlockOnCtrlEnterState: 'false'});
+        wrapper.instance().handleUpdateSection();
+        expect(wrapper.state('codeBlockOnCtrlEnterState')).toEqual(defaultProps.codeBlockOnCtrlEnter);
+        expect(onUpdateSection).toHaveBeenCalledTimes(1);
+
+        wrapper.setState({codeBlockOnCtrlEnterState: 'false'});
+        wrapper.instance().handleUpdateSection(AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER);
+        expect(onUpdateSection).toHaveBeenCalledTimes(2);
+        expect(onUpdateSection).toBeCalledWith(AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER);
+    });
 });

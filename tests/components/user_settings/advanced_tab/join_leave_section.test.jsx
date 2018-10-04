@@ -20,7 +20,11 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         prevActiveSection: AdvancedSections.FORMATTING,
         renderOnOffLabel: jest.fn(),
         actions: {
-            savePreferences: jest.fn(),
+            savePreferences: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
         },
     };
 
@@ -55,7 +59,9 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
     });
 
     test('should call props.actions.savePreferences and props.onUpdateSection on handleSubmit', () => {
-        const actions = {savePreferences: jest.fn()};
+        const actions = {
+            savePreferences: jest.fn().mockImplementation(() => Promise.resolve({data: true})),
+        };
         const onUpdateSection = jest.fn();
         const wrapper = shallow(
             <JoinLeaveSection
@@ -82,5 +88,25 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         wrapper.instance().handleSubmit();
         expect(actions.savePreferences).toHaveBeenCalledTimes(2);
         expect(actions.savePreferences).toHaveBeenCalledWith('current_user_id', [joinLeavePreference]);
+    });
+
+    test('should match state and call props.onUpdateSection on handleUpdateSection', () => {
+        const onUpdateSection = jest.fn();
+        const wrapper = shallow(
+            <JoinLeaveSection
+                {...defaultProps}
+                onUpdateSection={onUpdateSection}
+            />
+        );
+
+        wrapper.setState({joinLeaveState: 'false'});
+        wrapper.instance().handleUpdateSection();
+        expect(wrapper.state('joinLeaveState')).toEqual(defaultProps.joinLeave);
+        expect(onUpdateSection).toHaveBeenCalledTimes(1);
+
+        wrapper.setState({joinLeaveState: 'false'});
+        wrapper.instance().handleUpdateSection(AdvancedSections.JOIN_LEAVE);
+        expect(onUpdateSection).toHaveBeenCalledTimes(2);
+        expect(onUpdateSection).toBeCalledWith(AdvancedSections.JOIN_LEAVE);
     });
 });

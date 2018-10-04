@@ -43,7 +43,6 @@ describe('components/FileUpload', () => {
         onFileUploadChange: emptyFunction,
         onUploadError: emptyFunction,
         onUploadStart: emptyFunction,
-        onUploadProgress: emptyFunction,
         postType: 'post',
         uploadFile: emptyFunction,
         maxFileSize: MaxFileSize,

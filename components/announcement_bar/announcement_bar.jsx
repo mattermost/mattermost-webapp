@@ -342,9 +342,9 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         } else if (message === AnnouncementBarMessages.LICENSE_EXPIRING) {
             message = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id={AnnouncementBarMessages.LICENSE_EXPIRING}
-                    defaultMessage='Enterprise license expires on {date}. <a href="{link}" target="_blank">Please renew</a>.'
+                    defaultMessage='Enterprise license expires on {date}. [Prease renew](!{link}).'
                     values={{
                         date: displayExpiryDate(),
                         link: renewalLink,
@@ -353,9 +353,9 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         } else if (message === AnnouncementBarMessages.LICENSE_EXPIRED) {
             message = (
-                <FormattedHTMLMessage
+                <FormattedMarkdownMessage
                     id={AnnouncementBarMessages.LICENSE_EXPIRED}
-                    defaultMessage='Enterprise license is expired and some features may be disabled. <a href="{link}" target="_blank">Please renew</a>.'
+                    defaultMessage='Enterprise license is expired and some features may be disabled. [Please renew](!{link}).'
                     values={{
                         link: renewalLink,
                     }}
