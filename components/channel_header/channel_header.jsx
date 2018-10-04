@@ -12,22 +12,13 @@ import 'bootstrap';
 
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 
 import Markdown from 'components/markdown';
-import {Constants, NotificationLevels, RHSStates, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, NotificationLevels, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import ChannelInfoModal from 'components/channel_info_modal';
-import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal';
-import ConvertChannelModal from 'components/convert_channel_modal';
-import DeleteChannelModal from 'components/delete_channel_modal';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal';
-import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import MoreDirectChannels from 'components/more_direct_channels';
+import {browserHistory} from 'utils/browser_history';
 import PopoverListMembers from 'components/popover_list_members';
-import RenameChannelModal from 'components/rename_channel_modal';
 import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
 import FlagIcon from 'components/svg/flag_icon';
@@ -35,9 +26,8 @@ import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
@@ -51,7 +41,6 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 export default class ChannelHeader extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
-            leaveChannel: PropTypes.func.isRequired,
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
             showFlaggedPosts: PropTypes.func.isRequired,
@@ -59,7 +48,6 @@ export default class ChannelHeader extends React.Component {
             showMentions: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             updateRhsState: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
@@ -67,14 +55,15 @@ export default class ChannelHeader extends React.Component {
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
         isFavorite: PropTypes.bool,
-        isDefault: PropTypes.bool,
         currentUser: PropTypes.object.isRequired,
         dmUser: PropTypes.object,
         isReadOnly: PropTypes.bool,
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
-        penultimateViewedChannelName: PropTypes.string.isRequired,
+        lastViewedChannelName: PropTypes.string.isRequired,
+        enableWebrtc: PropTypes.bool.isRequired,
+        isWebrtcBusy: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -122,12 +111,12 @@ export default class ChannelHeader extends React.Component {
         this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
     };
 
-    handleLeave = () => {
-        if (this.props.channel.type === Constants.PRIVATE_CHANNEL) {
-            GlobalActions.showLeavePrivateChannelModal(this.props.channel);
-        } else {
-            this.props.actions.leaveChannel(this.props.channel.id);
-        }
+    onWebrtcChange = () => {
+        this.setState({isBusy: WebrtcStore.isBusy()});
+    };
+
+    onBusy = (isBusy) => {
+        this.setState({isBusy});
     };
 
     handleClose = () => {
@@ -238,59 +227,14 @@ export default class ChannelHeader extends React.Component {
         this.setState({showEditChannelHeaderModal: true});
     };
 
-    showInviteModal = () => {
-        const {channel, currentUser, actions} = this.props;
-        const inviteModalData = {
-            modalId: ModalIdentifiers.CHANNEL_INVITE,
-            dialogType: ChannelInviteModal,
-            dialogProps: {channel, currentUser},
-        };
+    handleWebRTCOnClick = (e) => {
+        e.preventDefault();
+        const dmUserId = this.props.dmUser.id;
+        const dmUserStatus = this.props.dmUserStatus.status;
+        const isOffline = dmUserStatus === UserStatuses.OFFLINE;
+        const isDoNotDisturb = dmUserStatus === UserStatuses.DND;
 
-        actions.openModal(inviteModalData);
-    };
-
-    renderMute = () => {
-        const channelMuted = isChannelMuted(this.props.channelMember);
-
-        if (channelMuted) {
-            return (
-                <li
-                    key='dropdown_unmute'
-                    role='presentation'
-                >
-                    <button
-                        className='style--none'
-                        id='channelUnmute'
-                        role='menuitem'
-                        onClick={this.unmute}
-                    >
-                        <FormattedMessage
-                            id='channel_header.unmute'
-                            defaultMessage='Unmute Channel'
-                        />
-                    </button>
-                </li>
-            );
-        }
-
-        return (
-            <li
-                key='dropdown_mute'
-                role='presentation'
-            >
-                <button
-                    className='style--none'
-                    id='channelMute'
-                    role='menuitem'
-                    onClick={this.mute}
-                >
-                    <FormattedMessage
-                        id='channel_header.mute'
-                        defaultMessage='Mute Channel'
-                    />
-                </button>
-            </li>
-        );
+        this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb);
     };
 
     render() {
@@ -361,431 +305,6 @@ export default class ChannelHeader extends React.Component {
                     channel={channel}
                 />
             );
-        }
-
-        const dropdownContents = [];
-        if (isDirect) {
-            dropdownContents.push(
-                <li
-                    key='edit_header_direct'
-                    role='presentation'
-                >
-                    <ToggleModalButtonRedux
-                        id='channelEditHeaderDirect'
-                        role='menuitem'
-                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                        dialogType={EditChannelHeaderModal}
-                        dialogProps={{channel}}
-                    >
-                        <FormattedMessage
-                            id='channel_header.channelHeader'
-                            defaultMessage='Edit Channel Header'
-                        />
-                    </ToggleModalButtonRedux>
-                </li>
-            );
-        } else if (isGroup) {
-            dropdownContents.push(
-                <li
-                    key='edit_header_direct'
-                    role='presentation'
-                >
-                    <ToggleModalButtonRedux
-                        id='channelEditHeaderGroup'
-                        role='menuitem'
-                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                        dialogType={EditChannelHeaderModal}
-                        dialogProps={{channel}}
-                    >
-                        <FormattedMessage
-                            id='channel_header.channelHeader'
-                            defaultMessage='Edit Channel Header'
-                        />
-                    </ToggleModalButtonRedux>
-                </li>
-            );
-
-            dropdownContents.push(
-                <li
-                    key='notification_preferences'
-                    role='presentation'
-                >
-                    <ToggleModalButtonRedux
-                        role='menuitem'
-                        modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
-                        dialogType={ChannelNotificationsModal}
-                        dialogProps={{
-                            channel,
-                            channelMember: this.props.channelMember,
-                            currentUser: this.props.currentUser,
-                        }}
-                    >
-                        <FormattedMessage
-                            id='channel_header.notificationPreferences'
-                            defaultMessage='Notification Preferences'
-                        />
-                    </ToggleModalButtonRedux>
-                </li>
-            );
-
-            dropdownContents.push(this.renderMute());
-
-            dropdownContents.push(
-                <li
-                    key='add_members'
-                    role='presentation'
-                >
-                    <ToggleModalButtonRedux
-                        id='channelAddMembersGroup'
-                        role='menuitem'
-                        modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
-                        dialogType={MoreDirectChannels}
-                        dialogProps={{isExistingChannel: true}}
-                    >
-                        <FormattedMessage
-                            id='channel_header.addMembers'
-                            defaultMessage='Add Members'
-                        />
-                    </ToggleModalButtonRedux>
-                </li>
-            );
-        } else {
-            dropdownContents.push(
-                <li
-                    key='view_info'
-                    role='presentation'
-                >
-                    <ToggleModalButtonRedux
-                        id='channelViewInfo'
-                        role='menuitem'
-                        modalId={ModalIdentifiers.CHANNEL_INFO}
-                        dialogType={ChannelInfoModal}
-                        dialogProps={{channel}}
-                    >
-                        <FormattedMessage
-                            id='channel_header.viewInfo'
-                            defaultMessage='View Info'
-                        />
-                    </ToggleModalButtonRedux>
-                </li>
-            );
-
-            if (this.props.isDefault || channelIsArchived) {
-                dropdownContents.push(
-                    <li
-                        key='manage_members'
-                        role='presentation'
-                    >
-                        <ToggleModalButtonRedux
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                            dialogType={ChannelMembersModal}
-                            dialogProps={{channel}}
-                        >
-                            <FormattedMessage
-                                id='channel_header.viewMembers'
-                                defaultMessage='View Members'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
-                );
-            }
-
-            if (!channelIsArchived) {
-                dropdownContents.push(
-                    <li
-                        key='notification_preferences'
-                        role='presentation'
-                    >
-                        <ToggleModalButtonRedux
-                            role='menuitem'
-                            modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
-                            dialogType={ChannelNotificationsModal}
-                            dialogProps={{
-                                channel,
-                                channelMember: this.props.channelMember,
-                                currentUser: this.props.currentUser,
-                            }}
-                        >
-                            <FormattedMessage
-                                id='channel_header.notificationPreferences'
-                                defaultMessage='Notification Preferences'
-                            />
-                        </ToggleModalButtonRedux>
-                    </li>
-                );
-            }
-
-            dropdownContents.push(this.renderMute());
-
-            if (!this.props.isDefault) {
-                dropdownContents.push(
-                    <li
-                        key='divider-1'
-                        className='divider'
-                    />
-                );
-
-                if (!channelIsArchived) {
-                    dropdownContents.push(
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                            key='add_members_permission'
-                        >
-                            <li
-                                key='add_members'
-                                role='presentation'
-                            >
-                                <ToggleModalButtonRedux
-                                    id='channelAddMembers'
-                                    ref='channelInviteModalButton'
-                                    role='menuitem'
-                                    modalId={ModalIdentifiers.CHANNEL_INVITE}
-                                    dialogType={ChannelInviteModal}
-                                    dialogProps={{channel, currentUser: this.props.currentUser}}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.addMembers'
-                                        defaultMessage='Add Members'
-                                    />
-                                </ToggleModalButtonRedux>
-                            </li>
-                        </ChannelPermissionGate>
-                    );
-                    dropdownContents.push(
-                        <ChannelPermissionGate
-                            channelId={channel.id}
-                            teamId={teamId}
-                            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                            key='manage_members_permission'
-                        >
-                            <li
-                                key='manage_members'
-                                role='presentation'
-                            >
-                                <ToggleModalButtonRedux
-                                    role='menuitem'
-                                    modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                                    dialogType={ChannelMembersModal}
-                                    dialogProps={{channel}}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.manageMembers'
-                                        defaultMessage='Manage Members'
-                                    />
-                                </ToggleModalButtonRedux>
-                            </li>
-                        </ChannelPermissionGate>
-                    );
-                }
-
-                dropdownContents.push(
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                        invert={true}
-                        key='view_members_permission'
-                    >
-                        <li
-                            key='view_members'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                role='menuitem'
-                                modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                                dialogType={ChannelMembersModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.viewMembers'
-                                    defaultMessage='View Members'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-                    </ChannelPermissionGate>
-                );
-            }
-
-            if (!this.props.isReadOnly && !channelIsArchived) {
-                dropdownContents.push(
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                        key='set_channel_info_permission'
-                    >
-                        <li
-                            key='divider-2'
-                            className='divider'
-                        />
-
-                        <li
-                            key='set_channel_header'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                id='channelEditHeader'
-                                role='menuitem'
-                                modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                                dialogType={EditChannelHeaderModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.setHeader'
-                                    defaultMessage='Edit Channel Header'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-
-                        <li
-                            key='set_channel_purpose'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                id='channelEditPurpose'
-                                role='menuitem'
-                                modalId={ModalIdentifiers.EDIT_CHANNEL_PURPOSE}
-                                dialogType={EditChannelPurposeModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.setPurpose'
-                                    defaultMessage='Edit Channel Purpose'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-
-                        <li
-                            key='rename_channel'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                role='menuitem'
-                                modalId={ModalIdentifiers.RENAME_CHANNEL}
-                                dialogType={RenameChannelModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.rename'
-                                    defaultMessage='Rename Channel'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-                    </ChannelPermissionGate>
-                );
-            }
-
-            if (!this.props.isDefault && channel.type === Constants.OPEN_CHANNEL && !channelIsArchived) {
-                dropdownContents.push(
-                    <TeamPermissionGate
-                        teamId={teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                        key='convert_channel_permission'
-                    >
-                        <li
-                            key='convert_channel'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                id='channelConvert'
-                                role='menuitem'
-                                modalId={ModalIdentifiers.CONVERT_CHANNEL}
-                                dialogType={ConvertChannelModal}
-                                dialogProps={{
-                                    channelId: channel.id,
-                                    channelDisplayName: channel.display_name,
-                                }}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.convert'
-                                    defaultMessage='Convert to Private Channel'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-                    </TeamPermissionGate>
-                );
-            }
-
-            if (!this.props.isDefault && !channelIsArchived) {
-                dropdownContents.push(
-                    <ChannelPermissionGate
-                        channelId={channel.id}
-                        teamId={teamId}
-                        permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
-                        key='delete_channel_permission'
-                    >
-                        <li
-                            key='delete_channel'
-                            role='presentation'
-                        >
-                            <ToggleModalButtonRedux
-                                id='channelDelete'
-                                role='menuitem'
-                                modalId={ModalIdentifiers.DELETE_CHANNEL}
-                                dialogType={DeleteChannelModal}
-                                dialogProps={{channel, penultimateViewedChannelName: this.props.penultimateViewedChannelName}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.delete'
-                                    defaultMessage='Archive Channel'
-                                />
-                            </ToggleModalButtonRedux>
-                        </li>
-                    </ChannelPermissionGate>
-                );
-
-                dropdownContents.push(
-                    <li
-                        key='divider-3'
-                        className='divider'
-                    />
-                );
-            }
-
-            if (!this.props.isDefault) {
-                dropdownContents.push(
-                    <li
-                        key='leave_channel'
-                        role='presentation'
-                    >
-                        <button
-                            className='style--none'
-                            id='channelLeave'
-                            role='menuitem'
-                            onClick={this.handleLeave}
-                        >
-                            <FormattedMessage
-                                id='channel_header.leave'
-                                defaultMessage='Leave Channel'
-                            />
-                        </button>
-                    </li>
-                );
-            }
-
-            if (channelIsArchived) {
-                dropdownContents.push(
-                    <li
-                        key='close_channel'
-                        role='presentation'
-                    >
-                        <button
-                            className='style--none'
-                            id='channelClose'
-                            role='menuitem'
-                            onClick={this.handleClose}
-                        >
-                            <FormattedMessage
-                                id='center_panel.archived.closeChannel'
-                                defaultMessage='Close Channel'
-                            />
-                        </button>
-                    </li>
-                );
-            }
         }
 
         let dmHeaderIconStatus;
@@ -877,16 +396,6 @@ export default class ChannelHeader extends React.Component {
                     {dmHeaderTextStatus}
                     {editMessage}
                 </div>
-            );
-        }
-
-        let editHeaderModal;
-        if (this.state.showEditChannelHeaderModal) {
-            editHeaderModal = (
-                <EditChannelHeaderModal
-                    onHide={this.hideEditChannelHeaderModal}
-                    channel={channel}
-                />
             );
         }
 
@@ -1003,14 +512,7 @@ export default class ChannelHeader extends React.Component {
                                             title={Utils.localizeMessage('generic_icons.dropdown', 'Dropdown Icon')}
                                         />
                                     </button>
-                                    <ul
-                                        id='channelHeaderDropdownMenu'
-                                        className='dropdown-menu'
-                                        role='menu'
-                                        aria-labelledby='channel_header_dropdown'
-                                    >
-                                        {dropdownContents}
-                                    </ul>
+                                    <ChannelHeaderDropdown/>
                                 </h2>
                                 {muteTrigger}
                             </div>
@@ -1076,7 +578,6 @@ export default class ChannelHeader extends React.Component {
                         tooltipKey={'flaggedPosts'}
                     />
                 </div>
-                {editHeaderModal}
             </div>
         );
     }
