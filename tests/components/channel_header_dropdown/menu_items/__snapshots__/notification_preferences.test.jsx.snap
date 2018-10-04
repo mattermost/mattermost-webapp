@@ -8,7 +8,6 @@ exports[`components/ChannelHeaderDropdown/MenuItem.NotificationPreferences shoul
     dialogProps={
       Object {
         "channel": Object {},
-        "channelMember": Object {},
         "currentUser": Object {},
       }
     }
