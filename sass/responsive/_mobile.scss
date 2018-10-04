@@ -1,6 +1,13 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .webrtc__option {
+        .disable-links {
+            @include opacity(.5);
+            pointer-events: none;
+        }
+    }
+
     .textarea-wrapper {
         .help__text {
             display: none;
@@ -1694,19 +1701,6 @@
 }
 
 @media screen and (max-width: 480px) {
-    .webrtc__button {
-        display: none !important;
-    }
-
-    .webrtc__option {
-        display: block;
-
-        .disable-links {
-            @include opacity(.5);
-            pointer-events: none;
-        }
-    }
-
     #user-profile-popover {
         left: 50px !important;
     }
