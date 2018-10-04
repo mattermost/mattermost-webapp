@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
@@ -10,17 +10,21 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import 'bootstrap';
 
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-
-import * as WebrtcActions from 'actions/webrtc_actions.jsx';
+import * as WebrtcActions from 'actions/webrtc_actions';
+import WebrtcStore from 'stores/webrtc_store';
 
 import Markdown from 'components/markdown';
-import {Constants, NotificationLevels, RHSStates, UserStatuses} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {
+    Constants,
+    NotificationLevels,
+    RHSStates,
+    UserStatuses,
+} from 'utils/constants';
+import * as Utils from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
 import PopoverListMembers from 'components/popover_list_members';
 import SearchBar from 'components/search_bar';
-import StatusIcon from 'components/status_icon.jsx';
+import StatusIcon from 'components/status_icon';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
@@ -38,8 +42,24 @@ const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMe
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
-export default class ChannelHeader extends React.Component {
+export default class ChannelHeader extends React.PureComponent {
     static propTypes = {
+        teamId: PropTypes.string.isRequired,
+        teamUrl: PropTypes.string.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        channel: PropTypes.object,
+        channelMember: PropTypes.object,
+        dmUser: PropTypes.object,
+        dmUserStatus: PropTypes.object,
+        dmUserIsInCall: PropTypes.bool,
+        isFavorite: PropTypes.bool,
+        isReadOnly: PropTypes.bool,
+        isMuted: PropTypes.bool,
+        rhsState: PropTypes.oneOf(
+            Object.values(RHSStates),
+        ),
+        lastViewedChannelName: PropTypes.string.isRequired,
+        enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -52,18 +72,6 @@ export default class ChannelHeader extends React.Component {
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
         }).isRequired,
-        channel: PropTypes.object.isRequired,
-        channelMember: PropTypes.object.isRequired,
-        isFavorite: PropTypes.bool,
-        currentUser: PropTypes.object.isRequired,
-        dmUser: PropTypes.object,
-        isReadOnly: PropTypes.bool,
-        rhsState: PropTypes.oneOf(
-            Object.values(RHSStates)
-        ),
-        lastViewedChannelName: PropTypes.string.isRequired,
-        enableWebrtc: PropTypes.bool.isRequired,
-        isWebrtcBusy: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -120,7 +128,8 @@ export default class ChannelHeader extends React.Component {
     };
 
     handleClose = () => {
-        this.props.actions.goToLastViewedChannel();
+        const {teamUrl, lastViewedChannelName} = this.props;
+        browserHistory.push(`${teamUrl}/channels/${lastViewedChannelName}`);
     };
 
     toggleFavorite = () => {
@@ -238,18 +247,32 @@ export default class ChannelHeader extends React.Component {
     };
 
     render() {
-        const channelIsArchived = this.props.channel.delete_at !== 0;
-        if (Utils.isEmptyObject(this.props.channel) ||
-            Utils.isEmptyObject(this.props.channelMember) ||
-            Utils.isEmptyObject(this.props.currentUser)) {
+        const {
+            teamId,
+            currentUser,
+            channel,
+            channelMember,
+            isMuted: channelMuted,
+            isReadOnly,
+            isFavorite,
+            dmUser,
+            dmUserStatus,
+            dmUserIsInCall,
+            rhsState,
+            enableWebrtc,
+        } = this.props;
+
+        const channelIsArchived = channel.delete_at !== 0;
+        if (Utils.isEmptyObject(channel) ||
+            Utils.isEmptyObject(channelMember) ||
+            Utils.isEmptyObject(currentUser)) {
             // Use an empty div to make sure the header's height stays constant
             return (
                 <div className='channel-header'/>
             );
         }
 
-        const channel = this.props.channel;
-        const channelNamesMap = this.props.channel.props && this.props.channel.props.channel_mentions;
+        const channelNamesMap = channel.props && channel.props.channel_mentions;
 
         const popoverContent = (
             <Popover
@@ -273,17 +296,15 @@ export default class ChannelHeader extends React.Component {
         if (channelIsArchived) {
             archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/>);
         }
-        const isDirect = (this.props.channel.type === Constants.DM_CHANNEL);
-        const isGroup = (this.props.channel.type === Constants.GM_CHANNEL);
-        const isPrivate = (this.props.channel.type === Constants.PRIVATE_CHANNEL);
+        const isDirect = (channel.type === Constants.DM_CHANNEL);
+        const isGroup = (channel.type === Constants.GM_CHANNEL);
+        const isPrivate = (channel.type === Constants.PRIVATE_CHANNEL);
 
-        const channelMuted = isChannelMuted(this.props.channelMember);
-
-        const teamId = this.props.channel.team_id;
+        let webrtc;
 
         if (isDirect) {
-            const teammateId = Utils.getUserIdFromChannelName(channel);
-            if (this.props.currentUser.id === teammateId) {
+            const teammateId = dmUser.id;
+            if (currentUser.id === teammateId) {
                 channelTitle = (
                     <FormattedMessage
                         id='channel_header.directchannel.you'
@@ -295,6 +316,78 @@ export default class ChannelHeader extends React.Component {
                 );
             } else {
                 channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
+            }
+
+            const webrtcEnabled = enableWebrtc && Utils.isUserMediaAvailable();
+
+            if (webrtcEnabled && currentUser.id !== teammateId) {
+                const isOffline = dmUserStatus.status === UserStatuses.OFFLINE;
+                const isDoNotDisturb = dmUserStatus.status === UserStatuses.DND;
+                const busy = dmUserIsInCall;
+                let circleClass = '';
+                let webrtcMessage;
+
+                if (isOffline || isDoNotDisturb || busy) {
+                    circleClass = 'offline';
+
+                    if (isOffline) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.offline'
+                                defaultMessage='The user is offline'
+                            />
+                        );
+                    } else if (isDoNotDisturb) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.doNotDisturb'
+                                defaultMessage='Do not disturb'
+                            />
+                        );
+                    } else if (busy) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.unavailable'
+                                defaultMessage='New call unavailable until your existing call ends'
+                            />
+                        );
+                    }
+                } else {
+                    webrtcMessage = (
+                        <FormattedMessage
+                            id='channel_header.webrtc.call'
+                            defaultMessage='Start Video Call'
+                        />
+                    );
+                }
+
+                const webrtcTooltip = (
+                    <Tooltip id='webrtcTooltip'>{webrtcMessage}</Tooltip>
+                );
+
+                webrtc = (
+                    <div className={'webrtc__header channel-header__icon wide text ' + circleClass}>
+                        <button
+                            className='style--none'
+                            onClick={this.handleWebRTCOnClick}
+                            disabled={isOffline || isDoNotDisturb}
+                        >
+                            <OverlayTrigger
+                                trigger={['hover', 'focus']}
+                                delayShow={Constants.WEBRTC_TIME_DELAY}
+                                placement='bottom'
+                                overlay={webrtcTooltip}
+                            >
+                                <div
+                                    id='webrtc-btn'
+                                    className={'webrtc__button hidden-xs ' + circleClass}
+                                >
+                                    {'WebRTC'}
+                                </div>
+                            </OverlayTrigger>
+                        </button>
+                    </div>
+                );
             }
         }
 
@@ -309,7 +402,7 @@ export default class ChannelHeader extends React.Component {
 
         let dmHeaderIconStatus;
         let dmHeaderTextStatus;
-        if (channel.type === Constants.DM_CHANNEL && !this.props.dmUser.delete_at) {
+        if (channel.type === Constants.DM_CHANNEL && !dmUser.delete_at) {
             dmHeaderIconStatus = (
                 <StatusIcon
                     type='avatar'
@@ -354,7 +447,7 @@ export default class ChannelHeader extends React.Component {
             );
         } else {
             let editMessage;
-            if (!this.props.isReadOnly && !channelIsArchived) {
+            if (!isReadOnly && !channelIsArchived) {
                 if (isDirect || isGroup) {
                     editMessage = (
                         <button
@@ -402,7 +495,7 @@ export default class ChannelHeader extends React.Component {
         let toggleFavoriteTooltip;
         let toggleFavorite = null;
         if (!channelIsArchived) {
-            if (this.props.isFavorite) {
+            if (isFavorite) {
                 toggleFavoriteTooltip = (
                     <Tooltip id='favoriteTooltip'>
                         <FormattedMessage
@@ -471,7 +564,7 @@ export default class ChannelHeader extends React.Component {
         }
 
         let pinnedIconClass = 'channel-header__icon';
-        if (this.props.rhsState === RHSStates.PIN) {
+        if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
         }
 
@@ -523,8 +616,8 @@ export default class ChannelHeader extends React.Component {
                         {popoverListMembers}
                     </div>
                     <ChannelHeaderPlug
-                        channel={this.props.channel}
-                        channelMember={this.props.channelMember}
+                        channel={channel}
+                        channelMember={channelMember}
                     />
                     <HeaderIconWrapper
                         iconComponent={

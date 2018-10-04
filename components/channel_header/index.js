@@ -1,24 +1,42 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {favoriteChannel, leaveChannel, unfavoriteChannel, updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import {createSelector} from 'reselect';
+import {
+    favoriteChannel,
+    unfavoriteChannel,
+    updateChannelNotifyProps,
+} from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General} from 'mattermost-redux/constants';
-import {getChannel, getMyChannelMember, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
-import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {
+    getCurrentChannel,
+    getCurrentChannelId,
+    getMyCurrentChannelMembership,
+    isCurrentChannelReadOnly,
+} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    getCurrentTeamUrl,
+    getCurrentTeamId,
+} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentUser,
+    getStatusForUserId,
+    getUser,
+} from 'mattermost-redux/selectors/entities/users';
+import {
+    getUserIdFromChannelName,
+    isFavoriteChannel,
+    isChannelMuted,
+} from 'mattermost-redux/utils/channel_utils';
 
-import {withRouter} from 'react-router-dom';
-
-import {goToLastViewedChannel} from 'actions/views/channel';
-
-import {getPenultimateViewedChannelName} from 'selectors/local_storage';
+import {getLastViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants.jsx';
-
 import {
     showFlaggedPosts,
     showPinnedPosts,
@@ -26,14 +44,23 @@ import {
     closeRightHandSide,
     updateRhsState,
 } from 'actions/views/rhs';
-import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
 
 import ChannelHeader from './channel_header.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const channel = getChannel(state, ownProps.channelId) || {};
-    const prefs = state.entities.preferences.myPreferences;
+const isCurrentChannelFavorite = createSelector(
+    getMyPreferences,
+    getCurrentChannelId,
+    (prefs, channelId) => isFavoriteChannel(prefs, channelId),
+);
+
+const isCurrentChannelMuted = createSelector(
+    getMyCurrentChannelMembership,
+    (membership) => isChannelMuted(membership),
+);
+
+const mapStateToProps = (state) => {
+    const channel = getCurrentChannel(state) || {};
     const user = getCurrentUser(state);
 
     let dmUser;
@@ -42,45 +69,41 @@ function mapStateToProps(state, ownProps) {
         dmUser = getUser(state, dmUserId);
     }
 
-    const license = getLicense(state);
+    const config = getConfig(state);
 
-    let penultimateViewedChannelName = getPenultimateViewedChannelName(state);
-    if (!penultimateViewedChannelName) {
-        penultimateViewedChannelName = Constants.DEFAULT_CHANNEL;
+    let lastViewedChannelName = getLastViewedChannelName(state);
+    if (!lastViewedChannelName || (channel && lastViewedChannelName === channel.name)) {
+        lastViewedChannelName = Constants.DEFAULT_CHANNEL;
     }
 
     return {
+        teamId: getCurrentTeamId(state),
+        teamUrl: getCurrentTeamUrl(state),
         channel,
-        channelMember: getMyChannelMember(state, ownProps.channelId),
-        teamMember: getMyTeamMember(state, channel.team_id),
-        isFavorite: isFavoriteChannel(prefs, ownProps.channelId),
-        isDefault: isDefault(channel),
+        channelMember: getMyCurrentChannelMembership(state),
         currentUser: user,
         dmUser,
         rhsState: getRhsState(state),
-        isLicensed: license.IsLicensed === 'true',
+        enableWebrtc: config.EnableWebrtc === 'true',
+        isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
-        penultimateViewedChannelName,
+        isMuted: isCurrentChannelMuted(state),
+        lastViewedChannelName,
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            leaveChannel,
-            favoriteChannel,
-            unfavoriteChannel,
-            showFlaggedPosts,
-            showPinnedPosts,
-            showMentions,
-            closeRightHandSide,
-            updateRhsState,
-            openModal,
-            getCustomEmojisInText,
-            updateChannelNotifyProps,
-            goToLastViewedChannel,
-        }, dispatch),
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        favoriteChannel,
+        unfavoriteChannel,
+        showFlaggedPosts,
+        showPinnedPosts,
+        showMentions,
+        closeRightHandSide,
+        updateRhsState,
+        getCustomEmojisInText,
+        updateChannelNotifyProps,
+    }, dispatch),
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChannelHeader));
