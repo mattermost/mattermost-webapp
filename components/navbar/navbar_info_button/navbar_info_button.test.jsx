@@ -12,6 +12,7 @@ describe('components/navbar/NavbarInfoButton', () => {
             id: 'channel_id',
             header: 'channel header',
         },
+        isReadOnly: false,
         actions: {
             openModal: jest.fn(),
         },

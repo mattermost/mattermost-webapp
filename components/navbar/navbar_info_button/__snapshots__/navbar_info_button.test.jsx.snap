@@ -40,6 +40,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       "timeZone": "Etc/UTC",
     }
   }
+  isReadOnly={false}
 >
   <OverlayTrigger
     className="description"
@@ -163,6 +164,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       "timeZone": "Etc/UTC",
     }
   }
+  isReadOnly={false}
 >
   <OverlayTrigger
     className="description"

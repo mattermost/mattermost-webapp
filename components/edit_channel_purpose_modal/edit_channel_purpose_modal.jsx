@@ -66,7 +66,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         const {requestStatus} = this.props;
 
         if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
-            this.handleHide();
+            this.onHide();
         }
 
         if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {

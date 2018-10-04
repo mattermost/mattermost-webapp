@@ -22,6 +22,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
     }
   }
   onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

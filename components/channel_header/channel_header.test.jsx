@@ -23,6 +23,8 @@ describe('components/ChannelHeader', () => {
             updateChannelNotifyProps: jest.fn(),
             goToLastViewedChannel: jest.fn(),
         },
+        teamUrl: 'team_url',
+        teamId: 'team_id',
         channel: {},
         channelMember: {},
         currentUser: {},

@@ -26,7 +26,83 @@ exports[`components/ModalController component should match snapshot without any 
         }
       }
     >
-      <div />
+      <div>
+        <Connect(QuickSwitchModal)
+          initialMode="channel"
+          onHide={[Function]}
+          show={false}
+        >
+          <QuickSwitchModal
+            actions={
+              Object {
+                "goToChannel": [Function],
+                "goToChannelById": [Function],
+                "openDirectChannelToUser": [Function],
+              }
+            }
+            initialMode="channel"
+            onHide={[Function]}
+            show={false}
+            showTeamSwitcher={false}
+          >
+            <Modal
+              animation={true}
+              autoFocus={true}
+              backdrop={true}
+              bsClass="modal"
+              dialogClassName="channel-switch-modal modal--overflow"
+              dialogComponentClass={[Function]}
+              enforceFocus={false}
+              keyboard={true}
+              manager={
+                ModalManager {
+                  "add": [Function],
+                  "containers": Array [],
+                  "data": Array [],
+                  "handleContainerOverflow": true,
+                  "hideSiblingNodes": true,
+                  "isTopModal": [Function],
+                  "modals": Array [],
+                  "remove": [Function],
+                }
+              }
+              onHide={[Function]}
+              renderBackdrop={[Function]}
+              restoreFocus={true}
+              show={false}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropClassName="modal-backdrop"
+                backdropTransition={[Function]}
+                containerClassName="modal-open"
+                enforceFocus={false}
+                keyboard={true}
+                manager={
+                  ModalManager {
+                    "add": [Function],
+                    "containers": Array [],
+                    "data": Array [],
+                    "handleContainerOverflow": true,
+                    "hideSiblingNodes": true,
+                    "isTopModal": [Function],
+                    "modals": Array [],
+                    "remove": [Function],
+                  }
+                }
+                onEntering={[Function]}
+                onExited={[Function]}
+                onHide={[Function]}
+                renderBackdrop={[Function]}
+                restoreFocus={true}
+                show={false}
+                transition={[Function]}
+              />
+            </Modal>
+          </QuickSwitchModal>
+        </Connect(QuickSwitchModal)>
+      </div>
     </ModalController>
   </Connect(ModalController)>
 </Provider>
