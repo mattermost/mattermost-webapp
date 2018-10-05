@@ -589,6 +589,8 @@
   "admin.ldap.groupFilterTitle": "Group Filter:",
   "admin.ldap.groupFilterFilterDesc": "(Optional) Enter an AD/LDAP Filter to use when searching for group objects.",
   "admin.ldap.groupFilterEx": "E.g.: \"(objectClass=group)\"",
+  "admin.ldap.memberOverlayTitle": "Use 'memberOf' Overlay:",
+  "admin.ldap.memberOverlayTitleDesc": "(Optional) This setting is used with the Group Filter to determine if group membership changes are updated on the user 'memberOf' attribute or by modification of the group object members attribute. Set this to false only if the AD/LDAP instance does not support reverse group membership maintenance using the 'memberOf' overlay or if there is a known reason not to use it. Setting this to false will make group syncs slower.",
   "admin.ldap.idAttrDesc": "The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user's ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-platform-ldap-idmigrate) CLI tool.",
   "admin.ldap.idAttrEx": "E.g.: \"objectGUID\"",
   "admin.ldap.idAttrTitle": "ID Attribute: ",
