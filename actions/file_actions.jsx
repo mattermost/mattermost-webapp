@@ -11,7 +11,7 @@ import {Client4} from 'mattermost-redux/client';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export function uploadFile(file, name, channelId, clientId, successCallback, errorCallback) {
+export function uploadFile(file, name, channelId, rootId, clientId, successCallback, errorCallback) {
     const {dispatch, getState} = store;
 
     function handleResponse(err, res) {
@@ -31,14 +31,14 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                 type: FileTypes.UPLOAD_FILES_FAILURE,
                 clientIds: [clientId],
                 channelId,
-                rootId: null,
+                rootId,
                 error: err,
             };
 
             dispatch(batchActions([failure, getLogErrorAction(err)]), getState);
 
             if (errorCallback) {
-                errorCallback(e, clientId, channelId);
+                errorCallback(e, clientId, channelId, rootId);
             }
         } else if (res) {
             const data = res.body.file_infos.map((fileInfo, index) => {
@@ -53,7 +53,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                     type: FileTypes.RECEIVED_UPLOAD_FILES,
                     data,
                     channelId,
-                    rootId: null,
+                    rootId,
                 },
                 {
                     type: FileTypes.UPLOAD_FILES_SUCCESS,
@@ -61,7 +61,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
             ]), getState);
 
             if (successCallback) {
-                successCallback(res.body, channelId);
+                successCallback(res.body, channelId, rootId);
             }
         }
     }

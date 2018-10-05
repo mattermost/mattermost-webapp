@@ -574,14 +574,15 @@ export default class CreatePost extends React.Component {
     }
 
     handleUploadError = (err, clientId, channelId) => {
-        const draft = this.props.draft;
+        const draft = {...this.draftsForChannel[channelId]};
+
         let message = err;
         if (message && typeof message !== 'string') {
             // err is an AppError from the server
             message = err.message;
         }
 
-        if (clientId !== -1) {
+        if (clientId !== -1 && draft.uploadsInProgress) {
             const index = draft.uploadsInProgress.indexOf(clientId);
 
             if (index !== -1) {

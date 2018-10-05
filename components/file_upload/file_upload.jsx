@@ -66,6 +66,11 @@ export default class FileUpload extends PureComponent {
         currentChannelId: PropTypes.string.isRequired,
 
         /**
+         * Current root post's ID
+         */
+        rootId: PropTypes.string,
+
+        /**
          * Number of files to attach
          */
         fileCount: PropTypes.number.isRequired,
@@ -170,9 +175,9 @@ export default class FileUpload extends PureComponent {
         target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
     }
 
-    fileUploadSuccess = (data, channelId) => {
+    fileUploadSuccess = (data, channelId, currentRootId) => {
         if (data) {
-            this.props.onFileUpload(data.file_infos, data.client_ids, channelId);
+            this.props.onFileUpload(data.file_infos, data.client_ids, channelId, currentRootId);
 
             const requests = Object.assign({}, this.state.requests);
             for (var j = 0; j < data.client_ids.length; j++) {
@@ -182,8 +187,8 @@ export default class FileUpload extends PureComponent {
         }
     }
 
-    fileUploadFail = (err, clientId, channelId) => {
-        this.props.onUploadError(err, clientId, channelId);
+    fileUploadFail = (err, clientId, channelId, currentRootId) => {
+        this.props.onUploadError(err, clientId, channelId, currentRootId);
     }
 
     pluginUploadFiles = (files) => {
@@ -216,7 +221,7 @@ export default class FileUpload extends PureComponent {
     }
 
     uploadFiles = (sortedFiles) => {
-        const {currentChannelId} = this.props;
+        const {currentChannelId, rootId} = this.props;
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
@@ -242,9 +247,10 @@ export default class FileUpload extends PureComponent {
                 sortedFiles[i],
                 sortedFiles[i].name,
                 currentChannelId,
+                rootId,
                 clientId,
-                (data, channelId) => this.fileUploadSuccess(data, channelId),
-                (e, clientIdOnError, channelId) => this.fileUploadFail(e, clientIdOnError, channelId)
+                (data, channelId, currentRootId) => this.fileUploadSuccess(data, channelId, currentRootId),
+                (e, clientIdOnError, channelId, currentRootId) => this.fileUploadFail(e, clientIdOnError, channelId, currentRootId)
             );
 
             this.setState({requests: {...this.state.requests, [clientId]: request}});
