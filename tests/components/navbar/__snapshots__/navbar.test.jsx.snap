@@ -241,18 +241,22 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
                   />
                 </button>
               </li>
-              <Connect(MobileChannelHeaderPlug)
-                channel={
-                  Object {
-                    "display_name": "Town Square",
-                    "id": "123",
-                    "name": "town-square",
-                    "team_id": "team_id",
-                    "type": "O",
+              <li
+                className="dropdown-item__plugin"
+              >
+                <Connect(MobileChannelHeaderPlug)
+                  channel={
+                    Object {
+                      "display_name": "Town Square",
+                      "id": "123",
+                      "name": "town-square",
+                      "team_id": "team_id",
+                      "type": "O",
+                    }
                   }
-                }
-                isDropdown={true}
-              />
+                  isDropdown={false}
+                />
+              </li>
               <div
                 className="close visible-xs-block"
               >
@@ -282,18 +286,6 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
             className="icon icon__search"
           />
         </button>
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "Town Square",
-              "id": "123",
-              "name": "town-square",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <button
           className="navbar-toggle navbar-right__icon menu-toggle pull-right"
           data-target="#sidebar-nav"
@@ -705,17 +697,21 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                   />
                 </button>
               </li>
-              <Connect(MobileChannelHeaderPlug)
-                channel={
-                  Object {
-                    "display_name": "display_name",
-                    "id": "channel_id",
-                    "team_id": "team_id",
-                    "type": "P",
+              <li
+                className="dropdown-item__plugin"
+              >
+                <Connect(MobileChannelHeaderPlug)
+                  channel={
+                    Object {
+                      "display_name": "display_name",
+                      "id": "channel_id",
+                      "team_id": "team_id",
+                      "type": "P",
+                    }
                   }
-                }
-                isDropdown={true}
-              />
+                  isDropdown={false}
+                />
+              </li>
               <div
                 className="close visible-xs-block"
               >
@@ -744,17 +740,6 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
             className="icon icon__search"
           />
         </button>
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "P",
-            }
-          }
-          isDropdown={false}
-        />
         <button
           className="navbar-toggle navbar-right__icon menu-toggle pull-right"
           data-target="#sidebar-nav"
@@ -1194,17 +1179,21 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   />
                 </button>
               </li>
-              <Connect(MobileChannelHeaderPlug)
-                channel={
-                  Object {
-                    "display_name": "display_name",
-                    "id": "channel_id",
-                    "team_id": "team_id",
-                    "type": "O",
+              <li
+                className="dropdown-item__plugin"
+              >
+                <Connect(MobileChannelHeaderPlug)
+                  channel={
+                    Object {
+                      "display_name": "display_name",
+                      "id": "channel_id",
+                      "team_id": "team_id",
+                      "type": "O",
+                    }
                   }
-                }
-                isDropdown={true}
-              />
+                  isDropdown={false}
+                />
+              </li>
               <div
                 className="close visible-xs-block"
               >
@@ -1233,17 +1222,6 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
             className="icon icon__search"
           />
         </button>
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <button
           className="navbar-toggle navbar-right__icon menu-toggle pull-right"
           data-target="#sidebar-nav"
@@ -1407,18 +1385,22 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
                   />
                 </button>
               </li>
-              <Connect(MobileChannelHeaderPlug)
-                channel={
-                  Object {
-                    "display_name": "display_name",
-                    "id": "channel_id",
-                    "name": "user_id_1__user_id_2",
-                    "team_id": "team_id",
-                    "type": "D",
+              <li
+                className="dropdown-item__plugin"
+              >
+                <Connect(MobileChannelHeaderPlug)
+                  channel={
+                    Object {
+                      "display_name": "display_name",
+                      "id": "channel_id",
+                      "name": "user_id_1__user_id_2",
+                      "team_id": "team_id",
+                      "type": "D",
+                    }
                   }
-                }
-                isDropdown={true}
-              />
+                  isDropdown={false}
+                />
+              </li>
               <div
                 className="close visible-xs-block"
               >
@@ -1448,18 +1430,6 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
             className="icon icon__search"
           />
         </button>
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "name": "user_id_1__user_id_2",
-              "team_id": "team_id",
-              "type": "D",
-            }
-          }
-          isDropdown={false}
-        />
         <button
           className="navbar-toggle navbar-right__icon menu-toggle pull-right"
           data-target="#sidebar-nav"
@@ -1901,17 +1871,21 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   />
                 </button>
               </li>
-              <Connect(MobileChannelHeaderPlug)
-                channel={
-                  Object {
-                    "display_name": "display_name",
-                    "id": "channel_id",
-                    "team_id": "team_id",
-                    "type": "O",
+              <li
+                className="dropdown-item__plugin"
+              >
+                <Connect(MobileChannelHeaderPlug)
+                  channel={
+                    Object {
+                      "display_name": "display_name",
+                      "id": "channel_id",
+                      "team_id": "team_id",
+                      "type": "O",
+                    }
                   }
-                }
-                isDropdown={true}
-              />
+                  isDropdown={false}
+                />
+              </li>
               <div
                 className="close visible-xs-block"
               >
@@ -1940,17 +1914,6 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
             className="icon icon__search"
           />
         </button>
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <button
           className="navbar-toggle navbar-right__icon menu-toggle pull-right"
           data-target="#sidebar-nav"
@@ -2394,17 +2357,21 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   />
                 </button>
               </li>
-              <Connect(MobileChannelHeaderPlug)
-                channel={
-                  Object {
-                    "display_name": "display_name",
-                    "id": "channel_id",
-                    "team_id": "team_id",
-                    "type": "O",
+              <li
+                className="dropdown-item__plugin"
+              >
+                <Connect(MobileChannelHeaderPlug)
+                  channel={
+                    Object {
+                      "display_name": "display_name",
+                      "id": "channel_id",
+                      "team_id": "team_id",
+                      "type": "O",
+                    }
                   }
-                }
-                isDropdown={true}
-              />
+                  isDropdown={false}
+                />
+              </li>
               <div
                 className="close visible-xs-block"
               >
@@ -2433,17 +2400,6 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
             className="icon icon__search"
           />
         </button>
-        <Connect(MobileChannelHeaderPlug)
-          channel={
-            Object {
-              "display_name": "display_name",
-              "id": "channel_id",
-              "team_id": "team_id",
-              "type": "O",
-            }
-          }
-          isDropdown={false}
-        />
         <button
           className="navbar-toggle navbar-right__icon menu-toggle pull-right"
           data-target="#sidebar-nav"
