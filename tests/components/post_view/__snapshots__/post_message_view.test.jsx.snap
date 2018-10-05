@@ -11,7 +11,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
     id="lastPostMessageText1"
     onClick={[Function]}
   >
-    <PostMarkdown
+    <Connect(PostMarkdown)
       imageProps={
         Object {
           "onHeightReceived": [Function],
@@ -49,7 +49,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
     id="lastPostMessageText1"
     onClick={[Function]}
   >
-    <PostMarkdown
+    <Connect(PostMarkdown)
       imageProps={
         Object {
           "onHeightReceived": [Function],
@@ -87,7 +87,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
     id="lastPostMessageText1"
     onClick={[Function]}
   >
-    <PostMarkdown
+    <Connect(PostMarkdown)
       imageProps={
         Object {
           "onHeightReceived": [Function],
@@ -145,7 +145,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
     id="lastPostMessageText1"
     onClick={[Function]}
   >
-    <PostMarkdown
+    <Connect(PostMarkdown)
       imageProps={
         Object {
           "onHeightReceived": [Function],
@@ -205,7 +205,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
     id="lastPostMessageText1"
     onClick={[Function]}
   >
-    <PostMarkdown
+    <Connect(PostMarkdown)
       imageProps={
         Object {
           "onHeightReceived": [Function],

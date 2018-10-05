@@ -170,7 +170,7 @@ function postTypes(state = {}, action) {
         }
         return state;
     }
-    case ActionTypes.REMOVED_PLUGIN_COMPONENT:
+    case ActionTypes.REMOVED_PLUGIN_POST_COMPONENT:
         return removePostPluginComponent(state, action);
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
