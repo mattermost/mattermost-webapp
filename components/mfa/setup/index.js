@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import Setup from './setup.jsx';
 
@@ -13,6 +14,7 @@ function mapStateToProps(state) {
     const enforceMultifactorAuthentication = config.EnforceMultifactorAuthentication === 'true';
 
     return {
+        currentUser: getCurrentUser(state),
         siteName,
         enforceMultifactorAuthentication,
     };
