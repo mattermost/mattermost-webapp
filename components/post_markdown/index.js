@@ -7,7 +7,7 @@ import PostMarkdown from './post_markdown';
 
 function mapStateToProps(state) {
     return {
-        pluginHooks: state.plugins.hooks.MessageWillFormat,
+        pluginHooks: state.plugins.components.MessageWillFormat,
     };
 }
 
