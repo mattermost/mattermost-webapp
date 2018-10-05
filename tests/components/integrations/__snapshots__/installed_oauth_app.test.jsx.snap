@@ -79,7 +79,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       <span
         className="item-details__token"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <FormattedMessage
           defaultMessage="Client Secret: **{clientSecret}**"
           id="installed_integrations.client_secret"
           values={
@@ -87,11 +87,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
               "clientSecret": "***************",
             }
           }
-        />
-        <CopyText
-          defaultMessage="Copy Client Secret"
-          idMessage="integrations.copy_client_secret"
-          value="***************"
         />
       </span>
     </div>
@@ -262,7 +257,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       <span
         className="item-details__token"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <FormattedMessage
           defaultMessage="Client Secret: **{clientSecret}**"
           id="installed_integrations.client_secret"
           values={
@@ -270,11 +265,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
               "clientSecret": "***************",
             }
           }
-        />
-        <CopyText
-          defaultMessage="Copy Client Secret"
-          idMessage="integrations.copy_client_secret"
-          value="***************"
         />
       </span>
     </div>
@@ -441,7 +431,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       <span
         className="item-details__token"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <FormattedMessage
           defaultMessage="Client Secret: **{clientSecret}**"
           id="installed_integrations.client_secret"
           values={
@@ -449,11 +439,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
               "clientSecret": "***************",
             }
           }
-        />
-        <CopyText
-          defaultMessage="Copy Client Secret"
-          idMessage="integrations.copy_client_secret"
-          value="***************"
         />
       </span>
     </div>
