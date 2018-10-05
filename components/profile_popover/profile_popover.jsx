@@ -11,8 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -71,6 +69,8 @@ class ProfilePopover extends React.Component {
          * Whether or not WebRtc is enabled.
          */
         enableWebrtc: PropTypes.bool.isRequired,
+        currentUserId: PropTypes.string.isRequired,
+        teamUrl: PropTypes.string.isRequired,
 
         ...Popover.propTypes,
     }
@@ -88,7 +88,6 @@ class ProfilePopover extends React.Component {
         this.handleMentionKeyClick = this.handleMentionKeyClick.bind(this);
         this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
-            currentUserId: UserStore.getCurrentId(),
             loadingDMChannel: -1,
         };
     }
@@ -154,7 +153,7 @@ class ProfilePopover extends React.Component {
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/@${user.username}`);
+                browserHistory.push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         );
     }
@@ -202,10 +201,12 @@ class ProfilePopover extends React.Component {
         delete popoverProps.dispatch;
         delete popoverProps.enableWebrtc;
         delete popoverProps.enableTimezone;
+        delete popoverProps.currentUserId;
+        delete popoverProps.teamUrl;
 
         let webrtc;
         const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();
-        if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
+        if (webrtcEnabled && this.props.user.id !== this.props.currentUserId) {
             const isOnline = this.props.status !== UserStatuses.OFFLINE;
             let webrtcMessage;
             if (isOnline && !this.props.isBusy) {
@@ -350,7 +351,7 @@ class ProfilePopover extends React.Component {
             );
         }
 
-        if (this.props.user.id === UserStore.getCurrentId()) {
+        if (this.props.user.id === this.props.currentUserId) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'
@@ -374,7 +375,7 @@ class ProfilePopover extends React.Component {
             );
         }
 
-        if (this.props.user.id !== UserStore.getCurrentId()) {
+        if (this.props.user.id !== this.props.currentUserId) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'

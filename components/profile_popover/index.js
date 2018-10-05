@@ -3,6 +3,9 @@
 
 import {connect} from 'react-redux';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 
 import ProfilePopover from './profile_popover.jsx';
@@ -15,6 +18,8 @@ function mapStateToProps(state) {
     return {
         enableWebrtc,
         enableTimezone: areTimezonesEnabledAndSupported(state),
+        currentUserId: getCurrentUserId(state),
+        teamUrl: '/' + getCurrentTeam(state).name,
     };
 }
 
