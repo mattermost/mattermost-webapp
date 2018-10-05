@@ -24,8 +24,12 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 
 import {setModalSearchTerm} from 'actions/views/search';
+import {
+    matchExistsInChannelProfiles,
+    getChannelsWithUserProfiles,
+} from 'mattermost-redux/selectors/entities/channels';
 
-import {matchExistsInChannelProfiles, getChannelsWithUserProfiles} from 'selectors/more_direct_channels';
+import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
