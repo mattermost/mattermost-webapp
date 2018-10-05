@@ -41,7 +41,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   theme={Object {}}
 >
   <button
-    className="navbar-toggle navbar-right__icon pull-right"
+    className="navbar-toggle navbar-right__icon"
     onClick={[Function]}
   >
     <span
@@ -76,7 +76,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   theme={Object {}}
 >
   <button
-    className="navbar-toggle navbar-right__icon pull-right"
+    className="navbar-toggle navbar-right__icon"
     onClick={[Function]}
   >
     <span
