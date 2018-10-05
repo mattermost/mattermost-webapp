@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
@@ -14,6 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 export default class UserListRowWithError extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
+        status: PropTypes.string,
         extraInfo: PropTypes.arrayOf(PropTypes.object),
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
@@ -75,7 +75,7 @@ export default class UserListRowWithError extends React.Component {
         } else if (this.props.user.status) {
             status = this.props.user.status;
         } else {
-            status = UserStore.getStatus(this.props.user.id);
+            status = this.props.status;
         }
 
         let userCountID = null;
