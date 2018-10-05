@@ -98,7 +98,7 @@ export default class Webrtc extends React.PureComponent {
         return (
             <li
                 role='presentation'
-                className='webrtc__option'
+                className='webrtc__option visible-xs-block'
             >
                 <button
                     role='menuitem'
