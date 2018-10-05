@@ -8,6 +8,15 @@
         z-index: 2500;
     }
 
+    .dropdown-item__plugin {
+        display: flex;
+        justify-content: center;
+
+        &:empty {
+            display: none;
+        }
+    }
+
     .fa {
         @include opacity(.6);
         margin-right: 5px;
