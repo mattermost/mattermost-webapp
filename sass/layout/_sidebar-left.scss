@@ -139,6 +139,14 @@
         padding: 1em 1em 0;
     }
 
+    .nav-pills {
+        > li {
+            .badge {
+                margin: 0 10px 0 0;
+            }
+        }
+    }
+
     .sidebar--left__list {
         position: relative;
         flex: 1 1 auto;
