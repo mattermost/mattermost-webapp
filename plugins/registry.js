@@ -284,7 +284,7 @@ export default class PluginRegistry {
         const id = generateId();
 
         store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_HOOK,
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'MessageWillFormat',
             data: {
                 id,
