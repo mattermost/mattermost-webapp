@@ -158,6 +158,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
         }
 
         let showHide;
+        let clientSecret;
         if (this.state.clientSecret === FAKE_SECRET) {
             showHide = (
                 <button
@@ -171,6 +172,17 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     />
                 </button>
             );
+            clientSecret = (
+                <span className='item-details__token'>
+                    <FormattedMessage
+                        id='installed_integrations.client_secret'
+                        defaultMessage='Client Secret: **{clientSecret}**'
+                        values={{
+                            clientSecret: this.state.clientSecret,
+                        }}
+                    />
+                </span>
+            );
         } else {
             showHide = (
                 <button
@@ -183,6 +195,22 @@ export default class InstalledOAuthApp extends React.PureComponent {
                         defaultMessage='Hide Secret'
                     />
                 </button>
+            );
+            clientSecret = (
+                <span className='item-details__token'>
+                    <FormattedMarkdownMessage
+                        id='installed_integrations.client_secret'
+                        defaultMessage='Client Secret: **{clientSecret}**'
+                        values={{
+                            clientSecret: this.state.clientSecret,
+                        }}
+                    />
+                    <CopyText
+                        idMessage='integrations.copy_client_secret'
+                        defaultMessage='Copy Client Secret'
+                        value={this.state.clientSecret}
+                    />
+                </span>
             );
         }
 
@@ -247,20 +275,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                         </span>
                     </div>
                     <div className='item-details__row'>
-                        <span className='item-details__token'>
-                            <FormattedMarkdownMessage
-                                id='installed_integrations.client_secret'
-                                defaultMessage='Client Secret: **{clientSecret}**'
-                                values={{
-                                    clientSecret: this.state.clientSecret,
-                                }}
-                            />
-                            <CopyText
-                                idMessage='integrations.copy_client_secret'
-                                defaultMessage='Copy Client Secret'
-                                value={this.state.clientSecret}
-                            />
-                        </span>
+                        {clientSecret}
                     </div>
                     {urls}
                     <div className='item-details__row'>
