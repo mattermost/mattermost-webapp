@@ -213,7 +213,7 @@ export default class AnnouncementBar extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (this.props.isLoggedIn && !this.state.allowDismissal) {
+        if (this.shouldRender()) {
             document.body.classList.add('announcement-bar--fixed');
         }
 
@@ -234,15 +234,15 @@ export default class AnnouncementBar extends React.PureComponent {
         AnalyticsStore.removeChangeListener(this.onAnalyticsChange);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         if (!this.props.isLoggedIn) {
             return;
         }
 
-        if (!prevState.allowDismissal && this.state.allowDismissal) {
-            document.body.classList.remove('announcement-bar--fixed');
-        } else if (prevState.allowDismissal && !this.state.allowDismissal) {
+        if (this.shouldRender()) {
             document.body.classList.add('announcement-bar--fixed');
+        } else {
+            document.body.classList.remove('announcement-bar--fixed');
         }
     }
 
@@ -284,12 +284,20 @@ export default class AnnouncementBar extends React.PureComponent {
         this.setState(this.getState());
     }
 
-    render() {
+    shouldRender() {
         if (!this.isValidState(this.state)) {
-            return <div/>;
+            return false;
         }
 
         if (!this.props.isLoggedIn && this.state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
+            return false;
+        }
+
+        return true;
+    }
+
+    render() {
+        if (!this.shouldRender()) {
             return <div/>;
         }
 

@@ -15,8 +15,8 @@ body {
     position: relative;
     width: 100%;
 
-    &.error-bar--fixed {
-        padding-top: 22px;
+    &.announcement-bar--fixed {
+        padding-top: $announcement-bar-height;
     }
 }
 
