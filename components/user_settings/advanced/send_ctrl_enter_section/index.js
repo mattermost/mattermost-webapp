@@ -6,16 +6,15 @@ import {connect} from 'react-redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {get as getPreference, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import CodeBlockCtrlEnterSection from './code_block_ctrl_enter_section';
+import SendCtrlEnterSection from './send_ctrl_enter_section';
 
 function mapStateToProps(state) {
     return {
         currentUserId: getCurrentUserId(state),
-        codeBlockOnCtrlEnter: getPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_CODE_BLOCK_ON_CTRL_ENTER, 'true'),
-        sendMessageOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SEND_ON_CTRL_ENTER),
+        sendMessageOnCtrlEnter: getPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SEND_ON_CTRL_ENTER, 'false'),
     };
 }
 
@@ -27,4 +26,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CodeBlockCtrlEnterSection);
+export default connect(mapStateToProps, mapDispatchToProps)(SendCtrlEnterSection);

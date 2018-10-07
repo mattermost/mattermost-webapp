@@ -20,7 +20,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     return {
-        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SEND_ON_CTRL_ENTER),
         config,
         editingPost: getEditingPost(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,

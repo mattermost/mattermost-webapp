@@ -11,15 +11,15 @@ import {AdvancedSections} from 'utils/constants.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-import CodeBlockCtrlEnterSection from 'components/user_settings/advanced/code_block_ctrl_enter_section/code_block_ctrl_enter_section';
+import SendCtrlEnterSection from 'components/user_settings/advanced/send_ctrl_enter_section/send_ctrl_enter_section';
 
 describe('components/user_settings/advanced/JoinLeaveSection', () => {
     const defaultProps = {
         activeSection: '',
         currentUserId: 'current_user_id',
-        codeBlockOnCtrlEnter: 'true',
+        sendMessageOnCtrlEnter: 'true',
         onUpdateSection: jest.fn(),
-        prevActiveSection: AdvancedSections.CONTROL_SEND,
+        prevActiveSection: 'dummySectionName',
         renderOnOffLabel: jest.fn(),
         actions: {
             savePreferences: jest.fn(),
@@ -28,14 +28,14 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <CodeBlockCtrlEnterSection {...defaultProps}/>
+            <SendCtrlEnterSection {...defaultProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SettingItemMax).exists()).toEqual(false);
         expect(wrapper.find(SettingItemMin).exists()).toEqual(true);
 
-        wrapper.setProps({activeSection: AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER});
+        wrapper.setProps({activeSection: AdvancedSections.CONTROL_SEND});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SettingItemMax).exists()).toEqual(true);
         expect(wrapper.find(SettingItemMin).exists()).toEqual(false);
@@ -43,66 +43,46 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
 
     test('should match state on handleOnChange', () => {
         const wrapper = shallow(
-            <CodeBlockCtrlEnterSection {...defaultProps}/>
+            <SendCtrlEnterSection {...defaultProps}/>
         );
 
         let value = 'false';
-        wrapper.setState({codeBlockOnCtrlEnterState: 'true'});
+        wrapper.setState({sendMessageOnCtrlEnterState: 'true'});
         wrapper.instance().handleOnChange({currentTarget: {value}});
-        expect(wrapper.state('codeBlockOnCtrlEnterState')).toEqual(value);
+        expect(wrapper.state('sendMessageOnCtrlEnterState')).toEqual(value);
 
         value = 'true';
         wrapper.instance().handleOnChange({currentTarget: {value}});
-        expect(wrapper.state('codeBlockOnCtrlEnterState')).toEqual(value);
+        expect(wrapper.state('sendMessageOnCtrlEnterState')).toEqual(value);
     });
 
     test('should call props.actions.savePreferences and props.onUpdateSection on handleSubmit', () => {
         const actions = {savePreferences: jest.fn()};
         const onUpdateSection = jest.fn();
         const wrapper = shallow(
-            <CodeBlockCtrlEnterSection
+            <SendCtrlEnterSection
                 {...defaultProps}
                 actions={actions}
                 onUpdateSection={onUpdateSection}
             />
         );
 
-        const codeBlockOnCtrlEnterPreference = {
+        const sendOnCtrlEnterPreference = {
             category: Preferences.CATEGORY_ADVANCED_SETTINGS,
-            name: Preferences.ADVANCED_CODE_BLOCK_ON_CTRL_ENTER,
+            name: Preferences.ADVANCED_SEND_ON_CTRL_ENTER,
             user_id: defaultProps.currentUserId,
             value: 'true',
         };
 
         wrapper.instance().handleSubmit();
         expect(actions.savePreferences).toHaveBeenCalledTimes(1);
-        expect(actions.savePreferences).toHaveBeenCalledWith(defaultProps.currentUserId, [codeBlockOnCtrlEnterPreference]);
+        expect(actions.savePreferences).toHaveBeenCalledWith(defaultProps.currentUserId, [sendOnCtrlEnterPreference]);
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
 
-        wrapper.setState({codeBlockOnCtrlEnterState: 'false'});
-        codeBlockOnCtrlEnterPreference.value = 'false';
+        wrapper.setState({sendMessageOnCtrlEnterState: 'false'});
+        sendOnCtrlEnterPreference.value = 'false';
         wrapper.instance().handleSubmit();
         expect(actions.savePreferences).toHaveBeenCalledTimes(2);
-        expect(actions.savePreferences).toHaveBeenCalledWith(defaultProps.currentUserId, [codeBlockOnCtrlEnterPreference]);
-    });
-
-    test('should match state and call props.onUpdateSection on handleUpdateSection', () => {
-        const onUpdateSection = jest.fn();
-        const wrapper = shallow(
-            <CodeBlockCtrlEnterSection
-                {...defaultProps}
-                onUpdateSection={onUpdateSection}
-            />
-        );
-
-        wrapper.setState({codeBlockOnCtrlEnterState: 'false'});
-        wrapper.instance().handleUpdateSection();
-        expect(wrapper.state('codeBlockOnCtrlEnterState')).toEqual(defaultProps.codeBlockOnCtrlEnter);
-        expect(onUpdateSection).toHaveBeenCalledTimes(1);
-
-        wrapper.setState({codeBlockOnCtrlEnterState: 'false'});
-        wrapper.instance().handleUpdateSection(AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER);
-        expect(onUpdateSection).toHaveBeenCalledTimes(2);
-        expect(onUpdateSection).toBeCalledWith(AdvancedSections.CODE_BLOCK_ON_CTRL_ENTER);
+        expect(actions.savePreferences).toHaveBeenCalledWith(defaultProps.currentUserId, [sendOnCtrlEnterPreference]);
     });
 });

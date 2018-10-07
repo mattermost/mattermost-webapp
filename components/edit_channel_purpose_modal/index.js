@@ -3,15 +3,16 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
 
-import Constants from 'utils/constants.jsx';
+import {Preferences} from 'mattermost-redux/constants';
 
 import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
 
 const mapStateToProps = createSelector(
-    (state) => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+    (state) => getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SEND_ON_CTRL_ENTER),
     ({requests}) => {
         const {channels: {updateChannel}} = requests;
         return {

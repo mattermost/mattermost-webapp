@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
+<Fragment>
+  <div
+    className="divider-light"
+  />
+  <SettingItemMin
+    focused={false}
+    section="advancedCtrlSend"
+    title={
+      <FormattedMessage
+        defaultMessage="Send messages on CTRL+ENTER"
+        id="user.settings.advance.sendTitle"
+        values={Object {}}
+      />
+    }
+  />
+</Fragment>
+`;
+
+exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 2`] = `
+<Fragment>
+  <div
+    className="divider-light"
+  />
+  <SettingItemMax
+    containerStyle=""
+    infoPosition="bottom"
+    inputs={
+      Array [
+        <div>
+          <div
+            className="radio"
+          >
+            <label>
+              <input
+                checked={true}
+                id="sendOnCtrlEnterOn"
+                name="advancedCtrlSend"
+                onChange={[Function]}
+                type="radio"
+                value="true"
+              />
+              <FormattedMessage
+                defaultMessage="On"
+                id="user.settings.advance.on"
+                values={Object {}}
+              />
+            </label>
+            <br />
+          </div>
+          <div
+            className="radio"
+          >
+            <label>
+              <input
+                checked={false}
+                id="sendOnCtrlEnterOff"
+                name="advancedCtrlSend"
+                onChange={[Function]}
+                type="radio"
+                value="false"
+              />
+              <FormattedMessage
+                defaultMessage="Off"
+                id="user.settings.advance.off"
+                values={Object {}}
+              />
+            </label>
+            <br />
+          </div>
+          <div>
+            <br />
+            <FormattedMessage
+              defaultMessage="If enabled ENTER inserts a new line and CTRL+ENTER submits the message."
+              id="user.settings.advance.sendDesc"
+              values={Object {}}
+            />
+          </div>
+        </div>,
+      ]
+    }
+    saving={false}
+    section=""
+    setting="send_on_ctrl_enter"
+    submit={[Function]}
+    title={
+      <FormattedMessage
+        defaultMessage="Send messages on CTRL+ENTER"
+        id="user.settings.advance.sendTitle"
+        values={Object {}}
+      />
+    }
+  />
+</Fragment>
+`;
