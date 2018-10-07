@@ -19,7 +19,7 @@ import {
 } from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 
-import Navbar from './navbar.jsx';
+import ChannelHeaderMobile from './channel_header_mobile.jsx';
 
 const isCurrentChannelMuted = createSelector(
     getMyCurrentChannelMembership,
@@ -52,4 +52,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelHeaderMobile);

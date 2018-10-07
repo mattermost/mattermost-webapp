@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/navbar/UnmuteChannelButton should match snapshot 1`] = `
+exports[`components/ChannelHeaderMobile/UnmuteChannelButton should match snapshot 1`] = `
 <button
   className="navbar-toggle icon icon__mute"
   onClick={[Function]}

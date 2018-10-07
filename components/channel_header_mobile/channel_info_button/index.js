@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {openModal} from 'actions/views/modals';
 
-import NavbarInfoButton from './navbar_info_button.jsx';
+import ChannelInfoButton from './channel_info_button.jsx';
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(NavbarInfoButton);
+export default connect(null, mapDispatchToProps)(ChannelInfoButton);

@@ -9,11 +9,11 @@ import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
 import CollapseLhsButton from './collapse_lhs_button';
 import CollapseRhsButton from './collapse_rhs_button';
-import NavbarInfoButton from './navbar_info_button';
+import ChannelInfoButton from './channel_info_button';
 import ShowSearchButton from './show_search_button';
 import UnmuteChannelButton from './unmute_channel_button';
 
-export default class Navbar extends React.PureComponent {
+export default class ChannelHeaderMobile extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -89,7 +89,7 @@ export default class Navbar extends React.PureComponent {
                                         />
                                     )}
                                 </div>
-                                <NavbarInfoButton
+                                <ChannelInfoButton
                                     ref='headerOverlay'
                                     channel={channel}
                                     isReadOnly={this.props.isReadOnly}
