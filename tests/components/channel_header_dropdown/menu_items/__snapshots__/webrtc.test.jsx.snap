@@ -2,7 +2,7 @@
 
 exports[`components/ChannelHeaderDropdown/MenuItem.Webrtc should match snapshot 1`] = `
 <li
-  className="webrtc__option"
+  className="webrtc__option visible-xs-block"
   role="presentation"
 >
   <button

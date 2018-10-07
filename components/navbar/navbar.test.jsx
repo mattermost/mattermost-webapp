@@ -17,6 +17,11 @@ jest.mock('utils/browser_history', () => {
 });
 
 describe('components/navbar/Navbar', () => {
+    global.document.querySelector = jest.fn().mockReturnValue({
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+    });
+
     const baseProps = {
         user: {
             id: 'user_id',
