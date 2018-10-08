@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import TutorialIntroScreens from './tutorial_intro_screens.jsx';
+import TutorialIntroScreens from './tutorial_intro_screens';
 
 export default class TutorialView extends React.Component {
     componentDidMount() {
