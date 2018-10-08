@@ -46,7 +46,7 @@ export default class TeamButton extends React.Component {
 
             if (this.props.mentions) {
                 badge = (
-                    <span className={`badge pull-right small ${teamIconUrl ? 'stroked' : ''}`}>{this.props.mentions}</span>
+                    <span className={'badge pull-right small'}>{this.props.mentions}</span>
                 );
             }
         }

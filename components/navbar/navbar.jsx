@@ -306,7 +306,7 @@ export default class Navbar extends React.Component {
         return (
             <li
                 role='presentation'
-                className='webrtc__option'
+                className='webrtc__option visible-xs-block'
             >
                 <button
                     role='menuitem'
@@ -334,7 +334,7 @@ export default class Navbar extends React.Component {
         }
 
         return (
-            <div className={'pull-right description navbar-right__icon webrtc__button ' + circleClass}>
+            <div className={'pull-right description navbar-right__icon webrtc__button hidden-xs ' + circleClass}>
                 <a onClick={this.initWebrtc}>
                     {'WebRTC'}
                 </a>
@@ -732,10 +732,12 @@ export default class Navbar extends React.Component {
                             {deleteChannelOption}
                             {leaveChannelOption}
                             {toggleFavoriteOption}
-                            <MobileChannelHeaderPlug
-                                channel={channel}
-                                isDropdown={true}
-                            />
+                            <li className='dropdown-item__plugin'>
+                                <MobileChannelHeaderPlug
+                                    channel={channel}
+                                    isDropdown={false}
+                                />
+                            </li>
                             <div className='close visible-xs-block'>
                                 {'×'}
                             </div>
@@ -973,10 +975,6 @@ export default class Navbar extends React.Component {
                                 isReadOnly={this.props.isReadOnly}
                             />
                             {searchButton}
-                            <MobileChannelHeaderPlug
-                                channel={channel}
-                                isDropdown={false}
-                            />
                             {this.createRhsButton(currentId)}
                         </div>
                     </div>

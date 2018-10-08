@@ -64,4 +64,70 @@ describe('components/PostMarkdown', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('plugin hooks can build upon other hook message updates', () => {
+        const props = {
+            ...baseProps,
+            message: 'world',
+            post: {
+                message: 'world',
+                props: {
+                    channel_mentions: {
+                        test: {
+                            display_name: 'Test',
+                        },
+                    },
+                },
+            },
+            pluginHooks: [
+                {
+                    hook: (post, updatedMessage) => {
+                        return 'hello ' + updatedMessage;
+                    },
+                },
+                {
+                    hook: (post, updatedMessage) => {
+                        return updatedMessage + '!';
+                    },
+                },
+            ],
+        };
+        const wrapper = shallow(
+            <PostMarkdown {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('plugin hooks can overwrite other hooks messages', () => {
+        const props = {
+            ...baseProps,
+            message: 'world',
+            post: {
+                message: 'world',
+                props: {
+                    channel_mentions: {
+                        test: {
+                            display_name: 'Test',
+                        },
+                    },
+                },
+            },
+            pluginHooks: [
+                {
+                    hook: (post) => {
+                        return 'hello ' + post.message;
+                    },
+                },
+                {
+                    hook: (post) => {
+                        return post.message + '!';
+                    },
+                },
+            ],
+        };
+        const wrapper = shallow(
+            <PostMarkdown {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });
