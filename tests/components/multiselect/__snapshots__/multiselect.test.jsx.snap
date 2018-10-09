@@ -10,24 +10,42 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     <div
       className="multi-select__container"
     >
-      <StateManager
-        components={
-          Object {
-            "IndicatorsContainer": [Function],
-            "Menu": [Function],
-            "MultiValueLabel": [Function],
-          }
-        }
-        defaultInputValue=""
-        defaultMenuIsOpen={false}
-        defaultValue={null}
-        inputValue=""
-        isClearable={false}
-        isMulti={true}
+      <Select
+        arrowRenderer={[Function]}
+        autosize={true}
+        backspaceRemoves={true}
+        backspaceToRemoveMessage="Press backspace to remove {label}"
+        clearAllText="Clear all"
+        clearRenderer={[Function]}
+        clearValueText="Clear value"
+        clearable={false}
+        closeOnSelect={true}
+        deleteRemoves={true}
+        delimiter=","
+        disabled={false}
+        escapeClearsValue={true}
+        filterOptions={[Function]}
+        ignoreAccents={true}
+        ignoreCase={true}
+        inputProps={Object {}}
+        isLoading={false}
+        joinValues={true}
+        labelKey="label"
+        matchPos="any"
+        matchProp="any"
+        menuBuffer={0}
+        menuRenderer={[Function]}
+        multi={true}
+        noResultsText={null}
+        onBlurResetsInput={false}
         onChange={[Function]}
+        onCloseResetsInput={false}
         onInputChange={[Function]}
-        onKeyDown={[Function]}
-        openMenuOnFocus={false}
+        onInputKeyDown={[Function]}
+        onSelectResetsInput={true}
+        openOnClick={true}
+        openOnFocus={true}
+        optionComponent={[Function]}
         options={
           Array [
             Object {
@@ -65,14 +83,14 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           ]
         }
         placeholder="Search and add members"
-        styles={
-          Object {
-            "container": [Function],
-            "control": [Function],
-            "multiValue": [Function],
-            "multiValueRemove": [Function],
-          }
-        }
+        removeSelected={true}
+        required={false}
+        rtl={false}
+        scrollMenuIntoView={true}
+        searchable={true}
+        simpleValue={false}
+        tabSelectsValue={true}
+        trimFilter={true}
         value={
           Array [
             Object {

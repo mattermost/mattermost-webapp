@@ -31,15 +31,4 @@ describe('components/multiselect/multiselect', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should match snapshot for page 2', () => {
-        const wrapper = shallow(
-            <MultiSelect {...baseProps}/>
-        );
-
-        wrapper.find('.filter-control__next').simulate('click');
-        wrapper.update();
-        expect(wrapper.state('page')).toEqual(1);
-        expect(wrapper).toMatchSnapshot();
-    });
 });

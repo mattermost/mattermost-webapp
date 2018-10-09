@@ -9,6 +9,7 @@ import ReactSelect from 'react-select';
 import {Constants} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
 
@@ -62,25 +63,18 @@ export default class MultiSelect extends React.Component {
     }
 
     nextPage = () => {
-        if (this.props.handlePageChange) {
-            this.props.handlePageChange(this.state.page + 1, this.state.page);
+        const {options} = this.props;
+        const pageEnd = (this.state.page * this.props.perPage) + this.props.perPage;
+        const optionsToDisplay = options.slice(0, pageEnd);
+        if (optionsToDisplay.length < this.props.totalCount) {
+            if (this.props.handlePageChange) {
+                this.props.handlePageChange(this.state.page + 1, this.state.page);
+            }
+            if (this.refs.list) {
+                this.refs.list.setSelected(0);
+            }
+            this.setState({page: this.state.page + 1});
         }
-        if (this.refs.list) {
-            this.refs.list.setSelected(0);
-        }
-        this.setState({page: this.state.page + 1});
-    }
-
-    prevPage = () => {
-        if (this.state.page === 0) {
-            return;
-        }
-
-        if (this.props.handlePageChange) {
-            this.props.handlePageChange(this.state.page - 1, this.state.page);
-        }
-        this.refs.list.setSelected(0);
-        this.setState({page: this.state.page - 1});
     }
 
     resetPaging = () => {
@@ -174,6 +168,37 @@ export default class MultiSelect extends React.Component {
         this.props.handleDelete(values);
     }
 
+    getLoadMoreIndicator = () => {
+        if (this.props.loading && this.state.page > 0 && this.props.options.length < this.props.totalCount) {
+            return (
+                <div>
+                    <LoadingScreen
+                        position='relative'
+                        key='loading'
+                        style={{padding: '15px'}}
+                    />
+                </div>
+            );
+        }
+        return <></>;
+    }
+
+    getLoadMoreIndicator = () => {
+        const thresholdToShow = (this.state.page * this.props.perPage) + this.props.perPage;
+        if (this.props.loading && this.state.page > 0 && this.props.options.length < thresholdToShow) {
+            return (
+                <div>
+                    <LoadingScreen
+                        position='relative'
+                        key='loading'
+                        style={{padding: '15px'}}
+                    />
+                </div>
+            );
+        }
+        return <></>;
+    }
+
     render() {
         const options = Object.assign([], this.props.options);
         const {totalCount, users, values} = this.props;
@@ -206,8 +231,6 @@ export default class MultiSelect extends React.Component {
         }
 
         let optionsToDisplay = [];
-        let nextButton;
-        let previousButton;
         let noteTextContainer;
 
         if (this.props.noteText) {
@@ -235,42 +258,9 @@ export default class MultiSelect extends React.Component {
             }
         }
 
-        if (options && options.length > this.props.perPage) {
-            const pageStart = this.state.page * this.props.perPage;
-            const pageEnd = pageStart + this.props.perPage;
-            optionsToDisplay = options.slice(pageStart, pageEnd);
-            if (!this.props.loading) {
-                if (options.length > pageEnd) {
-                    nextButton = (
-                        <button
-                            className='btn btn-default filter-control filter-control__next'
-                            onClick={this.nextPage}
-                        >
-                            <FormattedMessage
-                                id='filtered_user_list.next'
-                                defaultMessage='Next'
-                            />
-                        </button>
-                    );
-                }
-
-                if (this.state.page > 0) {
-                    previousButton = (
-                        <button
-                            className='btn btn-default filter-control filter-control__prev'
-                            onClick={this.prevPage}
-                        >
-                            <FormattedMessage
-                                id='filtered_user_list.prev'
-                                defaultMessage='Previous'
-                            />
-                        </button>
-                    );
-                }
-            }
-        } else {
-            optionsToDisplay = options;
-        }
+        const pageStart = this.state.page * this.props.perPage;
+        const pageEnd = pageStart + this.props.perPage;
+        optionsToDisplay = options.slice(0, pageEnd);
 
         let memberCount;
         if (users && users.length && totalCount) {
@@ -335,11 +325,9 @@ export default class MultiSelect extends React.Component {
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                     loading={this.props.loading}
+                    nextPage={this.nextPage}
                 />
-                <div className='filter-controls'>
-                    {previousButton}
-                    {nextButton}
-                </div>
+                {this.getLoadMoreIndicator()}
             </div>
         );
     }

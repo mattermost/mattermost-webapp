@@ -224,7 +224,7 @@ export default class MoreDirectChannels extends React.Component {
     };
 
     getUserProfiles = (page) => {
-        const pageNum = page ? page + 1 : 0;
+        const pageNum = page ? page : 0; //eslint-disable-line
         if (this.props.restrictDirectMessage === 'any') {
             this.props.actions.getProfiles(pageNum, USERS_PER_PAGE * 2).then(() => {
                 this.setUsersLoadingState(false);

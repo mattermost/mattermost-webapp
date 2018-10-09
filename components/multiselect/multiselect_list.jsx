@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import Scrollbars from 'react-custom-scrollbars';
 
 import Constants from 'utils/constants.jsx';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
@@ -14,6 +15,7 @@ export default class MultiSelectList extends React.Component {
     constructor(props) {
         super(props);
 
+        this.listScrollBar = React.createRef();
         this.defaultOptionRenderer = this.defaultOptionRenderer.bind(this);
         this.handleArrowPress = this.handleArrowPress.bind(this);
         this.setSelected = this.setSelected.bind(this);
@@ -53,6 +55,14 @@ export default class MultiSelectList extends React.Component {
                 this.refs.selected.scrollIntoView(false);
             } else if (elemTop < listTop) {
                 this.refs.selected.scrollIntoView(true);
+            }
+        }
+        const anchor = this.props.page * this.props.perPage;
+        const obj = this.props.options[anchor];
+        if (obj) {
+            const elm = document.getElementById(obj.id);
+            if (elm) {
+                elm.scrollIntoView(false);
             }
         }
     }
@@ -114,9 +124,17 @@ export default class MultiSelectList extends React.Component {
         );
     }
 
+    handleScroll = () => {
+        const scrolledTill = this.listScrollBar.current.getValues().scrollTop;
+        if (scrolledTill > 1000 && !this.props.loading) {
+            this.props.nextPage();
+        }
+    }
+
     render() {
-        const options = this.props.options;
-        if (this.props.loading) {
+        const {options} = this.props;
+
+        if (this.props.loading && (options === null || options.length === 0) && this.props.page === 0) {
             return (
                 <div>
                     <LoadingScreen
@@ -153,12 +171,18 @@ export default class MultiSelectList extends React.Component {
 
         return (
             <div className='more-modal__list'>
-                <div
-                    ref='list'
+                <Scrollbars
+                    ref={this.listScrollBar}
+                    onScroll={this.handleScroll}
                 >
-                    {optionControls}
-                </div>
+                    <div
+                        ref='list'
+                    >
+                        {optionControls}
+                    </div>
+                </Scrollbars>
             </div>
+
         );
     }
 }
@@ -178,4 +202,5 @@ MultiSelectList.propTypes = {
     onAdd: PropTypes.func,
     onSelect: PropTypes.func,
     loading: PropTypes.bool,
+    nextPage: PropTypes.func,
 };
