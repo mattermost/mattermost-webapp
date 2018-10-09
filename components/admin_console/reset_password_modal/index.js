@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getPasswordConfig} from 'utils/utils.jsx';
 
@@ -12,6 +13,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     return {
+        currentUserId: getCurrentUserId(state),
         passwordConfig: getPasswordConfig(config),
     };
 }

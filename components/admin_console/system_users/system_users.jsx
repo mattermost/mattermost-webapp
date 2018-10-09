@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import {loadProfiles, loadProfilesAndTeamMembers, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {Constants, UserSearchOptions, SearchUserTeamFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -47,6 +46,7 @@ export default class SystemUsers extends React.Component {
         totalUsers: PropTypes.number.isRequired,
         searchTerm: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
+        users: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
 
@@ -196,7 +196,7 @@ export default class SystemUsers extends React.Component {
     }
 
     getUserById(id) {
-        if (UserStore.hasProfile(id)) {
+        if (this.props.users[id]) {
             this.setState({loading: false});
             return;
         }
