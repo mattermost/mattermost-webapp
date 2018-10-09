@@ -12,7 +12,6 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
 import {createUserWithInvite, loadMe, loginById} from 'actions/user_actions.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
@@ -36,6 +35,9 @@ export default class SignupEmail extends React.Component {
             privacyPolicyLink: PropTypes.string,
             customDescriptionText: PropTypes.string,
             passwordConfig: PropTypes.object,
+            actions: PropTypes.shape({
+                setGlobalItem: PropTypes.func.isRequired,
+            }).isRequired,
         };
     }
 
@@ -131,7 +133,7 @@ export default class SignupEmail extends React.Component {
             '',
             () => {
                 if (this.state.token > 0) {
-                    BrowserStore.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
+                    this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
                 }
 
                 loadMe().then(

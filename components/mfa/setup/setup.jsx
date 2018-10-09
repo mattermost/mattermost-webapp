@@ -6,12 +6,17 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {activateMfa, generateMfaSecret} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class Setup extends React.Component {
+    static propTypes = {
+        currentUser: PropTypes.object,
+        siteName: PropTypes.string,
+        enforceMultifactorAuthentication: PropTypes.bool.isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -19,7 +24,7 @@ export default class Setup extends React.Component {
     }
 
     componentDidMount() {
-        const user = UserStore.getCurrentUser();
+        const user = this.props.currentUser;
         if (!user || user.mfa_active) {
             this.props.history.push('/');
             return;
@@ -147,11 +152,6 @@ export default class Setup extends React.Component {
         );
     }
 }
-
-Setup.propTypes = {
-    siteName: PropTypes.string,
-    enforceMultifactorAuthentication: PropTypes.bool.isRequired,
-};
 
 const style = {
     qrCode: {maxHeight: 170},
