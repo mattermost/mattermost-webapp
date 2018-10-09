@@ -34,7 +34,8 @@ function mapStateToProps(state) {
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
     let lastViewedChannelName = getLastViewedChannelName(state);
-    if (!lastViewedChannelName) {
+
+    if (!lastViewedChannelName || (channel && lastViewedChannelName === channel.name)) {
         lastViewedChannelName = Constants.DEFAULT_CHANNEL;
     }
 
