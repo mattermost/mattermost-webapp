@@ -322,6 +322,50 @@ export default class ChannelHeader extends React.Component {
         actions.openModal(inviteModalData);
     };
 
+    renderMute = () => {
+        const channelMuted = isChannelMuted(this.props.channelMember);
+
+        if (channelMuted) {
+            return (
+                <li
+                    key='dropdown_unmute'
+                    role='presentation'
+                >
+                    <button
+                        className='style--none'
+                        id='channelUnmute'
+                        role='menuitem'
+                        onClick={this.unmute}
+                    >
+                        <FormattedMessage
+                            id='channel_header.unmute'
+                            defaultMessage='Unmute Channel'
+                        />
+                    </button>
+                </li>
+            );
+        }
+
+        return (
+            <li
+                key='dropdown_mute'
+                role='presentation'
+            >
+                <button
+                    className='style--none'
+                    id='channelMute'
+                    role='menuitem'
+                    onClick={this.mute}
+                >
+                    <FormattedMessage
+                        id='channel_header.mute'
+                        defaultMessage='Mute Channel'
+                    />
+                </button>
+            </li>
+        );
+    };
+
     render() {
         const channelIsArchived = this.props.channel.delete_at !== 0;
         if (Utils.isEmptyObject(this.props.channel) ||
@@ -528,6 +572,8 @@ export default class ChannelHeader extends React.Component {
                 </li>
             );
 
+            dropdownContents.push(this.renderMute());
+
             dropdownContents.push(
                 <li
                     key='add_members'
@@ -610,47 +656,7 @@ export default class ChannelHeader extends React.Component {
                 );
             }
 
-            if (!isDirect) {
-                if (channelMuted) {
-                    dropdownContents.push(
-                        <li
-                            key='dropdown_unmute'
-                            role='presentation'
-                        >
-                            <button
-                                className='style--none'
-                                id='channelUnmute'
-                                role='menuitem'
-                                onClick={this.unmute}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.unmute'
-                                    defaultMessage='Unmute Channel'
-                                />
-                            </button>
-                        </li>
-                    );
-                } else {
-                    dropdownContents.push(
-                        <li
-                            key='dropdown_mute'
-                            role='presentation'
-                        >
-                            <button
-                                className='style--none'
-                                id='channelMute'
-                                role='menuitem'
-                                onClick={this.mute}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.mute'
-                                    defaultMessage='Mute Channel'
-                                />
-                            </button>
-                        </li>
-                    );
-                }
-            }
+            dropdownContents.push(this.renderMute());
 
             if (!this.props.isDefault) {
                 dropdownContents.push(
