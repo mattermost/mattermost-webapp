@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants, NotificationLevels} from 'utils/constants';
+import {NotificationLevels} from 'utils/constants';
 
 import ToggleMuteChannel from 'components/channel_header_dropdown/menu_items/toggle_mute_channel/toggle_mute_channel';
 
@@ -15,7 +15,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel', () => {
         },
         channel: {
             id: 'channel_id',
-            type: Constants.OPEN_CHANNEL,
         },
         isMuted: false,
         actions: {
@@ -27,32 +26,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel', () => {
         const wrapper = shallow(<ToggleMuteChannel {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should be hidden if the channel is DM', () => {
-        const props = {
-            ...baseProps,
-            channel: {
-                ...baseProps.channel,
-                type: Constants.DM_CHANNEL,
-            },
-        };
-        const wrapper = shallow(<ToggleMuteChannel {...props}/>);
-
-        expect(wrapper.isEmptyRender()).toBeTruthy();
-    });
-
-    it('should be hidden if the channel is GM', () => {
-        const props = {
-            ...baseProps,
-            channel: {
-                ...baseProps.channel,
-                type: Constants.GM_CHANNEL,
-            },
-        };
-        const wrapper = shallow(<ToggleMuteChannel {...props}/>);
-
-        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should unmute channel on click the channel was muted', () => {

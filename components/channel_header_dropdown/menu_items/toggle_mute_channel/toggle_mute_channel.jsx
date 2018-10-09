@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {Constants, NotificationLevels} from 'utils/constants';
+import {NotificationLevels} from 'utils/constants';
 
 const ToggleMuteChannel = ({
     user,
@@ -15,14 +15,6 @@ const ToggleMuteChannel = ({
         updateChannelNotifyProps,
     },
 }) => {
-    if (channel.type === Constants.DM_CHANNEL) {
-        return null;
-    }
-
-    if (channel.type === Constants.GM_CHANNEL) {
-        return null;
-    }
-
     let notifyProps;
     let message;
     if (isMuted) {

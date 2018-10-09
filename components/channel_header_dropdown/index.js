@@ -9,12 +9,14 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
+    getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {
     isDefault as isDefaultChannel,
     isFavoriteChannel,
+    isChannelMuted,
 } from 'mattermost-redux/utils/channel_utils';
 
 import {Constants} from 'utils/constants';
@@ -32,6 +34,11 @@ const isCurrentChannelFavorite = createSelector(
     getMyPreferences,
     getCurrentChannel,
     (preferences, channel) => isFavoriteChannel(preferences, channel.id) || false,
+);
+
+const isCurrentChannelMuted = createSelector(
+    getMyCurrentChannelMembership,
+    (membership) => isChannelMuted(membership),
 );
 
 const isCurrentChannelArchived = createSelector(
@@ -67,6 +74,7 @@ const mapStateToProps = createSelector(
     getCurrentChannel,
     isCurrentChannelDefault,
     isCurrentChannelFavorite,
+    isCurrentChannelMuted,
     isCurrentChannelReadOnly,
     isCurrentChannelArchived,
     getTeammateId,
@@ -76,6 +84,7 @@ const mapStateToProps = createSelector(
         channel,
         isDefault,
         isFavorite,
+        isMuted,
         isReadonly,
         isArchived,
         teammateId,
@@ -85,6 +94,7 @@ const mapStateToProps = createSelector(
         channel,
         isDefault,
         isFavorite,
+        isMuted,
         isReadonly,
         isArchived,
         teammateId,

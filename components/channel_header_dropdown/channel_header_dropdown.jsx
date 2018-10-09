@@ -12,6 +12,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         channel: PropTypes.object.isRequired,
         isDefault: PropTypes.bool.isRequired,
         isReadonly: PropTypes.bool.isRequired,
+        isMuted: PropTypes.bool.isRequired,
         isArchived: PropTypes.bool.isRequired,
     }
 
@@ -20,6 +21,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
             user,
             channel,
             isDefault,
+            isMuted,
             isReadonly,
             isArchived,
         } = this.props;
@@ -42,6 +44,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     <MenuItem.ToggleMuteChannel
                         user={user}
                         channel={channel}
+                        isMuted={isMuted}
                     />
                 </MenuItem.Group>
                 <MenuItem.Group>
