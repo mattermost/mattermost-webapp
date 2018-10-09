@@ -228,7 +228,7 @@ export default class SearchBar extends React.Component {
             <Tooltip id='searchClearTooltip'>
                 <FormattedMessage
                     id='search_bar.clear'
-                    defaultMessage='Members'
+                    defaultMessage='Clear search query'
                 />
             </Tooltip>
         );
