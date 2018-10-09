@@ -196,24 +196,9 @@ export default class AnnouncementBar extends React.PureComponent {
         return {message: null, color: null, colorText: null, textColor: null, type: null, allowDismissal: true};
     }
 
-    isValidState(s) {
-        if (!s) {
-            return false;
-        }
-
-        if (!s.message) {
-            return false;
-        }
-
-        if (s.message === AnnouncementBarMessages.LICENSE_EXPIRING && !this.state.totalUsers) {
-            return false;
-        }
-
-        return true;
-    }
-
     componentDidMount() {
-        if (this.props.isLoggedIn && !this.state.allowDismissal) {
+        const isFixed = this.shouldRender(this.props, this.state) && !this.state.allowDismissal;
+        if (isFixed) {
             document.body.classList.add('announcement-bar--fixed');
         }
 
@@ -239,10 +224,13 @@ export default class AnnouncementBar extends React.PureComponent {
             return;
         }
 
-        if (!prevState.allowDismissal && this.state.allowDismissal) {
-            document.body.classList.remove('announcement-bar--fixed');
-        } else if (prevState.allowDismissal && !this.state.allowDismissal) {
+        const wasFixed = this.shouldRender(prevProps, prevState) && !prevState.allowDismissal;
+        const isFixed = this.shouldRender(this.props, this.state) && !this.state.allowDismissal;
+
+        if (!wasFixed && isFixed) {
             document.body.classList.add('announcement-bar--fixed');
+        } else if (wasFixed && !isFixed) {
+            document.body.classList.remove('announcement-bar--fixed');
         }
     }
 
@@ -284,12 +272,28 @@ export default class AnnouncementBar extends React.PureComponent {
         this.setState(this.getState());
     }
 
-    render() {
-        if (!this.isValidState(this.state)) {
-            return <div/>;
+    shouldRender(props, state) {
+        if (!state) {
+            return false;
         }
 
-        if (!this.props.isLoggedIn && this.state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
+        if (!state.message) {
+            return false;
+        }
+
+        if (state.message === AnnouncementBarMessages.LICENSE_EXPIRING && !state.totalUsers) {
+            return false;
+        }
+
+        if (!props.isLoggedIn && state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
+            return false;
+        }
+
+        return true;
+    }
+
+    render() {
+        if (!this.shouldRender(this.props, this.state)) {
             return <div/>;
         }
 

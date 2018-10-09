@@ -969,7 +969,7 @@
                 @include translate3d(0, 100%, 0);
                 background: alpha-color($black, .9);
                 display: block;
-                height: calc(100% - 48px);
+                height: calc(100% - 26px);
                 left: 0;
                 overflow: auto;
                 padding: 2.5em 0 0;
@@ -978,9 +978,9 @@
                 visibility: hidden;
                 width: 100%;
 
-                .error-bar--fixed & {
-                    height: calc(100% - 70px);
-                    top: 70px;
+                body.announcement-bar--fixed & {
+                    height: calc(100% - 48px - $announcement-bar-height);
+                    top: 48px + $announcement-bar-height;
                 }
 
                 .close {
@@ -1503,9 +1503,9 @@
     }
 
     .app__body {
-        &.error-bar--fixed {
+        &.announcement-bar--fixed {
             .modal {
-                padding-top: 21px;
+                padding-top: $announcement-bar-height;
             }
         }
 

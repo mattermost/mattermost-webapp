@@ -10,8 +10,8 @@
     width: 220px;
     z-index: 10;
 
-    .error-bar--fixed & {
-        height: calc(100% - 22px);
+    body.announcement-bar--fixed & {
+        height: calc(100% - $announcement-bar-height);
     }
 
     &.sidebar--padded {
