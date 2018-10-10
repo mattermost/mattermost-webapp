@@ -5,11 +5,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import XRegExp from 'xregexp';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import {autocompleteUsersInChannel} from 'actions/user_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -152,9 +154,9 @@ export default class AtMentionProvider extends Provider {
                 }
 
                 let users = members.concat(specialMentions).concat(nonmembers);
-                const me = UserStore.getCurrentUser();
+                const currentUserId = getCurrentUserId(store.getState());
                 users = users.filter((user) => {
-                    return user.id !== me.id;
+                    return user.id !== currentUserId;
                 });
 
                 const mentions = users.map((user) => '@' + user.username);
