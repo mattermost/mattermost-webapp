@@ -72,12 +72,12 @@ describe('components/post_view/Reaction', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have called actions.addReaction and emitEmojiPosted when addReaction is called', () => {
+    test('should have called actions.addReaction and emitEmojiPosted when handleAddReaction is called', () => {
         const newActions = {...actions, addReaction: jest.fn()};
         const props = {...baseProps, actions: newActions};
 
         const wrapper = shallow(<Reaction {...props}/>);
-        wrapper.instance().addReaction({preventDefault: jest.fn()});
+        wrapper.instance().handleAddReaction({preventDefault: jest.fn()});
 
         expect(newActions.addReaction).toHaveBeenCalledTimes(1);
         expect(newActions.addReaction).toHaveBeenCalledWith(post.id, emojiName);
@@ -86,12 +86,12 @@ describe('components/post_view/Reaction', () => {
         expect(emitEmojiPosted).toHaveBeenCalledWith(emojiName);
     });
 
-    test('should have called actions.removeReaction when removeReaction is called', () => {
+    test('should have called actions.removeReaction when handleRemoveReaction is called', () => {
         const newActions = {...actions, removeReaction: jest.fn()};
         const props = {...baseProps, actions: newActions};
 
         const wrapper = shallow(<Reaction {...props}/>);
-        wrapper.instance().removeReaction({preventDefault: jest.fn()});
+        wrapper.instance().handleRemoveReaction({preventDefault: jest.fn()});
 
         expect(newActions.removeReaction).toHaveBeenCalledTimes(1);
         expect(newActions.removeReaction).toHaveBeenCalledWith(post.id, emojiName);

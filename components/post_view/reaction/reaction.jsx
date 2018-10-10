@@ -81,21 +81,14 @@ export default class Reaction extends React.PureComponent {
         }),
     }
 
-    constructor(props) {
-        super(props);
-
-        this.addReaction = this.addReaction.bind(this);
-        this.removeReaction = this.removeReaction.bind(this);
-    }
-
-    addReaction(e) {
+    handleAddReaction = (e) => {
         e.preventDefault();
         const {actions, post, emojiName} = this.props;
         actions.addReaction(post.id, emojiName);
         emitEmojiPosted(emojiName);
     }
 
-    removeReaction(e) {
+    handleRemoveReaction = (e) => {
         e.preventDefault();
         this.props.actions.removeReaction(this.props.post.id, this.props.emojiName);
     }
@@ -216,7 +209,7 @@ export default class Reaction extends React.PureComponent {
         let className = 'post-reaction';
         if (currentUserReacted) {
             if (this.props.canRemoveReaction) {
-                handleClick = this.removeReaction;
+                handleClick = this.handleRemoveReaction;
                 clickTooltip = (
                     <FormattedMessage
                         id='reaction.clickToRemove'
@@ -229,7 +222,7 @@ export default class Reaction extends React.PureComponent {
 
             className += ' post-reaction--current-user';
         } else if (!currentUserReacted && this.props.canAddReaction) {
-            handleClick = this.addReaction;
+            handleClick = this.handleAddReaction;
             clickTooltip = (
                 <FormattedMessage
                     id='reaction.clickToAdd'

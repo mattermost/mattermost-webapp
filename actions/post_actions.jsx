@@ -152,14 +152,6 @@ export async function unflagPost(postId) {
     }
 }
 
-export function addReaction(channelId, postId, emojiName) {
-    PostActions.addReaction(postId, emojiName)(dispatch, getState);
-}
-
-export function removeReaction(channelId, postId, emojiName) {
-    PostActions.removeReaction(postId, emojiName)(dispatch, getState);
-}
-
 export async function createPost(post, files, success) {
     // parse message and emit emoji event
     const emojis = post.message.match(EMOJI_PATTERN);
