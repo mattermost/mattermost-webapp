@@ -12,6 +12,8 @@ import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import BooleanSetting from '../boolean_setting.jsx';
+import SettingsGroup from '../settings_group.jsx';
 
 const PluginItemState = ({state}) => {
     switch (state) {
@@ -409,6 +411,7 @@ export default class PluginManagement extends React.Component {
             fileSelected: false,
             fileName: null,
             serverError: null,
+            enablePlugins: props.config.PluginSettings.Enable || false,
         };
     }
 
@@ -619,10 +622,26 @@ export default class PluginManagement extends React.Component {
                         defaultMessage='Management'
                     />
                 </h3>
-                <form
-                    className='form-horizontal'
-                    role='form'
-                >
+                <SettingsGroup id={'PluginSettings'}>
+                    <BooleanSetting
+                        id='Enable'
+                        label={
+                            <FormattedMessage
+                                id='admin.plugins.settings.enable'
+                                defaultMessage='Enable Plugins: '
+                            />
+                        }
+                        helpText={
+                            <FormattedMarkdownMessage
+                                id='admin.plugins.settings.enableDesc'
+                                defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugins) to learn more.'
+                            />
+                        }
+                        value={!this.state.enablePlugins}
+                        onChange={this.handleChange}
+                        setByEnv={false}
+                    />
+
                     <div className='form-group'>
                         <label
                             className='control-label col-sm-4'
@@ -687,7 +706,7 @@ export default class PluginManagement extends React.Component {
                             {pluginsContainer}
                         </div>
                     </div>
-                </form>
+                </SettingsGroup>
             </div>
         );
     }
