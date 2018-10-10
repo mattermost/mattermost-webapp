@@ -69,7 +69,6 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
           message="@user"
           options={
             Object {
-              "atMentions": true,
               "markdown": false,
               "mentionHighlight": false,
               "mentionKeys": Array [
