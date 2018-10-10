@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -27,6 +26,7 @@ export default class ComplianceReports extends React.PureComponent {
          * Array of reports to render
          */
         reports: PropTypes.arrayOf(PropTypes.object).isRequired,
+        users: PropTypes.object.isRequired,
 
         /*
          * Error message to display
@@ -181,7 +181,7 @@ export default class ComplianceReports extends React.PureComponent {
                 }
 
                 let user = report.user_id;
-                const profile = UserStore.getProfile(report.user_id);
+                const profile = this.props.users[report.user_id];
                 if (profile) {
                     user = profile.email;
                 }

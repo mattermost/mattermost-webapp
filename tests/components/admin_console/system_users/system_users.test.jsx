@@ -16,6 +16,7 @@ describe('components/admin_console/system_users', () => {
         searchTerm: '',
         teamId: '',
         totalUsers: 0,
+        users: {},
         actions: {
             getTeams: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn().mockImplementation(() => Promise.resolve()),

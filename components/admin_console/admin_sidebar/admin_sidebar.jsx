@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
-import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header.jsx';
+import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 
 export default class AdminSidebar extends React.Component {

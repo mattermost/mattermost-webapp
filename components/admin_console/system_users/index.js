@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
 import {getUser, getUserAccessToken} from 'mattermost-redux/actions/users';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Stats} from 'mattermost-redux/constants';
 
@@ -51,6 +52,7 @@ function mapStateToProps(state) {
         searchTerm,
         teamId,
         enableUserAccessTokens,
+        users: getUsers(state),
         experimentalEnableAuthenticationTransfer,
     };
 }

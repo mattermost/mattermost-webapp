@@ -9,8 +9,6 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
 import {updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -71,6 +69,8 @@ export default class SystemUsersDropdown extends React.Component {
          * The function to call when an error occurs
          */
         onError: PropTypes.func.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        teamUrl: PropTypes.string,
     };
 
     constructor(props) {
@@ -145,7 +145,7 @@ export default class SystemUsersDropdown extends React.Component {
             this.doMakeMember();
         }
 
-        const teamUrl = TeamStore.getCurrentTeamUrl();
+        const teamUrl = this.props.teamUrl;
         if (teamUrl) {
             // the channel is added to the URL cause endless loading not being fully fixed
             browserHistory.push(teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`);
@@ -235,7 +235,7 @@ export default class SystemUsersDropdown extends React.Component {
     }
 
     handleRevokeSessions = () => {
-        const me = UserStore.getCurrentUser();
+        const me = this.props.currentUser;
         revokeAllSessions(this.props.user.id,
             () => {
                 if (this.props.user.id === me.id) {
@@ -351,7 +351,7 @@ export default class SystemUsersDropdown extends React.Component {
             );
         }
 
-        const me = UserStore.getCurrentUser();
+        const me = this.props.currentUser;
         let showMakeActive = false;
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;

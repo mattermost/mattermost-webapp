@@ -16,7 +16,7 @@ import SearchableUserList from 'components/searchable_user_list/searchable_user_
 import UserListRowWithError from 'components/user_list_row_with_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import SystemUsersDropdown from '../system_users_dropdown.jsx';
+import SystemUsersDropdown from '../system_users_dropdown';
 
 export default class SystemUsersList extends React.Component {
     static propTypes = {
