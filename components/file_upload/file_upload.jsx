@@ -55,7 +55,7 @@ const holders = defineMessages({
     },
     fileUpload: {
         id: t('file_upload.uploadButton'),
-        defaultMessage: 'Click on the button to upload files',
+        defaultMessage: 'Click to upload files',
     },
 });
 

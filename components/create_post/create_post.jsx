@@ -956,7 +956,7 @@ export default class CreatePost extends React.Component {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label='Click to open emojies popup'
+                    aria-label={Utils.localizeMessage('create_post.emojiPopup', 'Click to open emoji picker')}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay

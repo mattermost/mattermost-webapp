@@ -46,7 +46,7 @@ exports[`components/create_post Show tutorial 1`] = `
             postType="post"
           />
           <span
-            aria-label="Click to open emojies popup"
+            aria-label="Click to open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
@@ -210,7 +210,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             postType="post"
           />
           <span
-            aria-label="Click to open emojies popup"
+            aria-label="Click to open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
@@ -443,7 +443,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             postType="post"
           />
           <span
-            aria-label="Click to open emojies popup"
+            aria-label="Click to open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
@@ -576,7 +576,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             postType="post"
           />
           <span
-            aria-label="Click to open emojies popup"
+            aria-label="Click to open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
