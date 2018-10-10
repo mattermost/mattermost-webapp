@@ -10,8 +10,8 @@
     width: 220px;
     z-index: 10;
 
-    .error-bar--fixed & {
-        height: calc(100% - 22px);
+    body.announcement-bar--fixed & {
+        height: calc(100% - $announcement-bar-height);
     }
 
     &.sidebar--padded {
@@ -139,14 +139,12 @@
         padding: 1em 1em 0;
     }
 
-    .badge {
-        @include border-radius(100px);
-        font-size: 11px;
-        height: 16px;
-        line-height: 16px;
-        min-width: 18px;
-        padding: 0 5px;
-        position: relative;
+    .nav-pills {
+        > li {
+            .badge {
+                margin: 0 10px 0 0;
+            }
+        }
     }
 
     .sidebar--left__list {

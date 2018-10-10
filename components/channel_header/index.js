@@ -46,7 +46,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
 
     let lastViewedChannelName = getLastViewedChannelName(state);
-    if (!lastViewedChannelName) {
+    if (!lastViewedChannelName || (channel && lastViewedChannelName === channel.name)) {
         lastViewedChannelName = Constants.DEFAULT_CHANNEL;
     }
 

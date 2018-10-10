@@ -5,10 +5,6 @@
     background: transparent;
 }
 
-.nav-pills > li > a > .badge {
-    margin: 0 10px 0 0;
-}
-
 .nav-tabs {
     margin-bottom: 10px;
 
@@ -34,6 +30,19 @@
 
     .navbar-header {
         display: flex;
+    }
+
+    .browser--ie & {
+        .navbar-default {
+            .navbar-brand {
+                overflow: visible;
+                padding: 1px;
+
+                .heading {
+                    max-width: 100px;
+                }
+            }
+        }
     }
 
     .navbar-default {

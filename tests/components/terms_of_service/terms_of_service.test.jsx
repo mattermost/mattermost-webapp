@@ -7,20 +7,20 @@ import {shallow} from 'enzyme';
 import TermsOfService from 'components/terms_of_service/terms_of_service.jsx';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import {getServiceTerms, updateServiceTermsStatus} from 'actions/user_actions.jsx';
+import {getTermsOfService, updateTermsOfServiceStatus} from 'actions/user_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
 }));
 
 jest.mock('actions/user_actions.jsx', () => ({
-    getServiceTerms: jest.fn(),
-    updateServiceTermsStatus: jest.fn(),
+    getTermsOfService: jest.fn(),
+    updateTermsOfServiceStatus: jest.fn(),
 }));
 
 describe('components/terms_of_service/TermsOfService', () => {
     const baseProps = {
-        customServiceTermsId: '1',
+        customTermsOfServiceId: '1',
         privacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
         siteName: 'Mattermost',
         termsEnabled: true,
@@ -33,10 +33,10 @@ describe('components/terms_of_service/TermsOfService', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call getServiceTerms on mount', () => {
+    test('should call getTermsOfService on mount', () => {
         const props = {...baseProps};
         shallow(<TermsOfService {...props}/>);
-        expect(getServiceTerms).toHaveBeenCalledTimes(1);
+        expect(getTermsOfService).toHaveBeenCalledTimes(1);
     });
 
     test('should match snapshot on loading', () => {
@@ -60,26 +60,26 @@ describe('components/terms_of_service/TermsOfService', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call updateServiceTermsStatus on registerUserAction', () => {
+    test('should call updateTermsOfServiceStatus on registerUserAction', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
         wrapper.instance().registerUserAction({accepted: 'true', success: jest.fn()});
-        expect(updateServiceTermsStatus).toHaveBeenCalledTimes(1);
+        expect(updateTermsOfServiceStatus).toHaveBeenCalledTimes(1);
     });
 
-    test('should match state and call updateServiceTermsStatus on handleAcceptTerms', () => {
+    test('should match state and call updateTermsOfServiceStatus on handleAcceptTerms', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
         wrapper.instance().handleAcceptTerms();
         expect(wrapper.state('loadingAgree')).toEqual(true);
         expect(wrapper.state('serverError')).toEqual(null);
-        expect(updateServiceTermsStatus).toHaveBeenCalledTimes(1);
+        expect(updateTermsOfServiceStatus).toHaveBeenCalledTimes(1);
     });
 
-    test('should match state and call updateServiceTermsStatus on handleRejectTerms', () => {
+    test('should match state and call updateTermsOfServiceStatus on handleRejectTerms', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
         wrapper.instance().handleRejectTerms();
         expect(wrapper.state('loadingDisagree')).toEqual(true);
         expect(wrapper.state('serverError')).toEqual(null);
-        expect(updateServiceTermsStatus).toHaveBeenCalledTimes(1);
+        expect(updateTermsOfServiceStatus).toHaveBeenCalledTimes(1);
     });
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {

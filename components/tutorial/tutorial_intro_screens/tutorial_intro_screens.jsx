@@ -8,9 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {savePreference} from 'actions/user_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import AppIcons from 'images/appIcons.png';
@@ -19,6 +16,9 @@ const NUM_SCREENS = 3;
 
 export default class TutorialIntroScreens extends React.Component {
     static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
+        teamType: PropTypes.string,
+        step: PropTypes.number,
         townSquareDisplayName: PropTypes.string.isRequired,
         appDownloadLink: PropTypes.string,
         isLicensed: PropTypes.bool.isRequired,
@@ -50,12 +50,10 @@ export default class TutorialIntroScreens extends React.Component {
             return;
         }
 
-        const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
-
         savePreference(
             Preferences.TUTORIAL_STEP,
-            UserStore.getCurrentId(),
-            (step + 1).toString()
+            this.props.currentUserId,
+            (this.props.step + 1).toString()
         );
     }
 
@@ -76,7 +74,7 @@ export default class TutorialIntroScreens extends React.Component {
 
         savePreference(
             Preferences.TUTORIAL_STEP,
-            UserStore.getCurrentId(),
+            this.props.currentUserId,
             Constants.TutorialSteps.FINISHED.toString(),
         );
     }
@@ -201,12 +199,12 @@ export default class TutorialIntroScreens extends React.Component {
     }
 
     createScreenThree() {
-        const team = TeamStore.getCurrent();
         let inviteModalLink;
         let inviteText;
+        const {teamType} = this.props;
 
         if (!this.props.isLicensed || this.props.restrictTeamInvite === Constants.PERMISSIONS_ALL) {
-            if (team.type === Constants.INVITE_TEAM) {
+            if (teamType === Constants.INVITE_TEAM) {
                 inviteModalLink = (
                     <button
                         id='tutorialIntroInvite'

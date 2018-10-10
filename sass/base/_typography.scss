@@ -53,6 +53,13 @@ body {
     text-overflow: ellipsis;
 }
 
+ul,
+ol {
+    margin-bottom: .11em;
+    margin-top: 3px;
+    padding-left: 22px;
+}
+
 .fa {
     &.fa-margin--left {
         margin-left: 3px;

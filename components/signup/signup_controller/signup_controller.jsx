@@ -11,8 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
 import {loadMe} from 'actions/user_actions.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
@@ -22,6 +20,26 @@ import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 
 export default class SignupController extends React.Component {
+    static propTypes = {
+        location: PropTypes.object,
+        loggedIn: PropTypes.bool.isRequired,
+        isLicensed: PropTypes.bool.isRequired,
+        enableOpenServer: PropTypes.bool.isRequired,
+        noAccounts: PropTypes.bool.isRequired,
+        enableSignUpWithEmail: PropTypes.bool.isRequired,
+        enableSignUpWithGitLab: PropTypes.bool.isRequired,
+        enableSignUpWithGoogle: PropTypes.bool.isRequired,
+        enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableLDAP: PropTypes.bool.isRequired,
+        enableSAML: PropTypes.bool.isRequired,
+        samlLoginButtonText: PropTypes.string,
+        siteName: PropTypes.string,
+        usedBefore: PropTypes.string,
+        actions: PropTypes.shape({
+            removeGlobalItem: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -45,8 +63,8 @@ export default class SignupController extends React.Component {
 
             if (inviteId) {
                 loading = true;
-            } else if (token && !UserStore.getCurrentUser()) {
-                usedBefore = BrowserStore.getGlobalItem(token);
+            } else if (!this.props.loggedIn) {
+                usedBefore = props.usedBefore;
             } else if (!inviteId && !this.props.enableOpenServer && !this.props.noAccounts) {
                 noOpenServerError = true;
                 serverError = (
@@ -67,13 +85,13 @@ export default class SignupController extends React.Component {
     }
 
     componentDidMount() {
-        BrowserStore.removeGlobalItem('team');
+        this.props.actions.removeGlobalItem('team');
         if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
             const token = params.get('t') || '';
             const inviteId = params.get('id') || '';
 
-            const userLoggedIn = UserStore.getCurrentUser() != null;
+            const userLoggedIn = this.props.loggedIn;
 
             if ((inviteId || token) && userLoggedIn) {
                 addUserToTeamFromInvite(
@@ -376,18 +394,3 @@ export default class SignupController extends React.Component {
         );
     }
 }
-
-SignupController.propTypes = {
-    location: PropTypes.object,
-    isLicensed: PropTypes.bool.isRequired,
-    enableOpenServer: PropTypes.bool.isRequired,
-    noAccounts: PropTypes.bool.isRequired,
-    enableSignUpWithEmail: PropTypes.bool.isRequired,
-    enableSignUpWithGitLab: PropTypes.bool.isRequired,
-    enableSignUpWithGoogle: PropTypes.bool.isRequired,
-    enableSignUpWithOffice365: PropTypes.bool.isRequired,
-    enableLDAP: PropTypes.bool.isRequired,
-    enableSAML: PropTypes.bool.isRequired,
-    samlLoginButtonText: PropTypes.string,
-    siteName: PropTypes.string,
-};

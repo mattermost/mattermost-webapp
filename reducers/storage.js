@@ -49,12 +49,14 @@ function storage(state = {}, action) {
         return nextState;
     }
     case StorageTypes.CLEAR: {
-        var cleanState = {};
-        action.data.exclude.forEach((excluded) => {
-            if (state[excluded]) {
-                cleanState[excluded] = state[excluded];
-            }
-        });
+        const cleanState = {};
+        if (action.data && action.data.exclude && action.data.exclude.forEach) {
+            action.data.exclude.forEach((excluded) => {
+                if (state[excluded]) {
+                    cleanState[excluded] = state[excluded];
+                }
+            });
+        }
         return cleanState;
     }
     case StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: {

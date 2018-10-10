@@ -415,8 +415,8 @@ describe('components/EditPostModal', () => {
 
     it('should handle the escape key manually to hide the modal', () => {
         const options = new ReactRouterEnzymeContext();
-        var wrapper = shallow(createEditPost({ctrlSend: true}), {context: options.get()});
-        var instance = wrapper.instance();
+        const wrapper = mountWithIntl(createEditPost({ctrlSend: true}), options.get());
+        const instance = wrapper.instance();
         instance.handleHide = jest.fn();
         instance.handleExit = jest.fn();
 
@@ -425,5 +425,17 @@ describe('components/EditPostModal', () => {
 
         instance.handleKeyDown({key: Constants.KeyCodes.ESCAPE[0], keyCode: Constants.KeyCodes.ESCAPE[1]});
         expect(instance.handleHide).toBeCalled();
+    });
+
+    it('should handle the escape key manually to hide the modal, unless the emoji picker is shown', () => {
+        const wrapper = shallow(createEditPost({ctrlSend: true}));
+        const instance = wrapper.instance();
+        instance.handleHide = jest.fn();
+        instance.handleExit = jest.fn();
+
+        instance.setState({showEmojiPicker: true});
+
+        instance.handleKeyDown({key: Constants.KeyCodes.ESCAPE[0], keyCode: Constants.KeyCodes.ESCAPE[1]});
+        expect(instance.handleHide).not.toBeCalled();
     });
 });

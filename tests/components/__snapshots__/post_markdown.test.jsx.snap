@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/PostMarkdown plugin hooks can build upon other hook message updates 1`] = `
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
+    }
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  message="hello world!"
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages 1`] = `
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
+    }
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  message="world!"
+  proxyImages={true}
+/>
+`;
+
 exports[`components/PostMarkdown should render header change properly 1`] = `
 <div>
   <FormattedMessage

@@ -48,7 +48,7 @@ export function removeGlobalItem(name) {
     };
 }
 
-export function clear(options) {
+export function clear(options = {exclude: []}) {
     return (dispatch, getState) => {
         dispatch({
             type: StorageTypes.CLEAR,

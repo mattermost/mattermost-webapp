@@ -556,8 +556,8 @@ export async function webLogin(loginId, password, token, success, error) {
     }
 }
 
-export async function updateServiceTermsStatus(serviceTermsId, accepted, success, error) {
-    const {data, error: err} = await UserActions.updateServiceTermsStatus(serviceTermsId, accepted)(dispatch, getState);
+export async function updateTermsOfServiceStatus(termsOfServiceId, accepted, success, error) {
+    const {data, error: err} = await UserActions.updateTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -565,8 +565,8 @@ export async function updateServiceTermsStatus(serviceTermsId, accepted, success
     }
 }
 
-export async function getServiceTerms(success, error) {
-    const {data, error: err} = await UserActions.getServiceTerms()(dispatch, getState);
+export async function getTermsOfService(success, error) {
+    const {data, error: err} = await UserActions.getTermsOfService()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
