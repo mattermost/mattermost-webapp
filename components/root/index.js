@@ -4,13 +4,13 @@
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {showCustomTerms} from 'mattermost-redux/selectors/entities/users';
+import {shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
 import Root from './root.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
-    const showTermsOfService = showCustomTerms(state);
+    const showTermsOfService = shouldShowTermsOfService(state);
 
     return {
         diagnosticsEnabled: config.DiagnosticsEnabled === 'true',

@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getServiceTerms, updateServiceTermsStatus} from 'actions/user_actions.jsx';
+import {getTermsOfService, updateTermsOfServiceStatus} from 'actions/user_actions.jsx';
 
 import AnnouncementBar from 'components/announcement_bar';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -23,7 +23,7 @@ import {Constants} from 'utils/constants.jsx';
 
 export default class TermsOfService extends React.PureComponent {
     static propTypes = {
-        customServiceTermsId: PropTypes.string.isRequired,
+        customTermsOfServiceId: PropTypes.string.isRequired,
         privacyPolicyLink: PropTypes.string,
         siteName: PropTypes.string,
         termsEnabled: PropTypes.bool,
@@ -41,8 +41,8 @@ export default class TermsOfService extends React.PureComponent {
         super(props);
 
         this.state = {
-            customServiceTermsId: '',
-            customServiceTermsText: '',
+            customTermsOfServiceId: '',
+            customTermsOfServiceText: '',
             loading: true,
             loadingAgree: false,
             loadingDisagree: false,
@@ -54,23 +54,23 @@ export default class TermsOfService extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.termsEnabled) {
-            this.getServiceTerms();
+            this.getTermsOfService();
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
     }
 
-    getServiceTerms = () => {
+    getTermsOfService = () => {
         this.setState({
-            customServiceTermsId: '',
-            customServiceTermsText: '',
+            customTermsOfServiceId: '',
+            customTermsOfServiceText: '',
             loading: true,
         });
-        getServiceTerms(
+        getTermsOfService(
             (data) => {
                 this.setState({
-                    customServiceTermsId: data.id,
-                    customServiceTermsText: data.text,
+                    customTermsOfServiceId: data.id,
+                    customTermsOfServiceText: data.text,
                     loading: false,
                 });
             },
@@ -118,8 +118,8 @@ export default class TermsOfService extends React.PureComponent {
     };
 
     registerUserAction = (accepted, success) => {
-        updateServiceTermsStatus(
-            this.state.customServiceTermsId,
+        updateTermsOfServiceStatus(
+            this.state.customTermsOfServiceId,
             accepted,
             success,
             () => {
@@ -171,7 +171,7 @@ export default class TermsOfService extends React.PureComponent {
                             </h2>
                         </div>
                         <div className='signup__markdown min-height--fill'>
-                            {messageHtmlToComponent(this.formattedText(this.state.customServiceTermsText), false, {mentions: false})}
+                            {messageHtmlToComponent(this.formattedText(this.state.customTermsOfServiceText), false, {mentions: false})}
                         </div>
                         <div className='margin--extra'>
                             <ButtonGroup>
