@@ -1159,10 +1159,6 @@
             @include translate3d(0, 0, 0);
         }
 
-        .nav-pills__container {
-            height: calc(100% - 55px);
-        }
-
         .nav-pills__unread-indicator {
             width: 260px;
         }
