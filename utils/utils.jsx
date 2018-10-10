@@ -24,11 +24,10 @@ import TeamStore from 'stores/team_store.jsx';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
-import icon50 from 'images/icon50x50.png';
-import iconWS from 'images/icon_WS.png';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
+import {showNotification} from 'utils/notifications.jsx';
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -121,62 +120,6 @@ export function isSystemAdmin(roles) {
     }
 
     return false;
-}
-
-let requestedNotificationPermission = false;
-
-// showNotification displays a platform notification with the configured parameters.
-//
-// If successful in showing a notification, it resolves with a callback to manually close the
-// notification. Notifications that do not require interaction will be closed automatically after
-// the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
-// choose different semantics for the notifications.
-export async function showNotification({title, body, requireInteraction, silent, onClick}) {
-    let icon = icon50;
-    if (UserAgent.isEdge()) {
-        icon = iconWS;
-    }
-
-    if (!('Notification' in window)) {
-        throw new Error('Notification not supported');
-    }
-
-    if (typeof Notification.requestPermission !== 'function') {
-        throw new Error('Notifications.requestPermission not supported');
-    }
-
-    if (Notification.permission !== 'granted' && requestedNotificationPermission) {
-        throw new Error('Notifications already requested but not granted');
-    }
-
-    requestedNotificationPermission = true;
-
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-        throw new Error('Notifications not granted');
-    }
-
-    const notification = new Notification(title, {
-        body,
-        tag: body,
-        icon,
-        requireInteraction,
-        silent,
-    });
-
-    if (onClick) {
-        notification.onclick = onClick;
-    }
-
-    if (!requireInteraction) {
-        setTimeout(() => {
-            notification.close();
-        }, Constants.DEFAULT_NOTIFICATION_DURATION);
-    }
-
-    return () => {
-        notification.close();
-    };
 }
 
 export function notifyMe(title, body, channel, teamId, silent) {
