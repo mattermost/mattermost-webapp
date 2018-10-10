@@ -11,6 +11,12 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 
 import {
+    getCurrentUser,
+    getUsers,
+    getUserStatuses,
+} from 'mattermost-redux/selectors/entities/users';
+
+import {
     getSearchResultsTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
@@ -83,6 +89,9 @@ function makeMapStateToProps() {
         return {
             results: posts,
             matches: getSearchMatches(state),
+            profiles: getUsers(state),
+            statuses: getUserStatuses(state),
+            currentUser: getCurrentUser(state),
             channels,
             searchTerms: getSearchResultsTerms(state),
             isFlaggedByPostId,
