@@ -151,24 +151,6 @@
     }
 }
 
-// Larger tablets
-@media (min-width: 960px) {
-    .app__body {
-        .modal {
-            .modal-image {
-                .modal-image__wrapper {
-                    audio,
-                    canvas,
-                    progress,
-                    video {
-                        margin: -40px 0 40px;
-                    }
-                }
-            }
-        }
-    }
-}
-
 @media (min-width: 880px) {
     .post-collapse__show-more {
         padding-right: 60px;
