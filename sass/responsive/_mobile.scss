@@ -977,6 +977,7 @@
                 top: 48px;
                 visibility: hidden;
                 width: 100%;
+                padding-bottom: 50px;
 
                 body.announcement-bar--fixed & {
                     height: calc(100% - 48px - $announcement-bar-height);
