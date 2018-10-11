@@ -164,7 +164,6 @@ export default class EditPostModal extends React.PureComponent {
         const updatedPost = {
             message: this.state.editText,
             id: editingPost.postId,
-            channel_id: editingPost.post.channel_id,
         };
 
         if (this.state.postError) {
