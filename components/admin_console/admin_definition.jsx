@@ -856,7 +856,7 @@ export default {
 
                         return newState;
                     },
-                    onConfigSave: (config, prevConfig) => {
+                    onConfigSave: (config) => {
                         const newConfig = {...config};
                         newConfig.GitLabSettings = config.GitLabSettings || {};
                         newConfig.Office365Settings = config.Office365Settings || {};
@@ -869,18 +869,12 @@ export default {
 
                         if (config.oauthType === Constants.GITLAB_SERVICE) {
                             newConfig.GitLabSettings.Enable = true;
-                            newConfig.Office365Settings = prevConfig.Office365Settings;
-                            newConfig.GoogleSettings = prevConfig.GoogleSettings;
                         }
                         if (config.oauthType === Constants.OFFICE365_SERVICE) {
                             newConfig.Office365Settings.Enable = true;
-                            newConfig.GitLabSettings = prevConfig.GitLabSettings;
-                            newConfig.GoogleSettings = prevConfig.GoogleSettings;
                         }
                         if (config.oauthType === Constants.GOOGLE_SERVICE) {
                             newConfig.GoogleSettings.Enable = true;
-                            newConfig.Office365Settings = prevConfig.Office365Settings;
-                            newConfig.GitLabSettings = prevConfig.GitLabSettings;
                         }
                         delete newConfig.oauthType;
                         return newConfig;
