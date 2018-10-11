@@ -56,7 +56,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
 
         return (
             <div className='dropdown'>
-                {/* this.generateWebrtcIcon() */}
                 <a
                     href='#'
                     className='dropdown-toggle theme'
@@ -78,7 +77,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     className='dropdown-menu'
                     role='menu'
                 >
-                    {/* This part could be more clean with HoC */}
                     <MenuItem.ViewChannelInfo
                         channel={channel}
                     />
