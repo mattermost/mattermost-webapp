@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {isEmbedVisible} from 'selectors/posts';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -18,6 +21,7 @@ function mapStateToProps(state, ownProps) {
     return {
         enableEmojiPicker,
         enablePostUsernameOverride,
+        isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         pluginPostTypes: state.plugins.postTypes,
