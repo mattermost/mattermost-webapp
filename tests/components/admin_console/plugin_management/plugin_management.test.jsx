@@ -211,6 +211,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
+                    settings_schema: {},
                     webapp: {},
                 },
                 plugin_1: {
@@ -219,6 +220,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_1',
                     name: 'Plugin 1',
                     version: '0.1.0',
+                    settings_schema: {},
                     webapp: {},
                 },
             },
