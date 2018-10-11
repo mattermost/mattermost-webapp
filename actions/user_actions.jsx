@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
-import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -26,25 +25,6 @@ import {Constants, Preferences} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export async function loadMe() {
-    await UserActions.loadMe()(dispatch, getState);
-    loadCurrentLocale();
-}
-
-export async function loadMeAndConfig(callback) {
-    await store.dispatch(getClientConfig());
-
-    const promises = [];
-
-    if (document.cookie.indexOf('MMUSERID=') > -1) {
-        promises.push(loadMe());
-    }
-
-    promises.push(getLicenseConfig()(store.dispatch, store.getState));
-
-    Promise.all(promises).then(callback);
-}
 
 export async function switchFromLdapToEmail(email, password, token, ldapPassword, success, error) {
     const {data, error: err} = await UserActions.switchLdapToEmail(ldapPassword, email, password, token)(dispatch, getState);
@@ -518,7 +498,7 @@ export async function resendVerification(email, success, error) {
 export async function loginById(userId, password, mfaToken, success, error) {
     const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
     if (ok && success) {
-        await store.dispatch(getLicenseConfig());
+        loadCurrentLocale();
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
@@ -543,7 +523,7 @@ export async function createUserWithInvite(user, token, inviteId, success, error
 export async function webLogin(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
     if (ok && success) {
-        await store.dispatch(getLicenseConfig());
+        loadCurrentLocale();
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
@@ -577,7 +557,7 @@ export async function getTermsOfService(success, error) {
 export async function webLoginByLdap(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
     if (ok && success) {
-        await store.dispatch(getLicenseConfig());
+        loadCurrentLocale();
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
