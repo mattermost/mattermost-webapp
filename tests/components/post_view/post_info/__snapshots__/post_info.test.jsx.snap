@@ -137,7 +137,7 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
   <div
     className="col"
   >
-    <PostFlagIcon
+    <Connect(PostFlagIcon)
       idCount={-1}
       idPrefix="centerPostFlag"
       isEphemeral={false}
@@ -163,7 +163,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
-    <PostFlagIcon
+    <Connect(PostFlagIcon)
       idCount={-1}
       idPrefix="centerPostFlag"
       isEphemeral={false}

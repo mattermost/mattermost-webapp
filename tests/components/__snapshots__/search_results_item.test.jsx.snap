@@ -116,10 +116,9 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                 values={Object {}}
               />
             </span>
-            <PostFlagIcon
+            <Connect(PostFlagIcon)
               idCount={-1}
               idPrefix="searchPostFlag"
-              isEphemeral={false}
               isFlagged={true}
               postId="id"
             />
@@ -341,10 +340,9 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               isPermalink={true}
               postId="id"
             />
-            <PostFlagIcon
+            <Connect(PostFlagIcon)
               idCount={-1}
               idPrefix="searchPostFlag"
-              isEphemeral={false}
               isFlagged={true}
               postId="id"
             />
@@ -566,10 +564,9 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               isPermalink={true}
               postId="id"
             />
-            <PostFlagIcon
+            <Connect(PostFlagIcon)
               idCount={-1}
               idPrefix="searchPostFlag"
-              isEphemeral={false}
               isFlagged={true}
               postId="id"
             />

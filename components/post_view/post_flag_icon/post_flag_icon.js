@@ -6,7 +6,6 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {flagPost, unflagPost} from 'actions/post_actions.jsx';
 import FlagIcon from 'components/svg/flag_icon';
 import FlagIconFilled from 'components/svg/flag_icon_filled';
 import Constants from 'utils/constants.jsx';
@@ -20,6 +19,10 @@ export default class PostFlagIcon extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         isFlagged: PropTypes.bool.isRequired,
         isEphemeral: PropTypes.bool,
+        actions: PropTypes.shape({
+            flagPost: PropTypes.func.isRequired,
+            unflagPost: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -30,10 +33,16 @@ export default class PostFlagIcon extends React.PureComponent {
     handlePress = (e) => {
         e.preventDefault();
 
-        if (this.props.isFlagged) {
-            unflagPost(this.props.postId);
+        const {
+            actions,
+            isFlagged,
+            postId,
+        } = this.props;
+
+        if (isFlagged) {
+            actions.unflagPost(postId);
         } else {
-            flagPost(this.props.postId);
+            actions.flagPost(postId);
         }
     }
 
