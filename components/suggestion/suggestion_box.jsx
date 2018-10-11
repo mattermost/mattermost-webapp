@@ -189,6 +189,10 @@ export default class SuggestionBox extends React.Component {
     }
 
     getTextbox() {
+        if (!this.refs.input) {
+            return null;
+        }
+
         const input = this.refs.input.getInput();
 
         if (input.getDOMNode) {
