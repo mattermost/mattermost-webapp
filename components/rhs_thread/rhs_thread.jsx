@@ -20,7 +20,7 @@ import DateSeparator from 'components/post_view/date_separator.jsx';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
 import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
-import RootPost from 'components/rhs_root_post';
+import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 const Preferences = Constants.Preferences;
@@ -445,7 +445,7 @@ export default class RhsThread extends React.Component {
                 >
                     <div className='post-right__scroll'>
                         {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
-                        <RootPost
+                        <RhsRootPost
                             ref={selected.id}
                             post={selected}
                             commentCount={postsLength}
