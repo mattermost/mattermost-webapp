@@ -474,7 +474,7 @@ export default class EmojiPicker extends React.PureComponent {
                 <span className='fa fa-search emoji-picker__search-icon'/>
                 <input
                     aria-label={Utils.localizeMessage('emoji_picker.searchPlaceholder',
-                        'Enter text to search for Emojies')}
+                        'Enter text to search for emojis')}
                     ref={this.emojiSearchInput}
                     className='emoji-picker__search'
                     type='text'
