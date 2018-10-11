@@ -443,3 +443,8 @@
         outline: none;
     }
 }
+
+/* Fix for https://mattermost.atlassian.net/browse/MM-12493 */
+.react-contextmenu:not(.react-contextmenu--visible) {
+    z-index: -1 !important;
+}
