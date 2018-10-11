@@ -11,7 +11,7 @@ import {
 } from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -51,6 +51,9 @@ export default class RhsComment extends React.Component {
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
+        actions: PropTypes.shape({
+            addReaction: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -165,11 +168,13 @@ export default class RhsComment extends React.Component {
     };
 
     reactEmojiClick = (emoji) => {
-        this.setState({showEmojiPicker: false});
+        this.setState({
+            dropdownOpened: false,
+            showEmojiPicker: false,
+        });
         const emojiName = emoji.name || emoji.aliases[0];
-        addReaction(this.props.post.channel_id, this.props.post.id, emojiName);
+        this.props.actions.addReaction(this.props.post.id, emojiName);
         emitEmojiPosted(emojiName);
-        this.handleDropdownOpened(false);
     };
 
     getClassName = (post, isSystemMessage) => {
