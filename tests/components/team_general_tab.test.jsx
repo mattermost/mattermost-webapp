@@ -116,6 +116,8 @@ describe('components/TeamSettings', () => {
     test('should call actions.patchTeam on handleAllowedDomainsSubmit', () => {
         const actions = {
             patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
         };
 
         const props = {...defaultProps, actions};
@@ -131,6 +133,8 @@ describe('components/TeamSettings', () => {
     test('should call actions.patchTeam on handleOpenInviteSubmit', () => {
         const actions = {
             patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
         };
 
         const props = {...defaultProps, actions};
@@ -142,13 +146,16 @@ describe('components/TeamSettings', () => {
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
     });
-    
+
     test('should call actions.patchTeam on handleNameSubmit', () => {
         const actions = {
             patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
         };
 
         const props = {...defaultProps, actions};
+        props.team.display_name = 'TestTeam';
 
         const wrapper = shallow(<GeneralTab {...props}/>);
 
@@ -157,13 +164,16 @@ describe('components/TeamSettings', () => {
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
     });
-    
+
     test('should call actions.patchTeam on handleInviteIdSubmit', () => {
         const actions = {
             patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
         };
 
         const props = {...defaultProps, actions};
+        props.team.invite_id = '12345';
 
         const wrapper = shallow(<GeneralTab {...props}/>);
 
@@ -172,17 +182,22 @@ describe('components/TeamSettings', () => {
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
     });
-    
+
     test('should call actions.patchTeam on handleDescriptionSubmit', () => {
         const actions = {
             patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
         };
 
         const props = {...defaultProps, actions};
 
         const wrapper = shallow(<GeneralTab {...props}/>);
 
+        const newDescription = 'The Test Team';
+        wrapper.setState({description: newDescription});
         wrapper.instance().handleDescriptionSubmit({preventDefault: jest.fn()});
+        props.team.description = newDescription;
 
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
