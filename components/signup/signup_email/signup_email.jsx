@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
-import {createUserWithInvite, loadMe, loginById} from 'actions/user_actions.jsx';
+import {createUserWithInvite, loginById} from 'actions/user_actions.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
@@ -26,19 +26,17 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class SignupEmail extends React.Component {
-    static get propTypes() {
-        return {
-            location: PropTypes.object,
-            enableSignUpWithEmail: PropTypes.bool.isRequired,
-            siteName: PropTypes.string,
-            termsOfServiceLink: PropTypes.string,
-            privacyPolicyLink: PropTypes.string,
-            customDescriptionText: PropTypes.string,
-            passwordConfig: PropTypes.object,
-            actions: PropTypes.shape({
-                setGlobalItem: PropTypes.func.isRequired,
-            }).isRequired,
-        };
+    static propTypes = {
+        location: PropTypes.object,
+        enableSignUpWithEmail: PropTypes.bool.isRequired,
+        siteName: PropTypes.string,
+        termsOfServiceLink: PropTypes.string,
+        privacyPolicyLink: PropTypes.string,
+        customDescriptionText: PropTypes.string,
+        passwordConfig: PropTypes.object,
+        actions: PropTypes.shape({
+            setGlobalItem: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -136,16 +134,12 @@ export default class SignupEmail extends React.Component {
                     this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
                 }
 
-                loadMe().then(
-                    () => {
-                        const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
-                        if (redirectTo) {
-                            browserHistory.push(redirectTo);
-                        } else {
-                            GlobalActions.redirectUserToDefaultTeam();
-                        }
-                    }
-                );
+                const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
+                if (redirectTo) {
+                    browserHistory.push(redirectTo);
+                } else {
+                    GlobalActions.redirectUserToDefaultTeam();
+                }
             },
             (err) => {
                 if (err.id === 'api.user.login.not_verified.app_error') {

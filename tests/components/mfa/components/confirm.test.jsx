@@ -4,42 +4,52 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {loadMe} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Confirm from 'components/mfa/confirm.jsx';
+import Confirm from 'components/mfa/confirm';
 import Constants from 'utils/constants.jsx';
 
-jest.mock('actions/user_actions.jsx', () => ({
-    loadMe: jest.fn().mockImplementation(() => Promise.resolve()),
-}));
-
 describe('components/mfa/components/Confirm', () => {
+    const baseProps = {
+        history: browserHistory,
+    };
+
+    const originalAddEventListener = document.body.addEventListener;
+    afterAll(() => {
+        document.body.addEventListener = originalAddEventListener;
+    });
+
     test('should match snapshot', () => {
-        const wrapper = shallow(<Confirm history={browserHistory}/>);
+        const wrapper = shallow(<Confirm {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should submit on form submit', () => {
-        browserHistory.push = jest.fn();
-        const wrapper = mountWithIntl(<Confirm history={browserHistory}/>);
+        const props = {
+            history: {
+                push: jest.fn(),
+            },
+        };
+
+        const wrapper = mountWithIntl(<Confirm {...props}/>);
         wrapper.find('form').simulate('submit');
 
-        return Promise.resolve().then(() => {
-            expect(loadMe).toBeCalled();
-            expect(browserHistory.push).toHaveBeenCalledWith('/');
-        });
+        expect(props.history.push).toHaveBeenCalledWith('/');
     });
 
     test('should submit on enter', () => {
-        var map = {};
+        const props = {
+            history: {
+                push: jest.fn(),
+            },
+        };
+
+        const map = {};
         document.body.addEventListener = jest.fn().mockImplementation((event, cb) => {
-            console.log(event);
             map[event] = cb;
         });
 
-        browserHistory.push = jest.fn();
-        mountWithIntl(<Confirm history={browserHistory}/>);
+        mountWithIntl(<Confirm {...props}/>);
 
         const event = {
             preventDefault: jest.fn(),
@@ -47,9 +57,6 @@ describe('components/mfa/components/Confirm', () => {
         };
         map.keydown(event);
 
-        return Promise.resolve().then(() => {
-            expect(loadMe).toBeCalled();
-            expect(browserHistory.push).toHaveBeenCalledWith('/');
-        });
+        expect(props.history.push).toHaveBeenCalledWith('/');
     });
 });
