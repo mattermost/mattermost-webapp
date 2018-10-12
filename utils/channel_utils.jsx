@@ -5,8 +5,8 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import Permissions from 'mattermost-redux/constants/permissions';
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
 
+import {getCurrentLocale} from 'selectors/i18n';
 import ChannelStore from 'stores/channel_store.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -23,7 +23,7 @@ export function isFavoriteChannelId(channelId) {
 }
 
 export function sortChannelsByDisplayName(a, b) {
-    const locale = LocalizationStore.getLocale();
+    const locale = getCurrentLocale(store.getState());
 
     return ChannelUtilsRedux.sortChannelsByTypeAndDisplayName(locale, a, b);
 }

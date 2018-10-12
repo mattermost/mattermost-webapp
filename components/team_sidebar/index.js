@@ -7,6 +7,7 @@ import {getTeams} from 'mattermost-redux/actions/teams';
 import {withRouter} from 'react-router-dom';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
@@ -21,6 +22,7 @@ function mapStateToProps(state) {
         isOpen: getIsLhsOpen(state),
         experimentalPrimaryTeam,
         enableTeamCreation,
+        locale: getCurrentLocale(state),
     };
 }
 

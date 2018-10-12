@@ -24,6 +24,7 @@ export default class TeamSidebar extends React.Component {
         isOpen: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         enableTeamCreation: PropTypes.bool.isRequired,
+        locale: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
         }).isRequired,
@@ -129,7 +130,7 @@ export default class TeamSidebar extends React.Component {
             }
         }
 
-        const teams = filterAndSortTeamsByDisplayName(myTeams).
+        const teams = filterAndSortTeamsByDisplayName(myTeams, this.props.locale).
             map((team) => {
                 return (
                     <TeamButton

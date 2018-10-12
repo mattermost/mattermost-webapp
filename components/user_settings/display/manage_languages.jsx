@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {updateUser} from 'actions/user_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -43,7 +42,7 @@ export default class ManageLanguage extends React.Component {
         updateUser(
             user,
             () => {
-                GlobalActions.newLocalizationSelected(user.locale);
+                // Do nothing since changing the locale essentially refreshes the page
             },
             (err) => {
                 let serverError;

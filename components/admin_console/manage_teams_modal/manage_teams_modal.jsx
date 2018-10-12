@@ -18,6 +18,7 @@ import RemoveFromTeamButton from './remove_from_team_button.jsx';
 
 export default class ManageTeamsModal extends React.Component {
     static propTypes = {
+        locale: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func.isRequired,
         show: PropTypes.bool.isRequired,
         user: PropTypes.object,
@@ -59,7 +60,7 @@ export default class ManageTeamsModal extends React.Component {
     loadTeamsAndTeamMembers = (user = this.props.user) => {
         TeamActions.getTeamsForUser(user.id, (teams) => {
             this.setState({
-                teams: filterAndSortTeamsByDisplayName(teams),
+                teams: filterAndSortTeamsByDisplayName(teams, this.props.locale),
             });
         });
 
