@@ -24,7 +24,6 @@ import TeamStore from 'stores/team_store.jsx';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
-import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {showNotification} from 'utils/notifications.jsx';
@@ -1633,11 +1632,7 @@ export function copyToClipboard(data) {
     textArea.style.outline = 'none';
     textArea.style.boxShadow = 'none';
     textArea.style.background = 'transparent';
-    if (typeof data === 'string') {
-        textArea.value = data;
-    } else {
-        textArea.value = getSiteURL() + data.link;
-    }
+    textArea.value = data;
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand('copy');
