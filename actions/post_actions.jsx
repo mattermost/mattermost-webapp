@@ -281,6 +281,11 @@ export function doPostAction(postId, actionId) {
 export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
+        const post = Selectors.getPost(state, postId);
+
+        if (!post || post.pending_post_id === postId) {
+            return {data: false};
+        }
 
         let canEditNow = true;
 
@@ -291,8 +296,6 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
             if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
                 canEditNow = false;
             } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                const post = Selectors.getPost(state, postId);
-
                 if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
                     canEditNow = false;
                 }
