@@ -121,7 +121,6 @@ describe('components/EditPostModal', () => {
         expect(actions.editPost).toBeCalledWith({
             message: 'new message',
             id: '123',
-            channel_id: '5',
         });
         expect(actions.hideEditPostModal).toBeCalled();
     });

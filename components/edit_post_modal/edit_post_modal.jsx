@@ -160,13 +160,6 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEdit = async () => {
-        const {actions, editingPost} = this.props;
-        const updatedPost = {
-            message: this.state.editText,
-            id: editingPost.postId,
-            channel_id: editingPost.post.channel_id,
-        };
-
         if (this.state.postError) {
             this.setState({errorClass: 'animation--highlight'});
             setTimeout(() => {
@@ -175,35 +168,43 @@ export default class EditPostModal extends React.PureComponent {
             return;
         }
 
-        if (updatedPost.message === (editingPost.post.message_source || editingPost.post.message)) {
-            // no changes so just close the modal
-            this.handleHide();
-            return;
-        }
-
-        const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
-        if (updatedPost.message.trim().length === 0 && !hasAttachment) {
-            this.handleHide(false);
-
-            const deletePostModalData = {
-                ModalId: ModalIdentifiers.DELETE_POST,
-                dialogType: DeletePostModal,
-                dialogProps: {
-                    post: editingPost.post,
-                    commentCount: editingPost.commentCount,
-                    isRHS: editingPost.isRHS,
-                },
+        const {actions, editingPost} = this.props;
+        if (editingPost.post) {
+            const updatedPost = {
+                message: this.state.editText,
+                id: editingPost.postId,
             };
 
-            this.props.actions.openModal(deletePostModalData);
-            return;
-        }
+            if (updatedPost.message === (editingPost.post.message_source || editingPost.post.message)) {
+                // no changes so just close the modal
+                this.handleHide();
+                return;
+            }
 
-        actions.addMessageIntoHistory(updatedPost.message);
+            const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
+            if (updatedPost.message.trim().length === 0 && !hasAttachment) {
+                this.handleHide(false);
 
-        const data = await actions.editPost(updatedPost);
-        if (data) {
-            window.scrollTo(0, 0);
+                const deletePostModalData = {
+                    ModalId: ModalIdentifiers.DELETE_POST,
+                    dialogType: DeletePostModal,
+                    dialogProps: {
+                        post: editingPost.post,
+                        commentCount: editingPost.commentCount,
+                        isRHS: editingPost.isRHS,
+                    },
+                };
+
+                this.props.actions.openModal(deletePostModalData);
+                return;
+            }
+
+            actions.addMessageIntoHistory(updatedPost.message);
+
+            const data = await actions.editPost(updatedPost);
+            if (data) {
+                window.scrollTo(0, 0);
+            }
         }
 
         this.handleHide();
