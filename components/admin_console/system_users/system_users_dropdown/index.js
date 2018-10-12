@@ -3,21 +3,15 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import SystemUsersDropdown from './system_users_dropdown.jsx';
 
 function mapStateToProps(state) {
-    const team = getCurrentTeam(state);
-    let teamUrl;
-    if (team) {
-        teamUrl = '/' + team.name;
-    }
-
     return {
         currentUser: getCurrentUser(state),
-        teamUrl,
+        teamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 
