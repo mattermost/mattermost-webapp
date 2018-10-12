@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
@@ -9,9 +10,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
-import {TutorialSteps, Preferences, Constants} from 'utils/constants.jsx';
+import {TutorialSteps, Preferences} from 'utils/constants.jsx';
 
-import {getLastViewedChannelName} from 'selectors/local_storage';
+import {goToLastViewedChannel} from 'actions/views/channel';
 
 import ChannelView from './channel_view.jsx';
 
@@ -33,20 +34,21 @@ function mapStateToProps(state) {
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
-    let lastViewedChannelName = getLastViewedChannelName(state);
-
-    if (!lastViewedChannelName || (channel && lastViewedChannelName === channel.name)) {
-        lastViewedChannelName = Constants.DEFAULT_CHANNEL;
-    }
-
     return {
         channelId: channel ? channel.id : '',
         deactivatedChannel: channel ? getDeactivatedChannel(state, channel.id) : false,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
-        lastViewedChannelName,
         viewArchivedChannels,
     };
 }
 
-export default withRouter(connect(mapStateToProps)(ChannelView));
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            goToLastViewedChannel,
+        }, dispatch),
+    };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChannelView));
