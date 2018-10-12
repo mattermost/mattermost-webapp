@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {copyToClipboard} from 'utils/utils';
 
 import CopyUrlContextMenu from './copy_url_context_menu.jsx';
@@ -15,7 +16,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
     return {
         actions: {
             copyToClipboard,

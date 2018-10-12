@@ -6,25 +6,19 @@ import React from 'react';
 import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils';
-import {getSiteURL} from 'utils/url';
-
 export default class CopyUrlContextMenu extends React.Component {
     static propTypes = {
-        /**
-         * The child component that will be right-clicked on to show the context menu
-         */
+
+        // The child component that will be right-clicked on to show the context menu
         children: PropTypes.element,
 
-        /**
-         * The link to copy to the user's clipboard when the 'Copy' option is selected from the context menu
-         */
+        // The link to copy to the user's clipboard when the 'Copy' option is selected from the context menu
         link: PropTypes.string.isRequired,
 
-        /**
-         * A unique id differentiating this instance of context menu from others on the page.
-         */
+        // A unique id differentiating this instance of context menu from others on the page.
         menuId: PropTypes.string.isRequired,
+
+        siteURL: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
             copyToClipboard: PropTypes.func.isRequired,
