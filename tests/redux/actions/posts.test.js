@@ -1,57 +1,89 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+
+import {Posts} from 'mattermost-redux/constants';
 
 import * as Actions from 'actions/post_actions';
-import configureStore from 'store';
+import {Constants, ActionTypes} from 'utils/constants';
+
+const mockStore = configureStore([thunk]);
 
 describe('Actions.Posts', () => {
-    let store;
-    beforeEach(async () => {
-        store = await configureStore();
+    const latestPost = {
+        id: 'latest_post_id',
+        user_id: 'current_user_id',
+        message: 'test msg',
+        channel_id: 'current_channel_id',
+    };
+    const initialState = {
+        entities: {
+            posts: {
+                posts: {
+                    [latestPost.id]: latestPost,
+                },
+                postsInChannel: {
+                    current_channel_id: [latestPost.id],
+                },
+                postsInThread: {},
+                messagesHistory: {
+                    index: {
+                        [Posts.MESSAGE_TYPES.COMMENT]: 0,
+                    },
+                    messages: ['test message'],
+                },
+            },
+            general: {license: {IsLicensed: 'false'}},
+        },
+        views: {
+            posts: {
+                editingPost: {},
+            },
+        },
+    };
+
+    test('setEditingPost', async () => {
+        // should allow to edit and should fire an action
+        let testStore = mockStore({...initialState});
+        const {data} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
+        expect(data).toEqual(true);
+
+        expect(testStore.getActions()).toEqual(
+            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}]
+        );
+
+        const general = {
+            license: {IsLicensed: 'true'},
+            config: {AllowEditPost: Constants.ALLOW_EDIT_POST_NEVER},
+        };
+        const withLicenseState = {...initialState};
+        withLicenseState.entities.general = general;
+
+        // const testStore = mockStore(newInitialState);
+        testStore = mockStore(withLicenseState);
+
+        const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
+        expect(withLicenseData).toEqual(false);
+        expect(testStore.getActions()).toEqual([]);
+
+        // should not allow edit for pending post
+        const newLatestPost = {...latestPost, pending_post_id: latestPost.id};
+        const withPendingPostState = {...initialState};
+        withPendingPostState.entities.posts.posts[latestPost.id] = newLatestPost;
+
+        testStore = mockStore(withPendingPostState);
+
+        const {data: withPendingPostData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
+        expect(withPendingPostData).toEqual(false);
+        expect(testStore.getActions()).toEqual([]);
     });
 
-    it('setEditingPost', async () => {
-        await Actions.setEditingPost('123', 0, 'test', 'title')(store.dispatch, store.getState);
+    test('hideEditPostModal', async () => {
+        const testStore = await mockStore(initialState);
 
-        assert.deepEqual(
-            store.getState().views.posts.editingPost,
-            {
-                postId: '123',
-                commentCount: 0,
-                refocusId: 'test',
-                show: true,
-                title: 'title',
-                isRHS: false,
-            }
-        );
-
-        await Actions.setEditingPost('456', 3, 'test2', 'title2')(store.dispatch, store.getState);
-
-        assert.deepEqual(
-            store.getState().views.posts.editingPost,
-            {
-                postId: '456',
-                commentCount: 3,
-                refocusId: 'test2',
-                show: true,
-                title: 'title2',
-                isRHS: false,
-            }
-        );
-    });
-
-    it('hideEditPostModal', async () => {
-        await Actions.setEditingPost('123', 0, 'test', 'title')(store.dispatch, store.getState);
-
-        await store.dispatch(Actions.hideEditPostModal(), store.getState);
-
-        assert.deepEqual(
-            store.getState().views.posts.editingPost,
-            {
-                show: false,
-            }
-        );
+        await testStore.dispatch(Actions.hideEditPostModal());
+        expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
     });
 });
