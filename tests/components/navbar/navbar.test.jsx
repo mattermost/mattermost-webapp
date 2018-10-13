@@ -6,16 +6,6 @@ import {shallow} from 'enzyme';
 
 import Navbar from 'components/navbar/navbar.jsx';
 
-jest.mock('utils/browser_history', () => {
-    const original = require.requireActual('utils/browser_history');
-    return {
-        ...original,
-        browserHistory: {
-            push: jest.fn(),
-        },
-    };
-});
-
 describe('components/navbar/Navbar', () => {
     const baseProps = {
         teamDisplayName: 'team_display_name',
@@ -24,8 +14,8 @@ describe('components/navbar/Navbar', () => {
             closeLhs: jest.fn(),
             closeRhs: jest.fn(),
             closeRhsMenu: jest.fn(),
-            leaveChannel: jest.fn(),
             markFavorite: jest.fn(),
+            leaveChannel: jest.fn(),
             showPinnedPosts: jest.fn(),
             toggleLhs: jest.fn(),
             toggleRhsMenu: jest.fn(),
@@ -181,7 +171,6 @@ describe('components/navbar/Navbar', () => {
             preventDefault: jest.fn(),
         };
 
-        wrapper.setState(validState);
         wrapper.instance().toggleFavorite(event);
         expect(wrapper.instance().props.actions.markFavorite).toBeCalled();
 
