@@ -61,16 +61,18 @@ export default class Navbar extends React.Component {
         isReadOnly: PropTypes.bool,
         isFavoriteChannel: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            updateRhsState: PropTypes.func,
-            showPinnedPosts: PropTypes.func,
-            toggleLhs: PropTypes.func.isRequired,
             closeLhs: PropTypes.func.isRequired,
             closeRhs: PropTypes.func.isRequired,
-            toggleRhsMenu: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
-            updateChannelNotifyProps: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
-        }),
+            markFavorite: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func,
+            toggleLhs: PropTypes.func.isRequired,
+            toggleRhsMenu: PropTypes.func.isRequired,
+            unmarkFavorite: PropTypes.func.isRequired,
+            updateChannelNotifyProps: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -263,12 +265,13 @@ export default class Navbar extends React.Component {
     }
 
     toggleFavorite = (e) => {
+        const {markFavorite, unmarkFavorite} = this.props.actions;
         e.preventDefault();
 
         if (this.props.isFavoriteChannel) {
-            ChannelActions.unmarkFavorite(this.state.channel.id);
+            unmarkFavorite(this.state.channel.id);
         } else {
-            ChannelActions.markFavorite(this.state.channel.id);
+            markFavorite(this.state.channel.id);
         }
     };
 

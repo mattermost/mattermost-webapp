@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateChannelNotifyProps, leaveChannel} from 'mattermost-redux/actions/channels';
+import {updateChannelNotifyProps, favoriteChannel, unfavoriteChannel, leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentChannelReadOnly, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
@@ -41,14 +41,16 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            updateRhsState,
-            showPinnedPosts,
-            toggleLhs,
             closeLhs,
             closeRhs,
-            toggleRhsMenu,
             closeRhsMenu,
+            markFavorite: favoriteChannel,
+            showPinnedPosts,
+            toggleLhs,
+            toggleRhsMenu,
+            unmarkFavorite: unfavoriteChannel,
             updateChannelNotifyProps,
+            updateRhsState,
             leaveChannel,
         }, dispatch),
     };

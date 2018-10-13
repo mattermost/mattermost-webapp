@@ -11,12 +11,16 @@ describe('components/navbar/Navbar', () => {
         teamDisplayName: 'team_display_name',
         isPinnedPosts: true,
         actions: {
-            toggleLhs: jest.fn(),
             closeLhs: jest.fn(),
             closeRhs: jest.fn(),
-            toggleRhsMenu: jest.fn(),
             closeRhsMenu: jest.fn(),
+            markFavorite: jest.fn(),
+            showPinnedPosts: jest.fn(),
+            toggleLhs: jest.fn(),
+            toggleRhsMenu: jest.fn(),
+            unmarkFavorite: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
+            updateRhsState: jest.fn(),
             leaveChannel: jest.fn(),
         },
         isLicensed: true,
@@ -156,5 +160,22 @@ describe('components/navbar/Navbar', () => {
         expect(wrapper.state('isBusy')).toEqual(true);
         wrapper.instance().onBusy(false);
         expect(wrapper.state('isBusy')).toEqual(false);
+    });
+
+    test('should toggle favorite channel', () => {
+        const wrapper = shallow(
+            <Navbar {...baseProps}/>
+        );
+
+        const event = {
+            preventDefault: jest.fn(),
+        };
+
+        wrapper.instance().toggleFavorite(event);
+        expect(wrapper.instance().props.actions.markFavorite).toBeCalled();
+
+        wrapper.setProps({isFavoriteChannel: true});
+        wrapper.instance().toggleFavorite(event);
+        expect(wrapper.instance().props.actions.unmarkFavorite).toBeCalled();
     });
 });
