@@ -23,6 +23,11 @@ export default class QuickSwitchModal extends React.PureComponent {
     static propTypes = {
 
         /**
+         * Function to get channel url from the channel id
+         */
+        getChannelUrlById: PropTypes.func.isRequired,
+
+        /**
          * The mode to start in when showing the modal, either 'channel' or 'team'
          */
         initialMode: PropTypes.string.isRequired,
@@ -44,7 +49,6 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         actions: PropTypes.shape({
             goToChannel: PropTypes.func.isRequired,
-            goToChannelById: PropTypes.func.isRequired,
             openDirectChannelToUser: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -176,12 +180,14 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     }
 
-    switchToChannelById(channelId) {
+    switchToChannelById = (channelId) => {
         if (channelId) {
-            this.props.actions.goToChannelById(channelId);
+            const {getChannelUrlById} = this.props;
+            const url = getChannelUrlById(channelId);
+            browserHistory.push(url);
             this.onHide();
         }
-    }
+    };
 
     enableChannelProvider() {
         this.channelProviders[0].disableDispatches = false;

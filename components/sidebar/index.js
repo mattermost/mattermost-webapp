@@ -23,6 +23,7 @@ import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {makeGetChannelUrlById} from 'utils/channel_utils';
 import {GroupUnreadChannels} from 'utils/constants.jsx';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -66,6 +67,8 @@ function mapStateToProps(state) {
         directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
     }
 
+    const getChannelUrlById = makeGetChannelUrlById(state);
+
     return {
         config,
         isOpen: getIsLhsOpen(state),
@@ -81,6 +84,7 @@ function mapStateToProps(state) {
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
         unreads: getUnreads(state),
+        getChannelUrlById,
     };
 }
 

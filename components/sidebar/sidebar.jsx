@@ -14,7 +14,6 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {goToChannelById} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
@@ -126,6 +125,11 @@ export default class Sidebar extends React.PureComponent {
          * Flag to display the Switch channel shortcut
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
+
+        /**
+         * Function to get channel url from the channel id
+         */
+        getChannelUrlById: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
@@ -363,14 +367,15 @@ export default class Sidebar extends React.PureComponent {
                 nextIndex = curIndex - 1;
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            goToChannelById(nextChannelId);
-
+            const nextChannelUrl = this.props.getChannelUrlById(nextChannelId);
             this.updateScrollbarOnChannelChange(nextChannelId);
+            browserHistory.push(nextChannelUrl);
+
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.handleOpenMoreDirectChannelsModal(e);
         }
-    }
+    };
 
     navigateUnreadChannelShortcut = (e) => {
         if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
@@ -400,14 +405,14 @@ export default class Sidebar extends React.PureComponent {
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                goToChannelById(nextChannelId);
-
+                const nextChannelUrl = this.props.getChannelUrlById(nextChannelId);
                 this.updateScrollbarOnChannelChange(nextChannelId);
+                browserHistory.push(nextChannelUrl);
             }
 
             this.isSwitchingChannel = false;
         }
-    }
+    };
 
     getDisplayedChannels = (props = this.props) => {
         if (props.showUnreadSection) {

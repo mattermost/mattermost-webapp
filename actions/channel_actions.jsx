@@ -5,7 +5,6 @@ import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -25,11 +24,6 @@ import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export function goToChannelById(channelId) {
-    const channel = getChannel(getState(), channelId);
-    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-}
 
 export function goToChannel(channel) {
     if (channel.fake) {
