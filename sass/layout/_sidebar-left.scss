@@ -10,8 +10,8 @@
     width: 220px;
     z-index: 10;
 
-    .error-bar--fixed & {
-        height: calc(100% - 22px);
+    body.announcement-bar--fixed & {
+        height: calc(100% - $announcement-bar-height);
     }
 
     &.sidebar--padded {
@@ -137,6 +137,14 @@
         display: none;
         margin: 0;
         padding: 1em 1em 0;
+    }
+
+    .nav-pills {
+        > li {
+            .badge {
+                margin: 0 10px 0 0;
+            }
+        }
     }
 
     .sidebar--left__list {
@@ -434,4 +442,9 @@
     span {
         outline: none;
     }
+}
+
+/* Fix for https://mattermost.atlassian.net/browse/MM-12493 */
+.react-contextmenu:not(.react-contextmenu--visible) {
+    z-index: -1 !important;
 }

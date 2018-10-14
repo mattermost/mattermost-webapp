@@ -8,7 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -47,6 +47,9 @@ export default class RhsRootPost extends React.Component {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        actions: PropTypes.shape({
+            addReaction: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -150,11 +153,13 @@ export default class RhsRootPost extends React.Component {
     };
 
     reactEmojiClick = (emoji) => {
-        this.setState({showEmojiPicker: false});
+        this.setState({
+            dropdownOpened: false,
+            showEmojiPicker: false,
+        });
         const emojiName = emoji.name || emoji.aliases[0];
-        addReaction(this.props.post.channel_id, this.props.post.id, emojiName);
+        this.props.actions.addReaction(this.props.post.id, emojiName);
         emitEmojiPosted(emojiName);
-        this.handleDropdownOpened(false);
     };
 
     getClassName = (post, isSystemMessage) => {

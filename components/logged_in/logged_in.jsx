@@ -15,7 +15,6 @@ import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
@@ -35,7 +34,10 @@ export default class LoggedIn extends React.Component {
             user: UserStore.getCurrentUser(),
         };
 
-        document.getElementById('root').className += ' channel-view';
+        const root = document.getElementById('root');
+        if (root) {
+            root.className += ' channel-view';
+        }
     }
 
     isValidState() {
@@ -98,10 +100,6 @@ export default class LoggedIn extends React.Component {
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
-        if (this.props.showTermsOfService && this.props.location.pathname !== '/terms_of_service') {
-            browserHistory.push('/terms_of_service?redirect_to=' + encodeURIComponent(this.props.location.pathname));
-        }
-
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
@@ -162,8 +160,16 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        if (this.props.location.pathname !== '/mfa/setup' && this.props.mfaRequired) {
-            return <Redirect to={'/mfa/setup'}/>;
+        if (this.props.mfaRequired) {
+            if (this.props.location.pathname !== '/mfa/setup') {
+                return <Redirect to={'/mfa/setup'}/>;
+            }
+        } else if (this.props.location.pathname === '/mfa/confirm') {
+            // Nothing to do. Wait for MFA flow to complete before prompting TOS.
+        } else if (this.props.showTermsOfService) {
+            if (this.props.location.pathname !== '/terms_of_service') {
+                return <Redirect to={'/terms_of_service?redirect_to=' + encodeURIComponent(this.props.location.pathname)}/>;
+            }
         }
 
         return this.props.children;

@@ -10,7 +10,6 @@ import {Client4} from 'mattermost-redux/client';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
-import {loadMe} from 'actions/user_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
@@ -98,11 +97,7 @@ export default class SignupController extends React.Component {
                     token,
                     inviteId,
                     (team) => {
-                        loadMe().then(
-                            () => {
-                                browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
-                            }
-                        );
+                        browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
                     },
                     this.handleInvalidInvite
                 );

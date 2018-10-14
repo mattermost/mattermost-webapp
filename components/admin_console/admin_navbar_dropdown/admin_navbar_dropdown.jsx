@@ -8,7 +8,6 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -24,6 +23,7 @@ export default class AdminNavbarDropdown extends React.Component {
          * Bool whether the navigation is blocked by unsaved changes
          */
         navigationBlocked: PropTypes.bool,
+        teams: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         actions: PropTypes.shape({
 
@@ -39,8 +39,6 @@ export default class AdminNavbarDropdown extends React.Component {
         super(props);
 
         this.state = {
-            teams: TeamStore.getAll(),
-            teamMembers: TeamStore.getMyTeamMembers(),
             showAboutModal: false,
         };
     }
@@ -52,13 +50,10 @@ export default class AdminNavbarDropdown extends React.Component {
                 this.blockToggle = false;
             }, 100);
         });
-
-        TeamStore.addChangeListener(this.onTeamChange);
     }
 
     componentWillUnmount() {
         $(ReactDOM.findDOMNode(this.refs.dropdown)).off('hide.bs.dropdown');
-        TeamStore.removeChangeListener(this.onTeamChange);
     }
 
     handleAboutModal = (e) => {
@@ -80,31 +75,16 @@ export default class AdminNavbarDropdown extends React.Component {
         this.setState({showAboutModal: false});
     };
 
-    onTeamChange = () => {
-        this.setState({
-            teams: TeamStore.getAll(),
-            teamMembers: TeamStore.getMyTeamMembers(),
-        });
-    };
-
     render() {
-        var teamsArray = []; // Array of team objects
-        var teams = []; // Array of team components
+        const {teams} = this.props;
+        const teamToRender = []; // Array of team components
         let switchTeams;
 
-        if (this.state.teamMembers && this.state.teamMembers.length > 0) {
-            for (const index in this.state.teamMembers) {
-                if (this.state.teamMembers.hasOwnProperty(index)) {
-                    const teamMember = this.state.teamMembers[index];
-                    const team = this.state.teams[teamMember.team_id];
-                    teamsArray.push(team);
-                }
-            }
-
-            teamsArray = filterAndSortTeamsByDisplayName(teamsArray);
+        if (teams && teams.length > 0) {
+            const teamsArray = filterAndSortTeamsByDisplayName(teams);
 
             for (const team of teamsArray) {
-                teams.push(
+                teamToRender.push(
                     <li key={'team_' + team.name}>
                         <BlockableLink
                             id={'swithTo' + Utils.createSafeId(team.name)}
@@ -120,7 +100,7 @@ export default class AdminNavbarDropdown extends React.Component {
                 );
             }
 
-            teams.push(
+            teamToRender.push(
                 <li
                     key='teamDiv'
                     className='divider'
@@ -165,7 +145,7 @@ export default class AdminNavbarDropdown extends React.Component {
                         className='dropdown-menu'
                         role='menu'
                     >
-                        {teams}
+                        {teamToRender}
                         {switchTeams}
                         <li
                             key='teamDiv'

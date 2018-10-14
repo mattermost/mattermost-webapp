@@ -856,7 +856,7 @@ export default {
 
                         return newState;
                     },
-                    onConfigSave: (config, prevConfig) => {
+                    onConfigSave: (config) => {
                         const newConfig = {...config};
                         newConfig.GitLabSettings = config.GitLabSettings || {};
                         newConfig.Office365Settings = config.Office365Settings || {};
@@ -869,18 +869,12 @@ export default {
 
                         if (config.oauthType === Constants.GITLAB_SERVICE) {
                             newConfig.GitLabSettings.Enable = true;
-                            newConfig.Office365Settings = prevConfig.Office365Settings;
-                            newConfig.GoogleSettings = prevConfig.GoogleSettings;
                         }
                         if (config.oauthType === Constants.OFFICE365_SERVICE) {
                             newConfig.Office365Settings.Enable = true;
-                            newConfig.GitLabSettings = prevConfig.GitLabSettings;
-                            newConfig.GoogleSettings = prevConfig.GoogleSettings;
                         }
                         if (config.oauthType === Constants.GOOGLE_SERVICE) {
                             newConfig.GoogleSettings.Enable = true;
-                            newConfig.Office365Settings = prevConfig.Office365Settings;
-                            newConfig.GitLabSettings = prevConfig.GitLabSettings;
                         }
                         delete newConfig.oauthType;
                         return newConfig;
@@ -2775,22 +2769,22 @@ export default {
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'SupportSettings.CustomServiceTermsEnabled',
-                            label: 'admin.support.enableServiceTermsTitle',
+                            key: 'SupportSettings.CustomTermsOfServiceEnabled',
+                            label: 'admin.support.enableTermsOfServiceTitle',
                             label_default: 'Enable Custom Terms of Service (Beta)',
-                            help_text: 'admin.support.serviceTermsHelp',
+                            help_text: 'admin.support.termsOfServiceHelp',
                             help_text_default: 'When true, new users must accept the terms of service before accessing any Mattermost teams on desktop, web or mobile. Existing users must accept them after login or a page refresh.\n \nUsers on mobile do not have to accept the terms of service with mobile support scheduled for an upcoming release.',
                             help_text_markdown: true,
                             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_LONG_TEXT,
-                            key: 'SupportSettings.CustomServiceTermsText',
-                            label: 'admin.support.serviceTermsTextTitle',
+                            key: 'SupportSettings.CustomTermsOfServiceText',
+                            label: 'admin.support.termsOfServiceTextTitle',
                             label_default: 'Custom Terms of Service Text (Beta)',
-                            isDisabled: needsUtils.stateValueFalse('SupportSettings.CustomServiceTermsEnabled'),
+                            isDisabled: needsUtils.stateValueFalse('SupportSettings.CustomTermsOfServiceEnabled'),
                             isHidden: needsUtils.not(needsUtils.hasLicenseFeature('CustomTermsOfService')),
-                            help_text: 'admin.support.serviceTermsTextHelp',
+                            help_text: 'admin.support.termsOfServiceTextHelp',
                             help_text_default: 'Text that will appear in your custom Terms of Service. Supports Markdown-formatted text.',
                         },
                     ],

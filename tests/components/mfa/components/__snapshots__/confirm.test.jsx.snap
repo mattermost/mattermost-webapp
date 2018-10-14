@@ -8,10 +8,9 @@ exports[`components/mfa/components/Confirm should match snapshot 1`] = `
     onSubmit={[Function]}
   >
     <p>
-      <FormattedHTMLMessage
-        defaultMessage="<strong>Set up complete!</strong>"
+      <InjectIntl(FormattedMarkdownMessage)
+        defaultMessage="**Set up complete!**"
         id="mfa.confirm.complete"
-        values={Object {}}
       />
     </p>
     <p>

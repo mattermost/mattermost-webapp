@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/CopyUrlContextMenu should copy absolute url on click 1`] = `
+<span>
+  <ContextMenu
+    className=""
+    data={Object {}}
+    hideOnLeave={false}
+    id="copy-url-context-menuresource"
+    onHide={[Function]}
+    onMouseLeave={[Function]}
+    onShow={[Function]}
+    style={Object {}}
+  >
+    <MenuItem
+      attributes={Object {}}
+      data={Object {}}
+      disabled={false}
+      divider={false}
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+      preventClose={false}
+      selected={false}
+    >
+      <FormattedMessage
+        defaultMessage="Copy Link"
+        id="copy_url_context_menu.getChannelLink"
+        values={Object {}}
+      />
+    </MenuItem>
+  </ContextMenu>
+  <ContextMenuTrigger
+    attributes={Object {}}
+    collect={[Function]}
+    disable={false}
+    holdToDisplay={1000}
+    id="copy-url-context-menuresource"
+    posX={0}
+    posY={0}
+    renderTag="div"
+  >
+    <span>
+      Click
+    </span>
+  </ContextMenuTrigger>
+</span>
+`;
+
+exports[`components/CopyUrlContextMenu should copy relative url on click 1`] = `
+<span>
+  <ContextMenu
+    className=""
+    data={Object {}}
+    hideOnLeave={false}
+    id="copy-url-context-menuresource"
+    onHide={[Function]}
+    onMouseLeave={[Function]}
+    onShow={[Function]}
+    style={Object {}}
+  >
+    <MenuItem
+      attributes={Object {}}
+      data={Object {}}
+      disabled={false}
+      divider={false}
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+      preventClose={false}
+      selected={false}
+    >
+      <FormattedMessage
+        defaultMessage="Copy Link"
+        id="copy_url_context_menu.getChannelLink"
+        values={Object {}}
+      />
+    </MenuItem>
+  </ContextMenu>
+  <ContextMenuTrigger
+    attributes={Object {}}
+    collect={[Function]}
+    disable={false}
+    holdToDisplay={1000}
+    id="copy-url-context-menuresource"
+    posX={0}
+    posY={0}
+    renderTag="div"
+  >
+    <span>
+      Click
+    </span>
+  </ContextMenuTrigger>
+</span>
+`;

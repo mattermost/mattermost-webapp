@@ -521,6 +521,10 @@
     width: 220px;
     z-index: 10;
 
+    body.announcement-bar--fixed & {
+        top: $announcement-bar-height;
+    }
+
     .dropdown-menu {
         max-height: 80vh;
         max-width: 200px;

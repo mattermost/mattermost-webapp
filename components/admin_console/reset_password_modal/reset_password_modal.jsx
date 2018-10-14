@@ -7,12 +7,12 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {adminResetPassword} from 'actions/admin_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class ResetPasswordModal extends React.Component {
     static propTypes = {
         user: PropTypes.object,
+        currentUserId: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         onModalSubmit: PropTypes.func,
         onModalDismissed: PropTypes.func,
@@ -122,11 +122,10 @@ export default class ResetPasswordModal extends React.Component {
             );
         }
 
-        const currentUserId = UserStore.getCurrentId();
         let currentPassword = null;
         let serverErrorCurrentPass = null;
         let newPasswordFocus = true;
-        if (currentUserId === user.id) {
+        if (this.props.currentUserId === user.id) {
             newPasswordFocus = false;
             let urlClassCurrentPass = 'input-group input-group--limit';
             if (this.state.serverErrorCurrentPass) {

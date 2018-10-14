@@ -152,14 +152,6 @@ export async function unflagPost(postId) {
     }
 }
 
-export function addReaction(channelId, postId, emojiName) {
-    PostActions.addReaction(postId, emojiName)(dispatch, getState);
-}
-
-export function removeReaction(channelId, postId, emojiName) {
-    PostActions.removeReaction(postId, emojiName)(dispatch, getState);
-}
-
 export async function createPost(post, files, success) {
     // parse message and emit emoji event
     const emojis = post.message.match(EMOJI_PATTERN);
@@ -289,6 +281,11 @@ export function doPostAction(postId, actionId) {
 export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
+        const post = Selectors.getPost(state, postId);
+
+        if (!post || post.pending_post_id === postId) {
+            return {data: false};
+        }
 
         let canEditNow = true;
 
@@ -299,8 +296,6 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
             if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
                 canEditNow = false;
             } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                const post = Selectors.getPost(state, postId);
-
                 if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
                     canEditNow = false;
                 }
