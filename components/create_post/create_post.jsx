@@ -956,7 +956,7 @@ export default class CreatePost extends React.Component {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label={Utils.localizeMessage('create_post.emojiPopup', 'Open emoji picker')}
+                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay
@@ -1022,7 +1022,7 @@ export default class CreatePost extends React.Component {
                                 <a
                                     role='button'
                                     tabIndex='0'
-                                    aria-label={Utils.localizeMessage('create_post.sendButton', 'Send a message')}
+                                    aria-label={Utils.localizeMessage('create_post.send_message', 'Send a message')}
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >

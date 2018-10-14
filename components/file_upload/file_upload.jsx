@@ -54,7 +54,7 @@ const holders = defineMessages({
         defaultMessage: 'Image Pasted at ',
     },
     fileUpload: {
-        id: t('file_upload.uploadButton'),
+        id: t('file_upload.upload_files'),
         defaultMessage: 'Upload files',
     },
 });
