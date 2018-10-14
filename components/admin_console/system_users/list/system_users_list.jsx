@@ -50,6 +50,8 @@ export default class SystemUsersList extends React.Component {
         actions: PropTypes.shape({
             getUser: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
+            getTeamMembersForUser: PropTypes.func.isRequired,
+            getTeamsForUser: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -316,6 +318,8 @@ export default class SystemUsersList extends React.Component {
                     show={this.state.showManageTeamsModal}
                     onModalDismissed={this.doManageTeamsDismiss}
                     updateTeamMemberSchemeRoles={this.props.actions.updateTeamMemberSchemeRoles}
+                    getTeamsForUser={this.props.actions.getTeamsForUser}
+                    getTeamMembersForUser={this.props.actions.getTeamMembersForUser}
                 />
                 <ManageRolesModal
                     user={this.state.user}
