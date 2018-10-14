@@ -727,7 +727,7 @@ export default class CreateComment extends React.PureComponent {
                 <span
                     role='button'
                     tabIndex='0'
-                    aria-label={Utils.localizeMessage('create_post.emojiPopup', 'Click to open emoji picker')}
+                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
                     className='emoji-picker__container'
                 >
                     <EmojiPickerOverlay

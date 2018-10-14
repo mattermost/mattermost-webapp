@@ -137,7 +137,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             rootId=""
           />
           <span
-            aria-label="Click to open emoji picker"
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
@@ -376,7 +376,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             rootId=""
           />
           <span
-            aria-label="Click to open emoji picker"
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
@@ -502,7 +502,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             rootId=""
           />
           <span
-            aria-label="Click to open emoji picker"
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
             role="button"
             tabIndex="0"
