@@ -225,6 +225,13 @@ class SuggestionStore extends EventEmitter {
         this.setSelectionByDelta(id, -1);
     }
 
+    setSelectionByTerm(id, term) {
+        const suggestion = this.suggestions.get(id);
+        const selectedTerm = suggestion.terms.find((t) => t === term);
+        suggestion.selection = selectedTerm;
+        this.emitSuggestionsChanged(id);
+    }
+
     setSelectionByDelta(id, delta) {
         const suggestion = this.suggestions.get(id);
 

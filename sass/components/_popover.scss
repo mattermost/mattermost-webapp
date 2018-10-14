@@ -166,10 +166,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        &:hover {
-            background: alpha-color($black, .1);
-        }
-
         &.selected {
             background: alpha-color($black, .2);
         }

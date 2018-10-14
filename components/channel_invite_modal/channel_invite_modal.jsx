@@ -136,7 +136,7 @@ export default class ChannelInviteModal extends React.Component {
         );
     };
 
-    renderOption = (option, isSelected, onAdd) => {
+    renderOption = (option, isSelected, onAdd, onMouseOver) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -148,6 +148,7 @@ export default class ChannelInviteModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseOver={onMouseOver}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}

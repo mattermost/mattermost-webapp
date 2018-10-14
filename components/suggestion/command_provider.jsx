@@ -20,6 +20,7 @@ class CommandSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
+                onMouseOver={this.handleMouseOver}
                 {...Suggestion.baseProps}
             >
                 <div className='command__title'>

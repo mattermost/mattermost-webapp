@@ -35,6 +35,7 @@ class SearchUserSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
+                onMouseOver={this.handleMouseOver}
                 {...Suggestion.baseProps}
             >
                 <i

@@ -123,6 +123,7 @@ class SwitchChannelSuggestion extends Suggestion {
         return (
             <div
                 onClick={this.handleClick}
+                onMouseOver={this.handleMouseOver}
                 className={className}
                 {...Suggestion.baseProps}
             >

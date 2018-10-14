@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
+import SuggestionStore from 'stores/suggestion_store.jsx';
 
 import SuggestionList from './suggestion_list.jsx';
 
@@ -89,6 +90,7 @@ export default class SearchSuggestionList extends SuggestionList {
                     matchedPretext={this.state.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
+                    onMouseOver={(t) => SuggestionStore.setSelectionByTerm(this.props.suggestionId, t)}
                 />
             );
         }
