@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
-import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
+import {searchMoreChannels} from 'actions/channel_actions.jsx';
 
 import {getRelativeChannelURL} from 'utils/url.jsx';
 
@@ -22,6 +22,7 @@ const SEARCH_TIMEOUT_MILLISECONDS = 100;
 export default class MoreChannels extends React.Component {
     static propTypes = {
         channels: PropTypes.array.isRequired,
+        currentUserId: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
@@ -29,6 +30,7 @@ export default class MoreChannels extends React.Component {
         channelsRequestStarted: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
+            joinChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -76,24 +78,20 @@ export default class MoreChannels extends React.Component {
     }
 
     handleJoin = (channel, done) => {
-        joinChannel(
-            channel,
-            () => {
-                browserHistory.push(getRelativeChannelURL(this.props.teamName, channel.name));
-                if (done) {
-                    done();
-                }
-
+        const {actions, currentUserId, teamId, teamName} = this.props;
+        actions.joinChannel(currentUserId, teamId, channel.id).then((result) => {
+            if (result.error) {
+                this.setState({serverError: result.error.message});
+            } else {
+                browserHistory.push(getRelativeChannelURL(teamName, channel.name));
                 this.handleHide();
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-                if (done) {
-                    done();
-                }
             }
-        );
-    }
+
+            if (done) {
+                done();
+            }
+        });
+    };
 
     search = (term) => {
         clearTimeout(this.searchTimeoutId);

@@ -4,11 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateChannelNotifyProps, favoriteChannel, unfavoriteChannel, leaveChannel} from 'mattermost-redux/actions/channels';
+import {updateChannelNotifyProps, favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentChannelReadOnly, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
+import {leaveChannel} from 'actions/views/channel';
 import {
     closeRightHandSide as closeRhs,
     updateRhsState,
@@ -44,6 +45,7 @@ function mapDispatchToProps(dispatch) {
             closeLhs,
             closeRhs,
             closeRhsMenu,
+            leaveChannel,
             markFavorite: favoriteChannel,
             showPinnedPosts,
             toggleLhs,
@@ -51,7 +53,6 @@ function mapDispatchToProps(dispatch) {
             unmarkFavorite: unfavoriteChannel,
             updateChannelNotifyProps,
             updateRhsState,
-            leaveChannel,
         }, dispatch),
     };
 }

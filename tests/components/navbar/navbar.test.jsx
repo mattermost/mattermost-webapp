@@ -6,6 +6,16 @@ import {shallow} from 'enzyme';
 
 import Navbar from 'components/navbar/navbar.jsx';
 
+jest.mock('utils/browser_history', () => {
+    const original = require.requireActual('utils/browser_history');
+    return {
+        ...original,
+        browserHistory: {
+            push: jest.fn(),
+        },
+    };
+});
+
 describe('components/navbar/Navbar', () => {
     const baseProps = {
         teamDisplayName: 'team_display_name',
@@ -14,6 +24,7 @@ describe('components/navbar/Navbar', () => {
             closeLhs: jest.fn(),
             closeRhs: jest.fn(),
             closeRhsMenu: jest.fn(),
+            leaveChannel: jest.fn(),
             markFavorite: jest.fn(),
             showPinnedPosts: jest.fn(),
             toggleLhs: jest.fn(),
@@ -21,7 +32,6 @@ describe('components/navbar/Navbar', () => {
             unmarkFavorite: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
             updateRhsState: jest.fn(),
-            leaveChannel: jest.fn(),
         },
         isLicensed: true,
         enableWebrtc: true,
@@ -178,5 +188,35 @@ describe('components/navbar/Navbar', () => {
         wrapper.setProps({isFavoriteChannel: true});
         wrapper.instance().toggleFavorite(event);
         expect(wrapper.instance().props.actions.unmarkFavorite).toBeCalled();
+    });
+
+    test('should leave public channel', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                leaveChannel: jest.fn().mockImplementation(() => {
+                    const data = true;
+
+                    return Promise.resolve({data});
+                }),
+            },
+        };
+
+        const channel = {
+            id: 'channel-1',
+            name: 'test-channel-1',
+            display_name: 'Test Channel 1',
+            type: 'O',
+            team_id: 'team-1',
+        };
+
+        const wrapper = shallow(
+            <Navbar {...props}/>
+        );
+
+        wrapper.setState({channel});
+        wrapper.instance().handleLeave();
+        expect(wrapper.instance().props.actions.leaveChannel).toHaveBeenCalledTimes(1);
     });
 });

@@ -130,7 +130,7 @@ export async function doFocusPost(channelId, postId, data) {
 
     const member = getState().entities.channels.myMembers[channelId];
     if (member == null) {
-        await joinChannel(UserStore.getCurrentId(), null, channelId)(dispatch, getState);
+        await dispatch(joinChannel(UserStore.getCurrentId(), null, channelId));
     }
 
     loadChannelsForCurrentUser();

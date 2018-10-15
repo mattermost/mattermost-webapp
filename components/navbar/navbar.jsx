@@ -146,10 +146,11 @@ export default class Navbar extends React.Component {
     }
 
     handleLeave = () => {
+        const {actions} = this.props;
         if (this.state.channel.type === Constants.PRIVATE_CHANNEL) {
             GlobalActions.showLeavePrivateChannelModal(this.state.channel);
         } else {
-            this.props.actions.leaveChannel(this.state.channel.id);
+            actions.leaveChannel(this.state.channel.id);
         }
     }
 

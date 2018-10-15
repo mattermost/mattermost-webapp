@@ -240,16 +240,6 @@ export function loadDMsAndGMsForUnreads() {
     }
 }
 
-export async function joinChannel(channel, success, error) {
-    const {data, err} = await ChannelActions.joinChannel(UserStore.getCurrentId(), null, channel.id)(dispatch, getState);
-
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function updateChannel(channel, success, error) {
     const {data, error: err} = await ChannelActions.updateChannel(channel)(dispatch, getState);
     if (data && success) {
@@ -336,19 +326,6 @@ export async function getChannelMembersForUserIds(channelId, userIds, success, e
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function leaveChannel(channelId, success) {
-    const townsquare = ChannelStore.getByName('town-square');
-    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
-
-    await dispatch(ChannelActions.leaveChannel(channelId));
-    if (isFavoriteChannel(channelId)) {
-        dispatch(ChannelActions.unfavoriteChannel(channelId));
-    }
-    if (success) {
-        success();
     }
 }
 
