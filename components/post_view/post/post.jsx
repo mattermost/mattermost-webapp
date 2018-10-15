@@ -90,6 +90,11 @@ export default class Post extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
+
+        /**
+        * Id of last post in the getPostThread
+        */
+        lastPostId: PropTypes.string,
     }
 
     static defaultProps = {
@@ -287,6 +292,7 @@ export default class Post extends React.PureComponent {
                             showTimeWithoutHover={!hideProfilePicture}
                             getPostList={this.props.getPostList}
                             hover={this.state.hover}
+                            lastPostId={this.props.lastPostId}
                         />
                         <PostBody
                             post={post}
