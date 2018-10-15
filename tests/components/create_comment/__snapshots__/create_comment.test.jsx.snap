@@ -137,7 +137,10 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             rootId=""
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               container={[MockFunction]}
@@ -373,7 +376,10 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             rootId=""
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               container={[MockFunction]}
@@ -496,7 +502,10 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             rootId=""
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               container={[MockFunction]}

@@ -11,6 +11,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
     <AttachmentIcon />
     <input
       accept=""
+      aria-label="Upload files"
       multiple={true}
       onChange={[Function]}
       onClick={[Function]}

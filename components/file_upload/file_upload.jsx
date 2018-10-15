@@ -53,6 +53,10 @@ const holders = defineMessages({
         id: t('file_upload.pasted'),
         defaultMessage: 'Image Pasted at ',
     },
+    uploadFile: {
+        id: t('file_upload.upload_files'),
+        defaultMessage: 'Upload files',
+    },
 });
 
 const OVERLAY_TIMEOUT = 500;
@@ -492,6 +496,7 @@ export default class FileUpload extends PureComponent {
     }
 
     render() {
+        const {formatMessage} = this.context.intl;
         let multiple = true;
         if (isMobileApp()) {
             // iOS WebViews don't upload videos properly in multiple mode
@@ -515,6 +520,7 @@ export default class FileUpload extends PureComponent {
                 >
                     <AttachmentIcon/>
                     <input
+                        aria-label={formatMessage(holders.uploadFile)}
                         ref='fileInput'
                         type='file'
                         onChange={this.handleChange}
@@ -576,6 +582,7 @@ export default class FileUpload extends PureComponent {
                                     defaultMessage='Your computer'
                                 />
                                 <input
+                                    aria-label={formatMessage(holders.uploadFile)}
                                     ref='fileInput'
                                     type='file'
                                     className='file-attachment-menu-item-input'

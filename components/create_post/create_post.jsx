@@ -953,7 +953,12 @@ export default class CreatePost extends React.Component {
         let emojiPicker = null;
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
-                <span className='emoji-picker__container'>
+                <span
+                    role='button'
+                    tabIndex='0'
+                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
+                    className='emoji-picker__container'
+                >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={getChannelView}
@@ -1015,6 +1020,9 @@ export default class CreatePost extends React.Component {
                                 {fileUpload}
                                 {emojiPicker}
                                 <a
+                                    role='button'
+                                    tabIndex='0'
+                                    aria-label={Utils.localizeMessage('create_post.send_message', 'Send a message')}
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >

@@ -724,7 +724,12 @@ export default class CreateComment extends React.PureComponent {
         let emojiPicker = null;
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
-                <span className='emoji-picker__container'>
+                <span
+                    role='button'
+                    tabIndex='0'
+                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
+                    className='emoji-picker__container'
+                >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.props.getSidebarBody}

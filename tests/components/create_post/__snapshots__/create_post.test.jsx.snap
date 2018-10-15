@@ -46,7 +46,10 @@ exports[`components/create_post Show tutorial 1`] = `
             postType="post"
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -67,8 +70,11 @@ exports[`components/create_post Show tutorial 1`] = `
             />
           </span>
           <a
+            aria-label="Send a message"
             className="send-button theme disabled"
             onClick={[Function]}
+            role="button"
+            tabIndex="0"
           >
             <i
               className="fa fa-paper-plane"
@@ -204,7 +210,10 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             postType="post"
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -225,8 +234,11 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             />
           </span>
           <a
+            aria-label="Send a message"
             className="send-button theme disabled"
             onClick={[Function]}
+            role="button"
+            tabIndex="0"
           >
             <i
               className="fa fa-paper-plane"
@@ -322,8 +334,11 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           className="post-body__actions"
         >
           <a
+            aria-label="Send a message"
             className="send-button theme disabled"
             onClick={[Function]}
+            role="button"
+            tabIndex="0"
           >
             <i
               className="fa fa-paper-plane"
@@ -428,7 +443,10 @@ exports[`components/create_post should match snapshot when file upload disabled 
             postType="post"
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -449,8 +467,11 @@ exports[`components/create_post should match snapshot when file upload disabled 
             />
           </span>
           <a
+            aria-label="Send a message"
             className="send-button theme disabled"
             onClick={[Function]}
+            role="button"
+            tabIndex="0"
           >
             <i
               className="fa fa-paper-plane"
@@ -555,7 +576,10 @@ exports[`components/create_post should match snapshot, init 1`] = `
             postType="post"
           />
           <span
+            aria-label="Open emoji picker"
             className="emoji-picker__container"
+            role="button"
+            tabIndex="0"
           >
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -576,8 +600,11 @@ exports[`components/create_post should match snapshot, init 1`] = `
             />
           </span>
           <a
+            aria-label="Send a message"
             className="send-button theme disabled"
             onClick={[Function]}
+            role="button"
+            tabIndex="0"
           >
             <i
               className="fa fa-paper-plane"
