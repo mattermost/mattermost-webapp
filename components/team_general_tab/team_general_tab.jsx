@@ -23,7 +23,7 @@ export default class GeneralTab extends React.Component {
         collapseModal: PropTypes.func.isRequired,
         maxFileSize: PropTypes.number.isRequired,
         actions: PropTypes.shape({
-            updateTeam: PropTypes.func.isRequired,
+            patchTeam: PropTypes.func.isRequired,
             removeTeamIcon: PropTypes.func.isRequired,
             setTeamIcon: PropTypes.func.isRequired,
         }).isRequired,
@@ -109,7 +109,7 @@ export default class GeneralTab extends React.Component {
         var data = {...this.props.team};
         data.allowed_domains = this.state.allowed_domains;
 
-        const {error} = await this.props.actions.updateTeam(data);
+        const {error} = await this.props.actions.patchTeam(data);
 
         if (error) {
             state.serverError = error.message;
@@ -125,7 +125,7 @@ export default class GeneralTab extends React.Component {
         var data = {...this.props.team};
         data.allow_open_invite = this.state.allow_open_invite;
 
-        const {error} = await this.props.actions.updateTeam(data);
+        const {error} = await this.props.actions.patchTeam(data);
 
         if (error) {
             state.serverError = error.message;
@@ -170,7 +170,7 @@ export default class GeneralTab extends React.Component {
         var data = {...this.props.team};
         data.display_name = this.state.name;
 
-        const {error} = await this.props.actions.updateTeam(data);
+        const {error} = await this.props.actions.patchTeam(data);
 
         if (error) {
             state.serverError = error.message;
@@ -201,7 +201,7 @@ export default class GeneralTab extends React.Component {
         var data = {...this.props.team};
         data.invite_id = this.state.invite_id;
 
-        const {error} = await this.props.actions.updateTeam(data);
+        const {error} = await this.props.actions.patchTeam(data);
 
         if (error) {
             state.serverError = error.message;
@@ -236,7 +236,7 @@ export default class GeneralTab extends React.Component {
         var data = {...this.props.team};
         data.description = this.state.description;
 
-        const {error} = await this.props.actions.updateTeam(data);
+        const {error} = await this.props.actions.patchTeam(data);
 
         if (error) {
             state.serverError = error.message;

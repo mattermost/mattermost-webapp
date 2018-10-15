@@ -14,7 +14,7 @@ describe('components/TeamSettings', () => {
         closeModal: () => {}, //eslint-disable-line no-empty-function
         collapseModal: () => {}, //eslint-disable-line no-empty-function
         actions: {
-            updateTeam: () => {}, //eslint-disable-line no-empty-function
+            patchTeam: () => {}, //eslint-disable-line no-empty-function
             removeTeamIcon: () => {}, //eslint-disable-line no-empty-function
             setTeamIcon: () => {}, //eslint-disable-line no-empty-function
         },
@@ -60,7 +60,7 @@ describe('components/TeamSettings', () => {
 
     test('should call actions.setTeamIcon on handleTeamIconSubmit', () => {
         const actions = {
-            updateTeam: jest.fn(),
+            patchTeam: jest.fn(),
             removeTeamIcon: jest.fn(),
             setTeamIcon: jest.fn(),
         };
@@ -88,7 +88,7 @@ describe('components/TeamSettings', () => {
 
     test('should call actions.removeTeamIcon on handleTeamIconRemove', () => {
         const actions = {
-            updateTeam: jest.fn(),
+            patchTeam: jest.fn(),
             removeTeamIcon: jest.fn(),
             setTeamIcon: jest.fn(),
         };
@@ -111,5 +111,95 @@ describe('components/TeamSettings', () => {
 
         expect(wrapper1).toMatchSnapshot();
         expect(wrapper2).toMatchSnapshot();
+    });
+
+    test('should call actions.patchTeam on handleAllowedDomainsSubmit', () => {
+        const actions = {
+            patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
+        };
+
+        const props = {...defaultProps, actions};
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        wrapper.instance().handleAllowedDomainsSubmit({preventDefault: jest.fn()});
+
+        expect(actions.patchTeam).toHaveBeenCalledTimes(1);
+        expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
+    });
+
+    test('should call actions.patchTeam on handleOpenInviteSubmit', () => {
+        const actions = {
+            patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
+        };
+
+        const props = {...defaultProps, actions};
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        wrapper.instance().handleOpenInviteSubmit({preventDefault: jest.fn()});
+
+        expect(actions.patchTeam).toHaveBeenCalledTimes(1);
+        expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
+    });
+
+    test('should call actions.patchTeam on handleNameSubmit', () => {
+        const actions = {
+            patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
+        };
+
+        const props = {...defaultProps, actions};
+        props.team.display_name = 'TestTeam';
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        wrapper.instance().handleNameSubmit({preventDefault: jest.fn()});
+
+        expect(actions.patchTeam).toHaveBeenCalledTimes(1);
+        expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
+    });
+
+    test('should call actions.patchTeam on handleInviteIdSubmit', () => {
+        const actions = {
+            patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
+        };
+
+        const props = {...defaultProps, actions};
+        props.team.invite_id = '12345';
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        wrapper.instance().handleInviteIdSubmit({preventDefault: jest.fn()});
+
+        expect(actions.patchTeam).toHaveBeenCalledTimes(1);
+        expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
+    });
+
+    test('should call actions.patchTeam on handleDescriptionSubmit', () => {
+        const actions = {
+            patchTeam: jest.fn(),
+            removeTeamIcon: jest.fn(),
+            setTeamIcon: jest.fn(),
+        };
+
+        const props = {...defaultProps, actions};
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        const newDescription = 'The Test Team';
+        wrapper.setState({description: newDescription});
+        wrapper.instance().handleDescriptionSubmit({preventDefault: jest.fn()});
+        props.team.description = newDescription;
+
+        expect(actions.patchTeam).toHaveBeenCalledTimes(1);
+        expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
     });
 });
