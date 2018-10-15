@@ -11,7 +11,6 @@ import {checkMfa} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 export default class EmailToOAuth extends React.Component {
     constructor(props) {
@@ -61,7 +60,8 @@ export default class EmailToOAuth extends React.Component {
             token,
             this.props.newType,
             (data) => {
-                emitUserLoggedOutEvent(data.follow_link, false, true);
+                // Stay logged in and just redirect to the OAuth provider.
+                window.location.href = data.follow_link;
             },
             (err) => {
                 this.setState({error: err.message, showMfa: false});
