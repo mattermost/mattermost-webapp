@@ -131,7 +131,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         <Link
           id="createTeam"
           key="newTeam_a"
-          onClick={[Function]}
           replace={false}
           to="/create_team"
         >
@@ -143,6 +142,21 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         </Link>
       </li>
     </Connect(SystemPermissionGate)>
+    <li
+      key="joinTeam_li"
+    >
+      <Link
+        id="joinAnotherTeam"
+        replace={false}
+        to="/select_team"
+      >
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      </Link>
+    </li>
     <li
       key="leaveTeam_li"
     >
@@ -190,7 +204,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <li>
         <Link
           id="Integrations"
-          onClick={[Function]}
           replace={false}
           to="/somename/integrations"
         >
@@ -205,7 +218,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <li>
       <Link
         id="customEmoji"
-        onClick={[Function]}
         replace={false}
         to="/somename/emoji"
       >
@@ -229,7 +241,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <li>
         <Link
           id="systemConsole"
-          onClick={[Function]}
           replace={false}
           to="/admin_console"
         >
@@ -373,6 +384,64 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <li
         className="divider"
       />
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "invite_user",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <Connect(TeamPermissionGate)
+          permissions={
+            Array [
+              "add_user_to_team",
+            ]
+          }
+          teamId="someteamid"
+        >
+          <li>
+            <a
+              href="#"
+              onClick={[Function]}
+            >
+              <i
+                className="icon fa fa-user-plus"
+              />
+              <FormattedMessage
+                defaultMessage="Send Email Invite"
+                id="sidebar_right_menu.inviteNew"
+                values={Object {}}
+              />
+            </a>
+          </li>
+        </Connect(TeamPermissionGate)>
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "add_user_to_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <li>
+          <a
+            href="#"
+            id="addUsersToTeam"
+            onClick={[Function]}
+          >
+            <i
+              className="icon fa fa-user-plus"
+            />
+            <FormattedMessage
+              defaultMessage="Add Members to Team"
+              id="sidebar_right_menu.addMemberToTeam"
+              values={Object {}}
+            />
+          </a>
+        </li>
+      </Connect(TeamPermissionGate)>
       <li
         className="divider"
       />
@@ -425,6 +494,50 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           </ModalToggleButton>
         </li>
       </Connect(TeamPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "create_team",
+          ]
+        }
+      >
+        <li
+          key="newTeam_li"
+        >
+          <Link
+            id="createTeam"
+            key="newTeam_a"
+            replace={false}
+            to="/create_team"
+          >
+            <i
+              className="icon fa fa-plus-square"
+            />
+            <FormattedMessage
+              defaultMessage="Create a New Team"
+              id="navbar_dropdown.create"
+              values={Object {}}
+            />
+          </Link>
+        </li>
+      </Connect(SystemPermissionGate)>
+      <li
+        key="joinTeam_li"
+      >
+        <Link
+          replace={false}
+          to="/select_team"
+        >
+          <i
+            className="icon fa fa-plus-square"
+          />
+          <FormattedMessage
+            defaultMessage="Join Another Team"
+            id="navbar_dropdown.join"
+            values={Object {}}
+          />
+        </Link>
+      </li>
       <li
         key="leaveTeam_li"
       >
@@ -474,7 +587,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       >
         <li>
           <Link
-            onClick={[Function]}
             replace={false}
             to="/admin_console"
           >

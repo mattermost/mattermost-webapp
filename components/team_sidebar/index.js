@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTeams} from 'mattermost-redux/actions/teams';
+import {getMyTeams, getJoinableTeamIds, getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {withRouter} from 'react-router-dom';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -16,11 +17,17 @@ function mapStateToProps(state) {
 
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const enableTeamCreation = config.EnableTeamCreation === 'true';
+    const joinableTeams = getJoinableTeamIds(state);
+    const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
 
     return {
+        currentTeamId: getCurrentTeamId(state),
+        myTeams: getMyTeams(state),
+        myTeamMembers: getTeamMemberships(state),
         isOpen: getIsLhsOpen(state),
         experimentalPrimaryTeam,
         enableTeamCreation,
+        moreTeamsToJoin,
     };
 }
 
