@@ -41,6 +41,7 @@ function mapStateToProps(state, ownProps) {
     const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enableGifPicker = config.EnableGifPicker === 'true';
+    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
 
     return {
         draft,
