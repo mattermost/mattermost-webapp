@@ -96,9 +96,19 @@ export default class PostInfo extends React.PureComponent {
         enableEmojiPicker: PropTypes.bool.isRequired,
 
         /**
+        * To toggle emoji picker for showing for last defaultMessage
+        */
+        showEmojiPickerForLastMessage: PropTypes.bool.isRequired,
+
+        /**
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
+
+        /**
+        * Id of last post in the getPostThread
+        */
+        lastPostId: PropTypes.string,
 
         actions: PropTypes.shape({
 
@@ -111,6 +121,11 @@ export default class PostInfo extends React.PureComponent {
              * Function to add a reaction to the post
              */
             addReaction: PropTypes.func.isRequired,
+
+            /**
+            * Used for resetting Emoji popup for last message
+            */
+            hideEmojiPickerForLastMessage: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -121,6 +136,15 @@ export default class PostInfo extends React.PureComponent {
             showEmojiPicker: false,
             reactionPickerOffset: 21,
         };
+    }
+
+    UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
+        if (props.showEmojiPickerForLastMessage && !this.state.showEmojiPicker) {
+            if (props.lastPostId === props.post.id) {
+                this.setState({showEmojiPicker: true});
+                this.props.actions.hideEmojiPickerForLastMessage();
+            }
+        }
     }
 
     toggleEmojiPicker = () => {
