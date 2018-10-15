@@ -314,6 +314,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.onHide}
                 enforceFocus={false}
+                restoreFocus={false}
             >
                 <Modal.Header closeButton={true}/>
                 <Modal.Body>
