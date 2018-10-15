@@ -343,7 +343,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
         props: {},
     };
 
-    handleNewPost(post);
+    dispatch(handleNewPost(post));
 }
 
 export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, channelId, postRootId = '', timestamp) {
@@ -364,7 +364,7 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, 
         },
     };
 
-    handleNewPost(post);
+    dispatch(handleNewPost(post));
 }
 
 export function newLocalizationSelected(locale) {

@@ -386,7 +386,7 @@ function handleChannelMemberUpdatedEvent(msg) {
 
 function handleNewPostEvent(msg) {
     const post = JSON.parse(msg.data.post);
-    handleNewPost(post, msg);
+    dispatch(handleNewPost(post, msg));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
 
