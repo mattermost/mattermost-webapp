@@ -10,6 +10,10 @@ import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview/file_preview.jsx';
 
+jest.mock('actions/post_actions.jsx', () => ({
+    showEmojiPickerForLastMessage: jest.fn(),
+}));
+
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';

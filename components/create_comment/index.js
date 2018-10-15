@@ -115,8 +115,12 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexForward,
             onEditLatestPost,
             resetCreatePostRequest,
+<<<<<<< c0764274581d2003e0c634356369e0e68b8fb23d
             getChannelTimezones,
             toggleRHSTextBoxFocus,
+=======
+            showEmojiPickerForLastMessage,
+>>>>>>> Added shortcut for opening emoji popup for last message and handling if the RHS is open
         }, dispatch);
     };
 }
