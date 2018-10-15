@@ -12,6 +12,10 @@ jest.mock('stores/post_store.jsx', () => ({
     clearCommentDraftUploads: jest.fn(),
 }));
 
+jest.mock('actions/post_actions.jsx', () => ({
+    showEmojiPickerForLastMessage: jest.fn(),
+}));
+
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
@@ -47,6 +51,7 @@ describe('components/CreateComment', () => {
         enableConfirmNotificationsToChannel: true,
         maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: false,
+        showEmojiPickerForLastMessage: jest.fn(),
     };
 
     test('should match snapshot, empty comment', () => {
