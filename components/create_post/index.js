@@ -26,7 +26,7 @@ import {
 import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
-import {createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {createPost, setEditingPost, showEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
@@ -104,6 +104,7 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
+            showEmojiPickerForLastMessage,
             openModal,
         }, dispatch),
     };
