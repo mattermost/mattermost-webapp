@@ -599,7 +599,7 @@ describe('components/CreateComment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('check for handleFileUploadChange callback for focus', () => {
+    test('check for handleFileUploadChange callback for focus', () => {
         const wrapper = shallow(
             <CreateComment {...baseProps}/>
         );
@@ -608,5 +608,73 @@ describe('components/CreateComment', () => {
 
         instance.handleFileUploadChange();
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
+    });
+
+    test('should call functions on handleKeyDown', () => {
+        const onMoveHistoryIndexBack = jest.fn();
+        const onMoveHistoryIndexForward = jest.fn();
+        const onEditLatestPost = jest.fn().
+            mockImplementationOnce(() => ({data: true})).
+            mockImplementationOnce(() => ({data: false}));
+        const wrapper = shallow(
+            <CreateComment
+                {...baseProps}
+                ctrlSend={true}
+                onMoveHistoryIndexBack={onMoveHistoryIndexBack}
+                onMoveHistoryIndexForward={onMoveHistoryIndexForward}
+                onEditLatestPost={onEditLatestPost}
+            />
+        );
+        const instance = wrapper.instance();
+        instance.commentMsgKeyPress = jest.fn();
+        instance.focusTextbox = jest.fn();
+        instance.refs = {textbox: {blur: jest.fn(), focus: jest.fn()}};
+
+        const commentMsgKey = {
+            preventDefault: jest.fn(),
+            ctrlKey: true,
+            key: Constants.KeyCodes.ENTER[0],
+            keyCode: Constants.KeyCodes.ENTER[1],
+        };
+        instance.handleKeyDown(commentMsgKey);
+        expect(instance.commentMsgKeyPress).toHaveBeenCalledTimes(1);
+
+        const upKey = {
+            preventDefault: jest.fn(),
+            ctrlKey: true,
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+        };
+        instance.handleKeyDown(upKey);
+        expect(upKey.preventDefault).toHaveBeenCalledTimes(1);
+        expect(onMoveHistoryIndexBack).toHaveBeenCalledTimes(1);
+
+        const downKey = {
+            preventDefault: jest.fn(),
+            ctrlKey: true,
+            key: Constants.KeyCodes.DOWN[0],
+            keyCode: Constants.KeyCodes.DOWN[1],
+        };
+        instance.handleKeyDown(downKey);
+        expect(downKey.preventDefault).toHaveBeenCalledTimes(1);
+        expect(onMoveHistoryIndexForward).toHaveBeenCalledTimes(1);
+
+        wrapper.setState({draft: {message: '', fileInfos: [], uploadsInProgress: []}});
+        const upKeyForEdit = {
+            preventDefault: jest.fn(),
+            ctrlKey: false,
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+        };
+        instance.handleKeyDown(upKeyForEdit);
+        expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(1);
+        expect(onEditLatestPost).toHaveBeenCalledTimes(1);
+        expect(instance.refs.textbox.blur).toHaveBeenCalledTimes(1);
+
+        instance.handleKeyDown(upKeyForEdit);
+        expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(2);
+        expect(onEditLatestPost).toHaveBeenCalledTimes(2);
+        expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
+        expect(instance.focusTextbox).toHaveBeenCalledWith(true);
     });
 });
