@@ -12,6 +12,7 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {showEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {
@@ -40,6 +41,7 @@ function mapStateToProps(state, ownProps) {
     const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enableGifPicker = config.EnableGifPicker === 'true';
+    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
 
     return {
         draft,
@@ -107,6 +109,7 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexForward,
             onEditLatestPost,
             resetCreatePostRequest,
+            showEmojiPickerForLastMessage,
         }, dispatch);
     };
 }
