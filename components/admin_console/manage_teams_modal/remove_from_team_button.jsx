@@ -5,32 +5,30 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {removeUserFromTeam} from 'actions/team_actions.jsx';
-
 export default class RemoveFromTeamButton extends React.PureComponent {
     static propTypes = {
         onError: PropTypes.func.isRequired,
         onMemberRemove: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
+        removeUserFromTeam: PropTypes.func.isRequired,
     };
 
     constructor(props) {
         super(props);
 
-        this.handleClick = this.handleClick.bind(this);
         this.handleMemberRemove = this.handleMemberRemove.bind(this);
     }
 
-    handleClick(e) {
+    handleClick = async (e) => {
         e.preventDefault();
 
-        removeUserFromTeam(
-            this.props.team.id,
-            this.props.user.id,
-            this.handleMemberRemove,
-            this.props.onError
-        );
+        const {data, error} = await this.props.removeUserFromTeam(this.props.team.id, this.props.user.id);
+        if (data) {
+            this.handleMemberRemove();
+        } else if (error) {
+            this.props.onError(error.message);
+        }
     }
 
     handleMemberRemove() {

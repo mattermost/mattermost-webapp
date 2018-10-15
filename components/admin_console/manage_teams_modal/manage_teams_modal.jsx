@@ -24,6 +24,7 @@ export default class ManageTeamsModal extends React.Component {
             getTeamMembersForUser: PropTypes.func.isRequired,
             getTeamsForUser: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
+            removeUserFromTeam: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -122,6 +123,7 @@ export default class ManageTeamsModal extends React.Component {
                             team={team}
                             onError={this.handleError}
                             onMemberRemove={this.handleMemberRemove}
+                            removeUserFromTeam={this.props.actions.removeUserFromTeam}
                         />
                     );
                 } else {
@@ -134,6 +136,7 @@ export default class ManageTeamsModal extends React.Component {
                             onMemberChange={this.getTeamMembers}
                             onMemberRemove={this.handleMemberRemove}
                             updateTeamMemberSchemeRoles={this.props.actions.updateTeamMemberSchemeRoles}
+                            removeUserFromTeam={this.props.actions.removeUserFromTeam}
                         />
                     );
                 }

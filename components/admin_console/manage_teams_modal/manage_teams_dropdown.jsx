@@ -6,7 +6,6 @@ import React from 'react';
 import {Dropdown, MenuItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {removeUserFromTeam} from 'actions/team_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class ManageTeamsDropdown extends React.Component {
@@ -17,14 +16,13 @@ export default class ManageTeamsDropdown extends React.Component {
         onMemberChange: PropTypes.func.isRequired,
         onMemberRemove: PropTypes.func.isRequired,
         updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
+        removeUserFromTeam: PropTypes.func.isRequired,
     };
 
     constructor(props) {
         super(props);
 
         this.toggleDropdown = this.toggleDropdown.bind(this);
-
-        this.removeFromTeam = this.removeFromTeam.bind(this);
 
         this.handleMemberChange = this.handleMemberChange.bind(this);
         this.handleMemberRemove = this.handleMemberRemove.bind(this);
@@ -58,13 +56,13 @@ export default class ManageTeamsDropdown extends React.Component {
         }
     };
 
-    removeFromTeam() {
-        removeUserFromTeam(
-            this.props.teamMember.team_id,
-            this.props.user.id,
-            this.handleMemberRemove,
-            this.props.onError
-        );
+    removeFromTeam = async () => {
+        const {data, error} = await this.props.removeUserFromTeam(this.props.teamMember.team_id, this.props.user.id);
+        if (data) {
+            this.handleMemberRemove();
+        } else if (error) {
+            this.props.onError(error.message);
+        }
     }
 
     handleMemberChange() {

@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {removeUserFromTeam} from 'actions/team_actions.jsx';
 import {loadMyTeamMembers, updateActive} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -23,6 +22,7 @@ export default class TeamMembersDropdown extends React.Component {
             getTeamStats: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
+            removeUserFromTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -54,17 +54,13 @@ export default class TeamMembersDropdown extends React.Component {
         }
     }
 
-    handleRemoveFromTeam = () => {
-        removeUserFromTeam(
-            this.props.teamMember.team_id,
-            this.props.user.id,
-            () => {
-                this.props.actions.getTeamStats(this.props.teamMember.team_id);
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+    handleRemoveFromTeam = async () => {
+        const {data, error} = await this.props.actions.removeUserFromTeam(this.props.teamMember.team_id, this.props.user.id);
+        if (data) {
+            this.props.actions.getTeamStats(this.props.teamMember.team_id);
+        } else if (error) {
+            this.setState({serverError: error.message});
+        }
     }
 
     handleMakeActive = () => {

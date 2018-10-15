@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -31,37 +30,34 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import LoginMfa from '../login_mfa.jsx';
 class LoginController extends React.Component {
-    static get propTypes() {
-        return {
-            intl: intlShape.isRequired,
+    static propTypes = {
+        intl: intlShape.isRequired,
 
-            location: PropTypes.object.isRequired,
-            isLicensed: PropTypes.bool.isRequired,
-
-            currentUser: PropTypes.object,
-
-            customBrandText: PropTypes.string,
-            customDescriptionText: PropTypes.string,
-            enableCustomBrand: PropTypes.bool.isRequired,
-            enableLdap: PropTypes.bool.isRequired,
-            enableOpenServer: PropTypes.bool.isRequired,
-            enableSaml: PropTypes.bool.isRequired,
-            enableSignInWithEmail: PropTypes.bool.isRequired,
-            enableSignInWithUsername: PropTypes.bool.isRequired,
-            enableSignUpWithEmail: PropTypes.bool.isRequired,
-            enableSignUpWithGitLab: PropTypes.bool.isRequired,
-            enableSignUpWithGoogle: PropTypes.bool.isRequired,
-            enableSignUpWithOffice365: PropTypes.bool.isRequired,
-            experimentalPrimaryTeam: PropTypes.string,
-            ldapLoginFieldName: PropTypes.string,
-            samlLoginButtonText: PropTypes.string,
-            siteName: PropTypes.string,
-            initializing: PropTypes.bool,
-            actions: PropTypes.shape({
-                checkMfa: PropTypes.func.isRequired,
-                login: PropTypes.func.isRequired,
-            }).isRequired,
-        };
+        location: PropTypes.object.isRequired,
+        isLicensed: PropTypes.bool.isRequired,
+        currentUser: PropTypes.object,
+        customBrandText: PropTypes.string,
+        customDescriptionText: PropTypes.string,
+        enableCustomBrand: PropTypes.bool.isRequired,
+        enableLdap: PropTypes.bool.isRequired,
+        enableOpenServer: PropTypes.bool.isRequired,
+        enableSaml: PropTypes.bool.isRequired,
+        enableSignInWithEmail: PropTypes.bool.isRequired,
+        enableSignInWithUsername: PropTypes.bool.isRequired,
+        enableSignUpWithEmail: PropTypes.bool.isRequired,
+        enableSignUpWithGitLab: PropTypes.bool.isRequired,
+        enableSignUpWithGoogle: PropTypes.bool.isRequired,
+        enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        experimentalPrimaryTeam: PropTypes.string,
+        ldapLoginFieldName: PropTypes.string,
+        samlLoginButtonText: PropTypes.string,
+        siteName: PropTypes.string,
+        initializing: PropTypes.bool,
+        actions: PropTypes.shape({
+            checkMfa: PropTypes.func.isRequired,
+            login: PropTypes.func.isRequired,
+            addUserToTeamFromInvite: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -314,17 +310,13 @@ class LoginController extends React.Component {
             const inviteId = params.get('id') || '';
 
             if (inviteId || inviteToken) {
-                addUserToTeamFromInvite(
-                    inviteToken,
-                    inviteId,
-                    (team) => {
-                        this.finishSignin(team);
-                    },
-                    () => {
-                        // there's not really a good way to deal with this, so just let the user log in like normal
-                        this.finishSignin();
-                    }
-                );
+                const {data: team} = this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
+                if (team) {
+                    this.finishSignin(team);
+                } else {
+                    // there's not really a good way to deal with this, so just let the user log in like normal
+                    this.finishSignin();
+                }
             } else {
                 this.finishSignin();
             }

@@ -7,7 +7,6 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
-import {switchTeams} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -25,7 +24,7 @@ export default class TeamButton extends React.Component {
         e.preventDefault();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
-        switchTeams(this.props.url);
+        this.props.switchTeam(this.props.url);
     }
 
     handleDisabled(e) {
@@ -162,4 +161,5 @@ TeamButton.propTypes = {
     mentions: PropTypes.number,
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
     teamIconUrl: PropTypes.string,
+    switchTeam: PropTypes.func,
 };
