@@ -28,8 +28,15 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {postListScrollChangeToBottom} from 'actions/global_actions.jsx';
-import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {
+    emitUserPostedEvent,
+    postListScrollChangeToBottom,
+} from 'actions/global_actions.jsx';
+import {
+    addReaction,
+    createPost,
+    setEditingPost,
+    showEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
@@ -113,6 +120,7 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
+            showEmojiPickerForLastMessage,
             openModal,
             executeCommand,
             getChannelTimezones,

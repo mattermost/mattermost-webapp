@@ -35,6 +35,7 @@ jest.mock('actions/post_actions.jsx', () => ({
             process.nextTick(() => resolve());
         });
     }),
+    showEmojiPickerForLastMessage: jest.fn(),
 }));
 
 const KeyCodes = Constants.KeyCodes;
@@ -80,6 +81,7 @@ const actionsProp = {
         return {data: true};
     },
     getChannelTimezones: emptyFunction,
+    showEmojiPickerForLastMessage: emptyFunction,
 };
 
 function createPost({

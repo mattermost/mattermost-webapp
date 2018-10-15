@@ -267,6 +267,18 @@ export function hideEditPostModal() {
     };
 }
 
+export function showEmojiPickerForLastMessage() {
+    return {
+        type: ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST,
+    };
+}
+
+export function hideEmojiPickerForLastMessage() {
+    return {
+        type: ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST,
+    };
+}
+
 export function deleteAndRemovePost(post) {
     return async (dispatch, getState) => {
         const {currentUserId} = getState().entities.users;

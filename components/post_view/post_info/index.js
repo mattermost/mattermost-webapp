@@ -9,7 +9,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction, hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
+import {getIsRhsOpen} from 'selectors/rhs.jsx';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -21,6 +22,8 @@ function mapStateToProps(state, ownProps) {
     const channelIsArchived = channel ? channel.delete_at !== 0 : null;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
+    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
+    const isRhsOpen = getIsRhsOpen(state);
 
     return {
         teamId,
@@ -28,6 +31,8 @@ function mapStateToProps(state, ownProps) {
         isMobile: state.views.channel.mobileView,
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+        showEmojiPicker,
+        isRhsOpen,
     };
 }
 
@@ -36,6 +41,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             removePost,
             addReaction,
+            hideEmojiPickerForLastMessage,
         }, dispatch),
     };
 }

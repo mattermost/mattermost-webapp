@@ -132,6 +132,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
+    SHOW_LAST_MESSAGES_EMOJI_LIST: null,
+    HIDE_LAST_MESSAGES_EMOJI_LIST: null,
 
     BROWSER_CHANGE_FOCUS: null,
 

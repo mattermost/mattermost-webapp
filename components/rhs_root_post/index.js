@@ -10,10 +10,11 @@ import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/u
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction, hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 
 import {Preferences, UserStatuses} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {getIsRhsOpen} from 'selectors/rhs.jsx';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -23,6 +24,8 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = getChannel(state, ownProps.post.channel_id) || {};
+    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
+    const isRhsOpen = getIsRhsOpen(state);
 
     return {
         enableEmojiPicker,
@@ -38,6 +41,8 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, ownProps.post.user_id) || UserStatuses.OFFLINE,
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        showEmojiPicker,
+        isRhsOpen,
     };
 }
 
@@ -45,6 +50,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addReaction,
+            hideEmojiPickerForLastMessage,
         }, dispatch),
     };
 }

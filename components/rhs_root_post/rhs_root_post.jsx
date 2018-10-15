@@ -47,6 +47,7 @@ export default class RhsRootPost extends React.Component {
         channelDisplayName: PropTypes.string,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
+            hideEmojiPickerForLastMessage: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -62,6 +63,13 @@ export default class RhsRootPost extends React.Component {
             testStateObj: true,
             dropdownOpened: false,
         };
+    }
+
+    UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
+        if (props.isRhsOpen && !this.state.showEmojiPicker && props.showEmojiPicker) {
+            this.toggleEmojiPicker();
+            this.props.actions.hideEmojiPickerForLastMessage();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {

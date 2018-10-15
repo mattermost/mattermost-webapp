@@ -131,6 +131,10 @@ const allShortcuts = defineMessages({
         id: t('shortcuts.msgs.reply'),
         defaultMessage: 'Reply to last message in channel:\tShift|Up',
     },
+    msgReaction: {
+        id: t('shortcuts.msg.reaction'),
+        defaultMessage: 'React to last message in channel or thread: \t⌘ + Shift + \\',
+    },
     msgReprintPrev: {
         default: {
             id: t('shortcuts.msgs.reprint_prev'),
@@ -339,6 +343,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
+                                            {renderShortcut(formatMessage(shortcuts.msgReaction))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
                                         </div>
