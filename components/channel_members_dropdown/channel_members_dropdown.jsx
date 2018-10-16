@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {removeUserFromChannel} from 'actions/channel_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -13,7 +12,7 @@ export default class ChannelMembersDropdown extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
-        currentUser: PropTypes.object.isRequired,
+        currentUserId: PropTypes.string.isRequired,
         teamMember: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,
@@ -22,8 +21,9 @@ export default class ChannelMembersDropdown extends React.Component {
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired,
             updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
+            removeChannelMember: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -41,22 +41,22 @@ export default class ChannelMembersDropdown extends React.Component {
             return;
         }
 
+        const {actions, channel, user} = this.props;
         this.setState({removing: true});
 
-        removeUserFromChannel(
-            this.props.channel.id,
-            this.props.user.id,
-            () => {
-                this.props.actions.getChannelStats(this.props.channel.id);
-            },
-            (err) => {
+        actions.removeChannelMember(channel.id, user.id).then((result) => {
+            if (result.error) {
                 this.setState({
-                    serverError: err.message,
+                    serverError: result.error.message,
                     removing: false,
                 });
+                return;
             }
-        );
-    }
+
+            this.setState({removing: false});
+            actions.getChannelStats(channel.id);
+        });
+    };
 
     handleMakeChannelMember = async () => {
         const {error} = await this.props.actions.updateChannelMemberSchemeRoles(this.props.channel.id, this.props.user.id, true, false);
@@ -65,7 +65,7 @@ export default class ChannelMembersDropdown extends React.Component {
         } else {
             this.props.actions.getChannelStats(this.props.channel.id);
         }
-    }
+    };
 
     handleMakeChannelAdmin = async () => {
         const {error} = await this.props.actions.updateChannelMemberSchemeRoles(this.props.channel.id, this.props.user.id, true, true);
@@ -74,7 +74,7 @@ export default class ChannelMembersDropdown extends React.Component {
         } else {
             this.props.actions.getChannelStats(this.props.channel.id);
         }
-    }
+    };
 
     render() {
         const supportsChannelAdmin = this.props.isLicensed;
@@ -89,7 +89,7 @@ export default class ChannelMembersDropdown extends React.Component {
             );
         }
 
-        if (this.props.user.id === this.props.currentUser.id) {
+        if (this.props.user.id === this.props.currentUserId) {
             return null;
         }
 
