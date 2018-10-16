@@ -16,12 +16,6 @@ jest.mock('actions/webrtc_actions', () => ({
     initWebrtc: jest.fn(),
 }));
 
-jest.mock('stores/webrtc_store', () => ({
-    addBusyListener: jest.fn(),
-    removeBusyListener: jest.fn(),
-    isBusy: jest.fn().mockReturnValue(true),
-}));
-
 describe('components/ChannelHeaderDropdown/MenuItem.Webrtc', () => {
     const baseProps = {
         channel: {
@@ -30,6 +24,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.Webrtc', () => {
         teammateId: 'user_id',
         teammateStatus: General.ONLINE,
         isWebrtcEnabled: true,
+        isWebrtcBusy: false,
         actions: {
             closeRightHandSide: jest.fn(),
         },

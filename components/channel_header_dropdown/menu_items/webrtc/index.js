@@ -7,12 +7,17 @@ import {createSelector} from 'reselect';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {closeRightHandSide} from 'actions/views/rhs';
+import {getIsBusy} from 'selectors/webrtc';
 
 import Webrtc from './webrtc';
 
 const mapStateToProps = createSelector(
     getConfig,
-    (config) => ({isWebrtcEnabled: config.EnableWebrtc === 'true'}),
+    getIsBusy,
+    (config) => ({
+        isWebrtcEnabled: config.EnableWebrtc === 'true',
+        isWebrtcBusy: getIsBusy,
+    }),
 );
 
 const mapDispatchToProps = (dispatch) => ({

@@ -20,10 +20,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {
-    getCurrentTeamUrl,
-    getCurrentTeamId,
-} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getStatusForUserId,
@@ -35,7 +32,8 @@ import {
     isChannelMuted,
 } from 'mattermost-redux/utils/channel_utils';
 
-import {getLastViewedChannelName} from 'selectors/local_storage';
+import {goToLastViewedChannel} from 'actions/views/channel';
+import {getPenultimateViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants.jsx';
 import {
     showFlaggedPosts,
@@ -45,6 +43,7 @@ import {
     updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
+import {getIsBusy} from 'selectors/webrtc';
 
 import ChannelHeader from './channel_header.jsx';
 
@@ -71,14 +70,13 @@ const mapStateToProps = (state) => {
 
     const config = getConfig(state);
 
-    let lastViewedChannelName = getLastViewedChannelName(state);
-    if (!lastViewedChannelName || (channel && lastViewedChannelName === channel.name)) {
-        lastViewedChannelName = Constants.DEFAULT_CHANNEL;
+    let penultimateViewedChannelName = getPenultimateViewedChannelName(state);
+    if (!penultimateViewedChannelName) {
+        penultimateViewedChannelName = Constants.DEFAULT_CHANNEL;
     }
 
     return {
         teamId: getCurrentTeamId(state),
-        teamUrl: getCurrentTeamUrl(state),
         channel,
         channelMember: getMyCurrentChannelMembership(state),
         currentUser: user,
@@ -88,7 +86,8 @@ const mapStateToProps = (state) => {
         isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
         isMuted: isCurrentChannelMuted(state),
-        lastViewedChannelName,
+        penultimateViewedChannelName,
+        isWebrtcBusy: getIsBusy(state),
     };
 };
 
@@ -103,6 +102,7 @@ const mapDispatchToProps = (dispatch) => ({
         updateRhsState,
         getCustomEmojisInText,
         updateChannelNotifyProps,
+        goToLastViewedChannel,
     }, dispatch),
 });
 

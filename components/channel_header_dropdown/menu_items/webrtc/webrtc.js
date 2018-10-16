@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import General from 'mattermost-redux/constants/general';
 
 import * as WebrtcActions from 'actions/webrtc_actions';
-import WebrtcStore from 'stores/webrtc_store';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -31,10 +30,16 @@ export default class Webrtc extends React.PureComponent {
         teammateStatus: PropTypes.string.isRequired,
 
         /**
-         * Boolean whether the Webrtc is enabled
+         * Boolean whether the WebRTC is enabled
          * from redux store
          */
         isWebrtcEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * Boolean whether the WebRTC status is busy
+         * from redux store
+         */
+        isWebrtcBusy: PropTypes.bool.isRequired,
 
         /**
          * Object with action creators
@@ -44,28 +49,8 @@ export default class Webrtc extends React.PureComponent {
         }).isRequired,
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isBusy: WebrtcStore.isBusy(),
-        };
-    }
-
-    componentDidMount() {
-        WebrtcStore.addBusyListener(this.onBusy);
-    }
-
-    componentWillUnmount() {
-        WebrtcStore.removeBusyListener(this.onBusy);
-    }
-
-    onBusy = (isBusy) => {
-        this.setState({isBusy});
-    }
-
     isContactAvailable = () => {
-        return !this.state.isBusy || this.props.teammateStatus === General.ONLINE;
+        return !this.props.isWebrtcBusy || this.props.teammateStatus === General.ONLINE;
     }
 
     initWebrtc = () => {

@@ -11,7 +11,6 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import 'bootstrap';
 
 import * as WebrtcActions from 'actions/webrtc_actions';
-import WebrtcStore from 'stores/webrtc_store';
 
 import Markdown from 'components/markdown';
 import {
@@ -21,7 +20,6 @@ import {
     UserStatuses,
 } from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {browserHistory} from 'utils/browser_history';
 import PopoverListMembers from 'components/popover_list_members';
 import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon';
@@ -45,7 +43,6 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 export default class ChannelHeader extends React.PureComponent {
     static propTypes = {
         teamId: PropTypes.string.isRequired,
-        teamUrl: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         channel: PropTypes.object,
         channelMember: PropTypes.object,
@@ -58,8 +55,9 @@ export default class ChannelHeader extends React.PureComponent {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
-        lastViewedChannelName: PropTypes.string.isRequired,
+        penultimateViewedChannelName: PropTypes.string.isRequired,
         enableWebrtc: PropTypes.bool.isRequired,
+        isWebrtcBusy: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -84,8 +82,6 @@ export default class ChannelHeader extends React.PureComponent {
         const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
             showSearchBar,
-            showEditChannelHeaderModal: false,
-            isBusy: WebrtcStore.isBusy(),
         };
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
@@ -119,17 +115,8 @@ export default class ChannelHeader extends React.PureComponent {
         this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
     };
 
-    onWebrtcChange = () => {
-        this.setState({isBusy: WebrtcStore.isBusy()});
-    };
-
-    onBusy = (isBusy) => {
-        this.setState({isBusy});
-    };
-
     handleClose = () => {
-        const {teamUrl, lastViewedChannelName} = this.props;
-        browserHistory.push(`${teamUrl}/channels/${lastViewedChannelName}`);
+        this.props.actions.goToLastViewedChannel();
     };
 
     toggleFavorite = () => {
