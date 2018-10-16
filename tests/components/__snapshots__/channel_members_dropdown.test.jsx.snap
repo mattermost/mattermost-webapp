@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/channel_invite_modal should match snapshot for channel_invite_modal 1`] = `
+exports[`components/channel_members_dropdown should match snapshot for channel_members_dropdown 1`] = `
 <button
   className="btn btn-danger btn-message"
   disabled={false}
