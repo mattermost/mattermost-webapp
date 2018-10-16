@@ -4,25 +4,12 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
-import {
-    getMyChannelMember,
-    markChannelAsRead,
-    markChannelAsUnread,
-    markChannelAsViewed,
-} from 'mattermost-redux/actions/channels';
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getMyChannelMember} from 'mattermost-redux/actions/channels';
+import {getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {
-    comparePosts,
-    isFromWebhook,
-    isSystemMessage,
-    shouldIgnorePost,
-} from 'mattermost-redux/utils/post_utils';
+import {comparePosts} from 'mattermost-redux/utils/post_utils';
 
-import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -40,6 +27,8 @@ import {
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
+import {completePostReceive} from './post_utils';
+
 const dispatch = store.dispatch;
 const getState = store.getState;
 
@@ -50,10 +39,10 @@ export function handleNewPost(post, msg) {
             websocketMessageProps = msg.data;
         }
 
-        if (getMyChannelMemberships(doGetState())[post.channel_id]) {
+        if (getMyChannelMemberSelector(doGetState(), post.channel_id)) {
             doDispatch(completePostReceive(post, websocketMessageProps));
         } else {
-            getMyChannelMember(post.channel_id)(dispatch, getState).then(() => dispatch(completePostReceive(post, websocketMessageProps)));
+            doDispatch(getMyChannelMember(post.channel_id)).then(() => doDispatch(completePostReceive(post, websocketMessageProps)));
         }
 
         if (msg && msg.data) {
@@ -62,88 +51,6 @@ export function handleNewPost(post, msg) {
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
                 loadNewGMIfNeeded(post.channel_id);
             }
-        }
-    };
-}
-
-export function completePostReceive(post, websocketMessageProps) {
-    return async (doDispatch, doGetState) => {
-        const state = doGetState();
-
-        const rootPost = PostSelectors.getPost(state, post.root_id);
-        if (post.root_id && !rootPost) {
-            const {data: posts} = await doDispatch(PostActions.getPostThread(post.root_id));
-            if (posts) {
-                doDispatch(lastPostActions(post, websocketMessageProps));
-            }
-
-            return;
-        }
-
-        doDispatch(lastPostActions(post, websocketMessageProps));
-    };
-}
-
-export function lastPostActions(post, websocketMessageProps) {
-    return (doDispatch, doGetState) => {
-        const {currentChannelId} = getCurrentChannelId(doGetState());
-
-        if (post.channel_id === currentChannelId) {
-            doDispatch({
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: post.channel_id,
-                amount: 1,
-            });
-        }
-
-        // Need manual dispatch to remove pending post
-        doDispatch({
-            type: PostTypes.RECEIVED_POSTS,
-            data: {
-                order: [],
-                posts: {
-                    [post.id]: post,
-                },
-            },
-            channelId: post.channel_id,
-        });
-
-        // Still needed to update unreads
-        doDispatch(setChannelReadAndView(post, websocketMessageProps));
-
-        doDispatch(sendDesktopNotification(post, websocketMessageProps));
-    };
-}
-
-export function setChannelReadAndView(post, websocketMessageProps) {
-    return (doDispatch, doGetState) => {
-        const state = doGetState();
-        if (shouldIgnorePost(post)) {
-            return;
-        }
-
-        let markAsRead = false;
-        let markAsReadOnServer = false;
-        if (
-            post.user_id === getCurrentUserId(state) &&
-            !isSystemMessage(post) &&
-            !isFromWebhook(post)
-        ) {
-            markAsRead = true;
-            markAsReadOnServer = false;
-        } else if (
-            post.channel_id === getCurrentChannelId(state) &&
-            window.isActive
-        ) {
-            markAsRead = true;
-            markAsReadOnServer = true;
-        }
-
-        if (markAsRead) {
-            doDispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
-            doDispatch(markChannelAsViewed(post.channel_id));
-        } else {
-            doDispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions));
         }
     };
 }

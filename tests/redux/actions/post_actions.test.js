@@ -11,25 +11,6 @@ import {Constants, ActionTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
-jest.mock('mattermost-redux/actions/channels', () => ({
-    markChannelAsUnread: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_UNREAD', args}),
-    markChannelAsRead: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_READ', args}),
-    markChannelAsViewed: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_VIEWED', args}),
-}));
-
-const EMPTY_ACTION = [];
-const MARK_CHANNEL_AS_UNREAD = {
-    args: ['team_id', 'current_channel_id', ['current_user_id']],
-    type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
-};
-const MARK_CHANNEL_AS_READ = {
-    args: ['current_channel_id', null, false],
-    type: 'MOCK_MARK_CHANNEL_AS_READ',
-};
-const MARK_CHANNEL_AS_VIEWED = {
-    args: ['current_channel_id'],
-    type: 'MOCK_MARK_CHANNEL_AS_VIEWED',
-};
 const RECEIVED_POSTS = {
     channelId: 'current_channel_id',
     data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: ''}}},
@@ -102,43 +83,6 @@ describe('Actions.Posts', () => {
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg));
         expect(testStore.getActions()).toEqual([getReceivedPosts(newPost)]);
-    });
-
-    test('completePostReceive', async () => {
-        const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
-        const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
-
-        await testStore.dispatch(Actions.completePostReceive(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([getReceivedPosts(newPost)]);
-    });
-
-    test('lastPostActions', async () => {
-        const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
-        const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
-
-        await testStore.dispatch(Actions.lastPostActions(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([getReceivedPosts(newPost)]);
-    });
-
-    test('setChannelReadAndView', async () => {
-        let testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
-        const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
-
-        await testStore.dispatch(Actions.setChannelReadAndView(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual(EMPTY_ACTION);
-
-        testStore = await mockStore(initialState);
-        newPost.type = '';
-        await testStore.dispatch(Actions.setChannelReadAndView(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_UNREAD]);
-
-        testStore = await mockStore(initialState);
-        newPost.user_id = 'current_user_id';
-        await testStore.dispatch(Actions.setChannelReadAndView(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_READ, MARK_CHANNEL_AS_VIEWED]);
     });
 
     test('setEditingPost', async () => {
