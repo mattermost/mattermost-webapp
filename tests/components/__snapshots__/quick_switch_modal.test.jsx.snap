@@ -24,7 +24,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   }
   onHide={[Function]}
   renderBackdrop={[Function]}
-  restoreFocus={true}
+  restoreFocus={false}
   show={true}
 >
   <ModalHeader

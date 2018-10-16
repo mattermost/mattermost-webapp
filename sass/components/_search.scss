@@ -33,15 +33,25 @@
 }
 
 .sidebar__search-clear {
+    @include single-transition(all, .3s, ease-out);
     @include opacity(.5);
-    color: $dark-gray;
     cursor: pointer;
     margin-right: 20px;
     position: absolute;
     right: 0;
-    top: 12px;
+    top: 0;
     visibility: hidden;
-    width: 40px;
+    width: 22px;
+    margin: 0;
+    font-size: 20px;
+
+    &:hover {
+        @include opacity(1);
+    }
+
+    &.visible {
+        visibility: visible;
+    }
 }
 
 .search-bar__container {

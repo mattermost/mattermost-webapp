@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover} from 'react-bootstrap';
+import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -223,6 +224,15 @@ export default class SearchBar extends React.Component {
             searchFormClass += ' focused';
         }
 
+        const searchClearTooltip = (
+            <Tooltip id='searchClearTooltip'>
+                <FormattedMessage
+                    id='search_bar.clear'
+                    defaultMessage='Clear search query'
+                />
+            </Tooltip>
+        );
+
         return (
             <div className='sidebar-right__table'>
                 <div className='sidebar-collapse__container'>
@@ -274,12 +284,19 @@ export default class SearchBar extends React.Component {
                             className={clearClass}
                             onClick={this.handleClear}
                         >
-                            <span
-                                className='sidebar__search-clear-x'
-                                aria-hidden='true'
+                            <OverlayTrigger
+                                trigger={['hover', 'focus']}
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                placement='bottom'
+                                overlay={searchClearTooltip}
                             >
-                                {'×'}
-                            </span>
+                                <span
+                                    className='sidebar__search-clear-x'
+                                    aria-hidden='true'
+                                >
+                                    {'×'}
+                                </span>
+                            </OverlayTrigger>
                         </div>
                         {isSearchingTerm}
                         {this.renderHintPopover()}

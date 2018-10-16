@@ -104,7 +104,9 @@ class LoginController extends React.Component {
         if (extra === Constants.SIGNIN_VERIFIED && email) {
             this.refs.password.focus();
         }
-        if (LocalStorageStore.getWasLoggedIn()) {
+
+        // Determine if the user was unexpectedly logged out.
+        if (LocalStorageStore.getWasLoggedIn() && extra !== Constants.SIGNIN_CHANGE) {
             // Although the authority remains the local sessionExpired bit on the state, set this
             // extra field in the querystring to signal the desktop app. And although eslint
             // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
