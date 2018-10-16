@@ -121,7 +121,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                     "manage_public_channel_members",
                   ]
                 }
-                teamId=""
               >
                 <li
                   key="view_members"
@@ -420,7 +419,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                     "manage_public_channel_members",
                   ]
                 }
-                teamId=""
               >
                 <li
                   key="view_members"
@@ -762,7 +760,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                     "manage_public_channel_members",
                   ]
                 }
-                teamId=""
               >
                 <li
                   key="view_members"
@@ -1065,7 +1062,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
                     "manage_public_channel_members",
                   ]
                 }
-                teamId=""
               >
                 <li
                   key="view_members"

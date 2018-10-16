@@ -260,7 +260,6 @@ class ChannelStoreClass extends EventEmitter {
             ChannelUtils = require('utils/channel_utils.jsx'); //eslint-disable-line global-require
         }
 
-        channels = channels.sort(ChannelUtils.sortChannelsByDisplayName);
         this.storeChannels(channels);
     }
 

@@ -21,11 +21,13 @@ describe('components/ChannelHeader', () => {
             openModal: jest.fn(),
             getCustomEmojisInText: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
+            goToLastViewedChannel: jest.fn(),
         },
         channel: {},
         channelMember: {},
         currentUser: {},
         enableWebrtc: false,
+        isWebrtcBusy: false,
         lastViewedChannelName: '',
         penultimateViewedChannelName: '',
     };
