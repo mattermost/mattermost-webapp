@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
 import {haveITeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -40,6 +40,9 @@ function mapStateToProps(state) {
         }
     }
 
+    const joinableTeams = getJoinableTeamIds(state);
+    const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
+
     return {
         isLicensed,
         appDownloadLink,
@@ -58,6 +61,7 @@ function mapStateToProps(state) {
         restrictTeamInvite,
         pluginMenuItems: state.plugins.components.MainMenu,
         canCreateCustomEmoji,
+        moreTeamsToJoin,
     };
 }
 

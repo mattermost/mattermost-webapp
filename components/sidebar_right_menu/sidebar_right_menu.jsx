@@ -9,13 +9,8 @@ import {Permissions} from 'mattermost-redux/constants';
 import classNames from 'classnames';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
 import {
     Constants,
-    WebrtcActionTypes,
 } from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -33,9 +28,10 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import LeaveTeamModal from 'components/leave_team_modal';
 import {ModalIdentifiers} from 'utils/constants';
 
-export default class SidebarRightMenu extends React.Component {
+export default class SidebarRightMenu extends React.PureComponent {
     static propTypes = {
         teamId: PropTypes.string,
+        currentUserId: PropTypes.string.isRequired,
         isOpen: PropTypes.bool.isRequired,
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
@@ -47,6 +43,7 @@ export default class SidebarRightMenu extends React.Component {
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
         siteName: PropTypes.string,
+        moreTeamsToJoin: PropTypes.bool.isRequired,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
@@ -65,28 +62,10 @@ export default class SidebarRightMenu extends React.Component {
         super(props);
 
         this.state = {
-            ...this.getStateFromStores(),
             showAboutModal: false,
             showAddUsersToTeamModal: false,
             showTeamSettingsModal: false,
         };
-    }
-
-    componentDidMount() {
-        TeamStore.addChangeListener(this.onChange);
-        PreferenceStore.addChangeListener(this.onChange);
-    }
-
-    componentWillUnmount() {
-        TeamStore.removeChangeListener(this.onChange);
-        PreferenceStore.removeChangeListener(this.onChange);
-    }
-
-    handleClick = (e) => {
-        if (WebrtcStore.isBusy()) {
-            WebrtcStore.emitChanged({action: WebrtcActionTypes.IN_PROGRESS});
-            e.preventDefault();
-        }
     }
 
     handleAboutModal = () => {
@@ -131,18 +110,6 @@ export default class SidebarRightMenu extends React.Component {
         this.props.actions.closeRhsMenu();
     }
 
-    getStateFromStores = () => {
-        return {
-            currentUser: UserStore.getCurrentUser(),
-            teamMembers: TeamStore.getMyTeamMembers(),
-            teamListings: TeamStore.getTeamListings(),
-        };
-    }
-
-    onChange = () => {
-        this.setState(this.getStateFromStores());
-    }
-
     searchMentions = (e) => {
         e.preventDefault();
 
@@ -163,7 +130,6 @@ export default class SidebarRightMenu extends React.Component {
     }
 
     render() {
-        const currentUser = UserStore.getCurrentUser();
         let teamLink;
         let inviteLink;
         let addUserToTeamLink;
@@ -172,7 +138,7 @@ export default class SidebarRightMenu extends React.Component {
         let joinAnotherTeamLink;
         let createTeam = null;
 
-        if (currentUser != null) {
+        if (this.props.currentUserId != null) {
             inviteLink = (
                 <TeamPermissionGate
                     teamId={this.props.teamId}
@@ -246,20 +212,7 @@ export default class SidebarRightMenu extends React.Component {
                 );
             }
 
-            let moreTeams = false;
-            const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
-                result[item.team_id] = true;
-                return result;
-            }, {});
-
-            for (const id in this.state.teamListings) {
-                if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
-                    moreTeams = true;
-                    break;
-                }
-            }
-
-            if (moreTeams && !this.props.experimentalPrimaryTeam) {
+            if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
                 joinAnotherTeamLink = (
                     <li key='joinTeam_li'>
                         <Link to='/select_team'>
