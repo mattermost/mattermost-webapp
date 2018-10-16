@@ -70,12 +70,6 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
           options={
             Object {
               "markdown": false,
-              "mentionHighlight": false,
-              "mentionKeys": Array [
-                Object {
-                  "key": "@user",
-                },
-              ],
             }
           }
         />,

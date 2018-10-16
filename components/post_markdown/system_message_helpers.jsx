@@ -19,8 +19,6 @@ function renderUsername(value) {
     const username = (value[0] === '@') ? value : `@${value}`;
 
     const options = {
-        mentionKeys: [{key: username}],
-        mentionHighlight: false,
         markdown: false,
     };
 
