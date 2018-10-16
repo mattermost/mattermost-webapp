@@ -171,6 +171,7 @@ describe('components/navbar/Navbar', () => {
             preventDefault: jest.fn(),
         };
 
+        wrapper.setState(validState);
         wrapper.instance().toggleFavorite(event);
         expect(wrapper.instance().props.actions.markFavorite).toBeCalled();
 

@@ -12,7 +12,6 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
