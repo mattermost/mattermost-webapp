@@ -36,12 +36,7 @@ export default class RemovedFromChannelModal extends React.Component {
             BrowserStore.removeItem('channel-removed-state');
         }
 
-        setTimeout(
-            () => {
-                this.props.actions.goToLastViewedChannel();
-            },
-            1
-        );
+        setTimeout(this.props.actions.goToLastViewedChannel, 1);
 
         this.setState(newState);
     }

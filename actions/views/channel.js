@@ -21,6 +21,6 @@ export function checkAndSetMobileView() {
 export function goToLastViewedChannel() {
     return async (dispatch, getState) => {
         const lastViewedChannel = getChannelByName(getState(), getLastViewedChannelName(getState()));
-        selectChannel(lastViewedChannel.id)(dispatch, getState);
+        dispatch(selectChannel(lastViewedChannel.id));
     };
 }

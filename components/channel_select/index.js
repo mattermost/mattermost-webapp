@@ -2,17 +2,25 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {createSelector} from 'reselect';
 
 import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import ChannelSelect from './channel_select.jsx';
 
+const getMyChannelsSorted = createSelector(
+    getMyChannels,
+    getCurrentUserLocale,
+    (channels, locale) => {
+        return [...channels].sort(sortChannelsByTypeAndDisplayName.bind(null, locale));
+    }
+);
+
 function mapStateToProps(state) {
-    const currentUser = getCurrentUser(state);
     return {
-        channels: getMyChannels(state).sort(sortChannelsByTypeAndDisplayName.bind(null, currentUser.locale)),
+        channels: getMyChannelsSorted(state),
     };
 }
 

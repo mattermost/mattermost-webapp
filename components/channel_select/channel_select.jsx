@@ -38,10 +38,7 @@ export default class ChannelSelect extends React.PureComponent {
         ];
 
         this.props.channels.forEach((channel) => {
-            let channelName = channel.display_name;
-            if (!channelName || channelName.length === 0) {
-                channelName = channel.name;
-            }
+            const channelName = channel.display_name || channel.name;
             if (channel.type === Constants.OPEN_CHANNEL && this.props.selectOpen) {
                 options.push(
                     <option
