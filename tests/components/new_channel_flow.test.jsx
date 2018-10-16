@@ -11,13 +11,14 @@ import NewChannelFlow, {
     SHOW_NEW_CHANNEL,
     SHOW_EDIT_URL,
     SHOW_EDIT_URL_THEN_COMPLETE,
-} from 'components/new_channel_flow';
+} from 'components/new_channel_flow/new_channel_flow.jsx';
 
 describe('components/NewChannelFlow', () => {
     const baseProps = {
         show: true,
         channelType: Constants.OPEN_CHANNEL,
         onModalDismissed: jest.fn(),
+        currentTeamId: 'garbage',
     };
 
     actions.createChannel = jest.fn((channel, success) => {

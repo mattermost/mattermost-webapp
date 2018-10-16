@@ -27,7 +27,7 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import Pluggable from 'plugins/pluggable';
 
-import NewChannelFlow from '../new_channel_flow.jsx';
+import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
 import SidebarHeader from './header';

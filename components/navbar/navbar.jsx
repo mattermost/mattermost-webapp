@@ -21,7 +21,6 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {
     ActionTypes,
     Constants,
@@ -39,7 +38,7 @@ import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
-import NotifyCounts from 'components/notify_counts.jsx';
+import NotifyCounts from 'components/notify_counts';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
@@ -60,6 +59,7 @@ export default class Navbar extends React.Component {
         isPinnedPosts: PropTypes.bool,
         enableWebrtc: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool,
+        isFavoriteChannel: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             updateRhsState: PropTypes.func,
             showPinnedPosts: PropTypes.func,
@@ -69,6 +69,7 @@ export default class Navbar extends React.Component {
             toggleRhsMenu: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
+            leaveChannel: PropTypes.func.isRequired,
         }),
     };
 
@@ -134,7 +135,6 @@ export default class Navbar extends React.Component {
             users: [],
             userCount: ChannelStore.getCurrentStats().member_count,
             currentUser: UserStore.getCurrentUser(),
-            isFavorite: channel && ChannelUtils.isFavoriteChannel(channel),
             contactId,
             isBusy: WebrtcStore.isBusy(),
         };
@@ -148,7 +148,7 @@ export default class Navbar extends React.Component {
         if (this.state.channel.type === Constants.PRIVATE_CHANNEL) {
             GlobalActions.showLeavePrivateChannelModal(this.state.channel);
         } else {
-            ChannelActions.leaveChannel(this.state.channel.id);
+            this.props.actions.leaveChannel(this.state.channel.id);
         }
     }
 
@@ -265,7 +265,7 @@ export default class Navbar extends React.Component {
     toggleFavorite = (e) => {
         e.preventDefault();
 
-        if (this.state.isFavorite) {
+        if (this.props.isFavoriteChannel) {
             ChannelActions.unmarkFavorite(this.state.channel.id);
         } else {
             ChannelActions.markFavorite(this.state.channel.id);
@@ -683,7 +683,7 @@ export default class Navbar extends React.Component {
                         className='style--none'
                         onClick={this.toggleFavorite}
                     >
-                        {this.state.isFavorite ?
+                        {this.props.isFavoriteChannel ?
                             <FormattedMessage
                                 id='channelHeader.removeFromFavorites'
                                 defaultMessage='Remove from Favorites'

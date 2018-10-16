@@ -25,6 +25,8 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+
 import DraftIcon from 'components/svg/draft_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
@@ -32,14 +34,32 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
-import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;
+
+function getChannelDisplayName(channel) {
+    if (channel.type !== Constants.GM_CHANNEL) {
+        return channel.display_name;
+    }
+
+    const currentUser = UserStore.getCurrentUser();
+
+    if (currentUser) {
+        return channel.display_name.
+            split(',').
+            map((username) => username.trim()).
+            filter((username) => username !== currentUser.username).
+            join(', ');
+    }
+
+    return channel.display_name;
+}
 
 class SwitchChannelSuggestion extends Suggestion {
     static get propTypes() {
@@ -163,10 +183,11 @@ function quickSwitchSorter(wrappedA, wrappedB) {
 
     const aStartsWith = aDisplayName.startsWith(prefix);
     const bStartsWith = bDisplayName.startsWith(prefix);
-    if (aStartsWith && bStartsWith) {
-        return sortChannelsByDisplayName(a, b);
-    } else if (!aStartsWith && !bStartsWith) {
-        return sortChannelsByDisplayName(a, b);
+    if ((aStartsWith && bStartsWith) || (!aStartsWith && !bStartsWith)) {
+        //
+        // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+        //
+        return sortChannelsByTypeAndDisplayName('en', a, b);
     } else if (aStartsWith) {
         return -1;
     }

@@ -6,7 +6,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -352,7 +352,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -698,7 +698,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -1080,7 +1080,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -1459,7 +1459,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -1809,7 +1809,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -2155,7 +2155,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -2505,7 +2505,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
@@ -2851,7 +2851,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType="P"
     onModalDismissed={[Function]}
     show={true}
@@ -3197,7 +3197,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   id="sidebar-left"
   key="sidebar-left"
 >
-  <NewChannelFlow
+  <Connect(NewChannelFlow)
     channelType=""
     onModalDismissed={[Function]}
     show={false}
