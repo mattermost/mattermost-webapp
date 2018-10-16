@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown/channel_members_dropdown.jsx';
 
-describe('components/channel_invite_modal', () => {
+describe('components/channel_members_dropdown', () => {
     const user = {
         id: 'user-1',
     };
@@ -51,7 +51,7 @@ describe('components/channel_invite_modal', () => {
         },
     };
 
-    test('should match snapshot for channel_invite_modal', () => {
+    test('should match snapshot for channel_members_dropdown', () => {
         const wrapper = shallow(
             <ChannelMembersDropdown {...baseProps}/>
         );
