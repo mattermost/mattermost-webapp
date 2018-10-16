@@ -243,7 +243,7 @@ export default class Root extends React.Component {
     }
 
     render() {
-        if (this.state.configLoaded === false) {
+        if (!this.state.configLoaded) {
             return <div/>;
         }
 
