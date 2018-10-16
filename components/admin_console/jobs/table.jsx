@@ -336,7 +336,10 @@ class JobTable extends React.PureComponent {
                     <td className='whitespace--nowrap'>{this.getStatus(job)}</td>
                     <td className='whitespace--nowrap'>{this.getFinishAt(job.status, job.last_activity_at)}</td>
                     <td className='whitespace--nowrap'>{this.getRunLength(job)}</td>
-                    <td colSpan='3'>{this.getExtraInfoText(job)}</td>
+                    <td
+                        colSpan='3'
+                        style={{whiteSpace: 'pre'}}
+                    >{this.getExtraInfoText(job)}</td>
                 </tr>
             );
         });
