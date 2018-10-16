@@ -13,7 +13,6 @@ export default class ChannelMembersDropdown extends React.Component {
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
         currentUserId: PropTypes.string.isRequired,
-        teamMember: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,
         canChangeMemberRoles: PropTypes.bool.isRequired,

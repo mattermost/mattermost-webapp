@@ -35,6 +35,7 @@ describe('components/channel_members_dropdown', () => {
             roles: 'channel_admin',
             scheme_admin: 'system_admin',
         },
+        currentUserId: 'current-user-id',
         isLicensed: true,
         canChangeMemberRoles: false,
         canRemoveMember: true,
