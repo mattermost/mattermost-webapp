@@ -14,6 +14,7 @@ import {
     moveHistoryIndexForward,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
+import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -162,10 +163,13 @@ function makeGetCurrentUsersLatestPost(channelId, rootId) {
                 const post = getPostById(id) || {};
 
                 // don't edit webhook posts, deleted posts, or system messages
-                if (post.user_id !== userId ||
+                if (
+                    post.user_id !== userId ||
                     (post.props && post.props.from_webhook) ||
                     post.state === Constants.POST_DELETED ||
-                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX))) {
+                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX)) ||
+                    isPostPendingOrFailed(post)
+                ) {
                     continue;
                 }
 
@@ -195,10 +199,10 @@ export function makeOnEditLatestPost(channelId, rootId) {
         const lastPost = getCurrentUsersLatestPost(state);
 
         if (!lastPost) {
-            return;
+            return {data: false};
         }
 
-        dispatch(PostActions.setEditingPost(
+        return dispatch(PostActions.setEditingPost(
             lastPost.id,
             getCommentCount(state, {post: lastPost}),
             'reply_textbox',

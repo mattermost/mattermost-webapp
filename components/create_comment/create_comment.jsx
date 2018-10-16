@@ -455,7 +455,11 @@ export default class CreateComment extends React.PureComponent {
             if (this.refs.textbox) {
                 this.refs.textbox.blur();
             }
-            this.props.onEditLatestPost();
+
+            const {data: canEditNow} = this.props.onEditLatestPost();
+            if (!canEditNow) {
+                this.focusTextbox(true);
+            }
         }
 
         if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
