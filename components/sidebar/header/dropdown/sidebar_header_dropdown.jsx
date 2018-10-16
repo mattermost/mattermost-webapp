@@ -10,6 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
+import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import AboutBuildModal from 'components/about_build_modal';
@@ -178,6 +179,20 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         this.setState({
             showTeamMembersModal: false,
         });
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e) => {
+        if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
+            GlobalActions.showAccountSettingsModal();
+        }
     }
 
     renderCustomEmojiLink() {

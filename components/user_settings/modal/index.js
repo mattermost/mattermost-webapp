@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import UserSettingsModal from './user_settings_modal.jsx';
 
@@ -17,6 +18,7 @@ function mapStateToProps(state) {
     const requireEmailVerification = config.RequireEmailVerification === 'true';
 
     return {
+        currentUser: getCurrentUser(state),
         closeUnusedDirectMessages,
         experimentalGroupUnreadChannels,
         sendEmailNotifications,

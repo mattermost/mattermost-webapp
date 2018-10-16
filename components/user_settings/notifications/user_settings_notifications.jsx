@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -16,8 +15,8 @@ import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
 import ManageAutoResponder from './manage_auto_responder.jsx';
 
-function getNotificationsStateFromStores() {
-    const user = UserStore.getCurrentUser();
+function getNotificationsStateFromProps(props) {
+    const user = props.user;
 
     let desktop = NotificationLevels.MENTION;
     let sound = 'true';
@@ -118,10 +117,31 @@ const prevSections = {
 };
 
 export default class NotificationsTab extends React.Component {
+    static propTypes = {
+        user: PropTypes.object,
+        updateSection: PropTypes.func,
+        activeSection: PropTypes.string,
+        prevActiveSection: PropTypes.string,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired,
+        sendEmailNotifications: PropTypes.bool,
+        enableEmailBatching: PropTypes.bool,
+        siteName: PropTypes.string,
+        sendPushNotifications: PropTypes.bool,
+        enableAutoResponder: PropTypes.bool,
+    }
+
+    static defaultProps = {
+        user: null,
+        activeSection: '',
+        prevActiveSection: '',
+        activeTab: '',
+    }
+
     constructor(props) {
         super(props);
 
-        this.state = getNotificationsStateFromStores();
+        this.state = getNotificationsStateFromProps(props);
     }
 
     handleSubmit = (enableEmail = this.state.enableEmail) => {
@@ -197,20 +217,12 @@ export default class NotificationsTab extends React.Component {
     }
 
     updateState = () => {
-        const newState = getNotificationsStateFromStores();
+        const newState = getNotificationsStateFromProps(this.props);
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
         }
 
         this.setState({isSaving: false});
-    }
-
-    componentDidMount() {
-        UserStore.addChangeListener(this.onListenerChange);
-    }
-
-    componentWillUnmount() {
-        UserStore.removeChangeListener(this.onListenerChange);
     }
 
     onListenerChange = () => {
@@ -973,24 +985,3 @@ export default class NotificationsTab extends React.Component {
         );
     }
 }
-
-NotificationsTab.propTypes = {
-    user: PropTypes.object,
-    updateSection: PropTypes.func,
-    activeSection: PropTypes.string,
-    prevActiveSection: PropTypes.string,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-    sendEmailNotifications: PropTypes.bool,
-    enableEmailBatching: PropTypes.bool,
-    siteName: PropTypes.string,
-    sendPushNotifications: PropTypes.bool,
-    enableAutoResponder: PropTypes.bool,
-};
-
-NotificationsTab.defaultProps = {
-    user: null,
-    activeSection: '',
-    prevActiveSection: '',
-    activeTab: '',
-};

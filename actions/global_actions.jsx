@@ -21,6 +21,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
+import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -40,8 +41,9 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
+import UserSettingsModal from 'components/user_settings/modal';
 
-import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -191,10 +193,7 @@ export function emitUserCommentedEvent(post) {
 }
 
 export function showAccountSettingsModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL,
-        value: true,
-    });
+    store.dispatch(openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal}));
 }
 
 export function toggleShortcutsModal() {

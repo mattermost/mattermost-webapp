@@ -7,8 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {savePreferences, updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -21,10 +19,25 @@ import CodeBlockCtrlEnterSection from './code_block_ctrl_enter_section';
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class AdvancedSettingsDisplay extends React.Component {
+    static propTypes = {
+        currentUser: PropTypes.object.isRequired,
+        advancedSettingsCategory: PropTypes.array.isRequired,
+        sendOnCtrlEnter: PropTypes.string.isRequired,
+        formatting: PropTypes.string.isRequired,
+        joinLeave: PropTypes.string.isRequired,
+        updateSection: PropTypes.func,
+        activeSection: PropTypes.string,
+        prevActiveSection: PropTypes.string,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired,
+        enablePreviewFeatures: PropTypes.bool,
+        enableUserDeactivation: PropTypes.bool,
+    }
+
     constructor(props) {
         super(props);
 
-        this.state = this.getStateFromStores();
+        this.state = this.getStateFromProps();
 
         this.prevSections = {
             advancedCtrlSend: 'dummySectionName', // dummy value that should never match any section name
@@ -35,36 +48,24 @@ export default class AdvancedSettingsDisplay extends React.Component {
         };
     }
 
-    getStateFromStores = () => {
-        const advancedSettings = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS);
+    getStateFromProps = () => {
+        const advancedSettings = this.props.advancedSettingsCategory;
         const settings = {
-            send_on_ctrl_enter: PreferenceStore.get(
-                Constants.Preferences.CATEGORY_ADVANCED_SETTINGS,
-                'send_on_ctrl_enter',
-                'false'
-            ),
-            formatting: PreferenceStore.get(
-                Constants.Preferences.CATEGORY_ADVANCED_SETTINGS,
-                'formatting',
-                'true'
-            ),
-            join_leave: PreferenceStore.get(
-                Constants.Preferences.CATEGORY_ADVANCED_SETTINGS,
-                'join_leave',
-                'true'
-            ),
+            send_on_ctrl_enter: this.props.sendOnCtrlEnter,
+            formatting: this.props.formatting,
+            join_leave: this.props.joinLeave,
         };
 
         const preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
         let enabledFeatures = 0;
-        for (const [name, value] of advancedSettings) {
+        for (const as of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
                 const feature = PreReleaseFeatures[key];
 
-                if (name === Constants.FeatureTogglePrefix + feature.label) {
-                    settings[name] = value;
+                if (as.name === Constants.FeatureTogglePrefix + feature.label) {
+                    settings[as.name] = as.value;
 
-                    if (value === 'true') {
+                    if (as.value === 'true') {
                         enabledFeatures += 1;
                     }
                 }
@@ -120,7 +121,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
     handleSubmit = (settings) => {
         const preferences = [];
-        const userId = UserStore.getCurrentId();
+        const userId = this.props.currentUser.id;
 
         // this should be refactored so we can actually be certain about what type everything is
         (Array.isArray(settings) ? settings : [settings]).forEach((setting) => {
@@ -143,7 +144,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
     }
 
     handleDeactivateAccountSubmit = () => {
-        const userId = UserStore.getCurrentId();
+        const userId = this.props.currentUser.id;
 
         this.setState({isSaving: true});
 
@@ -178,7 +179,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
     handleUpdateSection = (section) => {
         if (!section) {
-            this.setState(this.getStateFromStores());
+            this.setState(this.getStateFromProps());
         }
         this.setState({isSaving: false});
         this.props.updateSection(section);
@@ -462,7 +463,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         let deactivateAccountSection = '';
         let makeConfirmationModal = '';
-        const currentUser = UserStore.getCurrentUser();
+        const currentUser = this.props.currentUser;
 
         if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {
             if (this.props.activeSection === 'deactivateAccount') {
@@ -611,13 +612,3 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 }
-
-AdvancedSettingsDisplay.propTypes = {
-    updateSection: PropTypes.func,
-    activeSection: PropTypes.string,
-    prevActiveSection: PropTypes.string,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-    enablePreviewFeatures: PropTypes.bool,
-    enableUserDeactivation: PropTypes.bool,
-};
