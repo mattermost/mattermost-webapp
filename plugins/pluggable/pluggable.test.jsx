@@ -24,21 +24,22 @@ describe('plugins/Pluggable', () => {
     const mockStore = configureStore();
 
     const membersInTeam = {};
-    membersInTeam.someid = {};
-    membersInTeam.someid.someid = {team_id: 'someid', user_id: 'someid', roles: 'team_user'};
+    membersInTeam.someTeamId = {};
+    membersInTeam.someTeamId.someUserId = {team_id: 'someTeamId', user_id: 'someUserId', roles: 'team_user'};
 
     const membersInChannel = {};
-    membersInChannel.someid = {};
-    membersInChannel.someid.someid = {channel_id: 'someid', user_id: 'someid', roles: 'channel_user'};
+    membersInChannel.someChannelId = {};
+    membersInChannel.someChannelId.someUserId = {channel_id: 'someChannelId', user_id: 'someUserId', roles: 'channel_user'};
 
     const store = mockStore({
         entities: {
             channels: {
-                currentChannelId: 'someid',
+                currentChannelId: 'someChannelId',
                 channels: {
-                    someid: {team_id: 'someid', id: 'someid'},
+                    someChannelId: {team_id: 'someTeamId', id: 'someChannelId'},
                 },
                 membersInChannel,
+                myMembers: {},
             },
             general: {
                 license: {IsLicensed: 'false'},
@@ -46,9 +47,14 @@ describe('plugins/Pluggable', () => {
                 },
             },
             teams: {
-                currentTeamId: 'someid',
-                teams: {someid: {id: 'someid', name: 'somename'}},
                 membersInTeam,
+                currentTeamId: 'someTeamId',
+                teams: {
+                    someTeamId: {
+                        id: 'someTeamId',
+                        name: 'someTeamName',
+                    },
+                },
             },
             preferences: {
                 myPreferences: {},
@@ -57,8 +63,12 @@ describe('plugins/Pluggable', () => {
                 posts: {},
             },
             users: {
-                currentUserId: 'someid',
-                users: {someid: {id: 'someid', name: 'somename'}},
+                currentUserId: 'someUserId',
+                users: {someUserId: {id: 'someUserId', name: 'some_user_name'}},
+                profiles: {},
+            },
+            roles: {
+                roles: {},
             },
         },
         plugins: {
@@ -148,7 +158,7 @@ describe('plugins/Pluggable', () => {
                     theme={{}}
                 >
                     <ProfilePopover
-                        user={{id: 'someid', name: 'name'}}
+                        user={{id: 'someUserId', name: 'some_user_name'}}
                         src='src'
                     />
                 </Pluggable>
@@ -165,7 +175,7 @@ describe('plugins/Pluggable', () => {
                     theme={{id: 'theme_id'}}
                 >
                     <ProfilePopover
-                        user={{id: 'someid', name: 'name'}}
+                        user={{id: 'someUserId', name: 'some_user_name'}}
                         src='src'
                     />
                 </Pluggable>
