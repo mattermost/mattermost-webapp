@@ -9,7 +9,9 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {addReaction} from 'mattermost-redux/actions/posts';
 
+import {hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {getIsRhsOpen} from 'selectors/rhs.jsx';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -19,6 +21,8 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = state.entities.channels.channels[ownProps.post.channel_id];
+    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
+    const isRhsOpen = getIsRhsOpen(state);
 
     return {
         enableEmojiPicker,
@@ -28,6 +32,8 @@ function mapStateToProps(state, ownProps) {
         teamId,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: channel.delete_at !== 0,
+        showEmojiPicker,
+        isRhsOpen,
     };
 }
 
@@ -35,6 +41,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addReaction,
+            hideEmojiPickerForLastMessage,
         }, dispatch),
     };
 }

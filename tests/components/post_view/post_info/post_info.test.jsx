@@ -144,6 +144,7 @@ describe('components/post_view/PostInfo', () => {
         const actions = {
             removePost,
             addReaction: jest.fn(),
+            hideEmojiPickerForLastMessage: jest.fn(),
         };
         const requiredPropsWithRemovePost = {...requiredProps, actions, enableEmojiPicker: true};
 
@@ -160,6 +161,7 @@ describe('components/post_view/PostInfo', () => {
         const actions = {
             removePost: jest.fn(),
             addReaction,
+            hideEmojiPickerForLastMessage: jest.fn(),
         };
 
         const handleDropdownOpened = jest.fn();
