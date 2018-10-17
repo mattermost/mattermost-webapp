@@ -2464,6 +2464,7 @@
   "shortcuts.msgs.header": "Messages",
   "shortcuts.msgs.input.header": "Works inside an empty input field",
   "shortcuts.msgs.reply": "Reply to last message in channel:\tShift|Up",
+  "shortcuts.msg.reaction": "React to last message in channel or thread: \t⌘ + Shift + \\",
   "shortcuts.msgs.reprint_next": "Reprint next message:\tCtrl|Down",
   "shortcuts.msgs.reprint_next.mac": "Reprint next message:\t⌘|Down",
   "shortcuts.msgs.reprint_prev": "Reprint previous message:\tCtrl|Up",
