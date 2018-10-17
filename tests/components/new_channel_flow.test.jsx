@@ -6,7 +6,6 @@ import {shallow} from 'enzyme';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
-import * as actions from 'actions/channel_actions';
 import NewChannelFlow, {
     SHOW_NEW_CHANNEL,
     SHOW_EDIT_URL,
@@ -15,15 +14,21 @@ import NewChannelFlow, {
 
 describe('components/NewChannelFlow', () => {
     const baseProps = {
+        actions: {
+            createChannel: jest.fn(() => {
+                const data = {
+                    id: 'new-channel-id',
+                    name: 'newChannel',
+                };
+                return Promise.resolve({data});
+            }),
+            switchToChannel: jest.fn(),
+        },
         show: true,
         channelType: Constants.OPEN_CHANNEL,
         onModalDismissed: jest.fn(),
         currentTeamId: 'garbage',
     };
-
-    actions.createChannel = jest.fn((channel, success) => {
-        success(channel);
-    });
 
     test('should match snapshot, with base props', () => {
         const wrapper = shallow(
@@ -129,32 +134,10 @@ describe('components/NewChannelFlow', () => {
             channelName: 'example',
         });
         wrapper.instance().onSubmit();
-        expect(actions.createChannel).toHaveBeenCalled();
+        expect(wrapper.instance().props.actions.createChannel).toHaveBeenCalledTimes(1);
     });
 
-    test('should not call doOnModalExited when onModalExited is called with doOnModalExited undefined', () => {
-        const wrapper = shallow(
-            <NewChannelFlow {...baseProps}/>
-        );
-
-        wrapper.instance().onModalExited();
-        expect(typeof wrapper.instance().doOnModalExited).toEqual('undefined');
-    });
-
-    test('should call doOnModalExited when onModalExited is called with doOnModalExited defined', () => {
-        const wrapper = shallow(
-            <NewChannelFlow {...baseProps}/>
-        );
-
-        const instance = wrapper.instance();
-        const doOnModalExited = jest.fn();
-        instance.doOnModalExited = doOnModalExited;
-        instance.onModalExited();
-        expect(instance.doOnModalExited).toEqual(null);
-        expect(doOnModalExited).toHaveBeenCalledTimes(1);
-    });
-
-    test('call onModalDismissed after successfully creating channel', () => {
+    test('call onModalDismissed after successfully creating channel', (done) => {
         const wrapper = shallow(
             <NewChannelFlow {...baseProps}/>
         );
@@ -165,8 +148,12 @@ describe('components/NewChannelFlow', () => {
             purpose: '',
         });
         wrapper.instance().onSubmit();
-        expect(actions.createChannel).toHaveBeenCalledTimes(1);
-        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.actions.createChannel).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
+            expect(wrapper.instance().props.actions.switchToChannel).toHaveBeenCalledTimes(1);
+            done();
+        });
     });
 
     test('don\'t call onModalDismissed after failing to create channel', () => {
@@ -198,22 +185,7 @@ describe('components/NewChannelFlow', () => {
         expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(0);
     });
 
-    test('call onModalDismissed after successfully creating channel', () => {
-        const wrapper = shallow(
-            <NewChannelFlow {...baseProps}/>
-        );
-
-        wrapper.instance().channelDataChanged({
-            displayName: 'test',
-            header: '',
-            purpose: '',
-        });
-        wrapper.instance().onSubmit();
-        expect(actions.createChannel).toHaveBeenCalledTimes(1);
-        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
-    });
-
-    test('show URL modal when trying to submit non-Latin dislay name', () => {
+    test('show URL modal when trying to submit non-Latin display name', () => {
         const wrapper = shallow(
             <NewChannelFlow {...baseProps}/>
         );
@@ -227,11 +199,11 @@ describe('components/NewChannelFlow', () => {
         expect(wrapper.state('channelName')).toEqual('');
 
         wrapper.instance().onSubmit();
-        expect(actions.createChannel).toHaveBeenCalledTimes(0);
+        expect(wrapper.instance().props.actions.createChannel).not.toHaveBeenCalled();
         expect(wrapper.state('flowState')).toEqual(SHOW_EDIT_URL_THEN_COMPLETE);
     });
 
-    test('call onModalDismissed after successfully creating channel from URL modal', () => {
+    test('call onModalDismissed after successfully creating channel from URL modal', (done) => {
         const wrapper = shallow(
             <NewChannelFlow {...baseProps}/>
         );
@@ -243,11 +215,14 @@ describe('components/NewChannelFlow', () => {
         });
 
         wrapper.instance().onSubmit();
-        expect(actions.createChannel).toHaveBeenCalledTimes(0);
+        expect(wrapper.instance().props.actions.createChannel).not.toHaveBeenCalled();
         expect(wrapper.state('flowState')).toEqual(SHOW_EDIT_URL_THEN_COMPLETE);
 
         wrapper.instance().urlChangeSubmitted('test');
-        expect(actions.createChannel).toHaveBeenCalledTimes(1);
-        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.actions.createChannel).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
+            done();
+        });
     });
 });

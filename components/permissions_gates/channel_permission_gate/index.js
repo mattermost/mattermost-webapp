@@ -4,16 +4,18 @@
 import {connect} from 'react-redux';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import ChannelPermissionGate from './channel_permission_gate.jsx';
 
 function mapStateToProps(state, ownProps) {
-    if (!ownProps.channelId || ownProps.teamId === null || typeof ownProps.teamId === 'undefined') {
+    const teamId = ownProps.teamId || getCurrentTeamId(state);
+    if (!ownProps.channelId || !teamId) {
         return {hasPermission: false};
     }
 
     for (const permission of ownProps.permissions) {
-        if (haveIChannelPermission(state, {channel: ownProps.channelId, team: ownProps.teamId, permission})) {
+        if (haveIChannelPermission(state, {channel: ownProps.channelId, team: teamId, permission})) {
             return {hasPermission: true};
         }
     }

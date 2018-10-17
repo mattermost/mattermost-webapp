@@ -82,9 +82,9 @@ export class RenameChannelModal extends React.PureComponent {
         actions: PropTypes.shape({
 
             /*
-             * Action creator to update current channel
+             * Action creator to patch current channel
              */
-            updateChannel: PropTypes.func.isRequired,
+            patchChannel: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -147,7 +147,7 @@ export class RenameChannelModal extends React.PureComponent {
         const oldDisplayName = channel.display_name;
         const state = {serverError: ''};
         const {formatMessage} = this.props.intl;
-        const {actions: {updateChannel}} = this.props;
+        const {actions: {patchChannel}} = this.props;
 
         channel.display_name = this.state.displayName.trim();
         if (!channel.display_name) {
@@ -198,7 +198,7 @@ export class RenameChannelModal extends React.PureComponent {
             return;
         }
 
-        const {data, error} = await updateChannel(channel);
+        const {data, error} = await patchChannel(channel.id, channel);
 
         if (data) {
             this.onSaveSuccess();

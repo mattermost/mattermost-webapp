@@ -23,11 +23,10 @@ import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
-import Pluggable from 'plugins/pluggable';
-
 import NewChannelFlow from 'components/new_channel_flow';
-import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import Pluggable from 'plugins/pluggable';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';

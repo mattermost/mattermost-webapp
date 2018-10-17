@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {createChannel} from 'actions/channel_actions';
 import {cleanUpUrlable} from 'utils/url';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
@@ -40,7 +39,8 @@ export default class NewChannelFlow extends React.Component {
         currentTeamId: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
-            selectChannel: PropTypes.func.isRequired,
+            createChannel: PropTypes.func.isRequired,
+            switchToChannel: PropTypes.func.isRequired,
         }),
     };
 
@@ -90,8 +90,9 @@ export default class NewChannelFlow extends React.Component {
             return;
         }
 
+        const {actions, currentTeamId} = this.props;
         const channel = {
-            team_id: this.props.currentTeamId,
+            team_id: currentTeamId,
             name: this.state.channelName,
             display_name: this.state.channelDisplayName,
             purpose: this.state.channelPurpose,
@@ -99,39 +100,32 @@ export default class NewChannelFlow extends React.Component {
             type: this.state.channelType,
         };
 
-        createChannel(
-            channel,
-            (data) => {
-                this.doOnModalExited = () => {
-                    this.props.actions.selectChannel(data.id);
-                };
-
-                this.props.onModalDismissed();
-            },
-            (err) => {
-                if (err.id === 'model.channel.is_valid.2_or_more.app_error') {
-                    this.setState({
-                        flowState: SHOW_EDIT_URL_THEN_COMPLETE,
-                        serverError: (
-                            <FormattedMessage
-                                id='channel_flow.handleTooShort'
-                                defaultMessage='Channel URL must be 2 or more lowercase alphanumeric characters'
-                            />
-                        ),
-                    });
-                } else if (err.id === 'store.sql_channel.update.exists.app_error') {
-                    this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
-                } else {
-                    this.setState({serverError: err.message});
-                }
+        actions.createChannel(channel).then((result) => {
+            if (result.error) {
+                this.onCreateChannelError(result.error);
+                return;
             }
-        );
+
+            this.props.onModalDismissed();
+            actions.switchToChannel(result.data);
+        });
     };
 
-    onModalExited = () => {
-        if (this.doOnModalExited) {
-            this.doOnModalExited();
-            this.doOnModalExited = null;
+    onCreateChannelError = (err) => {
+        if (err.id === 'model.channel.is_valid.2_or_more.app_error') {
+            this.setState({
+                flowState: SHOW_EDIT_URL_THEN_COMPLETE,
+                serverError: (
+                    <FormattedMessage
+                        id='channel_flow.handleTooShort'
+                        defaultMessage='Channel URL must be 2 or more lowercase alphanumeric characters'
+                    />
+                ),
+            });
+        } else if (err.id === 'store.sql_channel.update.exists.app_error') {
+            this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
+        } else {
+            this.setState({serverError: err.message});
         }
     };
 
@@ -240,7 +234,6 @@ export default class NewChannelFlow extends React.Component {
                     serverError={this.state.serverError}
                     onSubmitChannel={this.onSubmit}
                     onModalDismissed={this.props.onModalDismissed}
-                    onModalExited={this.onModalExited}
                     onTypeSwitched={this.typeSwitched}
                     onChangeURLPressed={this.urlChangeRequested}
                     onDataChanged={this.channelDataChanged}
@@ -251,7 +244,6 @@ export default class NewChannelFlow extends React.Component {
                     channelData={channelData}
                     serverError={this.state.serverError}
                     onSubmitChannel={this.onSubmit}
-                    onModalExited={this.onModalExited}
                     onModalDismissed={this.props.onModalDismissed}
                     onTypeSwitched={this.typeSwitched}
                     onChangeURLPressed={this.urlChangeRequested}
@@ -265,7 +257,6 @@ export default class NewChannelFlow extends React.Component {
                     serverError={this.state.serverError}
                     onModalSubmit={this.urlChangeSubmitted}
                     onModalDismissed={this.urlChangeDismissed}
-                    onModalExited={this.onModalExited}
                 />
             </span>
         );
