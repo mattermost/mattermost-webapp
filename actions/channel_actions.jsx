@@ -346,3 +346,15 @@ export async function deleteChannel(channelId, success, error) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+export function addUsersToChannel(channelId, userIds) {
+    return async (doDispatch) => {
+        try {
+            const requests = userIds.map((uId) => doDispatch(ChannelActions.addChannelMember(channelId, uId)));
+
+            return await Promise.all(requests);
+        } catch (error) {
+            return {error};
+        }
+    };
+}

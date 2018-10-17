@@ -8,7 +8,7 @@ import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {getProfilesNotInChannel} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
-import {addUsersToChannel} from 'actions/views/channel';
+import {addUsersToChannel} from 'actions/channel_actions';
 
 import ChannelInviteModal from './channel_invite_modal.jsx';
 
