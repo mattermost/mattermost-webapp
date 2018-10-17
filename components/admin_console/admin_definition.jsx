@@ -1539,7 +1539,7 @@ export default {
                                 return (
                                     <FormattedMarkdownMessage
                                         id='admin.ldap.jobExtraInfo'
-                                        defaultMessage={'Scanned {ldapUsers} LDAP users and {ldapGroups} groups:\n• Updated {updateCount} users.\n• Deactivated {deleteCount} users.\n• Deleted {groupDeleteCount} groups.\n• Deleted {groupMemberDeleteCount} group members.\n• Added {groupMemberAddCount} group members.'}
+                                        defaultMessage={'Scanned {ldapUsers} LDAP users and {ldapGroups} groups:\n* Updated {updateCount} users.\n* Deactivated {deleteCount} users.\n* Deleted {groupDeleteCount} groups.\n* Deleted {groupMemberDeleteCount} group members.\n* Added {groupMemberAddCount} group members.'}
                                         values={{
                                             mattermostUsers,
                                             ldapUsers,

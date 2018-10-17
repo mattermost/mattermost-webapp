@@ -594,7 +594,7 @@
   "admin.ldap.idAttrDesc": "The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change. If a user's ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-platform-ldap-idmigrate) CLI tool.",
   "admin.ldap.idAttrEx": "E.g.: \"objectGUID\"",
   "admin.ldap.idAttrTitle": "ID Attribute: ",
-  "admin.ldap.jobExtraInfo": "Scanned {ldapUsers} LDAP users and {ldapGroups} groups:\n• Updated {updateCount} users.\n• Deactivated {deleteCount} users.\n• Deleted {groupDeleteCount} groups.\n• Deleted {groupMemberDeleteCount} group members.\n• Added {groupMemberAddCount} group members.",
+  "admin.ldap.jobExtraInfo": "Scanned {ldapUsers} LDAP users and {ldapGroups} groups:\n* Updated {updateCount} users.\n* Deactivated {deleteCount} users.\n* Deleted {groupDeleteCount} groups.\n* Deleted {groupMemberDeleteCount} group members.\n* Added {groupMemberAddCount} group members.",
   "admin.ldap.lastnameAttrDesc": "(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.",
   "admin.ldap.lastnameAttrEx": "E.g.: \"sn\"",
   "admin.ldap.lastnameAttrTitle": "Last Name Attribute:",
