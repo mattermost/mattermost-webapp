@@ -39,11 +39,12 @@ export function handleNewPost(post, msg) {
             websocketMessageProps = msg.data;
         }
 
-        if (getMyChannelMemberSelector(doGetState(), post.channel_id)) {
-            doDispatch(completePostReceive(post, websocketMessageProps));
-        } else {
-            doDispatch(getMyChannelMember(post.channel_id)).then(() => doDispatch(completePostReceive(post, websocketMessageProps)));
+        const myChannelMember = getMyChannelMemberSelector(doGetState(), post.channel_id);
+        if (myChannelMember && Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object') {
+            await doDispatch(getMyChannelMember(post.channel_id));
         }
+
+        doDispatch(completePostReceive(post, websocketMessageProps));
 
         if (msg && msg.data) {
             if (msg.data.channel_type === Constants.DM_CHANNEL) {

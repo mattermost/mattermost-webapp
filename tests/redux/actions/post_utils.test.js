@@ -35,6 +35,7 @@ const RECEIVED_POSTS = {
     data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: ''}}},
     type: 'RECEIVED_POSTS',
 };
+const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
 
 function getReceivedPosts(post) {
     const receivedPosts = {...RECEIVED_POSTS};
@@ -101,7 +102,7 @@ describe('actions/post_utils', () => {
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
         await testStore.dispatch(PostActionsUtils.completePostReceive(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([getReceivedPosts(newPost)]);
+        expect(testStore.getActions()).toEqual([INCREASED_POST_VISIBILITY, getReceivedPosts(newPost)]);
     });
 
     test('lastPostActions', async () => {
@@ -110,7 +111,7 @@ describe('actions/post_utils', () => {
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
         await testStore.dispatch(PostActionsUtils.lastPostActions(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([getReceivedPosts(newPost)]);
+        expect(testStore.getActions()).toEqual([INCREASED_POST_VISIBILITY, getReceivedPosts(newPost)]);
     });
 
     test('setChannelReadAndView', async () => {

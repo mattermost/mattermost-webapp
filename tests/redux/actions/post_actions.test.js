@@ -16,6 +16,7 @@ const RECEIVED_POSTS = {
     data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: ''}}},
     type: 'RECEIVED_POSTS',
 };
+const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
 
 function getReceivedPosts(post) {
     const receivedPosts = {...RECEIVED_POSTS};
@@ -82,7 +83,7 @@ describe('Actions.Posts', () => {
         const msg = {data: {team_id: 'team_id', mentions: ['current_user_id']}};
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg));
-        expect(testStore.getActions()).toEqual([getReceivedPosts(newPost)]);
+        expect(testStore.getActions()).toEqual([INCREASED_POST_VISIBILITY, getReceivedPosts(newPost)]);
     });
 
     test('setEditingPost', async () => {

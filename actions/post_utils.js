@@ -41,7 +41,7 @@ export function completePostReceive(post, websocketMessageProps) {
 
 export function lastPostActions(post, websocketMessageProps) {
     return (dispatch, getState) => {
-        const {currentChannelId} = getCurrentChannelId(getState());
+        const currentChannelId = getCurrentChannelId(getState());
 
         if (post.channel_id === currentChannelId) {
             dispatch({
