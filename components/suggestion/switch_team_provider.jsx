@@ -5,7 +5,7 @@ import React from 'react';
 import * as Selectors from 'mattermost-redux/selectors/entities/teams';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
+import {getCurrentLocale} from 'selectors/i18n';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -51,7 +51,7 @@ function quickSwitchSorter(a, b) {
     const bStartsWith = bDisplayName.startsWith(prefix);
 
     if (aStartsWith && bStartsWith) {
-        const locale = LocalizationStore.getLocale();
+        const locale = getCurrentLocale(getState());
 
         if (aDisplayName !== bDisplayName) {
             return aDisplayName.localeCompare(bDisplayName, locale, {numeric: true});

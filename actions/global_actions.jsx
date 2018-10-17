@@ -30,6 +30,7 @@ import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'act
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -44,8 +45,6 @@ import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates} from 'util
 import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import en from 'i18n/en.json';
-import * as I18n from 'i18n/i18n.jsx';
 import {equalServerVersions} from 'utils/server_version';
 
 const dispatch = store.dispatch;
@@ -367,55 +366,6 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, 
     dispatch(handleNewPost(post));
 }
 
-export function newLocalizationSelected(locale) {
-    const localeInfo = I18n.getLanguageInfo(locale);
-
-    if (locale === 'en' || !localeInfo) {
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_LOCALE,
-            locale,
-            translations: en,
-        });
-    } else {
-        Client4.getTranslations(localeInfo.url).then(
-            (data, res) => {
-                let translations = data;
-                if (!data && res.text) {
-                    translations = JSON.parse(res.text);
-                }
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_LOCALE,
-                    locale,
-                    translations,
-                });
-            }
-        ).catch(
-            () => { } //eslint-disable-line no-empty-function
-        );
-    }
-}
-
-export function loadCurrentLocale() {
-    const user = UserStore.getCurrentUser();
-
-    if (user && user.locale) {
-        newLocalizationSelected(user.locale);
-    } else {
-        loadDefaultLocale();
-    }
-}
-
-export function loadDefaultLocale() {
-    const config = getConfig(getState());
-    let locale = config.DefaultClientLocale;
-
-    if (!I18n.getLanguageInfo(locale)) {
-        locale = 'en';
-    }
-
-    return newLocalizationSelected(locale);
-}
-
 let lastTimeTypingSent = 0;
 export function emitLocalUserTypingEvent(channelId, parentPostId) {
     const userTyping = async (actionDispatch, actionGetState) => {
@@ -484,7 +434,10 @@ export function emitBrowserFocus(focus) {
 }
 
 export async function redirectUserToDefaultTeam() {
-    const userId = getCurrentUserId(getState());
+    const state = getState();
+    const userId = getCurrentUserId(state);
+    const locale = getCurrentLocale(state);
+
     const teams = TeamStore.getAll();
     const teamMembers = TeamStore.getMyTeamMembers();
     let teamId = LocalStorageStore.getPreviousTeamId(userId);
@@ -503,7 +456,7 @@ export async function redirectUserToDefaultTeam() {
         }
 
         if (myTeams.length > 0) {
-            myTeams = filterAndSortTeamsByDisplayName(myTeams);
+            myTeams = filterAndSortTeamsByDisplayName(myTeams, locale);
             if (myTeams && myTeams[0]) {
                 teamId = myTeams[0].id;
             }

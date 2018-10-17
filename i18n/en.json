@@ -1382,7 +1382,7 @@
   "analytics.team.totalUsers": "Total Active Users",
   "announcement_bar.error.email_verification_required": "Check your email at {email} to verify the address. Cannot find the email?",
   "announcement_bar.error.license_expired": "Enterprise license is expired and some features may be disabled. [Please renew](!{link}).",
-  "announcement_bar.error.license_expiring": "Enterprise license expires on {date}. [Prease renew](!{link}).",
+  "announcement_bar.error.license_expiring": "Enterprise license expires on {date, date, long}. [Please renew](!{link}).",
   "announcement_bar.error.past_grace": "Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.",
   "announcement_bar.error.preview_mode": "Preview Mode: Email notifications have not been configured",
   "announcement_bar.error.send_again": "Send again",

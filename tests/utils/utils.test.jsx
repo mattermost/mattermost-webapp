@@ -497,3 +497,75 @@ describe('Utils.isKeyPressed', function() {
         expect(Utils.isKeyPressed(event, key)).toEqual(true);
     });
 });
+
+describe('Utils.localizeMessage', () => {
+    const originalGetState = store.getState;
+
+    afterAll(() => {
+        store.getState = originalGetState;
+    });
+
+    const entities = {
+        general: {
+            config: {},
+        },
+        users: {
+            currentUserId: 'abcd',
+            profiles: {
+                abcd: {
+                    locale: 'fr',
+                },
+            },
+        },
+    };
+
+    describe('with translations', () => {
+        beforeAll(() => {
+            store.getState = () => ({
+                entities,
+                views: {
+                    i18n: {
+                        translations: {
+                            fr: {
+                                'test.hello_world': 'Bonjour tout le monde!',
+                            },
+                        },
+                    },
+                },
+            });
+        });
+
+        test('with translations', () => {
+            expect(Utils.localizeMessage('test.hello_world', 'Hello, World!')).toEqual('Bonjour tout le monde!');
+        });
+
+        test('with missing string in translations', () => {
+            expect(Utils.localizeMessage('test.hello_world2', 'Hello, World 2!')).toEqual('Hello, World 2!');
+        });
+
+        test('with missing string in translations and no default', () => {
+            expect(Utils.localizeMessage('test.hello_world2')).toEqual('test.hello_world2');
+        });
+    });
+
+    describe('without translations', () => {
+        beforeAll(() => {
+            store.getState = () => ({
+                entities,
+                views: {
+                    i18n: {
+                        translations: {},
+                    },
+                },
+            });
+        });
+
+        test('without translations', () => {
+            expect(Utils.localizeMessage('test.hello_world', 'Hello, World!')).toEqual('Hello, World!');
+        });
+
+        test('without translations and no default', () => {
+            expect(Utils.localizeMessage('test.hello_world')).toEqual('test.hello_world');
+        });
+    });
+});

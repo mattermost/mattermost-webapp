@@ -18,7 +18,6 @@ import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
@@ -27,6 +26,7 @@ import bing from 'images/bing.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {showNotification} from 'utils/notifications.jsx';
+import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -471,11 +471,6 @@ export function getIconClassName(fileTypeIn) {
     }
 
     return 'generic';
-}
-
-export function sortFilesByName(files) {
-    const locale = LocalizationStore.getLocale();
-    return Array.from(files).sort((a, b) => a.name.localeCompare(b.name, locale, {numeric: true}));
 }
 
 export function toTitleCase(str) {
@@ -1443,19 +1438,16 @@ export function getRootId(post) {
 }
 
 export function localizeMessage(id, defaultMessage) {
-    const translations = LocalizationStore.getTranslations();
-    if (translations) {
-        const value = translations[id];
-        if (value) {
-            return value;
-        }
+    const state = store.getState();
+
+    const locale = getCurrentLocale(state);
+    const translations = getTranslations(state, locale);
+
+    if (!translations || !(id in translations)) {
+        return defaultMessage || id;
     }
 
-    if (defaultMessage) {
-        return defaultMessage;
-    }
-
-    return id;
+    return translations[id];
 }
 
 export function mod(a, b) {

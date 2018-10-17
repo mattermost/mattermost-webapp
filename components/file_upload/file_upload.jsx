@@ -23,7 +23,6 @@ import {
     generateId,
     isFileTransfer,
     localizeMessage,
-    sortFilesByName,
 } from 'utils/utils.jsx';
 
 import AttachmentIcon from 'components/svg/attachment_icon';
@@ -83,6 +82,8 @@ export default class FileUpload extends PureComponent {
          * Function to get file upload targeted input
          */
         getTarget: PropTypes.func.isRequired,
+
+        locale: PropTypes.string.isRequired,
 
         /**
          * Function to be called when file upload input is clicked
@@ -205,7 +206,7 @@ export default class FileUpload extends PureComponent {
         // clear any existing errors
         this.props.onUploadError(null);
 
-        let sortedFiles = sortFilesByName(files);
+        let sortedFiles = Array.from(files).sort((a, b) => a.name.localeCompare(b.name, this.props.locale, {numeric: true}));
 
         const willUploadHooks = this.props.pluginFilesWillUploadHooks;
         for (const h of willUploadHooks) {

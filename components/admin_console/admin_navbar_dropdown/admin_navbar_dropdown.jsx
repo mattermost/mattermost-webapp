@@ -18,6 +18,7 @@ import MenuIcon from 'components/svg/menu_icon';
 
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
+        locale: PropTypes.string.isRequired,
 
         /*
          * Bool whether the navigation is blocked by unsaved changes
@@ -76,12 +77,12 @@ export default class AdminNavbarDropdown extends React.Component {
     };
 
     render() {
-        const {teams} = this.props;
+        const {locale, teams} = this.props;
         const teamToRender = []; // Array of team components
         let switchTeams;
 
         if (teams && teams.length > 0) {
-            const teamsArray = filterAndSortTeamsByDisplayName(teams);
+            const teamsArray = filterAndSortTeamsByDisplayName(teams, locale);
 
             for (const team of teamsArray) {
                 teamToRender.push(
