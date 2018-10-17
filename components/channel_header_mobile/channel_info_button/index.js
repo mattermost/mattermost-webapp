@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {openModal} from 'actions/views/modals';
 
-import ChannelInfoButton from './channel_info_button.js';
+import ChannelInfoButton from './channel_info_button';
 
 function mapDispatchToProps(dispatch) {
     return {

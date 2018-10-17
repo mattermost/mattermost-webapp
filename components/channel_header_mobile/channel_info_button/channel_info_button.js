@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';

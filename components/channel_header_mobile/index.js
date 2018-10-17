@@ -19,7 +19,7 @@ import {
 } from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 
-import ChannelHeaderMobile from './channel_header_mobile.js';
+import ChannelHeaderMobile from './channel_header_mobile';
 
 const isCurrentChannelMuted = createSelector(
     getMyCurrentChannelMembership,

@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 export default function HeaderIconWrapper({

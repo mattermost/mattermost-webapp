@@ -34,7 +34,7 @@ import {
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {getPenultimateViewedChannelName} from 'selectors/local_storage';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {
     showFlaggedPosts,
     showPinnedPosts,
@@ -45,7 +45,7 @@ import {
 import {getRhsState} from 'selectors/rhs';
 import {getIsBusy} from 'selectors/webrtc';
 
-import ChannelHeader from './channel_header.jsx';
+import ChannelHeader from './channel_header';
 
 const isCurrentChannelFavorite = createSelector(
     getMyPreferences,
