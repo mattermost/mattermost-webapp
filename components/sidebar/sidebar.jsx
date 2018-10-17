@@ -535,6 +535,7 @@ export default class Sidebar extends React.PureComponent {
                                     <h4 id={sectionId}>
                                         <ChannelName
                                             channelType={section.type}
+                                            channelName={section.name}
                                             browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
                                         <ChannelCreate
