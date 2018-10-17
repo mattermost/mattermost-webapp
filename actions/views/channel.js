@@ -75,37 +75,37 @@ export function openDirectChannelToUserId(userId) {
         const channelName = getDirectChannelName(currentUserId, userId);
         const channel = getChannelByName(state, channelName);
 
-        if (channel) {
-            trackEvent('api', 'api_channels_join_direct');
-            const now = Date.now();
-            const prefDirect = {
-                category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
-                name: userId,
-                value: 'true',
-            };
-            const prefOpenTime = {
-                category: Preferences.CATEGORY_CHANNEL_OPEN_TIME,
-                name: channel.id,
-                value: now.toString(),
-            };
-            const actions = [{
-                type: PreferenceTypes.RECEIVED_PREFERENCES,
-                data: [prefDirect],
-            }, {
-                type: PreferenceTypes.RECEIVED_PREFERENCES,
-                data: [prefOpenTime],
-            }];
-            dispatch(batchActions(actions));
-
-            dispatch(savePreferences(currentUserId, [
-                {user_id: currentUserId, ...prefDirect},
-                {user_id: currentUserId, ...prefOpenTime},
-            ]));
-
-            return {data: channel};
+        if (!channel) {
+            return dispatch(createDirectChannel(currentUserId, userId));
         }
 
-        return dispatch(createDirectChannel(currentUserId, userId));
+        trackEvent('api', 'api_channels_join_direct');
+        const now = Date.now();
+        const prefDirect = {
+            category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
+            name: userId,
+            value: 'true',
+        };
+        const prefOpenTime = {
+            category: Preferences.CATEGORY_CHANNEL_OPEN_TIME,
+            name: channel.id,
+            value: now.toString(),
+        };
+        const actions = [{
+            type: PreferenceTypes.RECEIVED_PREFERENCES,
+            data: [prefDirect],
+        }, {
+            type: PreferenceTypes.RECEIVED_PREFERENCES,
+            data: [prefOpenTime],
+        }];
+        dispatch(batchActions(actions));
+
+        dispatch(savePreferences(currentUserId, [
+            {user_id: currentUserId, ...prefDirect},
+            {user_id: currentUserId, ...prefOpenTime},
+        ]));
+
+        return {data: channel};
     };
 }
 
