@@ -34,6 +34,7 @@ export default class SignupController extends React.Component {
         samlLoginButtonText: PropTypes.string,
         siteName: PropTypes.string,
         usedBefore: PropTypes.string,
+        ldapLoginFieldName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
         }).isRequired,
@@ -235,6 +236,15 @@ export default class SignupController extends React.Component {
         }
 
         if (this.props.isLicensed && this.props.enableLDAP) {
+            let LDAPText = (
+                <FormattedMessage
+                    id='signup.ldap'
+                    defaultMessage='AD/LDAP Credentials'
+                />
+            );
+            if (this.props.ldapLoginFieldName) {
+                LDAPText = this.props.ldapLoginFieldName;
+            }
             signupControls.push(
                 <Link
                     className='btn btn-custom-login btn--full ldap'
@@ -247,10 +257,7 @@ export default class SignupController extends React.Component {
                             title={localizeMessage('signup.ldap.icon', 'AD/LDAP Icon')}
                         />
                         <span>
-                            <FormattedMessage
-                                id='signup.ldap'
-                                defaultMessage='AD/LDAP Credentials'
-                            />
+                            {LDAPText}
                         </span>
                     </span>
                 </Link>

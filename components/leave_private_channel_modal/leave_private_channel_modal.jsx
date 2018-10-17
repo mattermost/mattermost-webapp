@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants.jsx';
@@ -14,60 +14,59 @@ class LeavePrivateChannelModal extends React.Component {
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
         }).isRequired,
-    }
+        intl: intlShape.isRequired,
+    };
 
     constructor(props) {
         super(props);
-
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
 
         this.state = {
             show: false,
             channel: null,
         };
-        this.mounted = false;
     }
 
     componentDidMount() {
-        this.mounted = true;
         ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL, this.handleToggle);
     }
 
     componentWillUnmount() {
-        this.mounted = false;
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL, this.handleToggle);
     }
 
-    handleKeyPress(e) {
+    handleKeyPress = (e) => {
         if (e.key === 'Enter' && this.state.show) {
             this.handleSubmit();
         }
-    }
+    };
 
-    handleSubmit() {
-        const channelId = this.state.channel.id;
-        this.setState({
-            show: false,
-            channel: null,
-        });
-        this.props.actions.leaveChannel(channelId);
-    }
+    handleSubmit = () => {
+        const {actions} = this.props;
+        const {channel} = this.state;
 
-    handleToggle(value) {
+        if (channel) {
+            const channelId = channel.id;
+            actions.leaveChannel(channelId).then((result) => {
+                if (result.data) {
+                    this.handleHide();
+                }
+            });
+        }
+    };
+
+    handleToggle = (value) => {
         this.setState({
             channel: value,
             show: value !== null,
         });
-    }
+    };
 
-    handleHide() {
+    handleHide = () => {
         this.setState({
             show: false,
+            channel: null,
         });
-    }
+    };
 
     render() {
         let title = '';
@@ -115,9 +114,5 @@ class LeavePrivateChannelModal extends React.Component {
         );
     }
 }
-
-LeavePrivateChannelModal.propTypes = {
-    intl: intlShape.isRequired,
-};
 
 export default injectIntl(LeavePrivateChannelModal);

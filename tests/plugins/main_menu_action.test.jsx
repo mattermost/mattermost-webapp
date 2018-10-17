@@ -30,6 +30,7 @@ describe('plugins/MainMenuActions', () => {
             onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
             canCreateCustomEmoji: true,
+            moreTeamsToJoin: true,
         };
 
         const wrapper = shallow(
@@ -54,6 +55,8 @@ describe('plugins/MainMenuActions', () => {
             showTutorialTip: false,
             enableUserCreation: true,
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
+            currentUserId: 'garbage',
+            moreTeamsToJoin: true,
             actions: {
                 showMentions: () => {}, //eslint-disable-line no-empty-function
                 showFlaggedPosts: () => {}, //eslint-disable-line no-empty-function

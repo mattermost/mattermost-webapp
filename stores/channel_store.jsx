@@ -5,10 +5,8 @@ import EventEmitter from 'events';
 
 import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes} from 'mattermost-redux/action_types';
-import {markChannelAsRead, markChannelAsUnread, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import * as Selectors from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {isFromWebhook, isSystemMessage, shouldIgnorePost} from 'mattermost-redux/utils/post_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import UserStore from 'stores/user_store.jsx';
@@ -557,31 +555,6 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         });
         break;
 
-    case ActionTypes.RECEIVED_POST: {
-        const {post, websocketMessageProps: data} = action;
-        const {dispatch} = store;
-        if (shouldIgnorePost(post)) {
-            return;
-        }
-
-        let markAsRead = false;
-        let markAsReadOnServer = false;
-        if (post.user_id === UserStore.getCurrentId() && !isSystemMessage(post) && !isFromWebhook(post)) {
-            markAsRead = true;
-            markAsReadOnServer = false;
-        } else if (action.post.channel_id === ChannelStore.getCurrentId() && window.isActive) {
-            markAsRead = true;
-            markAsReadOnServer = true;
-        }
-
-        if (markAsRead) {
-            dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
-            dispatch(markChannelAsViewed(post.channel_id));
-        } else {
-            dispatch(markChannelAsUnread(data.team_id, post.channel_id, data.mentions));
-        }
-        break;
-    }
     case ActionTypes.CREATE_POST:
         ChannelStore.incrementMessages(action.post.channel_id, true);
         break;

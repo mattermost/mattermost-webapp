@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as ChannelActions from 'mattermost-redux/actions/channels';
-import {deletePreferences, savePreferences} from 'mattermost-redux/actions/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -17,6 +17,7 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import {isFavoriteChannel} from 'utils/channel_utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -95,8 +96,10 @@ export function executeCommand(message, args, success, error) {
                 category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
             }
             const currentUserId = UserStore.getCurrentId();
-            savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}])(dispatch, getState);
-            unmarkFavorite(channel.id);
+            dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
+            if (isFavoriteChannel(channel)) {
+                dispatch(ChannelActions.unfavoriteChannel(channel.id));
+            }
             browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
             return;
         }
@@ -214,25 +217,6 @@ export async function openGroupChannelToUsers(userIds, success, error) {
     }
 }
 
-export function markFavorite(channelId) {
-    trackEvent('api', 'api_channels_favorited');
-    const currentUserId = UserStore.getCurrentId();
-    savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_FAVORITE_CHANNEL, name: channelId, value: 'true'}])(dispatch, getState);
-}
-
-export function unmarkFavorite(channelId) {
-    trackEvent('api', 'api_channels_unfavorited');
-    const currentUserId = UserStore.getCurrentId();
-
-    const pref = {
-        user_id: currentUserId,
-        category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-        name: channelId,
-    };
-
-    deletePreferences(currentUserId, [pref])(dispatch, getState);
-}
-
 export async function loadChannelsForCurrentUser() {
     await ChannelActions.fetchMyChannelsAndMembers(TeamStore.getCurrentId())(dispatch, getState);
     loadDMsAndGMsForUnreads();
@@ -253,16 +237,6 @@ export function loadDMsAndGMsForUnreads() {
                 loadNewGMIfNeeded(channel.id);
             }
         }
-    }
-}
-
-export async function joinChannel(channel, success, error) {
-    const {data, err} = await ChannelActions.joinChannel(UserStore.getCurrentId(), null, channel.id)(dispatch, getState);
-
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
     }
 }
 

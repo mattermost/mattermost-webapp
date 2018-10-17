@@ -129,7 +129,7 @@ export async function doFocusPost(channelId, postId, data) {
 
     const member = getState().entities.channels.myMembers[channelId];
     if (member == null) {
-        await joinChannel(UserStore.getCurrentId(), null, channelId)(dispatch, getState);
+        await dispatch(joinChannel(UserStore.getCurrentId(), null, channelId));
     }
 
     loadChannelsForCurrentUser();
@@ -342,7 +342,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
         props: {},
     };
 
-    handleNewPost(post);
+    dispatch(handleNewPost(post));
 }
 
 export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, channelId, postRootId = '', timestamp) {
@@ -363,7 +363,7 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, 
         },
     };
 
-    handleNewPost(post);
+    dispatch(handleNewPost(post));
 }
 
 let lastTimeTypingSent = 0;

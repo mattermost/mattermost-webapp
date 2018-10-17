@@ -113,7 +113,6 @@ export const ActionTypes = keyMirror({
     FOCUS_POST: null,
     RECEIVED_POSTS: null,
     RECEIVED_FOCUSED_POST: null,
-    RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,

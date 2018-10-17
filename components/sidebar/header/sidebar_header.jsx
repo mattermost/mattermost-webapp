@@ -5,58 +5,43 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import PreferenceStore from 'stores/preference_store.jsx';
-import {Constants, Preferences, TutorialSteps} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import StatusDropdown from 'components/status_dropdown/index.jsx';
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
 import SidebarHeaderDropdown from './dropdown';
 
-export default class SidebarHeader extends React.Component {
+export default class SidebarHeader extends React.PureComponent {
+    static propTypes = {
+        teamId: PropTypes.string.isRequired,
+        teamDisplayName: PropTypes.string.isRequired,
+        teamDescription: PropTypes.string.isRequired,
+        teamName: PropTypes.string.isRequired,
+        teamType: PropTypes.string.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        showTutorialTip: PropTypes.bool.isRequired,
+    };
+
     constructor(props) {
         super(props);
-
-        this.state = this.getStateFromStores();
+        this.state = {
+            isMobile: Utils.isMobile(),
+            showDropdown: false,
+        };
     }
 
     componentDidMount() {
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
         window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
         window.removeEventListener('resize', this.handleResize);
     }
 
     handleResize = () => {
         const isMobile = Utils.isMobile();
         this.setState({isMobile});
-    }
-
-    getPreferences = () => {
-        if (!this.props.currentUser) {
-            return {};
-        }
-        const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, this.props.currentUser.id, TutorialSteps.FINISHED);
-        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile() && this.props.enableTutorial;
-
-        return {showTutorialTip};
-    }
-
-    getStateFromStores = () => {
-        const preferences = this.getPreferences();
-        const isMobile = Utils.isMobile();
-        return {
-            ...preferences,
-            isMobile,
-            showDropdown: false,
-        };
-    }
-
-    onPreferenceChange = () => {
-        this.setState(this.getPreferences());
     }
 
     toggleDropdown = (toggle) => {
@@ -88,7 +73,7 @@ export default class SidebarHeader extends React.Component {
         const statusDropdown = this.renderStatusDropdown();
 
         let tutorialTip = null;
-        if (this.state.showTutorialTip) {
+        if (this.props.showTutorialTip) {
             tutorialTip = (
                 <MenuTutorialTip
                     toggleFunc={this.showDropdown}
@@ -160,19 +145,3 @@ export default class SidebarHeader extends React.Component {
         );
     }
 }
-
-SidebarHeader.propTypes = {
-    teamId: PropTypes.string,
-    teamDisplayName: PropTypes.string,
-    teamDescription: PropTypes.string,
-    teamName: PropTypes.string,
-    teamType: PropTypes.string,
-    currentUser: PropTypes.object,
-    enableTutorial: PropTypes.bool.isRequired,
-};
-
-SidebarHeader.defaultProps = {
-    teamDisplayName: '',
-    teamDescription: '',
-    teamType: '',
-};

@@ -3,6 +3,7 @@
 
 /* eslint max-nested-callbacks: ["error", 3] */
 
+import Observable from 'zen-observable';
 import localForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
 import {createTransform, persistStore} from 'redux-persist';
@@ -56,6 +57,8 @@ const whitelist = {
         return -1;
     },
 };
+
+window.Observable = Observable;
 
 export default function configureStore(initialState) {
     const setTransformer = createTransform(

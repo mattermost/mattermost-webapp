@@ -11,7 +11,6 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
-        isWebrtc: PropTypes.bool,
         previousRhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
@@ -27,11 +26,6 @@ export default class RhsHeaderPost extends React.Component {
 
     handleBack = (e) => {
         e.preventDefault();
-
-        if (this.props.isWebrtc) {
-            this.props.actions.showSearchResults();
-            return;
-        }
 
         switch (this.props.previousRhsState) {
         case RHSStates.SEARCH:
@@ -95,18 +89,6 @@ export default class RhsHeaderPost extends React.Component {
                     />
                 </Tooltip>
             );
-            break;
-        default:
-            if (this.props.isWebrtc) {
-                backToResultsTooltip = (
-                    <Tooltip id='backToResultsTooltip'>
-                        <FormattedMessage
-                            id='rhs_header.backToCallTooltip'
-                            defaultMessage='Back to Call'
-                        />
-                    </Tooltip>
-                );
-            }
             break;
         }
 
