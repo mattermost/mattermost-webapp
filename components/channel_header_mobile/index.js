@@ -12,7 +12,6 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {leaveChannel} from 'actions/views/channel';
 import {
     closeRightHandSide as closeRhs,
     closeMenu as closeRhsMenu,
