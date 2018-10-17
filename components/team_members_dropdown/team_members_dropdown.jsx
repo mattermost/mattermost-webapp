@@ -8,16 +8,16 @@ import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'utils/browser_history';
 import {removeUserFromTeam} from 'actions/team_actions.jsx';
 import {loadMyTeamMembers, updateActive} from 'actions/user_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 export default class TeamMembersDropdown extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        currentChannelId: PropTypes.string.isRequired,
         teamMember: PropTypes.object.isRequired,
+        teamUrl: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getUser: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
@@ -29,15 +29,6 @@ export default class TeamMembersDropdown extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleMakeMember = this.handleMakeMember.bind(this);
-        this.handleRemoveFromTeam = this.handleRemoveFromTeam.bind(this);
-        this.handleMakeActive = this.handleMakeActive.bind(this);
-        this.handleMakeNotActive = this.handleMakeNotActive.bind(this);
-        this.handleMakeAdmin = this.handleMakeAdmin.bind(this);
-        this.handleDemote = this.handleDemote.bind(this);
-        this.handleDemoteSubmit = this.handleDemoteSubmit.bind(this);
-        this.handleDemoteCancel = this.handleDemoteCancel.bind(this);
-
         this.state = {
             serverError: null,
             showDemoteModal: false,
@@ -46,8 +37,8 @@ export default class TeamMembersDropdown extends React.Component {
         };
     }
 
-    async handleMakeMember() {
-        const me = UserStore.getCurrentUser();
+    handleMakeMember = async () => {
+        const me = this.props.currentUser;
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user');
         } else {
@@ -63,13 +54,11 @@ export default class TeamMembersDropdown extends React.Component {
         }
     }
 
-    handleRemoveFromTeam() {
+    handleRemoveFromTeam = () => {
         removeUserFromTeam(
             this.props.teamMember.team_id,
             this.props.user.id,
             () => {
-                UserStore.removeProfileFromTeam(this.props.teamMember.team_id, this.props.user.id);
-                UserStore.emitInTeamChange();
                 this.props.actions.getTeamStats(this.props.teamMember.team_id);
             },
             (err) => {
@@ -78,10 +67,10 @@ export default class TeamMembersDropdown extends React.Component {
         );
     }
 
-    handleMakeActive() {
+    handleMakeActive = () => {
         updateActive(this.props.user.id, true,
             () => {
-                this.props.actions.getChannelStats(ChannelStore.getCurrentId());
+                this.props.actions.getChannelStats(this.props.currentChannelId);
                 this.props.actions.getTeamStats(this.props.teamMember.team_id);
             },
             (err) => {
@@ -90,10 +79,10 @@ export default class TeamMembersDropdown extends React.Component {
         );
     }
 
-    handleMakeNotActive() {
+    handleMakeNotActive = () => {
         updateActive(this.props.user.id, false,
             () => {
-                this.props.actions.getChannelStats(ChannelStore.getCurrentId());
+                this.props.actions.getChannelStats(this.props.currentChannelId);
                 this.props.actions.getTeamStats(this.props.teamMember.team_id);
             },
             (err) => {
@@ -102,8 +91,8 @@ export default class TeamMembersDropdown extends React.Component {
         );
     }
 
-    async handleMakeAdmin() {
-        const me = UserStore.getCurrentUser();
+    handleMakeAdmin = async () => {
+        const me = this.props.currentUser;
         if (this.props.user.id === me.id && me.roles.includes('system_admin')) {
             this.handleDemote(this.props.user, 'team_user team_admin');
         } else {
@@ -116,7 +105,7 @@ export default class TeamMembersDropdown extends React.Component {
         }
     }
 
-    handleDemote(user, role, newRole) {
+    handleDemote = (user, role, newRole) => {
         this.setState({
             serverError: this.state.serverError,
             showDemoteModal: true,
@@ -126,7 +115,7 @@ export default class TeamMembersDropdown extends React.Component {
         });
     }
 
-    handleDemoteCancel() {
+    handleDemoteCancel = () => {
         this.setState({
             serverError: null,
             showDemoteModal: false,
@@ -136,18 +125,13 @@ export default class TeamMembersDropdown extends React.Component {
         });
     }
 
-    async handleDemoteSubmit() {
+    handleDemoteSubmit = async () => {
         const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
         if (error) {
             this.setState({serverError: error.message});
         } else {
             this.props.actions.getUser(this.props.user.id);
-            const teamUrl = TeamStore.getCurrentTeamUrl();
-            if (teamUrl) {
-                browserHistory.push(teamUrl);
-            } else {
-                browserHistory.push('/');
-            }
+            browserHistory.push(this.props.teamUrl);
         }
     }
 
@@ -188,7 +172,7 @@ export default class TeamMembersDropdown extends React.Component {
             );
         }
 
-        const me = UserStore.getCurrentUser();
+        const me = this.props.currentUser;
         let showMakeMember = (Utils.isAdmin(teamMember.roles) || teamMember.scheme_admin) && !Utils.isSystemAdmin(user.roles);
         let showMakeAdmin = !Utils.isAdmin(teamMember.roles) && !Utils.isSystemAdmin(user.roles) && !teamMember.scheme_admin;
         let showMakeActive = false;
