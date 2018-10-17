@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {browserHistory} from 'utils/browser_history';
 import {createChannel} from 'actions/channel_actions';
-import TeamStore from 'stores/team_store';
 import {cleanUpUrlable} from 'utils/url';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
@@ -35,6 +33,15 @@ export default class NewChannelFlow extends React.Component {
         * Function to call when modal is dimissed
         */
         onModalDismissed: PropTypes.func.isRequired,
+
+        /**
+        * The current team ID
+        */
+        currentTeamId: PropTypes.string.isRequired,
+
+        actions: PropTypes.shape({
+            selectChannel: PropTypes.func.isRequired,
+        }),
     };
 
     static defaultProps = {
@@ -84,7 +91,7 @@ export default class NewChannelFlow extends React.Component {
         }
 
         const channel = {
-            team_id: TeamStore.getCurrentId(),
+            team_id: this.props.currentTeamId,
             name: this.state.channelName,
             display_name: this.state.channelDisplayName,
             purpose: this.state.channelPurpose,
@@ -96,7 +103,7 @@ export default class NewChannelFlow extends React.Component {
             channel,
             (data) => {
                 this.doOnModalExited = () => {
-                    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + data.name);
+                    this.props.actions.selectChannel(data.id);
                 };
 
                 this.props.onModalDismissed();

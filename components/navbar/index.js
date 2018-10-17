@@ -4,9 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
+import {updateChannelNotifyProps, leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
+import {isCurrentChannelReadOnly, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {
     closeRightHandSide as closeRhs,
@@ -24,6 +25,8 @@ import Navbar from './navbar.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
     const enableWebrtc = config.EnableWebrtc === 'true';
+    const prefs = state.entities.preferences.myPreferences;
+    const currentChannelId = getCurrentChannelId(state);
 
     const rhsState = getRhsState(state);
 
@@ -31,6 +34,7 @@ function mapStateToProps(state) {
         isPinnedPosts: rhsState === RHSStates.PIN,
         enableWebrtc,
         isReadOnly: isCurrentChannelReadOnly(state),
+        isFavoriteChannel: isFavoriteChannel(prefs, currentChannelId),
     };
 }
 
@@ -45,6 +49,7 @@ function mapDispatchToProps(dispatch) {
             toggleRhsMenu,
             closeRhsMenu,
             updateChannelNotifyProps,
+            leaveChannel,
         }, dispatch),
     };
 }

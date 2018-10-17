@@ -17,7 +17,6 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -97,9 +96,7 @@ export function executeCommand(message, args, success, error) {
             }
             const currentUserId = UserStore.getCurrentId();
             savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}])(dispatch, getState);
-            if (ChannelUtils.isFavoriteChannel(channel)) {
-                unmarkFavorite(channel.id);
-            }
+            unmarkFavorite(channel.id);
             browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
             return;
         }
@@ -355,19 +352,6 @@ export async function getChannelMembersForUserIds(channelId, userIds, success, e
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function leaveChannel(channelId, success) {
-    const townsquare = ChannelStore.getByName('town-square');
-    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
-
-    await ChannelActions.leaveChannel(channelId)(dispatch, getState);
-    if (ChannelUtils.isFavoriteChannelId(channelId)) {
-        unmarkFavorite(channelId);
-    }
-    if (success) {
-        success();
     }
 }
 

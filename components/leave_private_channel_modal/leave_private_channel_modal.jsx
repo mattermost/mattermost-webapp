@@ -3,13 +3,19 @@
 
 import React from 'react';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import PropTypes from 'prop-types';
 
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 class LeavePrivateChannelModal extends React.Component {
+    static propTypes = {
+        actions: PropTypes.shape({
+            leaveChannel: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -47,7 +53,7 @@ class LeavePrivateChannelModal extends React.Component {
             show: false,
             channel: null,
         });
-        ChannelActions.leaveChannel(channelId);
+        this.props.actions.leaveChannel(channelId);
     }
 
     handleToggle(value) {

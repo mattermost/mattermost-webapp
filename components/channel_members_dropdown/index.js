@@ -7,6 +7,7 @@ import {getChannelStats, updateChannelMemberSchemeRoles} from 'mattermost-redux/
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Permissions} from 'mattermost-redux/constants';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
 
@@ -27,6 +28,7 @@ function mapStateToProps(state, ownProps) {
     const canRemoveMember = canManageMembers(ownProps.channel);
 
     return {
+        currentUser: getCurrentUser(state),
         isLicensed,
         canChangeMemberRoles,
         canRemoveMember,

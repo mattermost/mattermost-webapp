@@ -8,9 +8,6 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -29,6 +26,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         channel: PropTypes.object.isRequired,
         fullWidth: PropTypes.bool.isRequired,
         locale: PropTypes.string.isRequired,
+        channelProfiles: PropTypes.array.isRequired,
         enableUserCreation: PropTypes.bool,
         isReadOnly: PropTypes.bool,
     };
@@ -40,6 +38,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
             locale,
             enableUserCreation,
             isReadOnly,
+            channelProfiles,
         } = this.props;
 
         let centeredIntro = '';
@@ -50,8 +49,8 @@ export default class ChannelIntroMessage extends React.PureComponent {
         if (channel.type === Constants.DM_CHANNEL) {
             return createDMIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.GM_CHANNEL) {
-            return createGMIntroMessage(channel, centeredIntro);
-        } else if (ChannelStore.isDefault(channel)) {
+            return createGMIntroMessage(channel, centeredIntro, channelProfiles);
+        } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro);
@@ -62,8 +61,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
     }
 }
 
-function createGMIntroMessage(channel, centeredIntro) {
-    const profiles = UserStore.getProfileListInChannel(channel.id, true);
+function createGMIntroMessage(channel, centeredIntro, profiles) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
@@ -198,14 +196,13 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
         />
     );
 
-    const teamId = TeamStore.getCurrentId();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const children = createSetHeaderButton(channel);
     let setHeaderButton = null;
     if (children) {
         setHeaderButton = (
             <ChannelPermissionGate
-                teamId={teamId}
+                teamId={channel.team_id}
                 channelId={channel.id}
                 permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
             >
@@ -276,7 +273,6 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
         );
     }
 
-    const teamId = TeamStore.getCurrentId();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     let setHeaderButton = null;
@@ -285,7 +281,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
         if (children) {
             setHeaderButton = (
                 <ChannelPermissionGate
-                    teamId={teamId}
+                    teamId={channel.team_id}
                     channelId={channel.id}
                     permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                 >
@@ -428,14 +424,13 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
         );
     }
 
-    const teamId = TeamStore.getCurrentId();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     let setHeaderButton = null;
     const children = createSetHeaderButton(channel);
     if (children) {
         setHeaderButton = (
             <ChannelPermissionGate
-                teamId={teamId}
+                teamId={channel.team_id}
                 channelId={channel.id}
                 permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
             >
