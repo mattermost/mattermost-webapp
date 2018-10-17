@@ -329,19 +329,6 @@ export async function getChannelMembersForUserIds(channelId, userIds, success, e
     }
 }
 
-export async function leaveChannel(channelId, success) {
-    const townsquare = ChannelStore.getByName('town-square');
-    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
-
-    await dispatch(ChannelActions.leaveChannel(channelId));
-    if (isFavoriteChannel(channelId)) {
-        dispatch(ChannelActions.unfavoriteChannel(channelId));
-    }
-    if (success) {
-        success();
-    }
-}
-
 export async function deleteChannel(channelId, success, error) {
     const {data, error: err} = await ChannelActions.deleteChannel(channelId)(dispatch, getState);
 
