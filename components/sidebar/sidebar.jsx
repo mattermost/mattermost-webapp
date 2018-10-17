@@ -566,6 +566,7 @@ export default class Sidebar extends React.PureComponent {
 
     render() {
         const {channelSwitcherOption} = this.props;
+
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);

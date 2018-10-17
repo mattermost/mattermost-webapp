@@ -14,9 +14,8 @@ import {
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool as getBoolPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/sidebar';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 

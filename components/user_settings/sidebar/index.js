@@ -7,9 +7,8 @@ import {connect} from 'react-redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/sidebar';
 
 import UserSettingsSidebar from './user_settings_sidebar.jsx';
 
