@@ -30,6 +30,10 @@ export default class TeamSidebar extends React.PureComponent {
         }).isRequired,
     }
 
+    componentDidMount() {
+        this.props.actions.getTeams(0, 200);
+    }
+
     render() {
         const root = document.querySelector('#root');
         if (this.props.myTeams.length <= 1) {
