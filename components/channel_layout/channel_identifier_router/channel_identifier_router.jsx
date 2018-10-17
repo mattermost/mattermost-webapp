@@ -70,7 +70,7 @@ async function goToChannelByChannelId(match, history) {
     let channel = ChannelStore.get(channelId);
     const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error} = await joinChannel(UserStore.getCurrentId(), teamObj.id, channelId, null)(dispatch, getState);
+        const {data, error} = await dispatch(joinChannel(UserStore.getCurrentId(), teamObj.id, channelId, null));
         if (error) {
             handleChannelJoinError(match, history);
             return;
@@ -94,7 +94,7 @@ async function goToChannelByChannelName(match, history) {
     let channel = ChannelStore.getByName(channelName);
     const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error: joinError} = await joinChannel(UserStore.getCurrentId(), teamObj.id, null, channelName)(dispatch, getState);
+        const {data, error: joinError} = await dispatch(joinChannel(UserStore.getCurrentId(), teamObj.id, null, channelName));
         if (joinError) {
             const {data: data2, error: getChannelError} = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
             if (getChannelError || data2.delete_at === 0) {
@@ -198,7 +198,7 @@ async function goToGroupChannelByGroupId(match, history) {
     let channel = ChannelStore.getByName(groupId);
     const teamObj = TeamStore.getByName(team);
     if (!channel) {
-        const {data, error} = await joinChannel(UserStore.getCurrentId(), teamObj.id, null, groupId)(dispatch, getState);
+        const {data, error} = await dispatch(joinChannel(UserStore.getCurrentId(), teamObj.id, null, groupId));
         if (error) {
             handleError(match, history);
             return;

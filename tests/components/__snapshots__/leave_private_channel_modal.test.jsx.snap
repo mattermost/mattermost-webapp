@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/LeavePrivateChannelModal should match snapshot, init 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-danger"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Yes, leave channel"
+      id="leave_private_channel_modal.leave"
+      values={Object {}}
+    />
+  }
+  message=""
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={false}
+  title=""
+/>
+`;
