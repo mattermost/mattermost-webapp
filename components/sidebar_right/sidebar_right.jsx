@@ -7,8 +7,6 @@ import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import PostStore from 'stores/post_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
@@ -16,7 +14,7 @@ import RhsThread from 'components/rhs_thread';
 import SearchBar from 'components/search_bar';
 import SearchResults from 'components/search_results';
 
-export default class SidebarRight extends React.Component {
+export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
@@ -36,50 +34,15 @@ export default class SidebarRight extends React.Component {
         }),
     };
 
-    constructor(props) {
-        super(props);
-
-        this.plScrolledToBottom = true;
-    }
-
-    componentDidMount() {
-        PostStore.addPostPinnedChangeListener(this.onPostPinnedChange);
-    }
-
-    componentWillUnmount() {
-        PostStore.removePostPinnedChangeListener(this.onPostPinnedChange);
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const isOpen = this.props.searchVisible || this.props.postRightVisible;
-        const willOpen = nextProps.searchVisible || nextProps.postRightVisible;
-
-        if (!isOpen && willOpen) {
-            trackEvent('ui', 'ui_rhs_opened');
-        }
-
-        if (nextProps.isPinnedPosts && nextProps.channel &&
-            this.props.isPinnedPosts === nextProps.isPinnedPosts &&
-            this.props.channel !== nextProps.channel) {
-            this.props.actions.showPinnedPosts(nextProps.channel.id);
-        }
-    }
-
     componentDidUpdate(prevProps) {
+        const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
 
-        const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
-
-        if (isOpen && !wasOpen) {
+        if (!wasOpen && isOpen) {
+            trackEvent('ui', 'ui_rhs_opened');
             setTimeout(postListScrollChange, 0);
         }
     }
-
-    onPostPinnedChange = () => {
-        if (this.props.channel && this.props.isPinnedPosts) {
-            this.props.actions.getPinnedPosts(this.props.channel.id);
-        }
-    };
 
     onShrink = () => {
         this.props.actions.setRhsExpanded(false);
@@ -139,7 +102,6 @@ export default class SidebarRight extends React.Component {
                     <div className='search-bar__container channel-header alt'>{searchForm}</div>
                     <RhsThread
                         previousRhsState={previousRhsState}
-                        isWebrtc={WebrtcStore.isBusy()}
                         currentUser={currentUser}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}

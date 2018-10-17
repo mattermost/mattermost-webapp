@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {removeUserFromChannel} from 'actions/channel_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -14,6 +13,7 @@ export default class ChannelMembersDropdown extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
+        currentUser: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,
@@ -89,7 +89,7 @@ export default class ChannelMembersDropdown extends React.Component {
             );
         }
 
-        if (this.props.user.id === UserStore.getCurrentId()) {
+        if (this.props.user.id === this.props.currentUser.id) {
             return null;
         }
 

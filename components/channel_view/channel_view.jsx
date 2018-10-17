@@ -15,9 +15,6 @@ import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import {browserHistory} from 'utils/browser_history';
-import {Constants} from 'utils/constants.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
@@ -29,7 +26,9 @@ export default class ChannelView extends React.PureComponent {
         showTutorial: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
-        lastViewedChannelName: PropTypes.string.isRequired,
+        actions: PropTypes.shape({
+            goToLastViewedChannel: PropTypes.func.isRequired,
+        }),
     };
 
     constructor(props) {
@@ -69,8 +68,7 @@ export default class ChannelView extends React.PureComponent {
     }
 
     onClickCloseChannel = () => {
-        const {lastViewedChannelName} = this.props;
-        browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${lastViewedChannelName}`);
+        this.props.actions.goToLastViewedChannel();
     }
 
     componentDidUpdate(prevProps) {
@@ -93,7 +91,7 @@ export default class ChannelView extends React.PureComponent {
                 trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
             }
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
-                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+                this.props.actions.goToLastViewedChannel();
             }
         }
     }

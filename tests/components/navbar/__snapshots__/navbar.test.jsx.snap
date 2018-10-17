@@ -32,7 +32,7 @@ exports[`components/navbar/Navbar should match snapshot, for default channel 1`]
           <MenuIcon
             className="icon icon__menu icon--sidebarHeaderTextColor"
           />
-          <NotifyCounts />
+          <Connect(NotifyCounts) />
         </button>
         <div
           className="navbar-brand"
@@ -375,7 +375,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
           <MenuIcon
             className="icon icon__menu icon--sidebarHeaderTextColor"
           />
-          <NotifyCounts />
+          <Connect(NotifyCounts) />
         </button>
         <div
           className="navbar-brand"
@@ -827,7 +827,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
           <MenuIcon
             className="icon icon__menu icon--sidebarHeaderTextColor"
           />
-          <NotifyCounts />
+          <Connect(NotifyCounts) />
         </button>
         <div
           className="navbar-brand"
@@ -1309,7 +1309,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
           <MenuIcon
             className="icon icon__menu icon--sidebarHeaderTextColor"
           />
-          <NotifyCounts />
+          <Connect(NotifyCounts) />
         </button>
         <div
           className="navbar-brand"
@@ -1519,7 +1519,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
           <MenuIcon
             className="icon icon__menu icon--sidebarHeaderTextColor"
           />
-          <NotifyCounts />
+          <Connect(NotifyCounts) />
         </button>
         <div
           className="navbar-brand"
@@ -2005,7 +2005,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
           <MenuIcon
             className="icon icon__menu icon--sidebarHeaderTextColor"
           />
-          <NotifyCounts />
+          <Connect(NotifyCounts) />
         </button>
         <div
           className="navbar-brand"

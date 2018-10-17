@@ -17,9 +17,11 @@ describe('components/navbar/Navbar', () => {
             toggleRhsMenu: jest.fn(),
             closeRhsMenu: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
+            leaveChannel: jest.fn(),
         },
         isLicensed: true,
         enableWebrtc: true,
+        isFavoriteChannel: false,
     };
 
     const validState = {

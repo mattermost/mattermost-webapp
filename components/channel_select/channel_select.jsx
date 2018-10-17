@@ -4,14 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ChannelSelect extends React.Component {
+export default class ChannelSelect extends React.PureComponent {
     static get propTypes() {
         return {
+            channels: PropTypes.array.isRequired,
             onChange: PropTypes.func,
             value: PropTypes.string,
             selectOpen: PropTypes.bool.isRequired,
@@ -28,40 +27,6 @@ export default class ChannelSelect extends React.Component {
         };
     }
 
-    constructor(props) {
-        super(props);
-
-        this.handleChannelChange = this.handleChannelChange.bind(this);
-        this.filterChannels = this.filterChannels.bind(this);
-
-        this.state = {
-            channels: ChannelStore.getAll().filter(this.filterChannels).sort(sortChannelsByDisplayName),
-        };
-    }
-
-    componentDidMount() {
-        ChannelStore.addChangeListener(this.handleChannelChange);
-    }
-
-    componentWillUnmount() {
-        ChannelStore.removeChangeListener(this.handleChannelChange);
-    }
-
-    handleChannelChange() {
-        this.setState({
-            channels: ChannelStore.getAll().
-                filter(this.filterChannels).sort(sortChannelsByDisplayName),
-        });
-    }
-
-    filterChannels(channel) {
-        if (channel.display_name) {
-            return true;
-        }
-
-        return false;
-    }
-
     render() {
         const options = [
             <option
@@ -72,14 +37,15 @@ export default class ChannelSelect extends React.Component {
             </option>,
         ];
 
-        this.state.channels.forEach((channel) => {
+        this.props.channels.forEach((channel) => {
+            const channelName = channel.display_name || channel.name;
             if (channel.type === Constants.OPEN_CHANNEL && this.props.selectOpen) {
                 options.push(
                     <option
                         key={channel.id}
                         value={channel.id}
                     >
-                        {channel.display_name}
+                        {channelName}
                     </option>
                 );
             } else if (channel.type === Constants.PRIVATE_CHANNEL && this.props.selectPrivate) {
@@ -88,7 +54,7 @@ export default class ChannelSelect extends React.Component {
                         key={channel.id}
                         value={channel.id}
                     >
-                        {channel.display_name}
+                        {channelName}
                     </option>
                 );
             } else if (channel.type === Constants.DM_CHANNEL && this.props.selectDm) {
@@ -97,7 +63,7 @@ export default class ChannelSelect extends React.Component {
                         key={channel.id}
                         value={channel.id}
                     >
-                        {channel.display_name}
+                        {channelName}
                     </option>
                 );
             }

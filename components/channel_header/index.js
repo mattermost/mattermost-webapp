@@ -14,7 +14,9 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 
 import {withRouter} from 'react-router-dom';
 
-import {getLastViewedChannelName, getPenultimateViewedChannelName} from 'selectors/local_storage';
+import {goToLastViewedChannel} from 'actions/views/channel';
+
+import {getPenultimateViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants.jsx';
 
 import {
@@ -26,6 +28,8 @@ import {
 } from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
+
+import {getIsBusy} from 'selectors/webrtc';
 
 import ChannelHeader from './channel_header.jsx';
 
@@ -45,11 +49,6 @@ function mapStateToProps(state, ownProps) {
     const license = getLicense(state);
     const config = getConfig(state);
 
-    let lastViewedChannelName = getLastViewedChannelName(state);
-    if (!lastViewedChannelName || (channel && lastViewedChannelName === channel.name)) {
-        lastViewedChannelName = Constants.DEFAULT_CHANNEL;
-    }
-
     let penultimateViewedChannelName = getPenultimateViewedChannelName(state);
     if (!penultimateViewedChannelName) {
         penultimateViewedChannelName = Constants.DEFAULT_CHANNEL;
@@ -68,8 +67,8 @@ function mapStateToProps(state, ownProps) {
         isLicensed: license.IsLicensed === 'true',
         enableWebrtc: config.EnableWebrtc === 'true',
         isReadOnly: isCurrentChannelReadOnly(state),
-        lastViewedChannelName,
         penultimateViewedChannelName,
+        isWebrtcBusy: getIsBusy(state),
     };
 }
 
@@ -87,6 +86,7 @@ function mapDispatchToProps(dispatch) {
             openModal,
             getCustomEmojisInText,
             updateChannelNotifyProps,
+            goToLastViewedChannel,
         }, dispatch),
     };
 }
