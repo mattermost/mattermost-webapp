@@ -14,7 +14,6 @@ import {
     selectPostFromRightHandSideSearch,
     updateSearchTerms,
     performSearch,
-    getFlaggedPosts,
     getPinnedPosts,
     showSearchResults,
     showFlaggedPosts,
@@ -223,36 +222,6 @@ describe('rhs view actions', () => {
                 terms,
             });
             compareStore.dispatch(performSearch(terms));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
-        });
-    });
-
-    describe('getFlaggedPosts', () => {
-        test('it dispatches the right actions', async () => {
-            await store.dispatch(getFlaggedPosts());
-
-            const compareStore = mockStore(initialState);
-            const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
-            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-
-            compareStore.dispatch(batchActions([
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                    data: result,
-                },
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_TERM,
-                    data: {
-                        teamId: '321',
-                        terms: null,
-                        isOrSearch: false,
-                    },
-                },
-                {
-                    type: SearchTypes.SEARCH_POSTS_SUCCESS,
-                },
-            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });

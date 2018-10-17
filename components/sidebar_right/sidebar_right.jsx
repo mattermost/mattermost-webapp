@@ -28,7 +28,6 @@ export default class SidebarRight extends React.PureComponent {
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
             getPinnedPosts: PropTypes.func.isRequired,
-            getFlaggedPosts: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
         }),
