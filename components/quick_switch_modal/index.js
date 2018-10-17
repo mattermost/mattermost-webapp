@@ -2,28 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-import {goToChannel, openDirectChannelToUser} from 'actions/channel_actions.jsx';
-
-import {makeGetChannelUrlById} from 'utils/channel_utils';
+import {switchToChannel} from 'actions/views/channel';
 
 import QuickSwitchModal from './quick_switch_modal.jsx';
 
-function mapStateToProps(state) {
-    const getChannelUrlById = makeGetChannelUrlById(state);
-
+function mapStateToProps() {
     return {
         showTeamSwitcher: false,
-        getChannelUrlById,
     };
 }
 
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
     return {
-        actions: {
-            goToChannel,
-            openDirectChannelToUser,
-        },
+        actions: bindActionCreators({
+            switchToChannel,
+        }, dispatch),
     };
 }
 

@@ -23,10 +23,10 @@ import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {makeGetChannelUrlById} from 'utils/channel_utils';
-import {GroupUnreadChannels} from 'utils/constants.jsx';
+import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
+import {GroupUnreadChannels} from 'utils/constants.jsx';
 
 import Sidebar from './sidebar.jsx';
 
@@ -67,8 +67,6 @@ function mapStateToProps(state) {
         directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
     }
 
-    const getChannelUrlById = makeGetChannelUrlById(state);
-
     return {
         config,
         isOpen: getIsLhsOpen(state),
@@ -84,7 +82,6 @@ function mapStateToProps(state) {
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
         unreads: getUnreads(state),
-        getChannelUrlById,
     };
 }
 
@@ -92,6 +89,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             close,
+            switchToChannelById,
         }, dispatch),
     };
 }

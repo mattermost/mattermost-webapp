@@ -118,9 +118,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             messageCount: 0,
             mentions: 0,
         },
-        getChannelUrlById: jest.fn(),
         actions: {
             close: jest.fn(),
+            switchToChannelById: jest.fn(),
         },
     };
 
@@ -191,7 +191,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('navigate to the next/prev channels', () => {
-        const browserHistory = require('utils/browser_history').browserHistory;
         const nextEvent = {
             preventDefault: jest.fn(),
             altKey: true,
@@ -214,84 +213,72 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         instance.updateScrollbarOnChannelChange = jest.fn();
         instance.componentDidUpdate = jest.fn();
         instance.navigateChannelShortcut({});
-        expect(instance.props.getChannelUrlById).not.toBeCalled();
+        expect(instance.props.actions.switchToChannelById).not.toBeCalled();
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
 
         instance.isSwitchingChannel = true;
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).not.toBeCalled();
+        expect(instance.props.actions.switchToChannelById).not.toBeCalled();
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
         instance.isSwitchingChannel = false;
 
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c2');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c2');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c2');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c2});
 
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c3');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c3});
 
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c4');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c4');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c4');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c4});
 
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c5');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c5');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c5');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c5});
 
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c6');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c6');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c6});
 
         instance.navigateChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c1');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c1');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c1');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c1});
 
         instance.navigateChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c6');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c6');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c6});
 
         instance.navigateChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c5');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c5');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c5');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c5});
 
         instance.navigateChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c4');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c4');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c4');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c4});
 
         instance.navigateChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c3');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c3});
 
         instance.navigateChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c2');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c2');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c2');
-        expect(browserHistory.push).toBeCalled();
         wrapper.setProps({currentChannel: allChannels.c2});
     });
 
     test('navigate to the next/prev unread channels', () => {
-        const browserHistory = require('utils/browser_history').browserHistory;
         const nextEvent = {
             preventDefault: jest.fn(),
             altKey: true,
@@ -319,54 +306,48 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
 
         instance.navigateUnreadChannelShortcut({});
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(instance.props.getChannelUrlById).not.toBeCalled();
+        expect(instance.props.actions.switchToChannelById).not.toBeCalled();
 
         instance.isSwitchingChannel = true;
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(instance.props.getChannelUrlById).not.toBeCalled();
+        expect(instance.props.actions.switchToChannelById).not.toBeCalled();
         instance.isSwitchingChannel = false;
 
         wrapper.setProps({unreadChannelIds: []});
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(instance.props.getChannelUrlById).not.toBeCalled();
+        expect(instance.props.actions.switchToChannelById).not.toBeCalled();
 
         wrapper.setProps({unreadChannelIds: ['c3', 'c6']});
         instance.navigateUnreadChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c3');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).toBeCalled();
 
         wrapper.setProps({currentChannel: allChannels.c3, unreadChannelIds: ['c6']});
         instance.navigateUnreadChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c6');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c6');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).toBeCalled();
 
         wrapper.setProps({currentChannel: allChannels.c6, unreadChannelIds: ['c3']});
         instance.navigateUnreadChannelShortcut(nextEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c3');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).toBeCalled();
 
         wrapper.setProps({currentChannel: allChannels.c1, unreadChannelIds: ['c3', 'c6']});
         instance.navigateUnreadChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c6');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c6');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).toBeCalled();
 
         wrapper.setProps({currentChannel: allChannels.c6, unreadChannelIds: ['c3']});
         instance.navigateUnreadChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c3');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c3');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).toBeCalled();
 
         wrapper.setProps({currentChannel: allChannels.c3, unreadChannelIds: ['c6']});
         instance.navigateUnreadChannelShortcut(prevEvent);
-        expect(instance.props.getChannelUrlById).lastCalledWith('c6');
+        expect(instance.props.actions.switchToChannelById).lastCalledWith('c6');
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).toBeCalled();
     });
 
     test('open direct channel selector on CTRL/CMD+SHIFT+K', () => {

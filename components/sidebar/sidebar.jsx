@@ -126,13 +126,9 @@ export default class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
-        /**
-         * Function to get channel url from the channel id
-         */
-        getChannelUrlById: PropTypes.func.isRequired,
-
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
+            switchToChannelById: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -367,9 +363,8 @@ export default class Sidebar extends React.PureComponent {
                 nextIndex = curIndex - 1;
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            const nextChannelUrl = this.props.getChannelUrlById(nextChannelId);
+            this.props.actions.switchToChannelById(nextChannelId);
             this.updateScrollbarOnChannelChange(nextChannelId);
-            browserHistory.push(nextChannelUrl);
 
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
@@ -405,9 +400,8 @@ export default class Sidebar extends React.PureComponent {
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                const nextChannelUrl = this.props.getChannelUrlById(nextChannelId);
+                this.props.actions.switchToChannelById(nextChannelId);
                 this.updateScrollbarOnChannelChange(nextChannelId);
-                browserHistory.push(nextChannelUrl);
             }
 
             this.isSwitchingChannel = false;

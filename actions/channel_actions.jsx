@@ -25,24 +25,6 @@ import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function goToChannel(channel) {
-    if (channel.fake) {
-        const user = UserStore.getProfileByUsername(channel.display_name);
-        if (!user) {
-            return;
-        }
-        openDirectChannelToUser(
-            user.id,
-            () => {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-            },
-            null
-        );
-    } else {
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-    }
-}
-
 export function executeCommand(message, args, success, error) {
     let msg = message;
 
@@ -149,6 +131,7 @@ export function setChannelAsRead(channelIdParam) {
     }
 }
 
+// To be removed in a future PR
 export async function openDirectChannelToUser(userId, success, error) {
     const channelName = Utils.getDirectChannelName(UserStore.getCurrentId(), userId);
     const channel = ChannelStore.getByName(channelName);
