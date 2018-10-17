@@ -1,0 +1,584 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, while loading 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-inactive disabled"
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.groups.groupsList.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <div
+      className="groups-list-loading"
+    >
+      <i
+        className="fa fa-spinner fa-pulse fa-2x"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, with mixed types selected 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-primary"
+        onClick={[Function]}
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.groups.groupsList.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={true}
+      has_syncables={null}
+      key="test1"
+      mattermost_group_id={null}
+      name="test1"
+      onCheckToggle={[Function]}
+      primary_key="test1"
+    />
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={true}
+      has_syncables={false}
+      key="test2"
+      mattermost_group_id="group-id-1"
+      name="test2"
+      onCheckToggle={[Function]}
+      primary_key="test2"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, with only linked selected 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-primary"
+        onClick={[Function]}
+      >
+        <i
+          className="icon fa fa-unlink"
+        />
+        <FormattedMessage
+          defaultMessage="Unlink Selected Groups"
+          id="admin.groups.groupsList.unlink_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={null}
+      key="test1"
+      mattermost_group_id={null}
+      name="test1"
+      onCheckToggle={[Function]}
+      primary_key="test1"
+    />
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={true}
+      has_syncables={false}
+      key="test2"
+      mattermost_group_id="group-id-1"
+      name="test2"
+      onCheckToggle={[Function]}
+      primary_key="test2"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, with only not-linked selected 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-primary"
+        onClick={[Function]}
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.groups.groupsList.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={true}
+      has_syncables={null}
+      key="test1"
+      mattermost_group_id={null}
+      name="test1"
+      onCheckToggle={[Function]}
+      primary_key="test1"
+    />
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={false}
+      key="test2"
+      mattermost_group_id="group-id-1"
+      name="test2"
+      onCheckToggle={[Function]}
+      primary_key="test2"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, with results 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-inactive disabled"
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.groups.groupsList.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={null}
+      key="test1"
+      mattermost_group_id={null}
+      name="test1"
+      onCheckToggle={[Function]}
+      primary_key="test1"
+    />
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={false}
+      key="test2"
+      mattermost_group_id="group-id-1"
+      name="test2"
+      onCheckToggle={[Function]}
+      primary_key="test2"
+    />
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={true}
+      key="test3"
+      mattermost_group_id="group-id-2"
+      name="test3"
+      onCheckToggle={[Function]}
+      primary_key="test3"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, without results 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-inactive disabled"
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.groups.groupsList.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <div
+      className="groups-list-empty"
+    >
+      <FormattedMessage
+        defaultMessage="No groups found"
+        id="admin.groups.groupsList.no-groups-found"
+        values={Object {}}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupsList should match snapshot, without selection 1`] = `
+<div
+  className="groups-list"
+>
+  <div
+    className="groups-list--global-actions"
+  >
+    <div />
+    <div
+      className="group-list-link-unlink"
+    >
+      <button
+        className="btn btn-inactive disabled"
+      >
+        <i
+          className="icon fa fa-link"
+        />
+        <FormattedMessage
+          defaultMessage="Link Selected Groups"
+          id="admin.groups.groupsList.link_selected"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.groups.groupsList.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-description"
+    >
+      <FormattedMessage
+        defaultMessage="AD/LDAP Linking"
+        id="admin.permissions.groupsList.mappingHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-actions"
+    />
+  </div>
+  <div
+    className="groups-list--body"
+  >
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={null}
+      key="test1"
+      mattermost_group_id={null}
+      name="test1"
+      onCheckToggle={[Function]}
+      primary_key="test1"
+    />
+    <GroupRow
+      actions={
+        Object {
+          "link": [MockFunction],
+          "unlink": [MockFunction],
+        }
+      }
+      checked={false}
+      has_syncables={false}
+      key="test2"
+      mattermost_group_id="group-id-1"
+      name="test2"
+      onCheckToggle={[Function]}
+      primary_key="test2"
+    />
+  </div>
+</div>
+`;
