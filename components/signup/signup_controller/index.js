@@ -20,6 +20,7 @@ function mapStateToProps(state) {
     const enableLDAP = config.EnableLdap === 'true';
     const enableSAML = config.EnableSaml === 'true';
     const samlLoginButtonText = config.SamlLoginButtonText;
+    const ldapLoginFieldName = config.LdapLoginFieldName;
     const siteName = config.SiteName;
 
     return {
@@ -33,6 +34,7 @@ function mapStateToProps(state) {
         enableLDAP,
         enableSAML,
         samlLoginButtonText,
+        ldapLoginFieldName,
         siteName,
     };
 }
