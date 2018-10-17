@@ -155,24 +155,6 @@ export function setChannelAsRead(channelIdParam) {
     }
 }
 
-export async function addUserToChannel(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.addChannelMember(channelId, userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function removeUserFromChannel(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.removeChannelMember(channelId, userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function openDirectChannelToUser(userId, success, error) {
     const channelName = Utils.getDirectChannelName(UserStore.getCurrentId(), userId);
     const channel = ChannelStore.getByName(channelName);
@@ -337,4 +319,16 @@ export async function deleteChannel(channelId, success, error) {
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function addUsersToChannel(channelId, userIds) {
+    return async (doDispatch) => {
+        try {
+            const requests = userIds.map((uId) => doDispatch(ChannelActions.addChannelMember(channelId, uId)));
+
+            return await Promise.all(requests);
+        } catch (error) {
+            return {error};
+        }
+    };
 }
