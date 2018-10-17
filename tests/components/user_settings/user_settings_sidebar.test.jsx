@@ -69,6 +69,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         wrapper.find('#noneOption').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'none',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
@@ -78,6 +79,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         wrapper.find('#byTypeOption').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
@@ -87,6 +89,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: false}});
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: 'false',
@@ -96,6 +99,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: true}});
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: 'true',
@@ -105,6 +109,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: false}});
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
@@ -114,6 +119,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: true}});
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
