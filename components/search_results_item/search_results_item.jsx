@@ -73,11 +73,6 @@ export default class SearchResultsItem extends React.PureComponent {
         isFlagged: PropTypes.bool,
 
         /**
-        *  Flag for determining profile busy status
-        */
-        isBusy: PropTypes.bool,
-
-        /**
         *  Data used for status in profile
         */
         status: PropTypes.string,
@@ -215,7 +210,6 @@ export default class SearchResultsItem extends React.PureComponent {
                 post={post}
                 user={user}
                 status={this.props.status}
-                isBusy={this.props.isBusy}
             />
         );
 
@@ -347,7 +341,6 @@ export default class SearchResultsItem extends React.PureComponent {
                                             overwriteName={overrideUsername}
                                             disablePopover={disableProfilePopover}
                                             status={this.props.status}
-                                            isBusy={this.props.isBusy}
                                         />
                                     </strong>
                                 </div>

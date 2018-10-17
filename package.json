@@ -53,7 +53,6 @@
     "superagent": "3.8.3",
     "twemoji": "11.0.1",
     "url-search-params-polyfill": "5.0.0",
-    "webrtc-adapter": "6.4.0",
     "whatwg-fetch": "3.0.0",
     "xregexp": "4.2.0",
     "zen-observable": "0.2.1"

@@ -265,18 +265,6 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
-        const webrtcSettings = (
-            <AdminSidebarSection
-                name='webrtc'
-                title={
-                    <FormattedMessage
-                        id='admin.sidebar.webrtc'
-                        defaultMessage='WebRTC (Beta)'
-                    />
-                }
-            />
-        );
-
         let elasticSearchSettings = null;
         if (this.props.license.IsLicensed === 'true' && this.props.license.Elasticsearch === 'true') {
             elasticSearchSettings = (
@@ -639,7 +627,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {webrtcSettings}
                                 <AdminSidebarSection
                                     name='external'
                                     title={

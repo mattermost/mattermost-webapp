@@ -245,7 +245,6 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
         }
         currentUserId=""
         enableTimezone={false}
-        enableWebrtc={true}
         hasMention={false}
         isRHS={false}
         src="src"

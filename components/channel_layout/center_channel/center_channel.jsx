@@ -18,7 +18,6 @@ export default class CenterChannel extends React.PureComponent {
         lhsOpen: PropTypes.bool.isRequired,
         rhsOpen: PropTypes.bool.isRequired,
         rhsMenuOpen: PropTypes.bool.isRequired,
-        webRtcOpen: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -41,9 +40,8 @@ export default class CenterChannel extends React.PureComponent {
             <div
                 key='inner-wrap'
                 className={classNames('inner-wrap', 'channel__wrap', {
-                    'webrtc--show': this.props.webRtcOpen,
                     'move--right': this.props.lhsOpen,
-                    'move--left': this.props.rhsOpen || this.props.webRtcOpen,
+                    'move--left': this.props.rhsOpen,
                     'move--left-small': this.props.rhsMenuOpen,
                 })}
             >

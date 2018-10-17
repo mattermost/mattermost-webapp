@@ -28,15 +28,6 @@
     cursor: zoom-$value;
 }
 
-// Webrtc button
-@mixin webrtc-button {
-    .webrtc__button {
-        &.offline {
-            @include opacity(.5);
-        }
-    }
-}
-
 // From https://gist.github.com/kaelig/7528069
 @mixin text-clamp($lines: 2, $line-height: false) {
     overflow: hidden;

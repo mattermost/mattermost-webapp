@@ -40,8 +40,6 @@ import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEven
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 
-import * as WebrtcActions from './webrtc_actions.jsx';
-
 const dispatch = store.dispatch;
 const getState = store.getState;
 
@@ -300,10 +298,6 @@ function handleEvent(msg) {
 
     case SocketEvents.HELLO:
         handleHelloEvent(msg);
-        break;
-
-    case SocketEvents.WEBRTC:
-        handleWebrtc(msg);
         break;
 
     case SocketEvents.REACTION_ADDED:
@@ -708,11 +702,6 @@ function handleStatusChangedEvent(msg) {
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
-}
-
-function handleWebrtc(msg) {
-    const data = msg.data;
-    return WebrtcActions.handle(data);
 }
 
 function handleReactionAddedEvent(msg) {

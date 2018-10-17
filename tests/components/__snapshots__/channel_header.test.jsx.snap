@@ -186,9 +186,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     </div>
     <div
       className="flex-child"
-    />
-    <div
-      className="flex-child"
     >
       <Connect(PopoverListMembers)
         channel={
@@ -520,9 +517,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     </div>
     <div
       className="flex-child"
-    />
-    <div
-      className="flex-child"
     >
       <Connect(PopoverListMembers)
         channel={
@@ -825,9 +819,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         />
       </div>
     </div>
-    <div
-      className="flex-child"
-    />
     <div
       className="flex-child"
     >
@@ -1183,9 +1174,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
         </OverlayTrigger>
       </div>
     </div>
-    <div
-      className="flex-child"
-    />
     <div
       className="flex-child"
     >
