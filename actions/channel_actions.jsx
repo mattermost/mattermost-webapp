@@ -7,6 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {browserHistory} from 'utils/browser_history';
+import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
@@ -17,10 +18,11 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import {isFavoriteChannel} from 'utils/channel_utils.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
+import UserSettingsModal from 'components/user_settings/modal';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -82,7 +84,7 @@ export function executeCommand(message, args, success, error) {
         break;
     }
     case '/settings':
-        GlobalActions.showAccountSettingsModal();
+        dispatch(openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal}));
         return;
     case '/collapse':
     case '/expand':
