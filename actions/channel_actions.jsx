@@ -121,16 +121,6 @@ export function executeCommand(message, args, success, error) {
     );
 }
 
-export function setChannelAsRead(channelIdParam) {
-    const channelId = channelIdParam || ChannelStore.getCurrentId();
-    ChannelActions.viewChannel(channelId)(dispatch, getState);
-    ChannelStore.resetCounts([channelId]);
-    ChannelStore.emitChange();
-    if (channelId === ChannelStore.getCurrentId()) {
-        ChannelStore.emitLastViewed(Number.MAX_VALUE, false);
-    }
-}
-
 // To be removed in a future PR
 export async function openDirectChannelToUser(userId, success, error) {
     const channelName = Utils.getDirectChannelName(UserStore.getCurrentId(), userId);

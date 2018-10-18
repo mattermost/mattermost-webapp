@@ -11,6 +11,16 @@ global.performance = {};
 
 configure({adapter: new Adapter()});
 
+global.window = Object.create(window);
+Object.defineProperty(window, 'location', {
+    value: {
+        href: 'http://localhost:8065',
+        origin: 'http://localhost:8065',
+        port: '8065',
+        protocol: 'http:',
+    },
+});
+
 const supportedCommands = ['copy'];
 
 Object.defineProperty(document, 'queryCommandSupported', {
