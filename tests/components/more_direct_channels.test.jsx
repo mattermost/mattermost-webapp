@@ -124,7 +124,7 @@ describe('components/MoreDirectChannels', () => {
     test('should match output on renderValue', () => {
         const wrapper = shallow(<MoreDirectChannels {...baseProps}/>);
 
-        expect(wrapper.instance().renderValue({id: 'user_id_2', username: 'username'})).toEqual('username');
+        expect(wrapper.instance().renderValue({data: {id: 'user_id_2', username: 'username'}})).toEqual('username');
     });
 
     test('should match output on handleSubmitImmediatelyOn', () => {
