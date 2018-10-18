@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {General} from 'mattermost-redux/constants';
+
 import * as TeamUtils from 'utils/team_utils.jsx';
 
 describe('TeamUtils.filterAndSortTeamsByDisplayName', function() {
@@ -21,7 +23,7 @@ describe('TeamUtils.filterAndSortTeamsByDisplayName', function() {
             {teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG], result: [teamA, teamB, teamC, teamD]},
             {teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA], result: [teamA, teamB, teamC, teamD]},
         ]) {
-            expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams)).toEqual(data.result);
+            expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams, General.DEFAULT_LOCALE)).toEqual(data.result);
         }
     });
 });

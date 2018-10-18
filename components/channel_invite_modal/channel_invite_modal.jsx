@@ -9,7 +9,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
-import {addUserToChannel} from 'actions/channel_actions.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
@@ -23,10 +22,11 @@ export default class ChannelInviteModal extends React.Component {
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
+            addUsersToChannel: PropTypes.func.isRequired,
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ export default class ChannelInviteModal extends React.Component {
         }
 
         this.setState({values});
-    }
+    };
 
     componentDidMount() {
         this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, 0).then(() => {
@@ -58,7 +58,7 @@ export default class ChannelInviteModal extends React.Component {
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleInviteError = (err) => {
         if (err) {
@@ -66,23 +66,18 @@ export default class ChannelInviteModal extends React.Component {
                 saving: false,
                 inviteError: err.message,
             });
-        } else {
-            this.setState({
-                saving: false,
-                inviteError: null,
-            });
         }
-    }
+    };
 
     handleDelete = (values) => {
         this.setState({values});
-    }
+    };
 
     setUsersLoadingState = (loadingState) => {
         this.setState({
             loadingUsers: loadingState,
         });
-    }
+    };
 
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
@@ -91,9 +86,10 @@ export default class ChannelInviteModal extends React.Component {
                 this.setUsersLoadingState(false);
             });
         }
-    }
+    };
 
     handleSubmit = (e) => {
+        const {actions, channel} = this.props;
         if (e) {
             e.preventDefault();
         }
@@ -105,27 +101,24 @@ export default class ChannelInviteModal extends React.Component {
 
         this.setState({saving: true});
 
-        userIds.forEach((userId) => {
-            addUserToChannel(
-                this.props.channel.id,
-                userId,
-                () => {
-                    this.handleInviteError(null);
-                },
-                (err) => {
-                    this.handleInviteError(err);
-                }
-            );
+        actions.addUsersToChannel(channel.id, userIds).then((result) => {
+            if (result.error) {
+                this.handleInviteError(result.error);
+            } else {
+                this.setState({
+                    saving: false,
+                    inviteError: null,
+                });
+                this.onHide();
+            }
         });
-
-        this.onHide();
-    }
+    };
 
     search = (term) => {
         this.setState({
             term,
         });
-    }
+    };
 
     renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
@@ -160,11 +153,11 @@ export default class ChannelInviteModal extends React.Component {
                 </div>
             </div>
         );
-    }
+    };
 
     renderValue = (user) => {
         return user.username;
-    }
+    };
 
     render() {
         let inviteError = null;

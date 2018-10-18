@@ -23,9 +23,10 @@ import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {GroupUnreadChannels} from 'utils/constants.jsx';
+import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
+import {GroupUnreadChannels} from 'utils/constants.jsx';
 
 import Sidebar from './sidebar.jsx';
 
@@ -88,6 +89,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             close,
+            switchToChannelById,
         }, dispatch),
     };
 }

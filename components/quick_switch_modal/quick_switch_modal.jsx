@@ -43,9 +43,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         showTeamSwitcher: PropTypes.bool,
 
         actions: PropTypes.shape({
-            goToChannel: PropTypes.func.isRequired,
-            goToChannelById: PropTypes.func.isRequired,
-            openDirectChannelToUser: PropTypes.func.isRequired,
+            switchToChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -56,17 +54,6 @@ export default class QuickSwitchModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.onShow = this.onShow.bind(this);
-        this.onHide = this.onHide.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.switchToChannel = this.switchToChannel.bind(this);
-        this.switchMode = this.switchMode.bind(this);
-        this.focusTextbox = this.focusTextbox.bind(this);
-
-        this.enableChannelProvider = this.enableChannelProvider.bind(this);
-        this.enableTeamProvider = this.enableTeamProvider.bind(this);
         this.channelProviders = [new SwitchChannelProvider()];
         this.teamProviders = [new SwitchTeamProvider()];
 
@@ -84,7 +71,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     }
 
-    focusTextbox() {
+    focusTextbox = () => {
         if (this.switchBox == null) {
             return;
         }
@@ -94,26 +81,26 @@ export default class QuickSwitchModal extends React.PureComponent {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);
         }
-    }
+    };
 
     setSwitchBoxRef = (input) => {
         this.switchBox = input;
         this.focusTextbox();
     }
 
-    onShow() {
+    onShow = () => {
         this.setState({
             text: '',
         });
-    }
+    };
 
-    onHide() {
+    onHide = () => {
         this.focusPostTextbox();
         this.setState({
             text: '',
         });
         this.props.onHide();
-    }
+    };
 
     focusPostTextbox = () => {
         if (!UserAgent.isMobile()) {
@@ -126,74 +113,46 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     }
 
-    onChange(e) {
+    onChange = (e) => {
         this.setState({text: e.target.value});
-    }
+    };
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
             e.preventDefault();
             this.switchMode();
         }
-    }
+    };
 
-    handleSubmit(selected) {
-        let channel = null;
-
+    handleSubmit = (selected) => {
         if (!selected) {
             return;
         }
 
         if (this.state.mode === CHANNEL_MODE) {
             const selectedChannel = selected.channel;
-            if (selectedChannel.type === Constants.DM_CHANNEL) {
-                this.props.actions.openDirectChannelToUser(
-                    selectedChannel.userId,
-                    (ch) => {
-                        channel = ch;
-                        this.switchToChannel(channel);
-                    },
-                    () => {
-                        channel = null;
-                        this.switchToChannel(channel);
-                    }
-                );
-            } else if (selectedChannel.type === Constants.GM_CHANNEL) {
-                this.switchToChannelById(selectedChannel.id);
-            } else {
-                this.switchToChannel(selectedChannel);
-            }
+            this.props.actions.switchToChannel(selectedChannel).then((result) => {
+                if (result.data) {
+                    this.onHide();
+                }
+            });
         } else {
             browserHistory.push('/' + selected.name);
             this.onHide();
         }
-    }
+    };
 
-    switchToChannel(channel) {
-        if (channel != null) {
-            this.props.actions.goToChannel(channel);
-            this.onHide();
-        }
-    }
-
-    switchToChannelById(channelId) {
-        if (channelId) {
-            this.props.actions.goToChannelById(channelId);
-            this.onHide();
-        }
-    }
-
-    enableChannelProvider() {
+    enableChannelProvider = () => {
         this.channelProviders[0].disableDispatches = false;
         this.teamProviders[0].disableDispatches = true;
-    }
+    };
 
-    enableTeamProvider() {
+    enableTeamProvider = () => {
         this.teamProviders[0].disableDispatches = false;
         this.channelProviders[0].disableDispatches = true;
-    }
+    };
 
-    switchMode() {
+    switchMode = () => {
         if (this.state.mode === CHANNEL_MODE && this.props.showTeamSwitcher) {
             this.enableTeamProvider();
             this.setState({mode: TEAM_MODE});
@@ -201,7 +160,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             this.enableChannelProvider();
             this.setState({mode: CHANNEL_MODE});
         }
-    }
+    };
 
     handleOnClick = (e) => {
         e.preventDefault();

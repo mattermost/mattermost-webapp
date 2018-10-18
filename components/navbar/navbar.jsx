@@ -12,7 +12,6 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -61,16 +60,18 @@ export default class Navbar extends React.Component {
         isReadOnly: PropTypes.bool,
         isFavoriteChannel: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            updateRhsState: PropTypes.func,
-            showPinnedPosts: PropTypes.func,
-            toggleLhs: PropTypes.func.isRequired,
             closeLhs: PropTypes.func.isRequired,
             closeRhs: PropTypes.func.isRequired,
-            toggleRhsMenu: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
-            updateChannelNotifyProps: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
-        }),
+            markFavorite: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func,
+            toggleLhs: PropTypes.func.isRequired,
+            toggleRhsMenu: PropTypes.func.isRequired,
+            unmarkFavorite: PropTypes.func.isRequired,
+            updateChannelNotifyProps: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -145,10 +146,11 @@ export default class Navbar extends React.Component {
     }
 
     handleLeave = () => {
+        const {actions} = this.props;
         if (this.state.channel.type === Constants.PRIVATE_CHANNEL) {
             GlobalActions.showLeavePrivateChannelModal(this.state.channel);
         } else {
-            this.props.actions.leaveChannel(this.state.channel.id);
+            actions.leaveChannel(this.state.channel.id);
         }
     }
 
@@ -263,12 +265,13 @@ export default class Navbar extends React.Component {
     }
 
     toggleFavorite = (e) => {
+        const {markFavorite, unmarkFavorite} = this.props.actions;
         e.preventDefault();
 
         if (this.props.isFavoriteChannel) {
-            ChannelActions.unmarkFavorite(this.state.channel.id);
+            unmarkFavorite(this.state.channel.id);
         } else {
-            ChannelActions.markFavorite(this.state.channel.id);
+            markFavorite(this.state.channel.id);
         }
     };
 

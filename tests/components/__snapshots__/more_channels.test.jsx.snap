@@ -54,7 +54,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       <button
         className="btn btn-primary channel-create-btn"
         id="createNewChannel"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         type="button"
       >
         <FormattedMessage
@@ -75,6 +75,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
           Object {
             "delete_at": 0,
             "id": "channel_id_1",
+            "name": "channel-1",
           },
         ]
       }

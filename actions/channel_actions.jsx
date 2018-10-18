@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import * as ChannelActions from 'mattermost-redux/actions/channels';
-import {deletePreferences, savePreferences} from 'mattermost-redux/actions/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -17,6 +16,7 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import {isFavoriteChannel} from 'utils/channel_utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -24,29 +24,6 @@ import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export function goToChannelById(channelId) {
-    const channel = getChannel(getState(), channelId);
-    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-}
-
-export function goToChannel(channel) {
-    if (channel.fake) {
-        const user = UserStore.getProfileByUsername(channel.display_name);
-        if (!user) {
-            return;
-        }
-        openDirectChannelToUser(
-            user.id,
-            () => {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-            },
-            null
-        );
-    } else {
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-    }
-}
 
 export function executeCommand(message, args, success, error) {
     let msg = message;
@@ -95,8 +72,10 @@ export function executeCommand(message, args, success, error) {
                 category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
             }
             const currentUserId = UserStore.getCurrentId();
-            savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}])(dispatch, getState);
-            unmarkFavorite(channel.id);
+            dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
+            if (isFavoriteChannel(channel)) {
+                dispatch(ChannelActions.unfavoriteChannel(channel.id));
+            }
             browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
             return;
         }
@@ -152,24 +131,7 @@ export function setChannelAsRead(channelIdParam) {
     }
 }
 
-export async function addUserToChannel(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.addChannelMember(channelId, userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function removeUserFromChannel(channelId, userId, success, error) {
-    const {data, error: err} = await ChannelActions.removeChannelMember(channelId, userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
+// To be removed in a future PR
 export async function openDirectChannelToUser(userId, success, error) {
     const channelName = Utils.getDirectChannelName(UserStore.getCurrentId(), userId);
     const channel = ChannelStore.getByName(channelName);
@@ -214,25 +176,6 @@ export async function openGroupChannelToUsers(userIds, success, error) {
     }
 }
 
-export function markFavorite(channelId) {
-    trackEvent('api', 'api_channels_favorited');
-    const currentUserId = UserStore.getCurrentId();
-    savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_FAVORITE_CHANNEL, name: channelId, value: 'true'}])(dispatch, getState);
-}
-
-export function unmarkFavorite(channelId) {
-    trackEvent('api', 'api_channels_unfavorited');
-    const currentUserId = UserStore.getCurrentId();
-
-    const pref = {
-        user_id: currentUserId,
-        category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-        name: channelId,
-    };
-
-    deletePreferences(currentUserId, [pref])(dispatch, getState);
-}
-
 export async function loadChannelsForCurrentUser() {
     await ChannelActions.fetchMyChannelsAndMembers(TeamStore.getCurrentId())(dispatch, getState);
     loadDMsAndGMsForUnreads();
@@ -253,16 +196,6 @@ export function loadDMsAndGMsForUnreads() {
                 loadNewGMIfNeeded(channel.id);
             }
         }
-    }
-}
-
-export async function joinChannel(channel, success, error) {
-    const {data, err} = await ChannelActions.joinChannel(UserStore.getCurrentId(), null, channel.id)(dispatch, getState);
-
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
     }
 }
 
@@ -363,4 +296,16 @@ export async function deleteChannel(channelId, success, error) {
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function addUsersToChannel(channelId, userIds) {
+    return async (doDispatch) => {
+        try {
+            const requests = userIds.map((uId) => doDispatch(ChannelActions.addChannelMember(channelId, uId)));
+
+            return await Promise.all(requests);
+        } catch (error) {
+            return {error};
+        }
+    };
 }

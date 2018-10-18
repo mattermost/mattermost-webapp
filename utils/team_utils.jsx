@@ -1,12 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import LocalizationStore from 'stores/localization_store.jsx';
-
 // Use when sorting multiple teams by their `display_name` field
-function sortTeamsByDisplayName(a, b) {
-    const locale = LocalizationStore.getLocale();
-
+function compareTeamsByDisplayName(locale, a, b) {
     if (a.display_name !== b.display_name) {
         return a.display_name.localeCompare(b.display_name, locale, {numeric: true});
     }
@@ -15,14 +11,14 @@ function sortTeamsByDisplayName(a, b) {
 }
 
 // Use to filter out teams that are deleted and without display_name, then sort by their `display_name` field
-export function filterAndSortTeamsByDisplayName(teams = []) {
+export function filterAndSortTeamsByDisplayName(teams, locale) {
     if (!teams) {
         return [];
     }
 
-    return teams.
-        filter((team) => {
-            return team && !team.delete_at > 0 && team.display_name != null;
-        }).
-        sort(sortTeamsByDisplayName);
+    return teams.filter((team) => {
+        return team && !team.delete_at > 0 && team.display_name != null;
+    }).sort((a, b) => {
+        return compareTeamsByDisplayName(locale, a, b);
+    });
 }

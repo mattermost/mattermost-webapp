@@ -11,6 +11,22 @@ import {Constants, ActionTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
+const RECEIVED_POSTS = {
+    channelId: 'current_channel_id',
+    data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: ''}}},
+    type: 'RECEIVED_POSTS',
+};
+const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
+
+function getReceivedPosts(post) {
+    const receivedPosts = {...RECEIVED_POSTS};
+    if (post) {
+        receivedPosts.data.posts[post.id] = post;
+    }
+
+    return receivedPosts;
+}
+
 describe('Actions.Posts', () => {
     const latestPost = {
         id: 'latest_post_id',
@@ -35,6 +51,23 @@ describe('Actions.Posts', () => {
                     messages: ['test message'],
                 },
             },
+            channels: {
+                currentChannelId: 'current_channel_id',
+                myMembers: {[latestPost.channel_id]: {channel_id: 'current_channel_id', user_id: 'current_user_id'}},
+            },
+            teams: {
+                currentTeamId: 'team-1',
+                teams: {
+                    team_id: {
+                        id: 'team_id',
+                        name: 'team-1',
+                        displayName: 'Team 1',
+                    },
+                },
+            },
+            users: {
+                currentUserId: 'current_user_id',
+            },
             general: {license: {IsLicensed: 'false'}},
         },
         views: {
@@ -43,6 +76,15 @@ describe('Actions.Posts', () => {
             },
         },
     };
+
+    test('handleNewPost', async () => {
+        const testStore = await mockStore(initialState);
+        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
+        const msg = {data: {team_id: 'team_id', mentions: ['current_user_id']}};
+
+        await testStore.dispatch(Actions.handleNewPost(newPost, msg));
+        expect(testStore.getActions()).toEqual([INCREASED_POST_VISIBILITY, getReceivedPosts(newPost)]);
+    });
 
     test('setEditingPost', async () => {
         // should allow to edit and should fire an action

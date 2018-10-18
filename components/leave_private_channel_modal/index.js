@@ -4,14 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {leaveChannel} from 'mattermost-redux/actions/channels';
+import {leaveChannel} from 'actions/views/channel';
 
 import LeavePrivateChannelModal from './leave_private_channel_modal.jsx';
-
-function mapStateToProps() {
-    return {
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -21,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeavePrivateChannelModal);
+export default connect(null, mapDispatchToProps)(LeavePrivateChannelModal);

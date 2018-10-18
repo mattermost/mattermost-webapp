@@ -113,7 +113,6 @@ export const ActionTypes = keyMirror({
     FOCUS_POST: null,
     RECEIVED_POSTS: null,
     RECEIVED_FOCUSED_POST: null,
-    RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,
@@ -207,8 +206,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_MEMBERS_IN_TEAM: null,
     RECEIVED_TEAM_STATS: null,
 
-    RECEIVED_LOCALE: null,
-
     UPDATE_OPEN_GRAPH_METADATA: null,
     RECIVED_OPEN_GRAPH_METADATA: null,
 
@@ -275,6 +272,8 @@ export const ActionTypes = keyMirror({
     UPDATE_BUSY_WEBRTC: null,
 
     SELECT_ATTACHMENT_MENU_ACTION: null,
+
+    RECEIVED_TRANSLATIONS: null,
 });
 
 export const WebrtcActionTypes = keyMirror({

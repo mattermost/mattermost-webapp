@@ -13,7 +13,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
-import {loadCurrentLocale} from 'actions/global_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -498,7 +497,6 @@ export async function resendVerification(email, success, error) {
 export async function loginById(userId, password, mfaToken, success, error) {
     const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
     if (ok && success) {
-        loadCurrentLocale();
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
@@ -523,7 +521,6 @@ export async function createUserWithInvite(user, token, inviteId, success, error
 export async function webLogin(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
     if (ok && success) {
-        loadCurrentLocale();
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {
@@ -557,7 +554,6 @@ export async function getTermsOfService(success, error) {
 export async function webLoginByLdap(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
     if (ok && success) {
-        loadCurrentLocale();
         success();
     } else if (err && error) {
         if (err.server_error_id === 'api.context.mfa_required.app_error') {

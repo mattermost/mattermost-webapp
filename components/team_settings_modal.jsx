@@ -13,7 +13,7 @@ import {t} from 'utils/i18n';
 import {AsyncComponent} from 'components/async_load';
 import loadSettingsSidebar from 'bundle-loader?lazy!./settings_sidebar.jsx';
 
-import TeamSettings from './team_settings.jsx';
+import TeamSettings from './team_settings';
 
 const holders = defineMessages({
     generalTab: {
