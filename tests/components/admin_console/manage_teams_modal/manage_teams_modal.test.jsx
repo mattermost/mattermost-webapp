@@ -74,7 +74,6 @@ describe('ManageTeamsModal', () => {
         await getTeamsForUser();
         await getTeamMembersForUser();
 
-        wrapper.update();
         expect(wrapper.state('teams')).toEqual([mockTeamData]);
         expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
 
