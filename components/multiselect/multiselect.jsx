@@ -285,7 +285,6 @@ export default class MultiSelect extends React.Component {
                     <div className='multi-select__container'>
                         <ReactSelect
                             ref='reactSelect'
-                            classNamePrefix='yo'
                             isMulti={true}
                             options={this.props.options}
                             styles={styles}
