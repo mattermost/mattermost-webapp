@@ -181,7 +181,8 @@ export default class NotificationsTab extends React.Component {
         updateUserNotifyProps(
             data,
             () => {
-                this.props.updateSection('');
+                this.updateSection('');
+                this.setState(getNotificationsStateFromProps(this.props));
             },
             (err) => {
                 this.setState({serverError: err.message, isSaving: false});
@@ -193,7 +194,7 @@ export default class NotificationsTab extends React.Component {
         if (e) {
             e.preventDefault();
         }
-        this.updateState();
+        this.setState({isSaving: false});
     }
 
     handleUpdateSection = (section) => {
@@ -212,21 +213,8 @@ export default class NotificationsTab extends React.Component {
     }
 
     updateSection = (section) => {
-        this.updateState();
-        this.props.updateSection(section);
-    }
-
-    updateState = () => {
-        const newState = getNotificationsStateFromProps(this.props);
-        if (!Utils.areObjectsEqual(newState, this.state)) {
-            this.setState(newState);
-        }
-
         this.setState({isSaving: false});
-    }
-
-    onListenerChange = () => {
-        this.updateState();
+        this.props.updateSection(section);
     }
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
