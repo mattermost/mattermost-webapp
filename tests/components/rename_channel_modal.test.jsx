@@ -25,7 +25,7 @@ describe('components/RenameChannelModal', () => {
         requestStatus: RequestStatus.NOT_STARTED,
         team: {...team},
         currentTeamUrl: 'fake-channel',
-        actions: {updateChannel: jest.fn()},
+        actions: {patchChannel: jest.fn()},
     };
 
     test('should match snapshot', () => {
@@ -37,7 +37,7 @@ describe('components/RenameChannelModal', () => {
     });
 
     test('should submit form', () => {
-        const {actions: {updateChannel}} = baseProps;
+        const {actions: {patchChannel}} = baseProps;
         const props = {...baseProps, requestStatus: RequestStatus.STARTED};
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...props}/>
@@ -45,11 +45,11 @@ describe('components/RenameChannelModal', () => {
 
         wrapper.find('#save-button').simulate('click');
 
-        expect(updateChannel).not.toHaveBeenCalled();
+        expect(patchChannel).not.toHaveBeenCalled();
     });
 
-    test('should not call updateChannel as channel.name.length > Constants.MAX_CHANNELNAME_LENGTH (22)', () => {
-        const {actions: {updateChannel}} = baseProps;
+    test('should not call patchChannel as channel.name.length > Constants.MAX_CHANNELNAME_LENGTH (22)', () => {
+        const {actions: {patchChannel}} = baseProps;
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
         ).dive({disableLifecycleMethods: true});
@@ -60,7 +60,7 @@ describe('components/RenameChannelModal', () => {
 
         wrapper.find('#save-button').simulate('click');
 
-        expect(updateChannel).not.toHaveBeenCalled();
+        expect(patchChannel).not.toHaveBeenCalled();
     });
 
     test('should change state when display_name is edited', () => {
@@ -119,6 +119,7 @@ describe('components/RenameChannelModal', () => {
         const instance = wrapper.instance();
         instance.handleSubmit();
 
+        expect(wrapper.instance().props.actions.patchChannel).toHaveBeenCalledTimes(1);
         expect(wrapper.state('displayName')).toBe('Changed Name');
         expect(wrapper.state('channelName')).toBe('changed-name');
     });

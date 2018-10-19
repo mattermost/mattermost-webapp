@@ -189,15 +189,6 @@ export function loadDMsAndGMsForUnreads() {
     }
 }
 
-export async function updateChannel(channel, success, error) {
-    const {data, error: err} = await ChannelActions.updateChannel(channel)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function searchMoreChannels(term, success, error) {
     const teamId = TeamStore.getCurrentId();
     if (!teamId) {
@@ -242,45 +233,8 @@ export async function autocompleteChannelsForSearch(term, success, error) {
     }
 }
 
-export async function createChannel(channel, success, error) {
-    const {data, error: err} = await ChannelActions.createChannel(channel)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateChannelPurpose(channelId, purpose, success, error) {
-    const {data, error: err} = await ChannelActions.patchChannel(channelId, {purpose})(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateChannelHeader(channelId, header, success, error) {
-    const {data, error: err} = await ChannelActions.patchChannel(channelId, {header})(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function getChannelMembersForUserIds(channelId, userIds, success, error) {
     const {data, error: err} = await ChannelActions.getChannelMembersByIds(channelId, userIds)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function deleteChannel(channelId, success, error) {
-    const {data, error: err} = await ChannelActions.deleteChannel(channelId)(dispatch, getState);
-
     if (data && success) {
         success(data);
     } else if (err && error) {
