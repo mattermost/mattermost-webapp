@@ -4,8 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {createChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {selectChannel} from 'mattermost-redux/actions/channels';
+
+import {switchToChannel} from 'actions/views/channel';
 
 import NewChannelFlow from './new_channel_flow.jsx';
 
@@ -18,7 +20,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            selectChannel,
+            createChannel,
+            switchToChannel,
         }, dispatch),
     };
 }
