@@ -392,7 +392,7 @@ export default class ChannelHeader extends React.Component {
 
         const channelMuted = isChannelMuted(this.props.channelMember);
 
-        const teamId = this.props.channel.teamId;
+        const teamId = this.props.channel.team_id;
         let webrtc;
 
         if (isDirect) {
