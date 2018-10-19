@@ -2458,6 +2458,7 @@
   "shortcuts.msgs.header": "Messages",
   "shortcuts.msgs.input.header": "Works inside an empty input field",
   "shortcuts.msgs.reply": "Reply to last message in channel:\tShift|Up",
+<<<<<<< 565f795d86166ce8a18840d91e4f423406802b7d
 <<<<<<< c0764274581d2003e0c634356369e0e68b8fb23d
 <<<<<<< c0417051a287ee6b033011605626851e7a735a97
   "shortcuts.msgs.reaction": "React to last message: \tCtrl|Shift|\/ ",
@@ -2469,6 +2470,10 @@
 =======
   "shortcuts.msg.reaction": "React to last message in channel or thread: \t⌘ + Shift + \\",
 >>>>>>> Added shortcut for opening emoji popup for last message and handling if the RHS is open
+=======
+  "shortcuts.msgs.reaction": "React to last message in channel or thread: \tCtrl + Shift + \t",
+  "shortcuts.msgs.reaction.mac": "React to last message in channel or thread: \t⌘ + Shift + \t",
+>>>>>>> Updated snapshots and test cases.
   "shortcuts.msgs.reprint_next": "Reprint next message:\tCtrl|Down",
   "shortcuts.msgs.reprint_next.mac": "Reprint next message:\t⌘|Down",
   "shortcuts.msgs.reprint_prev": "Reprint previous message:\tCtrl|Up",
