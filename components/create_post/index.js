@@ -28,6 +28,7 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
+import {executeCommand} from 'actions/command';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -105,6 +106,7 @@ function mapDispatchToProps(dispatch) {
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
             openModal,
+            executeCommand,
         }, dispatch),
     };
 }

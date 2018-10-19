@@ -367,9 +367,9 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         className="divider"
       />
       <li>
-        <a
-          href="#"
-          onClick={[Function]}
+        <Connect(ModalToggleButtonRedux)
+          dialogType={[Function]}
+          modalId="user_settings"
         >
           <i
             className="icon fa fa-cog"
@@ -379,7 +379,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             id="sidebar_right_menu.accountSettings"
             values={Object {}}
           />
-        </a>
+        </Connect(ModalToggleButtonRedux)>
       </li>
       <li
         className="divider"

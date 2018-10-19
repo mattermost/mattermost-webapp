@@ -31,6 +31,9 @@ describe('plugins/MainMenuActions', () => {
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
             canCreateCustomEmoji: true,
             moreTeamsToJoin: true,
+            actions: {
+                openModal: jest.fn(),
+            },
         };
 
         const wrapper = shallow(

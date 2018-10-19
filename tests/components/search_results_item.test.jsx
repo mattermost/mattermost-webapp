@@ -21,6 +21,7 @@ jest.mock('utils/utils.jsx', () => ({
     getDirectTeammate: jest.fn().mockReturnValue({}),
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true),
     getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
+    localizeMessage: jest.fn(),
 }));
 
 jest.mock('utils/post_utils.jsx', () => ({

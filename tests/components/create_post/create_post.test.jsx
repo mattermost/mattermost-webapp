@@ -75,6 +75,9 @@ const actionsProp = {
     setDraft: emptyFunction,
     setEditingPost: emptyFunction,
     openModal: emptyFunction,
+    executeCommand: async () => {
+        return {data: true};
+    },
 };
 
 function createPost({

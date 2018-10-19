@@ -238,8 +238,12 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
       }
     >
       <ProfilePopover
+        actions={
+          Object {
+            "openModal": [Function],
+          }
+        }
         currentUserId=""
-        dispatch={[Function]}
         enableTimezone={false}
         enableWebrtc={true}
         hasMention={false}
