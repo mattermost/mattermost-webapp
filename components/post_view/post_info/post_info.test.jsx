@@ -8,10 +8,6 @@ import {Posts} from 'mattermost-redux/constants';
 import Constants from 'utils/constants.jsx';
 import PostInfo from 'components/post_view/post_info/post_info.jsx';
 
-jest.mock('actions/post_actions.jsx', () => ({
-    hideEmojiPickerForLastMessage: jest.fn(),
-}));
-
 jest.mock('selectors/rhs.jsx', () => ({
     getIsRhsOpen: jest.fn(),
 }));
@@ -49,7 +45,7 @@ describe('components/post_view/PostInfo', () => {
         hover: false,
         showTimeWithoutHover: false,
         enableEmojiPicker: false,
-        showEmojiPicker: false,
+        showEmojiPickerForLastMessage: false,
         isRhsOpen: false,
         actions: {
             removePost: jest.fn(),

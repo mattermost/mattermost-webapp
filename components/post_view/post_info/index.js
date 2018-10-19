@@ -22,7 +22,7 @@ function mapStateToProps(state, ownProps) {
     const channelIsArchived = channel ? channel.delete_at !== 0 : null;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
-    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
+    const showEmojiPickerForLastMessage = state.views.emoji.emojiPickerForLastMessage;
     const isRhsOpen = getIsRhsOpen(state);
 
     return {
@@ -31,7 +31,7 @@ function mapStateToProps(state, ownProps) {
         isMobile: state.views.channel.mobileView,
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
-        showEmojiPicker,
+        showEmojiPickerForLastMessage,
         isRhsOpen,
     };
 }

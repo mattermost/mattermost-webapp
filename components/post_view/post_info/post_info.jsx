@@ -97,7 +97,7 @@ export default class PostInfo extends React.PureComponent {
         /**
         * To toggle emoji picker for showing for last defaultMessage
         */
-        showEmojiPicker: PropTypes.bool.isRequired,
+        showEmojiPickerForLastMessage: PropTypes.bool.isRequired,
 
         /**
          * Set not to allow edits on post
@@ -143,7 +143,7 @@ export default class PostInfo extends React.PureComponent {
     }
 
     UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
-        if (props.showEmojiPicker && !this.state.showEmojiPicker && !this.props.isRhsOpen) {
+        if (props.showEmojiPickerForLastMessage && !this.state.showEmojiPicker && !this.props.isRhsOpen) {
             if (props.lastPostId === props.post.id) {
                 this.setState({showEmojiPicker: true});
                 this.props.actions.hideEmojiPickerForLastMessage();

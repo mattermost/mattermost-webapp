@@ -132,8 +132,14 @@ const allShortcuts = defineMessages({
         defaultMessage: 'Reply to last message in channel:\tShift|Up',
     },
     msgReaction: {
-        id: t('shortcuts.msg.reaction'),
-        defaultMessage: 'React to last message in channel or thread: \t⌘ + Shift + \\',
+        default: {
+            id: t('shortcuts.msgs.reaction'),
+            defaultMessage: 'React to last message in channel or thread:\tCtrl + Shift + \t',
+        },
+        mac: {
+            id: t('shortcuts.msgs.reaction.mac'),
+            defaultMessage: 'React to last message in channel or thread:\t⌘ + Shift + \t',
+        },
     },
     msgReprintPrev: {
         default: {
