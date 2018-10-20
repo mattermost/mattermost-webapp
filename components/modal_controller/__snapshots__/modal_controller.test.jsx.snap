@@ -35,9 +35,7 @@ exports[`components/ModalController component should match snapshot without any 
           <QuickSwitchModal
             actions={
               Object {
-                "goToChannel": [Function],
-                "goToChannelById": [Function],
-                "openDirectChannelToUser": [Function],
+                "switchToChannel": [Function],
               }
             }
             initialMode="channel"
