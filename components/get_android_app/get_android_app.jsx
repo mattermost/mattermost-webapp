@@ -3,14 +3,13 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {useSafeUrl} from 'utils/url';
 import MattermostIcon from 'images/favicon/android-chrome-192x192.png';
 import Nexus6Mockup from 'images/nexus-6p-mockup.png';
 
-export default function GetAndroidApp({androidAppDownloadLink}) {
+export default function GetAndroidApp({androidAppDownloadLink, history}) {
     return (
         <div className='get-app get-android-app'>
             <h1 className='get-app__header'>
@@ -41,7 +40,7 @@ export default function GetAndroidApp({androidAppDownloadLink}) {
                 </div>
             </div>
             <a
-                className='btn btn-primary get-android-app__continue'
+                className='btn btn-primary get-android-app__app-store-link'
                 href={useSafeUrl(androidAppDownloadLink)}
             >
                 <FormattedMessage
@@ -59,12 +58,16 @@ export default function GetAndroidApp({androidAppDownloadLink}) {
                     defaultMessage='Or {link}'
                     values={{
                         link: (
-                            <Link to='/'>
+                            <a
+                                onClick={history.goBack}
+                                className='get-android-app__continue'
+                            >
+
                                 <FormattedMessage
                                     id='get_app.continueWithBrowserLink'
                                     defaultMessage='continue with browser'
                                 />
-                            </Link>
+                            </a>
                         ),
                     }}
                 />
