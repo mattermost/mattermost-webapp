@@ -18,7 +18,6 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
-    const enableTeamCreation = config.EnableTeamCreation === 'true';
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
 
@@ -28,7 +27,6 @@ function mapStateToProps(state) {
         myTeamMembers: getTeamMemberships(state),
         isOpen: getIsLhsOpen(state),
         experimentalPrimaryTeam,
-        enableTeamCreation,
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
     };
