@@ -264,6 +264,7 @@ export default class PostInfo extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
+                    handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly}
                 />
             );
