@@ -4,13 +4,13 @@
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -43,10 +43,10 @@ export async function updateTeam(team, onSuccess, onError) {
 }
 
 export async function removeUserFromTeam(teamId, userId, success, error) {
-    const {data, error: err} = await TeamActions.removeUserFromTeam(teamId, userId)(dispatch, getState);
-    getUser(userId)(dispatch, getState);
-    TeamActions.getTeamStats(teamId)(dispatch, getState);
-    getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+    const {data, error: err} = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
+    dispatch(getUser(userId));
+    dispatch(TeamActions.getTeamStats(teamId));
+    dispatch(getChannelStats(getCurrentChannelId(getState())));
 
     if (data && success) {
         success();
@@ -120,7 +120,7 @@ export async function inviteMembers(data, success, error) {
     data.invites.forEach((i) => {
         emails.push(i.email);
     });
-    const {data: result, error: err} = await TeamActions.sendEmailInvitesToTeam(TeamStore.getCurrentId(), emails)(dispatch, getState);
+    const {data: result, error: err} = await dispatch(TeamActions.sendEmailInvitesToTeam(getCurrentTeamId(getState()), emails));
     if (result && success) {
         success();
     } else if (result == null && error) {
@@ -129,7 +129,7 @@ export async function inviteMembers(data, success, error) {
 }
 
 export function switchTeams(url) {
-    viewChannel(ChannelStore.getCurrentId())(dispatch, getState);
+    dispatch(viewChannel(getCurrentChannelId(getState())));
     browserHistory.push(url);
 }
 
