@@ -286,6 +286,7 @@ export const ModalIdentifiers = {
     RESET_STATUS: 'reset_status',
     LEAVE_TEAM: 'leave_team',
     RENAME_CHANNEL: 'rename_channel',
+    USER_SETTINGS: 'user_settings',
 };
 
 export const UserStatuses = {
