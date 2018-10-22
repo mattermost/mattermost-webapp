@@ -45,18 +45,28 @@ function modify_config {
     sed -i'' -e 's|"PushNotificationServer": ".*"|"PushNotificationServer": "https://push.mattermost.com"|g' config/config.json
     sed -i'' -e 's|"PushNotificationContents": ".*"|"PushNotificationContents": "generic"|g' config/config.json
 
+    echo "config: set e2e database"
+    sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:35476)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
+
     cd ../mattermost-webapp
     sleep 5
 }
 
-function restart_server {
+function start_server {
+    cd ../mattermost-server
+
+    echo "start the server"
+    make run
+
+    cd ../mattermost-webapp
+    sleep 5
+}
+
+function stop_server {
     cd ../mattermost-server
 
     echo "stop the server"
     make stop
-    sleep 5
-    echo "start the server"
-    make run
 
     cd ../mattermost-webapp
     sleep 5
@@ -123,7 +133,8 @@ function local_tests {
     local_setup
 
     modify_config
-    restart_server
+    stop_server
+    start_server
 
     if [ -n "$1" ]; then
         message "Tag: ${1} local E2E starts..."
@@ -138,6 +149,8 @@ function local_tests {
         message "E2E full local firefox starts..."
         nightwatch -e firefox --skiptags tutorial --suiteRetries 1
     fi
+
+    stop_server
 }
 
 local_tests $@
