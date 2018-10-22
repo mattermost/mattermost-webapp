@@ -28,6 +28,7 @@ class DotMenu extends Component {
         isFlagged: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
+        handleAddReactionClick: PropTypes.func,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
@@ -148,6 +149,12 @@ class DotMenu extends Component {
         }
     }
 
+    // listen to clicks/taps on add reaction menu item and pass to parent handler
+    handleAddReactionenuItemActivated = (e) => {
+        e.preventDefault();
+        this.props.handleAddReactionClick();
+    }
+
     handlePermalinkMenuItemActivated = (e) => {
         e.preventDefault();
         showGetPostLinkModal(this.props.post);
@@ -196,6 +203,19 @@ class DotMenu extends Component {
         const menuItems = [];
 
         if (isMobile && !isSystemMessage) {
+            // add menu item to support adding reactions to posts
+            menuItems.push(
+                <DotMenuItem
+                    key={'react'}
+                    menuItemText={
+                        <FormattedMessage
+                            id={'rhs_root.mobile.react'}
+                            defaultMessage={'Add Reaction'}
+                        />
+                    }
+                    handleMenuItemActivated={this.handleAddReactionenuItemActivated}
+                />
+            );
             let text = (
                 <FormattedMessage
                     id={'rhs_root.mobile.flag'}
