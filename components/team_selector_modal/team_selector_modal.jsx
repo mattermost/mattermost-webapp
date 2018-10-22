@@ -161,8 +161,8 @@ export default class TeamSelectorModal extends React.Component {
         );
     }
 
-    renderValue(team) {
-        return team.display_name;
+    renderValue(props) {
+        return props.data.display_name;
     }
 
     renderConfirmModal(show, team) {

@@ -155,9 +155,9 @@ export default class ChannelInviteModal extends React.Component {
         );
     };
 
-    renderValue = (user) => {
-        return user.username;
-    };
+    renderValue(props) {
+        return props.data.username;
+    }
 
     render() {
         let inviteError = null;

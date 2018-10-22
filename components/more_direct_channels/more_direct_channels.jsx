@@ -302,8 +302,8 @@ export default class MoreDirectChannels extends React.Component {
         );
     }
 
-    renderValue(user) {
-        return user.username;
+    renderValue(props) {
+        return props.data.username;
     }
 
     handleSubmitImmediatelyOn = (value) => {

@@ -5,30 +5,11 @@
     padding: 0 15px;
     width: 100%;
 
-    .Select {
-        display: table-cell;
-        padding-right: 15px;
-        vertical-align: top;
-        width: 100%;
-    }
-
     .btn {
         display: table-cell;
         height: 36px;
         min-width: 60px;
         vertical-align: top;
-    }
-
-    .Select-control {
-        border-radius: 1px;
-    }
-
-    .Select-value {
-        white-space: nowrap;
-    }
-
-    .Select-value-label {
-        overflow: hidden;
     }
 }
 

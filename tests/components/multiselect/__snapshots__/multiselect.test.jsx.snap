@@ -10,42 +10,23 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     <div
       className="multi-select__container"
     >
-      <Select
-        arrowRenderer={[Function]}
-        autosize={true}
-        backspaceRemoves={true}
-        backspaceToRemoveMessage="Press backspace to remove {label}"
-        clearAllText="Clear all"
-        clearRenderer={[Function]}
-        clearValueText="Clear value"
-        clearable={false}
-        closeOnSelect={true}
-        deleteRemoves={true}
-        delimiter=","
-        disabled={false}
-        escapeClearsValue={true}
-        filterOptions={[Function]}
-        ignoreAccents={true}
-        ignoreCase={true}
-        inputProps={Object {}}
-        isLoading={false}
-        joinValues={true}
-        labelKey="label"
-        matchPos="any"
-        matchProp="any"
-        menuBuffer={0}
-        menuRenderer={[Function]}
-        multi={true}
-        noResultsText={null}
-        onBlurResetsInput={false}
+      <StateManager
+        components={
+          Object {
+            "IndicatorsContainer": [Function],
+            "Menu": [Function],
+            "MultiValueLabel": [Function],
+          }
+        }
+        defaultInputValue=""
+        defaultMenuIsOpen={false}
+        defaultValue={null}
+        isClearable={false}
+        isMulti={true}
         onChange={[Function]}
-        onCloseResetsInput={false}
         onInputChange={[Function]}
-        onInputKeyDown={[Function]}
-        onSelectResetsInput={true}
-        openOnClick={true}
-        openOnFocus={true}
-        optionComponent={[Function]}
+        onKeyDown={[Function]}
+        openMenuOnFocus={true}
         options={
           Array [
             Object {
@@ -82,16 +63,15 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
             },
           ]
         }
-        pageSize={5}
         placeholder="Search and add members"
-        removeSelected={true}
-        required={false}
-        rtl={false}
-        scrollMenuIntoView={true}
-        searchable={true}
-        simpleValue={false}
-        tabSelectsValue={true}
-        trimFilter={true}
+        styles={
+          Object {
+            "container": [Function],
+            "control": [Function],
+            "multiValue": [Function],
+            "multiValueRemove": [Function],
+          }
+        }
         value={
           Array [
             Object {
@@ -100,8 +80,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
             },
           ]
         }
-        valueComponent={[Function]}
-        valueKey="value"
       />
       <SaveButton
         btnClass="btn-primary"
@@ -189,42 +167,23 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     <div
       className="multi-select__container"
     >
-      <Select
-        arrowRenderer={[Function]}
-        autosize={true}
-        backspaceRemoves={true}
-        backspaceToRemoveMessage="Press backspace to remove {label}"
-        clearAllText="Clear all"
-        clearRenderer={[Function]}
-        clearValueText="Clear value"
-        clearable={false}
-        closeOnSelect={true}
-        deleteRemoves={true}
-        delimiter=","
-        disabled={false}
-        escapeClearsValue={true}
-        filterOptions={[Function]}
-        ignoreAccents={true}
-        ignoreCase={true}
-        inputProps={Object {}}
-        isLoading={false}
-        joinValues={true}
-        labelKey="label"
-        matchPos="any"
-        matchProp="any"
-        menuBuffer={0}
-        menuRenderer={[Function]}
-        multi={true}
-        noResultsText={null}
-        onBlurResetsInput={false}
+      <StateManager
+        components={
+          Object {
+            "IndicatorsContainer": [Function],
+            "Menu": [Function],
+            "MultiValueLabel": [Function],
+          }
+        }
+        defaultInputValue=""
+        defaultMenuIsOpen={false}
+        defaultValue={null}
+        isClearable={false}
+        isMulti={true}
         onChange={[Function]}
-        onCloseResetsInput={false}
         onInputChange={[Function]}
-        onInputKeyDown={[Function]}
-        onSelectResetsInput={true}
-        openOnClick={true}
-        openOnFocus={true}
-        optionComponent={[Function]}
+        onKeyDown={[Function]}
+        openMenuOnFocus={true}
         options={
           Array [
             Object {
@@ -261,16 +220,15 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
             },
           ]
         }
-        pageSize={5}
         placeholder="Search and add members"
-        removeSelected={true}
-        required={false}
-        rtl={false}
-        scrollMenuIntoView={true}
-        searchable={true}
-        simpleValue={false}
-        tabSelectsValue={true}
-        trimFilter={true}
+        styles={
+          Object {
+            "container": [Function],
+            "control": [Function],
+            "multiValue": [Function],
+            "multiValueRemove": [Function],
+          }
+        }
         value={
           Array [
             Object {
@@ -279,8 +237,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
             },
           ]
         }
-        valueComponent={[Function]}
-        valueKey="value"
       />
       <SaveButton
         btnClass="btn-primary"

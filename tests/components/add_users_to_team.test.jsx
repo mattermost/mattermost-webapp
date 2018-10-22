@@ -222,6 +222,6 @@ describe('components/AddUsersToTeam', () => {
             <AddUsersToTeam {...baseProps}/>
         );
 
-        expect(wrapper.instance().renderValue({username: 'username'})).toEqual('username');
+        expect(wrapper.instance().renderValue({data: {username: 'username'}})).toEqual('username');
     });
 });
