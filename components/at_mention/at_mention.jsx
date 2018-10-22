@@ -10,6 +10,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
 
+import {popOverOverlayPosition} from 'utils/utils.jsx';
 const spaceRequiredForPopOver = 300;
 
 export default class AtMention extends React.PureComponent {
@@ -49,15 +50,7 @@ export default class AtMention extends React.PureComponent {
 
     handleClick = (e) => {
         const targetBounds = this.overlayRef.current.getBoundingClientRect();
-
-        let placement;
-        if (targetBounds.top > spaceRequiredForPopOver) {
-            placement = 'top';
-        } else if (window.innerHeight - targetBounds.bottom > spaceRequiredForPopOver) {
-            placement = 'bottom';
-        } else {
-            placement = 'left';
-        }
+        const placement = popOverOverlayPosition(targetBounds, window.innerHeight, {above: spaceRequiredForPopOver});
 
         this.setState({target: e.target, show: !this.state.show, placement});
     }
