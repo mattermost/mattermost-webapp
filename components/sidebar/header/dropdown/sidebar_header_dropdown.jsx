@@ -9,7 +9,8 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import AboutBuildModal from 'components/about_build_modal';
@@ -23,7 +24,7 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import SidebarHeaderDropdownButton from '../sidebar_header_dropdown_button.jsx';
 
 import LeaveTeamModal from 'components/leave_team_modal';
-import {ModalIdentifiers} from 'utils/constants';
+import UserSettingsModal from 'components/user_settings/modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 export default class SidebarHeaderDropdown extends React.PureComponent {
@@ -48,6 +49,9 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         onToggleDropdown: PropTypes.func.isRequired,
         moreTeamsToJoin: PropTypes.bool.isRequired,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequred,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -57,19 +61,6 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
-        this.handleAboutModal = this.handleAboutModal.bind(this);
-        this.aboutModalDismissed = this.aboutModalDismissed.bind(this);
-        this.showAccountSettingsModal = this.showAccountSettingsModal.bind(this);
-        this.showAddUsersToTeamModal = this.showAddUsersToTeamModal.bind(this);
-        this.hideAddUsersToTeamModal = this.hideAddUsersToTeamModal.bind(this);
-        this.showInviteMemberModal = this.showInviteMemberModal.bind(this);
-        this.showGetTeamInviteLinkModal = this.showGetTeamInviteLinkModal.bind(this);
-        this.showTeamMembersModal = this.showTeamMembersModal.bind(this);
-        this.hideTeamMembersModal = this.hideTeamMembersModal.bind(this);
-        this.toggleShortcutsModal = this.toggleShortcutsModal.bind(this);
-
-        this.renderCustomEmojiLink = this.renderCustomEmojiLink.bind(this);
 
         this.state = {
             showAboutModal: false,
@@ -92,7 +83,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         this.props.onToggleDropdown();
     }
 
-    handleAboutModal(e) {
+    handleAboutModal = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -101,26 +92,18 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         this.props.onToggleDropdown(false);
     }
 
-    aboutModalDismissed() {
+    aboutModalDismissed = () => {
         this.setState({showAboutModal: false});
     }
 
-    showAccountSettingsModal(e) {
-        e.preventDefault();
-
-        this.props.onToggleDropdown(false);
-
-        GlobalActions.showAccountSettingsModal();
-    }
-
-    toggleShortcutsModal(e) {
+    toggleShortcutsModal = (e) => {
         e.preventDefault();
         this.props.onToggleDropdown(false);
 
         GlobalActions.toggleShortcutsModal();
     }
 
-    showAddUsersToTeamModal(e) {
+    showAddUsersToTeamModal = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -129,13 +112,13 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         this.props.onToggleDropdown(false);
     }
 
-    hideAddUsersToTeamModal() {
+    hideAddUsersToTeamModal = () => {
         this.setState({
             showAddUsersToTeamModal: false,
         });
     }
 
-    showInviteMemberModal(e) {
+    showInviteMemberModal = (e) => {
         e.preventDefault();
 
         this.props.onToggleDropdown(false);
@@ -143,7 +126,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         GlobalActions.showInviteMemberModal();
     }
 
-    showGetTeamInviteLinkModal(e) {
+    showGetTeamInviteLinkModal = (e) => {
         e.preventDefault();
 
         this.props.onToggleDropdown(false);
@@ -166,7 +149,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         });
     }
 
-    showTeamMembersModal(e) {
+    showTeamMembersModal = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -174,13 +157,35 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         });
     }
 
-    hideTeamMembersModal() {
+    hideTeamMembersModal = () => {
         this.setState({
             showTeamMembersModal: false,
         });
     }
 
-    renderCustomEmojiLink() {
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e) => {
+        if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
+            this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
+        }
+    }
+
+    showAccountSettingsModal = (e) => {
+        e.preventDefault();
+
+        this.props.onToggleDropdown(false);
+
+        this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
+    }
+
+    renderCustomEmojiLink = () => {
         if (!this.props.enableCustomEmoji || !this.props.canCreateCustomEmoji) {
             return null;
         }

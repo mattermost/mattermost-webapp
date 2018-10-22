@@ -190,13 +190,6 @@ export function emitUserCommentedEvent(post) {
     });
 }
 
-export function showAccountSettingsModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL,
-        value: true,
-    });
-}
-
 export function toggleShortcutsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,

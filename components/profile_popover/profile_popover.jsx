@@ -7,12 +7,13 @@ import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import LocalDateTime from 'components/local_date_time';
+import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
@@ -73,6 +74,10 @@ class ProfilePopover extends React.Component {
         teamUrl: PropTypes.string.isRequired,
 
         ...Popover.propTypes,
+
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequred,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -186,7 +191,7 @@ class ProfilePopover extends React.Component {
         if (this.props.hide) {
             this.props.hide();
         }
-        GlobalActions.showAccountSettingsModal();
+        this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
     }
 
     render() {
@@ -203,6 +208,7 @@ class ProfilePopover extends React.Component {
         delete popoverProps.enableTimezone;
         delete popoverProps.currentUserId;
         delete popoverProps.teamUrl;
+        delete popoverProps.actions;
 
         let webrtc;
         const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();

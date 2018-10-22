@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -16,8 +15,8 @@ import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
 import ManageAutoResponder from './manage_auto_responder.jsx';
 
-function getNotificationsStateFromStores() {
-    const user = UserStore.getCurrentUser();
+function getNotificationsStateFromProps(props) {
+    const user = props.user;
 
     let desktop = NotificationLevels.MENTION;
     let sound = 'true';
@@ -118,10 +117,31 @@ const prevSections = {
 };
 
 export default class NotificationsTab extends React.Component {
+    static propTypes = {
+        user: PropTypes.object,
+        updateSection: PropTypes.func,
+        activeSection: PropTypes.string,
+        prevActiveSection: PropTypes.string,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired,
+        sendEmailNotifications: PropTypes.bool,
+        enableEmailBatching: PropTypes.bool,
+        siteName: PropTypes.string,
+        sendPushNotifications: PropTypes.bool,
+        enableAutoResponder: PropTypes.bool,
+    }
+
+    static defaultProps = {
+        user: null,
+        activeSection: '',
+        prevActiveSection: '',
+        activeTab: '',
+    }
+
     constructor(props) {
         super(props);
 
-        this.state = getNotificationsStateFromStores();
+        this.state = getNotificationsStateFromProps(props);
     }
 
     handleSubmit = (enableEmail = this.state.enableEmail) => {
@@ -161,7 +181,8 @@ export default class NotificationsTab extends React.Component {
         updateUserNotifyProps(
             data,
             () => {
-                this.props.updateSection('');
+                this.updateSection('');
+                this.setState(getNotificationsStateFromProps(this.props));
             },
             (err) => {
                 this.setState({serverError: err.message, isSaving: false});
@@ -173,7 +194,7 @@ export default class NotificationsTab extends React.Component {
         if (e) {
             e.preventDefault();
         }
-        this.updateState();
+        this.setState({isSaving: false});
     }
 
     handleUpdateSection = (section) => {
@@ -192,29 +213,8 @@ export default class NotificationsTab extends React.Component {
     }
 
     updateSection = (section) => {
-        this.updateState();
-        this.props.updateSection(section);
-    }
-
-    updateState = () => {
-        const newState = getNotificationsStateFromStores();
-        if (!Utils.areObjectsEqual(newState, this.state)) {
-            this.setState(newState);
-        }
-
         this.setState({isSaving: false});
-    }
-
-    componentDidMount() {
-        UserStore.addChangeListener(this.onListenerChange);
-    }
-
-    componentWillUnmount() {
-        UserStore.removeChangeListener(this.onListenerChange);
-    }
-
-    onListenerChange = () => {
-        this.updateState();
+        this.props.updateSection(section);
     }
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
@@ -973,24 +973,3 @@ export default class NotificationsTab extends React.Component {
         );
     }
 }
-
-NotificationsTab.propTypes = {
-    user: PropTypes.object,
-    updateSection: PropTypes.func,
-    activeSection: PropTypes.string,
-    prevActiveSection: PropTypes.string,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-    sendEmailNotifications: PropTypes.bool,
-    enableEmailBatching: PropTypes.bool,
-    siteName: PropTypes.string,
-    sendPushNotifications: PropTypes.bool,
-    enableAutoResponder: PropTypes.bool,
-};
-
-NotificationsTab.defaultProps = {
-    user: null,
-    activeSection: '',
-    prevActiveSection: '',
-    activeTab: '',
-};

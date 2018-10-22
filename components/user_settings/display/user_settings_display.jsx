@@ -7,8 +7,6 @@ import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'actions/user_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -19,30 +17,61 @@ import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
+import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 
 import ManageTimezones from './manage_timezones.jsx';
 import ManageLanguages from './manage_languages.jsx';
-import ThemeSetting from './user_settings_theme';
 
 const Preferences = Constants.Preferences;
 
-function getDisplayStateFromStores(props) {
+function getDisplayStateFromProps(props) {
     return {
-        militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
-        teammateNameDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.NAME_NAME_FORMAT, props.configTeammateNameDisplay),
-        channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
-        messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
-        collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
-        linkPreviewDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+        militaryTime: props.militaryTime,
+        teammateNameDisplay: props.teammateNameDisplay,
+        channelDisplayMode: props.channelDisplayMode,
+        messageDisplay: props.messageDisplay,
+        collapseDisplay: props.collapseDisplay,
+        linkPreviewDisplay: props.linkPreviewDisplay,
     };
 }
 
 export default class UserSettingsDisplay extends React.Component {
+    static propTypes = {
+        user: PropTypes.object,
+        updateSection: PropTypes.func,
+        activeSection: PropTypes.string,
+        prevActiveSection: PropTypes.string,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired,
+        setRequireConfirm: PropTypes.func.isRequired,
+        setEnforceFocus: PropTypes.func.isRequired,
+        timezones: PropTypes.array.isRequired,
+        userTimezone: PropTypes.object.isRequired,
+        allowCustomThemes: PropTypes.bool,
+        enableLinkPreviews: PropTypes.bool,
+        defaultClientLocale: PropTypes.string,
+        enableThemeSelection: PropTypes.bool,
+        configTeammateNameDisplay: PropTypes.string,
+        currentUserTimezone: PropTypes.string,
+        enableTimezone: PropTypes.bool,
+        shouldAutoUpdateTimezone: PropTypes.bool,
+        militaryTime: PropTypes.string,
+        teammateNameDisplay: PropTypes.string,
+        channelDisplayMode: PropTypes.string,
+        messageDisplay: PropTypes.string,
+        collapseDisplay: PropTypes.string,
+        linkPreviewDisplay: PropTypes.string,
+        actions: PropTypes.shape({
+            getSupportedTimezones: PropTypes.func.isRequired,
+            autoUpdateTimezone: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
-            ...getDisplayStateFromStores(props),
+            ...getDisplayStateFromProps(props),
             isSaving: false,
         };
 
@@ -69,7 +98,7 @@ export default class UserSettingsDisplay extends React.Component {
     }
 
     handleSubmit = () => {
-        const userId = UserStore.getCurrentId();
+        const userId = this.props.user.id;
 
         const timePreference = {
             user_id: userId,
@@ -158,7 +187,7 @@ export default class UserSettingsDisplay extends React.Component {
     }
 
     updateState = () => {
-        const newState = getDisplayStateFromStores(this.props);
+        const newState = getDisplayStateFromProps(this.props);
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
         }
@@ -713,28 +742,3 @@ export default class UserSettingsDisplay extends React.Component {
         );
     }
 }
-
-UserSettingsDisplay.propTypes = {
-    user: PropTypes.object,
-    updateSection: PropTypes.func,
-    activeSection: PropTypes.string,
-    prevActiveSection: PropTypes.string,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-    setRequireConfirm: PropTypes.func.isRequired,
-    setEnforceFocus: PropTypes.func.isRequired,
-    timezones: PropTypes.array.isRequired,
-    userTimezone: PropTypes.object.isRequired,
-    allowCustomThemes: PropTypes.bool,
-    enableLinkPreviews: PropTypes.bool,
-    defaultClientLocale: PropTypes.string,
-    enableThemeSelection: PropTypes.bool,
-    configTeammateNameDisplay: PropTypes.string,
-    currentUserTimezone: PropTypes.string,
-    enableTimezone: PropTypes.bool,
-    shouldAutoUpdateTimezone: PropTypes.bool,
-    actions: PropTypes.shape({
-        getSupportedTimezones: PropTypes.func.isRequired,
-        autoUpdateTimezone: PropTypes.func.isRequired,
-    }).isRequired,
-};

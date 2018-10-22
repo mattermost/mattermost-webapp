@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
 import {deactivateMfa, deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
@@ -77,6 +76,7 @@ export default class SecurityTab extends React.Component {
         experimentalEnableAuthenticationTransfer: PropTypes.bool,
 
         passwordConfig: PropTypes.object,
+        militaryTime: PropTypes.bool,
 
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
@@ -545,7 +545,6 @@ export default class SecurityTab extends React.Component {
 
         if (this.props.user.auth_service === '') {
             const d = new Date(this.props.user.last_password_update);
-            const hours12 = !PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false);
 
             describe = (
                 <FormattedMessage
@@ -563,7 +562,7 @@ export default class SecurityTab extends React.Component {
                         time: (
                             <FormattedTime
                                 value={d}
-                                hour12={hours12}
+                                hour12={!this.props.militaryTime}
                                 hour='2-digit'
                                 minute='2-digit'
                             />

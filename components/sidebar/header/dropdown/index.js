@@ -2,10 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getMyTeams, getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
 import {haveITeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+
+import {openModal} from 'actions/views/modals';
 
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
@@ -65,4 +69,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(SidebarHeaderDropdown);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            openModal,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarHeaderDropdown);

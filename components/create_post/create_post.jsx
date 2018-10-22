@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
@@ -207,6 +206,7 @@ export default class CreatePost extends React.Component {
              * Function to open a modal
              */
             openModal: PropTypes.func.isRequired,
+            executeCommand: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -319,21 +319,18 @@ export default class CreatePost extends React.Component {
             const args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
-            ChannelActions.executeCommand(
-                post.message,
-                args,
-                () => {
+            this.props.actions.executeCommand(post.message, args).then(
+                ({error}) => {
                     this.setState({submitting: false});
-                },
-                (err) => {
-                    if (err.sendMessage) {
-                        this.sendMessage(post);
-                    } else {
-                        this.setState({
-                            serverError: err.message,
-                            submitting: false,
-                            message: post.message,
-                        });
+                    if (error) {
+                        if (error.sendMessage) {
+                            this.sendMessage(post);
+                        } else {
+                            this.setState({
+                                serverError: error.message,
+                                message: post.message,
+                            });
+                        }
                     }
                 }
             );

@@ -18,6 +18,25 @@ export default class MultiSelect extends React.Component {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         totalCount: PropTypes.number,
+        options: PropTypes.arrayOf(PropTypes.object),
+        optionRenderer: PropTypes.func,
+        values: PropTypes.arrayOf(PropTypes.object),
+        valueKey: PropTypes.string,
+        valueRenderer: PropTypes.func,
+        handleInput: PropTypes.func,
+        handleDelete: PropTypes.func,
+        perPage: PropTypes.number,
+        handlePageChange: PropTypes.func,
+        handleAdd: PropTypes.func,
+        handleSubmit: PropTypes.func,
+        noteText: PropTypes.node,
+        maxValues: PropTypes.number,
+        numRemainingText: PropTypes.node,
+        buttonSubmitText: PropTypes.node,
+        buttonSubmitLoadingText: PropTypes.node,
+        submitImmediatelyOn: PropTypes.func,
+        saving: PropTypes.bool,
+        loading: PropTypes.bool,
     }
 
     constructor(props) {
@@ -32,8 +51,8 @@ export default class MultiSelect extends React.Component {
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleEnterPress);
-        if (this.refs.select) {
-            this.refs.select.focus();
+        if (this.refs.reactSelect) {
+            this.refs.reactSelect.focus();
         }
     }
 
@@ -84,9 +103,10 @@ export default class MultiSelect extends React.Component {
 
         this.props.handleAdd(value);
         this.selected = null;
-        this.refs.select.handleInputChange({target: {value: ''}});
+
+        this.refs.reactSelect.select.handleInputChange({currentTarget: {value: ''}});
         this.onInput('');
-        this.refs.select.focus();
+        this.refs.reactSelect.focus();
 
         const submitImmediatelyOn = this.props.submitImmediatelyOn;
         if (submitImmediatelyOn && submitImmediatelyOn(value)) {
@@ -130,14 +150,21 @@ export default class MultiSelect extends React.Component {
         this.props.handleSubmit();
     }
 
-    onChange = (values) => {
-        if (values.length < this.props.values.length) {
-            this.props.handleDelete(values);
+    onChange = (_, change) => {
+        if (change.action !== 'remove-value' && change.action !== 'pop-value') {
+            return;
         }
-    }
 
-    handleRender = () => {
-        return null;
+        const valueKey = this.props.valueKey;
+        const values = [...this.props.values];
+        for (let i = 0; i < values.length; i++) {
+            if (values[i][valueKey] === change.removedValue[valueKey]) {
+                values.splice(i, 1);
+                break;
+            }
+        }
+
+        this.props.handleDelete(values);
     }
 
     render() {
@@ -257,23 +284,21 @@ export default class MultiSelect extends React.Component {
                 <div className='filter-row filter-row--full'>
                     <div className='multi-select__container'>
                         <ReactSelect
-                            ref='select'
-                            multi={true}
+                            ref='reactSelect'
+                            isMulti={true}
                             options={this.props.options}
-                            joinValues={true}
-                            clearable={false}
-                            openOnFocus={true}
+                            styles={styles}
+                            components={{
+                                Menu: nullComponent,
+                                IndicatorsContainer: nullComponent,
+                                MultiValueLabel: paddedComponent(this.props.valueRenderer),
+                            }}
+                            isClearable={false}
+                            openMenuOnFocus={true}
                             onInputChange={this.onInput}
-                            onInputKeyDown={this.onInputKeyDown}
-                            onBlurResetsInput={false}
-                            onCloseResetsInput={false}
+                            onKeyDown={this.onInputKeyDown}
                             onChange={this.onChange}
                             value={this.props.values}
-                            valueKey={this.props.valueKey}
-                            valueRenderer={this.props.valueRenderer}
-                            menuRenderer={this.handleRender}
-                            arrowRenderer={this.handleRender}
-                            noResultsText={null}
                             placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
                         />
                         <SaveButton
@@ -312,25 +337,53 @@ export default class MultiSelect extends React.Component {
     }
 }
 
-MultiSelect.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.object),
-    optionRenderer: PropTypes.func,
-    values: PropTypes.arrayOf(PropTypes.object),
-    valueKey: PropTypes.string,
-    valueRenderer: PropTypes.func,
-    handleInput: PropTypes.func,
-    handleDelete: PropTypes.func,
-    perPage: PropTypes.number,
-    handlePageChange: PropTypes.func,
-    handleAdd: PropTypes.func,
-    handleSubmit: PropTypes.func,
-    noteText: PropTypes.node,
-    maxValues: PropTypes.number,
-    numRemainingText: PropTypes.node,
-    buttonSubmitText: PropTypes.node,
-    buttonSubmitLoadingText: PropTypes.node,
-    submitImmediatelyOn: PropTypes.func,
-    saving: PropTypes.bool,
-    loading: PropTypes.bool,
-    totalCount: PropTypes.number,
+const nullComponent = () => null;
+
+const paddedComponent = (WrappedComponent) => {
+    return (props) => {
+        return (
+            <div style={{paddingRight: '5px', paddingLeft: '5px', borderRight: '1px solid rgba(0, 126, 255, 0.24)'}}>
+                <WrappedComponent {...props}/>
+            </div>
+        );
+    };
+};
+
+const styles = {
+    container: () => {
+        return {
+            display: 'table-cell',
+            paddingRight: '15px',
+            verticalAlign: 'top',
+            width: '100%',
+        };
+    },
+    control: (base) => {
+        return {
+            ...base,
+            borderRadius: '1px',
+            borderColor: 'hsl(0,0%,80%)',
+            minHeight: '36px',
+            '&:hover': {},
+            boxShadow: '',
+            backgroundColor: 'hsl(0,0%,100%)',
+        };
+    },
+    multiValue: (base) => {
+        return {
+            ...base,
+            whiteSpace: 'nowrap',
+            border: '1px solid rgba(0, 126, 255, 0.24)',
+            backgroundColor: 'rgba(0, 126, 255, 0.08)',
+            color: '#007eff',
+        };
+    },
+    multiValueRemove: (base) => {
+        return {
+            ...base,
+            ':hover': {
+                backgroundColor: 'rgba(0, 126, 255, 0.15)',
+            },
+        };
+    },
 };

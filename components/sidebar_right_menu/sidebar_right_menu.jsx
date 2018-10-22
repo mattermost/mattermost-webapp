@@ -9,9 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import classNames from 'classnames';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {
-    Constants,
-} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -26,7 +24,7 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import LeaveTeamModal from 'components/leave_team_modal';
-import {ModalIdentifiers} from 'utils/constants';
+import UserSettingsModal from 'components/user_settings/modal';
 
 export default class SidebarRightMenu extends React.PureComponent {
     static propTypes = {
@@ -119,10 +117,6 @@ export default class SidebarRightMenu extends React.PureComponent {
             this.props.actions.closeRhsMenu();
             this.props.actions.showMentions();
         }
-    }
-
-    showAccountSettingsModal = () => {
-        GlobalActions.showAccountSettingsModal();
     }
 
     handleEmitUserLoggedOutEvent = () => {
@@ -490,16 +484,16 @@ export default class SidebarRightMenu extends React.PureComponent {
                         </li>
                         <li className='divider'/>
                         <li>
-                            <a
-                                href='#'
-                                onClick={this.showAccountSettingsModal}
+                            <ToggleModalButtonRedux
+                                modalId={ModalIdentifiers.USER_SETTINGS}
+                                dialogType={UserSettingsModal}
                             >
                                 <i className='icon fa fa-cog'/>
                                 <FormattedMessage
                                     id='sidebar_right_menu.accountSettings'
                                     defaultMessage='Account Settings'
                                 />
-                            </a>
+                            </ToggleModalButtonRedux>
                         </li>
                         <li className='divider'/>
                         {inviteLink}

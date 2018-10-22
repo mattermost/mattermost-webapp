@@ -191,8 +191,8 @@ export default class AddUsersToTeam extends React.Component {
         );
     }
 
-    renderValue(user) {
-        return user.username;
+    renderValue(props) {
+        return props.data.username;
     }
 
     render() {

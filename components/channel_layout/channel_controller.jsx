@@ -21,7 +21,6 @@ import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
-import UserSettingsModal from 'components/user_settings/modal';
 import WebrtcNotification from 'components/webrtc/notification';
 import WebrtcSidebar from 'components/webrtc/sidebar';
 import ModalController from 'components/modal_controller';
@@ -55,7 +54,6 @@ export default class ChannelController extends React.Component {
                     <Route component={Sidebar}/>
                     <Route component={CenterChannel}/>
                     <Pluggable pluggableName='Root'/>
-                    <UserSettingsModal/>
                     <GetPostLinkModal/>
                     <GetPublicLinkModal/>
                     <GetTeamInviteLinkModal/>
