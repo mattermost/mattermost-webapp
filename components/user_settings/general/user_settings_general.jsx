@@ -10,7 +10,6 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -450,7 +449,7 @@ class UserSettingsGeneralTab extends React.Component {
                     />
                 );
             } else if (this.state.emailChangeInProgress) {
-                const newEmail = UserStore.getCurrentUser().email;
+                const newEmail = this.props.user.email;
                 if (newEmail) {
                     helpText = (
                         <React.Fragment>
@@ -644,7 +643,7 @@ class UserSettingsGeneralTab extends React.Component {
             let describe = '';
             if (this.props.user.auth_service === '') {
                 if (this.state.emailChangeInProgress) {
-                    const newEmail = UserStore.getCurrentUser().email;
+                    const newEmail = this.props.user.email;
                     if (newEmail) {
                         describe = (
                             <React.Fragment>
@@ -666,7 +665,7 @@ class UserSettingsGeneralTab extends React.Component {
                         );
                     }
                 } else {
-                    describe = UserStore.getCurrentUser().email;
+                    describe = this.props.user.email;
                 }
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 describe = (
@@ -1078,7 +1077,7 @@ class UserSettingsGeneralTab extends React.Component {
             usernameSection = (
                 <SettingItemMin
                     title={formatMessage(holders.username)}
-                    describe={UserStore.getCurrentUser().username}
+                    describe={this.props.user.username}
                     focused={this.props.prevActiveSection === prevSections.username}
                     section={'username'}
                     updateSection={this.updateSection}

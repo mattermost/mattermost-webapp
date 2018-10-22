@@ -24,7 +24,7 @@ import {
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as ChannelActions from 'actions/channel_actions.jsx';
+import {executeCommand} from 'actions/command';
 import {StoragePrefixes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
@@ -42,7 +42,7 @@ jest.mock('dispatcher/app_dispatcher.jsx', () => ({
     register: jest.fn(),
 }));
 
-jest.mock('actions/channel_actions.jsx', () => ({
+jest.mock('actions/command', () => ({
     executeCommand: jest.fn(),
 }));
 
@@ -258,16 +258,16 @@ describe('rhs view actions', () => {
 
         const draft = {message: 'test msg'};
 
-        test('it calls ChannelActions.executeCommand', () => {
+        test('it calls executeCommand', () => {
             store.dispatch(submitCommand(channelId, rootId, draft));
 
-            expect(ChannelActions.executeCommand).toHaveBeenCalled();
+            expect(executeCommand).toHaveBeenCalled();
 
             // First argument
-            expect(lastCall(ChannelActions.executeCommand.mock.calls)[0]).toEqual(draft.message);
+            expect(lastCall(executeCommand.mock.calls)[0]).toEqual(draft.message);
 
             // Second argument
-            expect(lastCall(ChannelActions.executeCommand.mock.calls)[1]).toEqual(args);
+            expect(lastCall(executeCommand.mock.calls)[1]).toEqual(args);
         });
 
         test('it calls submitPost on error.sendMessage', () => {

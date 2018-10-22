@@ -58,13 +58,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -106,13 +99,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -130,13 +116,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -154,13 +133,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -188,7 +160,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               >
                 <label>
                   <input
-                    checked={true}
+                    checked={false}
                     id="channel_display_modeFormatA"
                     name="channel_display_modeFormat"
                     onChange={[Function]}
@@ -339,7 +311,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               >
                 <label>
                   <input
-                    checked={true}
+                    checked={false}
                     id="clockFormatA"
                     name="clockFormat"
                     onChange={[Function]}
@@ -425,13 +397,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -449,13 +414,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -473,13 +431,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -497,13 +448,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -600,13 +544,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -648,13 +585,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -682,7 +612,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               >
                 <label>
                   <input
-                    checked={true}
+                    checked={false}
                     id="collapseFormatA"
                     name="collapseFormat"
                     onChange={[Function]}
@@ -744,13 +674,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -768,13 +691,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -871,13 +787,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -919,13 +828,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -943,13 +845,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -967,13 +862,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -991,13 +879,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -1096,13 +977,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -1144,13 +1018,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -1168,13 +1035,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -1192,13 +1052,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -1295,13 +1148,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -1353,7 +1199,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               >
                 <label>
                   <input
-                    checked={true}
+                    checked={false}
                     id="linkpreviewFormatA"
                     name="linkpreviewFormat"
                     onChange={[Function]}
@@ -1415,13 +1261,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -1439,13 +1278,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -1463,13 +1295,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -1566,13 +1391,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -1614,13 +1432,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -1638,13 +1449,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -1672,7 +1476,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               >
                 <label>
                   <input
-                    checked={true}
+                    checked={false}
                     id="message_displayFormatA"
                     name="message_displayFormat"
                     onChange={[Function]}
@@ -1754,13 +1558,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -1857,13 +1654,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -1905,13 +1695,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -1929,13 +1712,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -1953,13 +1729,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -1977,13 +1746,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -2080,13 +1842,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -2128,13 +1883,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -2152,13 +1900,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -2176,13 +1917,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -2200,13 +1934,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -2303,13 +2030,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -2351,13 +2071,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -2375,13 +2088,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -2399,13 +2105,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -2423,13 +2122,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -2525,7 +2217,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <ThemeSetting
+      <Connect(ThemeSetting)
         selected={true}
         setEnforceFocus={[MockFunction]}
         setRequireConfirm={[MockFunction]}
@@ -2537,13 +2229,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -2585,13 +2270,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -2609,13 +2287,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -2633,13 +2304,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -2657,13 +2321,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={
@@ -2760,13 +2417,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="12-hour clock (example: 4:00 PM)"
-            id="user.settings.display.normalClock"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="clock"
         title={
@@ -2808,13 +2458,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.linkPreviewOn"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="linkpreview"
         title={
@@ -2832,13 +2475,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="On"
-            id="user.settings.display.collapseOn"
-            values={Object {}}
-          />
-        }
         focused={true}
         section="collapse"
         title={
@@ -2856,13 +2492,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Standard"
-            id="user.settings.display.messageDisplayClean"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="message_display"
         title={
@@ -2880,13 +2509,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe={
-          <FormattedMessage
-            defaultMessage="Full width"
-            id="user.settings.display.fullScreen"
-            values={Object {}}
-          />
-        }
         focused={false}
         section="channel_display_mode"
         title={

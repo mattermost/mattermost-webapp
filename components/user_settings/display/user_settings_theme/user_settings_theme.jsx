@@ -8,10 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import * as UserActions from 'actions/user_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {ActionTypes, Constants, Preferences} from 'utils/constants.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -22,18 +19,22 @@ import PremadeThemeChooser from './premade_theme_chooser';
 
 export default class ThemeSetting extends React.Component {
     static propTypes = {
+        currentTeamId: PropTypes.string.isRequired,
+        theme: PropTypes.object,
         selected: PropTypes.bool.isRequired,
         updateSection: PropTypes.func.isRequired,
         setRequireConfirm: PropTypes.func.isRequired,
         setEnforceFocus: PropTypes.func.isRequired,
         allowCustomThemes: PropTypes.bool,
+        showAllTeamsCheckbox: PropTypes.bool,
+        applyToAllTeams: PropTypes.bool,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            ...this.getStateFromStores(),
+            ...this.getStateFromProps(props),
             isSaving: false,
         };
 
@@ -41,8 +42,6 @@ export default class ThemeSetting extends React.Component {
     }
 
     componentDidMount() {
-        UserStore.addChangeListener(this.onChange);
-
         if (this.props.selected) {
             $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
         }
@@ -62,43 +61,23 @@ export default class ThemeSetting extends React.Component {
     }
 
     componentWillUnmount() {
-        UserStore.removeChangeListener(this.onChange);
-
         if (this.props.selected) {
-            const state = this.getStateFromStores();
-            Utils.applyTheme(state.theme);
+            Utils.applyTheme(this.props.theme);
         }
     }
 
-    getStateFromStores() {
-        const theme = PreferenceStore.getTheme();
+    getStateFromProps(props = this.props) {
+        const theme = {...props.theme};
         if (!theme.codeTheme) {
             theme.codeTheme = Constants.DEFAULT_CODE_THEME;
         }
 
-        // show the "apply to all teams" checkbox if the user is on more than one team
-        const showAllTeamsCheckbox = Object.keys(TeamStore.getAll()).length > 1;
-
-        // check the "apply to all teams" checkbox by default if the user has any team-specific themes
-        const applyToAllTeams = PreferenceStore.getCategory(Preferences.CATEGORY_THEME).size <= 1;
-
         return {
-            teamId: TeamStore.getCurrentId(),
             theme,
             type: theme.type || 'premade',
-            showAllTeamsCheckbox,
-            applyToAllTeams,
+            showAllTeamsCheckbox: props.showAllTeamsCheckbox,
+            applyToAllTeams: props.applyToAllTeams,
         };
-    }
-
-    onChange = () => {
-        const newState = this.getStateFromStores();
-
-        if (!Utils.areObjectsEqual(this.state, newState)) {
-            this.setState(newState);
-        }
-
-        this.props.setEnforceFocus(true);
     }
 
     scrollToTop() {
@@ -106,7 +85,7 @@ export default class ThemeSetting extends React.Component {
     }
 
     submitTheme = () => {
-        const teamId = this.state.applyToAllTeams ? '' : this.state.teamId;
+        const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
 
         this.setState({isSaving: true});
 
@@ -147,7 +126,7 @@ export default class ThemeSetting extends React.Component {
     }
 
     resetFields = () => {
-        const state = this.getStateFromStores();
+        const state = this.getStateFromProps();
         state.serverError = null;
         this.setState(state);
         this.scrollToTop();

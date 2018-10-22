@@ -211,7 +211,6 @@ export const ActionTypes = keyMirror({
 
     SHOW_SEARCH: null,
 
-    TOGGLE_ACCOUNT_SETTINGS_MODAL: null,
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_INVITE_MEMBER_MODAL: null,
@@ -303,6 +302,7 @@ export const ModalIdentifiers = {
     CONVERT_CHANNEL: 'convert_channel',
     RESET_STATUS: 'reset_status',
     LEAVE_TEAM: 'leave_team',
+    USER_SETTINGS: 'user_settings',
 };
 
 export const UserStatuses = {

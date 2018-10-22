@@ -3,123 +3,21 @@
 
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import * as PostActions from 'actions/post_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import {isFavoriteChannel} from 'utils/channel_utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export function executeCommand(message, args, success, error) {
-    let msg = message;
-
-    let cmdLength = msg.indexOf(' ');
-    if (cmdLength < 0) {
-        cmdLength = msg.length;
-    }
-    const cmd = msg.substring(0, cmdLength).toLowerCase();
-    msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
-
-    switch (cmd) {
-    case '/search':
-        PostActions.searchForTerm(msg.substring(cmdLength + 1, msg.length));
-        return;
-    case '/shortcuts':
-        if (UserAgent.isMobile()) {
-            const err = {message: Utils.localizeMessage('create_post.shortcutsNotSupported', 'Keyboard shortcuts are not supported on your device')};
-            error(err);
-            return;
-        }
-
-        GlobalActions.toggleShortcutsModal();
-        return;
-    case '/leave': {
-        // /leave command not supported in reply threads.
-        if (args.channel_id && (args.root_id || args.parent_id)) {
-            GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id);
-            return;
-        }
-        const channel = ChannelStore.getCurrent();
-        if (channel.type === Constants.PRIVATE_CHANNEL) {
-            GlobalActions.showLeavePrivateChannelModal(channel);
-            return;
-        } else if (
-            channel.type === Constants.DM_CHANNEL ||
-                channel.type === Constants.GM_CHANNEL
-        ) {
-            let name;
-            let category;
-            if (channel.type === Constants.DM_CHANNEL) {
-                name = Utils.getUserIdFromChannelName(channel);
-                category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
-            } else {
-                name = channel.id;
-                category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
-            }
-            const currentUserId = UserStore.getCurrentId();
-            dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
-            if (isFavoriteChannel(channel)) {
-                dispatch(ChannelActions.unfavoriteChannel(channel.id));
-            }
-            browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
-            return;
-        }
-        break;
-    }
-    case '/settings':
-        GlobalActions.showAccountSettingsModal();
-        return;
-    case '/collapse':
-    case '/expand':
-        dispatch(PostActions.resetEmbedVisibility());
-    }
-
-    Client4.executeCommand(msg, args).then(
-        (data) => {
-            if (success) {
-                success(data);
-            }
-
-            const hasGotoLocation = data.goto_location && isUrlSafe(data.goto_location);
-
-            if (msg.trim() === '/logout') {
-                GlobalActions.emitUserLoggedOutEvent(hasGotoLocation ? data.goto_location : '/');
-                return;
-            }
-
-            if (hasGotoLocation) {
-                if (data.goto_location.startsWith('/')) {
-                    browserHistory.push(data.goto_location);
-                } else if (data.goto_location.startsWith(getSiteURL())) {
-                    browserHistory.push(data.goto_location.substr(getSiteURL().length));
-                } else {
-                    window.open(data.goto_location);
-                }
-            }
-        },
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
-}
 
 // To be removed in a future PR
 export async function openDirectChannelToUser(userId, success, error) {

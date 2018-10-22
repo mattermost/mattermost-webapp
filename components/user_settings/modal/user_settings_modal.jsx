@@ -8,14 +8,13 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import ModalStore from 'stores/modal_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
-import loadUserSettings from 'bundle-loader?lazy!../user_settings.jsx';
+
+import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
 import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
 
 const holders = defineMessages({
@@ -62,6 +61,15 @@ const holders = defineMessages({
 });
 
 class UserSettingsModal extends React.Component {
+    static propTypes = {
+        currentUser: PropTypes.object.isRequired,
+        onHide: PropTypes.func.isRequired,
+        intl: intlShape.isRequired,
+        actions: PropTypes.shape({
+            sendVerificationEmail: PropTypes.func.isRequred,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -71,11 +79,9 @@ class UserSettingsModal extends React.Component {
             prev_active_section: '',
             showConfirmModal: false,
             enforceFocus: true,
-            currentUser: UserStore.getCurrentUser(),
-            show: false,
+            show: true,
         };
 
-        this.mounted = false;
         this.requireConfirm = false;
 
         // Used when settings want to override the default confirm modal with their own
@@ -96,27 +102,15 @@ class UserSettingsModal extends React.Component {
         });
     }
 
-    onUserChanged = () => {
-        if (this.mounted) {
-            this.setState({currentUser: UserStore.getCurrentUser()});
-        }
-    }
-
     componentDidMount() {
-        this.mounted = true;
-        UserStore.addChangeListener(this.onUserChanged);
-        ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL, this.handleToggle);
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
     componentWillUnmount() {
-        this.mounted = false;
-        ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL, this.handleToggle);
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     componentDidUpdate() {
-        UserStore.removeChangeListener(this.onUserChanged);
         if (!Utils.isMobile()) {
             $('.settings-content .minimize-settings').perfectScrollbar('update');
         }
@@ -124,16 +118,8 @@ class UserSettingsModal extends React.Component {
 
     handleKeyDown = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
-            this.setState({
-                show: !this.state.show,
-            });
+            this.handleHide();
         }
-    }
-
-    handleToggle = (value) => {
-        this.setState({
-            show: value,
-        });
     }
 
     // Called when the close button is pressed on the main modal
@@ -155,6 +141,7 @@ class UserSettingsModal extends React.Component {
             active_section: '',
             prev_active_section: '',
         });
+        this.props.onHide();
     }
 
     // Called to hide the settings pane when on mobile
@@ -251,7 +238,7 @@ class UserSettingsModal extends React.Component {
 
     render() {
         const {formatMessage} = this.props.intl;
-        if (this.state.currentUser == null) {
+        if (this.props.currentUser == null) {
             return (<div/>);
         }
         var tabs = [];
@@ -327,16 +314,5 @@ class UserSettingsModal extends React.Component {
         );
     }
 }
-
-UserSettingsModal.propTypes = {
-    intl: intlShape.isRequired,
-    closeUnusedDirectMessages: PropTypes.bool,
-    experimentalGroupUnreadChannels: PropTypes.string,
-    sendEmailNotifications: PropTypes.bool,
-    requireEmailVerification: PropTypes.bool,
-    actions: PropTypes.shape({
-        sendVerificationEmail: PropTypes.func.isRequred,
-    }).isRequired,
-};
 
 export default injectIntl(UserSettingsModal);

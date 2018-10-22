@@ -6,8 +6,10 @@ import {bindActionCreators} from 'redux';
 import {getMe} from 'mattermost-redux/actions/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getPasswordConfig} from 'utils/utils.jsx';
+import {Preferences} from 'utils/constants';
 
 import SecurityTab from './user_settings_security.jsx';
 
@@ -47,6 +49,7 @@ function mapStateToProps(state, ownProps) {
         enableSignUpWithOffice365,
         experimentalEnableAuthenticationTransfer,
         passwordConfig: getPasswordConfig(config),
+        militaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
     };
 }
 
