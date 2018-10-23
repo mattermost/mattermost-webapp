@@ -60,6 +60,7 @@ export default class Textbox extends React.Component {
             new ChannelMentionProvider(),
             new EmoticonProvider(),
         ];
+
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider());
         }

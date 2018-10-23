@@ -4,8 +4,6 @@
 import React from 'react';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
@@ -60,12 +58,12 @@ class SearchUserSuggestion extends Suggestion {
 }
 
 export default class SearchUserProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             const usernamePrefix = captured[1];
 
-            this.startNewRequest(suggestionId, usernamePrefix);
+            this.startNewRequest(usernamePrefix);
 
             autocompleteUsersInTeam(
                 usernamePrefix,
@@ -77,9 +75,7 @@ export default class SearchUserProvider extends Provider {
                     const users = Object.assign([], data.users);
                     const mentions = users.map((user) => user.username);
 
-                    AppDispatcher.handleServerAction({
-                        type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                        id: suggestionId,
+                    resultsCallback({
                         matchedPretext: usernamePrefix,
                         terms: mentions,
                         items: users,

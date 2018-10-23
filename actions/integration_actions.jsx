@@ -5,12 +5,8 @@ import request from 'superagent';
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds, getUser} from 'mattermost-redux/actions/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {Client4} from 'mattermost-redux/client';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -196,50 +192,6 @@ export function deleteCommand(id) {
 
 export function regenCommandToken(id) {
     IntegrationActions.regenCommandToken(id)(dispatch, getState);
-}
-
-export function getSuggestedCommands(command, suggestionId, component) {
-    Client4.getCommandsList(getCurrentTeamId(getState())).then(
-        (data) => {
-            let matches = [];
-            data.forEach((cmd) => {
-                if (!cmd.auto_complete) {
-                    return;
-                }
-
-                if (cmd.trigger !== 'shortcuts' || !UserAgent.isMobile()) {
-                    if (('/' + cmd.trigger).indexOf(command) === 0) {
-                        const s = '/' + cmd.trigger;
-                        let hint = '';
-                        if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
-                            hint = cmd.auto_complete_hint;
-                        }
-                        matches.push({
-                            suggestion: s,
-                            hint,
-                            description: cmd.auto_complete_desc,
-                        });
-                    }
-                }
-            });
-
-            matches = matches.sort((a, b) => a.suggestion.localeCompare(b.suggestion));
-
-            // pull out the suggested commands from the returned data
-            const terms = matches.map((suggestion) => suggestion.suggestion);
-
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                id: suggestionId,
-                matchedPretext: command,
-                terms,
-                items: matches,
-                component,
-            });
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
 }
 
 export function getYoutubeVideoInfo(googleKey, videoId, success, error) {

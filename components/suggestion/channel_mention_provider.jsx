@@ -7,12 +7,12 @@ import {getMyChannels, getChannel, getMyChannelMemberships} from 'mattermost-red
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
+import {ChannelTypes} from 'mattermost-redux/action_types';
+
 import {autocompleteChannels} from 'actions/channel_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import SuggestionStore from 'stores/suggestion_store.jsx';
 import store from 'stores/redux_store.jsx';
 
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -64,7 +64,7 @@ export default class ChannelMentionProvider extends Provider {
         this.lastCompletedWord = '';
     }
 
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultCallback) {
         this.resetRequest();
 
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
@@ -101,9 +101,7 @@ export default class ChannelMentionProvider extends Provider {
         // Clear the last completed word since we've started to match new text
         this.lastCompletedWord = '';
 
-        this.startNewRequest(suggestionId, prefix);
-
-        SuggestionStore.clearSuggestions(suggestionId);
+        this.startNewRequest(prefix);
 
         const words = prefix.toLowerCase().split(/\s+/);
         const wrappedChannelIds = {};
@@ -146,14 +144,15 @@ export default class ChannelMentionProvider extends Provider {
             return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
         });
         const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
-        if (channelMentions.length > 0) {
-            SuggestionStore.addSuggestions(suggestionId, channelMentions, wrappedChannels, ChannelMentionSuggestion, captured[1]);
-        }
-
-        SuggestionStore.addSuggestions(suggestionId, [''], [{
-            type: Constants.MENTION_MORE_CHANNELS,
-            loading: true,
-        }], ChannelMentionSuggestion, captured[1]);
+        resultCallback({
+            terms: channelMentions.concat([' ']),
+            items: wrappedChannels.concat([{
+                type: Constants.MENTION_MORE_CHANNELS,
+                loading: true,
+            }]),
+            component: ChannelMentionSuggestion,
+            matchedPretext: captured[1],
+        });
 
         autocompleteChannels(
             prefix,
@@ -202,14 +201,12 @@ export default class ChannelMentionProvider extends Provider {
                 const wrapped = wrappedChannels.concat(wrappedMoreChannels);
                 const mentions = wrapped.map((item) => '~' + item.channel.name);
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_MORE_CHANNELS,
-                    channels: moreChannels,
+                store.dispatch({
+                    type: ChannelTypes.RECEIVED_CHANNELS,
+                    data: moreChannels,
                 });
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
+                resultCallback({
                     matchedPretext: captured[1],
                     terms: mentions,
                     items: wrapped,
