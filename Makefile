@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop e2e clean-e2e test-e2e setup-e2e check-style run-unit emojis help
+.PHONY: build test run clean stop check-style run-unit emojis help
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -65,11 +65,8 @@ clean: ## Clears cached; deletes node_modules and dist directories
 	rm -rf dist
 	rm -rf node_modules
 
-e2e: | node_modules setup-e2e test-e2e clean-e2e
-
-setup-e2e:
+e2e: node_modules
 	@echo E2E: Running mattermost-mysql-e2e
-
 	@if [ $(shell docker ps -a | grep -ci mattermost-mysql-e2e) -eq 0 ]; then \
 		echo starting mattermost-mysql-e2e; \
 		docker run --name mattermost-mysql-e2e -p 35476:3306 -e MYSQL_ROOT_PASSWORD=mostest \
@@ -79,15 +76,19 @@ setup-e2e:
 		docker start mattermost-mysql-e2e > /dev/null; \
 	fi
 
-	cd $(BUILD_SERVER_DIR) && \
-		[[ -f config/config.json ]] && \
-			cp config/config.json config/config-backup.json && cp config/default.json config/config.json || \
-			echo "config.json not found" && cp config/default.json config/config.json
+	cd $(BUILD_SERVER_DIR) && [[ -f config/config.json ]] && \
+		cp config/config.json config/config-backup.json && cp config/default.json config/config.json || \
+		echo "config.json not found" && cp config/default.json config/config.json
 
-test-e2e:
 	@echo E2E: Running end-to-end testing
-
 	npm run test:e2e
+
+	@echo stopping mattermost-mysql-e2e
+	docker stop mattermost-mysql-e2e > /dev/null
+
+	cd $(BUILD_SERVER_DIR) && [[ -f config/config-backup.json ]] && \
+		cp config/config-backup.json config/config.json && echo "revert local config.json" || \
+		echo "config-backup.json not found" && sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
 
 clean-e2e:
 	@if [ $(shell docker ps -a | grep -ci mattermost-mysql-e2e) -eq 1 ]; then \
@@ -95,10 +96,9 @@ clean-e2e:
 		docker stop mattermost-mysql-e2e > /dev/null; \
 	fi
 
-	cd $(BUILD_SERVER_DIR) && \
-		[[ -f config/config-backup.json ]] && \
-			cp config/config-backup.json config/config.json && echo "revert local config.json" || \
-			echo "config-backup.json not found" && sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
+	cd $(BUILD_SERVER_DIR) && [[ -f config/config-backup.json ]] && \
+		cp config/config-backup.json config/config.json && echo "revert local config.json" || \
+		echo "config-backup.json not found" && sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
 
 emojis: ## Creates emoji JSX file and extracts emoji images from the system font
 	gem install bundler
