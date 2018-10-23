@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
-import {popOverOverlayPosition} from 'utils/utils.jsx';
+import {popOverOverlayPosition} from 'utils/position_utils.jsx';
 
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 
