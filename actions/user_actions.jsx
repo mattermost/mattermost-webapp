@@ -7,18 +7,22 @@ import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermos
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    getChannel,
+    getCurrentChannelId,
+    getMyChannels,
+    getMyChannelMember,
+    getChannelMembersInChannels,
+} from 'mattermost-redux/selectors/entities/channels';
+import {getBool, getCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 
@@ -37,13 +41,13 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     }
 }
 
-export async function loadProfilesAndTeamMembers(page, perPage, teamId = TeamStore.getCurrentId(), success) {
+export async function loadProfilesAndTeamMembers(page, perPage, teamId = getCurrentTeamId(getState()), success) {
     const {data} = await UserActions.getProfilesInTeam(teamId, page, perPage)(dispatch, getState);
     loadTeamMembersForProfilesList(data, teamId, success);
     loadStatusesForProfilesList(data);
 }
 
-export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId = TeamStore.getCurrentId(), channelId = ChannelStore.getCurrentId(), success, error) {
+export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
     const {data} = await UserActions.getProfilesInChannel(channelId, page, perPage)(dispatch, getState);
 
     loadTeamMembersForProfilesList(
@@ -56,12 +60,13 @@ export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage,
     );
 }
 
-export function loadTeamMembersForProfilesList(profiles, teamId = TeamStore.getCurrentId(), success, error) {
+export function loadTeamMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), success, error) {
+    const state = getState();
     const membersToLoad = {};
     for (let i = 0; i < profiles.length; i++) {
         const pid = profiles[i].id;
 
-        if (!TeamStore.hasActiveMemberInTeam(teamId, pid)) {
+        if (!getTeamMember(state, teamId, pid)) {
             membersToLoad[pid] = true;
         }
     }
@@ -96,14 +101,15 @@ async function loadTeamMembersForProfiles(userIds, teamId, success, error) {
     }
 }
 
-export function loadChannelMembersForProfilesMap(profiles, channelId = ChannelStore.getCurrentId(), success, error) {
+export function loadChannelMembersForProfilesMap(profiles, channelId = getCurrentChannelId(getState()), success, error) {
     const membersToLoad = {};
     for (const pid in profiles) {
         if (!profiles.hasOwnProperty(pid)) {
             continue;
         }
 
-        if (!ChannelStore.hasActiveMemberInChannel(channelId, pid)) {
+        const members = getChannelMembersInChannels(getState())[channelId];
+        if (!members || !members[pid]) {
             membersToLoad[pid] = true;
         }
     }
@@ -119,18 +125,19 @@ export function loadChannelMembersForProfilesMap(profiles, channelId = ChannelSt
     getChannelMembersForUserIds(channelId, list, success, error);
 }
 
-export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId = TeamStore.getCurrentId(), channelId = ChannelStore.getCurrentId(), success, error) {
+export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
     loadTeamMembersForProfilesList(profiles, teamId, () => {
         loadChannelMembersForProfilesList(profiles, channelId, success, error);
     }, error);
 }
 
-export function loadChannelMembersForProfilesList(profiles, channelId = ChannelStore.getCurrentId(), success, error) {
+export function loadChannelMembersForProfilesList(profiles, channelId = getCurrentChannelId(getState()), success, error) {
     const membersToLoad = {};
     for (let i = 0; i < profiles.length; i++) {
         const pid = profiles[i].id;
 
-        if (!ChannelStore.hasActiveMemberInChannel(channelId, pid)) {
+        const members = getChannelMembersInChannels(getState())[channelId];
+        if (!members || !members[pid]) {
             membersToLoad[pid] = true;
         }
     }
@@ -154,12 +161,10 @@ export async function loadNewDMIfNeeded(channelId) {
             return;
         }
 
-        const pref = PreferenceStore.getBool(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
+        const pref = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
         if (pref === false) {
             const now = Utils.getTimestamp();
-            PreferenceStore.setPreference(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, 'true');
-            PreferenceStore.setPreference(Preferences.CATEGORY_CHANNEL_OPEN_TIME, channelId, now.toString());
-            const currentUserId = UserStore.getCurrentId();
+            const currentUserId = Selectors.getCurrentUserId(getState());
             savePreferencesRedux(currentUserId, [
                 {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
                 {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
@@ -168,7 +173,7 @@ export async function loadNewDMIfNeeded(channelId) {
         }
     }
 
-    const channel = ChannelStore.get(channelId);
+    const channel = getChannel(getState(), channelId);
     if (channel) {
         checkPreference(channel);
     } else {
@@ -181,16 +186,15 @@ export async function loadNewDMIfNeeded(channelId) {
 
 export async function loadNewGMIfNeeded(channelId) {
     function checkPreference() {
-        const pref = PreferenceStore.getBool(Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
+        const pref = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
         if (pref === false) {
-            PreferenceStore.setPreference(Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, 'true');
-            const currentUserId = UserStore.getCurrentId();
+            const currentUserId = Selectors.getCurrentUserId(getState());
             savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}])(dispatch, getState);
             loadProfilesForGM();
         }
     }
 
-    const channel = ChannelStore.get(channelId);
+    const channel = getChannel(getState(), channelId);
     if (!channel) {
         await getChannelAndMyMember(channelId)(dispatch, getState);
     }
@@ -203,8 +207,11 @@ export function loadProfilesForSidebar() {
 }
 
 export async function loadProfilesForGM() {
-    const channels = ChannelStore.getChannels();
+    const state = getState();
+    const channels = getMyChannels(state);
     const newPreferences = [];
+    const userIdsInChannels = Selectors.getUserIdsInChannels(state);
+    const currentUserId = Selectors.getCurrentUserId(state);
 
     for (let i = 0; i < channels.length; i++) {
         const channel = channels[i];
@@ -212,20 +219,21 @@ export async function loadProfilesForGM() {
             continue;
         }
 
-        if (UserStore.getProfileListInChannel(channel.id).length >= Constants.MIN_USERS_IN_GM) {
+        const userIds = userIdsInChannels[channel.id] || [];
+        if (userIds.length >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
 
-        const isVisible = PreferenceStore.getBool(Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channel.id);
+        const isVisible = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channel.id);
 
         if (!isVisible) {
-            const member = ChannelStore.getMyMember(channel.id);
+            const member = getMyChannelMember(state, channel.id);
             if (!member || (member.mention_count === 0 && member.msg_count >= channel.total_msg_count)) {
                 continue;
             }
 
             newPreferences.push({
-                user_id: UserStore.getCurrentId(),
+                user_id: currentUserId,
                 category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW,
                 name: channel.id,
                 value: 'true',
@@ -236,16 +244,17 @@ export async function loadProfilesForGM() {
     }
 
     if (newPreferences.length > 0) {
-        const currentUserId = UserStore.getCurrentId();
         savePreferencesRedux(currentUserId, newPreferences)(dispatch, getState);
     }
 }
 
 export async function loadProfilesForDM() {
-    const channels = ChannelStore.getChannels();
+    const state = getState();
+    const channels = getMyChannels(state);
     const newPreferences = [];
     const profilesToLoad = [];
     const profileIds = [];
+    const currentUserId = Selectors.getCurrentUserId(state);
 
     for (let i = 0; i < channels.length; i++) {
         const channel = channels[i];
@@ -253,31 +262,30 @@ export async function loadProfilesForDM() {
             continue;
         }
 
-        const teammateId = channel.name.replace(UserStore.getCurrentId(), '').replace('__', '');
-        const isVisible = PreferenceStore.getBool(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, teammateId);
+        const teammateId = channel.name.replace(currentUserId, '').replace('__', '');
+        const isVisible = getBool(state, Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, teammateId);
 
         if (!isVisible) {
-            const member = ChannelStore.getMyMember(channel.id);
+            const member = getMyChannelMember(state, channel.id);
             if (!member || member.mention_count === 0) {
                 continue;
             }
 
             newPreferences.push({
-                user_id: UserStore.getCurrentId(),
+                user_id: currentUserId,
                 category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
                 name: teammateId,
                 value: 'true',
             });
         }
 
-        if (!UserStore.hasProfile(teammateId)) {
+        if (!Selectors.getUser(state, teammateId)) {
             profilesToLoad.push(teammateId);
         }
         profileIds.push(teammateId);
     }
 
     if (newPreferences.length > 0) {
-        const currentUserId = UserStore.getCurrentId();
         savePreferencesRedux(currentUserId, newPreferences)(dispatch, getState);
     }
 
@@ -287,7 +295,7 @@ export async function loadProfilesForDM() {
 }
 
 export async function saveTheme(teamId, theme, cb) {
-    const currentUserId = UserStore.getCurrentId();
+    const currentUserId = Selectors.getCurrentUserId(getState());
     const preference = [{
         user_id: currentUserId,
         category: Preferences.CATEGORY_THEME,
@@ -300,7 +308,7 @@ export async function saveTheme(teamId, theme, cb) {
 }
 
 function onThemeSaved(teamId, theme, onSuccess) {
-    const themePreferences = PreferenceStore.getCategory(Preferences.CATEGORY_THEME);
+    const themePreferences = getCategory(getState(), Preferences.CATEGORY_THEME);
 
     if (teamId !== '' && themePreferences.size > 1) {
         // no extra handling to be done to delete team-specific themes
@@ -308,6 +316,7 @@ function onThemeSaved(teamId, theme, onSuccess) {
         return;
     }
 
+    const currentUserId = Selectors.getCurrentUserId(getState());
     const toDelete = [];
 
     for (const [name] of themePreferences) {
@@ -316,7 +325,7 @@ function onThemeSaved(teamId, theme, onSuccess) {
         }
 
         toDelete.push({
-            user_id: UserStore.getCurrentId(),
+            user_id: currentUserId,
             category: Preferences.CATEGORY_THEME,
             name,
         });
@@ -324,14 +333,13 @@ function onThemeSaved(teamId, theme, onSuccess) {
 
     if (toDelete.length > 0) {
         // we're saving a new global theme so delete any team-specific ones
-        const currentUserId = UserStore.getCurrentId();
         deletePreferencesRedux(currentUserId, toDelete)(dispatch, getState);
     }
 
     onSuccess();
 }
 
-export async function searchUsers(term, teamId = TeamStore.getCurrentId(), options = {}, success) {
+export async function searchUsers(term, teamId = getCurrentTeamId(getState()), options = {}, success) {
     const {data} = await UserActions.searchProfiles(term, {team_id: teamId, ...options})(dispatch, getState);
     loadStatusesForProfilesList(data);
 
@@ -341,8 +349,8 @@ export async function searchUsers(term, teamId = TeamStore.getCurrentId(), optio
 }
 
 export async function autocompleteUsersInChannel(username, channelId, success) {
-    const channel = ChannelStore.get(channelId);
-    const teamId = channel ? channel.team_id : TeamStore.getCurrentId();
+    const channel = getChannel(getState(), channelId);
+    const teamId = channel ? channel.team_id : getCurrentTeamId(getState());
     const {data} = await UserActions.autocompleteUsers(username, teamId, channelId)(dispatch, getState);
     if (success) {
         success(data);
@@ -350,7 +358,7 @@ export async function autocompleteUsersInChannel(username, channelId, success) {
 }
 
 export async function autocompleteUsersInTeam(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username, TeamStore.getCurrentId())(dispatch, getState);
+    const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
     if (success) {
         success(data);
     }
@@ -373,7 +381,7 @@ export async function updateUser(user, success, error) {
 }
 
 export async function generateMfaSecret(success, error) {
-    const {data, error: err} = await UserActions.generateMfaSecret(UserStore.getCurrentId())(dispatch, getState);
+    const {data, error: err} = await UserActions.generateMfaSecret(Selectors.getCurrentUserId(getState()))(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -400,7 +408,7 @@ export async function updateUserRoles(userId, newRoles, success, error) {
 }
 
 export async function activateMfa(code, success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(UserStore.getCurrentId(), true, code)(dispatch, getState);
+    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), true, code)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -409,7 +417,7 @@ export async function activateMfa(code, success, error) {
 }
 
 export async function deactivateMfa(success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(UserStore.getCurrentId(), false)(dispatch, getState);
+    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), false)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -615,7 +623,8 @@ export async function loadProfiles(page, perPage, success) {
 }
 
 export function getMissingProfiles(ids) {
-    const missingIds = ids.filter((id) => !UserStore.hasProfile(id));
+    const state = getState();
+    const missingIds = ids.filter((id) => !Selectors.getUser(state, id));
 
     if (missingIds.length === 0) {
         return;
@@ -630,18 +639,18 @@ export async function loadMyTeamMembers() {
 }
 
 export async function savePreferences(prefs, callback) {
-    const currentUserId = UserStore.getCurrentId();
+    const currentUserId = Selectors.getCurrentUserId(getState());
     await savePreferencesRedux(currentUserId, prefs)(dispatch, getState);
     callback();
 }
 
 export async function savePreference(category, name, value) {
-    const currentUserId = UserStore.getCurrentId();
+    const currentUserId = Selectors.getCurrentUserId(getState());
     return savePreferencesRedux(currentUserId, [{user_id: currentUserId, category, name, value}])(dispatch, getState);
 }
 
 export function deletePreferences(prefs) {
-    const currentUserId = UserStore.getCurrentId();
+    const currentUserId = Selectors.getCurrentUserId(getState());
     return deletePreferencesRedux(currentUserId, prefs)(dispatch, getState);
 }
 
