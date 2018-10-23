@@ -15,13 +15,6 @@ export const getEmojiMap = createSelector(
     }
 );
 
-export const hasSystemEmoji = createSelector(
-    getEmojiMap,
-    (emojiMap) => {
-        return emojiMap.EmojiIndicesByAlias.has(name);
-    },
-);
-
 export const getRecentEmojis = createSelector(
     (state) => state.storage,
     (storage) => {
