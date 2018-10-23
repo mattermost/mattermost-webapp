@@ -56,57 +56,63 @@ export function handleNewPost(post, msg) {
     };
 }
 
-export async function flagPost(postId) {
-    await PostActions.flagPost(postId)(dispatch, getState);
+const getPostsForIds = PostSelectors.makeGetPostsForIds();
 
-    const rhsState = getRhsState(getState());
+export function flagPost(postId) {
+    return async (doDispatch, doGetState) => {
+        await doDispatch(PostActions.flagPost(postId));
+        const state = doGetState();
+        const rhsState = getRhsState(state);
 
-    // This is a hack that should be fixed with better reducers/actions, see MM-9793
-    if (rhsState === RHSStates.FLAG) {
-        let results = getState().entities.search.results;
-        const index = results.indexOf(postId);
-        if (index === -1) {
-            results = [...results, postId];
+        if (rhsState === RHSStates.FLAG) {
+            const results = state.entities.search.results;
+            const index = results.indexOf(postId);
+            if (index === -1) {
+                const flaggedPost = PostSelectors.getPost(state, postId);
+                const posts = getPostsForIds(state, results).reduce((acc, post) => {
+                    acc[post.id] = post;
+                    return acc;
+                }, {});
+                posts[flaggedPost.id] = flaggedPost;
 
-            const posts = {};
-            results.forEach((id) => {
-                posts[id] = PostSelectors.getPost(getState(), id);
-            });
+                const newResults = [...results, postId];
+                newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
 
-            results.sort((a, b) => comparePosts(posts[a], posts[b]));
-
-            dispatch({
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: {posts, order: results},
-            });
+                doDispatch({
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: {posts, order: newResults},
+                });
+            }
         }
-    }
+
+        return {data: true};
+    };
 }
 
-export async function unflagPost(postId) {
-    await PostActions.unflagPost(postId)(dispatch, getState);
+export function unflagPost(postId) {
+    return async (doDispatch, doGetState) => {
+        await doDispatch(PostActions.unflagPost(postId));
+        const state = doGetState();
+        const rhsState = getRhsState(state);
 
-    const rhsState = getRhsState(getState());
+        if (rhsState === RHSStates.FLAG) {
+            let results = state.entities.search.results;
+            const index = results.indexOf(postId);
+            if (index > -1) {
+                results = [...results];
+                results.splice(index, 1);
 
-    // This is a hack that should be fixed with better reducers/actions, see MM-9793
-    if (rhsState === RHSStates.FLAG) {
-        let results = getState().entities.search.results;
-        const index = results.indexOf(postId);
-        if (index > -1) {
-            results = [...results];
-            results.splice(index, 1);
+                const posts = getPostsForIds(state, results);
 
-            const posts = {};
-            results.forEach((id) => {
-                posts[id] = PostSelectors.getPost(getState(), id);
-            });
-
-            dispatch({
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: {posts, order: results},
-            });
+                doDispatch({
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: {posts, order: results},
+                });
+            }
         }
-    }
+
+        return {data: true};
+    };
 }
 
 export async function createPost(post, files, success) {

@@ -21,7 +21,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
-import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import EmojiIcon from 'components/svg/emoji_icon';
