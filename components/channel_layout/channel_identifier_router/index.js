@@ -2,12 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
+
+import {onChannelByIdentifierEnter} from './actions';
 
 import ChannelIdentifierRouter from './channel_identifier_router.jsx';
 
-function mapStateToProps() {
-    return {};
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            onChannelByIdentifierEnter,
+        }, dispatch),
+    };
 }
 
-export default withRouter(connect(mapStateToProps)(ChannelIdentifierRouter));
+export default withRouter(connect(null, mapDispatchToProps)(ChannelIdentifierRouter));
