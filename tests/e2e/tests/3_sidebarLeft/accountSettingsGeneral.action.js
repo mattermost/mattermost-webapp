@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../../utils';
-
 module.exports = {
     '@tags': ['account_settings', 'account_settings_general'],
     before: (client) => {
-        const testUser = Constants.USERS.test;
+        const testUser = client.globals.testUsers.test;
         const loginPage = client.page.loginPage();
 
         loginPage.navigate().
@@ -35,45 +33,46 @@ module.exports = {
 
         // contents and cancel check
         generalSettingsSection.
-            waitForElementVisible('@nameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameEdit').
             click('@nameEdit').
-            waitForElementVisible('#firstName', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#lastName', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#firstName').
+            waitForElementVisible('#lastName').
+            waitForElementVisible('#saveSetting').
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#cancelSetting').
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
-            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameDesc').
             assert.containsText('@nameDesc', "Click 'Edit' to add your full name");
 
         // save/change full name
         generalSettingsSection.
-            waitForElementVisible('@nameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameEdit').
             click('@nameEdit').
-            waitForElementVisible('#firstName', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#firstName').
             setValue('#firstName', 'F').
             click('#saveSetting').
-            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameDesc').
             assert.containsText('@nameDesc', 'F').
             click('@nameEdit').
-            waitForElementVisible('#lastName', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#lastName').
             setValue('#lastName', ['L', client.Keys.ENTER]).
-            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameDesc').
             assert.containsText('@nameDesc', 'F L');
 
         generalSettingsSection.
-            waitForElementVisible('@nameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameEdit').
             click('@nameEdit').
-            waitForElementVisible('#firstName', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#lastName', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#firstName').
+            waitForElementVisible('#lastName').
+            waitForElementVisible('#saveSetting').
             setValue('#firstName', [client.Keys.BACK_SPACE]).
             setValue('#lastName', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
-            waitForElementVisible('@nameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nameDesc').
             assert.containsText('@nameDesc', "Click 'Edit' to add your full name");
     },
     'Test account settings display - Username': (client) => {
+        const testUser = client.globals.testUsers.test;
         const accountSettingsModalPage = client.page.accountSettingsModalPage();
         accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
 
@@ -86,30 +85,30 @@ module.exports = {
 
         // contents and cancel check
         generalSettingsSection.
-            waitForElementVisible('@usernameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@usernameEdit').
             click('@usernameEdit').
-            waitForElementVisible('#username', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#username').
+            waitForElementVisible('#saveSetting').
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#cancelSetting').
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
-            waitForElementVisible('@usernameDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@usernameDesc', Constants.USERS.test.username);
+            waitForElementVisible('@usernameDesc').
+            assert.containsText('@usernameDesc', testUser.username);
 
         // save/change username
         generalSettingsSection.
-            waitForElementVisible('@usernameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@usernameEdit').
             click('@usernameEdit').
-            waitForElementVisible('#username', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#username').
             setValue('#username', 'Z').
             click('#saveSetting').
-            waitForElementVisible('@usernameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@usernameDesc').
             assert.containsText('@usernameDesc', 'testz').
             click('@usernameEdit').
-            waitForElementVisible('#username', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#username').
             setValue('#username', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
-            waitForElementVisible('@usernameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@usernameDesc').
             assert.containsText('@usernameDesc', 'test');
     },
     'Test account settings display - Nickname': (client) => {
@@ -125,30 +124,30 @@ module.exports = {
 
         // contents and cancel check
         generalSettingsSection.
-            waitForElementVisible('@nicknameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nicknameEdit').
             click('@nicknameEdit').
-            waitForElementVisible('#nickname', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#nickname').
+            waitForElementVisible('#saveSetting').
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#cancelSetting').
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
-            waitForElementVisible('@nicknameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nicknameDesc').
             assert.containsText('@nicknameDesc', "Click 'Edit' to add a nickname");
 
         // save/change nickname
         generalSettingsSection.
-            waitForElementVisible('@nicknameEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nicknameEdit').
             click('@nicknameEdit').
-            waitForElementVisible('#nickname', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#nickname').
             setValue('#nickname', 'N').
             click('#saveSetting').
-            waitForElementVisible('@nicknameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nicknameDesc').
             assert.containsText('@nicknameDesc', 'N').
             click('@nicknameEdit').
-            waitForElementVisible('#nickname', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#nickname').
             setValue('#nickname', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
-            waitForElementVisible('@nicknameDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@nicknameDesc').
             assert.containsText('@nicknameDesc', "Click 'Edit' to add a nickname");
     },
     'Test account settings display - Position': (client) => {
@@ -164,33 +163,34 @@ module.exports = {
 
         // contents and cancel check
         generalSettingsSection.
-            waitForElementVisible('@positionEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@positionEdit').
             click('@positionEdit').
-            waitForElementVisible('#position', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#position').
+            waitForElementVisible('#saveSetting').
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#cancelSetting').
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
-            waitForElementVisible('@positionDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@positionDesc').
             assert.containsText('@positionDesc', "Click 'Edit' to add your job title / position");
 
         // save/change position
         generalSettingsSection.
-            waitForElementVisible('@positionEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@positionEdit').
             click('@positionEdit').
-            waitForElementVisible('#position', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#position').
             setValue('#position', 'P').
             click('#saveSetting').
-            waitForElementVisible('@positionDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@positionDesc').
             assert.containsText('@positionDesc', 'P').
             click('@positionEdit').
-            waitForElementVisible('#position', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#position').
             setValue('#position', [client.Keys.BACK_SPACE, client.Keys.ENTER]).
-            waitForElementVisible('@positionDesc', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@positionDesc').
             assert.containsText('@positionDesc', "Click 'Edit' to add your job title / position");
     },
     'Test account settings display - Email': (client) => {
+        const testUser = client.globals.testUsers.test;
         const accountSettingsModalPage = client.page.accountSettingsModalPage();
         accountSettingsModalPage.expect.section('@accountSettingsModal').to.be.visible;
 
@@ -203,38 +203,38 @@ module.exports = {
 
         // contents and cancel check
         generalSettingsSection.
-            waitForElementVisible('@emailEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@emailEdit').
             click('@emailEdit').
-            waitForElementVisible('#primaryEmail', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#confirmEmail', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#saveSetting', Constants.DEFAULT_WAIT).
-            assert.containsText('.setting-list-item', Constants.USERS.test.email).
+            waitForElementVisible('#primaryEmail').
+            waitForElementVisible('#confirmEmail').
+            waitForElementVisible('#saveSetting').
+            assert.containsText('.setting-list-item', testUser.email).
             assert.containsText('.setting-list-item', 'Email is used for sign-in, notifications, and password reset.').
             assert.containsText('#saveSetting', 'Save').
-            waitForElementVisible('#cancelSetting', Constants.DEFAULT_WAIT).
+            waitForElementVisible('#cancelSetting').
             assert.containsText('#cancelSetting', 'Cancel').
             click('#cancelSetting').
-            waitForElementVisible('@emailDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@emailDesc', Constants.USERS.test.email);
+            waitForElementVisible('@emailDesc').
+            assert.containsText('@emailDesc', testUser.email);
 
         // save/change email
         generalSettingsSection.
-            waitForElementVisible('@emailEdit', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@emailEdit').
             click('@emailEdit').
-            waitForElementVisible('#primaryEmail', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#confirmEmail', Constants.DEFAULT_WAIT).
-            setValue('#primaryEmail', Constants.USERS.test.email + 'E').
-            setValue('#confirmEmail', Constants.USERS.test.email + 'E').
+            waitForElementVisible('#primaryEmail').
+            waitForElementVisible('#confirmEmail').
+            setValue('#primaryEmail', testUser.email + 'E').
+            setValue('#confirmEmail', testUser.email + 'E').
             click('#saveSetting').
-            waitForElementVisible('@emailDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@emailDesc', Constants.USERS.test.email + 'e').
+            waitForElementVisible('@emailDesc').
+            assert.containsText('@emailDesc', testUser.email + 'e').
             click('@emailEdit').
-            waitForElementVisible('#primaryEmail', Constants.DEFAULT_WAIT).
-            waitForElementVisible('#confirmEmail', Constants.DEFAULT_WAIT).
-            assert.containsText('.setting-list-item', Constants.USERS.test.email + 'e').
-            setValue('#primaryEmail', Constants.USERS.test.email).
-            setValue('#confirmEmail', [Constants.USERS.test.email, client.Keys.ENTER]).
-            waitForElementVisible('@emailDesc', Constants.DEFAULT_WAIT).
-            assert.containsText('@emailDesc', Constants.USERS.test.email);
+            waitForElementVisible('#primaryEmail').
+            waitForElementVisible('#confirmEmail').
+            assert.containsText('.setting-list-item', testUser.email + 'e').
+            setValue('#primaryEmail', testUser.email).
+            setValue('#confirmEmail', [testUser.email, client.Keys.ENTER]).
+            waitForElementVisible('@emailDesc').
+            assert.containsText('@emailDesc', testUser.email);
     },
 };

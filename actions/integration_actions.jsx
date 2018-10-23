@@ -3,13 +3,12 @@
 
 import request from 'superagent';
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
+import {getProfilesByIds, getUser} from 'mattermost-redux/actions/users';
+import {getCurrentTeamId} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
@@ -39,10 +38,11 @@ export async function loadIncomingHooksForTeam(teamId, complete) {
 }
 
 function loadProfilesForIncomingHooks(hooks) {
+    const state = getState();
     const profilesToLoad = {};
     for (let i = 0; i < hooks.length; i++) {
         const hook = hooks[i];
-        if (!UserStore.hasProfile(hook.user_id)) {
+        if (!getUser(state, hook.user_id)) {
             profilesToLoad[hook.user_id] = true;
         }
     }
@@ -78,10 +78,11 @@ export async function loadOutgoingHooksForTeam(teamId, complete) {
 }
 
 function loadProfilesForOutgoingHooks(hooks) {
+    const state = getState();
     const profilesToLoad = {};
     for (let i = 0; i < hooks.length; i++) {
         const hook = hooks[i];
-        if (!UserStore.hasProfile(hook.creator_id)) {
+        if (!getUser(state, hook.creator_id)) {
             profilesToLoad[hook.creator_id] = true;
         }
     }
@@ -95,7 +96,7 @@ function loadProfilesForOutgoingHooks(hooks) {
 }
 
 export async function loadTeamCommands(complete) {
-    const {data} = await IntegrationActions.getCustomTeamCommands(TeamStore.getCurrentId())(dispatch, getState);
+    const {data} = await dispatch(IntegrationActions.getCustomTeamCommands(getCurrentTeamId(getState())));
     if (data) {
         loadProfilesForCommands(data);
     }
@@ -106,10 +107,11 @@ export async function loadTeamCommands(complete) {
 }
 
 function loadProfilesForCommands(commands) {
+    const state = getState();
     const profilesToLoad = {};
     for (let i = 0; i < commands.length; i++) {
         const command = commands[i];
-        if (!UserStore.hasProfile(command.creator_id)) {
+        if (!getUser(state, command.creator_id)) {
             profilesToLoad[command.creator_id] = true;
         }
     }
@@ -197,7 +199,7 @@ export function regenCommandToken(id) {
 }
 
 export function getSuggestedCommands(command, suggestionId, component) {
-    Client4.getCommandsList(TeamStore.getCurrentId()).then(
+    Client4.getCommandsList(getCurrentTeamId(getState())).then(
         (data) => {
             let matches = [];
             data.forEach((cmd) => {
