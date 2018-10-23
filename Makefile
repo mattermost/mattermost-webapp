@@ -98,7 +98,7 @@ clean-e2e:
 	cd $(BUILD_SERVER_DIR) && \
 		[[ -f config/config-backup.json ]] && \
 			cp config/config-backup.json config/config.json && echo "revert local config.json" || \
-			echo "config-backup.json not found"
+			echo "config-backup.json not found" && sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
 
 emojis: ## Creates emoji JSX file and extracts emoji images from the system font
 	gem install bundler
