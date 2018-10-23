@@ -56,6 +56,8 @@ export function handleNewPost(post, msg) {
     };
 }
 
+const getPostsForIds = PostSelectors.makeGetPostsForIds();
+
 export function flagPost(postId) {
     return async (doDispatch, doGetState) => {
         await doDispatch(PostActions.flagPost(postId));
@@ -67,8 +69,6 @@ export function flagPost(postId) {
             const index = results.indexOf(postId);
             if (index === -1) {
                 const flaggedPost = PostSelectors.getPost(state, postId);
-
-                const getPostsForIds = PostSelectors.makeGetPostsForIds();
                 const posts = getPostsForIds(state, results).reduce((acc, post) => {
                     acc[post.id] = post;
                     return acc;
@@ -102,7 +102,6 @@ export function unflagPost(postId) {
                 results = [...results];
                 results.splice(index, 1);
 
-                const getPostsForIds = PostSelectors.makeGetPostsForIds();
                 const posts = getPostsForIds(state, results);
 
                 doDispatch({
