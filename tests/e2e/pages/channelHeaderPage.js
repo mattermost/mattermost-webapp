@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const centerChannelHeaderCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@headerContainer', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@headerContainer');
     },
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [centerChannelHeaderCommands],
     sections: {
         channelHeader: {

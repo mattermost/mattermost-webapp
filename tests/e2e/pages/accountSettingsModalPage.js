@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const acountSettingsModalPageCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@accountSettingsModal', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@accountSettingsModal');
     },
 };
 
@@ -115,7 +113,9 @@ const notificationSettings = {
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [acountSettingsModalPageCommands],
     sections: {
         accountSettingsModal: {

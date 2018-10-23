@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const centerCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@postTextbox', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@postTextbox');
     },
     postAMessage(message) {
         return this.
-            waitForElementVisible('@postCreateContainer', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@postCreateContainer').
             setValue('@postTextbox', message).
             keys(this.Keys.ENTER).
-            waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);
+            waitForElementVisible('@postListContent');
     },
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [centerCommands],
     sections: {
         postList: {

@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const sidebarLeftPageCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@sidebarLeft', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@sidebarLeft');
     },
     navigateToAccountSettingsModal() {
         return this.
@@ -68,7 +66,9 @@ const sidebarChannelContainer = {
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [sidebarLeftPageCommands],
     sections: {
         sidebarLeft: {

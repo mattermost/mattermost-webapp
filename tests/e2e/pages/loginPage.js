@@ -1,25 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const loginCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@loginInput');
     },
     login(email, pass) {
         return this.
-            waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@loginInput').
             setValue('@loginInput', email).
             setValue('@passwordInput', pass).
-            waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@signinButton').
             click('@signinButton').
-            waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
+            waitForElementVisible('@appContent');
     },
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}/login`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [loginCommands],
     elements: {
         loginInput: {selector: '#loginId'},
