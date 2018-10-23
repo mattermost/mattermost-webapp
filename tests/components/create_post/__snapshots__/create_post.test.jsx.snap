@@ -29,7 +29,6 @@ exports[`components/create_post Show tutorial 1`] = `
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
-          popoverMentionKeyClick={true}
           supportsCommands={true}
           value=""
         />
@@ -193,7 +192,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
-          popoverMentionKeyClick={true}
           supportsCommands={true}
           value=""
         />
@@ -326,7 +324,6 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
-          popoverMentionKeyClick={true}
           supportsCommands={true}
           value=""
         />
@@ -426,7 +423,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
-          popoverMentionKeyClick={true}
           supportsCommands={true}
           value=""
         />
@@ -559,7 +555,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
-          popoverMentionKeyClick={true}
           supportsCommands={true}
           value=""
         />

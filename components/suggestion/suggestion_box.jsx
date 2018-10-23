@@ -91,11 +91,6 @@ export default class SuggestionBox extends React.Component {
         isRHS: PropTypes.bool,
 
         /**
-         * Function called when @mention is clicked
-         */
-        popoverMentionKeyClick: PropTypes.bool,
-
-        /**
          * The number of characters required to show the suggestion list, defaults to 1
          */
         requiredCharacters: PropTypes.number,
@@ -273,17 +268,6 @@ export default class SuggestionBox extends React.Component {
 
     handleCompositionEnd = () => {
         this.composing = false;
-    }
-
-    handlePopoverMentionKeyClick = (mentionKey) => {
-        let insertText = '@' + mentionKey;
-
-        // if the current text does not end with a whitespace, then insert a space
-        if (this.props.value && (/[^\s]$/).test(this.props.value)) {
-            insertText = ' ' + insertText;
-        }
-
-        this.addTextAtCaret(insertText, '');
     }
 
     addTextAtCaret = (term, matchedPretext) => {
@@ -539,7 +523,6 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'onItemSelected');
         Reflect.deleteProperty(props, 'completeOnTab');
         Reflect.deleteProperty(props, 'isRHS');
-        Reflect.deleteProperty(props, 'popoverMentionKeyClick');
         Reflect.deleteProperty(props, 'requiredCharacters');
         Reflect.deleteProperty(props, 'openOnFocus');
         Reflect.deleteProperty(props, 'openWhenEmpty');
