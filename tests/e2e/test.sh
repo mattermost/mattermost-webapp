@@ -2,6 +2,8 @@
 set -e
 
 PLATFORM_FILES="./cmd/mattermost/main.go"
+BUILD_SERVER_DIR="../mattermost-server"
+BUILD_WEBAPP_DIR="../mattermost-webapp"
 
 function message {
     echo ""
@@ -32,7 +34,7 @@ function selenium_start {
 function modify_config {
     message "Modifying config..."
 
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "config: enable email invitation"
     sed -i'' -e 's|"EnableEmailInvitations": false|"EnableEmailInvitations": true|g' config/config.json
@@ -44,27 +46,27 @@ function modify_config {
     echo "config: set e2e database"
     sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:35476)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
 function start_server {
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "start the server"
     make run
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
 function stop_server {
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "stop the server"
     make stop
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
@@ -85,18 +87,18 @@ function local_setup {
 }
 
 function reset_db {
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
 function add_test_users {
     message "Adding test users..."
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true
@@ -116,7 +118,7 @@ function add_test_users {
     echo "adding users to 'ui-automation' team"
     go run $PLATFORM_FILES team add ui-automation test@test.com
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
