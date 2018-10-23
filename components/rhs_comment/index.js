@@ -17,6 +17,9 @@ import {addReaction} from 'actions/post_actions.jsx';
 import {Preferences, UserStatuses} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 
+import {getRHSTextboxFocusState} from 'selectors/rhs.jsx';
+import {hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
+
 import RhsComment from './rhs_comment.jsx';
 
 function isConsecutivePost(state, ownProps) {
@@ -46,6 +49,7 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = state.entities.channels.channels[ownProps.post.channel_id];
+    const showEmojiPicker = state.views.emoji.emojiPickerForLastMessage;
 
     return {
         enableEmojiPicker,
@@ -60,6 +64,8 @@ function mapStateToProps(state, ownProps) {
         isConsecutivePost: isConsecutivePost(state, ownProps),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        isRHSTextBoxFocused: getRHSTextboxFocusState(state),
+        showEmojiPicker,
     };
 }
 
@@ -67,6 +73,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addReaction,
+            hideEmojiPickerForLastMessage,
         }, dispatch),
     };
 }

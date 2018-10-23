@@ -67,7 +67,7 @@ export default class RhsRootPost extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
-        if (props.isRHSTextBoxFocused && !this.state.showEmojiPicker && props.showEmojiPicker) {
+        if (props.isRHSTextBoxFocused && !this.state.showEmojiPicker && props.showEmojiPicker && props.commentCount === 0) {
             this.toggleEmojiPicker();
             this.props.actions.hideEmojiPickerForLastMessage();
         }

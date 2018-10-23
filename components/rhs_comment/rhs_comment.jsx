@@ -49,8 +49,12 @@ export default class RhsComment extends React.Component {
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
+        commentCount: PropTypes.number.isRequired,
+        lastCommentId: PropTypes.string.isRequired,
+        showEmojiPicker: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
+            hideEmojiPickerForLastMessage: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -61,6 +65,14 @@ export default class RhsComment extends React.Component {
             showEmojiPicker: false,
             dropdownOpened: false,
         };
+    }
+
+    UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
+        if (props.isRHSTextBoxFocused && !this.state.showEmojiPicker &&
+          props.showEmojiPicker && props.commentCount > 0 && this.props.post.id === this.props.lastCommentId) {
+            this.toggleEmojiPicker();
+            this.props.actions.hideEmojiPickerForLastMessage();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
