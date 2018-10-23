@@ -65,7 +65,7 @@ clean: ## Clears cached; deletes node_modules and dist directories
 	rm -rf dist
 	rm -rf node_modules
 
-e2e: node_modules setup-e2e test-e2e clean-e2e
+e2e: | node_modules setup-e2e test-e2e clean-e2e
 
 setup-e2e:
 	@echo E2E: Running mattermost-mysql-e2e

@@ -37,13 +37,9 @@ function modify_config {
     echo "config: enable email invitation"
     sed -i'' -e 's|"EnableEmailInvitations": false|"EnableEmailInvitations": true|g' config/config.json
 
-    echo "config: enable email notification"
-    sed -i'' -e 's|"SendEmailNotifications": false|"SendEmailNotifications": true|g' config/config.json
-
     echo "config: enable mobile push notification"
     sed -i'' -e 's|"SendPushNotifications": false|"SendPushNotifications": true|g' config/config.json
     sed -i'' -e 's|"PushNotificationServer": ".*"|"PushNotificationServer": "https://push.mattermost.com"|g' config/config.json
-    sed -i'' -e 's|"PushNotificationContents": ".*"|"PushNotificationContents": "generic"|g' config/config.json
 
     echo "config: set e2e database"
     sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:35476)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
