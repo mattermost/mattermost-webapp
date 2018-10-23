@@ -179,6 +179,7 @@ export default class CreateComment extends React.PureComponent {
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
         showEmojiPickerForLastMessage: PropTypes.func.isRequired,
+        toggleRHSTextBoxFocus: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -682,6 +683,11 @@ export default class CreateComment extends React.PureComponent {
 
     handleBlur = () => {
         this.lastBlurAt = Date.now();
+        this.props.toggleRHSTextBoxFocus({focus: false});
+    }
+
+    handleFocus = () => {
+        this.props.toggleRHSTextBoxFocus({focus: true});
     }
 
     render() {
@@ -846,6 +852,7 @@ export default class CreateComment extends React.PureComponent {
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
+                                onFocus={this.handleFocus}
                                 createMessage={createMessage}
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 initialText=''

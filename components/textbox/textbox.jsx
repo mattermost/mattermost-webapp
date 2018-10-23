@@ -31,6 +31,7 @@ export default class Textbox extends React.Component {
         previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
+        onFocus: PropTypes.func,
         supportsCommands: PropTypes.bool.isRequired,
         handlePostError: PropTypes.func,
         suggestionListStyle: PropTypes.string,
@@ -114,6 +115,12 @@ export default class Textbox extends React.Component {
     handleKeyDown = (e) => {
         if (this.props.onKeyDown) {
             this.props.onKeyDown(e);
+        }
+    }
+
+    handleFocus = (e) => {
+        if (this.props.onFocus) {
+            this.props.onFocus(e);
         }
     }
 
@@ -322,6 +329,7 @@ export default class Textbox extends React.Component {
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}

@@ -45,6 +45,7 @@ export default class RhsRootPost extends React.Component {
         channelIsArchived: PropTypes.bool.isRequired,
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
+        isRHSTextBoxFocused: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
             hideEmojiPickerForLastMessage: PropTypes.func.isRequired,
@@ -66,7 +67,7 @@ export default class RhsRootPost extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
-        if (props.isRhsOpen && !this.state.showEmojiPicker && props.showEmojiPicker) {
+        if (props.isRHSTextBoxFocused && !this.state.showEmojiPicker && props.showEmojiPicker) {
             this.toggleEmojiPicker();
             this.props.actions.hideEmojiPickerForLastMessage();
         }

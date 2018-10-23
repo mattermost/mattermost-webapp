@@ -134,11 +134,11 @@ const allShortcuts = defineMessages({
     msgReaction: {
         default: {
             id: t('shortcuts.msgs.reaction'),
-            defaultMessage: 'React to last message in channel or thread:\tCtrl + Shift + \t',
+            defaultMessage: 'React to last message:\tCtrl + Shift + \/', //eslint-disable-line
         },
         mac: {
             id: t('shortcuts.msgs.reaction.mac'),
-            defaultMessage: 'React to last message in channel or thread:\t⌘ + Shift + \t',
+            defaultMessage: 'React to last message:\t⌘ + Shift + \/', //eslint-disable-line
         },
     },
     msgReprintPrev: {

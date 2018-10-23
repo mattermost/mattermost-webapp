@@ -166,6 +166,15 @@ function isMenuOpen(state = false, action) {
     }
 }
 
+function isTextBoxFocused(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.TOGGLE_RHS_TEXT_BOX_FOCUS:
+        return action.payload.focus;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedChannelId,
@@ -178,4 +187,5 @@ export default combineReducers({
     isSidebarOpen,
     isSidebarExpanded,
     isMenuOpen,
+    isTextBoxFocused,
 });

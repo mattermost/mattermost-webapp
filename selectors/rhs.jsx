@@ -100,3 +100,7 @@ export function getIsRhsMenuOpen(state) {
 export function getIsRhsExpanded(state) {
     return state.views.rhs.isSidebarExpanded;
 }
+
+export function getRHSTextboxFocusState(state) {
+    return state.views.rhs.isTextBoxFocused;
+}

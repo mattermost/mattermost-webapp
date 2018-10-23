@@ -112,8 +112,7 @@ export default class PostInfo extends React.PureComponent {
         /**
         * To check the RHS status
         */
-        isRhsOpen: PropTypes.bool,
-
+        isRHSTextBoxFocused: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -143,9 +142,9 @@ export default class PostInfo extends React.PureComponent {
     }
 
     UNSAFE_componentWillReceiveProps(props) { // eslint-disable-line camelcase
-        if (props.showEmojiPickerForLastMessage && !this.state.showEmojiPicker && !this.props.isRhsOpen) {
+        if (props.showEmojiPickerForLastMessage && !this.state.showEmojiPicker && !this.props.isRHSTextBoxFocused) {
             if (props.lastPostId === props.post.id) {
-                this.setState({showEmojiPicker: true});
+                this.toggleEmojiPicker();
                 this.props.actions.hideEmojiPickerForLastMessage();
             }
         }

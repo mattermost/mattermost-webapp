@@ -279,6 +279,13 @@ export function hideEmojiPickerForLastMessage() {
     };
 }
 
+export function toggleRHSTextBoxFocus(payload) {
+    return {
+        type: ActionTypes.TOGGLE_RHS_TEXT_BOX_FOCUS,
+        payload,
+    };
+}
+
 export function deleteAndRemovePost(post) {
     return async (dispatch, getState) => {
         const {currentUserId} = getState().entities.users;

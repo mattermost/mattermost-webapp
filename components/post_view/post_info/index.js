@@ -10,7 +10,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {addReaction, hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
-import {getIsRhsOpen} from 'selectors/rhs.jsx';
+import {getRHSTextboxFocusState} from 'selectors/rhs.jsx';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -23,7 +23,6 @@ function mapStateToProps(state, ownProps) {
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
     const showEmojiPickerForLastMessage = state.views.emoji.emojiPickerForLastMessage;
-    const isRhsOpen = getIsRhsOpen(state);
 
     return {
         teamId,
@@ -32,7 +31,7 @@ function mapStateToProps(state, ownProps) {
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         showEmojiPickerForLastMessage,
-        isRhsOpen,
+        isRHSTextBoxFocused: getRHSTextboxFocusState(state),
     };
 }
 

@@ -1088,6 +1088,7 @@ export default class CreatePost extends React.Component {
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}
+                                onFocus={this.handleFocus}
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
