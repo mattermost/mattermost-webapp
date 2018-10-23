@@ -14,7 +14,6 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
@@ -132,14 +131,26 @@ export async function createPost(post, files, success) {
     }
 
     if (post.root_id) {
-        PostStore.storeCommentDraft(post.root_id, null);
+        dispatch(storeCommentDraft(post.root_id, null));
     } else {
-        PostStore.storeDraft(post.channel_id, null);
+        dispatch(storeDraft(post.channel_id, null));
     }
 
     if (success) {
         success();
     }
+}
+
+export function storeDraft(channelId, draft) {
+    return (doDispatch) => {
+        doDispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
+    };
+}
+
+export function storeCommentDraft(rootPostId, draft) {
+    return (doDispatch) => {
+        doDispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
+    };
 }
 
 export async function updatePost(post, success) {
