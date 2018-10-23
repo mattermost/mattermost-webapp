@@ -3,12 +3,15 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import Pluggable from 'plugins/pluggable';
 import ProfilePopover from 'components/profile_popover';
+
+import {popOverOverlayPosition} from 'utils/utils.jsx';
+const spaceRequiredForPopOver = 300;
 
 export default class AtMention extends React.PureComponent {
     static propTypes = {
@@ -29,11 +32,12 @@ export default class AtMention extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.hideProfilePopover = this.hideProfilePopover.bind(this);
-
         this.state = {
             user: this.getUserFromMentionName(props),
+            show: false,
         };
+
+        this.overlayRef = React.createRef();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -44,8 +48,15 @@ export default class AtMention extends React.PureComponent {
         }
     }
 
-    hideProfilePopover() {
-        this.refs.overlay.hide();
+    handleClick = (e) => {
+        const targetBounds = this.overlayRef.current.getBoundingClientRect();
+        const placement = popOverOverlayPosition(targetBounds, window.innerHeight, {above: spaceRequiredForPopOver});
+
+        this.setState({target: e.target, show: !this.state.show, placement});
+    }
+
+    hideOverlay = () => {
+        this.setState({show: false});
     }
 
     getUserFromMentionName(props) {
@@ -83,25 +94,29 @@ export default class AtMention extends React.PureComponent {
 
         return (
             <span>
-                <OverlayTrigger
-                    ref='overlay'
-                    trigger='click'
-                    placement='top'
+                <Overlay
+                    placement={this.state.placement}
+                    show={this.state.show}
+                    target={this.state.target}
                     rootClose={true}
-                    overlay={
-                        <Pluggable>
-                            <ProfilePopover
-                                user={user}
-                                src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
-                                hide={this.hideProfilePopover}
-                                isRHS={this.props.isRHS}
-                                hasMention={this.props.hasMention}
-                            />
-                        </Pluggable>
-                    }
+                    onHide={this.hideOverlay}
                 >
-                    <a className={className}>{'@' + displayUsername(user, this.props.teammateNameDisplay)}</a>
-                </OverlayTrigger>
+                    <Pluggable>
+                        <ProfilePopover
+                            user={user}
+                            src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                            isRHS={this.props.isRHS}
+                            hasMention={this.props.hasMention}
+                        />
+                    </Pluggable>
+                </Overlay>
+                <a
+                    className={className}
+                    onClick={this.handleClick}
+                    ref={this.overlayRef}
+                >
+                    {'@' + displayUsername(user, this.props.teammateNameDisplay)}
+                </a>
                 {suffix}
             </span>
         );

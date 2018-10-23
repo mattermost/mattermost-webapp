@@ -166,4 +166,52 @@ describe('components/AtMention', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should have placement state based on ref position of click handler', () => {
+        const wrapper = shallow(
+            <AtMention
+                {...baseProps}
+                mentionName={'user1'}
+            >
+                {'(at)-user1'}
+            </AtMention>
+        );
+
+        const instance = wrapper.instance();
+
+        instance.overlayRef = {
+            current: {
+                getBoundingClientRect: () => ({
+                    top: 400,
+                }),
+            },
+        };
+
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention});
+        expect(wrapper.state('placement')).toEqual('top');
+
+        instance.overlayRef = {
+            current: {
+                getBoundingClientRect: () => ({
+                    top: 200,
+                    bottom: 400,
+                }),
+            },
+        };
+
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention});
+        expect(wrapper.state('placement')).toEqual('bottom');
+
+        instance.overlayRef = {
+            current: {
+                getBoundingClientRect: () => ({
+                    top: 200,
+                    bottom: 1000,
+                }),
+            },
+        };
+
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention});
+        expect(wrapper.state('placement')).toEqual('left');
+    });
 });
