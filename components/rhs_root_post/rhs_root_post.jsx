@@ -43,8 +43,11 @@ export default class RhsRootPost extends React.Component {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+<<<<<<< 90bad45543e8b9b2a2b365703e119f458b34f689
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
+=======
+>>>>>>> 1. Hilighting the Menu on the top right inorder to match the emoji list opening state with mouse interaction.
         isRHSTextBoxFocused: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
