@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Das Deaktivieren ihres Kontos entfernt ihre Möglichkeit, sich an diesem Server anzumelden und deaktiviert alle mobilen und E-Mail-Benachrichtigungen. Kontaktieren Sie ihren Systemadministrator, um ihr Konto zu reaktivieren, ",
   "user.settings.advance.deactivateDescShort": "Klicken Sie auf 'Bearbeiten', um ihr Konto zu deaktivieren",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Funktion} other {Funktionen}} aktiviert",
-  "user.settings.advance.formattingDesc": "Wenn aktiviert, werden Nachrichten so formatiert, dass Links erstellt, Emojis angezeigt, Text formatiert und Zeilenumbrüche hinzugefügt werden. Standardmäßig ist dies aktiviert. Ändern der Einstellung erfordert ein Neuladen der Seite.",
+  "user.settings.advance.formattingDesc": "If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.",
   "user.settings.advance.formattingTitle": "Formatierung von Nachrichten aktivieren",
   "user.settings.advance.icon": "\"Erweiterte Einstellungen\"-Symbol",
   "user.settings.advance.joinLeaveDesc": "Wenn \"Ein\" werden Systemnachrichten angezeigt wenn ein Benutzer einen Kanal betritt oder verlässt. Wenn \"Aus\" werden diese Nachrichten nicht angezeigt. Es wird weiterhin eine Meldung angezeigt wenn Sie einem Kanal hinzugefügt werden sodass Sie Benachrichtigungen erhalten können.",

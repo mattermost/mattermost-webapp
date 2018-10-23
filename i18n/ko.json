@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To reactivate your account, contact your System Administrator.",
   "user.settings.advance.deactivateDescShort": "Click 'Edit' to deactivate your account",
   "user.settings.advance.enabledFeatures": "{count, number}개 기능 활성화",
-  "user.settings.advance.formattingDesc": "활성화 하면 링크, 이모티콘, 글자 스타일 등을 사용할 수 있습니다. 기본적으로 활성화 되있습니다. 설정을 변경하려면 페이지 새로고침이 필요합니다.",
+  "user.settings.advance.formattingDesc": "If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.",
   "user.settings.advance.formattingTitle": "마크다운으로 글쓰기",
   "user.settings.advance.icon": "고급 설정",
   "user.settings.advance.joinLeaveDesc": "\"켜기\"를 선택하면 사용자가 채널에 입장하거나 퇴장했을 때 시스템 메시지가 표시됩니다. \"끄기\"를 선택하면, 입장/퇴장 메시지가 화면에 표시되지 않습니다. 이 설정과 관계없이 채널 초대되었을 때 알림을 받을 수 있습니다.",

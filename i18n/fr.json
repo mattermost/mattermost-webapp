@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Désactiver votre compte supprime la possibilité de vous connecter à ce serveur et désactive toutes les notifications par e-mail et mobiles. Pour réactiver votre compte, contactez votre administrateur système.",
   "user.settings.advance.deactivateDescShort": "Cliquez sur « Modifier » pour désactiver votre compte",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {fonctionnalité activée} other {fonctionnalités activées}}",
-  "user.settings.advance.formattingDesc": "Lorsqu'activé, les messages sont formatés pour créer des liens, montrer les émoticônes, styliser le texte et ajouter des sauts de ligne. Par défaut, ce paramètre est activé. La modification de ce paramètre nécessite le rafraîchissement de la page.",
+  "user.settings.advance.formattingDesc": "If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.",
   "user.settings.advance.formattingTitle": "Activer le formatage des messages",
   "user.settings.advance.icon": "Icône paramètres avancés",
   "user.settings.advance.joinLeaveDesc": "Lorsqu'activé, les messages systèmes indiquant qu'un utilisateur s'est connecté ou a quitté un canal sont visibles. Lorsque désactivé, ces messages sont masqués. Un message est toutefois toujours affiché lorsque vous êtes ajouté à un canal, de façon à ce que vous en soyez quand même informé.",

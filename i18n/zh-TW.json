@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "停用帳號將禁止登入此伺服器並停止所有的電子郵件與行動推播通知。聯絡系統管理員以重新啟用帳號。",
   "user.settings.advance.deactivateDescShort": "按下'編輯'以停用帳號",
   "user.settings.advance.enabledFeatures": "已啟用 {count, number} 項功能",
-  "user.settings.advance.formattingDesc": "啟用時，文章會顯示連結、顯示繪文字、套用樣式到文字上並自動斷行。此設定預設為開啟。修改此設定後需要重新讀取頁面以生效。",
+  "user.settings.advance.formattingDesc": "If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.",
   "user.settings.advance.formattingTitle": "啟用文章格式設定",
   "user.settings.advance.icon": "進階設定圖示",
   "user.settings.advance.joinLeaveDesc": "當\"啟用\"時，頻道會顯示使用者加入或離開的系統訊息。當\"關閉\"時，頻道會隱藏使用者加入或離開的系統訊息。當您被加入頻道時，不論設定如何都會顯示訊息以提醒您。",
