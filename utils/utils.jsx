@@ -1642,17 +1642,3 @@ export function moveCursorToEnd(e) {
 export function isUserMediaAvailable() {
     return navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 }
-
-export function popOverOverlayPosition(targetBounds, innerHeight, spaceRequiredOptions) {
-    const {above, below} = spaceRequiredOptions;
-    let placement;
-
-    if (targetBounds.top > above) {
-        placement = 'top';
-    } else if (innerHeight - targetBounds.bottom > (below || above)) {
-        placement = 'bottom';
-    } else {
-        placement = 'left';
-    }
-    return placement;
-}
