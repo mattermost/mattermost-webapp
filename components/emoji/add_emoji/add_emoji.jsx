@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import * as EmojiActions from 'actions/emoji_actions.jsx';
-import EmojiStore from 'stores/emoji_store.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
@@ -16,6 +15,7 @@ export default class AddEmoji extends React.Component {
     static propTypes = {
         team: PropTypes.object,
         user: PropTypes.object,
+        emojiMap: PropTypes.object.isRequired,
     };
 
     static contextTypes = {
@@ -24,11 +24,6 @@ export default class AddEmoji extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-
-        this.updateName = this.updateName.bind(this);
-        this.updateImage = this.updateImage.bind(this);
 
         this.state = {
             name: '',
@@ -39,7 +34,7 @@ export default class AddEmoji extends React.Component {
         };
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -85,7 +80,7 @@ export default class AddEmoji extends React.Component {
             });
 
             return;
-        } else if (EmojiStore.hasSystemEmoji(emoji.name)) {
+        } else if (this.props.emojiMap.hasSystemEmoji(emoji.name)) {
             this.setState({
                 saving: false,
                 error: (
@@ -128,13 +123,13 @@ export default class AddEmoji extends React.Component {
         );
     }
 
-    updateName(e) {
+    updateName = (e) => {
         this.setState({
             name: e.target.value,
         });
     }
 
-    updateImage(e) {
+    updateImage = (e) => {
         if (e.target.files.length === 0) {
             this.setState({
                 image: null,

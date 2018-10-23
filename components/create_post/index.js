@@ -31,6 +31,7 @@ import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
+import {getEmojiMap} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants.jsx';
@@ -80,6 +81,7 @@ function mapStateToProps() {
             maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             userIsOutOfOffice,
             rhsExpanded: getIsRhsExpanded(state),
+            emojiMap: getEmojiMap(state),
         };
     };
 }

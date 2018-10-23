@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import throttle from 'lodash/throttle';
 
-import EmojiStore from 'stores/emoji_store.jsx';
 import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -119,6 +118,7 @@ export default class EmojiPicker extends React.PureComponent {
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
+        recentEmojis: PropTypes.array.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
         visible: PropTypes.bool,
         actions: PropTypes.shape({
@@ -390,7 +390,7 @@ export default class EmojiPicker extends React.PureComponent {
         for (const category of Object.keys(categories)) {
             let categoryEmojis = [];
             if (category === 'recent') {
-                const recentEmojis = [...EmojiStore.getRecentEmojis()].reverse();
+                const recentEmojis = [...this.props.recentEmojis].reverse();
                 categoryEmojis = recentEmojis.filter((name) => {
                     return emojiMap.has(name);
                 }).map((name) => {

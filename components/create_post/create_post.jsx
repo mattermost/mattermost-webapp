@@ -10,7 +10,6 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -144,6 +143,7 @@ export default class CreatePost extends React.Component {
          * The maximum length of a post
          */
         maxPostSize: PropTypes.number.isRequired,
+        emojiMap: PropTypes.object.isRequired,
 
         /**
          * Whether to display a confirmation modal to reset status.
@@ -334,7 +334,7 @@ export default class CreatePost extends React.Component {
                     }
                 }
             );
-        } else if (isReaction && EmojiStore.has(isReaction[2])) {
+        } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
         } else {
             this.sendMessage(post);

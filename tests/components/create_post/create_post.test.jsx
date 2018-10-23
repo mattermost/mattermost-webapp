@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
+import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -97,6 +98,7 @@ function createPost({
     commentCountForPost = commentCountForPostProp,
     readOnlyChannel = false,
     canUploadFiles = true,
+    emojiMap = new EmojiMap(new Map()),
 } = {}) {
     return (
         <CreatePost
@@ -123,6 +125,7 @@ function createPost({
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             userIsOutOfOffice={false}
             rhsExpanded={false}
+            emojiMap={emojiMap}
         />
     );
 }

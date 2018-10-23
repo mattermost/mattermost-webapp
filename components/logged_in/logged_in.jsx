@@ -9,7 +9,6 @@ import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
-import 'stores/emoji_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
