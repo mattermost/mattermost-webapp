@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {debounce} from 'mattermost-redux/actions/helpers';
+
 import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -467,7 +469,8 @@ export default class SuggestionBox extends React.Component {
         });
     }
 
-    handlePretextChanged = (pretext) => {
+    handlePretextChanged = debounce((pretext) => {
+        this.pretext = pretext;
         let handled = false;
         for (const provider of this.props.providers) {
             handled = provider.handlePretextChanged(pretext, this.handleRecievedSuggestions) || handled;
@@ -485,7 +488,7 @@ export default class SuggestionBox extends React.Component {
         if (!handled) {
             this.clear();
         }
-    }
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
 
     blur = () => {
         this.refs.input.blur();
