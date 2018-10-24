@@ -14,7 +14,6 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
@@ -56,57 +55,63 @@ export function handleNewPost(post, msg) {
     };
 }
 
-export async function flagPost(postId) {
-    await PostActions.flagPost(postId)(dispatch, getState);
+const getPostsForIds = PostSelectors.makeGetPostsForIds();
 
-    const rhsState = getRhsState(getState());
+export function flagPost(postId) {
+    return async (doDispatch, doGetState) => {
+        await doDispatch(PostActions.flagPost(postId));
+        const state = doGetState();
+        const rhsState = getRhsState(state);
 
-    // This is a hack that should be fixed with better reducers/actions, see MM-9793
-    if (rhsState === RHSStates.FLAG) {
-        let results = getState().entities.search.results;
-        const index = results.indexOf(postId);
-        if (index === -1) {
-            results = [...results, postId];
+        if (rhsState === RHSStates.FLAG) {
+            const results = state.entities.search.results;
+            const index = results.indexOf(postId);
+            if (index === -1) {
+                const flaggedPost = PostSelectors.getPost(state, postId);
+                const posts = getPostsForIds(state, results).reduce((acc, post) => {
+                    acc[post.id] = post;
+                    return acc;
+                }, {});
+                posts[flaggedPost.id] = flaggedPost;
 
-            const posts = {};
-            results.forEach((id) => {
-                posts[id] = PostSelectors.getPost(getState(), id);
-            });
+                const newResults = [...results, postId];
+                newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
 
-            results.sort((a, b) => comparePosts(posts[a], posts[b]));
-
-            dispatch({
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: {posts, order: results},
-            });
+                doDispatch({
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: {posts, order: newResults},
+                });
+            }
         }
-    }
+
+        return {data: true};
+    };
 }
 
-export async function unflagPost(postId) {
-    await PostActions.unflagPost(postId)(dispatch, getState);
+export function unflagPost(postId) {
+    return async (doDispatch, doGetState) => {
+        await doDispatch(PostActions.unflagPost(postId));
+        const state = doGetState();
+        const rhsState = getRhsState(state);
 
-    const rhsState = getRhsState(getState());
+        if (rhsState === RHSStates.FLAG) {
+            let results = state.entities.search.results;
+            const index = results.indexOf(postId);
+            if (index > -1) {
+                results = [...results];
+                results.splice(index, 1);
 
-    // This is a hack that should be fixed with better reducers/actions, see MM-9793
-    if (rhsState === RHSStates.FLAG) {
-        let results = getState().entities.search.results;
-        const index = results.indexOf(postId);
-        if (index > -1) {
-            results = [...results];
-            results.splice(index, 1);
+                const posts = getPostsForIds(state, results);
 
-            const posts = {};
-            results.forEach((id) => {
-                posts[id] = PostSelectors.getPost(getState(), id);
-            });
-
-            dispatch({
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: {posts, order: results},
-            });
+                doDispatch({
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: {posts, order: results},
+                });
+            }
         }
-    }
+
+        return {data: true};
+    };
 }
 
 export async function createPost(post, files, success) {
@@ -126,14 +131,26 @@ export async function createPost(post, files, success) {
     }
 
     if (post.root_id) {
-        PostStore.storeCommentDraft(post.root_id, null);
+        dispatch(storeCommentDraft(post.root_id, null));
     } else {
-        PostStore.storeDraft(post.channel_id, null);
+        dispatch(storeDraft(post.channel_id, null));
     }
 
     if (success) {
         success();
     }
+}
+
+export function storeDraft(channelId, draft) {
+    return (doDispatch) => {
+        doDispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
+    };
+}
+
+export function storeCommentDraft(rootPostId, draft) {
+    return (doDispatch) => {
+        doDispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
+    };
 }
 
 export async function updatePost(post, success) {
