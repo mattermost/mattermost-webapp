@@ -18,7 +18,6 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -43,7 +42,6 @@ import {
     updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
-import {getIsBusy} from 'selectors/webrtc';
 
 import ChannelHeader from './channel_header';
 
@@ -68,8 +66,6 @@ const mapStateToProps = (state) => {
         dmUser = getUser(state, dmUserId);
     }
 
-    const config = getConfig(state);
-
     let penultimateViewedChannelName = getPenultimateViewedChannelName(state);
     if (!penultimateViewedChannelName) {
         penultimateViewedChannelName = Constants.DEFAULT_CHANNEL;
@@ -82,12 +78,10 @@ const mapStateToProps = (state) => {
         currentUser: user,
         dmUser,
         rhsState: getRhsState(state),
-        enableWebrtc: config.EnableWebrtc === 'true',
         isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
         isMuted: isCurrentChannelMuted(state),
         penultimateViewedChannelName,
-        isWebrtcBusy: getIsBusy(state),
     };
 };
 
