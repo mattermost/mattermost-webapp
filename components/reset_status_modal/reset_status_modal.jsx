@@ -70,7 +70,7 @@ export default class ResetStatusModal extends React.PureComponent {
 
                 this.setState({
                     currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
-                    show: Boolean(statusIsManual && autoResetPrefNotSet),
+                    show: Boolean(status.status === UserStatuses.OUT_OF_OFFICE || (statusIsManual && autoResetPrefNotSet)),
                 });
             }
         );
