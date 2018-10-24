@@ -46,7 +46,8 @@ describe('components/post_view/PostInfo', () => {
         showTimeWithoutHover: false,
         enableEmojiPicker: false,
         showEmojiPickerForLastMessage: false,
-        isRhsOpen: false,
+        lastPostId: null,
+        isRHSTextBoxFocused: false,
         actions: {
             removePost: jest.fn(),
             addReaction: jest.fn(),

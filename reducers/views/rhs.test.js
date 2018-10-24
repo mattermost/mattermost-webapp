@@ -19,6 +19,7 @@ describe('Reducers.RHS', () => {
         isMenuOpen: false,
         isSidebarOpen: false,
         isSidebarExpanded: false,
+        isTextBoxFocused: false,
     };
 
     test('Initial state', () => {
@@ -284,6 +285,42 @@ describe('Reducers.RHS', () => {
                     isSidebarOpen: false,
                     isMenuOpen: false,
                 });
+            });
+        });
+    });
+
+    describe('should reflect the focus for the textbox in the rhs', () => {
+        test('sets true if the text box has focus', () => {
+            const payload = {focus: true};
+            const nextState = rhsReducer(
+                {
+                    isTextBoxFocused: false,
+                },
+                {
+                    type: ActionTypes.TOGGLE_RHS_TEXT_BOX_FOCUS,
+                    payload,
+                }
+            );
+            expect(nextState).toEqual({
+                ...initialState,
+                isTextBoxFocused: true,
+            });
+        });
+
+        test('sets false if the text box don\'t focus', () => {
+            const payload = {focus: false};
+            const nextState = rhsReducer(
+                {
+                    isTextBoxFocused: true,
+                },
+                {
+                    type: ActionTypes.TOGGLE_RHS_TEXT_BOX_FOCUS,
+                    payload,
+                }
+            );
+            expect(nextState).toEqual({
+                ...initialState,
+                isTextBoxFocused: false,
             });
         });
     });

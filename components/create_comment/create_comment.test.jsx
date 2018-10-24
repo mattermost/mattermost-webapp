@@ -53,6 +53,7 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         showEmojiPickerForLastMessage: jest.fn(),
+        toggleRHSTextBoxFocus: jest.fn(),
     };
 
     test('should match snapshot, empty comment', () => {
