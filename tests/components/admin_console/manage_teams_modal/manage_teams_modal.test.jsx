@@ -69,12 +69,10 @@ describe('ManageTeamsModal', () => {
             />
         );
 
-        getTeamsForUser();
-        await getTeamMembersForUser();
-
-        expect(wrapper.state('teams')).toEqual([mockTeamData]);
-        expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
-
-        expect(wrapper).toMatchSnapshot();
+        process.nextTick(() => {
+            expect(wrapper.state('teams')).toEqual([mockTeamData]);
+            expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });
