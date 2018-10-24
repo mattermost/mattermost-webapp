@@ -55,15 +55,17 @@ describe('ManageTeamsModal', () => {
             delete_at: 0,
         };
 
-        const getTeamMembersForUser = jest.fn(() => {
-            return Promise.resolve({
+        const getTeamMembersForUser = async () => {
+            return {
                 data: [{team_id: '123test'}],
-            });
-        });
+            };
+        };
 
-        const getTeamsForUser = jest.fn(() => {
-            return Promise.resolve({data: [mockTeamData]});
-        });
+        const getTeamsForUser = async () => {
+            return {
+                data: [mockTeamData],
+            };
+        };
 
         const props = {
             ...baseProps,
@@ -78,10 +80,10 @@ describe('ManageTeamsModal', () => {
             <ManageTeamsModal {...props}/>
         );
 
-        process.nextTick(() => {
-            expect(wrapper.state('teams')).toEqual([mockTeamData]);
-            expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
-            expect(wrapper).toMatchSnapshot();
-        });
+        await getTeamMembersForUser();
+
+        expect(wrapper.state('teams')).toEqual([mockTeamData]);
+        expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
+        expect(wrapper).toMatchSnapshot();
     });
 });
