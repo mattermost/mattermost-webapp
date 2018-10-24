@@ -4,10 +4,10 @@
 import React from 'react';
 
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 
-import EmojiStore from 'stores/emoji_store.jsx';
 import store from 'stores/redux_store.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 
@@ -40,7 +40,7 @@ class EmoticonSuggestion extends Suggestion {
                     <img
                         alt={text}
                         className='emoticon-suggestion__image'
-                        src={EmojiStore.getEmojiImageUrl(emoji)}
+                        src={getEmojiImageUrl(emoji)}
                         title={text}
                     />
                 </div>
@@ -105,7 +105,7 @@ export default class EmoticonProvider {
                 }
             } else if (name.indexOf(partialName) !== -1) {
                 // This is a custom emoji so it only has one name
-                if (EmojiStore.hasSystemEmoji(name)) {
+                if (emojiMap.hasSystemEmoji(name)) {
                     // System emojis take precedence over custom ones
                     continue;
                 }
