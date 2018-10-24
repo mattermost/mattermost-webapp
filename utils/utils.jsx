@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
@@ -1368,10 +1369,10 @@ export function getUserIdFromChannelName(channel) {
 }
 
 // Used to get the id of the other user from a DM channel id (id1_id2)
-export function getUserIdFromChannelId(channelId) {
+export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUserId(store.getState())) {
     var ids = channelId.split('__');
     var otherUserId = '';
-    if (ids[0] === UserStore.getCurrentId()) {
+    if (ids[0] === currentUserId) {
         otherUserId = ids[1];
     } else {
         otherUserId = ids[0];
