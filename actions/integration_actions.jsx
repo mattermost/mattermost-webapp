@@ -4,7 +4,7 @@
 import request from 'superagent';
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds, getUser} from 'mattermost-redux/actions/users';
-import {getCurrentTeamId} from 'mattermost-redux/actions/teams';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Client4} from 'mattermost-redux/client';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
