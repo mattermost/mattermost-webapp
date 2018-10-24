@@ -20,6 +20,8 @@ import CustomPluginSettings from 'components/admin_console/custom_plugin_setting
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
 import LicenseSettings from './license_settings';
@@ -1486,10 +1488,15 @@ export default {
                             help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             render_job: (job) => {
-                                let mattermostUsers = '0';
-                                let ldapUsers = '0';
-                                let deleteCount = '0';
-                                let updateCount = '0';
+                                let mattermostUsers = 0;
+                                let ldapUsers = 0;
+                                let deleteCount = 0;
+                                let updateCount = 0;
+                                let mattermostGroups = 0;
+                                let ldapGroups = 0;
+                                let groupDeleteCount = 0;
+                                let groupMemberDeleteCount = 0;
+                                let groupMemberAddCount = 0;
 
                                 if (job && job.data) {
                                     if (job.data.mattermost_users_count && job.data.mattermost_users_count.length > 0) {
@@ -1507,17 +1514,42 @@ export default {
                                     if (job.data.update_count && job.data.update_count.length > 0) {
                                         updateCount = job.data.update_count;
                                     }
+
+                                    if (job.data.mattermost_groups_count) {
+                                        mattermostGroups = job.data.mattermost_groups_count;
+                                    }
+
+                                    if (job.data.ldap_groups_count) {
+                                        ldapGroups = job.data.ldap_groups_count;
+                                    }
+
+                                    if (job.data.group_delete_count) {
+                                        groupDeleteCount = job.data.group_delete_count;
+                                    }
+
+                                    if (job.data.group_member_delete_count) {
+                                        groupMemberDeleteCount = job.data.group_member_delete_count;
+                                    }
+
+                                    if (job.data.group_member_add_count) {
+                                        groupMemberAddCount = job.data.group_member_add_count;
+                                    }
                                 }
 
                                 return (
-                                    <FormattedMessage
+                                    <FormattedMarkdownMessage
                                         id='admin.ldap.jobExtraInfo'
-                                        defaultMessage='Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}'
+                                        defaultMessage={'Scanned {ldapUsers} LDAP users and {ldapGroups} groups:\n* Updated {updateCount} users.\n* Deactivated {deleteCount} users.\n* Deleted {groupDeleteCount} groups.\n* Deleted {groupMemberDeleteCount} group members.\n* Added {groupMemberAddCount} group members.'}
                                         values={{
                                             mattermostUsers,
                                             ldapUsers,
                                             deleteCount,
                                             updateCount,
+                                            mattermostGroups,
+                                            ldapGroups,
+                                            groupDeleteCount,
+                                            groupMemberDeleteCount,
+                                            groupMemberAddCount,
                                         }}
                                     />
                                 );
