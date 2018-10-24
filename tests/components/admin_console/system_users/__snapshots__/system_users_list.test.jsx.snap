@@ -42,11 +42,8 @@ exports[`components/admin_console/system_users/list should match default snapsho
     usersPerPage={0}
   />
   <Connect(ManageTeamsModal)
-    getTeamMembersForUser={[MockFunction]}
-    getTeamsForUser={[MockFunction]}
     onModalDismissed={[Function]}
     show={false}
-    updateTeamMemberSchemeRoles={[MockFunction]}
     user={null}
   />
   <Connect(ManageRolesModal)
@@ -185,11 +182,8 @@ exports[`components/admin_console/system_users/list should match default snapsho
     usersPerPage={0}
   />
   <Connect(ManageTeamsModal)
-    getTeamMembersForUser={[MockFunction]}
-    getTeamsForUser={[MockFunction]}
     onModalDismissed={[Function]}
     show={false}
-    updateTeamMemberSchemeRoles={[MockFunction]}
     user={null}
   />
   <Connect(ManageRolesModal)
@@ -353,11 +347,8 @@ exports[`components/admin_console/system_users/list should match default snapsho
     usersPerPage={0}
   />
   <Connect(ManageTeamsModal)
-    getTeamMembersForUser={[MockFunction]}
-    getTeamsForUser={[MockFunction]}
     onModalDismissed={[Function]}
     show={false}
-    updateTeamMemberSchemeRoles={[MockFunction]}
     user={null}
   />
   <Connect(ManageRolesModal)

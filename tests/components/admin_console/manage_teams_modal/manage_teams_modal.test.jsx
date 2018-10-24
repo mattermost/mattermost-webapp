@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {General} from 'mattermost-redux/constants';
 
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage_teams_modal.jsx';
 
@@ -10,6 +11,7 @@ describe('ManageTeamsModal', () => {
     function emptyFunc() {} // eslint-disable-line no-empty-function
 
     const baseProps = {
+        locale: General.DEFAULT_LOCALE,
         onModalDismissed: emptyFunc,
         show: true,
         user: {
@@ -19,9 +21,11 @@ describe('ManageTeamsModal', () => {
             roles: 'system_user',
             username: 'currentUsername',
         },
-        updateTeamMemberSchemeRoles: emptyFunc,
-        getTeamMembersForUser: jest.fn(),
-        getTeamsForUser: jest.fn(),
+        actions: {
+            getTeamMembersForUser: jest.fn(),
+            getTeamsForUser: jest.fn(),
+            updateTeamMemberSchemeRoles: emptyFunc,
+        },
     };
 
     test('should match snapshot init', () => {
@@ -37,10 +41,10 @@ describe('ManageTeamsModal', () => {
             <ManageTeamsModal {...baseProps}/>
         );
 
-        expect(baseProps.getTeamMembersForUser).toHaveBeenCalledTimes(1);
-        expect(baseProps.getTeamMembersForUser).toHaveBeenCalledWith('currentUserId');
-        expect(baseProps.getTeamsForUser).toHaveBeenCalledTimes(1);
-        expect(baseProps.getTeamsForUser).toHaveBeenCalledWith('currentUserId');
+        expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledWith('currentUserId');
+        expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledWith('currentUserId');
     });
 
     test('should save data in state from api calls', async () => {
@@ -61,12 +65,17 @@ describe('ManageTeamsModal', () => {
             return Promise.resolve({data: [mockTeamData]});
         });
 
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                getTeamMembersForUser,
+                getTeamsForUser,
+            },
+        };
+
         const wrapper = shallow(
-            <ManageTeamsModal
-                {...baseProps}
-                getTeamMembersForUser={getTeamMembersForUser}
-                getTeamsForUser={getTeamsForUser}
-            />
+            <ManageTeamsModal {...props}/>
         );
 
         process.nextTick(() => {

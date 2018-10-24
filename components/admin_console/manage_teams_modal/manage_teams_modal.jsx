@@ -20,9 +20,11 @@ export default class ManageTeamsModal extends React.Component {
         onModalDismissed: PropTypes.func.isRequired,
         show: PropTypes.bool.isRequired,
         user: PropTypes.object,
-        updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
-        getTeamMembersForUser: PropTypes.func.isRequired,
-        getTeamsForUser: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            getTeamMembersForUser: PropTypes.func.isRequired,
+            getTeamsForUser: PropTypes.func.isRequired,
+            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -59,7 +61,7 @@ export default class ManageTeamsModal extends React.Component {
 
     loadTeamsAndTeamMembers = async (user = this.props.user) => {
         this.getTeamMembers(user.id);
-        const {data} = await this.props.getTeamsForUser(user.id);
+        const {data} = await this.props.actions.getTeamsForUser(user.id);
         this.setState({
             teams: filterAndSortTeamsByDisplayName(data, this.props.locale),
         });
@@ -72,7 +74,7 @@ export default class ManageTeamsModal extends React.Component {
     }
 
     getTeamMembers = async (userId = this.props.user.id) => {
-        const {data} = await this.props.getTeamMembersForUser(userId);
+        const {data} = await this.props.actions.getTeamMembersForUser(userId);
         if (data) {
             this.setState({
                 teamMembers: data,
@@ -131,7 +133,7 @@ export default class ManageTeamsModal extends React.Component {
                             onError={this.handleError}
                             onMemberChange={this.getTeamMembers}
                             onMemberRemove={this.handleMemberRemove}
-                            updateTeamMemberSchemeRoles={this.props.updateTeamMemberSchemeRoles}
+                            updateTeamMemberSchemeRoles={this.props.actions.updateTeamMemberSchemeRoles}
                         />
                     );
                 }
