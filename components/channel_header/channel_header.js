@@ -99,10 +99,8 @@ export default class ChannelHeader extends React.PureComponent {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.channel.id !== nextProps.channel.id) {
-            this.props.actions.getCustomEmojisInText(nextProps.channel.header);
-        }
+    componentDidUpdate() {
+        this.props.actions.getCustomEmojisInText(this.props.channel.header);
     }
 
     handleResize = () => {
