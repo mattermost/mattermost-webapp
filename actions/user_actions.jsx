@@ -503,21 +503,6 @@ export async function resendVerification(email, success, error) {
     }
 }
 
-export async function loginById(userId, password, mfaToken, success, error) {
-    const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function createUserWithInvite(user, token, inviteId, success, error) {
     const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
     if (resp && success) {

@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
-import {createUserWithInvite, loginById} from 'actions/user_actions.jsx';
+import {createUserWithInvite} from 'actions/user_actions.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
@@ -35,18 +35,13 @@ export default class SignupEmail extends React.Component {
         customDescriptionText: PropTypes.string,
         passwordConfig: PropTypes.object,
         actions: PropTypes.shape({
+            loginById: PropTypes.func.isRequired,
             setGlobalItem: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-
-        this.getInviteInfo = this.getInviteInfo.bind(this);
-        this.renderEmailSignup = this.renderEmailSignup.bind(this);
-        this.isUserValid = this.isUserValid.bind(this);
 
         this.state = this.getInviteInfo();
     }
@@ -55,7 +50,7 @@ export default class SignupEmail extends React.Component {
         trackEvent('signup', 'signup_user_01_welcome');
     }
 
-    getInviteInfo() {
+    getInviteInfo = () => {
         let data = (new URLSearchParams(this.props.location.search)).get('d');
         let token = (new URLSearchParams(this.props.location.search)).get('t');
         const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
@@ -123,38 +118,37 @@ export default class SignupEmail extends React.Component {
         };
     }
 
-    handleSignupSuccess(user, data) {
+    handleSignupSuccess = (user, data) => {
         trackEvent('signup', 'signup_user_02_complete');
-        loginById(
-            data.id,
-            user.password,
-            '',
-            () => {
-                if (this.state.token > 0) {
-                    this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
-                }
 
-                const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
-                if (redirectTo) {
-                    browserHistory.push(redirectTo);
-                } else {
-                    GlobalActions.redirectUserToDefaultTeam();
-                }
-            },
-            (err) => {
-                if (err.id === 'api.user.login.not_verified.app_error') {
+        this.props.actions.loginById(data.id, user.password, '').then(({error}) => {
+            if (error) {
+                if (error.id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?email=' + encodeURIComponent(user.email) + '&teamname=' + encodeURIComponent(this.state.teamName));
                 } else {
                     this.setState({
-                        serverError: err.message,
+                        serverError: error.message,
                         isSubmitting: false,
                     });
                 }
+
+                return;
             }
-        );
+
+            if (this.state.token > 0) {
+                this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
+            }
+
+            const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
+            if (redirectTo) {
+                browserHistory.push(redirectTo);
+            } else {
+                GlobalActions.redirectUserToDefaultTeam();
+            }
+        });
     }
 
-    isUserValid() {
+    isUserValid = () => {
         const providedEmail = this.refs.email.value.trim();
         if (!providedEmail) {
             this.setState({
@@ -229,7 +223,7 @@ export default class SignupEmail extends React.Component {
         return true;
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         // bail out if a submission is already in progress
@@ -267,7 +261,7 @@ export default class SignupEmail extends React.Component {
         }
     }
 
-    renderEmailSignup() {
+    renderEmailSignup = () => {
         let emailError = null;
         let emailHelpText = (
             <span className='help-block'>

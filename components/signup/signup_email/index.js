@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {setGlobalItem} from 'actions/storage';
+import {loginById} from 'actions/views/signup';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import SignupEmail from './signup_email.jsx';
@@ -33,6 +34,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            loginById,
             setGlobalItem,
         }, dispatch),
     };
