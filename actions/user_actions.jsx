@@ -14,7 +14,7 @@ import {
     getMyChannelMember,
     getChannelMembersInChannels,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getBool, getCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -304,10 +304,11 @@ export async function saveTheme(teamId, theme, cb) {
     }];
 
     await savePreferencesRedux(currentUserId, preference)(dispatch, getState);
-    onThemeSaved(teamId, theme, cb);
+    onThemeSaved(teamId, cb);
 }
 
-function onThemeSaved(teamId, theme, onSuccess) {
+function onThemeSaved(teamId, onSuccess) {
+    const getCategory = makeGetCategory();
     const themePreferences = getCategory(getState(), Preferences.CATEGORY_THEME);
 
     if (teamId !== '' && themePreferences.size > 1) {
@@ -319,8 +320,8 @@ function onThemeSaved(teamId, theme, onSuccess) {
     const currentUserId = Selectors.getCurrentUserId(getState());
     const toDelete = [];
 
-    for (const [name] of themePreferences) {
-        if (name === '' || name === teamId) {
+    for (const themePreference of themePreferences) {
+        if (themePreference.name === '' || themePreference.name === teamId) {
             continue;
         }
 
