@@ -662,8 +662,7 @@
             }
         }
 
-        .channel__wrap.move--left &,
-        .channel__wrap.webrtc--show & {
+        .channel__wrap.move--left & {
             position: absolute;
             right: -400px;
             top: 14px;

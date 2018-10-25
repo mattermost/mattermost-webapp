@@ -34,7 +34,6 @@ describe('components/navbar/Navbar', () => {
             updateRhsState: jest.fn(),
         },
         isLicensed: true,
-        enableWebrtc: true,
         isFavoriteChannel: false,
     };
 
@@ -84,28 +83,15 @@ describe('components/navbar/Navbar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, if enabled WebRTC and DM channel', () => {
+    test('should match snapshot, for DM channel', () => {
         const wrapper = shallow(
             <Navbar
                 {...baseProps}
-                enableWebrtc={true}
             />
         );
 
         const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name', team_id: 'team_id'}};
         wrapper.setState(newValidState);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, if WebRTC is not enabled', () => {
-        const wrapper = shallow(
-            <Navbar
-                {...baseProps}
-                enableWebrtc={false}
-            />
-        );
-
-        wrapper.setState(validState);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -164,12 +150,6 @@ describe('components/navbar/Navbar', () => {
         wrapper.instance().hideQuickSwitchModal();
         expect(wrapper.state('showQuickSwitchModal')).toEqual(false);
         expect(wrapper.state('quickSwitchMode')).toEqual('channel');
-
-        wrapper.setState({isBusy: false});
-        wrapper.instance().onBusy(true);
-        expect(wrapper.state('isBusy')).toEqual(true);
-        wrapper.instance().onBusy(false);
-        expect(wrapper.state('isBusy')).toEqual(false);
     });
 
     test('should toggle favorite channel', () => {

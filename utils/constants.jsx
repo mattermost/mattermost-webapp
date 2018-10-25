@@ -261,34 +261,13 @@ export const ActionTypes = keyMirror({
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
 
-    INIT_WEBRTC: null,
-    CLOSE_WEBRTC: null,
-
     STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
 
-    UPDATE_BUSY_WEBRTC: null,
-
     SELECT_ATTACHMENT_MENU_ACTION: null,
 
     RECEIVED_TRANSLATIONS: null,
-});
-
-export const WebrtcActionTypes = keyMirror({
-    INITIALIZE: null,
-    NOTIFY: null,
-    CHANGED: null,
-    ANSWER: null,
-    DECLINE: null,
-    CANCEL: null,
-    NO_ANSWER: null,
-    BUSY: null,
-    FAILED: null,
-    UNSUPPORTED: null,
-    MUTED: null,
-    IN_PROGRESS: null,
-    DISABLED: null,
 });
 
 export const ModalIdentifiers = {
@@ -351,7 +330,6 @@ export const SocketEvents = {
     EPHEMERAL_MESSAGE: 'ephemeral_message',
     STATUS_CHANGED: 'status_change',
     HELLO: 'hello',
-    WEBRTC: 'webrtc',
     REACTION_ADDED: 'reaction_added',
     REACTION_REMOVED: 'reaction_removed',
     EMOJI_ADDED: 'emoji_added',
@@ -662,7 +640,6 @@ export const Constants = {
     Preferences,
     SocketEvents,
     ActionTypes,
-    WebrtcActionTypes,
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
@@ -1245,8 +1222,6 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
-    WEBRTC_TIME_DELAY: 750,
-    WEBRTC_CLEAR_ERROR_DELAY: 15000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
