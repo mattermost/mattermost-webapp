@@ -23,10 +23,10 @@ class CommandSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <div className='command__title'>
-                    {`${item.suggestion} ${item.hint}`}
+                    <span>{item.suggestion} {item.hint}</span>
                 </div>
                 <div className='command__desc'>
-                    {item.description}
+                    <span>{item.description}</span>
                 </div>
             </div>
         );
