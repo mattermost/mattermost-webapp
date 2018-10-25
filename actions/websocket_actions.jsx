@@ -14,11 +14,12 @@ import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} fro
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getMyTeams, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -26,7 +27,6 @@ import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -35,10 +35,10 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
-import * as ModalActions from 'actions/views/modals';
+import {ModalIdentifiers} from '../utils/constants';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 
 const dispatch = store.dispatch;
@@ -131,7 +131,7 @@ export function reconnect(includeWebSocket = true) {
     if (currentTeamId) {
         loadChannelsForCurrentUser();
         getPosts(ChannelStore.getCurrentId())(dispatch, getState);
-        dispatch(StatusActions.loadStatusesForChannelAndSidebar());
+        StatusActions.loadStatusesForChannelAndSidebar();
         TeamActions.getMyTeamUnreads()(dispatch, getState);
     }
 
@@ -443,9 +443,6 @@ function handleLeaveTeamEvent(msg) {
 
         // if they are on the team being removed redirect them to default team
         if (TeamStore.getCurrentId() === msg.data.team_id) {
-            BrowserStore.removeGlobalItem('team');
-            BrowserStore.removeGlobalItem(msg.data.team_id);
-
             if (!global.location.pathname.startsWith('/admin_console')) {
                 GlobalActions.redirectUserToDefaultTeam();
             }
@@ -551,36 +548,38 @@ function handleUserAddedEvent(msg) {
 }
 
 function handleUserRemovedEvent(msg) {
-    if (UserStore.getCurrentId() === msg.broadcast.user_id) {
+    const state = getState();
+    const currentChannel = getCurrentChannel(state) || {};
+    const currentUserId = getCurrentUserId(state);
+
+    if (msg.broadcast.user_id === currentUserId) {
         loadChannelsForCurrentUser();
 
-        if (msg.data.channel_id === ChannelStore.getCurrentId()) {
-            if (msg.data.remover_id !== msg.broadcast.user_id) {
-                var removedFromChannelProps = {};
-                removedFromChannelProps.channelName = ChannelStore.getCurrent().display_name;
-                removedFromChannelProps.remover = UserStore.getProfile(msg.data.remover_id).username;
-
-                const RemovedFromChannelModalData = {
-                    modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
-                    dialogType: RemovedFromChannelModal,
-                    dialogProps: removedFromChannelProps,
-                };
-
-                ModalActions.openModal(RemovedFromChannelModalData)(dispatch, getState);
-            }
-
+        if (msg.data.channel_id === currentChannel.id) {
             GlobalActions.emitCloseRightHandSide();
 
-            const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
-            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
+            if (msg.data.remover_id === msg.broadcast.user_id) {
+                browserHistory.push(getCurrentRelativeTeamUrl(state));
+            } else {
+                const user = getUser(state, msg.data.remover_id) || {};
+
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
+                    dialogType: RemovedFromChannelModal,
+                    dialogProps: {
+                        channelName: currentChannel.display_name,
+                        remover: user.username,
+                    },
+                }));
+            }
         }
 
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
             data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
         });
-    } else if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
-        getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+    } else if (msg.broadcast.channel_id === currentChannel.id) {
+        getChannelStats(currentChannel.id)(dispatch, getState);
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},

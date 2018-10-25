@@ -3,7 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -11,7 +11,7 @@ import RemovedFromChannelModal from './removed_from_channel_modal';
 
 function mapStateToProps(state) {
     return {
-        currentUser: getCurrentUser(state),
+        currentUserId: getCurrentUserId(state),
     };
 }
 

@@ -40,8 +40,6 @@ export default class ChannelInfoModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.onHide = this.onHide.bind(this);
-
         this.state = {show: true};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
@@ -49,7 +47,7 @@ export default class ChannelInfoModal extends React.PureComponent {
         ));
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
