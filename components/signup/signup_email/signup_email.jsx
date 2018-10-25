@@ -11,7 +11,6 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
-import {createUserWithInvite} from 'actions/user_actions.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
@@ -35,6 +34,7 @@ export default class SignupEmail extends React.Component {
         customDescriptionText: PropTypes.string,
         passwordConfig: PropTypes.object,
         actions: PropTypes.shape({
+            createUser: PropTypes.func.isRequired,
             loginById: PropTypes.func.isRequired,
             setGlobalItem: PropTypes.func.isRequired,
         }).isRequired,
@@ -247,17 +247,17 @@ export default class SignupEmail extends React.Component {
                 allow_marketing: true,
             };
 
-            createUserWithInvite(user,
-                this.state.token,
-                this.state.inviteId,
-                this.handleSignupSuccess.bind(this, user),
-                (err) => {
+            this.props.actions.createUser(user, this.state.token, this.state.inviteId).then((result) => {
+                if (result.error) {
                     this.setState({
-                        serverError: err.message,
+                        serverError: result.error.message,
                         isSubmitting: false,
                     });
+                    return;
                 }
-            );
+
+                this.handleSignupSuccess(user, result.data);
+            });
         }
     }
 

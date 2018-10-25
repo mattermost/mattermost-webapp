@@ -503,15 +503,6 @@ export async function resendVerification(email, success, error) {
     }
 }
 
-export async function createUserWithInvite(user, token, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
-    if (resp && success) {
-        success(resp);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function webLogin(loginId, password, token, success, error) {
     const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
     if (ok && success) {

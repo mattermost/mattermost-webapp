@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {createUser} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {setGlobalItem} from 'actions/storage';
@@ -34,6 +35,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            createUser,
             loginById,
             setGlobalItem,
         }, dispatch),
