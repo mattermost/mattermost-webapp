@@ -8,7 +8,7 @@ import {createUser} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {setGlobalItem} from 'actions/storage';
-import {loginById} from 'actions/views/signup';
+import {loginById} from 'actions/views/login';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import SignupEmail from './signup_email.jsx';

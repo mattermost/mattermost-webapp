@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-import {checkMfa, webLogin} from 'actions/user_actions.jsx';
+import {checkMfa} from 'actions/user_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -58,6 +58,9 @@ class LoginController extends React.Component {
             samlLoginButtonText: PropTypes.string,
             siteName: PropTypes.string,
             initializing: PropTypes.bool,
+            actions: PropTypes.shape({
+                login: PropTypes.func.isRequired,
+            }).isRequired,
         };
     }
 
@@ -260,39 +263,12 @@ class LoginController extends React.Component {
     submit = (loginId, password, token) => {
         this.setState({serverError: null, loading: true});
 
-        webLogin(
-            loginId,
-            password,
-            token,
-            () => {
-                // check for query params brought over from signup_user_complete
-                const params = new URLSearchParams(this.props.location.search);
-                const inviteToken = params.get('t') || '';
-                const inviteId = params.get('id') || '';
-
-                if (inviteId || inviteToken) {
-                    addUserToTeamFromInvite(
-                        inviteToken,
-                        inviteId,
-                        (team) => {
-                            this.finishSignin(team);
-                        },
-                        () => {
-                            // there's not really a good way to deal with this, so just let the user log in like normal
-                            this.finishSignin();
-                        }
-                    );
-
-                    return;
-                }
-
-                this.finishSignin();
-            },
-            (err) => {
-                if (err.id === 'api.user.login.not_verified.app_error') {
+        this.props.actions.login(loginId, password, token).then(({error}) => {
+            if (error) {
+                if (error.id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
-                } else if (err.id === 'store.sql_user.get_for_login.app_error' ||
-                    err.id === 'ent.ldap.do_login.user_not_registered.app_error') {
+                } else if (error.id === 'store.sql_user.get_for_login.app_error' ||
+                    error.id === 'ent.ldap.do_login.user_not_registered.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -303,7 +279,7 @@ class LoginController extends React.Component {
                             />
                         ),
                     });
-                } else if (err.id === 'api.user.check_user_password.invalid.app_error' || err.id === 'ent.ldap.do_login.invalid_password.app_error') {
+                } else if (error.id === 'api.user.check_user_password.invalid.app_error' || error.id === 'ent.ldap.do_login.invalid_password.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -315,10 +291,33 @@ class LoginController extends React.Component {
                         ),
                     });
                 } else {
-                    this.setState({showMfa: false, serverError: err.message, loading: false});
+                    this.setState({showMfa: false, serverError: error.message, loading: false});
                 }
+
+                return;
             }
-        );
+
+            // check for query params brought over from signup_user_complete
+            const params = new URLSearchParams(this.props.location.search);
+            const inviteToken = params.get('t') || '';
+            const inviteId = params.get('id') || '';
+
+            if (inviteId || inviteToken) {
+                addUserToTeamFromInvite(
+                    inviteToken,
+                    inviteId,
+                    (team) => {
+                        this.finishSignin(team);
+                    },
+                    () => {
+                        // there's not really a good way to deal with this, so just let the user log in like normal
+                        this.finishSignin();
+                    }
+                );
+            } else {
+                this.finishSignin();
+            }
+        });
     }
 
     finishSignin = (team) => {
