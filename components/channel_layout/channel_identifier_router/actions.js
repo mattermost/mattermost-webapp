@@ -4,7 +4,7 @@
 import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
 
 import {Constants} from 'utils/constants.jsx';
@@ -149,12 +149,12 @@ function goToDirectChannelByUsername(match, history) {
     };
 }
 
-function goToDirectChannelByUserId(match, history, userId) {
+export function goToDirectChannelByUserId(match, history, userId) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team} = match.params;
 
-        let user = getUser(state, userId);
+        let user = selectUser(state, userId);
         if (!user) {
             const {data, error} = await dispatch(getUser(userId));
             if (error) {
@@ -168,13 +168,13 @@ function goToDirectChannelByUserId(match, history, userId) {
     };
 }
 
-function goToDirectChannelByUserIds(match, history) {
+export function goToDirectChannelByUserIds(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
-        const userId = Utils.getUserIdFromChannelId(identifier.toLowerCase());
+        const userId = Utils.getUserIdFromChannelId(identifier.toLowerCase(), getCurrentUserId(getState()));
 
-        let user = getUser(state, userId);
+        let user = selectUser(state, userId);
         if (!user) {
             const {data, error} = await dispatch(getUser(userId));
             if (error) {
