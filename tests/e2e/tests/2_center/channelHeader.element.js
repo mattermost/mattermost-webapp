@@ -19,7 +19,8 @@ module.exports = {
         channelHeaderSection.
             assert.visible('@channelHeaderPinButton').
             assert.visible('@channelHeaderMentionButton').
-            assert.visible('@channelHeaderFlagButton');
+            assert.visible('@channelHeaderFlagButton').
+            assert.visible('@channelHeaderDropdownButton');
 
         channelHeaderSection.expect.section('@channelHeaderInfo').to.be.visible;
         const channelHeaderInfoSection = channelHeaderSection.section.channelHeaderInfo;
