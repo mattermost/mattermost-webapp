@@ -33,6 +33,7 @@ describe('components/MoreDirectChannels', () => {
             getStatusesByIds: emptyFunction,
             searchProfiles: emptyFunction,
             setModalSearchTerm: emptyFunction,
+            loadStatusesForProfilesList: emptyFunction,
             getTotalUsersStats: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());

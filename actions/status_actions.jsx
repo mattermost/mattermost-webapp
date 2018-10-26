@@ -9,82 +9,74 @@ import {getDirectShowPreferences} from 'mattermost-redux/selectors/entities/pref
 import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants.jsx';
 
-const dispatch = store.dispatch;
-const getState = store.getState;
-
-export function loadStatusesForDMSidebar() {
-    const dmPrefs = getDirectShowPreferences(getState());
-    const statusesToLoad = [];
-
-    for (const pref in dmPrefs) {
-        if (pref.value === 'true') {
-            statusesToLoad[pref.key] = true;
-        }
-    }
-
-    loadStatusesByIds(statusesToLoad);
-}
-
 export function loadStatusesForChannelAndSidebar() {
-    const statusesToLoad = {};
+    return (dispatch, getState) => {
+        const statusesToLoad = {};
 
-    const channelId = getCurrentChannelId(getState());
-    const postsInChannel = getPostsInCurrentChannel(getState());
-    const posts = postsInChannel.slice(0, getState().views.channel.postVisibility[channelId]);
-    for (const post of posts) {
-        if (post.user_id) {
-            statusesToLoad[post.user_id] = true;
+        const channelId = getCurrentChannelId(getState());
+        const postsInChannel = getPostsInCurrentChannel(getState());
+        const posts = postsInChannel.slice(0, getState().views.channel.postVisibility[channelId] || 0);
+        for (const post of posts) {
+            if (post.user_id) {
+                statusesToLoad[post.user_id] = true;
+            }
         }
-    }
 
-    const dmPrefs = getDirectShowPreferences(getState());
+        const dmPrefs = getDirectShowPreferences(getState());
 
-    for (const pref in dmPrefs) {
-        if (pref.value === 'true') {
-            statusesToLoad[pref.key] = true;
+        for (const pref of dmPrefs) {
+            if (pref.value === 'true') {
+                statusesToLoad[pref.name] = true;
+            }
         }
-    }
 
-    const {currentUserId} = getState().entities.users;
-    statusesToLoad[currentUserId] = true;
+        const {currentUserId} = getState().entities.users;
+        statusesToLoad[currentUserId] = true;
 
-    loadStatusesByIds(Object.keys(statusesToLoad));
+        dispatch(loadStatusesByIds(Object.keys(statusesToLoad)));
+    };
 }
 
 export function loadStatusesForProfilesList(users) {
-    if (users == null) {
-        return;
-    }
+    return (dispatch) => {
+        if (users == null) {
+            return;
+        }
 
-    const statusesToLoad = [];
-    for (let i = 0; i < users.length; i++) {
-        statusesToLoad.push(users[i].id);
-    }
+        const statusesToLoad = [];
+        for (let i = 0; i < users.length; i++) {
+            statusesToLoad.push(users[i].id);
+        }
 
-    loadStatusesByIds(statusesToLoad);
+        dispatch(loadStatusesByIds(statusesToLoad));
+    };
 }
 
 export function loadStatusesForProfilesMap(users) {
-    if (users == null) {
-        return;
-    }
-
-    const statusesToLoad = [];
-    for (const userId in users) {
-        if ({}.hasOwnProperty.call(users, userId)) {
-            statusesToLoad.push(userId);
+    return (dispatch) => {
+        if (users == null) {
+            return;
         }
-    }
 
-    loadStatusesByIds(statusesToLoad);
+        const statusesToLoad = [];
+        for (const userId in users) {
+            if ({}.hasOwnProperty.call(users, userId)) {
+                statusesToLoad.push(userId);
+            }
+        }
+
+        dispatch(loadStatusesByIds(statusesToLoad));
+    };
 }
 
 export function loadStatusesByIds(userIds) {
-    if (userIds.length === 0) {
-        return;
-    }
+    return (dispatch) => {
+        if (userIds.length === 0) {
+            return;
+        }
 
-    getStatusesByIds(userIds)(dispatch, getState);
+        dispatch(getStatusesByIds(userIds));
+    };
 }
 
 let intervalId = '';
@@ -94,7 +86,7 @@ export function startPeriodicStatusUpdates() {
 
     intervalId = setInterval(
         () => {
-            loadStatusesForChannelAndSidebar();
+            store.dispatch(loadStatusesForChannelAndSidebar());
         },
         Constants.STATUS_INTERVAL
     );

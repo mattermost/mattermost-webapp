@@ -11,6 +11,7 @@ import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
 
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MemberListChannel from './member_list_channel.jsx';
@@ -72,6 +73,7 @@ function mapDispatchToProps(dispatch) {
             searchProfiles,
             getChannelStats,
             setModalSearchTerm,
+            loadStatusesForProfilesList,
         }, dispatch),
     };
 }
