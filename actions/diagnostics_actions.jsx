@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
@@ -17,7 +17,7 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
 
 export function trackEvent(category, event, props) {
     if (global.window && global.window.analytics) {
-        const properties = Object.assign({category, type: event, user_actual_id: UserStore.getCurrentId()}, props);
+        const properties = Object.assign({category, type: event, user_actual_id: getCurrentUserId(store.getState())}, props);
         const options = {
             context: {
                 ip: '0.0.0.0',
