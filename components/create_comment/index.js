@@ -115,16 +115,8 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexForward,
             onEditLatestPost,
             resetCreatePostRequest,
-<<<<<<< c0764274581d2003e0c634356369e0e68b8fb23d
             getChannelTimezones,
             toggleRHSTextBoxFocus,
-=======
-            showEmojiPickerForLastMessage,
-<<<<<<< 90bad45543e8b9b2a2b365703e119f458b34f689
->>>>>>> Added shortcut for opening emoji popup for last message and handling if the RHS is open
-=======
-            toggleRHSTextBoxFocus,
->>>>>>> 1. Hilighting the Menu on the top right inorder to match the emoji list opening state with mouse interaction.
         }, dispatch);
     };
 }

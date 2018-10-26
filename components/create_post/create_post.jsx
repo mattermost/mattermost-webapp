@@ -768,7 +768,6 @@ export default class CreatePost extends React.Component {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
-        const emojiCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -780,8 +779,6 @@ export default class CreatePost extends React.Component {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
-        } else if (emojiCombo && messageIsEmpty) {
-            this.props.actions.showEmojiPickerForLastMessage();
         }
     }
 

@@ -516,10 +516,6 @@ export default class CreateComment extends React.PureComponent {
                 this.props.onMoveHistoryIndexForward();
             }
         }
-
-        if ((e.ctrlKey || e.metaKey) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.BACK_SLASH)) {
-            this.props.showEmojiPickerForLastMessage();
-        }
     }
 
     handleFileUploadChange = () => {
