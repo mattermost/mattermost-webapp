@@ -4,7 +4,6 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {createSelector} from 'reselect';
 import {
     favoriteChannel,
     unfavoriteChannel,
@@ -14,22 +13,18 @@ import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General} from 'mattermost-redux/constants';
 import {
     getCurrentChannel,
-    getCurrentChannelId,
     getMyCurrentChannelMembership,
+    isCurrentChannelFavorite,
+    isCurrentChannelMuted,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getStatusForUserId,
     getUser,
 } from 'mattermost-redux/selectors/entities/users';
-import {
-    getUserIdFromChannelName,
-    isFavoriteChannel,
-    isChannelMuted,
-} from 'mattermost-redux/utils/channel_utils';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {getPenultimateViewedChannelName} from 'selectors/local_storage';
@@ -44,17 +39,6 @@ import {
 import {getRhsState} from 'selectors/rhs';
 
 import ChannelHeader from './channel_header';
-
-const isCurrentChannelFavorite = createSelector(
-    getMyPreferences,
-    getCurrentChannelId,
-    (prefs, channelId) => isFavoriteChannel(prefs, channelId),
-);
-
-const isCurrentChannelMuted = createSelector(
-    getMyCurrentChannelMembership,
-    (membership) => isChannelMuted(membership),
-);
 
 const mapStateToProps = (state) => {
     const channel = getCurrentChannel(state) || {};

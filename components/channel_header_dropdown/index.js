@@ -9,42 +9,18 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
-    getMyCurrentChannelMembership,
+    isCurrentChannelDefault,
+    isCurrentChannelFavorite,
+    isCurrentChannelMuted,
+    isCurrentChannelArchived,
     isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {
-    isDefault as isDefaultChannel,
-    isFavoriteChannel,
-    isChannelMuted,
-} from 'mattermost-redux/utils/channel_utils';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import Desktop from './channel_header_dropdown';
 import Mobile from './mobile_channel_header_dropdown';
-
-const isCurrentChannelDefault = createSelector(
-    getCurrentChannel,
-    (channel) => isDefaultChannel(channel),
-);
-
-const isCurrentChannelFavorite = createSelector(
-    getMyPreferences,
-    getCurrentChannel,
-    (preferences, channel) => isFavoriteChannel(preferences, channel.id) || false,
-);
-
-const isCurrentChannelMuted = createSelector(
-    getMyCurrentChannelMembership,
-    (membership) => isChannelMuted(membership),
-);
-
-const isCurrentChannelArchived = createSelector(
-    getCurrentChannel,
-    (channel) => channel.delete_at !== 0,
-);
 
 const getTeammateId = createSelector(
     getCurrentChannel,
