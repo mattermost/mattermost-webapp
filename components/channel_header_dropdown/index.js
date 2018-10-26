@@ -45,38 +45,17 @@ const getTeammateStatus = createSelector(
     }
 );
 
-const mapStateToProps = createSelector(
-    getCurrentUser,
-    getCurrentChannel,
-    isCurrentChannelDefault,
-    isCurrentChannelFavorite,
-    isCurrentChannelMuted,
-    isCurrentChannelReadOnly,
-    isCurrentChannelArchived,
-    getTeammateId,
-    getTeammateStatus,
-    (
-        user,
-        channel,
-        isDefault,
-        isFavorite,
-        isMuted,
-        isReadonly,
-        isArchived,
-        teammateId,
-        teammateStatus,
-    ) => ({
-        user,
-        channel,
-        isDefault,
-        isFavorite,
-        isMuted,
-        isReadonly,
-        isArchived,
-        teammateId,
-        teammateStatus,
-    }),
-);
+const mapStateToProps = (state) => ({
+    user: getCurrentUser(state),
+    channel: getCurrentChannel(state),
+    isDefault: isCurrentChannelDefault(state),
+    isFavorite: isCurrentChannelFavorite(state),
+    isMuted: isCurrentChannelMuted(state),
+    isReadonly: isCurrentChannelReadOnly(state),
+    isArchived: isCurrentChannelArchived(state),
+    teammateId: getTeammateId(state),
+    teammateStatus: getTeammateStatus(state),
+});
 
 export const ChannelHeaderDropdown = connect(mapStateToProps)(Desktop);
 export const MobileChannelHeaderDropdown = connect(mapStateToProps)(Mobile);

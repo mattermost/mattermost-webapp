@@ -21,7 +21,6 @@ import {
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
-    getStatusForUserId,
     getUser,
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
@@ -50,11 +49,6 @@ const mapStateToProps = (state) => {
         dmUser = getUser(state, dmUserId);
     }
 
-    let penultimateViewedChannelName = getPenultimateViewedChannelName(state);
-    if (!penultimateViewedChannelName) {
-        penultimateViewedChannelName = Constants.DEFAULT_CHANNEL;
-    }
-
     return {
         teamId: getCurrentTeamId(state),
         channel,
@@ -65,7 +59,6 @@ const mapStateToProps = (state) => {
         isFavorite: isCurrentChannelFavorite(state),
         isReadOnly: isCurrentChannelReadOnly(state),
         isMuted: isCurrentChannelMuted(state),
-        penultimateViewedChannelName,
     };
 };
 

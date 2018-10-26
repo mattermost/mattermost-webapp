@@ -15,7 +15,6 @@ import {
     Constants,
     NotificationLevels,
     RHSStates,
-    UserStatuses,
 } from 'utils/constants';
 import * as Utils from 'utils/utils';
 import PopoverListMembers from 'components/popover_list_members';
@@ -45,15 +44,12 @@ export default class ChannelHeader extends React.PureComponent {
         channel: PropTypes.object,
         channelMember: PropTypes.object,
         dmUser: PropTypes.object,
-        dmUserStatus: PropTypes.object,
-        dmUserIsInCall: PropTypes.bool,
         isFavorite: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         isMuted: PropTypes.bool,
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
-        penultimateViewedChannelName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -184,12 +180,6 @@ export default class ChannelHeader extends React.PureComponent {
         }
     };
 
-    hideRenameChannelModal = () => {
-        this.setState({
-            showRenameChannelModal: false,
-        });
-    };
-
     handleOnMouseOver = () => {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.show();
@@ -200,14 +190,6 @@ export default class ChannelHeader extends React.PureComponent {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.hide();
         }
-    };
-
-    hideEditChannelHeaderModal = () => {
-        this.setState({showEditChannelHeaderModal: false});
-    };
-
-    showEditChannelHeaderModal = () => {
-        this.setState({showEditChannelHeaderModal: true});
     };
 
     render() {
