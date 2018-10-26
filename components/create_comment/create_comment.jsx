@@ -177,7 +177,6 @@ export default class CreateComment extends React.PureComponent {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
-        showEmojiPickerForLastMessage: PropTypes.func.isRequired,
         toggleRHSTextBoxFocus: PropTypes.func.isRequired,
     }
 
@@ -516,10 +515,6 @@ export default class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             }
-        }
-
-        if ((e.ctrlKey || e.metaKey) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.BACK_SLASH)) {
-            this.props.showEmojiPickerForLastMessage();
         }
     }
 

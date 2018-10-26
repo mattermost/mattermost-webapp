@@ -719,11 +719,15 @@ export default class CreatePost extends React.Component {
     }
 
     documentKeyHandler = (e) => {
-        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
-            e.preventDefault();
-
+        e.preventDefault();
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const emojiCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+        const messageIsEmpty = this.state.message.length === 0;
+        if (ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             GlobalActions.toggleShortcutsModal();
             return;
+        } else if (emojiCombo && messageIsEmpty) {
+            this.props.actions.showEmojiPickerForLastMessage();
         }
 
         this.focusTextboxIfNecessary(e);
@@ -763,7 +767,6 @@ export default class CreatePost extends React.Component {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
-        const emojiCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -775,8 +778,6 @@ export default class CreatePost extends React.Component {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
-        } else if (emojiCombo && messageIsEmpty) {
-            this.props.actions.showEmojiPickerForLastMessage();
         }
     }
 

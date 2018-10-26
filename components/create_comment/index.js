@@ -15,7 +15,7 @@ import {Preferences, Posts} from 'mattermost-redux/constants';
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
-import {showEmojiPickerForLastMessage, toggleRHSTextBoxFocus} from 'actions/post_actions.jsx';
+import {toggleRHSTextBoxFocus} from 'actions/post_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {
@@ -116,7 +116,6 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
-            showEmojiPickerForLastMessage,
             toggleRHSTextBoxFocus,
         }, dispatch);
     };
