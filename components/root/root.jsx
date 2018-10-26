@@ -189,7 +189,6 @@ export default class Root extends React.Component {
         const afterIntl = () => {
             initializePlugins();
 
-            this.redirectIfNecessary(this.props);
             this.setState({configLoaded: true});
         };
         if (global.Intl) {
@@ -221,8 +220,6 @@ export default class Root extends React.Component {
                 this.props.history.push('/signup_user_complete');
             } else if (props.showTermsOfService) {
                 this.props.history.push('/terms_of_service');
-            } else if (UserStore.getCurrentUser()) {
-                GlobalActions.redirectUserToDefaultTeam();
             }
         }
     }
@@ -233,6 +230,7 @@ export default class Root extends React.Component {
 
     componentDidMount() {
         this.props.actions.loadMeAndConfig().then(() => {
+            GlobalActions.redirectUserToDefaultTeam();
             this.onConfigLoaded();
         });
 
