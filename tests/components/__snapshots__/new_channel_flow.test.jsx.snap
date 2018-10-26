@@ -3,6 +3,8 @@
 exports[`components/NewChannelFlow should match snapshot, with base props 1`] = `
 <span>
   <Connect(NewChannelModal)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
     channelData={
       Object {
         "displayName": "",
@@ -19,24 +21,6 @@ exports[`components/NewChannelFlow should match snapshot, with base props 1`] = 
     onTypeSwitched={[Function]}
     serverError=""
     show={true}
-  />
-  <Connect(NewChannelModal)
-    channelData={
-      Object {
-        "displayName": "",
-        "header": "",
-        "name": "",
-        "purpose": "",
-      }
-    }
-    channelType="P"
-    onChangeURLPressed={[Function]}
-    onDataChanged={[Function]}
-    onModalDismissed={[MockFunction]}
-    onSubmitChannel={[Function]}
-    onTypeSwitched={[Function]}
-    serverError=""
-    show={false}
   />
   <Connect(ChangeURLModal)
     currentURL=""
