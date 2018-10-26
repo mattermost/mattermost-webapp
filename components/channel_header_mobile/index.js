@@ -25,23 +25,12 @@ const isCurrentChannelMuted = createSelector(
     (membership) => isChannelMuted(membership),
 );
 
-const mapStateToProps = createSelector(
-    getCurrentUser,
-    getCurrentChannel,
-    isCurrentChannelMuted,
-    isCurrentChannelReadOnly,
-    (
-        user,
-        channel,
-        isMuted,
-        isReadOnly,
-    ) => ({
-        user,
-        channel,
-        isMuted,
-        isReadOnly,
-    }),
-);
+const mapStateToProps = (state) => ({
+    user: getCurrentUser(state),
+    channel: getCurrentChannel(state),
+    isMuted: isCurrentChannelMuted(state),
+    isReadOnly: isCurrentChannelReadOnly(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
