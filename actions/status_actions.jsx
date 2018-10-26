@@ -2,46 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {getStatusesByIds} from 'mattermost-redux/actions/users';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getPostsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
+import {getDirectShowPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import PostStore from 'stores/post_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function loadStatusesForChannel(channelId = ChannelStore.getCurrentId()) {
-    const postList = PostStore.getVisiblePosts(channelId);
-    if (!postList || !postList.posts) {
-        return;
-    }
-
-    const statuses = UserStore.getStatuses();
-    const statusesToLoad = {};
-    for (const pid in postList.posts) {
-        if (!postList.posts.hasOwnProperty(pid)) {
-            continue;
-        }
-
-        const post = postList.posts[pid];
-        if (statuses[post.user_id] == null) {
-            statusesToLoad[post.user_id] = true;
-        }
-    }
-
-    loadStatusesByIds(Object.keys(statusesToLoad));
-}
-
 export function loadStatusesForDMSidebar() {
-    const dmPrefs = PreferenceStore.getCategory(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW);
+    const dmPrefs = getDirectShowPreferences(getState());
     const statusesToLoad = [];
 
-    for (const [key, value] of dmPrefs) {
-        if (value === 'true') {
-            statusesToLoad.push(key);
+    for (const pref in dmPrefs) {
+        if (pref.value === 'true') {
+            statusesToLoad[pref.key] = true;
         }
     }
 
@@ -51,17 +28,20 @@ export function loadStatusesForDMSidebar() {
 export function loadStatusesForChannelAndSidebar() {
     const statusesToLoad = {};
 
-    const channelId = ChannelStore.getCurrentId();
-    const posts = PostStore.getVisiblePosts(channelId) || [];
+    const channelId = getCurrentChannelId(getState());
+    const postsInChannel = getPostsInCurrentChannel(getState());
+    const posts = postsInChannel.slice(0, getState().views.channel.postVisibility[channelId]);
     for (const post of posts) {
-        statusesToLoad[post.user_id] = true;
+        if (post.user_id) {
+            statusesToLoad[post.user_id] = true;
+        }
     }
 
-    const dmPrefs = PreferenceStore.getCategory(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW);
+    const dmPrefs = getDirectShowPreferences(getState());
 
-    for (const [key, value] of dmPrefs) {
-        if (value === 'true') {
-            statusesToLoad[key] = true;
+    for (const pref in dmPrefs) {
+        if (pref.value === 'true') {
+            statusesToLoad[pref.key] = true;
         }
     }
 
