@@ -7,70 +7,75 @@ import {FormattedMessage} from 'react-intl';
 
 import {NotificationLevels} from 'utils/constants';
 
-const ToggleMuteChannel = ({
-    user,
-    channel,
-    isMuted,
-    actions: {
-        updateChannelNotifyProps,
-    },
-}) => {
-    let notifyProps;
-    let message;
-    if (isMuted) {
-        notifyProps = {mark_unread: NotificationLevels.ALL};
-        message = (
-            <FormattedMessage
-                id='channel_header.unmute'
-                defaultMessage='Unmute Channel'
-            />
-        );
-    } else {
-        notifyProps = {mark_unread: NotificationLevels.MENTION};
-        message = (
-            <FormattedMessage
-                id='channel_header.mute'
-                defaultMessage='Mute Channel'
-            />
-        );
+export default class ToggleMuteChannel extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Object with info about the current user
+         */
+        user: PropTypes.object.isRequired,
+
+        /**
+         * Object with info about the current channel
+         */
+        channel: PropTypes.object.isRequired,
+
+        /**
+         * Boolean whether the current channel is muted
+         */
+        isMuted: PropTypes.bool.isRequired,
+
+        /**
+         * Object with action creators
+         */
+        actions: PropTypes.shape({
+            updateChannelNotifyProps: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
+    handleClick = () => {
+        const {
+            user,
+            channel,
+            isMuted,
+            actions: {
+                updateChannelNotifyProps,
+            },
+        } = this.props;
+
+        updateChannelNotifyProps(user.id, channel.id, {
+            mark_unread: isMuted ? NotificationLevels.ALL : NotificationLevels.MENTION,
+        });
     }
 
-    return (
-        <li role='presentation'>
-            <button
-                className='style--none'
-                role='menuitem'
-                onClick={() => updateChannelNotifyProps(user.id, channel.id, notifyProps)}
-            >
-                {message}
-            </button>
-        </li>
-    );
-};
+    render() {
+        let message;
+        if (this.props.isMuted) {
+            message = (
+                <FormattedMessage
+                    id='channel_header.unmute'
+                    defaultMessage='Unmute Channel'
+                />
+            );
+        } else {
+            message = (
+                <FormattedMessage
+                    id='channel_header.mute'
+                    defaultMessage='Mute Channel'
+                />
+            );
+        }
 
-ToggleMuteChannel.propTypes = {
-
-    /**
-     * Object with info about the current user
-     */
-    user: PropTypes.object.isRequired,
-
-    /**
-     * Object with info about the current channel
-     */
-    channel: PropTypes.object.isRequired,
-
-    /**
-     * Boolean whether the current channel is muted
-     */
-    isMuted: PropTypes.bool.isRequired,
-
-    /**
-     * Object with action creators
-     */
-    actions: PropTypes.shape({
-        updateChannelNotifyProps: PropTypes.func.isRequired,
-    }).isRequired,
-};
-
-export default ToggleMuteChannel;
+        return (
+            <li role='presentation'>
+                <button
+                    className='style--none'
+                    role='menuitem'
+                    onClick={this.handleClick}
+                >
+                    {message}
+                </button>
+            </li>
+        );
+    }
+}
