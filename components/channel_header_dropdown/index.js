@@ -22,8 +22,8 @@ import {
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {default as Desktop} from './channel_header_dropdown';
-import {default as Mobile} from './mobile_channel_header_dropdown';
+import Desktop from './channel_header_dropdown';
+import Mobile from './mobile_channel_header_dropdown';
 
 const isCurrentChannelDefault = createSelector(
     getCurrentChannel,
