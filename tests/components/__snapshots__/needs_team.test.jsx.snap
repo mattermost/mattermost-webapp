@@ -17,3 +17,19 @@ exports[`components/needs_team check for joinTeam call if team does not exist 1`
 `;
 
 exports[`components/needs_team should match snapshots for init with existing team 1`] = `<div />`;
+
+exports[`components/needs_team should match snapshots for init with existing team 2`] = `
+<Switch>
+  <Route
+    component={[Function]}
+    path="/:team/integrations"
+  />
+  <Route
+    component={[Function]}
+    path="/:team/emoji"
+  />
+  <Route
+    render={[Function]}
+  />
+</Switch>
+`;
