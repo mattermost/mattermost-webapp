@@ -31,10 +31,9 @@ import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
-import {ModalIdentifiers} from '../utils/constants';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 
 const dispatch = store.dispatch;
