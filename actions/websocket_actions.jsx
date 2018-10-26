@@ -8,6 +8,7 @@ import {
     getChannelAndMyMember,
     getChannelStats,
     viewChannel,
+    markChannelAsRead,
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
@@ -15,9 +16,9 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
@@ -27,7 +28,6 @@ import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
@@ -130,9 +130,9 @@ export function reconnect(includeWebSocket = true) {
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
         loadChannelsForCurrentUser();
-        getPosts(ChannelStore.getCurrentId())(dispatch, getState);
+        dispatch(getPosts(getCurrentChannelId(getState())));
         StatusActions.loadStatusesForChannelAndSidebar();
-        TeamActions.getMyTeamUnreads()(dispatch, getState);
+        dispatch(TeamActions.getMyTeamUnreads());
     }
 
     ErrorStore.setConnectionErrorCount(0);
@@ -405,11 +405,12 @@ function handlePostEditEvent(msg) {
     });
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
+    const currentChannelId = getCurrentChannelId(getState());
 
     // Update channel state
-    if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
+    if (currentChannelId === msg.broadcast.channel_id) {
         if (window.isActive) {
-            viewChannel(ChannelStore.getCurrentId())(dispatch, getState);
+            dispatch(viewChannel(currentChannelId));
         }
     }
 
@@ -432,9 +433,9 @@ function handlePostDeleteEvent(msg) {
 }
 
 async function handleTeamAddedEvent(msg) {
-    await TeamActions.getTeam(msg.data.team_id)(dispatch, getState);
-    await TeamActions.getMyTeamMembers()(dispatch, getState);
-    await TeamActions.getMyTeamUnreads()(dispatch, getState);
+    await dispatch(TeamActions.getTeam(msg.data.team_id));
+    await dispatch(TeamActions.getMyTeamMembers());
+    await dispatch(TeamActions.getMyTeamUnreads());
 }
 
 function handleLeaveTeamEvent(msg) {
@@ -534,8 +535,9 @@ function handleDirectAddedEvent(msg) {
 }
 
 function handleUserAddedEvent(msg) {
-    if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
-        getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+    const currentChannelId = getCurrentChannelId(getState());
+    if (currentChannelId === msg.broadcast.channel_id) {
+        dispatch(getChannelStats(currentChannelId));
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
@@ -632,9 +634,10 @@ function handleRoleUpdatedEvent(msg) {
 function handleChannelCreatedEvent(msg) {
     const channelId = msg.data.channel_id;
     const teamId = msg.data.team_id;
+    const state = getState();
 
-    if (TeamStore.getCurrentId() === teamId && !ChannelStore.getChannelById(channelId)) {
-        getChannelAndMyMember(channelId)(dispatch, getState);
+    if (getCurrentTeamId(state) === teamId && !getChannel(state, channelId)) {
+        dispatch(getChannelAndMyMember(channelId));
     }
 }
 
@@ -642,12 +645,12 @@ function handleChannelDeletedEvent(msg) {
     const state = getState();
     const config = getConfig(state);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
-    if (ChannelStore.getCurrentId() === msg.data.channel_id && !viewArchivedChannels) {
-        const teamUrl = TeamStore.getCurrentTeamRelativeUrl();
+    if (getCurrentChannelId(state) === msg.data.channel_id && !viewArchivedChannels) {
+        const teamUrl = getCurrentRelativeTeamUrl(state);
         browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
     }
 
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at}}, getState);
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at}});
 }
 
 function handlePreferenceChangedEvent(msg) {
@@ -739,10 +742,10 @@ function handleReactionRemovedEvent(msg) {
 
 function handleChannelViewedEvent(msg) {
     // Useful for when multiple devices have the app open to different channels
-    if ((!window.isActive || ChannelStore.getCurrentId() !== msg.data.channel_id) &&
+    if ((!window.isActive || getCurrentChannelId(getState()) !== msg.data.channel_id) &&
         UserStore.getCurrentId() === msg.broadcast.user_id) {
-        // Mark previous and next channel as read
-        ChannelStore.resetCounts([msg.data.channel_id]);
+        console.log('yo');
+        dispatch(markChannelAsRead(msg.data.channel_id, '', false));
     }
 }
 
