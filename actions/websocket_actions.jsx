@@ -29,7 +29,6 @@ import * as StatusActions from 'actions/status_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses} from 'utils/constants.jsx';
@@ -145,7 +144,7 @@ export function startPeriodicSync() {
 
     intervalId = setInterval(
         () => {
-            if (UserStore.getCurrentUser() != null) {
+            if (getCurrentUser(getState()) != null) {
                 reconnect(false);
             }
         },
@@ -382,8 +381,11 @@ function handleNewPostEvent(msg) {
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
 
-    if (post.user_id !== UserStore.getCurrentId() && !fromAutoResponder(post)) {
-        UserStore.setStatus(post.user_id, UserStatuses.ONLINE);
+    if (post.user_id !== getCurrentUserId(getState()) && !fromAutoResponder(post)) {
+        dispatch({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
     }
 }
 
@@ -598,7 +600,10 @@ function handleUserUpdatedEvent(msg) {
             getMe()(dispatch, getState);
         }
     } else {
-        UserStore.saveProfile(user);
+        dispatch({
+            type: UserTypes.RECEIVED_PROFILE,
+            data: user,
+        });
     }
 }
 
@@ -702,7 +707,10 @@ function handleUserTypingEvent(msg) {
 }
 
 function handleStatusChangedEvent(msg) {
-    UserStore.setStatus(msg.data.user_id, msg.data.status);
+    dispatch({
+        type: UserTypes.RECEIVED_STATUSES,
+        data: [{user_id: msg.data.user_id, status: msg.data.status}],
+    });
 }
 
 function handleHelloEvent(msg) {
@@ -741,7 +749,7 @@ function handleReactionRemovedEvent(msg) {
 function handleChannelViewedEvent(msg) {
     // Useful for when multiple devices have the app open to different channels
     if ((!window.isActive || getCurrentChannelId(getState()) !== msg.data.channel_id) &&
-        UserStore.getCurrentId() === msg.broadcast.user_id) {
+        getCurrentUserId(getState()) === msg.broadcast.user_id) {
         dispatch(markChannelAsRead(msg.data.channel_id, '', false));
     }
 }
