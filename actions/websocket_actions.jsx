@@ -16,7 +16,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe, getStatusesByIds, getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
@@ -29,7 +29,6 @@ import * as StatusActions from 'actions/status_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -437,34 +436,33 @@ async function handleTeamAddedEvent(msg) {
 }
 
 function handleLeaveTeamEvent(msg) {
-    if (UserStore.getCurrentId() === msg.data.user_id) {
-        TeamStore.removeMyTeamMember(msg.data.team_id);
+    const state = getState();
+
+    dispatch(batchActions([
+        {
+            type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
+            data: {id: msg.data.team_id, user_id: msg.data.user_id},
+        },
+        {
+            type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+            data: {team_id: msg.data.team_id, user_id: msg.data.user_id},
+        },
+    ]));
+
+    if (getCurrentUserId(state) === msg.data.user_id) {
+        dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});
 
         // if they are on the team being removed redirect them to default team
-        if (TeamStore.getCurrentId() === msg.data.team_id) {
+        if (getCurrentTeamId(state) === msg.data.team_id) {
             if (!global.location.pathname.startsWith('/admin_console')) {
                 GlobalActions.redirectUserToDefaultTeam();
             }
         }
-
-        dispatch(batchActions([
-            {
-                type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
-                data: {id: msg.data.team_id, user_id: msg.data.user_id},
-            },
-            {
-                type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-                data: {team_id: msg.data.team_id, user_id: msg.data.user_id},
-            },
-        ]));
-    } else {
-        UserStore.removeProfileFromTeam(msg.data.team_id, msg.data.user_id);
-        TeamStore.removeMemberInTeam(msg.data.team_id, msg.data.user_id);
     }
 }
 
 function handleUpdateTeamEvent(msg) {
-    TeamStore.updateTeam(msg.data.team);
+    dispatch({type: TeamTypes.UPDATED_TEAM, data: msg.data.team});
 }
 
 function handleDeleteTeamEvent(msg) {
@@ -514,7 +512,7 @@ function handleDeleteTeamEvent(msg) {
 
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            browserHistory.push(`${TeamStore.getCurrentTeamUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+            browserHistory.push(`${getCurrentTeamUrl(getState())}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
             browserHistory.push('/');
         }
@@ -522,8 +520,10 @@ function handleDeleteTeamEvent(msg) {
 }
 
 function handleUpdateMemberRoleEvent(msg) {
-    const member = JSON.parse(msg.data.member);
-    TeamStore.updateMyRoles(member);
+    dispatch({
+        type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
+        data: msg.data.member,
+    });
 }
 
 function handleDirectAddedEvent(msg) {
@@ -540,8 +540,10 @@ function handleUserAddedEvent(msg) {
         });
     }
 
-    if (TeamStore.getCurrentId() === msg.data.team_id && UserStore.getCurrentId() === msg.data.user_id) {
-        getChannelAndMyMember(msg.broadcast.channel_id)(dispatch, getState);
+    const currentTeamId = getCurrentTeamId(getState());
+    const currentUserId = getCurrentUserId(getState());
+    if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
+        dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
     }
 }
 
