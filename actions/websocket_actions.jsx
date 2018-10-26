@@ -26,16 +26,14 @@ import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import {ModalIdentifiers} from '../utils/constants';
@@ -529,9 +527,7 @@ function handleUpdateMemberRoleEvent(msg) {
 }
 
 function handleDirectAddedEvent(msg) {
-    getChannelAndMyMember(msg.broadcast.channel_id)(dispatch, getState);
-    PreferenceStore.setPreference(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, msg.data.teammate_id, 'true');
-    loadProfilesForSidebar();
+    dispatch(getChannelAndMyMember(msg.broadcast.channel_id));
 }
 
 function handleUserAddedEvent(msg) {
@@ -744,7 +740,6 @@ function handleChannelViewedEvent(msg) {
     // Useful for when multiple devices have the app open to different channels
     if ((!window.isActive || getCurrentChannelId(getState()) !== msg.data.channel_id) &&
         UserStore.getCurrentId() === msg.broadcast.user_id) {
-        console.log('yo');
         dispatch(markChannelAsRead(msg.data.channel_id, '', false));
     }
 }
