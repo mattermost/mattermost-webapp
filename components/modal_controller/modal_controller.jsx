@@ -4,12 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ModalStore from 'stores/modal_store.jsx';
-import {ActionTypes, Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-
-import QuickSwitchModal from 'components/quick_switch_modal';
-
 export default class ModalController extends React.PureComponent {
     static propTypes = {
 
@@ -28,37 +22,6 @@ export default class ModalController extends React.PureComponent {
              */
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
-    }
-
-    state = {
-        showQuickSwitchModal: false,
-    }
-
-    componentDidMount() {
-        ModalStore.addModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
-    }
-
-    componentWillUnmount() {
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
-    }
-
-    toggleQuickSwitchModal = () => {
-        this.setState({showQuickSwitchModal: !this.state.showQuickSwitchModal});
-    }
-
-    hideQuickSwitchModal = () => {
-        this.setState({showQuickSwitchModal: false});
-    }
-
-    handleQuickSwitchKeyPress = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal('channel');
-            }
-        }
     }
 
     render() {
@@ -86,14 +49,7 @@ export default class ModalController extends React.PureComponent {
         }
 
         return (
-            <div>
-                {modalOutput}
-                <QuickSwitchModal
-                    show={this.state.showQuickSwitchModal}
-                    onHide={this.hideQuickSwitchModal}
-                    initialMode='channel'
-                />
-            </div>
+            <div>{modalOutput}</div>
         );
     }
 }

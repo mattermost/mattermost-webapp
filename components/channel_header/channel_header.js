@@ -11,12 +11,6 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import 'bootstrap';
 
 import Markdown from 'components/markdown';
-import {
-    Constants,
-    NotificationLevels,
-    RHSStates,
-} from 'utils/constants';
-import * as Utils from 'utils/utils';
 import PopoverListMembers from 'components/popover_list_members';
 import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon';
@@ -26,7 +20,16 @@ import PinIcon from 'components/svg/pin_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ArchiveIcon from 'components/svg/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
+
+import {
+    Constants,
+    ModalIdentifiers,
+    NotificationLevels,
+    RHSStates,
+} from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
@@ -61,6 +64,8 @@ export default class ChannelHeader extends React.PureComponent {
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired,
+            closeModal: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -74,6 +79,7 @@ export default class ChannelHeader extends React.PureComponent {
         const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
             showSearchBar,
+            showQuickSwitch: false,
         };
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
@@ -87,11 +93,13 @@ export default class ChannelHeader extends React.PureComponent {
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel.header);
         document.addEventListener('keydown', this.handleShortcut);
+        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleShortcut);
+        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -191,6 +199,29 @@ export default class ChannelHeader extends React.PureComponent {
             this.refs.headerOverlay.hide();
         }
     };
+
+    handleQuickSwitchKeyPress = (e) => {
+        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+            if (!e.altKey) {
+                e.preventDefault();
+                this.toggleQuickSwitchModal();
+            }
+        }
+    }
+
+    toggleQuickSwitchModal = () => {
+        const {showQuickSwitch} = this.state;
+        if (showQuickSwitch) {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.QUICK_SWITCH,
+                dialogType: QuickSwitchModal,
+            });
+        } else {
+            this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
+        }
+
+        this.setState({showQuickSwitch: !showQuickSwitch});
+    }
 
     render() {
         const {

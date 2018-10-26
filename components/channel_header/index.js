@@ -26,6 +26,7 @@ import {
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
+import {openModal, closeModal} from 'actions/views/modals';
 import {
     showFlaggedPosts,
     showPinnedPosts,
@@ -72,6 +73,8 @@ const mapDispatchToProps = (dispatch) => ({
         getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,
+        openModal,
+        closeModal,
     }, dispatch),
 });
 
