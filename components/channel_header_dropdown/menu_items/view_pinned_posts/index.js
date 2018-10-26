@@ -3,7 +3,6 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
 
 import {closeRightHandSide, showPinnedPosts} from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
@@ -11,12 +10,9 @@ import {RHSStates} from 'utils/constants';
 
 import ViewPinnedPosts from './view_pinned_posts';
 
-const mapStateToProps = createSelector(
-    getRhsState,
-    (rhsState) => ({
-        hasPinnedPosts: rhsState === RHSStates.PIN,
-    }),
-);
+const mapStateToProps = (state) => ({
+    hasPinnedPosts: getRhsState(state) === RHSStates.PIN,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
