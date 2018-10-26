@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Root from 'components/root/root';
+import * as GlobalActions from 'actions/global_actions.jsx';
 
 jest.mock('fastclick', () => ({
     attach: () => {}, // eslint-disable-line no-empty-function
@@ -12,6 +13,10 @@ jest.mock('fastclick', () => ({
 
 jest.mock('actions/diagnostics_actions', () => ({
     trackLoadTime: () => {}, // eslint-disable-line no-empty-function
+}));
+
+jest.mock('actions/global_actions', () => ({
+    redirectUserToDefaultTeam: jest.fn(),
 }));
 
 describe('components/Root', () => {
@@ -25,7 +30,7 @@ describe('components/Root', () => {
         },
     };
 
-    test('should load user, config, and license on mount', (done) => {
+    test('should load user, config, and license on mount and redirect to defaultTeam on success', (done) => {
         const props = {
             ...baseProps,
             actions: {
@@ -38,6 +43,7 @@ describe('components/Root', () => {
         class MockedRoot extends Root {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
+                expect(GlobalActions.redirectUserToDefaultTeam).toHaveBeenCalledTimes(1);
                 done();
             });
         }
