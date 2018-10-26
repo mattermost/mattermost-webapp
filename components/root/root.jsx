@@ -228,11 +228,12 @@ export default class Root extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadMeAndConfig().then(() => {
-            GlobalActions.redirectUserToDefaultTeam();
+        this.props.actions.loadMeAndConfig().then((response) => {
+            if (response[2] && response[2].data) {
+                GlobalActions.redirectUserToDefaultTeam();
+            }
             this.onConfigLoaded();
         });
-
         trackLoadTime();
     }
 
