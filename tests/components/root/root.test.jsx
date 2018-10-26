@@ -26,7 +26,7 @@ describe('components/Root', () => {
         noAccounts: false,
         showTermsOfService: false,
         actions: {
-            loadMeAndConfig: async () => {}, // eslint-disable-line no-empty-function
+            loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
         },
     };
 
