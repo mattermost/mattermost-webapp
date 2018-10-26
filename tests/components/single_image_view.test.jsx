@@ -8,6 +8,7 @@ import SingleImageView from 'components/single_image_view/single_image_view.jsx'
 
 describe('components/SingleImageView', () => {
     const baseProps = {
+        postId: 'original_post_id',
         fileInfo: {
             id: 'file_info_id',
             post_id: 'post_id',
@@ -143,6 +144,6 @@ describe('components/SingleImageView', () => {
 
         wrapper.instance().toggleEmbedVisibility();
         expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
-        expect(props.actions.toggleEmbedVisibility).toBeCalledWith('post_id');
+        expect(props.actions.toggleEmbedVisibility).toBeCalledWith('original_post_id');
     });
 });
