@@ -19,7 +19,7 @@ const CollapseLhsButton = ({
         className='navbar-toggle'
         data-toggle='collapse'
         data-target='#sidebar-nav'
-        onClick={() => toggleLhs()}
+        onClick={toggleLhs}
     >
         <span className='sr-only'>
             <FormattedMessage

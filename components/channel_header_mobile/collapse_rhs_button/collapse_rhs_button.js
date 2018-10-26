@@ -17,7 +17,7 @@ const CollapseRhsButton = ({
         className='navbar-toggle navbar-right__icon menu-toggle pull-right'
         data-toggle='collapse'
         data-target='#sidebar-nav'
-        onClick={() => toggleRhsMenu()}
+        onClick={toggleRhsMenu}
     >
         <MenuIcon/>
     </button>
