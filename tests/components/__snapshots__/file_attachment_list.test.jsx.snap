@@ -89,13 +89,6 @@ exports[`components/FileAttachmentList should match snapshot, single image view 
     }
   }
   isEmbedVisible={false}
-  post={
-    Object {
-      "file_ids": Array [
-        "file_id_1",
-      ],
-      "id": "post_id",
-    }
-  }
+  postId="post_id"
 />
 `;
