@@ -10,3 +10,7 @@ tests/reports
 mattermost-webapp.iml
 .vscode/
 rust/target
+rust/bin
+rust/pkg
+rust/*.log
+

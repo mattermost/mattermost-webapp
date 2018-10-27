@@ -11,6 +11,7 @@ const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -233,13 +234,13 @@ var config = {
         modules: [
             'node_modules',
             'non_npm_dependencies',
-            'rust/output',
+            'rust/pkg',
             path.resolve(__dirname),
         ],
         alias: {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
-            rust: 'rust/output',
+            rust: 'rust/pkg',
         },
         extensions: ['.js', '.jsx', '.wasm'],
     },
@@ -248,10 +249,15 @@ var config = {
     },
     target: 'web',
     plugins: [
+        new WasmPackPlugin({
+            crateDirectory: path.resolve(__dirname, 'rust'),
+        }),
         new webpack.ProvidePlugin({
             'window.jQuery': 'jquery',
             $: 'jquery',
             jQuery: 'jquery',
+            TextDecoder: ['text-encoding', 'TextDecoder'],
+            TextEncoder: ['text-encoding', 'TextEncoder'],
         }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),

@@ -266,7 +266,7 @@ export default class Root extends React.Component {
     }
 
     render() {
-        if (this.state.translations == null || this.state.configLoaded === false || this.state.wasmReady === false) {
+        if (this.state.configLoaded === false || this.state.wasmReady === false) {
             return <div/>;
         }
 
