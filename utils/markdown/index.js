@@ -23,11 +23,16 @@ export function formatWithRenderer(text, renderer, options) {
     };
 
     let result = '';
-    if (window.wasmSupported) {
-        result = window.wasm.domarkdown('faces');//text, 'yourface');
+
+    /*if (window.wasmSupported) {
+        result = window.wasm.domarkdown(text, options);
     } else {
         result = marked(text, markdownOptions);
-    }
+    }*/
+
+    result = marked(text, markdownOptions);
+
+    result += window.wasm.domarkdown(text, options);
 
     return result;
 }

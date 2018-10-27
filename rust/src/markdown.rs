@@ -2,17 +2,19 @@ extern crate pulldown_cmark;
 
 use self::pulldown_cmark::Parser;
 
-use ::wasm_bindgen::prelude::*;
+use wasm_bindgen::prelude::*;
 
 use std::borrow::Cow;
 use std::collections::HashMap;
 use std::fmt::Write;
-use std::str::from_utf8;
 use std::iter::Peekable;
+use std::str::from_utf8;
 
-use self::pulldown_cmark::{Event, Tag};
-use self::pulldown_cmark::Event::{Start, End, Text, Html, InlineHtml, SoftBreak, HardBreak, FootnoteReference};
 use self::pulldown_cmark::Alignment;
+use self::pulldown_cmark::Event::{
+    End, FootnoteReference, HardBreak, Html, InlineHtml, SoftBreak, Start, Text,
+};
+use self::pulldown_cmark::{Event, Tag};
 
 pub fn parse(markdown: &str, options: &JsValue) -> String {
     let parser = Parser::new_ext(markdown, self::pulldown_cmark::OPTION_ENABLE_TABLES);
@@ -21,7 +23,6 @@ pub fn parse(markdown: &str, options: &JsValue) -> String {
     push_html(&mut result, parser, options);
     result
 }
-
 
 enum TableState {
     Head,
@@ -39,7 +40,8 @@ struct Ctx<'b, I: Iterator> {
     options: &'b JsValue,
 }
 
-impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
+// Renderer based on the renderer from pulldown_cmark
+impl<'a, 'b, I: Iterator<Item = Event<'a>>> Ctx<'b, I> {
     fn fresh_line(&mut self) {
         if !(self.buf.is_empty() || self.buf.ends_with('\n')) {
             self.buf.push('\n');
@@ -78,33 +80,35 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
                                 self.process_text(&text_buf, false);
                                 self.buf.push_str("\"></div>");
                             }
-                            _ => self.buf.push_str(&::doHighlight(&self.code_block_lang, &text_buf)),
+                            _ => self
+                                .buf
+                                .push_str(&::doHighlight(&self.code_block_lang, &text_buf)),
                         }
                     } else {
                         self.process_text(&text_buf, true);
                     }
                     text_buf.clear()
                 }
-                Html(html) |
-                InlineHtml(html) => self.buf.push_str(&html),
+                Html(html) | InlineHtml(html) => self.buf.push_str(&html),
                 SoftBreak => self.buf.push('\n'),
                 HardBreak => self.buf.push('\n'),
                 FootnoteReference(name) => {
                     let len = numbers.len() + 1;
-                    self.buf.push_str("<sup class=\"footnote-reference\"><a href=\"#");
+                    self.buf
+                        .push_str("<sup class=\"footnote-reference\"><a href=\"#");
                     self.process_text(&*name, false);
                     self.buf.push_str("\">");
                     let number = numbers.entry(name).or_insert(len);
                     self.buf.push_str(&*format!("{}", number));
                     self.buf.push_str("</a></sup>");
-                },
+                }
             }
         }
     }
 
     fn start_tag(&mut self, tag: Tag<'a>, numbers: &mut HashMap<Cow<'a, str>, usize>) {
         match tag {
-            Tag::Paragraph =>  {
+            Tag::Paragraph => {
                 self.fresh_line();
                 self.buf.push_str("<p>");
             }
@@ -120,7 +124,8 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
             }
             Tag::Table(alignments) => {
                 self.table_alignments = alignments;
-                self.buf.push_str("<div class=\"table-responsive\"><table class=\"markdown__table\">");
+                self.buf
+                    .push_str("<div class=\"table-responsive\"><table class=\"markdown__table\">");
             }
             Tag::TableHead => {
                 self.table_state = TableState::Head;
@@ -153,9 +158,15 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
                 let lang = info.split(' ').next().unwrap();
                 self.code_block_lang = String::from(lang);
                 if lang.is_empty() {
-                    self.buf.push_str("<div class=\"post-code post-code--wrap\"><code class=\"hljs\">");
+                    self.buf
+                        .push_str("<div class=\"post-code post-code--wrap\"><code class=\"hljs\">");
                 } else if lang != "tex" && lang != "latex" {
-                    self.buf.push_str(&("<div class =\"post-code\"><span class=\"post-code__language\">".to_owned() + lang + "</span><code class=\"language-"));
+                    self.buf.push_str(
+                        &("<div class =\"post-code\"><span class=\"post-code__language\">"
+                            .to_owned()
+                            + lang
+                            + "</span><code class=\"language-"),
+                    );
                     self.process_text(lang, false);
                     self.buf.push_str("\">");
                 }
@@ -178,7 +189,11 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
             }
             Tag::Emphasis => self.buf.push_str("<em>"),
             Tag::Strong => self.buf.push_str("<strong>"),
-            Tag::Code => self.buf.push_str("<span class=\"codespan__pre-wrap\"><code>"),
+            Tag::Code => {
+                self.inside_code_bloc = true;
+                self.buf
+                    .push_str("<span class=\"codespan__pre-wrap\"><code>");
+            }
             Tag::Link(dest, title) => {
                 self.buf.push_str("<a href=\"");
                 escape_href(self.buf, &dest);
@@ -202,9 +217,11 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
             Tag::FootnoteDefinition(name) => {
                 self.fresh_line();
                 let len = numbers.len() + 1;
-                self.buf.push_str("<div class=\"footnote-definition\" id=\"");
+                self.buf
+                    .push_str("<div class=\"footnote-definition\" id=\"");
                 self.process_text(&*name, false);
-                self.buf.push_str("\"><sup class=\"footnote-definition-label\">");
+                self.buf
+                    .push_str("\"><sup class=\"footnote-definition-label\">");
                 let number = numbers.entry(name).or_insert(len);
                 self.buf.push_str(&*format!("{}", number));
                 self.buf.push_str("</sup>");
@@ -250,7 +267,10 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
             Tag::Item => self.buf.push_str("</li>\n"),
             Tag::Emphasis => self.buf.push_str("</em>"),
             Tag::Strong => self.buf.push_str("</strong>"),
-            Tag::Code => self.buf.push_str("</code></span>"),
+            Tag::Code => {
+                self.inside_code_bloc = false;
+                self.buf.push_str("</code></span>")
+            }
             Tag::Link(_, _) => self.buf.push_str("</a>"),
             Tag::Image(_, _) => (), // shouldn't happen, handled in start
             Tag::FootnoteDefinition(_) => self.buf.push_str("</div>\n"),
@@ -272,7 +292,9 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
             match event {
                 Start(_) => nest += 1,
                 End(_) => {
-                    if nest == 0 { break; }
+                    if nest == 0 {
+                        break;
+                    }
                     nest -= 1;
                 }
                 Text(text) => self.process_text(&text, false),
@@ -316,7 +338,7 @@ impl<'a, 'b, I: Iterator<Item=Event<'a>>> Ctx<'b, I> {
 /// </ul>
 /// "#);
 /// ```
-pub fn push_html<'a, I: Iterator<Item=Event<'a>>>(buf: &mut String, iter: I, options: &JsValue) {
+pub fn push_html<'a, I: Iterator<Item = Event<'a>>>(buf: &mut String, iter: I, options: &JsValue) {
     let mut ctx = Ctx {
         iter: iter.peekable(),
         buf: buf,
@@ -331,15 +353,11 @@ pub fn push_html<'a, I: Iterator<Item=Event<'a>>>(buf: &mut String, iter: I, opt
 }
 
 static HREF_SAFE: [u8; 128] = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
-        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-    ];
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+];
 
 static HEX_CHARS: &'static [u8] = b"0123456789ABCDEF";
 
@@ -357,10 +375,10 @@ pub fn escape_href(ob: &mut String, s: &str) {
             match c {
                 b'&' => {
                     ob.push_str("&amp;");
-                },
+                }
                 b'\'' => {
                     ob.push_str("&#x27;");
-                },
+                }
                 _ => {
                     let mut buf = [0u8; 3];
                     buf[0] = b'%';
@@ -369,39 +387,24 @@ pub fn escape_href(ob: &mut String, s: &str) {
                     ob.push_str(from_utf8(&buf).unwrap());
                 }
             }
-            mark = i + 1;  // all escaped characters are ASCII
+            mark = i + 1; // all escaped characters are ASCII
         }
     }
     ob.push_str(&s[mark..]);
 }
 
 static HTML_ESCAPE_TABLE: [u8; 256] = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 5, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ];
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 5, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+];
 
-static HTML_ESCAPES: [&'static str; 6] = [
-        "",
-        "&quot;",
-        "&amp;",
-        "&#47;",
-        "&lt;",
-        "&gt;"
-    ];
+static HTML_ESCAPES: [&'static str; 6] = ["", "&quot;", "&amp;", "&#47;", "&lt;", "&gt;"];
 
 pub fn escape_html(ob: &mut String, s: &str, secure: bool) {
     let size = s.len();
@@ -409,18 +412,21 @@ pub fn escape_html(ob: &mut String, s: &str, secure: bool) {
     let mut mark = 0;
     let mut i = 0;
     while i < size {
-        match bytes[i..].iter().position(|&c| HTML_ESCAPE_TABLE[c as usize] != 0) {
+        match bytes[i..]
+            .iter()
+            .position(|&c| HTML_ESCAPE_TABLE[c as usize] != 0)
+        {
             Some(pos) => {
                 i += pos;
             }
-            None => break
+            None => break,
         }
         let c = bytes[i];
         let escape = HTML_ESCAPE_TABLE[c as usize];
         if escape != 0 && (secure || c != b'/') {
             ob.push_str(&s[mark..i]);
             ob.push_str(HTML_ESCAPES[escape as usize]);
-            mark = i + 1;  // all escaped characters are ASCII
+            mark = i + 1; // all escaped characters are ASCII
         }
         i += 1;
     }

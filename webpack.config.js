@@ -251,13 +251,12 @@ var config = {
     plugins: [
         new WasmPackPlugin({
             crateDirectory: path.resolve(__dirname, 'rust'),
+            extraArgs: '--target browser --no-typescript',
         }),
         new webpack.ProvidePlugin({
             'window.jQuery': 'jquery',
             $: 'jquery',
             jQuery: 'jquery',
-            TextDecoder: ['text-encoding', 'TextDecoder'],
-            TextEncoder: ['text-encoding', 'TextEncoder'],
         }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
