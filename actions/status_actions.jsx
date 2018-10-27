@@ -11,18 +11,19 @@ import {Constants} from 'utils/constants.jsx';
 
 export function loadStatusesForChannelAndSidebar() {
     return (dispatch, getState) => {
+        const state = getState();
         const statusesToLoad = {};
 
-        const channelId = getCurrentChannelId(getState());
-        const postsInChannel = getPostsInCurrentChannel(getState());
-        const posts = postsInChannel.slice(0, getState().views.channel.postVisibility[channelId] || 0);
+        const channelId = getCurrentChannelId(state);
+        const postsInChannel = getPostsInCurrentChannel(state);
+        const posts = postsInChannel.slice(0, state.views.channel.postVisibility[channelId] || 0);
         for (const post of posts) {
             if (post.user_id) {
                 statusesToLoad[post.user_id] = true;
             }
         }
 
-        const dmPrefs = getDirectShowPreferences(getState());
+        const dmPrefs = getDirectShowPreferences(state);
 
         for (const pref of dmPrefs) {
             if (pref.value === 'true') {
@@ -30,7 +31,7 @@ export function loadStatusesForChannelAndSidebar() {
             }
         }
 
-        const {currentUserId} = getState().entities.users;
+        const {currentUserId} = state.entities.users;
         statusesToLoad[currentUserId] = true;
 
         dispatch(loadStatusesByIds(Object.keys(statusesToLoad)));
