@@ -47,7 +47,7 @@ describe('ManageTeamsModal', () => {
         expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledWith('currentUserId');
     });
 
-    test('should save data in state from api calls', async () => {
+    test('should save data in state from api calls', (done) => {
         const mockTeamData = {
             id: '123test',
             name: 'testTeam',
@@ -55,13 +55,13 @@ describe('ManageTeamsModal', () => {
             delete_at: 0,
         };
 
-        const getTeamMembersForUser = async () => {
+        const getTeamMembersForUser = () => {
             return {
                 data: [{team_id: '123test'}],
             };
         };
 
-        const getTeamsForUser = async () => {
+        const getTeamsForUser = () => {
             return {
                 data: [mockTeamData],
             };
@@ -80,10 +80,11 @@ describe('ManageTeamsModal', () => {
             <ManageTeamsModal {...props}/>
         );
 
-        await getTeamMembersForUser();
-
-        expect(wrapper.state('teams')).toEqual([mockTeamData]);
-        expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
-        expect(wrapper).toMatchSnapshot();
+        process.nextTick(() => {
+            expect(wrapper.state('teams')).toEqual([mockTeamData]);
+            expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
+            expect(wrapper).toMatchSnapshot();
+            done();
+        });
     });
 });
