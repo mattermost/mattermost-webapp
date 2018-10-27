@@ -376,8 +376,10 @@ export default class SuggestionBox extends React.Component {
         let selectionIndex = this.state.terms.indexOf(this.state.selection);
 
         if (selectionIndex === -1) {
-            // this should never happen since selection should always be in terms
-            throw new Error('selection is not in terms');
+            this.setState({
+                selection: '',
+            });
+            return;
         }
 
         selectionIndex += delta;
@@ -440,7 +442,7 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    handleRecievedSuggestions = (suggestions) => {
+    handleReceivedSuggestions = (suggestions) => {
         const newComponents = [];
         const newPretext = [];
         for (let i = 0; i < suggestions.terms.length; i++) {
@@ -473,7 +475,7 @@ export default class SuggestionBox extends React.Component {
         this.pretext = pretext;
         let handled = false;
         for (const provider of this.props.providers) {
-            handled = provider.handlePretextChanged(pretext, this.handleRecievedSuggestions) || handled;
+            handled = provider.handlePretextChanged(pretext, this.handleReceivedSuggestions) || handled;
 
             if (handled) {
                 if (provider.constructor.name === 'SearchDateProvider') {
