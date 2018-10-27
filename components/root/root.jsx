@@ -80,7 +80,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
-const loadWasm = import('rust/mattermost_client_rust.js');
+const loadWasm = import('rust/mattermost_markdown.js');
 
 export default class Root extends React.Component {
     static propTypes = {

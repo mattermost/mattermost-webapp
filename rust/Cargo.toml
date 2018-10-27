@@ -1,5 +1,5 @@
 [package]
-name = "mattermost-client-rust"
+name = "mattermost-markdown"
 version = "0.1.0"
 authors = ["Christopher Speller <crspeller@gmail.com>"]
 
