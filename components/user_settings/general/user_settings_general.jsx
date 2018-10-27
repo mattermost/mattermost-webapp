@@ -9,7 +9,6 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -121,18 +120,8 @@ class UserSettingsGeneralTab extends React.Component {
         this.state = this.setupInitialState(props);
     }
 
-    handleEmailVerificationError = () => {
-        ErrorStore.storeLastError({
-            notification: true,
-            message: Constants.AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED,
-        });
-        ErrorStore.emitChange();
-    }
-
     handleEmailResend = (email) => {
-        this.setState({resendStatus: 'sending', showSpinner: true}, () => {
-            this.handleEmailVerificationError();
-        });
+        this.setState({resendStatus: 'sending', showSpinner: true});
         this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
             if (data) {
                 this.setState({resendStatus: 'success'});
@@ -168,8 +157,6 @@ class UserSettingsGeneralTab extends React.Component {
                             setTimeout(() => {
                                 this.setState({
                                     showSpinner: false,
-                                }, () => {
-                                    this.handleEmailVerificationError();
                                 });
                             }, 500);
                         }}
@@ -281,7 +268,6 @@ class UserSettingsGeneralTab extends React.Component {
                 this.props.actions.getMe();
                 const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
                 if (verificationEnabled) {
-                    this.handleEmailVerificationError();
                     this.setState({emailChangeInProgress: true});
                 }
             },

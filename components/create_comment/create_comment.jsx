@@ -158,6 +158,11 @@ export default class CreateComment extends React.PureComponent {
         enableGifPicker: PropTypes.bool.isRequired,
 
         /**
+         * Set if the connection may be bad to warn user
+         */
+        badConnection: PropTypes.bool.isRequired,
+
+        /**
          * The maximum length of a post
          */
         maxPostSize: PropTypes.number.isRequired,
@@ -785,6 +790,7 @@ export default class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                badConnection={this.props.badConnection}
                             />
                             <span
                                 ref='createCommentControls'

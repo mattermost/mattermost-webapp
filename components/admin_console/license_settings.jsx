@@ -8,7 +8,6 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -83,7 +82,6 @@ class LicenseSettings extends React.Component {
             () => {
                 $('#remove-button').button('reset');
                 this.setState({fileSelected: false, fileName: null, serverError: null});
-                ErrorStore.clearLastError(true);
                 window.location.reload(true);
             },
             (error) => {

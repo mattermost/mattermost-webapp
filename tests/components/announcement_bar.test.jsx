@@ -24,6 +24,7 @@ describe('components/AnnouncementBar', () => {
         bannerColor: 'green',
         bannerTextColor: 'black',
         enableSignUpWithGitLab: false,
+        message: 'text',
         actions: {
             sendVerificationEmail: jest.fn(),
         },
@@ -84,10 +85,6 @@ describe('components/AnnouncementBar', () => {
         );
 
         // Banner should show
-        expect(wrapper).toMatchSnapshot();
-
-        // Banner should hide
-        wrapper.find('a').simulate('click');
         expect(wrapper).toMatchSnapshot();
 
         // Banner should remain hidden

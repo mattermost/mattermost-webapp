@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
@@ -24,6 +25,8 @@ import {
     removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+
+import {connectionErrorCount} from 'selectors/views/system';
 
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
 import {createPost, setEditingPost} from 'actions/post_actions.jsx';
@@ -56,6 +59,7 @@ function mapStateToProps() {
         const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
         const currentUserId = getCurrentUserId(state);
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
+        const badConnection = connectionErrorCount(state) > 1;
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -82,6 +86,7 @@ function mapStateToProps() {
             userIsOutOfOffice,
             rhsExpanded: getIsRhsExpanded(state),
             emojiMap: getEmojiMap(state),
+            badConnection,
         };
     };
 }
