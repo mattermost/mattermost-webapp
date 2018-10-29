@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 
@@ -29,6 +28,7 @@ export default class AddUsersToTeam extends React.Component {
             setModalSearchTerm: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
             addUsersToTeam: PropTypes.func.isRequired,
+            loadStatusesForProfilesList: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -67,7 +67,7 @@ export default class AddUsersToTeam extends React.Component {
                     this.setUsersLoadingState(true);
                     const {data} = await this.props.actions.searchProfiles(searchTerm, {not_in_team_id: this.props.currentTeamId});
                     if (data) {
-                        loadStatusesForProfilesList(data);
+                        this.props.actions.loadStatusesForProfilesList(data);
                     }
                     this.setUsersLoadingState(false);
                 },

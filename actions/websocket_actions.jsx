@@ -130,7 +130,7 @@ export function reconnect(includeWebSocket = true) {
     if (currentTeamId) {
         loadChannelsForCurrentUser();
         getPosts(ChannelStore.getCurrentId())(dispatch, getState);
-        StatusActions.loadStatusesForChannelAndSidebar();
+        dispatch(StatusActions.loadStatusesForChannelAndSidebar());
         TeamActions.getMyTeamUnreads()(dispatch, getState);
     }
 

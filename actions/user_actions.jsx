@@ -44,7 +44,7 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
 export async function loadProfilesAndTeamMembers(page, perPage, teamId = getCurrentTeamId(getState()), success) {
     const {data} = await UserActions.getProfilesInTeam(teamId, page, perPage)(dispatch, getState);
     loadTeamMembersForProfilesList(data, teamId, success);
-    loadStatusesForProfilesList(data);
+    dispatch(loadStatusesForProfilesList(data));
 }
 
 export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
@@ -55,7 +55,7 @@ export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage,
         teamId,
         () => {
             loadChannelMembersForProfilesList(data, channelId, success, error);
-            loadStatusesForProfilesList(data);
+            dispatch(loadStatusesForProfilesList(data));
         }
     );
 }
@@ -84,7 +84,7 @@ export function loadTeamMembersForProfilesList(profiles, teamId = getCurrentTeam
 
 export async function loadProfilesWithoutTeam(page, perPage, success) {
     const {data} = await UserActions.getProfilesWithoutTeam(page, perPage)(dispatch, getState);
-    loadStatusesForProfilesMap(data);
+    dispatch(loadStatusesForProfilesMap(data));
 
     if (success) {
         success(data);
@@ -342,7 +342,7 @@ function onThemeSaved(teamId, onSuccess) {
 
 export async function searchUsers(term, teamId = getCurrentTeamId(getState()), options = {}, success) {
     const {data} = await UserActions.searchProfiles(term, {team_id: teamId, ...options})(dispatch, getState);
-    loadStatusesForProfilesList(data);
+    dispatch(loadStatusesForProfilesList(data));
 
     if (success) {
         success(data);

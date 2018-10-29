@@ -10,6 +10,7 @@ import {getProfilesInCurrentTeam, searchProfilesInCurrentTeam} from 'mattermost-
 import {Permissions} from 'mattermost-redux/constants';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MemberListTeam from './member_list_team.jsx';
@@ -35,6 +36,7 @@ function mapStateToProps(state, ownProps) {
         currentTeamId: state.entities.teams.currentTeamId,
         totalTeamMembers: stats.active_member_count,
         canManageTeamMembers,
+        loadStatusesForProfilesList,
     };
 }
 
