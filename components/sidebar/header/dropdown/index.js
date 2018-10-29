@@ -24,7 +24,6 @@ function mapStateToProps(state) {
     const enableCustomEmoji = config.EnableCustomEmoji === 'true';
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
-    const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
     const enableTeamCreation = config.EnableTeamCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
@@ -53,7 +52,6 @@ function mapStateToProps(state) {
         enableCustomEmoji,
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
-        enableOnlyAdminIntegrations,
         enableOutgoingWebhooks,
         enableTeamCreation,
         enableUserCreation,
