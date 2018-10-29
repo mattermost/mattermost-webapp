@@ -80,6 +80,7 @@ export default class SelectTeam extends React.Component {
         }
     }
 
+    // Is there a reason we are doing this rather than just using `haveISystemPermission(me, CREATE_TEAM)`?
     loadPoliciesIntoState = (roles) => {
         // Purposely parsing boolean from string 'true' or 'false'
         // because the string comes from the policy roles adapter mapping.

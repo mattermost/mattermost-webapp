@@ -25,7 +25,6 @@ function mapStateToProps(state) {
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enableTeamCreation = config.EnableTeamCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
     const enableEmailInvitations = config.EnableEmailInvitations === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
@@ -53,7 +52,6 @@ function mapStateToProps(state) {
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
-        enableTeamCreation,
         enableUserCreation,
         enableEmailInvitations,
         experimentalPrimaryTeam,

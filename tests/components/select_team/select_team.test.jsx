@@ -26,7 +26,6 @@ jest.mock('utils/policy_roles_adapter', () => ({
 describe('components/select_team/SelectTeam', () => {
     const baseProps = {
         currentUserRoles: 'system_admin',
-        enableTeamCreation: true,
         isMemberOfTeam: true,
         joinableTeams: [
             {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A'},
@@ -72,7 +71,7 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should match snapshot, on no joinable team and is not system admin nor can create team', () => {
-        const props = {...baseProps, joinableTeams: [], currentUserRoles: '', enableTeamCreation: false};
+        const props = {...baseProps, joinableTeams: [], currentUserRoles: ''};
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

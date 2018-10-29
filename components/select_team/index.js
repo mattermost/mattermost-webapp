@@ -23,7 +23,6 @@ function mapStateToProps(state) {
         currentUserRoles: currentUser.roles || '',
         customDescriptionText: config.CustomDescriptionText,
         roles: getRoles(state),
-        enableTeamCreation: config.EnableTeamCreation === 'true',
         isMemberOfTeam: myTeamMemberships && myTeamMemberships.length > 0,
         joinableTeams: getSortedJoinableTeams(state, currentUser.locale),
         siteName: config.SiteName,

@@ -25,7 +25,6 @@ function mapStateToProps(state) {
 
     const isLicensed = license.IsLicensed === 'true';
     const appDownloadLink = config.AppDownloadLink;
-    const enableTeamCreation = config.EnableTeamCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
@@ -43,7 +42,6 @@ function mapStateToProps(state) {
         showTutorialTip: enableTutorial && isMobile() && tutorialStep === TutorialSteps.MENU_POPOVER,
         isLicensed,
         appDownloadLink,
-        enableTeamCreation,
         enableUserCreation,
         experimentalPrimaryTeam,
         helpLink,
