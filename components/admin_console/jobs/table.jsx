@@ -22,14 +22,6 @@ class JobTable extends React.PureComponent {
          */
         jobs: PropTypes.arrayOf(PropTypes.object).isRequired,
 
-        actions: PropTypes.shape({
-
-            /**
-             * Function to fetch jobs
-             */
-            getJobsByType: PropTypes.func.isRequired,
-        }).isRequired,
-
         /**
          * Function called when displaying extra text.
          */
@@ -54,6 +46,16 @@ class JobTable extends React.PureComponent {
          * The type of jobs to include in this table.
          */
         jobType: PropTypes.string.isRequired,
+
+        actions: PropTypes.shape({
+
+            /**
+             * Function to fetch jobs
+             */
+            getJobsByType: PropTypes.func.isRequired,
+            cancelJob: PropTypes.func.isRequired,
+            createJob: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -266,37 +268,21 @@ class JobTable extends React.PureComponent {
         );
     };
 
-    handleCancelJob = (e) => {
+    handleCancelJob = async (e) => {
         e.preventDefault();
         const jobId = e.currentTarget.getAttribute('data-job-id');
-
-        cancelJob(
-            jobId,
-            () => {
-                this.reload();
-            },
-            () => {
-                this.reload();
-            }
-        );
+        await this.props.actions.cancelJob(jobId);
+        this.reload();
     };
 
-    handleCreateJob = (e) => {
+    handleCreateJob = async (e) => {
         e.preventDefault();
-
         const job = {
             type: this.props.jobType,
         };
 
-        createJob(
-            job,
-            () => {
-                this.reload();
-            },
-            () => {
-                this.reload();
-            }
-        );
+        await this.props.actions.createJob(job);
+        this.reload();
     };
 
     getCancelButton = (job) => {
