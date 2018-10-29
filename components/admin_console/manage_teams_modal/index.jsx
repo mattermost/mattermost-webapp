@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import {updateTeamMemberSchemeRoles, getTeamMembersForUser, getTeamsForUser} from 'mattermost-redux/actions/teams';
 
 import {getCurrentLocale} from 'selectors/i18n';
 
@@ -13,4 +16,14 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ManageTeamsModal);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getTeamMembersForUser,
+            getTeamsForUser,
+            updateTeamMemberSchemeRoles,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageTeamsModal);

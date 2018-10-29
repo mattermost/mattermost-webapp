@@ -26,6 +26,8 @@ describe('components/admin_console/system_users/list', () => {
         actions: {
             getUser: jest.fn(),
             updateTeamMemberSchemeRoles: jest.fn(),
+            getTeamMembersForUser: jest.fn(),
+            getTeamsForUser: jest.fn(),
         },
     };
 

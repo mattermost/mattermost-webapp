@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManageTeamsModal should match snapshot init 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="manage-teams"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Manage Teams"
+        id="admin.user_item.manageTeams"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div>
+      <div
+        className="manage-teams__user"
+      >
+        <img
+          className="manage-teams__profile-picture"
+          src="/api/v4/users/currentUserId/image?_=1234"
+        />
+        <div
+          className="manage-teams__info"
+        >
+          <div
+            className="manage-teams__name"
+          >
+            @currentUsername
+          </div>
+          <div
+            className="manage-teams__email"
+          >
+            currentUser@test.com
+          </div>
+        </div>
+      </div>
+      <div
+        className="manage-teams__teams"
+      >
+        <LoadingScreen
+          position="relative"
+          style={Object {}}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`ManageTeamsModal should save data in state from api calls 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="manage-teams"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Manage Teams"
+        id="admin.user_item.manageTeams"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div>
+      <div
+        className="manage-teams__user"
+      >
+        <img
+          className="manage-teams__profile-picture"
+          src="/api/v4/users/currentUserId/image?_=1234"
+        />
+        <div
+          className="manage-teams__info"
+        >
+          <div
+            className="manage-teams__name"
+          >
+            @currentUsername
+          </div>
+          <div
+            className="manage-teams__email"
+          >
+            currentUser@test.com
+          </div>
+        </div>
+      </div>
+      <div
+        className="manage-teams__teams"
+      >
+        <div
+          className="manage-teams__team"
+          key="123test"
+        >
+          <div
+            className="manage-teams__team-name"
+          >
+            testTeam
+          </div>
+          <div
+            className="manage-teams__team-actions"
+          >
+            <ManageTeamsDropdown
+              onError={[Function]}
+              onMemberChange={[Function]}
+              onMemberRemove={[Function]}
+              team={
+                Object {
+                  "delete_at": 0,
+                  "display_name": "testTeam",
+                  "id": "123test",
+                  "name": "testTeam",
+                }
+              }
+              teamMember={
+                Object {
+                  "team_id": "123test",
+                }
+              }
+              updateTeamMemberSchemeRoles={[Function]}
+              user={
+                Object {
+                  "email": "currentUser@test.com",
+                  "id": "currentUserId",
+                  "last_picture_update": "1234",
+                  "roles": "system_user",
+                  "username": "currentUsername",
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
