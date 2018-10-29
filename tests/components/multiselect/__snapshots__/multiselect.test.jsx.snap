@@ -21,12 +21,13 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
+        inputValue=""
         isClearable={false}
         isMulti={true}
         onChange={[Function]}
         onInputChange={[Function]}
         onKeyDown={[Function]}
-        openMenuOnFocus={true}
+        openMenuOnFocus={false}
         options={
           Array [
             Object {
@@ -178,12 +179,13 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
+        inputValue=""
         isClearable={false}
         isMulti={true}
         onChange={[Function]}
         onInputChange={[Function]}
         onKeyDown={[Function]}
-        openMenuOnFocus={true}
+        openMenuOnFocus={false}
         options={
           Array [
             Object {
