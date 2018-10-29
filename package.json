@@ -164,8 +164,8 @@
     "output": "build/test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet --fix",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ignore-pattern rust --ext .js --ext .jsx . --quiet",
+    "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ignore-pattern rust --ext .js --ext .jsx . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "cross-env NODE_ENV=production webpack --progress --watch",
     "run-fullmap": "webpack --progress --watch",
