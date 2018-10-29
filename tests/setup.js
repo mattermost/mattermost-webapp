@@ -65,3 +65,21 @@ afterEach(() => {
         throw new Error('Unexpected console logs' + logs + warns + errors);
     }
 });
+
+expect.extend({
+    arrayContainingExactly(received, actual) {
+        const pass = received.sort().join(',') === actual.sort().join(',');
+        if (pass) {
+            return {
+                message: () =>
+                    `expected ${received} to not contain the exact same values as ${actual}`,
+                pass: true,
+            };
+        }
+        return {
+            message: () =>
+                `expected ${received} to not contain the exact same values as ${actual}`,
+            pass: false,
+        };
+    },
+});

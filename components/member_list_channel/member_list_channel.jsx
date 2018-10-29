@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList} from 'actions/user_actions.jsx';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -28,6 +27,7 @@ export default class MemberListChannel extends React.PureComponent {
             searchProfiles: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
+            loadStatusesForProfilesList: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -71,7 +71,7 @@ export default class MemberListChannel extends React.PureComponent {
 
                     this.setState({loading: true});
 
-                    loadStatusesForProfilesList(data);
+                    this.props.actions.loadStatusesForProfilesList(data);
                     loadTeamMembersAndChannelMembersForProfilesList(data, nextProps.currentTeamId, nextProps.currentChannelId, this.loadComplete);
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS

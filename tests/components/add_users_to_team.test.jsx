@@ -9,10 +9,6 @@ import AddUsersToTeam from 'components/add_users_to_team/add_users_to_team.jsx';
 
 jest.useFakeTimers();
 
-jest.mock('actions/status_actions.jsx', () => ({
-    loadStatusesForProfilesList: jest.fn(),
-}));
-
 describe('components/AddUsersToTeam', () => {
     const baseProps = {
         currentTeamId: 'current_team_id',
@@ -37,6 +33,11 @@ describe('components/AddUsersToTeam', () => {
                 });
             }),
             addUsersToTeam: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+            loadStatusesForProfilesList: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });

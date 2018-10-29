@@ -6,7 +6,7 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {loadStatusesForChannelAndSidebar, startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
+import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -42,6 +42,7 @@ export default class NeedsTeam extends React.Component {
             joinTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
             setPreviousTeamId: PropTypes.func.isRequired,
+            loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -189,7 +190,7 @@ export default class NeedsTeam extends React.Component {
             }
         );
 
-        loadStatusesForChannelAndSidebar();
+        this.props.actions.loadStatusesForChannelAndSidebar();
         loadProfilesForSidebar();
 
         return team;

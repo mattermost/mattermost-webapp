@@ -9,7 +9,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
@@ -53,6 +52,7 @@ export default class MoreDirectChannels extends React.Component {
             searchProfiles: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
             getTotalUsersStats: PropTypes.func.isRequired,
+            loadStatusesForProfilesList: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -105,7 +105,7 @@ export default class MoreDirectChannels extends React.Component {
                         this.setUsersLoadingState(true);
                         const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: teamId});
                         if (data) {
-                            loadStatusesForProfilesList(data);
+                            this.props.actions.loadStatusesForProfilesList(data);
                             this.resetPaging();
                         }
                         this.setUsersLoadingState(false);

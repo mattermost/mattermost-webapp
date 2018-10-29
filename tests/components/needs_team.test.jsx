@@ -43,6 +43,7 @@ const actionsProp = {
     joinTeam: emptyFunction,
     selectTeam: emptyFunction,
     setPreviousTeamId: emptyFunction,
+    loadStatusesForChannelAndSidebar: emptyFunction,
 };
 
 const teamsList = [{
