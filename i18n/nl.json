@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Deactivating your account removes your ability to log in to this server and disables all email and mobile notifications. To reactivate your account, contact your System Administrator.",
   "user.settings.advance.deactivateDescShort": "Click 'Edit' to deactivate your account",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Feature} other {Features}} Ingeschakeld",
-  "user.settings.advance.formattingDesc": "Indien ingeschakeld, worden berichten opgemaakt met links, emoji, stijl van de tekst, en regeleinden toevoegen. Standaard is deze instelling ingeschakeld. Het wijzigen van deze instelling vereist dat de pagina vernieuwd wordt.",
+  "user.settings.advance.formattingDesc": "If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.",
   "user.settings.advance.formattingTitle": "Bericht opmaak inschakelen",
   "user.settings.advance.icon": "Geavanceerde instellingen",
   "user.settings.advance.joinLeaveDesc": "When \"On\", System Messages saying a user has joined or left a channel will be visible. When \"Off\", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification.",

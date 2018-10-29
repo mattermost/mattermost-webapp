@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "La desactivación de tu cuenta elimina la capacidad de iniciar sesión en este servidor y desactiva todos los correos electrónicos y notificaciones móviles. Para reactivar su cuenta, contacta a tu Administrador del Sistema.",
   "user.settings.advance.deactivateDescShort": "Clic 'Editar' para desactivar tu cuenta",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Característica} other {Caracteristicas}} Habilitadas",
-  "user.settings.advance.formattingDesc": "Si está activada, se dará formato a los mensajes, creando enlaces, mostrando emoticonos, el estilo del texto, y añadir saltos de línea. De forma predeterminada, esta opción está habilitada. El cambio de esta configuración requiere que la página se actualice.",
+  "user.settings.advance.formattingDesc": "Si está activada, los mensajes tendrán formato, con enlaces, mostrando emoticones, texto con estilo, y se añadirán saltos de línea. De forma predeterminada, esta opción está activada.",
   "user.settings.advance.formattingTitle": "Habilitar el Formato de Mensajes",
   "user.settings.advance.icon": "Icono de Configuración Avanzada",
   "user.settings.advance.joinLeaveDesc": "Cuando está \"Encendido\", un Mensaje del Sistema diciendo que un usuario se ha unido o abandonado el canal será visible. Cuando está \"Apagado\", los Mensajes de Sistema sobre los usuarios que se unen o abandonan el canal estarán ocultos. Un mensaje se seguirá mostrando cuando eres agregado a un canal, por lo que puedes recibir una notificación.",
