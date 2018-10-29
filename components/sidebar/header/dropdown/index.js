@@ -32,7 +32,6 @@ function mapStateToProps(state) {
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
-    const restrictTeamInvite = config.RestrictTeamInvite;
 
     let canCreateCustomEmoji = haveISystemPermission(state, {permission: Permissions.MANAGE_EMOJIS});
     if (!canCreateCustomEmoji) {
@@ -62,7 +61,6 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,
-        restrictTeamInvite,
         pluginMenuItems: state.plugins.components.MainMenu,
         canCreateCustomEmoji,
         moreTeamsToJoin,

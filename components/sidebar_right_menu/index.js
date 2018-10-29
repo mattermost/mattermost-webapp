@@ -30,7 +30,6 @@ function mapStateToProps(state) {
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
-    const restrictTeamInvite = config.RestrictTeamInvite;
     const siteName = config.SiteName;
 
     const joinableTeams = getJoinableTeamIds(state);
@@ -49,7 +48,6 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,
-        restrictTeamInvite,
         siteName,
         moreTeamsToJoin,
         pluginMenuItems: state.plugins.components.MainMenu,
