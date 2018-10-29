@@ -1648,6 +1648,8 @@
   "create_post.deactivated": "You are viewing an archived channel with a deactivated user.",
   "create_post.error_message": "Your message is too long. Character count: {length}/{limit}",
   "create_post.icon": "Send Post Icon",
+  "create_post.sendAsMessageLink": "Click here to send as a message.",
+  "create_post.invalidCommand": "Command with a trigger of '{command}' not found. {send_as_message}",
   "create_post.post": "Post",
   "create_post.read_only": "This channel is read-only. Only members with permission can post here.",
   "create_post.shortcutsNotSupported": "Keyboard shortcuts are not supported on your device.",
