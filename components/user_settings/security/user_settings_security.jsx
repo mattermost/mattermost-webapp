@@ -7,7 +7,7 @@ import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
-import {deactivateMfa, deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
+import {deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
@@ -79,6 +79,7 @@ export default class SecurityTab extends React.Component {
         militaryTime: PropTypes.bool,
 
         actions: PropTypes.shape({
+            deactivateMfa: PropTypes.func.isRequired,
             getMe: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -171,28 +172,30 @@ export default class SecurityTab extends React.Component {
     }
 
     removeMfa = () => {
-        deactivateMfa(
-            () => {
-                if (this.props.mfaLicensed &&
-                        this.props.enableMultifactorAuthentication &&
-                        this.props.enforceMultifactorAuthentication) {
-                    browserHistory.push('/mfa/setup');
-                    return;
+        this.props.actions.deactivateMfa(({error}) => {
+            if (error) {
+                const state = this.getDefaultState();
+
+                if (error.message) {
+                    state.serverError = error.message;
+                } else {
+                    state.serverError = error;
                 }
 
-                this.props.updateSection('');
-                this.setState(this.getDefaultState());
-            },
-            (err) => {
-                const state = this.getDefaultState();
-                if (err.message) {
-                    state.serverError = err.message;
-                } else {
-                    state.serverError = err;
-                }
                 this.setState(state);
+                return;
             }
-        );
+
+            if (this.props.mfaLicensed &&
+                    this.props.enableMultifactorAuthentication &&
+                    this.props.enforceMultifactorAuthentication) {
+                browserHistory.push('/mfa/setup');
+                return;
+            }
+
+            this.props.updateSection('');
+            this.setState(this.getDefaultState());
+        });
     }
 
     updateCurrentPassword = (e) => {

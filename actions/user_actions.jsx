@@ -392,15 +392,6 @@ export async function updateUser(user, success, error) {
     }
 }
 
-export async function generateMfaSecret(success, error) {
-    const {data, error: err} = await UserActions.generateMfaSecret(Selectors.getCurrentUserId(getState()))(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function updateUserNotifyProps(props, success, error) {
     const {data, error: err} = await UserActions.updateMe({notify_props: props})(dispatch, getState);
     if (data && success) {
@@ -412,24 +403,6 @@ export async function updateUserNotifyProps(props, success, error) {
 
 export async function updateUserRoles(userId, newRoles, success, error) {
     const {data, error: err} = await UserActions.updateUserRoles(userId, newRoles)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function activateMfa(code, success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), true, code)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function deactivateMfa(success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), false)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
