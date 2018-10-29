@@ -11,6 +11,11 @@ import {Constants, ActionTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
+jest.mock('mattermost-redux/actions/posts', () => ({
+    getPosts: (...args) => ({type: 'MOCK_GET_POSTS', args}),
+    getPostsBefore: (...args) => ({type: 'MOCK_GET_POSTS_BEFORE', args}),
+}));
+
 const RECEIVED_POSTS = {
     channelId: 'current_channel_id',
     data: {order: [], posts: {new_post_id: {channel_id: 'current_channel_id', id: 'new_post_id', message: 'new message', type: ''}}},
@@ -74,6 +79,10 @@ describe('Actions.Posts', () => {
             posts: {
                 editingPost: {},
             },
+            channel: {
+                loadingPosts: {},
+                postVisibility: {current_channel_id: 60},
+            },
         },
     };
 
@@ -127,5 +136,49 @@ describe('Actions.Posts', () => {
 
         await testStore.dispatch(Actions.hideEditPostModal());
         expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
+    });
+
+    test('increasePostVisibility', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id'));
+        expect(testStore.getActions()).toEqual([
+            {
+                meta: {batch: true},
+                payload: [
+                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
+                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
+        ]);
+
+        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id', 'latest_post_id'));
+        expect(testStore.getActions()).toEqual([
+            {
+                meta: {batch: true},
+                payload: [
+                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
+                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
+            {
+                meta: {batch: true},
+                payload: [
+                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
+                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+            {
+                args: ['current_channel_id', 'latest_post_id', 2, 30],
+                type: 'MOCK_GET_POSTS_BEFORE',
+            },
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'}]);
     });
 });

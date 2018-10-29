@@ -176,11 +176,12 @@ const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 // Returns true if there are more posts to load
 export function increasePostVisibility(channelId, focusedPostId) {
     return async (doDispatch, doGetState) => {
-        if (doGetState().views.channel.loadingPosts[channelId]) {
+        const state = doGetState();
+        if (state.views.channel.loadingPosts[channelId]) {
             return true;
         }
 
-        const currentPostVisibility = doGetState().views.channel.postVisibility[channelId];
+        const currentPostVisibility = state.views.channel.postVisibility[channelId];
 
         if (currentPostVisibility >= Constants.MAX_POST_VISIBILITY) {
             return true;
@@ -203,9 +204,9 @@ export function increasePostVisibility(channelId, focusedPostId) {
 
         let result;
         if (focusedPostId) {
-            result = await PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+            result = await doDispatch(PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT));
         } else {
-            result = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);
+            result = await doDispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
         }
         const posts = result.data;
 
