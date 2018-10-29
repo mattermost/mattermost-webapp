@@ -31,6 +31,9 @@ describe('components/login/LoginController', () => {
         ldapLoginFieldName: '',
         samlLoginButtonText: '',
         siteName: '',
+        actions: {
+            login: jest.fn(),
+        },
     };
 
     it('should match snapshot', () => {
