@@ -18,10 +18,10 @@ import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
+import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
@@ -188,7 +188,6 @@ export default class Root extends React.Component {
         const afterIntl = () => {
             initializePlugins();
 
-            this.redirectIfNecessary(this.props);
             this.setState({configLoaded: true});
         };
         if (global.Intl) {
@@ -220,8 +219,6 @@ export default class Root extends React.Component {
                 this.props.history.push('/signup_user_complete');
             } else if (props.showTermsOfService) {
                 this.props.history.push('/terms_of_service');
-            } else if (UserStore.getCurrentUser()) {
-                GlobalActions.redirectUserToDefaultTeam();
             }
         }
     }
@@ -231,10 +228,12 @@ export default class Root extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadMeAndConfig().then(() => {
+        this.props.actions.loadMeAndConfig().then((response) => {
+            if (response[2] && response[2].data) {
+                GlobalActions.redirectUserToDefaultTeam();
+            }
             this.onConfigLoaded();
         });
-
         trackLoadTime();
     }
 

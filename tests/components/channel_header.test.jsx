@@ -26,8 +26,6 @@ describe('components/ChannelHeader', () => {
         channel: {},
         channelMember: {},
         currentUser: {},
-        enableWebrtc: false,
-        isWebrtcBusy: false,
         lastViewedChannelName: '',
         penultimateViewedChannelName: '',
     };

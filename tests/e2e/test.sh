@@ -2,6 +2,8 @@
 set -e
 
 PLATFORM_FILES="./cmd/mattermost/main.go"
+BUILD_SERVER_DIR="../mattermost-server"
+BUILD_WEBAPP_DIR="../mattermost-webapp"
 
 function message {
     echo ""
@@ -32,33 +34,39 @@ function selenium_start {
 function modify_config {
     message "Modifying config..."
 
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "config: enable email invitation"
     sed -i'' -e 's|"EnableEmailInvitations": false|"EnableEmailInvitations": true|g' config/config.json
 
-    echo "config: enable email notification"
-    sed -i'' -e 's|"SendEmailNotifications": false|"SendEmailNotifications": true|g' config/config.json
-
     echo "config: enable mobile push notification"
     sed -i'' -e 's|"SendPushNotifications": false|"SendPushNotifications": true|g' config/config.json
     sed -i'' -e 's|"PushNotificationServer": ".*"|"PushNotificationServer": "https://push.mattermost.com"|g' config/config.json
-    sed -i'' -e 's|"PushNotificationContents": ".*"|"PushNotificationContents": "generic"|g' config/config.json
 
-    cd ../mattermost-webapp
+    echo "config: set e2e database"
+    sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:35476)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
+
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
-function restart_server {
-    cd ../mattermost-server
+function start_server {
+    cd $BUILD_SERVER_DIR
 
-    echo "stop the server"
-    make stop
-    sleep 5
     echo "start the server"
     make run
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
+    sleep 5
+}
+
+function stop_server {
+    cd $BUILD_SERVER_DIR
+
+    echo "stop the server"
+    make stop
+
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
@@ -79,18 +87,18 @@ function local_setup {
 }
 
 function reset_db {
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
 function add_test_users {
     message "Adding test users..."
-    cd ../mattermost-server
+    cd $BUILD_SERVER_DIR
 
     echo "reset the database"
     go run $PLATFORM_FILES reset --confirm true
@@ -110,7 +118,7 @@ function add_test_users {
     echo "adding users to 'ui-automation' team"
     go run $PLATFORM_FILES team add ui-automation test@test.com
 
-    cd ../mattermost-webapp
+    cd $BUILD_WEBAPP_DIR
     sleep 5
 }
 
@@ -123,7 +131,8 @@ function local_tests {
     local_setup
 
     modify_config
-    restart_server
+    stop_server
+    start_server
 
     if [ -n "$1" ]; then
         message "Tag: ${1} local E2E starts..."
@@ -138,6 +147,8 @@ function local_tests {
         message "E2E full local firefox starts..."
         nightwatch -e firefox --skiptags tutorial --suiteRetries 1
     fi
+
+    stop_server
 }
 
 local_tests $@

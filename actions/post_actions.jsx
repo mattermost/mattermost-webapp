@@ -10,6 +10,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {comparePosts} from 'mattermost-redux/utils/post_utils';
 
+import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -167,10 +168,7 @@ export async function updatePost(post, success) {
 }
 
 export function emitEmojiPosted(emoji) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.EMOJI_POSTED,
-        alias: emoji,
-    });
+    dispatch(addRecentEmoji(emoji));
 }
 
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;

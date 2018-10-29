@@ -13,12 +13,7 @@ import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import ProfilePopover from './profile_popover.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
-
-    const enableWebrtc = config.EnableWebrtc === 'true';
-
     return {
-        enableWebrtc,
         enableTimezone: areTimezonesEnabledAndSupported(state),
         currentUserId: getCurrentUserId(state),
         teamUrl: '/' + getCurrentTeam(state).name,

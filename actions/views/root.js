@@ -9,6 +9,7 @@ import {ActionTypes} from 'utils/constants';
 
 export function loadMeAndConfig() {
     return (dispatch) => {
+        // if any new promise needs to be added please be mindful of the order as it is used in root.jsx for redirection
         const promises = [
             dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),

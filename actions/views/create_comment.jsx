@@ -20,7 +20,7 @@ import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {executeCommand} from 'actions/command';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {EmojiMap} from 'stores/emoji_store.jsx';
+import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';

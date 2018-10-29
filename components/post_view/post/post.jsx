@@ -77,11 +77,6 @@ export default class Post extends React.PureComponent {
         replyCount: PropTypes.number,
 
         /**
-         * Set to mark the poster as in a webrtc call
-         */
-        isBusy: PropTypes.bool,
-
-        /**
          * The post count used for selenium tests
          */
         lastPostCount: PropTypes.number,
@@ -237,7 +232,6 @@ export default class Post extends React.PureComponent {
             profilePic = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
-                    isBusy={this.props.isBusy}
                     post={post}
                     status={this.props.status}
                     user={this.props.user}
@@ -280,7 +274,6 @@ export default class Post extends React.PureComponent {
                             currentUser={this.props.currentUser}
                             compactDisplay={this.props.compactDisplay}
                             status={this.props.status}
-                            isBusy={this.props.isBusy}
                             lastPostCount={this.props.lastPostCount}
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}

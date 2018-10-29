@@ -23,6 +23,7 @@ const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
+        postId: PropTypes.string.isRequired,
         fileInfo: PropTypes.object.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
         isEmbedVisible: PropTypes.bool,
@@ -136,7 +137,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     toggleEmbedVisibility = () => {
-        this.props.actions.toggleEmbedVisibility(this.props.fileInfo.post_id);
+        this.props.actions.toggleEmbedVisibility(this.props.postId);
     }
 
     render() {
