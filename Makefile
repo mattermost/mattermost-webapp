@@ -64,6 +64,10 @@ clean: ## Clears cached; deletes node_modules and dist directories
 
 	rm -rf dist
 	rm -rf node_modules
+	rm -rf rust/target
+	rm -rf rust/pkg
+	rm -rf rust/bin
+	rm -f rust/*.log
 
 e2e: node_modules
 	@echo E2E: Running mattermost-mysql-e2e
