@@ -14,7 +14,6 @@ import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
 import InviteMemberModal from 'components/invite_member_modal';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
-import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
@@ -57,7 +56,6 @@ export default class ChannelController extends React.Component {
                     <ImportThemeModal/>
                     <TeamSettingsModal/>
                     <EditPostModal/>
-                    <RemovedFromChannelModal/>
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>
