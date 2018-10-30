@@ -236,12 +236,9 @@ export default class SignupController extends React.Component {
         }
 
         if (this.props.isLicensed && this.props.enableLDAP) {
-            let query = '';
-            if (this.props.location.search) {
-                query = '&extra=create_ldap';
-            } else {
-                query = '?extra=create_ldap';
-            }
+            const params = new URLSearchParams(this.props.location.search);
+            params.append('extra', 'create_ldap');
+            const query = '?' + params.toString();
 
             let LDAPText = (
                 <FormattedMessage
@@ -256,7 +253,7 @@ export default class SignupController extends React.Component {
                 <Link
                     className='btn btn-custom-login btn--full ldap'
                     key='ldap'
-                    to={'/login' + this.props.location.search + query}
+                    to={'/login' + query}
                 >
                     <span>
                         <span
