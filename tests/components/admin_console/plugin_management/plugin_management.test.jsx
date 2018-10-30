@@ -157,7 +157,7 @@ describe('components/PluginManagement', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, with installed plugins and not settings link', () => {
+    test('should match snapshot, with installed plugins and not settings link should set hasSettings to false', () => {
         const props = {
             config: {
                 PluginSettings: {
@@ -211,6 +211,7 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
+                    settings_schema: {},
                     webapp: {},
                 },
                 plugin_1: {
@@ -219,6 +220,165 @@ describe('components/PluginManagement', () => {
                     id: 'plugin_1',
                     name: 'Plugin 1',
                     version: '0.1.0',
+                    settings_schema: {},
+                    webapp: {},
+                },
+            },
+            actions: {
+                uploadPlugin: jest.fn(),
+                removePlugin: jest.fn(),
+                getPluginStatuses: jest.fn().mockResolvedValue([]),
+                enablePlugin: jest.fn(),
+                disablePlugin: jest.fn(),
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with installed plugins and just header should set hasSettings to true', () => {
+        const props = {
+            config: {
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            pluginStatuses: {
+                plugin_0: {
+                    id: 'plugin_0',
+                    version: '0.1.0',
+                    state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+                    name: 'Plugin 0',
+                    description: 'The plugin 0.',
+                    is_prepackaged: false,
+                    active: false,
+                    instances: [
+                        {
+                            cluster_id: 'cluster_id_1',
+                            state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+                            version: '0.1.0',
+                        },
+                    ],
+                },
+            },
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {
+                        header: 'This is a header',
+                    },
+                    webapp: {},
+                },
+            },
+            actions: {
+                uploadPlugin: jest.fn(),
+                removePlugin: jest.fn(),
+                getPluginStatuses: jest.fn().mockResolvedValue([]),
+                enablePlugin: jest.fn(),
+                disablePlugin: jest.fn(),
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with installed plugins and just footer should set hasSettings to true', () => {
+        const props = {
+            config: {
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            pluginStatuses: {
+                plugin_0: {
+                    id: 'plugin_0',
+                    version: '0.1.0',
+                    state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+                    name: 'Plugin 0',
+                    description: 'The plugin 0.',
+                    is_prepackaged: false,
+                    active: false,
+                    instances: [
+                        {
+                            cluster_id: 'cluster_id_1',
+                            state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+                            version: '0.1.0',
+                        },
+                    ],
+                },
+            },
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {
+                        footer: 'This is a footer',
+                    },
+                    webapp: {},
+                },
+            },
+            actions: {
+                uploadPlugin: jest.fn(),
+                removePlugin: jest.fn(),
+                getPluginStatuses: jest.fn().mockResolvedValue([]),
+                enablePlugin: jest.fn(),
+                disablePlugin: jest.fn(),
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with installed plugins and just settings should set hasSettings to true', () => {
+        const props = {
+            config: {
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            pluginStatuses: {
+                plugin_0: {
+                    id: 'plugin_0',
+                    version: '0.1.0',
+                    state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+                    name: 'Plugin 0',
+                    description: 'The plugin 0.',
+                    is_prepackaged: false,
+                    active: false,
+                    instances: [
+                        {
+                            cluster_id: 'cluster_id_1',
+                            state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+                            version: '0.1.0',
+                        },
+                    ],
+                },
+            },
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {
+                        settings: [
+                            {bla: 'test', xoxo: 'test2'},
+                        ],
+                    },
                     webapp: {},
                 },
             },
