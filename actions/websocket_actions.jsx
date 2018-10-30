@@ -378,7 +378,39 @@ function handleChannelMemberUpdatedEvent(msg) {
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
-function handleNewPostEvent(msg) {
+export function debounceQueue(func, wait) {
+    let timeout;
+    let queue = [];
+    return function fx(...args) {
+        // Called when timeout triggered
+        const triggered = () => {
+            timeout = null;
+            queue.map((queuedArgs) => {
+                Reflect.apply(func, this, queuedArgs);
+                return queuedArgs;
+            });
+            queue = [];
+        };
+        if (timeout) {
+            // If the timeout is going this is the second or further event so queue them up.
+            if (queue.push(args) > 200) {
+                // Don't run us out of memory, give up if the queue gets insane
+                queue = [];
+                console.log('channel broken because of too many incoming messages'); //eslint-disable-line no-console
+            }
+            clearTimeout(timeout);
+            timeout = setTimeout(triggered, wait);
+        } else {
+            // Apply immediatly for single event
+            Reflect.apply(func, this, args);
+            timeout = setTimeout(triggered, wait);
+        }
+    };
+}
+
+const handleNewPostEvent = debounceQueue(handleNewPostEventWrapped, 100);
+
+function handleNewPostEventWrapped(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(handleNewPost(post, msg));
 
