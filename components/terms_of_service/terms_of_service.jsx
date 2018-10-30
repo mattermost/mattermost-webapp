@@ -9,10 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getTermsOfService, updateTermsOfServiceStatus} from 'actions/user_actions.jsx';
-
 import AnnouncementBar from 'components/announcement_bar';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import {browserHistory} from 'utils/browser_history';
@@ -23,18 +20,11 @@ import {Constants} from 'utils/constants.jsx';
 
 export default class TermsOfService extends React.PureComponent {
     static propTypes = {
-        customTermsOfServiceId: PropTypes.string.isRequired,
-        privacyPolicyLink: PropTypes.string,
-        siteName: PropTypes.string,
-        termsEnabled: PropTypes.bool,
-        termsOfServiceLink: PropTypes.string,
-    };
-
-    static defaultProps = {
-        privacyPolicyLink: 'https://about.mattermost.com/default-privacy-policy/',
-        siteName: 'Mattermost',
-        termsEnabled: true,
-        termsOfServiceLink: 'https://about.mattermost.com/default-terms/',
+        actions: PropTypes.shape({
+            getTermsOfService: PropTypes.func.isRequired,
+            updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
+        }).isRequired,
+        termsEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -60,24 +50,22 @@ export default class TermsOfService extends React.PureComponent {
         }
     }
 
-    getTermsOfService = () => {
+    getTermsOfService = async () => {
         this.setState({
             customTermsOfServiceId: '',
             customTermsOfServiceText: '',
             loading: true,
         });
-        getTermsOfService(
-            (data) => {
-                this.setState({
-                    customTermsOfServiceId: data.id,
-                    customTermsOfServiceText: data.text,
-                    loading: false,
-                });
-            },
-            () => {
-                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
-            }
-        );
+        const {data} = await this.props.actions.getTermsOfService();
+        if (data) {
+            this.setState({
+                customTermsOfServiceId: data.id,
+                customTermsOfServiceText: data.text,
+                loading: false,
+            });
+        } else {
+            GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
+        }
     };
 
     handleLogoutClick = (e) => {
@@ -117,24 +105,22 @@ export default class TermsOfService extends React.PureComponent {
         );
     };
 
-    registerUserAction = (accepted, success) => {
-        updateTermsOfServiceStatus(
-            this.state.customTermsOfServiceId,
-            accepted,
-            success,
-            () => {
-                this.setState({
-                    loadingAgree: false,
-                    loadingDisagree: false,
-                    serverError: (
-                        <FormattedMessage
-                            id='terms_of_service.api_error'
-                            defaultMessage='Unable to complete the request. If this issue persists, contact your System Administrator.'
-                        />
-                    ),
-                });
-            },
-        );
+    registerUserAction = async (accepted, success) => {
+        const {data} = await this.props.actions.updateMyTermsOfServiceStatus(this.state.customTermsOfServiceId, accepted);
+        if (data) {
+            success(data);
+        } else {
+            this.setState({
+                loadingAgree: false,
+                loadingDisagree: false,
+                serverError: (
+                    <FormattedMessage
+                        id='terms_of_service.api_error'
+                        defaultMessage='Unable to complete the request. If this issue persists, contact your System Administrator.'
+                    />
+                ),
+            });
+        }
     };
 
     render() {
@@ -161,15 +147,7 @@ export default class TermsOfService extends React.PureComponent {
                     </a>
                 </div>
                 <div className='col-sm-12'>
-                    <div className='signup-team__container padding--less max-width--more'>
-                        <div>
-                            <h2>
-                                <FormattedMessage
-                                    id='terms_of_service.title'
-                                    defaultMessage={'Terms of Service'}
-                                />
-                            </h2>
-                        </div>
+                    <div className='signup-team__container padding--less padding-botttom--less max-width--more'>
                         <div className='signup__markdown min-height--fill'>
                             {messageHtmlToComponent(this.formattedText(this.state.customTermsOfServiceText), false, {mentions: false})}
                         </div>
@@ -222,17 +200,6 @@ export default class TermsOfService extends React.PureComponent {
                                     {this.state.serverError}
                                 </div>
                             )}
-                        </div>
-                        <div className='margin--extra'>
-                            <FormattedMarkdownMessage
-                                id='terms_of_service.footnote'
-                                defaultMessage={'By choosing \'I Agree\', you understand and agree to [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot access {siteName}.'}
-                                values={{
-                                    siteName: this.props.siteName,
-                                    TermsOfServiceLink: this.props.termsOfServiceLink,
-                                    PrivacyPolicyLink: this.props.privacyPolicyLink,
-                                }}
-                            />
                         </div>
                     </div>
                 </div>

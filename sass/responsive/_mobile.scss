@@ -634,7 +634,7 @@
         padding: 60px 10px 0;
 
         .min-height--fill {
-            min-height: calc(100vh - 526px);
+            min-height: calc(100vh - 350px);
         }
 
         .signup-team__name {
@@ -1813,10 +1813,10 @@
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 300px) {
     .signup-team__container {
         .min-height--fill {
-            min-height: 0;
+            min-height: calc(100vh - 383px);
         }
     }
 }

@@ -470,24 +470,6 @@ export async function resendVerification(email, success, error) {
     }
 }
 
-export async function updateTermsOfServiceStatus(termsOfServiceId, accepted, success, error) {
-    const {data, error: err} = await UserActions.updateMyTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function getTermsOfService(success, error) {
-    const {data, error: err} = await UserActions.getTermsOfService()(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export function getAuthorizedApps(success, error) {
     Client4.getAuthorizedOAuthApps(getState().entities.users.currentUserId).then(
         (authorizedApps) => {

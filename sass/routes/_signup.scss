@@ -64,6 +64,10 @@
         padding-top: 70px;
     }
 
+    &.padding-botttom--less {
+        padding-bottom: 10px;
+    }
+
     &.max-width--more {
         max-width: 70%;
     }
@@ -73,7 +77,7 @@
     }
 
     .min-height--fill {
-        min-height: calc(100vh - 444px);
+        min-height: calc(100vh - 252px);
     }
 
     h1,
