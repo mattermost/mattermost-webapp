@@ -9,7 +9,18 @@ import {useSafeUrl} from 'utils/url';
 import MattermostIcon from 'images/favicon/android-chrome-192x192.png';
 import Nexus6Mockup from 'images/nexus-6p-mockup.png';
 
-export default function GetAndroidApp({androidAppDownloadLink, history}) {
+export default function GetAndroidApp({androidAppDownloadLink, history, location}) {
+    const onContinue = (e) => {
+        e.preventDefault();
+
+        const redirectTo = (new URLSearchParams(location.search)).get('redirect_to');
+        if (redirectTo) {
+            history.push(redirectTo);
+        } else {
+            history.push('/');
+        }
+    };
+
     return (
         <div className='get-app get-android-app'>
             <h1 className='get-app__header'>
@@ -59,7 +70,7 @@ export default function GetAndroidApp({androidAppDownloadLink, history}) {
                     values={{
                         link: (
                             <a
-                                onClick={history.goBack}
+                                onClick={onContinue}
                                 className='get-android-app__continue'
                             >
 

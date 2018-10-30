@@ -15,7 +15,6 @@ describe('components/GetAndroidApp', () => {
         const wrapper = shallow(
             <GetAndroidApp
                 androidAppDownloadLink={'https://about.mattermost.com/mattermost-android-app'}
-                history={{goBack: jest.fn()}}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -25,7 +24,6 @@ describe('components/GetAndroidApp', () => {
         const wrapper = shallow(
             <GetAndroidApp
                 androidAppDownloadLink={'https://about.mattermost.com/mattermost-android-app'}
-                history={{goBack: jest.fn()}}
             />
         );
 
@@ -33,18 +31,35 @@ describe('components/GetAndroidApp', () => {
         expect(link.prop('href')).toEqual('https://about.mattermost.com/mattermost-android-app');
     });
 
-    test('should call go to previous page if user chooses to stay in the browser', () => {
-        const goBack = jest.fn();
+    test('should redirect if the user chooses to stay in the browser. Redirect url param is present', () => {
+        const push = jest.fn();
         const wrapper = mountWithIntl(
             <GetAndroidApp
                 androidAppDownloadLink={'https://about.mattermost.com/mattermost-android-app'}
-                history={{goBack}}
+                history={{push}}
+                location={{search: '?redirect_to=last_page'}}
             />
         );
-        expect(goBack).not.toHaveBeenCalled();
+        expect(push).not.toHaveBeenCalled();
 
         const link = wrapper.find('.get-android-app__continue');
         link.simulate('click');
-        expect(goBack).toHaveBeenCalled();
+        expect(push).toHaveBeenCalledWith('last_page');
+    });
+
+    test('should redirect if the user chooses to stay in the browser. Redirect url param is not present', () => {
+        const push = jest.fn();
+        const wrapper = mountWithIntl(
+            <GetAndroidApp
+                androidAppDownloadLink={'https://about.mattermost.com/mattermost-android-app'}
+                history={{push}}
+                location={{search: ''}}
+            />
+        );
+        expect(push).not.toHaveBeenCalled();
+
+        const link = wrapper.find('.get-android-app__continue');
+        link.simulate('click');
+        expect(push).toHaveBeenCalledWith('/');
     });
 });

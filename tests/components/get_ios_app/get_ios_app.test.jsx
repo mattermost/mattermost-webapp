@@ -15,7 +15,6 @@ describe('components/GetIosApp', () => {
         const wrapper = shallow(
             <GetIosApp
                 iosAppDownloadLink={'https://about.mattermost.com/mattermost-ios-app'}
-                history={{goBack: jest.fn()}}
             />
         );
 
@@ -26,7 +25,6 @@ describe('components/GetIosApp', () => {
         const wrapper = shallow(
             <GetIosApp
                 iosAppDownloadLink={'https://about.mattermost.com/mattermost-ios-app'}
-                history={{goBack: jest.fn()}}
             />
         );
 
@@ -34,18 +32,37 @@ describe('components/GetIosApp', () => {
         expect(link.prop('href')).toEqual('https://about.mattermost.com/mattermost-ios-app');
     });
 
-    test('should return to previous page if user chooses to stay in the browser', () => {
-        const goBack = jest.fn();
+    test('should redirect if the user chooses to stay in the browser. Redirect url param is present', () => {
+        const push = jest.fn();
         const wrapper = mountWithIntl(
             <GetIosApp
                 iosAppDownloadLink={'https://about.mattermost.com/mattermost-ios-app'}
-                history={{goBack}}
+                history={{push}}
+                location={{search: '?redirect_to=last_page'}}
             />
         );
-        expect(goBack).not.toHaveBeenCalled();
+
+        expect(push).not.toHaveBeenCalled();
 
         const link = wrapper.find('.get-ios-app__continue');
         link.simulate('click');
-        expect(goBack).toHaveBeenCalled();
+        expect(push).toHaveBeenCalledWith('last_page');
+    });
+
+    test('should redirect if the user chooses to stay in the browser. Redirect url param is not present', () => {
+        const push = jest.fn();
+        const wrapper = mountWithIntl(
+            <GetIosApp
+                iosAppDownloadLink={'https://about.mattermost.com/mattermost-ios-app'}
+                history={{push}}
+                location={{search: ''}}
+            />
+        );
+
+        expect(push).not.toHaveBeenCalled();
+
+        const link = wrapper.find('.get-ios-app__continue');
+        link.simulate('click');
+        expect(push).toHaveBeenCalledWith('/');
     });
 });

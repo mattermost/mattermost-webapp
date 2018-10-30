@@ -9,7 +9,18 @@ import {useSafeUrl} from 'utils/url';
 import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 
-export default function GetIosApp({iosAppDownloadLink, history}) {
+export default function GetIosApp({iosAppDownloadLink, history, location}) {
+    const onContinue = (e) => {
+        e.preventDefault();
+
+        const redirectTo = (new URLSearchParams(location.search)).get('redirect_to');
+        if (redirectTo) {
+            history.push(redirectTo);
+        } else {
+            history.push('/');
+        }
+    };
+
     return (
         <div className='get-app get-ios-app'>
             <h1 className='get-app__header'>
@@ -52,7 +63,7 @@ export default function GetIosApp({iosAppDownloadLink, history}) {
                     values={{
                         link: (
                             <a
-                                onClick={history.goBack}
+                                onClick={onContinue}
                                 className='get-ios-app__continue'
                             >
 

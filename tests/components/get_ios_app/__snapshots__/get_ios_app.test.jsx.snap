@@ -56,7 +56,7 @@ exports[`components/GetIosApp should match snapshot 1`] = `
         Object {
           "link": <a
             className="get-ios-app__continue"
-            onClick={[MockFunction]}
+            onClick={[Function]}
           >
             <FormattedMessage
               defaultMessage="continue with browser"
