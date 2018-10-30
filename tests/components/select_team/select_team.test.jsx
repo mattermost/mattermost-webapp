@@ -4,8 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {General} from 'mattermost-redux/constants';
-
 import SelectTeam from 'components/select_team/select_team.jsx';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
@@ -31,8 +29,9 @@ describe('components/select_team/SelectTeam', () => {
             {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A'},
             {id: 'team_id_2', delete_at: 0, name: 'b-team', display_name: 'B Team'},
         ],
-        roles: {system_admin: {name: 'system_admin'}, system_user: {name: 'system_user'}},
         siteName: 'Mattermost',
+        canCreateTeams: false,
+        canManageSystem: true,
         actions: {
             getTeams: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
@@ -45,7 +44,7 @@ describe('components/select_team/SelectTeam', () => {
         expect(wrapper).toMatchSnapshot();
 
         // on componentWillMount
-        expect(props.actions.loadRolesIfNeeded).toHaveBeenCalledWith([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]);
+        expect(props.actions.loadRolesIfNeeded).toHaveBeenCalledWith(baseProps.currentUserRoles.split(' '));
 
         // on componentDidMount
         expect(props.actions.getTeams).toHaveBeenCalledTimes(1);
@@ -71,7 +70,7 @@ describe('components/select_team/SelectTeam', () => {
     });
 
     test('should match snapshot, on no joinable team and is not system admin nor can create team', () => {
-        const props = {...baseProps, joinableTeams: [], currentUserRoles: ''};
+        const props = {...baseProps, joinableTeams: [], currentUserRoles: '', canManageSystem: false, canCreateTeams: false};
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
