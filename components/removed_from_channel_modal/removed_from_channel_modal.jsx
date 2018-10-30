@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {Modal} from 'react-bootstrap';
 
 export default class RemovedFromChannelModal extends React.PureComponent {
     static propTypes = {
