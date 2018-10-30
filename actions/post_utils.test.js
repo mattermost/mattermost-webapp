@@ -93,6 +93,10 @@ describe('actions/post_utils', () => {
             posts: {
                 editingPost: {},
             },
+            channel: {
+                loadingPosts: {},
+                postVisibility: {current_channel_id: 60},
+            },
         },
     };
 
@@ -131,5 +135,49 @@ describe('actions/post_utils', () => {
         newPost.user_id = 'current_user_id';
         await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
         expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_READ, MARK_CHANNEL_AS_VIEWED]);
+    });
+
+    test('increasePostVisibility', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id'));
+        expect(testStore.getActions()).toEqual([
+            {
+                meta: {batch: true},
+                payload: [
+                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
+                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
+        ]);
+
+        await testStore.dispatch(Actions.increasePostVisibility('current_channel_id', 'latest_post_id'));
+        expect(testStore.getActions()).toEqual([
+            {
+                meta: {batch: true},
+                payload: [
+                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
+                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+            {args: ['current_channel_id', 2, 30], type: 'MOCK_GET_POSTS'},
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
+            {
+                meta: {batch: true},
+                payload: [
+                    {channelId: 'current_channel_id', data: true, type: 'LOADING_POSTS'},
+                    {amount: 30, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'},
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+            {
+                args: ['current_channel_id', 'latest_post_id', 2, 30],
+                type: 'MOCK_GET_POSTS_BEFORE',
+            },
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'}]);
     });
 });
