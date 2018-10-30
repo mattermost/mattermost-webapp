@@ -7,10 +7,13 @@ import {Posts} from 'mattermost-redux/constants';
 import {addReaction} from 'mattermost-redux/actions/posts';
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
+import {Preferences} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 
 import RhsComment from './rhs_comment.jsx';
@@ -49,9 +52,13 @@ function mapStateToProps(state, ownProps) {
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
+        user: getUser(state, ownProps.post.user_id),
+        status: getStatusForUserId(state, ownProps.post.user_id) || 'offline',
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: channel.delete_at !== 0,
         isConsecutivePost: isConsecutivePost(state, ownProps),
+        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
+        compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
     };
 }
 
