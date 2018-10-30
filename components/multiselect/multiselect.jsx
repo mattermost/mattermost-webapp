@@ -46,6 +46,7 @@ export default class MultiSelect extends React.Component {
 
         this.state = {
             page: 0,
+            input: '',
         };
     }
 
@@ -114,7 +115,13 @@ export default class MultiSelect extends React.Component {
         }
     }
 
-    onInput = (input) => {
+    onInput = (input, change = {}) => {
+        if (change.action === 'input-blur' || change.action === 'menu-close') {
+            return;
+        }
+
+        this.setState({input});
+
         if (input === '') {
             this.refs.list.setSelected(-1);
         } else {
@@ -294,12 +301,13 @@ export default class MultiSelect extends React.Component {
                                 MultiValueLabel: paddedComponent(this.props.valueRenderer),
                             }}
                             isClearable={false}
-                            openMenuOnFocus={true}
+                            openMenuOnFocus={false}
                             onInputChange={this.onInput}
                             onKeyDown={this.onInputKeyDown}
                             onChange={this.onChange}
                             value={this.props.values}
                             placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                            inputValue={this.state.input}
                         />
                         <SaveButton
                             saving={this.props.saving}
