@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {closeModal} from 'actions/views/modals';
+import {goToLastViewedChannel} from 'actions/views/channel';
 
 import RemovedFromChannelModal from './removed_from_channel_modal';
 
@@ -18,7 +18,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeModal,
+            goToLastViewedChannel,
         }, dispatch),
     };
 }
