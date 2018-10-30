@@ -10,8 +10,8 @@ export default class RemovedFromChannelModal extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         onHide: PropTypes.func.isRequired,
-        channelName: PropTypes.string.isRequired,
-        remover: PropTypes.string.isRequired,
+        channelName: PropTypes.string,
+        remover: PropTypes.string,
         actions: PropTypes.shape({
             goToLastViewedChannel: PropTypes.func.isRequired,
         }),
