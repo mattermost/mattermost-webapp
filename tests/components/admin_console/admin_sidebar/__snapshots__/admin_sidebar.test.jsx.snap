@@ -4,7 +4,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
 <div
   className="admin-sidebar"
 >
-  <Connect(SidebarHeader) />
+  <SidebarHeader />
   <div
     className="nav-pills__container"
   >
@@ -328,6 +328,18 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               <FormattedMessage
                 defaultMessage="Custom Integrations"
                 id="admin.sidebar.customIntegrations"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            name="webrtc"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="WebRTC (Beta)"
+                id="admin.sidebar.webrtc"
                 values={Object {}}
               />
             }
@@ -563,7 +575,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
 <div
   className="admin-sidebar"
 >
-  <Connect(SidebarHeader) />
+  <SidebarHeader />
   <div
     className="nav-pills__container"
   >
@@ -887,6 +899,18 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               <FormattedMessage
                 defaultMessage="Custom Integrations"
                 id="admin.sidebar.customIntegrations"
+                values={Object {}}
+              />
+            }
+          />
+          <AdminSidebarSection
+            name="webrtc"
+            parentLink=""
+            subsection={false}
+            title={
+              <FormattedMessage
+                defaultMessage="WebRTC (Beta)"
+                id="admin.sidebar.webrtc"
                 values={Object {}}
               />
             }
