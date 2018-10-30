@@ -719,15 +719,16 @@ export default class CreatePost extends React.Component {
     }
 
     documentKeyHandler = (e) => {
-        e.preventDefault();
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const emojiCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
-        const messageIsEmpty = this.state.message.length === 0;
         if (ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+            e.preventDefault();
             GlobalActions.toggleShortcutsModal();
             return;
-        } else if (emojiCombo && messageIsEmpty) {
+        } else if (emojiCombo) {
+            e.preventDefault();
             this.props.actions.showEmojiPickerForLastMessage();
+            return;
         }
 
         this.focusTextboxIfNecessary(e);
