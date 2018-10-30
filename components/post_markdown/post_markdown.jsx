@@ -8,6 +8,8 @@ import Markdown from 'components/markdown';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
+const imagesEmptyObj = {};
+
 export default class PostMarkdown extends React.PureComponent {
     static propTypes = {
 
@@ -71,6 +73,7 @@ export default class PostMarkdown extends React.PureComponent {
                 proxyImages={proxyImages}
                 options={this.props.options}
                 channelNamesMap={channelNamesMap}
+                images={this.props.post.metadata ? this.props.post.metadata.images : imagesEmptyObj}
             />
         );
     }

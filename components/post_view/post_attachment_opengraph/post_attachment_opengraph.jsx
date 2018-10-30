@@ -80,7 +80,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             hasLargeImage: false,
             removePreview,
         });
-        this.fetchData(this.props.link);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -89,9 +88,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             this.setState({
                 removePreview,
             });
-        }
-        if (nextProps.link !== this.props.link) {
-            this.fetchData(nextProps.link);
         }
     }
 
