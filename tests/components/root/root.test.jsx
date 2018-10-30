@@ -28,6 +28,9 @@ describe('components/Root', () => {
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
         },
+        location: {
+            pathname: '/',
+        },
     };
 
     test('should load user, config, and license on mount and redirect to defaultTeam on success', (done) => {
@@ -51,5 +54,25 @@ describe('components/Root', () => {
         shallow(<MockedRoot {...props}/>);
 
         expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
+    });
+
+    test('should load user, config, and license on mount and should not redirect to defaultTeam id pathname is not root', (done) => {
+        const props = {
+            ...baseProps,
+            location: {
+                pathname: '/admin_console',
+            },
+        };
+
+        // Mock the method by extending the class because we don't have a chance to do it before shallow mounts the component
+        class MockedRoot extends Root {
+            onConfigLoaded = jest.fn(() => {
+                expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
+                expect(GlobalActions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
+                done();
+            });
+        }
+
+        shallow(<MockedRoot {...props}/>);
     });
 });
