@@ -11,7 +11,7 @@ import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 
 import {AnnouncementBarTypes, AnnouncementBarMessages, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
-import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
+import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -33,7 +33,7 @@ export default class AnnouncementBar extends React.PureComponent {
          */
         canViewSystemErrors: PropTypes.bool.isRequired,
         canViewAPIv3Banner: PropTypes.bool.isRequired,
-        licenseId: PropTypes.string,
+        license: PropTypes.object,
         siteURL: PropTypes.string,
         sendEmailNotifications: PropTypes.bool.isRequired,
         bannerText: PropTypes.string,
@@ -328,7 +328,7 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         }
 
-        const renewalLink = RENEWAL_LINK + '?id=' + this.props.licenseId + '&user_count=' + this.state.totalUsers;
+        const renewalLink = RENEWAL_LINK + '?id=' + this.props.license.id + '&user_count=' + this.state.totalUsers;
 
         let message = this.state.message;
         if (this.state.type === AnnouncementBarTypes.ANNOUNCEMENT) {
@@ -348,9 +348,9 @@ export default class AnnouncementBar extends React.PureComponent {
             message = (
                 <FormattedMarkdownMessage
                     id={AnnouncementBarMessages.LICENSE_EXPIRING}
-                    defaultMessage='Enterprise license expires on {date}. [Prease renew](!{link}).'
+                    defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}).'
                     values={{
-                        date: displayExpiryDate(),
+                        date: new Date(parseInt(this.props.license.ExpiresAt, 10)),
                         link: renewalLink,
                     }}
                 />

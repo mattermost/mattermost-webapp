@@ -9,6 +9,7 @@ import DotMenu from 'components/dot_menu/dot_menu.jsx';
 jest.mock('utils/utils', () => {
     return {
         isMobile: jest.fn(() => true),
+        localizeMessage: jest.fn(),
     };
 });
 

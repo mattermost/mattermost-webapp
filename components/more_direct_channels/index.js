@@ -22,6 +22,7 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
@@ -75,6 +76,7 @@ function mapDispatchToProps(dispatch) {
             searchProfiles,
             setModalSearchTerm,
             getTotalUsersStats,
+            loadStatusesForProfilesList,
         }, dispatch),
     };
 }

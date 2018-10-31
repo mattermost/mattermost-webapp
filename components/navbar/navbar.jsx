@@ -12,23 +12,18 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {
     ActionTypes,
     Constants,
     ModalIdentifiers,
     NotificationLevels,
     RHSStates,
-    UserStatuses,
 } from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -39,7 +34,7 @@ import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
-import NotifyCounts from 'components/notify_counts.jsx';
+import NotifyCounts from 'components/notify_counts';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
@@ -58,18 +53,21 @@ export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
-        enableWebrtc: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool,
+        isFavoriteChannel: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            updateRhsState: PropTypes.func,
-            showPinnedPosts: PropTypes.func,
-            toggleLhs: PropTypes.func.isRequired,
             closeLhs: PropTypes.func.isRequired,
             closeRhs: PropTypes.func.isRequired,
-            toggleRhsMenu: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
+            leaveChannel: PropTypes.func.isRequired,
+            markFavorite: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func,
+            toggleLhs: PropTypes.func.isRequired,
+            toggleRhsMenu: PropTypes.func.isRequired,
+            unmarkFavorite: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
-        }),
+            updateRhsState: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -99,8 +97,6 @@ export default class Navbar extends React.Component {
         ModalStore.addModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
-        WebrtcStore.addChangedListener(this.onChange);
-        WebrtcStore.addBusyListener(this.onBusy);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         $('.inner-wrap').on('click', this.hideSidebars);
     }
@@ -114,8 +110,6 @@ export default class Navbar extends React.Component {
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
-        WebrtcStore.removeChangedListener(this.onChange);
-        WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
         $('.inner-wrap').off('click', this.hideSidebars);
     }
@@ -134,9 +128,7 @@ export default class Navbar extends React.Component {
             users: [],
             userCount: ChannelStore.getCurrentStats().member_count,
             currentUser: UserStore.getCurrentUser(),
-            isFavorite: channel && ChannelUtils.isFavoriteChannel(channel),
             contactId,
-            isBusy: WebrtcStore.isBusy(),
         };
     }
 
@@ -145,10 +137,11 @@ export default class Navbar extends React.Component {
     }
 
     handleLeave = () => {
+        const {actions} = this.props;
         if (this.state.channel.type === Constants.PRIVATE_CHANNEL) {
             GlobalActions.showLeavePrivateChannelModal(this.state.channel);
         } else {
-            ChannelActions.leaveChannel(this.state.channel.id);
+            actions.leaveChannel(this.state.channel.id);
         }
     }
 
@@ -263,84 +256,15 @@ export default class Navbar extends React.Component {
     }
 
     toggleFavorite = (e) => {
+        const {markFavorite, unmarkFavorite} = this.props.actions;
         e.preventDefault();
 
-        if (this.state.isFavorite) {
-            ChannelActions.unmarkFavorite(this.state.channel.id);
+        if (this.props.isFavoriteChannel) {
+            unmarkFavorite(this.state.channel.id);
         } else {
-            ChannelActions.markFavorite(this.state.channel.id);
+            markFavorite(this.state.channel.id);
         }
     };
-
-    onBusy = (isBusy) => {
-        this.setState({isBusy});
-    }
-
-    isContactNotAvailable() {
-        const contactStatus = UserStore.getStatus(this.state.contactId);
-
-        return contactStatus === UserStatuses.OFFLINE || contactStatus === UserStatuses.DND || this.state.isBusy;
-    }
-
-    isWebrtcEnabled() {
-        return this.props.enableWebrtc && Utils.isUserMediaAvailable();
-    }
-
-    initWebrtc = () => {
-        if (!this.isContactNotAvailable()) {
-            GlobalActions.emitCloseRightHandSide();
-            WebrtcActions.initWebrtc(this.state.contactId, true);
-        }
-    }
-
-    generateWebrtcDropdown() {
-        if (!this.isWebrtcEnabled()) {
-            return null;
-        }
-
-        let linkClass = '';
-        if (this.isContactNotAvailable()) {
-            linkClass = 'disable-links';
-        }
-
-        return (
-            <li
-                role='presentation'
-                className='webrtc__option visible-xs-block'
-            >
-                <button
-                    role='menuitem'
-                    onClick={this.initWebrtc}
-                    className={'style--none ' + linkClass}
-                >
-                    <FormattedMessage
-                        id='navbar_dropdown.webrtc.call'
-                        defaultMessage='Start Video Call'
-                    />
-                </button>
-            </li>
-        );
-    }
-
-    generateWebrtcIcon() {
-        const channel = this.state.channel || {};
-        if (!this.isWebrtcEnabled() || channel.type !== Constants.DM_CHANNEL) {
-            return null;
-        }
-
-        let circleClass = '';
-        if (this.isContactNotAvailable()) {
-            circleClass = 'offline';
-        }
-
-        return (
-            <div className={'pull-right description navbar-right__icon webrtc__button hidden-xs ' + circleClass}>
-                <a onClick={this.initWebrtc}>
-                    {'WebRTC'}
-                </a>
-            </div>
-        );
-    }
 
     renderEditChannelHeaderOption = (channel) => {
         if (!channel || !channel.id) {
@@ -379,7 +303,6 @@ export default class Navbar extends React.Component {
     createDropdown = (teamId, channel, channelTitle, isDirect, isGroup) => {
         if (channel) {
             let viewInfoOption;
-            let webrtcOption;
             let viewPinnedPostsOption;
             let addMembersOption;
             let manageMembersOption;
@@ -393,8 +316,6 @@ export default class Navbar extends React.Component {
 
             if (isDirect) {
                 setChannelHeaderOption = this.renderEditChannelHeaderOption(channel);
-
-                webrtcOption = this.generateWebrtcDropdown();
             } else if (isGroup) {
                 setChannelHeaderOption = this.renderEditChannelHeaderOption(channel);
 
@@ -683,7 +604,7 @@ export default class Navbar extends React.Component {
                         className='style--none'
                         onClick={this.toggleFavorite}
                     >
-                        {this.state.isFavorite ?
+                        {this.props.isFavoriteChannel ?
                             <FormattedMessage
                                 id='channelHeader.removeFromFavorites'
                                 defaultMessage='Remove from Favorites'
@@ -701,7 +622,6 @@ export default class Navbar extends React.Component {
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
-                        {this.generateWebrtcIcon()}
                         <a
                             href='#'
                             className='dropdown-toggle theme'
@@ -720,7 +640,6 @@ export default class Navbar extends React.Component {
                             role='menu'
                         >
                             {viewInfoOption}
-                            {webrtcOption}
                             {viewPinnedPostsOption}
                             {notificationPreferenceOption}
                             {addMembersOption}

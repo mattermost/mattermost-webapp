@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
@@ -26,6 +25,7 @@ export default class MemberListTeam extends React.Component {
             searchProfiles: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
+            loadStatusesForProfilesList: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -69,7 +69,7 @@ export default class MemberListTeam extends React.Component {
 
                     this.setState({loading: true});
 
-                    loadStatusesForProfilesList(data);
+                    this.props.actions.loadStatusesForProfilesList(data);
                     loadTeamMembersForProfilesList(data, nextProps.currentTeamId, this.loadComplete);
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS

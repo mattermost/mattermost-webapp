@@ -47,7 +47,12 @@
         "detectObjects": true
       }
     ],
-    "react/jsx-filename-extension": 2,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js"]
+      }
+    ],
     "react/prop-types": [
       2,
       {

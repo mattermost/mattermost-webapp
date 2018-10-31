@@ -17,7 +17,6 @@ function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
     const user = getCurrentUser(state);
-    const licenseId = license.Id;
     const siteURL = config.SiteURL;
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
@@ -33,7 +32,7 @@ function mapStateToProps(state) {
         canViewSystemErrors,
         user,
         canViewAPIv3Banner,
-        licenseId,
+        license,
         siteURL,
         sendEmailNotifications,
         requireEmailVerification,

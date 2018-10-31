@@ -5,9 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
-import messageHtmlToComponent from 'utils/message_html_to_component';
 import {getSiteURL} from 'utils/url.jsx';
-import {formatText} from 'utils/text_formatting.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 
@@ -23,15 +21,6 @@ function registerPlugin(id, plugin) {
     window.plugins[id] = plugin;
 }
 window.registerPlugin = registerPlugin;
-
-// Common libraries exposed on window for plugins to use as Webpack externals.
-window.React = require('react');
-window.ReactDOM = require('react-dom');
-window.Redux = require('redux');
-window.ReactRedux = require('react-redux');
-window.ReactBootstrap = require('react-bootstrap');
-window.PostUtils = {formatText, messageHtmlToComponent};
-window.PropTypes = require('prop-types');
 
 // initializePlugins queries the server for all enabled plugins and loads each in turn.
 export async function initializePlugins() {

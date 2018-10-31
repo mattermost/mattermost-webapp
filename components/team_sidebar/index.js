@@ -5,8 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {withRouter} from 'react-router-dom';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getMyTeams, getJoinableTeamIds, getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
@@ -15,12 +18,17 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
-    const enableTeamCreation = config.EnableTeamCreation === 'true';
+    const joinableTeams = getJoinableTeamIds(state);
+    const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
 
     return {
+        currentTeamId: getCurrentTeamId(state),
+        myTeams: getMyTeams(state),
+        myTeamMembers: getTeamMemberships(state),
         isOpen: getIsLhsOpen(state),
         experimentalPrimaryTeam,
-        enableTeamCreation,
+        locale: getCurrentLocale(state),
+        moreTeamsToJoin,
     };
 }
 

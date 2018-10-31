@@ -3,10 +3,7 @@
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import LocalizationStore from 'stores/localization_store.jsx';
 import store from 'stores/redux_store.jsx';
-
-import {getMonthLong} from 'utils/i18n';
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 15; // 15 days
@@ -39,18 +36,4 @@ export function isLicensePastGracePeriod() {
 
     const timeDiff = Date.now() - parseInt(license.ExpiresAt, 10);
     return timeDiff > LICENSE_GRACE_PERIOD;
-}
-
-export function displayExpiryDate() {
-    const license = getLicense(store.getState());
-    const date = new Date(parseInt(license.ExpiresAt, 10));
-
-    const locale = LocalizationStore.getLocale();
-    const format = {
-        year: 'numeric',
-        month: getMonthLong(locale),
-        day: 'numeric',
-    };
-
-    return date.toLocaleString(locale, format);
 }

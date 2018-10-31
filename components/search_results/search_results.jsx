@@ -8,8 +8,6 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -83,20 +81,15 @@ export default class SearchResults extends React.PureComponent {
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
-            isBusy: WebrtcStore.isBusy(),
         };
     }
 
     componentDidMount() {
-        WebrtcStore.addBusyListener(this.onBusy);
-
         this.scrollToTop();
         window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
-        WebrtcStore.removeBusyListener(this.onBusy);
-
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -111,10 +104,6 @@ export default class SearchResults extends React.PureComponent {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         });
-    }
-
-    onBusy = (isBusy) => {
-        this.setState({isBusy});
     }
 
     scrollToTop = () => {
@@ -238,7 +227,6 @@ export default class SearchResults extends React.PureComponent {
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
                         isFlagged={isFlagged}
-                        isBusy={this.state.isBusy}
                         status={status}
                     />
                 );

@@ -22,14 +22,16 @@ describe('plugins/MainMenuActions', () => {
             enableIncomingWebhooks: true,
             enableOutgoingWebhooks: true,
             enableOAuthServiceProvider: true,
-            enableOnlyAdminIntegrations: false,
-            enableTeamCreation: true,
             enableUserCreation: true,
             enableEmailInvitations: false,
             showDropdown: true,
             onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
             canCreateCustomEmoji: true,
+            moreTeamsToJoin: true,
+            actions: {
+                openModal: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -54,6 +56,8 @@ describe('plugins/MainMenuActions', () => {
             showTutorialTip: false,
             enableUserCreation: true,
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
+            currentUserId: 'garbage',
+            moreTeamsToJoin: true,
             actions: {
                 showMentions: () => {}, //eslint-disable-line no-empty-function
                 showFlaggedPosts: () => {}, //eslint-disable-line no-empty-function

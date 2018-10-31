@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const logoutCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@mainMenuButton');
     },
     logout() {
         return this.
-            waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@mainMenuButton').
             click('@mainMenuButton').
-            waitForElementVisible('@logoutButton', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@logoutButton').
             click('@logoutButton');
     },
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [logoutCommands],
     elements: {
         mainMenuButton: {selector: '#sidebarHeaderDropdownButton'},

@@ -7,6 +7,7 @@ import {getProfilesNotInTeam, searchProfiles} from 'mattermost-redux/actions/use
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {searchProfilesNotInCurrentTeam, getProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {addUsersToTeam} from 'actions/team_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
@@ -39,6 +40,7 @@ function mapDispatchToProps(dispatch) {
             setModalSearchTerm,
             searchProfiles,
             addUsersToTeam,
+            loadStatusesForProfilesList,
         }, dispatch),
     };
 }

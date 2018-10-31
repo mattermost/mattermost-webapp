@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
+import {getProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentLocale} from 'selectors/i18n';
 
@@ -17,6 +18,7 @@ function mapStateToProps(state) {
 
     return {
         locale: getCurrentLocale(state),
+        channelProfiles: getProfilesInCurrentChannel(state),
         enableUserCreation,
         isReadOnly,
     };

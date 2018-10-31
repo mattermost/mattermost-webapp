@@ -17,9 +17,9 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {logout} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -30,13 +30,11 @@ import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'act
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
@@ -44,8 +42,6 @@ import {ActionTypes, Constants, ErrorPageTypes, PostTypes, RHSStates} from 'util
 import EventTypes from 'utils/event_types.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import en from 'i18n/en.json';
-import * as I18n from 'i18n/i18n.jsx';
 import {equalServerVersions} from 'utils/server_version';
 
 const dispatch = store.dispatch;
@@ -53,7 +49,8 @@ const getState = store.getState;
 
 export function emitChannelClickEvent(channel) {
     async function userVisitedFakeChannel(chan, success, fail) {
-        const currentUserId = UserStore.getCurrentId();
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
         const otherUserId = Utils.getUserIdFromChannelName(chan);
         const {data: receivedChannel} = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
         if (receivedChannel) {
@@ -65,7 +62,7 @@ export function emitChannelClickEvent(channel) {
     function switchToChannel(chan) {
         const state = getState();
         const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
-        const oldChannelId = ChannelStore.getCurrentId();
+        const oldChannelId = getCurrentChannelId(state);
         const userId = getCurrentUserId(state);
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
@@ -130,7 +127,7 @@ export async function doFocusPost(channelId, postId, data) {
 
     const member = getState().entities.channels.myMembers[channelId];
     if (member == null) {
-        await joinChannel(UserStore.getCurrentId(), null, channelId)(dispatch, getState);
+        await dispatch(joinChannel(getCurrentUserId(getState()), null, channelId));
     }
 
     loadChannelsForCurrentUser();
@@ -188,13 +185,6 @@ export function emitUserCommentedEvent(post) {
     AppDispatcher.handleServerAction({
         type: ActionTypes.CREATE_COMMENT,
         post,
-    });
-}
-
-export function showAccountSettingsModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL,
-        value: true,
     });
 }
 
@@ -333,7 +323,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
     const post = {
         id: Utils.generateId(),
         user_id: '0',
-        channel_id: channelId || ChannelStore.getCurrentId(),
+        channel_id: channelId || getCurrentChannelId(getState()),
         message,
         type: PostTypes.EPHEMERAL,
         create_at: timestamp,
@@ -343,14 +333,14 @@ export function sendEphemeralPost(message, channelId, parentId) {
         props: {},
     };
 
-    handleNewPost(post);
+    dispatch(handleNewPost(post));
 }
 
 export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, channelId, postRootId = '', timestamp) {
     const post = {
         id: Utils.generateId(),
         user_id: user.id,
-        channel_id: channelId || ChannelStore.getCurrentId(),
+        channel_id: channelId || getCurrentChannelId(getState()),
         message: '',
         type: PostTypes.EPHEMERAL_ADD_TO_CHANNEL,
         create_at: timestamp,
@@ -364,56 +354,7 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, 
         },
     };
 
-    handleNewPost(post);
-}
-
-export function newLocalizationSelected(locale) {
-    const localeInfo = I18n.getLanguageInfo(locale);
-
-    if (locale === 'en' || !localeInfo) {
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_LOCALE,
-            locale,
-            translations: en,
-        });
-    } else {
-        Client4.getTranslations(localeInfo.url).then(
-            (data, res) => {
-                let translations = data;
-                if (!data && res.text) {
-                    translations = JSON.parse(res.text);
-                }
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_LOCALE,
-                    locale,
-                    translations,
-                });
-            }
-        ).catch(
-            () => { } //eslint-disable-line no-empty-function
-        );
-    }
-}
-
-export function loadCurrentLocale() {
-    const user = UserStore.getCurrentUser();
-
-    if (user && user.locale) {
-        newLocalizationSelected(user.locale);
-    } else {
-        loadDefaultLocale();
-    }
-}
-
-export function loadDefaultLocale() {
-    const config = getConfig(getState());
-    let locale = config.DefaultClientLocale;
-
-    if (!I18n.getLanguageInfo(locale)) {
-        locale = 'en';
-    }
-
-    return newLocalizationSelected(locale);
+    dispatch(handleNewPost(post));
 }
 
 let lastTimeTypingSent = 0;
@@ -460,7 +401,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
 
         BrowserStore.clear();
         ErrorStore.clearLastError();
-        ChannelStore.clear();
         stopPeriodicStatusUpdates();
         WebsocketActions.close();
         document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -484,36 +424,27 @@ export function emitBrowserFocus(focus) {
 }
 
 export async function redirectUserToDefaultTeam() {
-    const userId = getCurrentUserId(getState());
-    const teams = TeamStore.getAll();
-    const teamMembers = TeamStore.getMyTeamMembers();
-    let teamId = LocalStorageStore.getPreviousTeamId(userId);
+    const state = getState();
+    const userId = getCurrentUserId(state);
+    const locale = getCurrentLocale(state);
+    const teamId = LocalStorageStore.getPreviousTeamId(userId);
 
-    function redirect(teamName, channelName) {
-        browserHistory.push(`/${teamName}/channels/${channelName}`);
-    }
+    let team = getTeam(state, teamId);
 
-    if (!teams[teamId] && teamMembers.length > 0) {
-        let myTeams = [];
-        for (const index in teamMembers) {
-            if (teamMembers.hasOwnProperty(index)) {
-                const teamMember = teamMembers[index];
-                myTeams.push(teams[teamMember.team_id]);
-            }
-        }
+    if (!team) {
+        let myTeams = getMyTeams(state);
 
         if (myTeams.length > 0) {
-            myTeams = filterAndSortTeamsByDisplayName(myTeams);
+            myTeams = filterAndSortTeamsByDisplayName(myTeams, locale);
             if (myTeams && myTeams[0]) {
-                teamId = myTeams[0].id;
+                team = myTeams[0];
             }
         }
     }
 
-    const team = teams[teamId];
     if (userId && team) {
         let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
-        const channel = ChannelStore.getChannelNamesMap()[channelName];
+        const channel = getChannelByName(state, channelName);
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
@@ -524,7 +455,7 @@ export async function redirectUserToDefaultTeam() {
             }
         }
 
-        redirect(team.name, channelName);
+        browserHistory.push(`/${team.name}/channels/${channelName}`);
     } else {
         browserHistory.push('/select_team');
     }

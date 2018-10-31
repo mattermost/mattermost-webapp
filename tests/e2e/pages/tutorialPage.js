@@ -1,52 +1,52 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const tutorialCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@appContent');
     },
     navigateToScreenOne() {
         return this.
-            waitForElementVisible('@tutorialIntroCircle0', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialIntroCircle0').
             click('@tutorialIntroCircle0').
-            waitForElementVisible('@tutorialIntroOne', Constants.DEFAULT_WAIT);
+            waitForElementVisible('@tutorialIntroOne');
     },
     navigateToScreenTwo() {
         return this.
-            waitForElementVisible('@tutorialIntroCircle1', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialIntroCircle1').
             click('@tutorialIntroCircle1').
-            waitForElementVisible('@appDownloadLink', Constants.DEFAULT_WAIT).
-            waitForElementVisible('@appDownloadImage', Constants.DEFAULT_WAIT).
-            waitForElementVisible('@tutorialIntroTwo', Constants.DEFAULT_WAIT);
+            waitForElementVisible('@appDownloadLink').
+            waitForElementVisible('@appDownloadImage').
+            waitForElementVisible('@tutorialIntroTwo');
     },
     navigateToScreenThree() {
         return this.
-            waitForElementVisible('@tutorialIntroCircle2', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialIntroCircle2').
             click('@tutorialIntroCircle2').
-            waitForElementVisible('@tutorialIntroInvite', Constants.DEFAULT_WAIT).
-            waitForElementVisible('@supportInfo', Constants.DEFAULT_WAIT).
-            waitForElementVisible('@tutorialIntroThree', Constants.DEFAULT_WAIT);
+            waitForElementVisible('@tutorialIntroInvite').
+            waitForElementVisible('@supportInfo').
+            waitForElementVisible('@tutorialIntroThree');
     },
     navigateWithNextButton() {
         return this.
-            waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialNextButton').
             click('@tutorialNextButton').
-            waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialNextButton').
             click('@tutorialNextButton').
-            waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialNextButton').
             click('@tutorialNextButton');
     },
     skipTutorial() {
         return this.
-            waitForElementVisible('@tutorialSkipLink', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialSkipLink').
             click('@tutorialSkipLink');
     },
 };
 
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}/login`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [tutorialCommands],
     elements: {
         appContent: {selector: '#app-content'},

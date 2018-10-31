@@ -5,16 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {searchProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 
-import {searchUsers} from 'actions/user_actions.jsx';
-import {addUserToChannel} from 'actions/channel_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import Constants from 'utils/constants.jsx';
+import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
@@ -24,29 +18,23 @@ const MAX_SELECTABLE_VALUES = 20;
 
 export default class ChannelInviteModal extends React.Component {
     static propTypes = {
+        profilesNotInCurrentChannel: PropTypes.array.isRequired,
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
+            addUsersToChannel: PropTypes.func.isRequired,
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
 
-        this.term = '';
-        this.searchTimeoutId = 0;
-
-        const channelStats = ChannelStore.getStats(props.channel.id);
-        const teamStats = TeamStore.getCurrentStats();
-
         this.state = {
-            users: Object.assign([], UserStore.getProfileListNotInChannel(props.channel.id, true)),
-            total: teamStats.active_member_count - channelStats.member_count,
             values: [],
+            term: '',
             show: true,
-            statusChange: false,
             saving: false,
             loadingUsers: true,
         };
@@ -59,54 +47,18 @@ export default class ChannelInviteModal extends React.Component {
         }
 
         this.setState({values});
-    }
+    };
 
     componentDidMount() {
-        TeamStore.addStatsChangeListener(this.onChange);
-        ChannelStore.addStatsChangeListener(this.onChange);
-        UserStore.addNotInChannelChangeListener(this.onChange);
-        UserStore.addStatusesChangeListener(this.onStatusChange);
-
-        this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, 0).then(() => {
+        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, 0).then(() => {
             this.setUsersLoadingState(false);
         });
-        this.props.actions.getTeamStats(TeamStore.getCurrentId());
-    }
-
-    componentWillUnmount() {
-        TeamStore.removeStatsChangeListener(this.onChange);
-        ChannelStore.removeStatsChangeListener(this.onChange);
-        UserStore.removeNotInChannelChangeListener(this.onChange);
-        UserStore.removeStatusesChangeListener(this.onStatusChange);
-    }
-
-    onChange = () => {
-        let users;
-        if (this.term) {
-            users = searchProfilesNotInCurrentChannel(store.getState(), this.term, true);
-        } else {
-            users = UserStore.getProfileListNotInChannel(this.props.channel.id, true);
-        }
-
-        const channelStats = ChannelStore.getStats(this.props.channel.id);
-        const teamStats = TeamStore.getCurrentStats();
-
-        this.setState({
-            users,
-            total: teamStats.active_member_count - channelStats.member_count,
-        });
-    }
-
-    onStatusChange = () => {
-        // Initiate a render to pick up on new statuses
-        this.setState({
-            statusChange: !this.state.statusChange,
-        });
+        this.props.actions.getTeamStats(this.props.channel.team_id);
     }
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleInviteError = (err) => {
         if (err) {
@@ -114,34 +66,30 @@ export default class ChannelInviteModal extends React.Component {
                 saving: false,
                 inviteError: err.message,
             });
-        } else {
-            this.setState({
-                saving: false,
-                inviteError: null,
-            });
         }
-    }
+    };
 
     handleDelete = (values) => {
         this.setState({values});
-    }
+    };
 
     setUsersLoadingState = (loadingState) => {
         this.setState({
             loadingUsers: loadingState,
         });
-    }
+    };
 
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
-    }
+    };
 
     handleSubmit = (e) => {
+        const {actions, channel} = this.props;
         if (e) {
             e.preventDefault();
         }
@@ -153,41 +101,24 @@ export default class ChannelInviteModal extends React.Component {
 
         this.setState({saving: true});
 
-        userIds.forEach((userId) => {
-            addUserToChannel(
-                this.props.channel.id,
-                userId,
-                () => {
-                    this.handleInviteError(null);
-                },
-                (err) => {
-                    this.handleInviteError(err);
-                }
-            );
+        actions.addUsersToChannel(channel.id, userIds).then((result) => {
+            if (result.error) {
+                this.handleInviteError(result.error);
+            } else {
+                this.setState({
+                    saving: false,
+                    inviteError: null,
+                });
+                this.onHide();
+            }
         });
-
-        this.onHide();
-    }
+    };
 
     search = (term) => {
-        clearTimeout(this.searchTimeoutId);
-        this.term = term;
-
-        if (term === '') {
-            this.onChange();
-            return;
-        }
-
-        this.searchTimeoutId = setTimeout(
-            () => {
-                this.setUsersLoadingState(true);
-                searchUsers(term, TeamStore.getCurrentId(), {not_in_channel_id: this.props.channel.id}).then(() => {
-                    this.setUsersLoadingState(false);
-                });
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
-    }
+        this.setState({
+            term,
+        });
+    };
 
     renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
@@ -222,10 +153,10 @@ export default class ChannelInviteModal extends React.Component {
                 </div>
             </div>
         );
-    }
+    };
 
-    renderValue = (user) => {
-        return user.username;
+    renderValue(props) {
+        return props.data.username;
     }
 
     render() {
@@ -246,10 +177,8 @@ export default class ChannelInviteModal extends React.Component {
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        let users = [];
-        if (this.state.users) {
-            users = this.state.users.filter((user) => user.delete_at === 0);
-        }
+        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term);
+        users = users.filter((user) => user.delete_at === 0);
 
         const content = (
             <MultiSelect

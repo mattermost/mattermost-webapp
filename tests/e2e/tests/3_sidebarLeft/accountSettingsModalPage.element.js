@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../../utils';
-
 module.exports = {
     '@tags': ['account_settings', 'account_settings_general', 'account_settings_display', 'account_settings_notification'],
     before: (client) => {
-        const testUser = Constants.USERS.test;
+        const testUser = client.globals.testUsers.test;
         const loginPage = client.page.loginPage();
 
         loginPage.navigate().
@@ -64,6 +62,7 @@ module.exports = {
         sidebarLeftPage.click('@sidebarHeaderDropdownButton');
     },
     'Account Settings Modal page, General section - element check': (client) => {
+        const testUser = client.globals.testUsers.test;
         const sidebarLeftPage = client.page.sidebarLeftPage();
         sidebarLeftPage.navigateToAccountSettingsModal();
 
@@ -87,7 +86,7 @@ module.exports = {
             assert.containsText('@usernameTitle', 'Username').
             assert.visible('@usernameEdit').
             assert.visible('@usernameDesc').
-            assert.containsText('@usernameDesc', Constants.USERS.test.username).
+            assert.containsText('@usernameDesc', testUser.username).
             assert.visible('@nicknameTitle').
             assert.containsText('@nicknameTitle', 'Nickname').
             assert.visible('@nicknameEdit').

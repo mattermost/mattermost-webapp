@@ -7,14 +7,11 @@ require('perfect-scrollbar/jquery')($);
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {IntlProvider} from 'react-intl';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Client4} from 'mattermost-redux/client';
-import {setLocalizeFunction} from 'mattermost-redux/utils/i18n_utils.js';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
@@ -22,14 +19,13 @@ import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
-import {localizeMessage} from 'utils/utils.jsx';
+import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
+import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import {makeAsyncComponent} from 'components/async_load';
 import loadErrorPage from 'bundle-loader?lazy!components/error_page';
@@ -147,8 +143,6 @@ export default class Root extends React.Component {
 
         this.state = {
             configLoaded: false,
-            locale: LocalizationStore.getLocale(),
-            translations: LocalizationStore.getTranslations(),
         };
     }
 
@@ -220,16 +214,7 @@ export default class Root extends React.Component {
 
         const afterIntl = () => {
             initializePlugins();
-            I18n.doAddLocaleData();
-            setLocalizeFunction(localizeMessage);
 
-            // Setup localization listener
-            LocalizationStore.addChangeListener(this.localizationChanged);
-
-            // Get our localizaiton
-            GlobalActions.loadCurrentLocale();
-
-            this.redirectIfNecessary(this.props);
             this.setState({configLoaded: true});
         };
         if (global.Intl) {
@@ -255,21 +240,12 @@ export default class Root extends React.Component {
         }
     }
 
-    localizationChanged = () => {
-        const locale = LocalizationStore.getLocale();
-
-        Client4.setAcceptLanguage(locale);
-        this.setState({locale, translations: LocalizationStore.getTranslations()});
-    }
-
     redirectIfNecessary = (props) => {
         if (props.location.pathname === '/') {
             if (this.props.noAccounts) {
                 this.props.history.push('/signup_user_complete');
             } else if (props.showTermsOfService) {
                 this.props.history.push('/terms_of_service');
-            } else if (UserStore.getCurrentUser()) {
-                GlobalActions.redirectUserToDefaultTeam();
             }
         }
     }
@@ -279,15 +255,16 @@ export default class Root extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadMeAndConfig().then(() => {
+        this.props.actions.loadMeAndConfig().then((response) => {
+            if (this.props.location.pathname === '/' && response[2] && response[2].data) {
+                GlobalActions.redirectUserToDefaultTeam();
+            }
             this.onConfigLoaded();
         });
-
         trackLoadTime();
     }
 
     componentWillUnmount() {
-        LocalizationStore.removeChangeListener(this.localizationChanged);
         $(window).unbind('storage');
     }
 
@@ -299,16 +276,12 @@ export default class Root extends React.Component {
     }
 
     render() {
-        if (this.state.translations == null || this.state.configLoaded === false) {
+        if (!this.state.configLoaded) {
             return <div/>;
         }
         const PlugableModuleComponents = this.createPlugableModuleComponents();
         return (
-            <IntlProvider
-                locale={this.state.locale}
-                messages={this.state.translations}
-                key={this.state.locale}
-            >
+            <IntlProvider>
                 <Switch>
                     <Route
                         path={'/error'}

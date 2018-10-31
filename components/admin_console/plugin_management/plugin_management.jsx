@@ -567,18 +567,22 @@ export default class PluginManagement extends React.Component {
                 return 0;
             });
 
-            pluginsList = plugins.map((pluginStatus) => (
-                <PluginItem
-                    key={pluginStatus.id}
-                    pluginStatus={pluginStatus}
-                    removing={this.state.removing === pluginStatus.id}
-                    handleEnable={this.handleEnable}
-                    handleDisable={this.handleDisable}
-                    handleRemove={this.handleRemove}
-                    showInstances={showInstances}
-                    hasSettings={Boolean(this.props.plugins[pluginStatus.id] && this.props.plugins[pluginStatus.id].settings_schema)}
-                />
-            ));
+            pluginsList = plugins.map((pluginStatus) => {
+                const p = this.props.plugins[pluginStatus.id];
+                const hasSettings = Boolean(p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || (p.settings_schema.settings && p.settings_schema.settings.length > 0)));
+                return (
+                    <PluginItem
+                        key={pluginStatus.id}
+                        pluginStatus={pluginStatus}
+                        removing={this.state.removing === pluginStatus.id}
+                        handleEnable={this.handleEnable}
+                        handleDisable={this.handleDisable}
+                        handleRemove={this.handleRemove}
+                        showInstances={showInstances}
+                        hasSettings={hasSettings}
+                    />
+                );
+            });
 
             pluginsContainer = (
                 <div className='alert alert-transparent'>

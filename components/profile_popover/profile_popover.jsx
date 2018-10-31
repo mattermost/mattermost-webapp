@@ -7,18 +7,13 @@ import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import LocalDateTime from 'components/local_date_time';
+import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
-
-const UserStatuses = Constants.UserStatuses;
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -47,11 +42,6 @@ class ProfilePopover extends React.Component {
         status: PropTypes.string,
 
         /**
-         * Set to true if the user is in a WebRTC call
-         */
-        isBusy: PropTypes.bool,
-
-        /**
          * Function to call to hide the popover
          */
         hide: PropTypes.func,
@@ -67,12 +57,14 @@ class ProfilePopover extends React.Component {
          */
         hasMention: PropTypes.bool,
 
-        /**
-         * Whether or not WebRtc is enabled.
-         */
-        enableWebrtc: PropTypes.bool.isRequired,
+        currentUserId: PropTypes.string.isRequired,
+        teamUrl: PropTypes.string.isRequired,
 
         ...Popover.propTypes,
+
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequred,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -83,12 +75,10 @@ class ProfilePopover extends React.Component {
     constructor(props) {
         super(props);
 
-        this.initWebrtc = this.initWebrtc.bind(this);
         this.handleShowDirectChannel = this.handleShowDirectChannel.bind(this);
         this.handleMentionKeyClick = this.handleMentionKeyClick.bind(this);
         this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
-            currentUserId: UserStore.getCurrentId(),
             loadingDMChannel: -1,
         };
     }
@@ -154,16 +144,9 @@ class ProfilePopover extends React.Component {
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/@${user.username}`);
+                browserHistory.push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         );
-    }
-
-    initWebrtc() {
-        if (this.props.status !== UserStatuses.OFFLINE && !WebrtcStore.isBusy()) {
-            GlobalActions.emitCloseRightHandSide();
-            WebrtcActions.initWebrtc(this.props.user.id, true);
-        }
     }
 
     handleMentionKeyClick(e) {
@@ -187,7 +170,7 @@ class ProfilePopover extends React.Component {
         if (this.props.hide) {
             this.props.hide();
         }
-        GlobalActions.showAccountSettingsModal();
+        this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
     }
 
     render() {
@@ -200,58 +183,10 @@ class ProfilePopover extends React.Component {
         delete popoverProps.isRHS;
         delete popoverProps.hasMention;
         delete popoverProps.dispatch;
-        delete popoverProps.enableWebrtc;
         delete popoverProps.enableTimezone;
-
-        let webrtc;
-        const webrtcEnabled = this.props.enableWebrtc && Utils.isUserMediaAvailable();
-        if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
-            const isOnline = this.props.status !== UserStatuses.OFFLINE;
-            let webrtcMessage;
-            if (isOnline && !this.props.isBusy) {
-                webrtcMessage = (
-                    <FormattedMessage
-                        id='user_profile.webrtc.call'
-                        defaultMessage='Start Video Call'
-                    />
-                );
-            } else if (this.props.isBusy) {
-                webrtcMessage = (
-                    <FormattedMessage
-                        id='user_profile.webrtc.unavailable'
-                        defaultMessage='New call unavailable until your existing call ends'
-                    />
-                );
-            } else {
-                webrtcMessage = (
-                    <FormattedMessage
-                        id='user_profile.webrtc.offline'
-                        defaultMessage='The user is offline'
-                    />
-                );
-            }
-
-            webrtc = (
-                <div
-                    data-toggle='tooltip'
-                    key='makeCall'
-                    className='popover__row'
-                >
-                    <a
-                        href='#'
-                        className='text-nowrap user-popover__email'
-                        onClick={this.initWebrtc}
-                        disabled={!isOnline}
-                    >
-                        <i
-                            className='fa fa-video-camera'
-                            title={Utils.localizeMessage('webrtc.icon', 'Webrtc Icon')}
-                        />
-                        {webrtcMessage}
-                    </a>
-                </div>
-            );
-        }
+        delete popoverProps.currentUserId;
+        delete popoverProps.teamUrl;
+        delete popoverProps.actions;
 
         var dataContent = [];
         dataContent.push(
@@ -269,7 +204,7 @@ class ProfilePopover extends React.Component {
         if (fullname) {
             dataContent.push(
                 <OverlayTrigger
-                    delayShow={Constants.WEBRTC_TIME_DELAY}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
                     key='user-popover-fullname'
@@ -287,7 +222,7 @@ class ProfilePopover extends React.Component {
             const position = this.props.user.position.substring(0, Constants.MAX_POSITION_LENGTH);
             dataContent.push(
                 <OverlayTrigger
-                    delayShow={Constants.WEBRTC_TIME_DELAY}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
                     key='user-popover-position'
@@ -350,7 +285,7 @@ class ProfilePopover extends React.Component {
             );
         }
 
-        if (this.props.user.id === UserStore.getCurrentId()) {
+        if (this.props.user.id === this.props.currentUserId) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'
@@ -374,7 +309,7 @@ class ProfilePopover extends React.Component {
             );
         }
 
-        if (this.props.user.id !== UserStore.getCurrentId()) {
+        if (this.props.user.id !== this.props.currentUserId) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'
@@ -397,7 +332,6 @@ class ProfilePopover extends React.Component {
                     </a>
                 </div>
             );
-            dataContent.push(webrtc);
         }
 
         dataContent.push(

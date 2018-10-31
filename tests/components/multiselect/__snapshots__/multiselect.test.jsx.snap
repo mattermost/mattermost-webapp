@@ -11,21 +11,23 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       className="multi-select__container"
     >
       <StateManager
-        arrowRenderer={[Function]}
-        clearable={false}
+        components={
+          Object {
+            "IndicatorsContainer": [Function],
+            "Menu": [Function],
+            "MultiValueLabel": [Function],
+          }
+        }
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
-        joinValues={true}
-        menuRenderer={[Function]}
-        multi={true}
-        noResultsText={null}
-        onBlurResetsInput={false}
+        inputValue=""
+        isClearable={false}
+        isMulti={true}
         onChange={[Function]}
-        onCloseResetsInput={false}
         onInputChange={[Function]}
-        onInputKeyDown={[Function]}
-        openOnFocus={true}
+        onKeyDown={[Function]}
+        openMenuOnFocus={false}
         options={
           Array [
             Object {
@@ -63,6 +65,14 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           ]
         }
         placeholder="Search and add members"
+        styles={
+          Object {
+            "container": [Function],
+            "control": [Function],
+            "multiValue": [Function],
+            "multiValueRemove": [Function],
+          }
+        }
         value={
           Array [
             Object {
@@ -159,21 +169,23 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       className="multi-select__container"
     >
       <StateManager
-        arrowRenderer={[Function]}
-        clearable={false}
+        components={
+          Object {
+            "IndicatorsContainer": [Function],
+            "Menu": [Function],
+            "MultiValueLabel": [Function],
+          }
+        }
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultValue={null}
-        joinValues={true}
-        menuRenderer={[Function]}
-        multi={true}
-        noResultsText={null}
-        onBlurResetsInput={false}
+        inputValue=""
+        isClearable={false}
+        isMulti={true}
         onChange={[Function]}
-        onCloseResetsInput={false}
         onInputChange={[Function]}
-        onInputKeyDown={[Function]}
-        openOnFocus={true}
+        onKeyDown={[Function]}
+        openMenuOnFocus={false}
         options={
           Array [
             Object {
@@ -211,6 +223,14 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           ]
         }
         placeholder="Search and add members"
+        styles={
+          Object {
+            "container": [Function],
+            "control": [Function],
+            "multiValue": [Function],
+            "multiValueRemove": [Function],
+          }
+        }
         value={
           Array [
             Object {

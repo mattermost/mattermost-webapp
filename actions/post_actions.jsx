@@ -2,19 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
+
 import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
+import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import * as Selectors from 'mattermost-redux/selectors/entities/posts';
-import {comparePosts} from 'mattermost-redux/utils/post_utils';
+import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
-import {sendDesktopNotification} from 'actions/notification_actions.jsx';
+import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
@@ -27,129 +28,92 @@ import {
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
+import {completePostReceive} from './post_utils';
+
 const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function handleNewPost(post, msg) {
-    let websocketMessageProps = {};
-    if (msg) {
-        websocketMessageProps = msg.data;
-    }
-
-    if (ChannelStore.getMyMember(post.channel_id)) {
-        completePostReceive(post, websocketMessageProps);
-    } else {
-        getMyChannelMember(post.channel_id)(dispatch, getState).then(() => completePostReceive(post, websocketMessageProps));
-    }
-
-    if (msg && msg.data) {
-        if (msg.data.channel_type === Constants.DM_CHANNEL) {
-            loadNewDMIfNeeded(post.channel_id);
-        } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
-            loadNewGMIfNeeded(post.channel_id);
+    return async (doDispatch, doGetState) => {
+        let websocketMessageProps = {};
+        if (msg) {
+            websocketMessageProps = msg.data;
         }
-    }
-}
 
-function completePostReceive(post, websocketMessageProps) {
-    if (post.root_id && Selectors.getPost(getState(), post.root_id) == null) {
-        PostActions.getPostThread(post.root_id)(dispatch, getState).then(
-            (data) => {
-                dispatchPostActions(post, websocketMessageProps);
-                PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
+        const myChannelMember = getMyChannelMemberSelector(doGetState(), post.channel_id);
+        if (myChannelMember && Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object') {
+            await doDispatch(getMyChannelMember(post.channel_id));
+        }
+
+        doDispatch(completePostReceive(post, websocketMessageProps));
+
+        if (msg && msg.data) {
+            if (msg.data.channel_type === Constants.DM_CHANNEL) {
+                loadNewDMIfNeeded(post.channel_id);
+            } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
+                loadNewGMIfNeeded(post.channel_id);
             }
-        );
-
-        return;
-    }
-
-    dispatchPostActions(post, websocketMessageProps);
-}
-
-function dispatchPostActions(post, websocketMessageProps) {
-    const {currentChannelId} = getState().entities.channels;
-
-    if (post.channel_id === currentChannelId) {
-        dispatch({
-            type: ActionTypes.INCREASE_POST_VISIBILITY,
-            data: post.channel_id,
-            amount: 1,
-        });
-    }
-
-    // Need manual dispatch to remove pending post
-    dispatch({
-        type: PostTypes.RECEIVED_POSTS,
-        data: {
-            order: [],
-            posts: {
-                [post.id]: post,
-            },
-        },
-        channelId: post.channel_id,
-    });
-
-    // Still needed to update unreads
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_POST,
-        post,
-        websocketMessageProps,
-    });
-
-    dispatch(sendDesktopNotification(post, websocketMessageProps));
-}
-
-export async function flagPost(postId) {
-    await PostActions.flagPost(postId)(dispatch, getState);
-
-    const rhsState = getRhsState(getState());
-
-    // This is a hack that should be fixed with better reducers/actions, see MM-9793
-    if (rhsState === RHSStates.FLAG) {
-        let results = getState().entities.search.results;
-        const index = results.indexOf(postId);
-        if (index === -1) {
-            results = [...results, postId];
-
-            const posts = {};
-            results.forEach((id) => {
-                posts[id] = Selectors.getPost(getState(), id);
-            });
-
-            results.sort((a, b) => comparePosts(posts[a], posts[b]));
-
-            dispatch({
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: {posts, order: results},
-            });
         }
-    }
+    };
 }
 
-export async function unflagPost(postId) {
-    await PostActions.unflagPost(postId)(dispatch, getState);
+const getPostsForIds = PostSelectors.makeGetPostsForIds();
 
-    const rhsState = getRhsState(getState());
+export function flagPost(postId) {
+    return async (doDispatch, doGetState) => {
+        await doDispatch(PostActions.flagPost(postId));
+        const state = doGetState();
+        const rhsState = getRhsState(state);
 
-    // This is a hack that should be fixed with better reducers/actions, see MM-9793
-    if (rhsState === RHSStates.FLAG) {
-        let results = getState().entities.search.results;
-        const index = results.indexOf(postId);
-        if (index > -1) {
-            results = [...results];
-            results.splice(index, 1);
+        if (rhsState === RHSStates.FLAG) {
+            const results = state.entities.search.results;
+            const index = results.indexOf(postId);
+            if (index === -1) {
+                const flaggedPost = PostSelectors.getPost(state, postId);
+                const posts = getPostsForIds(state, results).reduce((acc, post) => {
+                    acc[post.id] = post;
+                    return acc;
+                }, {});
+                posts[flaggedPost.id] = flaggedPost;
 
-            const posts = {};
-            results.forEach((id) => {
-                posts[id] = Selectors.getPost(getState(), id);
-            });
+                const newResults = [...results, postId];
+                newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
 
-            dispatch({
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: {posts, order: results},
-            });
+                doDispatch({
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: {posts, order: newResults},
+                });
+            }
         }
-    }
+
+        return {data: true};
+    };
+}
+
+export function unflagPost(postId) {
+    return async (doDispatch, doGetState) => {
+        await doDispatch(PostActions.unflagPost(postId));
+        const state = doGetState();
+        const rhsState = getRhsState(state);
+
+        if (rhsState === RHSStates.FLAG) {
+            let results = state.entities.search.results;
+            const index = results.indexOf(postId);
+            if (index > -1) {
+                results = [...results];
+                results.splice(index, 1);
+
+                const posts = getPostsForIds(state, results);
+
+                doDispatch({
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: {posts, order: results},
+                });
+            }
+        }
+
+        return {data: true};
+    };
 }
 
 export async function createPost(post, files, success) {
@@ -169,14 +133,26 @@ export async function createPost(post, files, success) {
     }
 
     if (post.root_id) {
-        PostStore.storeCommentDraft(post.root_id, null);
+        dispatch(storeCommentDraft(post.root_id, null));
     } else {
-        PostStore.storeDraft(post.channel_id, null);
+        dispatch(storeDraft(post.channel_id, null));
     }
 
     if (success) {
         success();
     }
+}
+
+export function storeDraft(channelId, draft) {
+    return (doDispatch) => {
+        doDispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
+    };
+}
+
+export function storeCommentDraft(rootPostId, draft) {
+    return (doDispatch) => {
+        doDispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
+    };
 }
 
 export async function updatePost(post, success) {
@@ -193,10 +169,7 @@ export async function updatePost(post, success) {
 }
 
 export function emitEmojiPosted(emoji) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.EMOJI_POSTED,
-        alias: emoji,
-    });
+    dispatch(addRecentEmoji(emoji));
 }
 
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
@@ -204,11 +177,12 @@ const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 // Returns true if there are more posts to load
 export function increasePostVisibility(channelId, focusedPostId) {
     return async (doDispatch, doGetState) => {
-        if (doGetState().views.channel.loadingPosts[channelId]) {
+        const state = doGetState();
+        if (state.views.channel.loadingPosts[channelId]) {
             return true;
         }
 
-        const currentPostVisibility = doGetState().views.channel.postVisibility[channelId];
+        const currentPostVisibility = state.views.channel.postVisibility[channelId];
 
         if (currentPostVisibility >= Constants.MAX_POST_VISIBILITY) {
             return true;
@@ -231,9 +205,9 @@ export function increasePostVisibility(channelId, focusedPostId) {
 
         let result;
         if (focusedPostId) {
-            result = await PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+            result = await doDispatch(PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT));
         } else {
-            result = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);
+            result = await doDispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
         }
         const posts = result.data;
 
@@ -281,26 +255,21 @@ export function doPostAction(postId, actionId) {
 export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
-        const post = Selectors.getPost(state, postId);
+        const post = PostSelectors.getPost(state, postId);
 
         if (!post || post.pending_post_id === postId) {
             return {data: false};
         }
 
-        let canEditNow = true;
+        const config = state.entities.general.config;
+        const license = state.entities.general.license;
+        const userId = getCurrentUserId(state);
+        const channel = getChannel(state, post.channel_id);
+        const teamId = channel.team_id || '';
+
+        const canEditNow = canEditPost(state, config, license, teamId, post.channel_id, userId, post);
 
         // Only show the modal if we can edit the post now, but allow it to be hidden at any time
-        if (postId && state.entities.general.license.IsLicensed === 'true') {
-            const config = state.entities.general.config;
-
-            if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-                canEditNow = false;
-            } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
-                    canEditNow = false;
-                }
-            }
-        }
 
         if (canEditNow) {
             doDispatch({

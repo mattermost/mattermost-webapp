@@ -14,7 +14,6 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {goToChannelById} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
@@ -24,11 +23,10 @@ import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
+import NewChannelFlow from 'components/new_channel_flow';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
 import Pluggable from 'plugins/pluggable';
-
-import NewChannelFlow from '../new_channel_flow.jsx';
-import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
@@ -129,6 +127,7 @@ export default class Sidebar extends React.PureComponent {
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
+            switchToChannelById: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -363,14 +362,14 @@ export default class Sidebar extends React.PureComponent {
                 nextIndex = curIndex - 1;
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            goToChannelById(nextChannelId);
-
+            this.props.actions.switchToChannelById(nextChannelId);
             this.updateScrollbarOnChannelChange(nextChannelId);
+
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.handleOpenMoreDirectChannelsModal(e);
         }
-    }
+    };
 
     navigateUnreadChannelShortcut = (e) => {
         if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
@@ -400,14 +399,13 @@ export default class Sidebar extends React.PureComponent {
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                goToChannelById(nextChannelId);
-
+                this.props.actions.switchToChannelById(nextChannelId);
                 this.updateScrollbarOnChannelChange(nextChannelId);
             }
 
             this.isSwitchingChannel = false;
         }
-    }
+    };
 
     getDisplayedChannels = (props = this.props) => {
         if (props.showUnreadSection) {

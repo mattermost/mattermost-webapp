@@ -5,7 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {searchPostsWithParams} from 'mattermost-redux/actions/search';
+import {searchPostsWithParams, getFlaggedPosts} from 'mattermost-redux/actions/search';
 import {Client4} from 'mattermost-redux/client';
 import {SearchTypes} from 'mattermost-redux/action_types';
 
@@ -14,7 +14,6 @@ import {
     selectPostFromRightHandSideSearch,
     updateSearchTerms,
     performSearch,
-    getFlaggedPosts,
     getPinnedPosts,
     showSearchResults,
     showFlaggedPosts,
@@ -45,6 +44,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    getFlaggedPosts: (...args) => ({type: 'MOCK_GET_FLAGGED_POSTS', args}),
 }));
 
 jest.mock('mattermost-redux/client', () => {
@@ -228,78 +228,45 @@ describe('rhs view actions', () => {
         });
     });
 
-    describe('getFlaggedPosts', () => {
-        test('it dispatches the right actions', async () => {
-            await store.dispatch(getFlaggedPosts());
-
-            const compareStore = mockStore(initialState);
-            const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
-            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-
-            compareStore.dispatch(batchActions([
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                    data: result,
-                },
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_TERM,
-                    data: {
-                        teamId: '321',
-                        terms: null,
-                        isOrSearch: false,
-                    },
-                },
-                {
-                    type: SearchTypes.SEARCH_POSTS_SUCCESS,
-                },
-            ]));
-
-            expect(store.getActions()).toEqual(compareStore.getActions());
-        });
-    });
-
     describe('showFlaggedPosts', () => {
         test('it dispatches the right actions', async () => {
+            function getSearchActions(result, teamId) {
+                return [
+                    {
+                        type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                        data: result,
+                    },
+                    {
+                        type: SearchTypes.RECEIVED_SEARCH_TERM,
+                        data: {
+                            teamId,
+                            terms: null,
+                            isOrSearch: false,
+                        },
+                    },
+                    {
+                        type: SearchTypes.SEARCH_POSTS_SUCCESS,
+                    },
+                ];
+            }
+
             store.dispatch(showFlaggedPosts());
 
             const compareStore = mockStore(initialState);
-            const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
-            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
 
-            compareStore.dispatch(batchActions([
-                {
-                    type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST,
-                },
-                {
-                    type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: '',
-                },
-                {
-                    type: ActionTypes.UPDATE_RHS_STATE,
-                    state: RHSStates.FLAG,
-                },
-            ]));
+            compareStore.dispatch({
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.FLAG,
+            });
 
-            compareStore.dispatch(batchActions([
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                    data: result,
-                },
-                {
-                    type: SearchTypes.RECEIVED_SEARCH_TERM,
-                    data: {
-                        teamId: '321',
-                        terms: null,
-                        isOrSearch: false,
-                    },
-                },
-                {
-                    type: SearchTypes.SEARCH_POSTS_SUCCESS,
-                },
-                {
-                    type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
-                },
-            ]));
+            const result = await compareStore.dispatch(getFlaggedPosts());
+
+            const postRHSSearchActions = getSearchActions(
+                result.data,
+                currentTeamId
+            );
+
+            compareStore.dispatch(batchActions(postRHSSearchActions));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });

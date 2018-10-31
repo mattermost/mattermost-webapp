@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
@@ -36,11 +35,11 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, AnnouncementBarMessages, Preferences, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
-
-import * as WebrtcActions from './webrtc_actions.jsx';
+import * as ModalActions from 'actions/views/modals';
+import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -132,7 +131,7 @@ export function reconnect(includeWebSocket = true) {
     if (currentTeamId) {
         loadChannelsForCurrentUser();
         getPosts(ChannelStore.getCurrentId())(dispatch, getState);
-        StatusActions.loadStatusesForChannelAndSidebar();
+        dispatch(StatusActions.loadStatusesForChannelAndSidebar());
         TeamActions.getMyTeamUnreads()(dispatch, getState);
     }
 
@@ -302,10 +301,6 @@ function handleEvent(msg) {
         handleHelloEvent(msg);
         break;
 
-    case SocketEvents.WEBRTC:
-        handleWebrtc(msg);
-        break;
-
     case SocketEvents.REACTION_ADDED:
         handleReactionAddedEvent(msg);
         break;
@@ -386,7 +381,7 @@ function handleChannelMemberUpdatedEvent(msg) {
 
 function handleNewPostEvent(msg) {
     const post = JSON.parse(msg.data.post);
-    handleNewPost(post, msg);
+    dispatch(handleNewPost(post, msg));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
 
@@ -560,14 +555,18 @@ function handleUserRemovedEvent(msg) {
         loadChannelsForCurrentUser();
 
         if (msg.data.channel_id === ChannelStore.getCurrentId()) {
-            if (msg.data.remover_id !== msg.broadcast.user_id &&
-                $('#removed_from_channel').length > 0) {
-                var sentState = {};
-                sentState.channelName = ChannelStore.getCurrent().display_name;
-                sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
+            if (msg.data.remover_id !== msg.broadcast.user_id) {
+                var removedFromChannelProps = {};
+                removedFromChannelProps.channelName = ChannelStore.getCurrent().display_name;
+                removedFromChannelProps.remover = UserStore.getProfile(msg.data.remover_id).username;
 
-                BrowserStore.setItem('channel-removed-state', sentState);
-                $('#removed_from_channel').modal('show');
+                const RemovedFromChannelModalData = {
+                    modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
+                    dialogType: RemovedFromChannelModal,
+                    dialogProps: removedFromChannelProps,
+                };
+
+                ModalActions.openModal(RemovedFromChannelModalData)(dispatch, getState);
             }
 
             GlobalActions.emitCloseRightHandSide();
@@ -708,11 +707,6 @@ function handleStatusChangedEvent(msg) {
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
-}
-
-function handleWebrtc(msg) {
-    const data = msg.data;
-    return WebrtcActions.handle(data);
 }
 
 function handleReactionAddedEvent(msg) {

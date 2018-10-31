@@ -6,8 +6,7 @@
         @include translateX(100%);
         z-index: 10;
 
-        &.move--left,
-        &.webrtc--show {
+        &.move--left {
             -webkit-transform: translateX(0) !important;
             -moz-transform: translateX(0) !important;
             -ms-transform: translateX(0) !important;
@@ -34,8 +33,7 @@
             margin-right: 0 !important;
         }
 
-        &.move--left,
-        &.webrtc--show {
+        &.move--left {
             margin-right: 0 !important;
 
             .channel-header__links {
@@ -46,7 +44,6 @@
         }
 
         &.move--left,
-        &.webrtc--show,
         &.move--right {
             .header-list__right {
                 // hide it behind the RHS
@@ -188,8 +185,7 @@
     }
 
     .sidebar--right {
-        &.move--left,
-        &.webrtc--show {
+        &.move--left {
             @include translateX(0);
         }
 
@@ -230,8 +226,7 @@
     }
 
     .inner-wrap {
-        &.move--left,
-        &.webrtc--show {
+        &.move--left {
             margin-right: 400px;
         }
     }

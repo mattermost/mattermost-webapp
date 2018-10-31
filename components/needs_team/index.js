@@ -13,6 +13,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
+import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {setPreviousTeamId} from 'actions/local_storage';
 import {checkIfMFARequired} from 'utils/route';
 
@@ -43,6 +44,7 @@ function mapDispatchToProps(dispatch) {
             joinTeam,
             setPreviousTeamId,
             selectTeam,
+            loadStatusesForChannelAndSidebar,
         }, dispatch),
     };
 }

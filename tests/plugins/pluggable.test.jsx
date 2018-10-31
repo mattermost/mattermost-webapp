@@ -22,14 +22,17 @@ describe('plugins/Pluggable', () => {
         entities: {
             general: {
                 config: {
-                    EnableWebrtc: 'true',
                 },
             },
             teams: {
-                currentTeamId: '',
+                currentTeamId: 'someid',
+                teams: {someid: {name: 'somename'}},
             },
             preferences: {
                 myPreferences: {},
+            },
+            users: {
+                currentUserId: '',
             },
         },
         plugins: {

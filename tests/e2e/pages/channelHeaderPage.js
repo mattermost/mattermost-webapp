@@ -1,16 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../utils';
-
 const centerChannelHeaderCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@headerContainer', Constants.DEFAULT_WAIT);
+        return this.waitForElementVisible('@channelHeader');
+    },
+    navigateToChannelHeaderDropdown() {
+        return this.
+            section.channelHeader.
+            click('@channelHeaderDropdownButton').
+            section.channelHeaderInfo.
+            waitForElementVisible('@channelHeaderDropdownMenu');
     },
 };
 
+const channelHeaderDropdownButton = {selector: '#channelHeaderDropdownButton'};
+const channelHeaderDropdownIcon = {selector: '#channelHeaderDropdownIcon'};
+
 module.exports = {
-    url: `${Constants.TEST_BASE_URL}`,
+    url: function() { // eslint-disable-line object-shorthand
+        return this.api.launchUrl;
+    },
     commands: [centerChannelHeaderCommands],
     sections: {
         channelHeader: {
@@ -22,8 +32,8 @@ module.exports = {
                         toggleFavorite: {selector: '#toggleFavorite'},
                         channelHeaderTitle: {selector: '#channelHeaderTitle'},
                         channelHeaderDescription: {selector: '#channelHeaderDescription'},
-                        channelHeaderDropdownButton: {selector: '#channelHeaderDropdownButton'},
-                        channelHeaderDropdownIcon: {selector: '#channelHeaderDropdownIcon'},
+                        channelHeaderDropdownButton,
+                        channelHeaderDropdownIcon,
                         channelHeaderDropdownMenu: {selector: '#channelHeaderDropdownMenu'},
                     },
                 },
@@ -48,6 +58,8 @@ module.exports = {
                 channelHeaderPinButton: {selector: '#channelHeaderPinButton'},
                 channelHeaderMentionButton: {selector: '#channelHeaderMentionButton'},
                 channelHeaderFlagButton: {selector: '#channelHeaderFlagButton'},
+                channelHeaderDropdownIcon,
+                channelHeaderDropdownButton,
             },
         },
     },

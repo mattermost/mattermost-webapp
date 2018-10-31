@@ -3,11 +3,12 @@
 
 import twemoji from 'twemoji';
 import XRegExp from 'xregexp';
-
-import EmojiStore from 'stores/emoji_store.jsx';
+import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {formatWithRenderer} from 'utils/markdown';
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
+import {getEmojiMap} from 'selectors/emojis';
+import store from 'stores/redux_store.jsx';
 
 import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
@@ -112,15 +113,16 @@ export function doFormatText(text, options) {
     }
 
     if (!('emoticons' in options) || options.emoticon) {
+        const emojiMap = getEmojiMap(store.getState());
         output = twemoji.parse(output, {
             className: 'emoticon',
             callback: (icon) => {
-                if (!EmojiStore.hasUnicode(icon)) {
+                if (!emojiMap.hasUnicode(icon)) {
                     // just leave the unicode characters and hope the browser can handle it
                     return null;
                 }
 
-                return EmojiStore.getEmojiImageUrl(EmojiStore.getUnicode(icon));
+                return getEmojiImageUrl(emojiMap.getUnicode(icon));
             },
         });
     }

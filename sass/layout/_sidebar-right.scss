@@ -14,10 +14,6 @@
         height: calc(100% - $announcement-bar-height);
     }
 
-    &.webrtc {
-        z-index: 5;
-    }
-
     &.sidebar--right--expanded {
         z-index: 15;
     }
@@ -32,8 +28,7 @@
         width: 300%;
     }
 
-    &.move--left,
-    &.webrtc--show {
+    &.move--left {
         .sidebar--right__bg {
             left: -100%;
         }

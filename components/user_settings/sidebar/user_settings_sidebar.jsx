@@ -60,10 +60,10 @@ export default class UserSettingsSidebar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = this.getStateFromStores();
+        this.state = this.getStateFromProps();
     }
 
-    getStateFromStores = () => {
+    getStateFromProps = () => {
         const {closeUnusedDirectMessages, displayUnreadSection, channelSwitcherOption} = this.props;
         return {
             settings: {
@@ -101,7 +101,7 @@ export default class UserSettingsSidebar extends React.Component {
 
     updateSection = (section) => {
         if (!section) {
-            this.setState(this.getStateFromStores());
+            this.setState(this.getStateFromProps());
         }
         this.setState({isSaving: false});
         this.props.updateSection(section);

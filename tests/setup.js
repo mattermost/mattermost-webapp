@@ -11,6 +11,16 @@ global.performance = {};
 
 configure({adapter: new Adapter()});
 
+global.window = Object.create(window);
+Object.defineProperty(window, 'location', {
+    value: {
+        href: 'http://localhost:8065',
+        origin: 'http://localhost:8065',
+        port: '8065',
+        protocol: 'http:',
+    },
+});
+
 const supportedCommands = ['copy'];
 
 Object.defineProperty(document, 'queryCommandSupported', {
@@ -54,4 +64,22 @@ afterEach(() => {
     if (logs.length > 0 || warns.length > 0 || errors.length > 0) {
         throw new Error('Unexpected console logs' + logs + warns + errors);
     }
+});
+
+expect.extend({
+    arrayContainingExactly(received, actual) {
+        const pass = received.sort().join(',') === actual.sort().join(',');
+        if (pass) {
+            return {
+                message: () =>
+                    `expected ${received} to not contain the exact same values as ${actual}`,
+                pass: true,
+            };
+        }
+        return {
+            message: () =>
+                `expected ${received} to not contain the exact same values as ${actual}`,
+            pass: false,
+        };
+    },
 });

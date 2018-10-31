@@ -6,20 +6,35 @@ import {shallow} from 'enzyme';
 
 import Navbar from 'components/navbar/navbar.jsx';
 
+jest.mock('utils/browser_history', () => {
+    const original = require.requireActual('utils/browser_history');
+    return {
+        ...original,
+        browserHistory: {
+            push: jest.fn(),
+        },
+    };
+});
+
 describe('components/navbar/Navbar', () => {
     const baseProps = {
         teamDisplayName: 'team_display_name',
         isPinnedPosts: true,
         actions: {
-            toggleLhs: jest.fn(),
             closeLhs: jest.fn(),
             closeRhs: jest.fn(),
-            toggleRhsMenu: jest.fn(),
             closeRhsMenu: jest.fn(),
+            leaveChannel: jest.fn(),
+            markFavorite: jest.fn(),
+            showPinnedPosts: jest.fn(),
+            toggleLhs: jest.fn(),
+            toggleRhsMenu: jest.fn(),
+            unmarkFavorite: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
+            updateRhsState: jest.fn(),
         },
         isLicensed: true,
-        enableWebrtc: true,
+        isFavoriteChannel: false,
     };
 
     const validState = {
@@ -68,28 +83,15 @@ describe('components/navbar/Navbar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, if enabled WebRTC and DM channel', () => {
+    test('should match snapshot, for DM channel', () => {
         const wrapper = shallow(
             <Navbar
                 {...baseProps}
-                enableWebrtc={true}
             />
         );
 
         const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name', team_id: 'team_id'}};
         wrapper.setState(newValidState);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, if WebRTC is not enabled', () => {
-        const wrapper = shallow(
-            <Navbar
-                {...baseProps}
-                enableWebrtc={false}
-            />
-        );
-
-        wrapper.setState(validState);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -148,11 +150,53 @@ describe('components/navbar/Navbar', () => {
         wrapper.instance().hideQuickSwitchModal();
         expect(wrapper.state('showQuickSwitchModal')).toEqual(false);
         expect(wrapper.state('quickSwitchMode')).toEqual('channel');
+    });
 
-        wrapper.setState({isBusy: false});
-        wrapper.instance().onBusy(true);
-        expect(wrapper.state('isBusy')).toEqual(true);
-        wrapper.instance().onBusy(false);
-        expect(wrapper.state('isBusy')).toEqual(false);
+    test('should toggle favorite channel', () => {
+        const wrapper = shallow(
+            <Navbar {...baseProps}/>
+        );
+
+        const event = {
+            preventDefault: jest.fn(),
+        };
+
+        wrapper.setState(validState);
+        wrapper.instance().toggleFavorite(event);
+        expect(wrapper.instance().props.actions.markFavorite).toBeCalled();
+
+        wrapper.setProps({isFavoriteChannel: true});
+        wrapper.instance().toggleFavorite(event);
+        expect(wrapper.instance().props.actions.unmarkFavorite).toBeCalled();
+    });
+
+    test('should leave public channel', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                leaveChannel: jest.fn().mockImplementation(() => {
+                    const data = true;
+
+                    return Promise.resolve({data});
+                }),
+            },
+        };
+
+        const channel = {
+            id: 'channel-1',
+            name: 'test-channel-1',
+            display_name: 'Test Channel 1',
+            type: 'O',
+            team_id: 'team-1',
+        };
+
+        const wrapper = shallow(
+            <Navbar {...props}/>
+        );
+
+        wrapper.setState({channel});
+        wrapper.instance().handleLeave();
+        expect(wrapper.instance().props.actions.leaveChannel).toHaveBeenCalledTimes(1);
     });
 });
