@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Disattivare il tuo account ti impedirà di accedere a questo server e disattiva tutte le notifiche email e mobile. Per riattivare l'account, contattare l'Amministratore di Sistema.",
   "user.settings.advance.deactivateDescShort": "Clicca 'Modifica' per disattivare l'account",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Feature} other {Features}} attiva/e",
-  "user.settings.advance.formattingDesc": "Se attivo le pubblicazioni saranno formattate per creare collegamenti, visualizzare emoji, formattare il testo e aggiungere le interruzioni di riga. Per default questa opzione è attiva. Ricaricare la pagina per applicare eventuali modifiche.",
+  "user.settings.advance.formattingDesc": "Se attivo, le pubblicazioni verranno formattate per creare collegamenti, visualizzare emoji, formattare il testo e aggiungere gli a capo. Per impostazione predefinita questa opzione è attiva.",
   "user.settings.advance.formattingTitle": "Abilita formattazione pubblicazioni",
   "user.settings.advance.icon": "Icona Impostazioni Avanzate",
   "user.settings.advance.joinLeaveDesc": "Se \"On\" i Messaggi di Sistema che indicano se un utente si è unito o ha lasciato un canale saranno visibili, altrimenti questi messaggi saranno nascosti. Un messaggio continuerà a comparire quando vieni aggiunto ad un canale in modo da ricevere una notifica.",

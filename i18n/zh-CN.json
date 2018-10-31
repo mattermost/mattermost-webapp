@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "停用您的帐号将无法再次登入服务器并停用所有邮件和手机推送。联系您的系统管理员如想重新激活您的帐号。",
   "user.settings.advance.deactivateDescShort": "点击 '编辑' 以注销您的帐号",
   "user.settings.advance.enabledFeatures": "已启用 {count, number} 项功能",
-  "user.settings.advance.formattingDesc": "开启时，文章会显示链接，表情符，格式，以及添加断行。默认下，此选项时开启的。修改此设定需要刷新页面。",
+  "user.settings.advance.formattingDesc": "如果开启，消息将创建链接、显示表情符以及添加换行。默认情况下，此设定是开启的。",
   "user.settings.advance.formattingTitle": "启用帖文格式",
   "user.settings.advance.icon": "高级设置图标",
   "user.settings.advance.joinLeaveDesc": "当 \"开启\" 时，用户加入或退出频道将会显示系统消息。当 \"关闭\" 时，用户加入或退出频道将不会显示系统消息。不过您加入到一个频道时仍然会显示系统消息而收到通知。",

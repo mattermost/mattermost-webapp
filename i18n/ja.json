@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "アカウントが無効化されると、このサーバーへログインできなくなり、全ての電子メール・モバイル通知が利用できなくなります。再びアカウントを有効化するには、システム管理者に連絡してください。",
   "user.settings.advance.deactivateDescShort": "あなたのアカウントを無効化するには'編集'をクリックしてください",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Feature} other {Features}}が有効化されました",
-  "user.settings.advance.formattingDesc": "オンにした場合、リンクの作成や絵文字の表示、テキストの書式設定や改行など、投稿に対する書式設定を行うことができるようになります。デフォルトではオンに設定されています。この設定を変更した場合、ページを再読み込みしてください。",
+  "user.settings.advance.formattingDesc": "有効な場合、投稿に対するリンクの作成、絵文字の表示、テキストスタイルの設定、改行の追加などのフォーマットが行われます。デフォルトでは、この設定は有効化されています。",
   "user.settings.advance.formattingTitle": "投稿の書式設定",
   "user.settings.advance.icon": "詳細設定アイコン",
   "user.settings.advance.joinLeaveDesc": "\"オン\"の場合、ユーザーがチャンネルへ参加・脱退したことを通知するシステムメッセージが見えるようになります。\"オフ\"の場合、チャンネルへ参加・脱退したことについてのシステムメッセージは見えなくなります。メッセージはあなたがチャンネルへ追加されたときに現れるため、あなたは通知を受け取ることができます。",

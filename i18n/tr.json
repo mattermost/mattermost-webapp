@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Hesabınız devre dışı bırakıldıktan sonra bu sunucuda oturum açamazsınız ve gönderilen hiç bir e-posta ve mobil bildirimini alamazsınız. Hesabınızı yeniden etkinleştirmek için Sistem Yöneticiniz ile görüşün.",
   "user.settings.advance.deactivateDescShort": "Hesabınızı devre dışı bırakmak için 'Düzenle' üzerine tıklayın",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Feature} other {Features}} etkinleştirildi",
-  "user.settings.advance.formattingDesc": "Bu seçenek etkinleştirildiğinde, iletiler bağlantılar eklemek, emoji görüntülemek, metni biçimlendirmek ve satır sonları eklemek için biçimlendirilir. Varsayılan olarak bu seçenek etkinleştirilmiştir. Bu değer değiştirildikten sonra bu sayfanın yenilenmesi gerekir.",
+  "user.settings.advance.formattingDesc": "Bu seçenek etkinleştirildiğinde, iletiler bağlantı oluşturacak, emojileri görüntüleyecek, metni biçimlendirecek ve satır sonları ekleyecek şekilde biçimlendirilir. Bu seçenek varsayılan olarak etkindir.",
   "user.settings.advance.formattingTitle": "İletiler Biçimlendirilebilsin",
   "user.settings.advance.icon": "Gelişmiş Ayarlar Simgesi",
   "user.settings.advance.joinLeaveDesc": "Bu seçenek etkinleştirildiğinde, bir kullanıcının bir kanala katıldığı ya da ayrıldığını bildiren sistem iletileri görüntülenir. Devre dışı bırakıldığında bu iletiler görüntülenmez. Bununla birlikte bir kanala eklendiğinizde bir ileti görüntülenir ve bir bildirim alabilirsiniz.",

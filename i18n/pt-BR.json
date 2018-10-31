@@ -2672,7 +2672,7 @@
   "user.settings.advance.deactivateDesc": "Desativar sua conta elimina sua capacidade de fazer login neste servidor e desativa todas as notificações por e-mail e celular. Para reativar sua conta, entre em contato com o Administrador do Sistema.",
   "user.settings.advance.deactivateDescShort": "Clique 'Editar' para desativar sua conta",
   "user.settings.advance.enabledFeatures": "{count, number} {count, plural, one {Recurso} other {Recursos}} Ativado",
-  "user.settings.advance.formattingDesc": "Se ativado, posts serão formatados para criar links, exibir emoji, estilo de texto e adicionar quebra de linhas. Por padrão é definido como ativado. Mudando está configuração será necessário recarregar a página.",
+  "user.settings.advance.formattingDesc": "Se ativo, publicações serão formatadas para criar links, exibir emoji, estilo e texto e adicionar linhas de quebra. Por padrão, está configuração está ativada.",
   "user.settings.advance.formattingTitle": "Ativar Formatação de Post",
   "user.settings.advance.icon": "Ícone Configurações Avançadas",
   "user.settings.advance.joinLeaveDesc": "Quando \"Ligado\", Mensagens do Sistema dizendo que um usuário entrou ou saiu de um canal serão visíveis. Quando \"Off\", as Mensagens do Sistema sobre entrada e saída de um canal serão ocultadas. Uma mensagem ainda vai aparecer quando você é adicionado a um canal para que você possa receber uma notificação.",
