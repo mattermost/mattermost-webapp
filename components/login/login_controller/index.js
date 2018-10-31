@@ -3,11 +3,11 @@
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import LoginController from './login_controller.jsx';
-import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
