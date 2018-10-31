@@ -123,8 +123,8 @@ export async function doFocusPost(channelId, postId) {
         await dispatch(joinChannel(getCurrentUserId(getState()), null, channelId));
     }
 
-    loadChannelsForCurrentUser();
-    getChannelStats(channelId)(dispatch, getState);
+    dispatch(loadChannelsForCurrentUser());
+    dispatch(getChannelStats(channelId));
 }
 
 export function emitCloseRightHandSide() {
@@ -132,7 +132,7 @@ export function emitCloseRightHandSide() {
 }
 
 export async function emitPostFocusEvent(postId, returnTo = '') {
-    loadChannelsForCurrentUser();
+    dispatch(loadChannelsForCurrentUser());
     const {data} = await dispatch(getPostThread(postId));
 
     if (!data) {
