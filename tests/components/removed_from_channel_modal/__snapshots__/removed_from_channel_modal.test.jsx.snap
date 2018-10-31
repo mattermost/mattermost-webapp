@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/AddUsersToTeam should match snapshot 1`] = `
+exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -8,7 +8,6 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   bsClass="modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  id="removed_from_channel"
   keyboard={true}
   manager={
     ModalManager {
@@ -22,7 +21,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -72,7 +71,6 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
   >
     <button
       className="btn btn-primary"
-      data-dismiss="modal"
       onClick={[Function]}
       type="button"
     >

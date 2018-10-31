@@ -17,7 +17,7 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {logout} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
 
@@ -430,8 +430,10 @@ export async function redirectUserToDefaultTeam() {
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
 
     let team = getTeam(state, teamId);
+    const myMember = getMyTeamMember(state, teamId);
 
-    if (!team) {
+    if (!team || !myMember || !myMember.team_id) {
+        team = null;
         let myTeams = getMyTeams(state);
 
         if (myTeams.length > 0) {
