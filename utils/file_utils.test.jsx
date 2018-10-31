@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import {trimFilename, canUploadFiles} from 'utils/file_utils.jsx';
+import {trimFilename, canUploadFiles, getFileDimentionsForDisplay} from 'utils/file_utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 
 describe('FileUtils.trimFilename', () => {
@@ -65,5 +65,32 @@ describe('FileUtils.canUploadFiles', () => {
             };
             assert.equal(canUploadFiles(config), false);
         });
+    });
+});
+
+describe('FileUtils.getFileDimentionsForDisplay', function() {
+    it('return image dimentions as they are smaller than max dimentions', () => {
+        const expectedDimentions = getFileDimentionsForDisplay({height: 200, width: 200}, {maxHeight: 300, maxWidth: 300});
+        expect(expectedDimentions).toEqual({height: 200, width: 200});
+    });
+
+    it('return image dimentions based on height dimetions as ratio of height > width', () => {
+        const expectedDimentions = getFileDimentionsForDisplay({height: 600, width: 400}, {maxHeight: 300, maxWidth: 300});
+        expect(expectedDimentions).toEqual({height: 300, width: 200});
+    });
+
+    it('return image dimentions based on width dimetions as ratio of width > height', () => {
+        const expectedDimentions = getFileDimentionsForDisplay({height: 400, width: 600}, {maxHeight: 300, maxWidth: 300});
+        expect(expectedDimentions).toEqual({height: 200, width: 300});
+    });
+
+    it('return image dimentions based on width ratio', () => {
+        const expectedDimentions = getFileDimentionsForDisplay({height: 200, width: 600}, {maxHeight: 300, maxWidth: 300});
+        expect(expectedDimentions).toEqual({height: 100, width: 300});
+    });
+
+    it('return image dimentions based on height ratio', () => {
+        const expectedDimentions = getFileDimentionsForDisplay({height: 600, width: 200}, {maxHeight: 300, maxWidth: 300});
+        expect(expectedDimentions).toEqual({height: 300, width: 100});
     });
 });

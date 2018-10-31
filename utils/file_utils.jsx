@@ -35,3 +35,31 @@ export function trimFilename(filename) {
 
     return trimmedFilename;
 }
+
+export function getFileDimentionsForDisplay(dimentions, {maxHeight, maxWidth}) {
+    const {width, height} = dimentions;
+    if (height <= maxHeight && width <= maxWidth) {
+        return dimentions;
+    }
+    const widthRatio = width / maxWidth;
+    const heightRatio = height / maxHeight;
+    if (heightRatio > widthRatio) {
+        return {
+            height: maxHeight,
+            width: width * (1 / heightRatio),
+        };
+    }
+
+    return {
+        height: height * (1 / widthRatio),
+        width: maxWidth,
+    };
+}
+
+export function getOpenGraphMetadataByLink(embedData, url) {
+    const og = embedData.find((embed) => embed.type === 'opengraph' && embed.url === url);
+    if (og) {
+        return og.data;
+    }
+    return null;
+}

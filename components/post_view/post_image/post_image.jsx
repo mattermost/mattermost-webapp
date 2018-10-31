@@ -4,8 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LoadingImagePreview from 'components/loading_image_preview';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {getFileDimentionsForDisplay} from 'utils/file_utils';
 
 export default class PostImageEmbed extends React.PureComponent {
     static propTypes = {
@@ -34,6 +36,11 @@ export default class PostImageEmbed extends React.PureComponent {
          * If an image proxy is enabled.
          */
         hasImageProxy: PropTypes.bool.isRequired,
+
+        /**
+         * dimentions for empty space to prevent scroll popup.
+         */
+        dimentions: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -103,9 +110,15 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
+        const imageDimentions = getFileDimentionsForDisplay(this.props.dimentions, {maxHeight: 500, maxWidth: 450});
         if (this.state.errored || !this.state.loaded) {
-            // scroll pop could be improved with a placeholder when !this.state.loaded
-            return null;
+            return (
+                <div style={{...imageDimentions, marginBottom: '13px'}}>
+                    <LoadingImagePreview
+                        containerClass={'file__image-loading'}
+                    />
+                </div>
+            );
         }
 
         return (
@@ -116,6 +129,7 @@ export default class PostImageEmbed extends React.PureComponent {
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
                     src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
+                    {...imageDimentions}
                 />
             </div>
         );

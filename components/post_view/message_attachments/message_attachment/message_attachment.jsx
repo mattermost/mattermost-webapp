@@ -8,6 +8,8 @@ import {postListScrollChange} from 'actions/global_actions';
 
 import {isUrlSafe} from 'utils/url.jsx';
 import {handleFormattedTextClick} from 'utils/utils';
+import * as Utils from 'utils/utils';
+import {getFileDimentionsForDisplay} from 'utils/file_utils';
 
 import Markdown from 'components/markdown';
 import ShowMore from 'components/post_view/show_more';
@@ -34,6 +36,11 @@ export default class MessageAttachment extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
+
+        /**
+         * images object for dimentions
+         */
+        images: PropTypes.object,
 
         actions: PropTypes.shape({
             doPostAction: PropTypes.func.isRequired,
@@ -296,22 +303,26 @@ export default class MessageAttachment extends React.PureComponent {
 
         let image;
         if (attachment.image_url) {
+            const imageDimentions = getFileDimentionsForDisplay(this.props.images[attachment.image_url], {maxHeight: 300, maxWidth: 500});
             image = (
                 <img
                     className='attachment__image'
                     src={attachment.image_url}
+                    {...imageDimentions}
                 />
             );
         }
 
         let thumb;
         if (attachment.thumb_url) {
+            const imageDimentions = getFileDimentionsForDisplay(this.props.images[attachment.thumb_url], {maxHeight: 75, maxWidth: 80});
             thumb = (
                 <div
                     className='attachment__thumb-container'
                 >
                     <img
                         src={attachment.thumb_url}
+                        {...imageDimentions}
                     />
                 </div>
             );
