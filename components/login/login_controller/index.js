@@ -3,9 +3,11 @@
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import LoginController from './login_controller.jsx';
+import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -25,13 +27,27 @@ function mapStateToProps(state) {
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = config.EnableSignUpWithGoogle === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
-    const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
     const siteName = config.SiteName;
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
+    // Only set experimental team if user is on that team
+    let experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
+    if (experimentalPrimaryTeam) {
+        const team = getTeamByName(state, experimentalPrimaryTeam);
+        if (team) {
+            const member = getMyTeamMember(state, team.id);
+            if (!member || !member.team_id) {
+                experimentalPrimaryTeam = null;
+            }
+        } else {
+            experimentalPrimaryTeam = null;
+        }
+    }
+
     return {
+        currentUser: getCurrentUser(state),
         isLicensed,
         customBrandText,
         customDescriptionText,
