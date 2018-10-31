@@ -2458,8 +2458,13 @@
   "shortcuts.msgs.header": "Messages",
   "shortcuts.msgs.input.header": "Works inside an empty input field",
   "shortcuts.msgs.reply": "Reply to last message in channel:\tShift|Up",
+<<<<<<< c0417051a287ee6b033011605626851e7a735a97
   "shortcuts.msgs.reaction": "React to last message: \tCtrl|Shift|\/ ",
   "shortcuts.msgs.reaction.mac": "React to last message: \t⌘|Shift|\/ ",
+=======
+  "shortcuts.msgs.reaction": "React to last message: \tCtrl|Shift| \\\\",
+  "shortcuts.msgs.reaction.mac": "React to last message: \t⌘|Shift| \\\\",
+>>>>>>> Changed the shortcut display for emoji reactions
   "shortcuts.msgs.reprint_next": "Reprint next message:\tCtrl|Down",
   "shortcuts.msgs.reprint_next.mac": "Reprint next message:\t⌘|Down",
   "shortcuts.msgs.reprint_prev": "Reprint previous message:\tCtrl|Up",
