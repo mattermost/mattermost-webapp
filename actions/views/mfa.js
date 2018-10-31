@@ -34,7 +34,7 @@ export function checkMfa(loginId) {
         const config = getConfig(getState());
 
         if (config.EnableMultifactorAuthentication !== 'true') {
-            return Promise.resolve(false);
+            return Promise.resolve({data: false});
         }
 
         return dispatch(UserActions.checkMfa(loginId));
