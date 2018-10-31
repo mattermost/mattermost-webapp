@@ -111,14 +111,7 @@ export function emitChannelClickEvent(channel) {
     }
 }
 
-export async function doFocusPost(channelId, postId, data) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_FOCUSED_POST,
-        postId,
-        channelId,
-        post_list: data,
-    });
-
+export async function doFocusPost(channelId, postId) {
     dispatch({
         type: ActionTypes.RECEIVED_FOCUSED_POST,
         data: postId,

@@ -275,3 +275,7 @@ export function toggleRhsExpanded() {
         type: ActionTypes.TOGGLE_RHS_EXPANDED,
     };
 }
+
+export function selectPost(post) {
+    return {type: ActionTypes.SELECT_POST, postId: post.root_id || post.id, channelId: post.channel_id};
+}
