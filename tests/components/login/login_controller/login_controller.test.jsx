@@ -5,6 +5,8 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
+import Constants from 'utils/constants.jsx';
+import LocalStorageStore from 'stores/local_storage_store';
 import LoginController from 'components/login/login_controller/login_controller';
 
 describe('components/login/LoginController', () => {
@@ -31,7 +33,7 @@ describe('components/login/LoginController', () => {
         siteName: '',
     };
 
-    test('should match snapshot', () => {
+    it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <LoginController {...baseProps}/>
         ).dive();
@@ -39,7 +41,7 @@ describe('components/login/LoginController', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when expired', () => {
+    it('should match snapshot when expired', () => {
         const props = {
             ...baseProps,
         };
@@ -51,11 +53,42 @@ describe('components/login/LoginController', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when initializing', () => {
+    it('should match snapshot when initializing', () => {
         const props = {
             ...baseProps,
             initializing: true,
         };
+        const wrapper = shallowWithIntl(
+            <LoginController {...props}/>
+        ).dive();
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should show session expiry notification', () => {
+        const props = {
+            ...baseProps,
+            initializing: false,
+        };
+
+        LocalStorageStore.setWasLoggedIn(true);
+        const wrapper = shallowWithIntl(
+            <LoginController {...props}/>
+        ).dive();
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should suppress session expiry notification on sign in change', () => {
+        const props = {
+            ...baseProps,
+            initializing: false,
+            location: {
+                search: '?extra=' + Constants.SIGNIN_CHANGE,
+            },
+        };
+
+        LocalStorageStore.setWasLoggedIn(true);
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
         ).dive();
