@@ -4,15 +4,14 @@
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -21,21 +20,21 @@ const getState = store.getState;
 
 // To be removed in a future PR
 export async function openDirectChannelToUser(userId, success, error) {
-    const channelName = Utils.getDirectChannelName(UserStore.getCurrentId(), userId);
-    const channel = ChannelStore.getByName(channelName);
+    const state = getState();
+    const currentUserId = getCurrentUserId(state);
+    const channelName = Utils.getDirectChannelName(currentUserId, userId);
+    const channel = getChannelByName(state, channelName);
 
     if (channel) {
         trackEvent('api', 'api_channels_join_direct');
         const now = Utils.getTimestamp();
-        PreferenceStore.setPreference(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, 'true');
-        PreferenceStore.setPreference(Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id, now.toString());
-        loadProfilesForSidebar();
 
-        const currentUserId = UserStore.getCurrentId();
-        savePreferences(currentUserId, [
+        dispatch(savePreferences(currentUserId, [
             {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
             {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()},
-        ])(dispatch, getState);
+        ]));
+
+        loadProfilesForSidebar();
 
         if (success) {
             success(channel, true);
@@ -44,7 +43,7 @@ export async function openDirectChannelToUser(userId, success, error) {
         return;
     }
 
-    const result = await ChannelActions.createDirectChannel(UserStore.getCurrentId(), userId)(dispatch, getState);
+    const result = await ChannelActions.createDirectChannel(currentUserId, userId)(dispatch, getState);
     loadProfilesForSidebar();
     if (result.data && success) {
         success(result.data, false);
@@ -54,41 +53,40 @@ export async function openDirectChannelToUser(userId, success, error) {
 }
 
 export async function openGroupChannelToUsers(userIds, success, error) {
+    const state = getState();
     const result = await ChannelActions.createGroupChannel(userIds)(dispatch, getState);
     loadProfilesForSidebar();
     if (result.data && success) {
         success(result.data, false);
     } else if (result.error && error) {
-        browserHistory.push(TeamStore.getCurrentTeamUrl());
+        browserHistory.push(getCurrentTeamUrl(state));
         error({id: result.error.server_error_id, ...result.error});
     }
 }
 
 export async function loadChannelsForCurrentUser() {
-    await ChannelActions.fetchMyChannelsAndMembers(TeamStore.getCurrentId())(dispatch, getState);
+    const state = getState();
+    await ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state))(dispatch, getState);
     loadDMsAndGMsForUnreads();
+    loadProfilesForSidebar();
 }
 
 export function loadDMsAndGMsForUnreads() {
-    const unreads = ChannelStore.getUnreadCounts();
-    for (const id in unreads) {
-        if (!unreads.hasOwnProperty(id)) {
-            continue;
-        }
-
-        if (unreads[id].msgs > 0 || unreads[id].mentions > 0) {
-            const channel = ChannelStore.get(id);
-            if (channel && channel.type === Constants.DM_CHANNEL) {
-                loadNewDMIfNeeded(channel.id);
-            } else if (channel && channel.type === Constants.GM_CHANNEL) {
-                loadNewGMIfNeeded(channel.id);
-            }
+    const state = getState();
+    const unreads = getUnreadChannelIds(state);
+    for (const id of unreads) {
+        const channel = getChannel(state, id);
+        if (channel && channel.type === Constants.DM_CHANNEL) {
+            loadNewDMIfNeeded(channel.id);
+        } else if (channel && channel.type === Constants.GM_CHANNEL) {
+            loadNewGMIfNeeded(channel.id);
         }
     }
 }
 
 export async function searchMoreChannels(term, success, error) {
-    const teamId = TeamStore.getCurrentId();
+    const state = getState();
+    const teamId = getCurrentTeamId(state);
     if (!teamId) {
         return;
     }
@@ -104,7 +102,8 @@ export async function searchMoreChannels(term, success, error) {
 }
 
 export async function autocompleteChannels(term, success, error) {
-    const teamId = TeamStore.getCurrentId();
+    const state = getState();
+    const teamId = getCurrentTeamId(state);
     if (!teamId) {
         return;
     }
@@ -118,7 +117,8 @@ export async function autocompleteChannels(term, success, error) {
 }
 
 export async function autocompleteChannelsForSearch(term, success, error) {
-    const teamId = TeamStore.getCurrentId();
+    const state = getState();
+    const teamId = getCurrentTeamId(state);
     if (!teamId) {
         return;
     }

@@ -4,7 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
-import {searchPostsWithParams} from 'mattermost-redux/actions/search';
+import {searchPostsWithParams, getFlaggedPosts} from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -141,48 +141,20 @@ function getPostRHSSearchActions(searchPostSuccess, result, teamId) {
     return [...searchActions, {type: searchPostSuccess}];
 }
 
-export function getFlaggedPosts() {
-    return async (dispatch, getState) => {
-        const state = getState();
-        const userId = getCurrentUserId(state);
-        const teamId = getCurrentTeamId(state);
-
-        const result = await Client4.getFlaggedPosts(userId, '', teamId);
-
-        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
-
-        const searchActions = getSearchActions(result, teamId);
-
-        dispatch(batchActions(searchActions));
-    };
-}
-
 export function showFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
-        const userId = getCurrentUserId(state);
         const teamId = getCurrentTeamId(state);
 
-        const preRHSSearchActions = getPreRHSSearchActions(
-            ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST,
-            '',
-            RHSStates.FLAG
-        );
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            state: RHSStates.FLAG,
+        });
 
-        dispatch(batchActions(preRHSSearchActions));
+        const result = await dispatch(getFlaggedPosts());
 
-        let result;
-        try {
-            result = await Client4.getFlaggedPosts(userId, '', teamId);
-        } catch (error) {
-            dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_FAILURE, error});
-        }
-
-        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
-
-        const postRHSSearchActions = getPostRHSSearchActions(
-            ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
-            result,
+        const postRHSSearchActions = getSearchActions(
+            result.data,
             teamId
         );
 

@@ -194,7 +194,7 @@ export default class NotificationsTab extends React.Component {
         if (e) {
             e.preventDefault();
         }
-        this.setState({isSaving: false});
+        this.setState(getNotificationsStateFromProps(this.props));
     }
 
     handleUpdateSection = (section) => {
@@ -934,7 +934,7 @@ export default class NotificationsTab extends React.Component {
                     <DesktopNotificationSettings
                         activity={this.state.desktopActivity}
                         sound={this.state.desktopSound}
-                        updateSection={this.updateSection}
+                        updateSection={this.handleUpdateSection}
                         setParentState={this.setStateValue}
                         submit={this.handleSubmit}
                         saving={this.state.isSaving}

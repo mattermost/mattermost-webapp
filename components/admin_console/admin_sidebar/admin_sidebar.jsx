@@ -332,7 +332,8 @@ export default class AdminSidebar extends React.Component {
         const customPlugins = [];
         if (this.props.config.PluginSettings.Enable) {
             Object.values(this.props.plugins).forEach((p) => {
-                if (!p.settings_schema || Object.keys(p.settings_schema) === 0) {
+                const hasSettings = p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || p.settings_schema.settings.length > 0);
+                if (!hasSettings) {
                     return;
                 }
 

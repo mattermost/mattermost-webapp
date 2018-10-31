@@ -22,8 +22,6 @@ describe('plugins/MainMenuActions', () => {
             enableIncomingWebhooks: true,
             enableOutgoingWebhooks: true,
             enableOAuthServiceProvider: true,
-            enableOnlyAdminIntegrations: false,
-            enableTeamCreation: true,
             enableUserCreation: true,
             enableEmailInvitations: false,
             showDropdown: true,

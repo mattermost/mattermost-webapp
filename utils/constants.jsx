@@ -282,6 +282,7 @@ export const ModalIdentifiers = {
     RESET_STATUS: 'reset_status',
     LEAVE_TEAM: 'leave_team',
     USER_SETTINGS: 'user_settings',
+    REMOVED_FROM_CHANNEL: 'removed_from_channel',
 };
 
 export const UserStatuses = {

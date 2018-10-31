@@ -15,33 +15,6 @@ import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export async function checkIfTeamExists(teamName, onSuccess, onError) {
-    const {data: exists, error: err} = await TeamActions.checkIfTeamExists(teamName)(dispatch, getState);
-    if (exists != null && onSuccess) {
-        onSuccess(exists);
-    } else if (err && onError) {
-        onError({id: err.server_error_id, ...err});
-    }
-}
-
-export async function createTeam(team, onSuccess, onError) {
-    const {data: rteam, error: err} = await TeamActions.createTeam(team)(dispatch, getState);
-    if (rteam && onSuccess) {
-        onSuccess(rteam);
-    } else if (err && onError) {
-        onError({id: err.server_error_id, ...err});
-    }
-}
-
-export async function updateTeam(team, onSuccess, onError) {
-    const {data: rteam, error: err} = await TeamActions.updateTeam(team)(dispatch, getState);
-    if (rteam && onSuccess) {
-        onSuccess(rteam);
-    } else if (err && onError) {
-        onError({id: err.server_error_id, ...err});
-    }
-}
-
 export async function removeUserFromTeam(teamId, userId, success, error) {
     const {data, error: err} = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
     dispatch(getUser(userId));
@@ -131,22 +104,4 @@ export async function inviteMembers(data, success, error) {
 export function switchTeams(url) {
     dispatch(viewChannel(getCurrentChannelId(getState())));
     browserHistory.push(url);
-}
-
-export async function getTeamsForUser(userId, success, error) {
-    const {data, error: err} = await TeamActions.getTeamsForUser(userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function getTeamMembersForUser(userId, success, error) {
-    const {data, error: err} = await TeamActions.getTeamMembersForUser(userId)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
 }

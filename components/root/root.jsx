@@ -229,7 +229,7 @@ export default class Root extends React.Component {
 
     componentDidMount() {
         this.props.actions.loadMeAndConfig().then((response) => {
-            if (response[2] && response[2].data) {
+            if (this.props.location.pathname === '/' && response[2] && response[2].data) {
                 GlobalActions.redirectUserToDefaultTeam();
             }
             this.onConfigLoaded();

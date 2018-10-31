@@ -51,7 +51,6 @@ describe('components/integrations/InstalledOAuthApps', () => {
             deleteOAuthApp: jest.fn(),
         },
         enableOAuthServiceProvider: true,
-        enableOnlyAdminIntegrations: true,
     };
 
     test('should match snapshot', () => {

@@ -3,9 +3,19 @@
 
 const centerChannelHeaderCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@headerContainer');
+        return this.waitForElementVisible('@channelHeader');
+    },
+    navigateToChannelHeaderDropdown() {
+        return this.
+            section.channelHeader.
+            click('@channelHeaderDropdownButton').
+            section.channelHeaderInfo.
+            waitForElementVisible('@channelHeaderDropdownMenu');
     },
 };
+
+const channelHeaderDropdownButton = {selector: '#channelHeaderDropdownButton'};
+const channelHeaderDropdownIcon = {selector: '#channelHeaderDropdownIcon'};
 
 module.exports = {
     url: function() { // eslint-disable-line object-shorthand
@@ -22,8 +32,8 @@ module.exports = {
                         toggleFavorite: {selector: '#toggleFavorite'},
                         channelHeaderTitle: {selector: '#channelHeaderTitle'},
                         channelHeaderDescription: {selector: '#channelHeaderDescription'},
-                        channelHeaderDropdownButton: {selector: '#channelHeaderDropdownButton'},
-                        channelHeaderDropdownIcon: {selector: '#channelHeaderDropdownIcon'},
+                        channelHeaderDropdownButton,
+                        channelHeaderDropdownIcon,
                         channelHeaderDropdownMenu: {selector: '#channelHeaderDropdownMenu'},
                     },
                 },
@@ -48,6 +58,8 @@ module.exports = {
                 channelHeaderPinButton: {selector: '#channelHeaderPinButton'},
                 channelHeaderMentionButton: {selector: '#channelHeaderMentionButton'},
                 channelHeaderFlagButton: {selector: '#channelHeaderFlagButton'},
+                channelHeaderDropdownIcon,
+                channelHeaderDropdownButton,
             },
         },
     },
