@@ -12,7 +12,6 @@ import {
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -60,7 +59,6 @@ export default class RhsComment extends React.Component {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
             dropdownOpened: false,
         };

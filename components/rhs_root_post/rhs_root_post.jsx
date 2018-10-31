@@ -9,9 +9,6 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -47,6 +44,8 @@ export default class RhsRootPost extends React.Component {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        channelType: PropTypes.string,
+        channelDisplayName: PropTypes.string,
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
         }).isRequired,
@@ -60,7 +59,6 @@ export default class RhsRootPost extends React.Component {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
@@ -164,7 +162,7 @@ export default class RhsRootPost extends React.Component {
 
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--root post--thread';
-        if (UserStore.getCurrentId() === post.user_id) {
+        if (this.props.currentUser.id === post.user_id) {
             className += ' current--user';
         }
 
@@ -198,24 +196,21 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const {post, user, isReadOnly, teamId, channelIsArchived} = this.props;
-        var channel = ChannelStore.get(post.channel_id);
+        const {post, user, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
 
-        var channelName;
-        if (channel) {
-            if (channel.type === 'D') {
-                channelName = (
-                    <FormattedMessage
-                        id='rhs_root.direct'
-                        defaultMessage='Direct Message'
-                    />
-                );
-            } else {
-                channelName = channel.display_name;
-            }
+        let channelName;
+        if (channelType === 'D') {
+            channelName = (
+                <FormattedMessage
+                    id='rhs_root.direct'
+                    defaultMessage='Direct Message'
+                />
+            );
+        } else {
+            channelName = channelDisplayName;
         }
 
         let react;
