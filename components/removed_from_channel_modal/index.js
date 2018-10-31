@@ -11,14 +11,14 @@ import RemovedFromChannelModal from './removed_from_channel_modal';
 
 function mapStateToProps(state) {
     return {
-        currentUser: getCurrentUser(state),
+        currentUserId: getCurrentUserId(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeModal,
+            goToLastViewedChannel,
         }, dispatch),
     };
 }
