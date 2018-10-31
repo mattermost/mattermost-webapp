@@ -54,12 +54,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
         * Whether or not OAuth applications are enabled.
         */
         enableOAuthServiceProvider: PropTypes.bool,
-
-        /**
-        * Whether or not integration configuration is restricted to admins.
-        */
-        enableOnlyAdminIntegrations: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);

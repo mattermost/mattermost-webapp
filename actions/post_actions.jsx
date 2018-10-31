@@ -5,10 +5,11 @@ import {batchActions} from 'redux-batched-actions';
 
 import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
-import {getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
-import {comparePosts} from 'mattermost-redux/utils/post_utils';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
@@ -260,20 +261,15 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
             return {data: false};
         }
 
-        let canEditNow = true;
+        const config = state.entities.general.config;
+        const license = state.entities.general.license;
+        const userId = getCurrentUserId(state);
+        const channel = getChannel(state, post.channel_id);
+        const teamId = channel.team_id || '';
+
+        const canEditNow = canEditPost(state, config, license, teamId, post.channel_id, userId, post);
 
         // Only show the modal if we can edit the post now, but allow it to be hidden at any time
-        if (postId && state.entities.general.license.IsLicensed === 'true') {
-            const config = state.entities.general.config;
-
-            if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-                canEditNow = false;
-            } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
-                    canEditNow = false;
-                }
-            }
-        }
 
         if (canEditNow) {
             doDispatch({

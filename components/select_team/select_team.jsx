@@ -6,12 +6,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {General, Permissions} from 'mattermost-redux/constants';
+import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 
-import {mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -33,13 +32,14 @@ export default class SelectTeam extends React.Component {
         customDescriptionText: PropTypes.string,
         isMemberOfTeam: PropTypes.bool.isRequired,
         joinableTeams: PropTypes.array,
-        roles: PropTypes.object.isRequired,
         siteName: PropTypes.string,
+        canCreateTeams: PropTypes.bool.isRequired,
+        canManageSystem: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -57,35 +57,10 @@ export default class SelectTeam extends React.Component {
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const {
             actions,
-            roles,
+            currentUserRoles,
         } = this.props;
 
-        actions.loadRolesIfNeeded([General.SYSTEM_ADMIN_ROLE, General.SYSTEM_USER_ROLE]);
-
-        if (
-            roles.system_admin &&
-            roles.system_user
-        ) {
-            this.loadPoliciesIntoState(roles);
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (
-            !this.state.loaded &&
-            nextProps.roles.system_admin &&
-            nextProps.roles.system_user
-        ) {
-            this.loadPoliciesIntoState(nextProps.roles);
-        }
-    }
-
-    loadPoliciesIntoState = (roles) => {
-        // Purposely parsing boolean from string 'true' or 'false'
-        // because the string comes from the policy roles adapter mapping.
-        const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
-
-        this.setState({enableTeamCreation, loaded: true});
+        actions.loadRolesIfNeeded(currentUserRoles.split(' '));
     }
 
     handleTeamClick = (team) => {
@@ -107,7 +82,7 @@ export default class SelectTeam extends React.Component {
     handleLogoutClick = (e) => {
         e.preventDefault();
         emitUserLoggedOutEvent('/login');
-    }
+    };
 
     clearError = (e) => {
         e.preventDefault();
@@ -119,15 +94,13 @@ export default class SelectTeam extends React.Component {
 
     render() {
         const {
-            currentUserRoles,
+            canManageSystem,
             customDescriptionText,
             isMemberOfTeam,
             joinableTeams,
             siteName,
+            canCreateTeams,
         } = this.props;
-        const {enableTeamCreation} = this.state;
-
-        const isSystemAdmin = Utils.isSystemAdmin(currentUserRoles);
 
         let openContent;
         if (this.state.loadingTeamId) {
@@ -153,7 +126,7 @@ export default class SelectTeam extends React.Component {
                 );
             });
 
-            if (openTeamContents.length === 0 && (enableTeamCreation || isSystemAdmin)) {
+            if (openTeamContents.length === 0 && (canCreateTeams || canManageSystem)) {
                 openTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
@@ -204,7 +177,7 @@ export default class SelectTeam extends React.Component {
         }
 
         let teamHelp = null;
-        if (isSystemAdmin && !enableTeamCreation) {
+        if (canManageSystem && !canCreateTeams) {
             teamHelp = (
                 <div>
                     <FormattedMessage
