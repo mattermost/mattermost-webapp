@@ -509,11 +509,7 @@ class LoginController extends React.Component {
             );
         } else if (extraParam === Constants.CREATE_LDAP) {
             return (
-                <div className='alert alert-warning'>
-                    <i
-                        className='fa fa-exclamation-triangle'
-                        title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
-                    />
+                <div className='alert alert-grey'>
                     <FormattedMessage
                         id='login.ldapCreate'
                         defaultMessage=' Enter your AD/LDAP username and password to create an account.'
