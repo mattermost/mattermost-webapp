@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
+import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -20,7 +20,6 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
-import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -122,7 +121,13 @@ export function loadChannelMembersForProfilesMap(profiles, channelId = getCurren
         return;
     }
 
-    getChannelMembersForUserIds(channelId, list, success, error);
+    dispatch(getChannelMembersByIds(channelId, list)).then((result) => {
+        if (result.error) {
+            error(result.error);
+        } else {
+            success(result.data);
+        }
+    });
 }
 
 export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
@@ -150,7 +155,13 @@ export function loadChannelMembersForProfilesList(profiles, channelId = getCurre
         return;
     }
 
-    getChannelMembersForUserIds(channelId, list, success, error);
+    dispatch(getChannelMembersByIds(channelId, list)).then((result) => {
+        if (result.error) {
+            error(result.error);
+        } else {
+            success(result.data);
+        }
+    });
 }
 
 export async function loadNewDMIfNeeded(channelId) {
