@@ -13,6 +13,9 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
+import {searchUsers} from 'actions/user_actions.jsx';
+import Constants from 'utils/constants.jsx';
+
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
@@ -30,6 +33,8 @@ export default class ChannelInviteModal extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.searchTimeoutId = 0;
 
         this.state = {
             values: [],
@@ -115,9 +120,20 @@ export default class ChannelInviteModal extends React.Component {
     };
 
     search = (term) => {
+        clearTimeout(this.searchTimeoutId);
         this.setState({
             term,
         });
+
+        this.searchTimeoutId = setTimeout(
+            () => {
+                this.setUsersLoadingState(true);
+                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id}).then(() => {
+                    this.setUsersLoadingState(false);
+                });
+            },
+            Constants.SEARCH_TIMEOUT_MILLISECONDS
+        );
     };
 
     renderOption = (option, isSelected, onAdd) => {
