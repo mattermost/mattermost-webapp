@@ -29,6 +29,13 @@ export default function SectionTitle({section}) {
                 defaultMessage='Mute Channel'
             />
         );
+    } else if (section === NotificationSections.IGNORE_CHANNEL_MENTIONS) {
+        return (
+            <FormattedMessage
+                id='channel_notifications.ignoreChannelMentions'
+                defaultMessage='Ignore mentions for @channel, @here and @all'
+            />
+        );
     }
 
     return null;

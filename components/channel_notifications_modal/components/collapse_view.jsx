@@ -9,13 +9,14 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import Describe from './describe.jsx';
 import SectionTitle from './section_title.jsx';
 
-export default function CollapseView({onExpandSection, globalNotifyLevel, memberNotifyLevel, section}) {
+export default function CollapseView({onExpandSection, globalNotifyLevel, memberNotifyLevel, section, ignoreChannelMentions}) {
     return (
         <SettingItemMin
             title={<SectionTitle section={section}/>}
             describe={
                 <Describe
                     section={section}
+                    ignoreChannelMentions={ignoreChannelMentions}
                     memberNotifyLevel={memberNotifyLevel}
                     globalNotifyLevel={globalNotifyLevel}
                 />
@@ -27,6 +28,7 @@ export default function CollapseView({onExpandSection, globalNotifyLevel, member
 }
 
 CollapseView.propTypes = {
+    ignoreChannelMentions: PropTypes.string,
     onExpandSection: PropTypes.func.isRequired,
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,

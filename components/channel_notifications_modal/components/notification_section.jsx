@@ -28,6 +28,11 @@ export default class NotificationSection extends React.PureComponent {
         memberNotificationLevel: PropTypes.string.isRequired,
 
         /**
+         * Ignore channel-wide mentions @channel, @here and @all
+         */
+        ignoreChannelMentions: PropTypes.string,
+
+        /**
          * User's global notification level
          */
         globalNotificationLevel: PropTypes.string,
@@ -70,6 +75,7 @@ export default class NotificationSection extends React.PureComponent {
             expand,
             globalNotificationLevel,
             memberNotificationLevel,
+            ignoreChannelMentions,
             onSubmit,
             section,
             serverError,
@@ -81,6 +87,7 @@ export default class NotificationSection extends React.PureComponent {
                     section={section}
                     memberNotifyLevel={memberNotificationLevel}
                     globalNotifyLevel={globalNotificationLevel}
+                    ignoreChannelMentions={ignoreChannelMentions}
                     onChange={this.handleOnChange}
                     onSubmit={onSubmit}
                     serverError={serverError}
@@ -95,6 +102,7 @@ export default class NotificationSection extends React.PureComponent {
                 onExpandSection={this.handleExpandSection}
                 memberNotifyLevel={memberNotificationLevel}
                 globalNotifyLevel={globalNotificationLevel}
+                ignoreChannelMentions={ignoreChannelMentions}
             />
         );
     }
