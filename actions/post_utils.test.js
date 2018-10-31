@@ -52,6 +52,7 @@ describe('actions/post_utils', () => {
         user_id: 'current_user_id',
         message: 'test msg',
         channel_id: 'current_channel_id',
+        type: 'normal,',
     };
     const initialState = {
         entities: {
@@ -72,7 +73,26 @@ describe('actions/post_utils', () => {
             },
             channels: {
                 currentChannelId: 'current_channel_id',
-                myMembers: {[latestPost.channel_id]: {channel_id: 'current_channel_id', user_id: 'current_user_id'}},
+                myMembers: {
+                    [latestPost.channel_id]: {
+                        channel_id: 'current_channel_id',
+                        user_id: 'current_user_id',
+                        roles: 'channel_role',
+                    },
+                },
+                channels: {
+                    current_channel_id: {team_id: 'team_id'},
+                },
+            },
+            preferences: {
+                myPreferences: {
+                    'display_settings--name_format': {
+                        category: 'display_settings',
+                        name: 'name_format',
+                        user_id: 'current_user_id',
+                        value: 'username',
+                    },
+                },
             },
             teams: {
                 currentTeamId: 'team-1',
@@ -83,11 +103,34 @@ describe('actions/post_utils', () => {
                         displayName: 'Team 1',
                     },
                 },
+                myMembers: {
+                    'team-1': {roles: 'team_role'},
+                },
             },
             users: {
                 currentUserId: 'current_user_id',
+                profiles: {
+                    current_user_id: {roles: 'system_role'},
+                },
             },
-            general: {license: {IsLicensed: 'false'}},
+            general: {
+                license: {IsLicensed: 'false'},
+                serverVersion: '5.4.0',
+                config: {PostEditTimeLimit: -1},
+            },
+            roles: {
+                roles: {
+                    system_role: {
+                        permissions: ['edit_post'],
+                    },
+                    team_role: {
+                        permissions: [],
+                    },
+                    channel_role: {
+                        permissions: [],
+                    },
+                },
+            },
         },
         views: {
             posts: {
