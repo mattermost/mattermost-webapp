@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
+
 require('perfect-scrollbar/jquery')($);
 
 import PropTypes from 'prop-types';
@@ -157,37 +158,63 @@ export default class Root extends React.Component {
 
         /*eslint-disable */
         if (segmentKey != null && segmentKey !== '' && this.props.diagnosticsEnabled) {
-            !function(){var analytics=global.window.analytics=global.window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(...args){var e=Array.prototype.slice.call(args);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol ? "https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
-                analytics.load(segmentKey);
+            !function () {
+                var analytics = global.window.analytics = global.window.analytics || [];
+                if (!analytics.initialize) if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice."); else {
+                    analytics.invoked = !0;
+                    analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "group", "track", "ready", "alias", "page", "once", "off", "on"];
+                    analytics.factory = function (t) {
+                        return function (...args) {
+                            var e = Array.prototype.slice.call(args);
+                            e.unshift(t);
+                            analytics.push(e);
+                            return analytics
+                        }
+                    };
+                    for (var t = 0; t < analytics.methods.length; t++) {
+                        var e = analytics.methods[t];
+                        analytics[e] = analytics.factory(e)
+                    }
+                    analytics.load = function (t) {
+                        var e = document.createElement("script");
+                        e.type = "text/javascript";
+                        e.async = !0;
+                        e.src = ("https:" === document.location.protocol ? "https://" : "http://") + "cdn.segment.com/analytics.js/v1/" + t + "/analytics.min.js";
+                        var n = document.getElementsByTagName("script")[0];
+                        n.parentNode.insertBefore(e, n)
+                    };
+                    analytics.SNIPPET_VERSION = "3.0.1";
+                    analytics.load(segmentKey);
 
-                analytics.identify(diagnosticId, {}, {
-                    context: {
-                        ip: '0.0.0.0',
-                    },
-                    page: {
-                        path: '',
-                        referrer: '',
-                        search: '',
-                        title: '',
-                        url: '',
-                    },
-                    anonymousId: '00000000000000000000000000',
-                });
-
-                analytics.page('ApplicationLoaded', {
-                        path: '',
-                        referrer: '',
-                        search: '',
-                        title: '',
-                        url: '',
-                    },
-                    {
+                    analytics.identify(diagnosticId, {}, {
                         context: {
-                            ip: '0.0.0.0'
+                            ip: '0.0.0.0',
                         },
-                        anonymousId: '00000000000000000000000000'
+                        page: {
+                            path: '',
+                            referrer: '',
+                            search: '',
+                            title: '',
+                            url: '',
+                        },
+                        anonymousId: '00000000000000000000000000',
                     });
-            }}();
+
+                    analytics.page('ApplicationLoaded', {
+                            path: '',
+                            referrer: '',
+                            search: '',
+                            title: '',
+                            url: '',
+                        },
+                        {
+                            context: {
+                                ip: '0.0.0.0'
+                            },
+                            anonymousId: '00000000000000000000000000'
+                        });
+                }
+            }();
         }
         /*eslint-enable */
 
@@ -264,11 +291,18 @@ export default class Root extends React.Component {
         $(window).unbind('storage');
     }
 
+    createPlugableModuleComponents() {
+        return this.props.components.map((plug) => {
+            return (
+                <LoggedInRoute key={'plugable-modules-' + plug.pluginid} path={plug.path} component={plug.component}/>);
+        });
+    }
+
     render() {
         if (this.state.translations == null || this.state.configLoaded === false) {
             return <div/>;
         }
-
+        const PlugableModuleComponents = this.createPlugableModuleComponents();
         return (
             <IntlProvider
                 locale={this.state.locale}
@@ -328,6 +362,7 @@ export default class Root extends React.Component {
                         path={'/get_android_app'}
                         component={GetAndroidApp}
                     />
+                    {PlugableModuleComponents};
                     <LoggedInRoute
                         path={'/admin_console'}
                         component={AdminConsole}

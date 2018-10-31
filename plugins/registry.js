@@ -295,4 +295,23 @@ export default class PluginRegistry {
 
         return id;
     }
+
+    registerCustomModuleComponent(path, component) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            component: component,
+            path: path
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CustomModuleComponent',
+            data,
+        });
+
+        return id;
+    }
 }

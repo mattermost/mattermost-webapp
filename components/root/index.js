@@ -14,8 +14,8 @@ import Root from './root.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
     const showTermsOfService = shouldShowTermsOfService(state);
-
     return {
+        components: state.plugins.components.CustomModuleComponent || [],
         diagnosticsEnabled: config.DiagnosticsEnabled === 'true',
         noAccounts: config.NoAccounts === 'true',
         diagnosticId: config.DiagnosticId,
