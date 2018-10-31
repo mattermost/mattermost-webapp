@@ -6,7 +6,6 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
 import LocalDateTime from 'components/local_date_time';
@@ -28,19 +27,12 @@ export default class PostTime extends React.PureComponent {
          * The post id of posting being rendered
          */
         postId: PropTypes.string,
+        teamUrl: PropTypes.string,
     };
 
     static defaultProps = {
         eventTime: 0,
     };
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
-        };
-    }
 
     handleClick = () => {
         if (isMobileView()) {
@@ -60,7 +52,7 @@ export default class PostTime extends React.PureComponent {
 
         return (
             <Link
-                to={`/${this.state.currentTeamDisplayName}/pl/${this.props.postId}`}
+                to={`${this.props.teamUrl}/pl/${this.props.postId}`}
                 className='post__permalink'
                 onClick={this.handleClick}
             >
