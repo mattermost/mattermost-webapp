@@ -6,11 +6,17 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emailToLdap} from 'actions/admin_actions.jsx';
-import {checkMfa} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 
 export default class EmailToLDAP extends React.Component {
+    static propTypes = {
+        email: PropTypes.string,
+        siteName: PropTypes.string,
+        ldapLoginFieldName: PropTypes.string,
+        checkMfa: PropTypes.func.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -62,19 +68,21 @@ export default class EmailToLDAP extends React.Component {
         state.ldapPassword = ldapPassword;
         this.setState(state);
 
-        checkMfa(
-            this.props.email,
-            (requiresMfa) => {
-                if (requiresMfa) {
-                    this.setState({showMfa: true});
-                } else {
-                    this.submit(this.props.email, password, '', ldapId, ldapPassword);
-                }
-            },
-            (err) => {
-                this.setState({error: err.message});
+        this.props.checkMfa(this.props.email).then((result) => {
+            if (result.error) {
+                this.setState({
+                    error: result.error.message,
+                });
+                return;
             }
-        );
+
+            const requiresMfa = result.data;
+            if (requiresMfa) {
+                this.setState({showMfa: true});
+            } else {
+                this.submit(this.props.email, password, '', ldapId, ldapPassword);
+            }
+        });
     }
 
     submit(loginId, password, token, ldapId, ldapPassword) {
@@ -257,12 +265,6 @@ export default class EmailToLDAP extends React.Component {
         );
     }
 }
-
-EmailToLDAP.propTypes = {
-    email: PropTypes.string,
-    siteName: PropTypes.string,
-    ldapLoginFieldName: PropTypes.string,
-};
 
 const style = {
     usernameInput: {display: 'none'},

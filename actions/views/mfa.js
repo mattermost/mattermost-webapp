@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as UserActions from 'mattermost-redux/actions/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 export function activateMfa(code) {
@@ -25,5 +26,17 @@ export function generateMfaSecret() {
         const currentUserId = getCurrentUserId(getState());
 
         return dispatch(UserActions.generateMfaSecret(currentUserId));
+    };
+}
+
+export function checkMfa(loginId) {
+    return (dispatch, getState) => {
+        const config = getConfig(getState());
+
+        if (config.EnableMultifactorAuthentication !== 'true') {
+            return Promise.resolve(false);
+        }
+
+        return dispatch(UserActions.checkMfa(loginId));
     };
 }

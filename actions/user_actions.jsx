@@ -17,7 +17,6 @@ import {
 import {getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
@@ -404,22 +403,6 @@ export async function updateUserNotifyProps(props, success, error) {
 export async function updateUserRoles(userId, newRoles, success, error) {
     const {data, error: err} = await UserActions.updateUserRoles(userId, newRoles)(dispatch, getState);
     if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function checkMfa(loginId, success, error) {
-    const config = getConfig(getState());
-
-    if (config.EnableMultifactorAuthentication !== 'true') {
-        success(false);
-        return;
-    }
-
-    const {data, error: err} = await UserActions.checkMfa(loginId)(dispatch, getState);
-    if (data != null && success) {
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
