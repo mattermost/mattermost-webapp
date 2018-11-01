@@ -5,58 +5,25 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Popover} from 'react-bootstrap';
 
-import SuggestionStore from 'stores/suggestion_store.jsx';
-
-export default class SuggestionDate extends React.Component {
+export default class SuggestionDate extends React.PureComponent {
     static propTypes = {
-        suggestionId: PropTypes.string.isRequired,
         onCompleteWord: PropTypes.func.isRequired,
+        items: PropTypes.array.isRequired,
+        terms: PropTypes.array.isRequired,
+        components: PropTypes.array.isRequired,
+        matchedPretext: PropTypes.array.isRequired,
     };
 
-    constructor(props) {
-        super(props);
-
-        this.getStateFromStores = this.getStateFromStores.bind(this);
-
-        this.handleSuggestionsChanged = this.handleSuggestionsChanged.bind(this);
-
-        this.state = this.getStateFromStores(props.suggestionId);
-    }
-
-    getStateFromStores(suggestionId) {
-        const suggestions = SuggestionStore.getSuggestions(suggestionId || this.props.suggestionId);
-
-        return {
-            matchedPretext: suggestions.matchedPretext,
-            items: suggestions.items,
-            terms: suggestions.terms,
-            components: suggestions.components,
-            selection: suggestions.selection,
-        };
-    }
-
-    componentDidMount() {
-        SuggestionStore.addSuggestionsChangedListener(this.props.suggestionId, this.handleSuggestionsChanged);
-    }
-
-    componentWillUnmount() {
-        SuggestionStore.removeSuggestionsChangedListener(this.props.suggestionId, this.handleSuggestionsChanged);
-    }
-
-    handleSuggestionsChanged() {
-        this.setState(this.getStateFromStores());
-    }
-
     render() {
-        if (this.state.items.length === 0) {
+        if (this.props.items.length === 0) {
             return null;
         }
 
-        const item = this.state.items[0];
-        const term = this.state.terms[0];
+        const item = this.props.items[0];
+        const term = this.props.terms[0];
 
         // ReactComponent names need to be upper case when used in JSX
-        const Component = this.state.components[0];
+        const Component = this.props.components[0];
 
         const itemComponent = (
             <Component
@@ -64,7 +31,7 @@ export default class SuggestionDate extends React.Component {
                 ref={term}
                 item={item}
                 term={term}
-                matchedPretext={this.state.matchedPretext[0]}
+                matchedPretext={this.props.matchedPretext[0]}
                 isSelection={false}
                 onClick={this.props.onCompleteWord}
             />

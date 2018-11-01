@@ -477,14 +477,6 @@ export function postListScrollChangeToBottom() {
     });
 }
 
-export function emitPopoverMentionKeyClick(isRHS, mentionKey) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.POPOVER_MENTION_KEY_CLICK,
-        isRHS,
-        mentionKey,
-    });
-}
-
 let serverVersion = '';
 
 export function reloadIfServerVersionChanged() {

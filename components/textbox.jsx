@@ -7,6 +7,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
+
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider.jsx';
@@ -37,7 +39,6 @@ export default class Textbox extends React.Component {
         suggestionListStyle: PropTypes.string,
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
-        popoverMentionKeyClick: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
     };
@@ -45,7 +46,6 @@ export default class Textbox extends React.Component {
     static defaultProps = {
         supportsCommands: true,
         isRHS: false,
-        popoverMentionKeyClick: false,
     };
 
     constructor(props) {
@@ -60,6 +60,7 @@ export default class Textbox extends React.Component {
             new ChannelMentionProvider(),
             new EmoticonProvider(),
         ];
+
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider());
         }
@@ -67,6 +68,7 @@ export default class Textbox extends React.Component {
 
     componentDidMount() {
         ErrorStore.addChangeListener(this.onReceivedError);
+        EventEmitter.on('mention_key_click', this.handlePopoverMentionKeyClick);
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -75,6 +77,7 @@ export default class Textbox extends React.Component {
 
     componentWillUnmount() {
         ErrorStore.removeChangeListener(this.onReceivedError);
+        EventEmitter.off('mention_key_click', this.handlePopoverMentionKeyClick);
     }
 
     onReceivedError = () => {
@@ -89,6 +92,19 @@ export default class Textbox extends React.Component {
 
     handleChange = (e) => {
         this.props.onChange(e);
+    }
+
+    handlePopoverMentionKeyClick = (mentionKey) => {
+        const textbox = this.refs.message.getTextbox();
+        let insertText = '@' + mentionKey;
+        const oldValue = textbox.value;
+
+        // if the current text does not end with a whitespace, then insert a space
+        if (oldValue && (/[^\s]$/).test(oldValue)) {
+            insertText = ' ' + insertText;
+        }
+
+        textbox.value = oldValue + insertText;
     }
 
     checkMessageLength = (message) => {
@@ -324,7 +340,6 @@ export default class Textbox extends React.Component {
                     value={this.props.value}
                     renderDividers={true}
                     isRHS={this.props.isRHS}
-                    popoverMentionKeyClick={this.props.popoverMentionKeyClick}
                     disabled={this.props.disabled}
                 />
                 {preview}

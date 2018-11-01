@@ -1004,7 +1004,6 @@ export default class CreatePost extends React.Component {
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
-                                popoverMentionKeyClick={true}
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
