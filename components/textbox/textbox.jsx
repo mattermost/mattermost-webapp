@@ -7,6 +7,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
+
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
@@ -78,6 +80,19 @@ export default class Textbox extends React.Component {
 
     handleChange = (e) => {
         this.props.onChange(e);
+    }
+
+    handlePopoverMentionKeyClick = (mentionKey) => {
+        const textbox = this.refs.message.getTextbox();
+        let insertText = '@' + mentionKey;
+        const oldValue = textbox.value;
+
+        // if the current text does not end with a whitespace, then insert a space
+        if (oldValue && (/[^\s]$/).test(oldValue)) {
+            insertText = ' ' + insertText;
+        }
+
+        textbox.value = oldValue + insertText;
     }
 
     handlePopoverMentionKeyClick = (mentionKey) => {
