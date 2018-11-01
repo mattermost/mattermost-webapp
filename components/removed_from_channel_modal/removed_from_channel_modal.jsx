@@ -3,91 +3,64 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
-
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {FormattedMessage} from 'react-intl';
 
 export default class RemovedFromChannelModal extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Object with info about townsquare
-         */
-        currentUser: PropTypes.object.isRequired,
-
-        /**
-         * String with name of currently selected channel
-         */
+        currentUserId: PropTypes.string.isRequired,
+        onHide: PropTypes.func.isRequired,
         channelName: PropTypes.string,
-
-        /**
-         * String with name of admin who removed currentUser from channel
-         */
         remover: PropTypes.string,
-
-        /*
-         * Object with redux action creators
-         */
         actions: PropTypes.shape({
-
-            /*
-             * Action creator to close modal
-             */
-            closeModal: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+            goToLastViewedChannel: PropTypes.func.isRequired,
+        }),
+    };
 
     constructor(props) {
         super(props);
-        this.state = {
-            show: true,
-        };
+
+        this.state = {show: true};
     }
 
-    handleClose = () => {
+    componentDidMount() {
+        this.props.actions.goToLastViewedChannel();
+    }
+
+    onHide = () => {
         this.setState({show: false});
     }
 
-    handleExited = () => {
-        this.props.actions.closeModal(ModalIdentifiers.REMOVED_FROM_CHANNEL);
-    }
-
     render() {
-        const {currentUser} = this.props;
-
-        var channelName = (
+        let channelName = (
             <FormattedMessage
                 id='removed_channel.channelName'
                 defaultMessage='the channel'
             />
         );
-
         if (this.props.channelName) {
             channelName = this.props.channelName;
         }
 
-        var remover = (
+        let remover = (
             <FormattedMessage
                 id='removed_channel.someone'
                 defaultMessage='Someone'
             />
         );
-
         if (this.props.remover) {
             remover = this.props.remover;
         }
 
-        if (!currentUser) {
+        if (this.props.currentUserId === '') {
             return null;
         }
 
         return (
             <Modal
                 show={this.state.show}
-                onHide={this.handleClose}
-                onExited={this.handleExited}
-                id={ModalIdentifiers.REMOVED_FROM_CHANNEL}
+                onHide={this.onHide}
+                onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -95,10 +68,12 @@ export default class RemovedFromChannelModal extends React.PureComponent {
                             id='removed_channel.from'
                             defaultMessage='Removed from '
                         />
-                        <span className='name'>{channelName}</span>
+                        <span className='name'>
+                            {channelName}
+                        </span>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body ref='modalBody'>
                     <p>
                         <FormattedMessage
                             id='removed_channel.remover'
@@ -114,8 +89,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
                     <button
                         type='button'
                         className='btn btn-primary'
-                        data-dismiss='modal'
-                        onClick={this.handleClose}
+                        onClick={this.onHide}
                     >
                         <FormattedMessage
                             id='removed_channel.okay'

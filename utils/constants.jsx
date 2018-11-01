@@ -734,6 +734,7 @@ export const Constants = {
     GET_TERMS_ERROR: 'get_terms_error',
     TERMS_REJECTED: 'terms_rejected',
     SIGNIN_VERIFIED: 'verified',
+    CREATE_LDAP: 'create_ldap',
     SESSION_EXPIRED: 'expired',
     POST_CHUNK_SIZE: 60,
     PROFILE_CHUNK_SIZE: 100,
