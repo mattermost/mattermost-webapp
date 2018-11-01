@@ -112,6 +112,7 @@ export function emitChannelClickEvent(channel) {
 }
 
 export async function doFocusPost(channelId, postId) {
+    dispatch(selectChannel(channelId));
     dispatch({
         type: ActionTypes.RECEIVED_FOCUSED_POST,
         data: postId,
