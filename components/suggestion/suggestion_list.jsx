@@ -192,7 +192,7 @@ export default class SuggestionList extends React.PureComponent {
                     matchedPretext={this.state.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
-                    onMouseOver={(t) => SuggestionStore.setSelectionByTerm(this.props.suggestionId, t)}
+                    onMouseMove={(t) => SuggestionStore.setSelectionByTerm(this.props.suggestionId, t)}
                 />
             );
         }

@@ -15,7 +15,7 @@ export default class Suggestion extends React.Component {
             matchedPretext: PropTypes.string.isRequired,
             isSelection: PropTypes.bool,
             onClick: PropTypes.func,
-            onMouseOver: PropTypes.func,
+            onMouseMove: PropTypes.func,
         };
     }
 
@@ -36,9 +36,9 @@ export default class Suggestion extends React.Component {
         this.props.onClick(this.props.term, this.props.matchedPretext);
     }
 
-    handleMouseOver = (e) => {
+    handleMouseMove = (e) => {
         e.preventDefault();
 
-        this.props.onMouseOver(this.props.term);
+        this.props.onMouseMove(this.props.term);
     }
 }

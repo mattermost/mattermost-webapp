@@ -94,7 +94,7 @@ class AtMentionSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
-                onMouseOver={this.handleMouseOver}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 {icon}

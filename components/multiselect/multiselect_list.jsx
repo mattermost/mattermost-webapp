@@ -96,7 +96,7 @@ export default class MultiSelectList extends React.Component {
         this.props.onSelect(options[selected]);
     }
 
-    defaultOptionRenderer(option, isSelected, onAdd, onMouseOver) {
+    defaultOptionRenderer(option, isSelected, onAdd, onMouseMove) {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -108,15 +108,17 @@ export default class MultiSelectList extends React.Component {
                 className={rowSelected}
                 key={'multiselectoption' + option.value}
                 onClick={() => onAdd(option)}
-                oncMouseOver={onMouseOver}
+                onMouseMove={onMouseMove}
             >
                 {option.label}
             </div>
         );
     }
 
-    onMouseOver = (i) => () => {
-        this.setState({selected: i});
+    onMouseMove = (i) => () => {
+        if (this.state.selected !== i) {
+            this.setState({selected: i});
+        }
     }
 
     render() {
@@ -154,7 +156,7 @@ export default class MultiSelectList extends React.Component {
             renderer = this.defaultOptionRenderer;
         }
 
-        const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseOver(i)));
+        const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove(i)));
         return (
             <div className='more-modal__list'>
                 <div
