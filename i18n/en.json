@@ -2155,6 +2155,7 @@
   "login.username": "Username",
   "login.userNotFound": "We couldn't find an account matching your login credentials.",
   "login.verified": " Email Verified",
+  "login.ldapCreate": " Enter your AD/LDAP username and password to create an account.",
   "members_popover.manageMembers": "Manage Members",
   "members_popover.title": "Channel Members",
   "members_popover.viewMembers": "View Members",
