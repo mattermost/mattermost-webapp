@@ -23,6 +23,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
         />,
         "id": "someid",
         "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
       },
     ]
   }
@@ -37,19 +38,49 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       />
     }
     onClick={[Function]}
+    tooltipKey="plugin"
+    tooltipText="some tooltip text"
   >
     <div
       className="flex-child"
     >
-      <button
-        className="channel-header__icon style--none"
-        id="someid"
-        onClick={[Function]}
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={400}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className=""
+            id="pluginTooltip"
+            placement="right"
+          >
+            <span>
+              some tooltip text
+            </span>
+          </Tooltip>
+        }
+        placement="bottom"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
       >
-        <i
-          className="fa fa-anchor"
-        />
-      </button>
+        <button
+          className="channel-header__icon style--none"
+          id="someid"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          <i
+            className="fa fa-anchor"
+          />
+        </button>
+      </OverlayTrigger>
     </div>
   </HeaderIconWrapper>
 </ChannelHeaderPlug>
@@ -69,6 +100,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with two extended compo
         />,
         "id": "someid",
         "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
       },
       Object {
         "action": [Function],
@@ -78,6 +110,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with two extended compo
         />,
         "id": "someid2",
         "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
       },
     ]
   }
