@@ -7,20 +7,18 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getTeammateNameDisplaySetting, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
@@ -122,21 +120,32 @@ export function isSystemAdmin(roles) {
     return false;
 }
 
+export function getTeamRelativeUrl(team) {
+    if (!team) {
+        return '';
+    }
+
+    return '/' + team.name;
+}
+
 export function notifyMe(title, body, channel, teamId, silent) {
     showNotification({title,
         body,
         requireInteraction: false,
         silent,
         onClick: () => {
+            const state = store.getState();
             window.focus();
             if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+                browserHistory.push(getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name);
             } else if (channel) {
-                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + '/channels/' + channel.name);
+                const team = getTeam(state, teamId);
+                browserHistory.push(getTeamRelativeUrl(team) + '/channels/' + channel.name);
             } else if (teamId) {
-                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                const team = getTeam(state, teamId);
+                browserHistory.push(getTeamRelativeUrl(team) + `/channels/${Constants.DEFAULT_CHANNEL}`);
             } else {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${Constants.DEFAULT_CHANNEL}`);
             }
         },
     }).catch(() => {
@@ -192,7 +201,7 @@ export function displayTime(ticks, utc) {
         minutes = '0' + minutes;
     }
 
-    const useMilitaryTime = PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time');
+    const useMilitaryTime = getBool(store.getState(), Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time');
     if (!useMilitaryTime) {
         ampm = ' AM';
         if (hours >= 12) {
@@ -1100,27 +1109,28 @@ export function isMobile() {
 }
 
 export function getDirectTeammate(channelId) {
+    const state = store.getState();
     let teammate = {};
 
-    const channel = ChannelStore.get(channelId);
+    const channel = getChannel(state, channelId);
     if (!channel) {
         return teammate;
     }
 
     const userIds = channel.name.split('__');
-    const curUserId = UserStore.getCurrentId();
+    const curUserId = getCurrentUserId(state);
 
     if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
         return teammate;
     }
 
     if (userIds[0] === userIds[1]) {
-        return UserStore.getProfile(userIds[0]);
+        return getUser(state, userIds[0]);
     }
 
     for (var idx in userIds) {
         if (userIds[idx] !== curUserId) {
-            teammate = UserStore.getProfile(userIds[idx]);
+            teammate = getUser(state, userIds[idx]);
             break;
         }
     }
@@ -1198,7 +1208,7 @@ export function getDisplayName(user) {
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
 export function getDisplayNameByUserId(userId) {
-    return getDisplayNameByUser(UserStore.getProfile(userId));
+    return getDisplayNameByUser(getUser(store.getState(), userId));
 }
 
 /**
@@ -1247,7 +1257,7 @@ export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
  * Gets the entire name, including username, full name, and nickname, of the user with the specified id
  */
 export function displayEntireName(userId) {
-    return displayEntireNameForUser(UserStore.getProfile(userId));
+    return displayEntireNameForUser(getUser(store.getState(), userId));
 }
 
 /**
@@ -1292,7 +1302,7 @@ export function displayEntireNameForUser(user) {
 
 export function imageURLForUser(userIdOrObject) {
     if (typeof userIdOrObject == 'string') {
-        const profile = UserStore.getProfile(userIdOrObject);
+        const profile = getUser(store.getState(), userIdOrObject);
         if (profile) {
             return imageURLForUser(profile);
         }
@@ -1304,7 +1314,7 @@ export function imageURLForUser(userIdOrObject) {
 // in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
 export function imageURLForTeam(teamIdOrObject) {
     if (typeof teamIdOrObject == 'string') {
-        const team = TeamStore.get(teamIdOrObject);
+        const team = getTeam(store.getState(), teamIdOrObject);
         if (team) {
             return imageURLForTeam(team);
         }
@@ -1382,7 +1392,7 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
 }
 
 export function importSlack(file, success, error) {
-    Client4.importTeam(TeamStore.getCurrent().id, file, 'slack').then(success).catch(error);
+    Client4.importTeam(getCurrentTeamId(store.getState()), file, 'slack').then(success).catch(error);
 }
 
 export function windowWidth() {
@@ -1394,7 +1404,7 @@ export function windowHeight() {
 }
 
 export function isFeatureEnabled(feature) {
-    return PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
+    return getBool(store.getState(), Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
 }
 
 export function fillArray(value, length) {
@@ -1544,7 +1554,7 @@ export function handleFormattedTextClick(e) {
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
-        browserHistory.push('/' + TeamStore.getCurrent().name + '/channels/' + channelMentionAttribute.value);
+        browserHistory.push(getCurrentRelativeTeamUrl(store.getState()) + '/channels/' + channelMentionAttribute.value);
     }
 }
 
@@ -1591,17 +1601,18 @@ export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     const validValuesWithoutEmailBatching = [INTERVAL_IMMEDIATE];
 
     let emailInterval;
+    const state = store.getState();
 
     if (enableEmailBatching) {
         // when email batching is enabled, the default interval is 15 minutes
-        emailInterval = PreferenceStore.getInt(CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
+        emailInterval = getInt(state, CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
 
         if (validValuesWithEmailBatching.indexOf(emailInterval) === -1) {
             emailInterval = INTERVAL_FIFTEEN_MINUTES;
         }
     } else {
         // otherwise, the default interval is immediately
-        emailInterval = PreferenceStore.getInt(CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_IMMEDIATE);
+        emailInterval = getInt(state, CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_IMMEDIATE);
 
         if (validValuesWithoutEmailBatching.indexOf(emailInterval) === -1) {
             emailInterval = INTERVAL_IMMEDIATE;
