@@ -2,7 +2,7 @@
 
 exports[`/components/create_team should match snapshot 1`] = `
 <div>
-  <Connect(AnnouncementBar) />
+  <Connect(AnnouncementBarController) />
   <BackButton
     url="/test-team/channels/test-channel"
   />

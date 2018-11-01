@@ -126,6 +126,7 @@ function createPost({
             userIsOutOfOffice={false}
             rhsExpanded={false}
             emojiMap={emojiMap}
+            badConnection={false}
         />
     );
 }

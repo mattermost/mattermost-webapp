@@ -268,6 +268,9 @@ export const ActionTypes = keyMirror({
     SELECT_ATTACHMENT_MENU_ACTION: null,
 
     RECEIVED_TRANSLATIONS: null,
+
+    INCREMENT_WS_ERROR_COUNT: null,
+    RESET_WS_ERROR_COUNT: null,
 });
 
 export const ModalIdentifiers = {

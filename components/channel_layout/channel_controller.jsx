@@ -5,8 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 
+import AnnouncementBarController from 'components/announcement_bar';
+
 import Pluggable from 'plugins/pluggable';
-import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 import EditPostModal from 'components/edit_post_modal';
 import GetPostLinkModal from 'components/get_post_link_modal';
@@ -39,7 +40,7 @@ export default class ChannelController extends React.Component {
     render() {
         return (
             <div className='channel-view'>
-                <AnnouncementBar/>
+                <AnnouncementBarController/>
                 <SystemNotice/>
 
                 <div className='container-fluid'>

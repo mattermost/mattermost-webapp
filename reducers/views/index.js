@@ -14,6 +14,7 @@ import i18n from './i18n';
 import lhs from './lhs';
 import search from './search';
 import notice from './notice';
+import system from './system';
 
 export default combineReducers({
     admin,
@@ -27,4 +28,5 @@ export default combineReducers({
     lhs,
     search,
     notice,
+    system,
 });
