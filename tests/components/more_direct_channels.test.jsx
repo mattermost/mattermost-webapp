@@ -15,6 +15,7 @@ describe('components/MoreDirectChannels', () => {
         currentTeamName: 'team_name',
         searchTerm: '',
         users: [{id: 'user_id_1', delete_at: 0}, {id: 'user_id_2', delete_at: 0}, {id: 'user_id_3', delete_at: 0}],
+        groupChannels: [],
         statuses: {user_id_1: 'online', user_id_2: 'away'},
         currentChannelMembers: [{id: 'user_id_1'}, {id: 'user_id_2'}],
         isExistingChannel: false,

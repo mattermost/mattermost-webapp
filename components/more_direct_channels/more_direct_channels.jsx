@@ -27,6 +27,7 @@ export default class MoreDirectChannels extends React.Component {
         currentTeamName: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        groupChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
         statuses: PropTypes.object.isRequired,
         totalCount: PropTypes.number,
 
@@ -209,9 +210,12 @@ export default class MoreDirectChannels extends React.Component {
     addUsers = (users) => {
         const values = Object.assign([], this.state.values);
         const existingUserIds = values.map((user) => user.id);
-        users.
-            filter((user) => existingUserIds.indexOf(user.id) === -1).
-            map((user) => values.push(user));
+        for (const user of users) {
+            if (existingUserIds.indexOf(user.id) !== -1) {
+                continue;
+            }
+            values.push(user);
+        }
 
         this.setState({values});
     };
@@ -383,6 +387,9 @@ export default class MoreDirectChannels extends React.Component {
             users = active.concat(inactive);
         }
 
+        const groupChannels = this.props.groupChannels || [];
+
+        const options = [...users, ...groupChannels];
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels'}
@@ -402,7 +409,7 @@ export default class MoreDirectChannels extends React.Component {
                     <MultiSelect
                         key='moreDirectChannelsList'
                         ref='multiselect'
-                        options={users}
+                        options={options}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueKey='id'

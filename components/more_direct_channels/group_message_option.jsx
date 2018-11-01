@@ -5,52 +5,58 @@ import React from 'react';
 
 import {localizeMessage} from 'utils/utils';
 
-const GroupMessageOption = (props) => {
-    const {channel, isSelected, onAdd} = props;
-
-    let className = 'mentions__name';
-    if (isSelected) {
-        className += ' suggestion--selected';
-    }
-
-    const displayName = channel.profiles.map((profile) => '@' + profile.username).join(', ');
-    const icon = <div className='more-modal__gm-icon bg-text-200'>{channel.profiles.length}</div>;
-
-    const addValue = () => {
-        onAdd(channel.profiles);
+export default class GroupMessageOption extends React.Component {
+    static propTypes = {
+        channel: PropTypes.object.isRequired,
+        isSelected: PropTypes.bool.isRequired,
+        onAdd: PropTypes.func.isRequired,
     };
 
-    return (
-        <div
-            key={channel.id}
-            className={'more-modal__row clickable ' + className}
-            onClick={addValue}
-        >
-            {icon}
+    constructor(props) {
+        super(props);
+        this.addValue = this.addValue.bind(this);
+    }
+
+    getStyle() {
+        let className = 'mentions__name';
+        if (this.props.isSelected) {
+            className += ' suggestion--selected';
+        }
+        return className;
+    }
+
+    displayName() {
+        return this.props.channel.profiles.map((profile) => '@' + profile.username).join(', ');
+    }
+
+    addValue() {
+        this.props.onAdd(this.props.channel.profiles);
+    }
+
+    render() {
+        return (
             <div
-                className='more-modal__details'
+                key={this.props.channel.id}
+                className={'more-modal__row clickable ' + this.getStyle()}
+                onClick={this.addValue}
             >
-                <div className='more-modal__name'>
-                    {displayName}
+                <div className='more-modal__gm-icon bg-text-200'>
+                    {this.props.channel.profiles.length}
+                </div>
+                <div className='more-modal__details'>
+                    <div className='more-modal__name'>
+                        {this.displayName()}
+                    </div>
+                </div>
+                <div className='more-modal__actions'>
+                    <div className='more-modal__actions--round'>
+                        <i
+                            className='fa fa-plus'
+                            title={localizeMessage('generic_icons.add', 'Add Icon')}
+                        />
+                    </div>
                 </div>
             </div>
-            <div className='more-modal__actions'>
-                <div className='more-modal__actions--round'>
-                    <i
-                        className='fa fa-plus'
-                        title={localizeMessage('generic_icons.add', 'Add Icon')}
-                    />
-                </div>
-            </div>
-        </div>
-
-    );
-};
-
-GroupMessageOption.propTypes = {
-    channel: PropTypes.object.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    onAdd: PropTypes.func.isRequired,
-};
-
-export default GroupMessageOption;
+        );
+    }
+}

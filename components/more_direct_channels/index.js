@@ -21,14 +21,14 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
-
-import {setModalSearchTerm} from 'actions/views/search';
 import {
-    matchExistsInChannelProfiles,
     getChannelsWithUserProfiles,
 } from 'mattermost-redux/selectors/entities/channels';
 
+import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
+
+import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
@@ -57,9 +57,9 @@ function mapStateToProps(state, ownProps) {
     } else {
         users = getProfilesInCurrentTeam(state);
     }
-    const filteredDirectChannels = getChannelsWithUserProfiles(state).
-        filter((channel) => matchExistsInChannelProfiles(channel.profiles, searchTerm));
-    users = [...users, ...filteredDirectChannels];
+
+    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
+
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
@@ -68,6 +68,7 @@ function mapStateToProps(state, ownProps) {
         currentTeamName: team.name,
         searchTerm,
         users,
+        groupChannels: filteredGroupChannels,
         statuses: state.entities.users.statuses,
         currentChannelMembers,
         currentUserId,
@@ -75,6 +76,10 @@ function mapStateToProps(state, ownProps) {
         totalCount: stats.total_users_count,
     };
 }
+
+const filterGroupChannels = memoizeResult((channels, term) => {
+    return channels.filter((channel) => filterProfilesMatchingTerm(channel.profiles, term));
+});
 
 function mapDispatchToProps(dispatch) {
     return {
