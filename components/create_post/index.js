@@ -91,9 +91,9 @@ function mapStateToProps() {
 }
 
 function onSubmitPost(post, fileInfos) {
-    return () => {
+    return (dispatch) => {
         emitUserPostedEvent(post);
-        createPost(post, fileInfos);
+        dispatch(createPost(post, fileInfos));
         postListScrollChangeToBottom();
     };
 }

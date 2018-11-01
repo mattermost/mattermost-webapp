@@ -11,12 +11,10 @@ import FailedPostOptions from './failed_post_options.jsx';
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: {
-            ...bindActionCreators({
-                removePost,
-            }, dispatch),
+        actions: bindActionCreators({
             createPost,
-        },
+            removePost,
+        }, dispatch),
     };
 }
 

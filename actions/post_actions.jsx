@@ -116,31 +116,32 @@ export function unflagPost(postId) {
     };
 }
 
-export async function createPost(post, files, success) {
-    // parse message and emit emoji event
-    const emojis = post.message.match(EMOJI_PATTERN);
-    if (emojis) {
-        for (const emoji of emojis) {
-            const trimmed = emoji.substring(1, emoji.length - 1);
-            dispatch(addRecentEmoji(trimmed));
+export function createPost(post, files) {
+    return async (doDispatch) => {
+        // parse message and emit emoji event
+        const emojis = post.message.match(EMOJI_PATTERN);
+        if (emojis) {
+            for (const emoji of emojis) {
+                const trimmed = emoji.substring(1, emoji.length - 1);
+                dispatch(addRecentEmoji(trimmed));
+            }
         }
-    }
 
-    if (UserAgent.isIosClassic()) {
-        await PostActions.createPostImmediately(post, files)(dispatch, getState);
-    } else {
-        await PostActions.createPost(post, files)(dispatch, getState);
-    }
+        let result;
+        if (UserAgent.isIosClassic()) {
+            result = await doDispatch(PostActions.createPostImmediately(post, files));
+        } else {
+            result = await doDispatch(PostActions.createPost(post, files));
+        }
 
-    if (post.root_id) {
-        dispatch(storeCommentDraft(post.root_id, null));
-    } else {
-        dispatch(storeDraft(post.channel_id, null));
-    }
+        if (post.root_id) {
+            doDispatch(storeCommentDraft(post.root_id, null));
+        } else {
+            doDispatch(storeDraft(post.channel_id, null));
+        }
 
-    if (success) {
-        success();
-    }
+        return result;
+    };
 }
 
 export function storeDraft(channelId, draft) {
