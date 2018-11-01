@@ -492,7 +492,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             >
               <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-                id="admin.plugin.uploadDisabledDesc"
+                id="admin.plugin.uploadAndPluginDisabledDesc"
               />
             </p>
           </div>
@@ -651,7 +651,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               className="help-text"
             >
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugin.uploadDisabledDesc"
               />
             </p>

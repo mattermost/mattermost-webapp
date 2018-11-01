@@ -629,6 +629,7 @@ export default class PluginManagement extends AdminSettings {
         }
 
         let uploadHelpText;
+
         if (enableUploads && enable) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
@@ -636,10 +637,17 @@ export default class PluginManagement extends AdminSettings {
                     defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
-        } else {
+        } else if (enable === true && enableUploads === false) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDisabledDesc'
+                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                />
+            );
+        } else {
+            uploadHelpText = (
+                <FormattedMarkdownMessage
+                    id='admin.plugin.uploadAndPluginDisabledDesc'
                     defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
