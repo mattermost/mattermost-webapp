@@ -962,8 +962,8 @@
                 padding-bottom: 50px;
 
                 body.announcement-bar--fixed & {
-                    height: calc(100% - 48px - $announcement-bar-height);
-                    top: 48px + $announcement-bar-height;
+                    height: calc(100% - 48px - #{$announcement-bar-height});
+                    top: calc(48px + #{$announcement-bar-height});
                 }
 
                 .close {
