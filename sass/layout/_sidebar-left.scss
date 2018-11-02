@@ -330,7 +330,6 @@
                     @include alpha-property(background-color, $black, .1);
                     border-radius: 0;
                     font-weight: 400;
-                    position: relative;
 
                     &.unread-title {
                         font-weight: 600;
@@ -442,9 +441,4 @@
     span {
         outline: none;
     }
-}
-
-/* Fix for https://mattermost.atlassian.net/browse/MM-12493 */
-.react-contextmenu:not(.react-contextmenu--visible) {
-    z-index: -1 !important;
 }
