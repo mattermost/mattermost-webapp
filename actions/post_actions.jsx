@@ -222,8 +222,10 @@ export function increasePostVisibility(channelId, focusedPostId) {
 }
 
 export function searchForTerm(term) {
-    dispatch(RhsActions.updateSearchTerms(term));
-    dispatch(RhsActions.showSearchResults());
+    return (doDispatch) => {
+        doDispatch(RhsActions.updateSearchTerms(term));
+        doDispatch(RhsActions.showSearchResults());
+    };
 }
 
 export function pinPost(postId) {

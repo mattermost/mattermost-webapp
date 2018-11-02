@@ -1543,7 +1543,7 @@ export function handleFormattedTextClick(e) {
     if (hashtagAttribute) {
         e.preventDefault();
 
-        searchForTerm(hashtagAttribute.value);
+        store.dispatch(searchForTerm(hashtagAttribute.value));
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
