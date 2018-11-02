@@ -17,7 +17,6 @@ import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
@@ -136,9 +135,6 @@ export default class Root extends React.Component {
 
         // Fastclick
         FastClick.attach(document.body);
-
-        // Loading page so reset connection failure count
-        ErrorStore.setConnectionErrorCount(0);
 
         this.state = {
             configLoaded: false,

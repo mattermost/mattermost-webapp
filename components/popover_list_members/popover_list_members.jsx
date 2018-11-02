@@ -9,8 +9,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -28,6 +26,7 @@ export default class PopoverListMembers extends React.Component {
         users: PropTypes.array.isRequired,
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
+        teamUrl: PropTypes.string,
         actions: PropTypes.shape({
             getProfilesInChannel: PropTypes.func.isRequired,
         }).isRequired,
@@ -68,7 +67,7 @@ export default class PopoverListMembers extends React.Component {
             openDirectChannelToUser(
                 teammateId,
                 (channel, channelAlreadyExisted) => {
-                    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+                    browserHistory.push(this.props.teamUrl + '/channels/' + channel.name);
                     if (channelAlreadyExisted) {
                         this.closePopover();
                     }
@@ -142,7 +141,7 @@ export default class PopoverListMembers extends React.Component {
             );
 
             const manageMembers = canManageMembers(this.props.channel);
-            const isDefaultChannel = ChannelStore.isDefault(this.props.channel);
+            const isDefaultChannel = this.props.channel.name === Constants.DEFAULT_CHANNEL;
 
             if (isDefaultChannel || !manageMembers) {
                 membersName = (

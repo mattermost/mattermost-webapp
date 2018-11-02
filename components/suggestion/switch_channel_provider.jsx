@@ -237,26 +237,26 @@ function makeChannelSearchFilter(channelPrefix) {
 }
 
 export default class SwitchChannelProvider extends Provider {
-    handlePretextChanged(suggestionId, channelPrefix) {
+    handlePretextChanged(channelPrefix, resultsCallback) {
         if (channelPrefix) {
             prefix = channelPrefix;
-            this.startNewRequest(suggestionId, channelPrefix);
+            this.startNewRequest(channelPrefix);
 
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
-            this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users, true);
+            this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels, users, true);
 
             // Fetch data from the server and dispatch
-            this.fetchUsersAndChannels(channelPrefix, suggestionId);
+            this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
-            this.formatUnreadChannelsAndDispatch(suggestionId);
+            this.formatUnreadChannelsAndDispatch(resultsCallback);
         }
 
         return true;
     }
 
-    async fetchUsersAndChannels(channelPrefix, suggestionId) {
+    async fetchUsersAndChannels(channelPrefix, resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
         if (!teamId) {
@@ -298,7 +298,7 @@ export default class SwitchChannelProvider extends Provider {
         });
 
         const channels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)).concat(channelsFromServer);
-        this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
+        this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels, users);
     }
 
     userWrappedChannel(user, channel) {
@@ -331,7 +331,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatChannelsAndDispatch(channelPrefix, suggestionId, allChannels, users, skipNotInChannel = false) {
+    formatChannelsAndDispatch(channelPrefix, resultsCallback, allChannels, users, skipNotInChannel = false) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -449,19 +449,15 @@ export default class SwitchChannelProvider extends Provider {
             });
         }
 
-        setTimeout(() => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                id: suggestionId,
-                matchedPretext: channelPrefix,
-                terms: channelNames,
-                items: channels,
-                component: ConnectedSwitchChannelSuggestion,
-            });
-        }, 0);
+        resultsCallback({
+            matchedPretext: channelPrefix,
+            terms: channelNames,
+            items: channels,
+            component: ConnectedSwitchChannelSuggestion,
+        });
     }
 
-    formatUnreadChannelsAndDispatch(suggestionId) {
+    formatUnreadChannelsAndDispatch(resultsCallback) {
         const getChannel = makeGetChannel();
 
         const unreadChannelIds = getSortedUnreadChannelIds(getState(), false);
@@ -491,15 +487,11 @@ export default class SwitchChannelProvider extends Provider {
 
         const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.name);
 
-        setTimeout(() => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                id: suggestionId,
-                matchedPretext: '',
-                terms: channelNames,
-                items: channels,
-                component: ConnectedSwitchChannelSuggestion,
-            });
-        }, 0);
+        resultsCallback({
+            matchedPretext: '',
+            terms: channelNames,
+            items: channels,
+            component: ConnectedSwitchChannelSuggestion,
+        });
     }
 }

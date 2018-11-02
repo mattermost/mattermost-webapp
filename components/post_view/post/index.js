@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
+import {selectPost} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
 import Post from './post.jsx';
@@ -30,4 +32,12 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(Post);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            selectPost,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

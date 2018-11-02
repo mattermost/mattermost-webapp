@@ -6,6 +6,8 @@ import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import EventEmitter from 'mattermost-redux/utils/event_emitter';
+
 import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
@@ -158,7 +160,7 @@ class ProfilePopover extends React.Component {
         if (this.props.hide) {
             this.props.hide();
         }
-        GlobalActions.emitPopoverMentionKeyClick(this.props.isRHS, this.props.user.username);
+        EventEmitter.emit('mention_key_click', this.props.user.username);
     }
 
     handleEditAccountSettings(e) {

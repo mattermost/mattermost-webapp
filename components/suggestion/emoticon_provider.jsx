@@ -9,11 +9,8 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import {getEmojiMap} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
-import SuggestionStore from 'stores/suggestion_store.jsx';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as Emoticons from 'utils/emoticons.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 
 import Suggestion from './suggestion.jsx';
 
@@ -53,7 +50,7 @@ class EmoticonSuggestion extends Suggestion {
 }
 
 export default class EmoticonProvider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
         const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext);
         if (!captured) {
@@ -65,7 +62,6 @@ export default class EmoticonProvider {
         const partialName = captured[3];
 
         if (partialName.length < MIN_EMOTICON_LENGTH) {
-            SuggestionStore.clearSuggestions(suggestionId);
             return false;
         }
 
@@ -80,15 +76,15 @@ export default class EmoticonProvider {
         }
 
         if (store.getState().entities.general.config.EnableCustomEmoji === 'true') {
-            autocompleteCustomEmojis(partialName)(store.dispatch, store.getState).then(() => this.findAndSuggestEmojis(suggestionId, text, partialName));
+            store.dispatch(autocompleteCustomEmojis(partialName)).then(() => this.findAndSuggestEmojis(text, partialName, resultsCallback));
+        } else {
+            this.findAndSuggestEmojis(text, partialName, resultsCallback);
         }
-
-        this.findAndSuggestEmojis(suggestionId, text, partialName);
 
         return true;
     }
 
-    findAndSuggestEmojis(suggestionId, text, partialName) {
+    findAndSuggestEmojis(text, partialName, resultsCallback) {
         const matched = [];
 
         const emojiMap = getEmojiMap(store.getState());
@@ -134,15 +130,12 @@ export default class EmoticonProvider {
         const terms = matched.map((item) => ':' + item.name + ':');
 
         // Required to get past the dispatch during dispatch error
-        setTimeout(() => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                id: suggestionId,
-                matchedPretext: text,
-                terms,
-                items: matched,
-                component: EmoticonSuggestion,
-            });
-        }, 0);
+
+        resultsCallback({
+            matchedPretext: text,
+            terms,
+            items: matched,
+            component: EmoticonSuggestion,
+        });
     }
 }

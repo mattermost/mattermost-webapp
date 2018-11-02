@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
 import {cancelJob, createJob} from 'actions/job_actions.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import {JobStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -276,9 +275,7 @@ class JobTable extends React.PureComponent {
             () => {
                 this.reload();
             },
-            (err) => {
-                ErrorStore.storeLastError(err);
-                ErrorStore.emitChange();
+            () => {
                 this.reload();
             }
         );
@@ -296,9 +293,7 @@ class JobTable extends React.PureComponent {
             () => {
                 this.reload();
             },
-            (err) => {
-                ErrorStore.storeLastError(err);
-                ErrorStore.emitChange();
+            () => {
                 this.reload();
             }
         );

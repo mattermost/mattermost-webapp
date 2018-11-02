@@ -22,11 +22,12 @@ import NeedsTeam from './needs_team.jsx';
 function mapStateToProps(state, ownProps) {
     const license = getLicense(state);
     const config = getConfig(state);
+    const currentUser = getCurrentUser(state);
 
     return {
         theme: getTheme(state),
-        mfaRequired: checkIfMFARequired(license, config, ownProps.match.url),
-        currentUser: getCurrentUser(state),
+        mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
+        currentUser,
         currentTeamId: getCurrentTeamId(state),
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),

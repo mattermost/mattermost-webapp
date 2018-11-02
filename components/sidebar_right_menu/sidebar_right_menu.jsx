@@ -25,6 +25,7 @@ import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import LeaveTeamModal from 'components/leave_team_modal';
 import UserSettingsModal from 'components/user_settings/modal';
+import InviteMemberModal from 'components/invite_member_modal';
 
 export default class SidebarRightMenu extends React.PureComponent {
     static propTypes = {
@@ -143,16 +144,19 @@ export default class SidebarRightMenu extends React.PureComponent {
                         permissions={[Permissions.ADD_USER_TO_TEAM]}
                     >
                         <li>
-                            <a
-                                href='#'
-                                onClick={GlobalActions.showInviteMemberModal}
+                            <ToggleModalButtonRedux
+                                id='emailInviteMobile'
+                                role='menuitem'
+                                modalId={ModalIdentifiers.EMAIL_INVITE}
+                                dialogType={InviteMemberModal}
+                                dialogProps={{}}
                             >
                                 <i className='icon fa fa-user-plus'/>
                                 <FormattedMessage
                                     id='sidebar_right_menu.inviteNew'
                                     defaultMessage='Send Email Invite'
                                 />
-                            </a>
+                            </ToggleModalButtonRedux>
                         </li>
                     </TeamPermissionGate>
                 </TeamPermissionGate>

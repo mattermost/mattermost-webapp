@@ -6,7 +6,6 @@ import React from 'react';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -50,12 +49,12 @@ class SearchChannelSuggestion extends Suggestion {
 }
 
 export default class SearchChannelProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             const channelPrefix = captured[1];
 
-            this.startNewRequest(suggestionId, channelPrefix);
+            this.startNewRequest(channelPrefix);
 
             autocompleteChannelsForSearch(
                 channelPrefix,
@@ -70,9 +69,7 @@ export default class SearchChannelProvider extends Provider {
                     const channels = data.sort(sortChannelsByTypeAndDisplayName.bind(null, 'en'));
                     const channelNames = channels.map(itemToName);
 
-                    AppDispatcher.handleServerAction({
-                        type: Constants.ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                        id: suggestionId,
+                    resultsCallback({
                         matchedPretext: channelPrefix,
                         terms: channelNames,
                         items: channels,

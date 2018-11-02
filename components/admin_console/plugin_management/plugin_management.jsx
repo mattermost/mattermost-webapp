@@ -8,10 +8,12 @@ import {Link} from 'react-router-dom';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import * as Utils from 'utils/utils.jsx';
-import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import AdminSettings from '../admin_settings.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import BooleanSetting from '../boolean_setting.jsx';
+import SettingsGroup from '../settings_group.jsx';
 
 const PluginItemState = ({state}) => {
     switch (state) {
@@ -387,7 +389,7 @@ PluginItem.propTypes = {
     hasSettings: PropTypes.bool.isRequired,
 };
 
-export default class PluginManagement extends React.Component {
+export default class PluginManagement extends AdminSettings {
     static propTypes = {
         config: PropTypes.object.isRequired,
         pluginStatuses: PropTypes.object.isRequired,
@@ -404,30 +406,49 @@ export default class PluginManagement extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.getConfigFromState = this.getConfigFromState.bind(this);
+        this.renderSettings = this.renderSettings.bind(this);
+
+        this.state = Object.assign(this.state, {
             loading: true,
             fileSelected: false,
             fileName: null,
             serverError: null,
+        });
+    }
+
+    getConfigFromState(config) {
+        config.PluginSettings.Enable = this.state.enable;
+        config.PluginSettings.EnableUploads = this.state.enableUploads;
+
+        return config;
+    }
+
+    getStateFromConfig(config) {
+        const state = {
+            enable: config.PluginSettings.Enable,
+            enableUploads: config.PluginSettings.EnableUploads,
         };
+
+        return state;
     }
 
     componentDidMount() {
-        if (this.props.config.PluginSettings.Enable) {
+        if (this.state.enable) {
             this.props.actions.getPluginStatuses().then(
                 () => this.setState({loading: false})
             );
         }
     }
 
-    handleChange = () => {
+    handleUpload = () => {
         const element = this.refs.fileInput;
         if (element.files.length > 0) {
             this.setState({fileSelected: true, fileName: element.files[0].name});
         }
     }
 
-    handleSubmit = async (e) => {
+    handleSubmitUpload = async (e) => {
         e.preventDefault();
 
         const element = this.refs.fileInput;
@@ -488,30 +509,20 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    render() {
-        if (!this.props.config.PluginSettings.Enable) {
-            return (
-                <div className='wrapper--fixed'>
-                    <h3 className='admin-console-header'>
-                        <FormattedMessage
-                            id='admin.plugin.management.title'
-                            defaultMessage='Management'
-                        />
-                    </h3>
-                    <Banner
-                        title={<div/>}
-                        description={
-                            <FormattedMarkdownMessage
-                                id='admin.plugin.management.banner'
-                                defaultMessage='Plugins are disabled on your server. To enable them, go to **Plugins > Configuration**.'
-                            />
-                        }
-                    />
-                </div>
-            );
-        }
+    renderTitle() {
+        return (
+            <FormattedMessage
+                id='admin.plugin.management.title'
+                defaultMessage='Management'
+            />
+        );
+    }
 
+    renderSettings() {
+        const {enableUploads} = this.state;
+        const enable = this.props.config.PluginSettings.Enable;
         let serverError = '';
+
         if (this.state.serverError) {
             serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;
         }
@@ -545,11 +556,12 @@ export default class PluginManagement extends React.Component {
 
         let pluginsList;
         let pluginsContainer;
+        let pluginsListContainer;
         const plugins = Object.values(this.props.pluginStatuses);
         if (this.state.loading) {
             pluginsList = <LoadingScreen/>;
         } else if (plugins.length === 0) {
-            pluginsContainer = (
+            pluginsListContainer = (
                 <FormattedMessage
                     id='admin.plugin.no_plugins'
                     defaultMessage='No installed plugins.'
@@ -584,27 +596,59 @@ export default class PluginManagement extends React.Component {
                 );
             });
 
-            pluginsContainer = (
+            pluginsListContainer = (
                 <div className='alert alert-transparent'>
                     {pluginsList}
                 </div>
             );
         }
 
-        const enableUploads = this.props.config.PluginSettings.EnableUploads;
+        if (enable) {
+            pluginsContainer = (
+                <div className='form-group'>
+                    <label
+                        className='control-label col-sm-4'
+                    >
+                        <FormattedMessage
+                            id='admin.plugin.installedTitle'
+                            defaultMessage='Installed Plugins: '
+                        />
+                    </label>
+                    <div className='col-sm-8'>
+                        <p className='help-text'>
+                            <FormattedHTMLMessage
+                                id='admin.plugin.installedDesc'
+                                defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed.'
+                            />
+                        </p>
+                        <br/>
+                        {pluginsListContainer}
+                    </div>
+                </div>
+            );
+        }
+
         let uploadHelpText;
-        if (enableUploads) {
+
+        if (enableUploads && enable) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDesc'
                     defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
-        } else {
+        } else if (enable === true && enableUploads === false) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDisabledDesc'
-                    defaultMessage='To enable plugin uploads, go to **Plugins > Configuration**. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                />
+            );
+        } else {
+            uploadHelpText = (
+                <FormattedMarkdownMessage
+                    id='admin.plugin.uploadAndPluginDisabledDesc'
+                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
         }
@@ -613,16 +657,26 @@ export default class PluginManagement extends React.Component {
 
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.plugin.management.title'
-                        defaultMessage='Management'
+                <SettingsGroup id={'PluginSettings'}>
+                    <BooleanSetting
+                        id='enable'
+                        label={
+                            <FormattedMessage
+                                id='admin.plugins.settings.enable'
+                                defaultMessage='Enable Plugins: '
+                            />
+                        }
+                        helpText={
+                            <FormattedMarkdownMessage
+                                id='admin.plugins.settings.enableDesc'
+                                defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                            />
+                        }
+                        value={this.state.enable}
+                        onChange={this.handleChange}
+                        setByEnv={this.isSetByEnv('PluginSettings.Enable')}
                     />
-                </h3>
-                <form
-                    className='form-horizontal'
-                    role='form'
-                >
+
                     <div className='form-group'>
                         <label
                             className='control-label col-sm-4'
@@ -636,7 +690,7 @@ export default class PluginManagement extends React.Component {
                             <div className='file__upload'>
                                 <button
                                     className={uploadBtnClass}
-                                    disabled={!enableUploads}
+                                    disabled={!enableUploads || !enable}
                                 >
                                     <FormattedMessage
                                         id='admin.plugin.choose'
@@ -647,14 +701,14 @@ export default class PluginManagement extends React.Component {
                                     ref='fileInput'
                                     type='file'
                                     accept='.gz'
-                                    onChange={this.handleChange}
-                                    disabled={!enableUploads}
+                                    onChange={this.handleUpload}
+                                    disabled={!enableUploads || !enable}
                                 />
                             </div>
                             <button
                                 className={btnClass}
                                 disabled={!this.state.fileSelected}
-                                onClick={this.handleSubmit}
+                                onClick={this.handleSubmitUpload}
                             >
                                 {uploadButtonText}
                             </button>
@@ -667,27 +721,8 @@ export default class PluginManagement extends React.Component {
                             </p>
                         </div>
                     </div>
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.plugin.installedTitle'
-                                defaultMessage='Installed Plugins: '
-                            />
-                        </label>
-                        <div className='col-sm-8'>
-                            <p className='help-text'>
-                                <FormattedHTMLMessage
-                                    id='admin.plugin.installedDesc'
-                                    defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed.'
-                                />
-                            </p>
-                            <br/>
-                            {pluginsContainer}
-                        </div>
-                    </div>
-                </form>
+                    {pluginsContainer}
+                </SettingsGroup>
             </div>
         );
     }

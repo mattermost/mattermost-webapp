@@ -13,6 +13,7 @@ jest.mock('actions/websocket_actions.jsx', () => ({
 describe('components/logged_in/LoggedIn', () => {
     const children = <span>{'Test'}</span>;
     const baseProps = {
+        currentUser: {},
         mfaRequired: false,
         enableTimezone: false,
         actions: {
@@ -27,6 +28,7 @@ describe('components/logged_in/LoggedIn', () => {
     it('should render loading state without user', () => {
         const props = {
             ...baseProps,
+            currentUser: null,
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
@@ -47,9 +49,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        wrapper.setState({
-            user: {},
-        });
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Redirect
@@ -70,9 +69,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        wrapper.setState({
-            user: {},
-        });
 
         expect(wrapper).toMatchInlineSnapshot(`
 <span>
@@ -92,9 +88,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        wrapper.setState({
-            user: {},
-        });
 
         expect(wrapper).toMatchInlineSnapshot(`
 <span>
@@ -112,9 +105,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        wrapper.setState({
-            user: {},
-        });
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Redirect
@@ -136,9 +126,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        wrapper.setState({
-            user: {},
-        });
 
         expect(wrapper).toMatchInlineSnapshot(`
 <span>
@@ -156,9 +143,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        wrapper.setState({
-            user: {},
-        });
 
         expect(wrapper).toMatchInlineSnapshot(`
 <span>

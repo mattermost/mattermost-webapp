@@ -9,7 +9,6 @@ import {emailToLdap} from 'actions/admin_actions.jsx';
 import {checkMfa} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 export default class EmailToLDAP extends React.Component {
     constructor(props) {
@@ -86,7 +85,9 @@ export default class EmailToLDAP extends React.Component {
             ldapId || this.state.ldapId,
             ldapPassword || this.state.ldapPassword,
             (data) => {
-                emitUserLoggedOutEvent(data.follow_link, false, true);
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
             },
             (err) => {
                 switch (err.id) {

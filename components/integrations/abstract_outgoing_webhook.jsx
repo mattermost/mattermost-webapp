@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import TeamStore from 'stores/team_store.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import ChannelSelect from 'components/channel_select';
@@ -161,7 +160,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
         }
 
         const hook = {
-            team_id: TeamStore.getCurrentId(),
+            team_id: this.props.team.id,
             channel_id: this.state.channelId,
             trigger_words: triggerWords,
             trigger_when: parseInt(this.state.triggerWhen, 10),

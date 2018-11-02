@@ -146,6 +146,11 @@ export default class CreatePost extends React.Component {
         emojiMap: PropTypes.object.isRequired,
 
         /**
+         * If our connection is bad
+         */
+        badConnection: PropTypes.bool.isRequired,
+
+        /**
          * Whether to display a confirmation modal to reset status.
          */
         userIsOutOfOffice: PropTypes.bool.isRequired,
@@ -1004,11 +1009,11 @@ export default class CreatePost extends React.Component {
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
-                                popoverMentionKeyClick={true}
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                badConnection={this.props.badConnection}
                             />
                             <span
                                 ref='createPostControls'
