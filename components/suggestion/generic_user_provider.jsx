@@ -5,8 +5,6 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import {autocompleteUsers} from 'actions/user_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
@@ -55,9 +53,9 @@ class UserSuggestion extends Suggestion {
 }
 
 export default class UserProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
-        this.startNewRequest(suggestionId, normalizedPretext);
+        this.startNewRequest(normalizedPretext);
 
         autocompleteUsers(
             normalizedPretext,
@@ -68,9 +66,7 @@ export default class UserProvider extends Provider {
 
                 const users = Object.assign([], data.users);
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
+                resultsCallback({
                     matchedPretext: normalizedPretext,
                     terms: users.map((user) => user.username),
                     items: users,

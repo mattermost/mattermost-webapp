@@ -56,26 +56,26 @@ export default class SearchSuggestionList extends SuggestionList {
     }
 
     render() {
-        if (this.state.items.length === 0) {
+        if (this.props.items.length === 0) {
             return null;
         }
 
         const items = [];
-        for (let i = 0; i < this.state.items.length; i++) {
-            const item = this.state.items[i];
-            const term = this.state.terms[i];
-            const isSelection = term === this.state.selection;
+        for (let i = 0; i < this.props.items.length; i++) {
+            const item = this.props.items[i];
+            const term = this.props.terms[i];
+            const isSelection = term === this.props.selection;
 
             // ReactComponent names need to be upper case when used in JSX
-            const Component = this.state.components[i];
+            const Component = this.props.components[i];
 
             // temporary hack to add dividers between public and private channels in the search suggestion list
-            if (i === 0 || item.type !== this.state.items[i - 1].type) {
+            if (i === 0 || item.type !== this.props.items[i - 1].type) {
                 if (item.type === Constants.OPEN_CHANNEL) {
                     items.push(this.renderChannelDivider(Constants.OPEN_CHANNEL));
                 } else if (item.type === Constants.PRIVATE_CHANNEL) {
                     items.push(this.renderChannelDivider(Constants.PRIVATE_CHANNEL));
-                } else if (i === 0 || this.state.items[i - 1].type === Constants.OPEN_CHANNEL || this.state.items[i - 1].type === Constants.PRIVATE_CHANNEL) {
+                } else if (i === 0 || this.props.items[i - 1].type === Constants.OPEN_CHANNEL || this.props.items[i - 1].type === Constants.PRIVATE_CHANNEL) {
                     items.push(this.renderChannelDivider(Constants.DM_CHANNEL));
                 }
             }
@@ -86,7 +86,7 @@ export default class SearchSuggestionList extends SuggestionList {
                     ref={term}
                     item={item}
                     term={term}
-                    matchedPretext={this.state.matchedPretext[i]}
+                    matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
                 />

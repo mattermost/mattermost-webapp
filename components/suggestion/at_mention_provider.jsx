@@ -8,8 +8,7 @@ import XRegExp from 'xregexp';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {autocompleteUsersInChannel} from 'actions/user_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
 
@@ -116,7 +115,7 @@ export default class AtMentionProvider extends Provider {
         this.channelId = channelId;
     }
 
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultCallback) {
         const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_.]*)$', 'i').exec(pretext.toLowerCase());
         if (!captured) {
             return false;
@@ -124,7 +123,7 @@ export default class AtMentionProvider extends Provider {
 
         const prefix = captured[1];
 
-        this.startNewRequest(suggestionId, prefix);
+        this.startNewRequest(prefix);
 
         autocompleteUsersInChannel(
             prefix,
@@ -161,9 +160,7 @@ export default class AtMentionProvider extends Provider {
 
                 const mentions = users.map((user) => '@' + user.username);
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
+                resultCallback({
                     matchedPretext: `@${captured[1]}`,
                     terms: mentions,
                     items: users,

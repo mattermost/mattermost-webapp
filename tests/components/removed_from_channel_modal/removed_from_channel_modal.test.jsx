@@ -10,18 +10,14 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import RemovedFromChannelModal from 'components/removed_from_channel_modal/removed_from_channel_modal';
 
-describe('components/AddUsersToTeam', () => {
+describe('components/RemoveFromChannelModal', () => {
     const baseProps = {
-        defaultChannel: {
-            name: 'town-square',
-        },
-        currentUser: {
-            id: 'current_user_id',
-        },
+        currentUserId: 'current_user_id',
         channelName: 'test-channel',
         remover: 'Administrator',
+        onHide: jest.fn(),
         actions: {
-            closeModal: jest.fn(),
+            goToLastViewedChannel: jest.fn(),
         },
     };
 
@@ -39,14 +35,6 @@ describe('components/AddUsersToTeam', () => {
         );
 
         expect(wrapper.state('show')).toBe(true);
-    });
-
-    test('should run handleClose on exit', () => {
-        const wrapper = shallow(
-            <RemovedFromChannelModal {...baseProps}/>
-        );
-        wrapper.find('#removed_from_channel button.btn-primary').simulate('click');
-        expect(wrapper.state('show')).toBe(false);
     });
 
     test('should display correct props on Modal.Title and Modal.Body', () => {
@@ -70,12 +58,12 @@ describe('components/AddUsersToTeam', () => {
         expect(wrapper.find('.modal-body').text()).toBe('Someone removed you from the channel');
     });
 
-    test('should run closeModal after modal exited', () => {
+    test('should run goToLastViewedChannel after modal exited', () => {
         const wrapper = shallow(
             <RemovedFromChannelModal {...baseProps}/>
         );
 
-        wrapper.find(Modal).first().props().onExited();
-        expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(1);
+        wrapper.find(Modal).first().props().onHide();
+        expect(baseProps.actions.goToLastViewedChannel).toHaveBeenCalledTimes(1);
     });
 });

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import UserStore from 'stores/user_store.jsx';
 import {ErrorPageTypes} from 'utils/constants.jsx';
 
 export function importComponentSuccess(callback) {
@@ -27,12 +26,11 @@ const mfaAuthServices = [
     'ldap',
 ];
 
-export function checkIfMFARequired(license, config, path) {
+export function checkIfMFARequired(user, license, config, path) {
     if (license.MFA === 'true' &&
             config.EnableMultifactorAuthentication === 'true' &&
             config.EnforceMultifactorAuthentication === 'true' &&
             mfaPaths.indexOf(path) === -1) {
-        const user = UserStore.getCurrentUser();
         if (user && !user.mfa_active &&
                 mfaAuthServices.indexOf(user.auth_service) !== -1) {
             return true;

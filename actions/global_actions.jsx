@@ -17,7 +17,7 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {logout} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName} from 'mattermost-redux/selectors/entities/channels';
 
@@ -33,7 +33,6 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
@@ -400,7 +399,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         }
 
         BrowserStore.clear();
-        ErrorStore.clearLastError();
         stopPeriodicStatusUpdates();
         WebsocketActions.close();
         document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -430,8 +428,10 @@ export async function redirectUserToDefaultTeam() {
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
 
     let team = getTeam(state, teamId);
+    const myMember = getMyTeamMember(state, teamId);
 
-    if (!team) {
+    if (!team || !myMember || !myMember.team_id) {
+        team = null;
         let myTeams = getMyTeams(state);
 
         if (myTeams.length > 0) {
@@ -472,14 +472,6 @@ export function postListScrollChangeToBottom() {
     AppDispatcher.handleViewAction({
         type: EventTypes.POST_LIST_SCROLL_CHANGE,
         value: true,
-    });
-}
-
-export function emitPopoverMentionKeyClick(isRHS, mentionKey) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.POPOVER_MENTION_KEY_CLICK,
-        isRHS,
-        mentionKey,
     });
 }
 

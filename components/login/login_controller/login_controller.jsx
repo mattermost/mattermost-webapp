@@ -64,13 +64,6 @@ class LoginController extends React.Component {
     constructor(props) {
         super(props);
 
-        this.preSubmit = this.preSubmit.bind(this);
-        this.submit = this.submit.bind(this);
-        this.finishSignin = this.finishSignin.bind(this);
-
-        this.handleLoginIdChange = this.handleLoginIdChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-
         let loginId = '';
         if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
             loginId = (new URLSearchParams(this.props.location.search)).get('email');
@@ -138,7 +131,7 @@ class LoginController extends React.Component {
         }
     }
 
-    configureTitle() {
+    configureTitle = () => {
         if (this.state.sessionExpired) {
             document.title = this.props.intl.formatMessage({
                 id: 'login.session_expired.title',
@@ -179,7 +172,7 @@ class LoginController extends React.Component {
         }
     }
 
-    preSubmit(e) {
+    preSubmit = (e) => {
         e.preventDefault();
 
         const {location} = this.props;
@@ -264,7 +257,7 @@ class LoginController extends React.Component {
         );
     }
 
-    submit(loginId, password, token) {
+    submit = (loginId, password, token) => {
         this.setState({serverError: null, loading: true});
 
         webLogin(
@@ -328,7 +321,7 @@ class LoginController extends React.Component {
         );
     }
 
-    finishSignin(team) {
+    finishSignin = (team) => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
@@ -348,19 +341,19 @@ class LoginController extends React.Component {
         }
     }
 
-    handleLoginIdChange(e) {
+    handleLoginIdChange = (e) => {
         this.setState({
             loginId: e.target.value,
         });
     }
 
-    handlePasswordChange(e) {
+    handlePasswordChange = (e) => {
         this.setState({
             password: e.target.value,
         });
     }
 
-    createCustomLogin() {
+    createCustomLogin = () => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
@@ -380,7 +373,7 @@ class LoginController extends React.Component {
         return null;
     }
 
-    createLoginPlaceholder() {
+    createLoginPlaceholder = () => {
         const ldapEnabled = this.state.ldapEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -413,7 +406,7 @@ class LoginController extends React.Component {
         return '';
     }
 
-    checkSignUpEnabled() {
+    checkSignUpEnabled = () => {
         return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
@@ -427,11 +420,10 @@ class LoginController extends React.Component {
         this.setState({sessionExpired: false});
     }
 
-    createLoginOptions() {
+    createExtraText = () => {
         const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
-        let extraBox = '';
         if (this.state.sessionExpired) {
-            extraBox = (
+            return (
                 <div className='alert alert-warning'>
                     <i
                         className='fa fa-exclamation-triangle'
@@ -454,8 +446,10 @@ class LoginController extends React.Component {
                     </Link>
                 </div>
             );
-        } else if (extraParam === Constants.GET_TERMS_ERROR) {
-            extraBox = (
+        }
+
+        if (extraParam === Constants.GET_TERMS_ERROR) {
+            return (
                 <div className='alert has-error no-padding'>
                     <label className='control-label'>
                         <FormattedMessage
@@ -466,7 +460,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.TERMS_REJECTED) {
-            extraBox = (
+            return (
                 <div className='alert alert-warning'>
                     <i
                         className='fa fa-exclamation-triangle'
@@ -482,7 +476,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_CHANGE) {
-            extraBox = (
+            return (
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
@@ -495,7 +489,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_VERIFIED) {
-            extraBox = (
+            return (
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
@@ -508,7 +502,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.PASSWORD_CHANGE) {
-            extraBox = (
+            return (
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
@@ -520,8 +514,21 @@ class LoginController extends React.Component {
                     />
                 </div>
             );
+        } else if (extraParam === Constants.CREATE_LDAP) {
+            return (
+                <div className='alert alert-grey'>
+                    <FormattedMessage
+                        id='login.ldapCreate'
+                        defaultMessage=' Enter your AD/LDAP username and password to create an account.'
+                    />
+                </div>
+            );
         }
 
+        return null;
+    }
+
+    createLoginOptions = () => {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
@@ -772,7 +779,7 @@ class LoginController extends React.Component {
 
         return (
             <div>
-                {extraBox}
+                {this.createExtraText()}
                 {loginControls}
             </div>
         );

@@ -11,7 +11,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -52,10 +51,6 @@ export default class LoggedIn extends React.Component {
                 user,
             });
         }
-    }
-
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        ErrorStore.clearLastError();
     }
 
     componentDidMount() {

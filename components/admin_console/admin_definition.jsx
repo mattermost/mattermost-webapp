@@ -2176,24 +2176,6 @@ export default {
             },
         },
         plugins: {
-            configuration: {
-                schema: {
-                    id: 'PluginSettings',
-                    name: t('admin.plugins.settings.title'),
-                    name_default: 'Configuration',
-                    settings: [
-                        {
-                            type: Constants.SettingsTypes.TYPE_BOOL,
-                            key: 'PluginSettings.Enable',
-                            label: t('admin.plugins.settings.enable'),
-                            label_default: 'Enable Plugins: ',
-                            help_text: t('admin.plugins.settings.enableDesc'),
-                            help_text_default: 'When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugins) to learn more.',
-                            help_text_markdown: true,
-                        },
-                    ],
-                },
-            },
             management: {
                 schema: {
                     id: 'PluginManagementSettings',

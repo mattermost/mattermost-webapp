@@ -2,7 +2,7 @@
 
 exports[`components/login/LoginController should match snapshot 1`] = `
 <div>
-  <Connect(AnnouncementBar) />
+  <Connect(AnnouncementBarController) />
   <div
     className="col-sm-12"
   >
@@ -45,7 +45,7 @@ exports[`components/login/LoginController should match snapshot 1`] = `
 
 exports[`components/login/LoginController should match snapshot when expired 1`] = `
 <div>
-  <Connect(AnnouncementBar) />
+  <Connect(AnnouncementBarController) />
   <div
     className="col-sm-12"
   >

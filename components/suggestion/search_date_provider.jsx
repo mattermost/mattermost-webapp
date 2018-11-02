@@ -5,9 +5,6 @@ import React from 'react';
 
 import DayPicker from 'react-day-picker';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
-
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -35,26 +32,22 @@ class SearchDateSuggestion extends Suggestion {
 }
 
 export default class SearchDateProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\b(?:on|before|after):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             const datePrefix = captured[1];
 
-            this.startNewRequest(suggestionId, datePrefix);
+            this.startNewRequest(datePrefix);
 
             const dates = Object.assign([], [{label: 'Selected Date', date: datePrefix}]);
             const terms = dates.map((date) => date.date);
 
-            setTimeout(() => {
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: datePrefix,
-                    terms,
-                    items: dates,
-                    component: SearchDateSuggestion,
-                });
-            }, 0);
+            resultsCallback({
+                matchedPretext: datePrefix,
+                terms,
+                items: dates,
+                component: SearchDateSuggestion,
+            });
         }
 
         return Boolean(captured);

@@ -4,10 +4,10 @@
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions} from 'mattermost-redux/constants';
 
-import UserStore from 'stores/user_store.jsx';
 import store from 'stores/redux_store.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -29,7 +29,7 @@ export function isFromWebhook(post) {
 }
 
 export function isPostOwner(post) {
-    return UserStore.getCurrentId() === post.user_id;
+    return getCurrentUserId(store.getState()) === post.user_id;
 }
 
 export function isComment(post) {

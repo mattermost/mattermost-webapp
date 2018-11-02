@@ -21,7 +21,6 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     openOnFocus={false}
     openWhenEmpty={false}
     placeholder="placeholder text"
-    popoverMentionKeyClick={false}
     providers={
       Array [
         AtMentionProvider {
@@ -154,7 +153,6 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     openOnFocus={false}
     openWhenEmpty={false}
     placeholder="placeholder text"
-    popoverMentionKeyClick={false}
     providers={
       Array [
         AtMentionProvider {
@@ -287,7 +285,6 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     openOnFocus={false}
     openWhenEmpty={false}
     placeholder="placeholder text"
-    popoverMentionKeyClick={false}
     providers={
       Array [
         AtMentionProvider {
