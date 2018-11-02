@@ -101,18 +101,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
             <span
               className="whitespace--nowrap"
             >
-              <FormattedDate
-                day="2-digit"
-                month="short"
-                value={2018-10-29T17:31:34.674Z}
-                year="numeric"
-              />
-               - 
-              <FormattedTime
-                hour="2-digit"
-                minute="2-digit"
-                value={2018-10-29T17:31:34.674Z}
-              />
+              Oct 29, 2018 - 11:01 PM
             </span>
           </td>
           <td
@@ -314,18 +303,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
             <span
               className="whitespace--nowrap"
             >
-              <FormattedDate
-                day="2-digit"
-                month="short"
-                value={2018-10-29T17:31:34.674Z}
-                year="numeric"
-              />
-               - 
-              <FormattedTime
-                hour="2-digit"
-                minute="2-digit"
-                value={2018-10-29T17:31:34.674Z}
-              />
+              Oct 29, 2018 - 11:01 PM
             </span>
           </td>
           <td
@@ -370,18 +348,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
             <span
               className="whitespace--nowrap"
             >
-              <FormattedDate
-                day="2-digit"
-                month="short"
-                value={2018-10-29T17:31:34.674Z}
-                year="numeric"
-              />
-               - 
-              <FormattedTime
-                hour="2-digit"
-                minute="2-digit"
-                value={2018-10-29T17:31:34.674Z}
-              />
+              Oct 29, 2018 - 11:01 PM
             </span>
           </td>
           <td
