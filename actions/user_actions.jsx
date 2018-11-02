@@ -22,7 +22,7 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -674,7 +674,7 @@ export function autoResetStatus() {
         const {currentUserId} = getState().entities.users;
         const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
 
-        if (!userStatus.manual) {
+        if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual) {
             return userStatus;
         }
 
