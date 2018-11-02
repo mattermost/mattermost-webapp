@@ -158,7 +158,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
   <div
     className="col"
   >
-    <PostTime
+    <Connect(PostTime)
       eventTime={1502715365009}
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
@@ -257,7 +257,7 @@ exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHov
   <div
     className="col"
   >
-    <PostTime
+    <Connect(PostTime)
       eventTime={1502715365009}
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"

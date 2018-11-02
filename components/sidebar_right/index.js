@@ -7,7 +7,6 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import PostStore from 'stores/post_store';
 import {getPinnedPosts, setRhsExpanded, showPinnedPosts} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
@@ -31,8 +30,8 @@ function mapStateToProps(state) {
         channel = getChannel(state, channelId);
         if (channel == null) {
             // the permalink view is not really tied to a particular channel but still needs it
-            const postId = PostStore.getFocusedPostId();
-            const post = getPost(state, postId);
+            const {focusedPostId} = state.views.channel;
+            const post = getPost(state, focusedPostId);
 
             // the post take some time before being available on page load
             if (post != null) {

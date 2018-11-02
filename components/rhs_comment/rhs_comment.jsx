@@ -12,7 +12,6 @@ import {
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -22,7 +21,7 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import PostTime from 'components/post_view/post_time.jsx';
+import PostTime from 'components/post_view/post_time';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import EmojiIcon from 'components/svg/emoji_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -60,7 +59,6 @@ export default class RhsComment extends React.Component {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
             dropdownOpened: false,
         };

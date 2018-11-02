@@ -30,6 +30,7 @@ export default class PostMarkdown extends React.PureComponent {
          * The optional post for which this message is being rendered
          */
         post: PropTypes.object,
+        channel: PropTypes.object,
 
         options: PropTypes.object,
 
@@ -43,7 +44,7 @@ export default class PostMarkdown extends React.PureComponent {
 
     render() {
         if (this.props.post) {
-            const renderedSystemMessage = renderSystemMessage(this.props.post);
+            const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }

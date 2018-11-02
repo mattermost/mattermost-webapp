@@ -11,8 +11,6 @@ import {Client4} from 'mattermost-redux/client';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {checkMfa, webLogin} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -40,6 +38,8 @@ class LoginController extends React.Component {
 
             location: PropTypes.object.isRequired,
             isLicensed: PropTypes.bool.isRequired,
+
+            currentUser: PropTypes.object,
 
             customBrandText: PropTypes.string,
             customDescriptionText: PropTypes.string,
@@ -85,7 +85,7 @@ class LoginController extends React.Component {
     componentDidMount() {
         this.configureTitle();
 
-        if (UserStore.getCurrentUser()) {
+        if (this.props.currentUser) {
             GlobalActions.redirectUserToDefaultTeam();
             return;
         }
@@ -323,7 +323,6 @@ class LoginController extends React.Component {
 
     finishSignin = (team) => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
-        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
 
@@ -334,8 +333,8 @@ class LoginController extends React.Component {
             browserHistory.push(redirectTo);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
-        } else if (primaryTeam) {
-            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+        } else if (experimentalPrimaryTeam) {
+            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }

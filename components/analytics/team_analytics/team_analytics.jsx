@@ -9,7 +9,6 @@ import {General} from 'mattermost-redux/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import AnalyticsStore from 'stores/analytics_store.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {StatTypes} from 'utils/constants.jsx';
 import Banner from 'components/admin_console/banner.jsx';
@@ -41,6 +40,7 @@ export default class TeamAnalytics extends React.Component {
          * The locale of the current user
           */
         locale: PropTypes.string.isRequired,
+        stats: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
 
@@ -59,19 +59,14 @@ export default class TeamAnalytics extends React.Component {
     constructor(props) {
         super(props);
 
-        const teamId = props.initialTeam ? props.initialTeam.id : '';
-
         this.state = {
             team: props.initialTeam,
-            stats: AnalyticsStore.getAllTeam(teamId),
             recentlyActiveUsers: [],
             newUsers: [],
         };
     }
 
     componentDidMount() {
-        AnalyticsStore.addChangeListener(this.onChange);
-
         if (this.state.team) {
             this.getData(this.state.team.id);
         }
@@ -98,17 +93,6 @@ export default class TeamAnalytics extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        AnalyticsStore.removeChangeListener(this.onChange);
-    }
-
-    onChange = () => {
-        const teamId = this.state.team ? this.state.team.id : '';
-        this.setState({
-            stats: AnalyticsStore.getAllTeam(teamId),
-        });
-    }
-
     handleTeamChange = (e) => {
         const teamId = e.target.value;
 
@@ -127,7 +111,7 @@ export default class TeamAnalytics extends React.Component {
     }
 
     render() {
-        if (this.props.teams.length === 0 || !this.state.team || !this.state.stats) {
+        if (this.props.teams.length === 0 || !this.state.team || !this.props.stats[this.state.team.id]) {
             return <LoadingScreen/>;
         }
 
@@ -144,7 +128,7 @@ export default class TeamAnalytics extends React.Component {
             );
         }
 
-        const stats = this.state.stats;
+        const stats = this.props.stats[this.state.team.id];
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
