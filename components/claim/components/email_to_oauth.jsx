@@ -60,8 +60,9 @@ export default class EmailToOAuth extends React.Component {
             token,
             this.props.newType,
             (data) => {
-                // Stay logged in and just redirect to the OAuth provider.
-                window.location.href = data.follow_link;
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
             },
             (err) => {
                 this.setState({error: err.message, showMfa: false});

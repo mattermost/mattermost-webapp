@@ -117,3 +117,127 @@ exports[`components/login/LoginController should match snapshot when initializin
   style={Object {}}
 />
 `;
+
+exports[`components/login/LoginController should show session expiry notification 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container undefined"
+    >
+      <div
+        className="signup__markdown"
+      />
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <SiteNameAndDescription
+          customDescriptionText=""
+          siteName=""
+        />
+        <div>
+          <div
+            className="alert alert-warning"
+          >
+            <i
+              className="fa fa-exclamation-triangle"
+              title="Warning Icon"
+            />
+             
+            <FormattedMessage
+              defaultMessage="Your session has expired. Please log in again."
+              id="login.session_expired"
+              values={Object {}}
+            />
+             
+            <Link
+              className="btn-close"
+              onClick={[Function]}
+              replace={false}
+              to="/login"
+            >
+              <span>
+                ×
+              </span>
+            </Link>
+          </div>
+          <FormError
+            error={
+              <FormattedMessage
+                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
+                id="login.noMethods"
+                values={Object {}}
+              />
+            }
+            errors={Array []}
+            key="noMethods"
+            margin={true}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/login/LoginController should suppress session expiry notification on sign in change 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container undefined"
+    >
+      <div
+        className="signup__markdown"
+      />
+      <img
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <SiteNameAndDescription
+          customDescriptionText=""
+          siteName=""
+        />
+        <div>
+          <div
+            className="alert alert-success"
+          >
+            <i
+              className="fa fa-check"
+              title="Success Icon"
+            />
+            <FormattedMessage
+              defaultMessage=" Sign-in method changed successfully"
+              id="login.changed"
+              values={Object {}}
+            />
+          </div>
+          <FormError
+            error={
+              <FormattedMessage
+                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
+                id="login.noMethods"
+                values={Object {}}
+              />
+            }
+            errors={Array []}
+            key="noMethods"
+            margin={true}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
