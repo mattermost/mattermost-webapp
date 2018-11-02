@@ -8,9 +8,11 @@ import {FormattedMessage} from 'react-intl';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {savePreference} from 'actions/user_actions.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import AppIcons from 'images/appIcons.png';
+import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
+import InviteMemberModal from 'components/invite_member_modal';
 
 const NUM_SCREENS = 3;
 
@@ -206,16 +208,18 @@ export default class TutorialIntroScreens extends React.Component {
         if (!this.props.isLicensed || this.props.restrictTeamInvite === Constants.PERMISSIONS_ALL) {
             if (teamType === Constants.INVITE_TEAM) {
                 inviteModalLink = (
-                    <button
+                    <ModalToggleButtonRedux
                         id='tutorialIntroInvite'
                         className='intro-links color--link style--none'
-                        onClick={GlobalActions.showInviteMemberModal}
+                        modalId={ModalIdentifiers.EMAIL_INVITE}
+                        dialogType={InviteMemberModal}
+                        dialogProps={{}}
                     >
                         <FormattedMessage
                             id='tutorial_intro.invite'
                             defaultMessage='Invite teammates'
                         />
-                    </button>
+                    </ModalToggleButtonRedux>
                 );
             } else {
                 inviteModalLink = (

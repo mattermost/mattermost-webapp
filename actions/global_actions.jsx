@@ -233,13 +233,6 @@ export function showGetTeamInviteLinkModal() {
     });
 }
 
-export function showInviteMemberModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_INVITE_MEMBER_MODAL,
-        value: true,
-    });
-}
-
 export function showLeavePrivateChannelModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
