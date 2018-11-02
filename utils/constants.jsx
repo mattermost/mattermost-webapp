@@ -288,6 +288,8 @@ export const ModalIdentifiers = {
     RENAME_CHANNEL: 'rename_channel',
     USER_SETTINGS: 'user_settings',
     QUICK_SWITCH: 'quick_switch',
+    REMOVED_FROM_CHANNEL: 'removed_from_channel',
+    EMAIL_INVITE: 'email_invite',
 };
 
 export const UserStatuses = {
