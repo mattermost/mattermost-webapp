@@ -15,93 +15,173 @@ exports[`components/PluginManagement should match snapshot 1`] = `
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
-        <div
-          className="help-text no-margin"
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
         />
-        <p
-          className="help-text"
+        <div
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+          </div>
+        </div>
+      </SettingsGroup>
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
       <div
-        className="col-sm-8"
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -122,98 +202,178 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
-        <div
-          className="help-text no-margin"
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
         />
-        <p
-          className="help-text"
+        <div
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+            <FormattedMessage
+              defaultMessage="No installed plugins."
+              id="admin.plugin.no_plugins"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </SettingsGroup>
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
       <div
-        className="col-sm-8"
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
-        <FormattedMessage
-          defaultMessage="No installed plugins."
-          id="admin.plugin.no_plugins"
-          values={Object {}}
+        <FormError
+          error={null}
+          errors={Array []}
         />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -232,15 +392,150 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
       values={Object {}}
     />
   </h3>
-  <Banner
-    description={
-      <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="Plugins are disabled on your server. To enable them, go to **Plugins > Configuration**."
-        id="admin.plugin.management.banner"
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <div
+      className="wrapper--fixed"
+    >
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
+      >
+        <BooleanSetting
+          disabled={false}
+          falseText={
+            <FormattedMessage
+              defaultMessage="false"
+              id="admin.false"
+              values={Object {}}
+            />
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={false}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={true}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={true}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadAndPluginDisabledDesc"
+              />
+            </p>
+          </div>
+        </div>
+      </SettingsGroup>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
       />
-    }
-    title={<div />}
-  />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </form>
 </div>
 `;
 
@@ -259,93 +554,173 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn"
-            disabled={true}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={true}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
-        <div
-          className="help-text no-margin"
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
         />
-        <p
-          className="help-text"
+        <div
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="To enable plugin uploads, go to **Plugins > Configuration**. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDisabledDesc"
-          />
-        </p>
-      </div>
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn"
+                disabled={true}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={true}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDisabledDesc"
+              />
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+          </div>
+        </div>
+      </SettingsGroup>
     </div>
     <div
-      className="form-group"
+      className="admin-console-save"
     >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
       <div
-        className="col-sm-8"
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
       >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -366,156 +741,236 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
         </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
         <div
-          className="help-text no-margin"
-        />
-        <p
-          className="help-text"
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
-        <div
-          className="alert alert-transparent"
-        >
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={true}
-            key="plugin_0"
-            pluginStatus={
-              Object {
-                "active": false,
-                "description": "The plugin 0.",
-                "id": "plugin_0",
-                "instances": Array [
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+            <div
+              className="alert alert-transparent"
+            >
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={true}
+                key="plugin_0"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
+                    "active": false,
+                    "description": "The plugin 0.",
+                    "id": "plugin_0",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.1.0",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 0",
                     "state": 0,
                     "version": "0.1.0",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 0",
-                "state": 0,
-                "version": "0.1.0",
-              }
-            }
-            removing={false}
-            showInstances={true}
-          />
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={true}
-            key="plugin_1"
-            pluginStatus={
-              Object {
-                "active": true,
-                "description": "The plugin.",
-                "id": "plugin_1",
-                "instances": Array [
+                  }
+                }
+                removing={false}
+                showInstances={true}
+              />
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={true}
+                key="plugin_1"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
-                    "state": 0,
+                    "active": true,
+                    "description": "The plugin.",
+                    "id": "plugin_1",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.0.1",
+                      },
+                      Object {
+                        "cluster_id": "cluster_id_2",
+                        "state": 2,
+                        "version": "0.0.2",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 1",
+                    "state": 5,
                     "version": "0.0.1",
-                  },
-                  Object {
-                    "cluster_id": "cluster_id_2",
-                    "state": 2,
-                    "version": "0.0.2",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 1",
-                "state": 5,
-                "version": "0.0.1",
-              }
-            }
-            removing={false}
-            showInstances={true}
-          />
+                  }
+                }
+                removing={false}
+                showInstances={true}
+              />
+            </div>
+          </div>
         </div>
+      </SettingsGroup>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -536,124 +991,204 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
         </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
         <div
-          className="help-text no-margin"
-        />
-        <p
-          className="help-text"
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
-        <div
-          className="alert alert-transparent"
-        >
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={true}
-            key="plugin_0"
-            pluginStatus={
-              Object {
-                "active": false,
-                "description": "The plugin 0.",
-                "id": "plugin_0",
-                "instances": Array [
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+            <div
+              className="alert alert-transparent"
+            >
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={true}
+                key="plugin_0"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
+                    "active": false,
+                    "description": "The plugin 0.",
+                    "id": "plugin_0",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.1.0",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 0",
                     "state": 0,
                     "version": "0.1.0",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 0",
-                "state": 0,
-                "version": "0.1.0",
-              }
-            }
-            removing={false}
-            showInstances={false}
-          />
+                  }
+                }
+                removing={false}
+                showInstances={false}
+              />
+            </div>
+          </div>
         </div>
+      </SettingsGroup>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -674,124 +1209,204 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
         </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
         <div
-          className="help-text no-margin"
-        />
-        <p
-          className="help-text"
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
-        <div
-          className="alert alert-transparent"
-        >
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={true}
-            key="plugin_0"
-            pluginStatus={
-              Object {
-                "active": false,
-                "description": "The plugin 0.",
-                "id": "plugin_0",
-                "instances": Array [
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+            <div
+              className="alert alert-transparent"
+            >
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={true}
+                key="plugin_0"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
+                    "active": false,
+                    "description": "The plugin 0.",
+                    "id": "plugin_0",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.1.0",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 0",
                     "state": 0,
                     "version": "0.1.0",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 0",
-                "state": 0,
-                "version": "0.1.0",
-              }
-            }
-            removing={false}
-            showInstances={false}
-          />
+                  }
+                }
+                removing={false}
+                showInstances={false}
+              />
+            </div>
+          </div>
         </div>
+      </SettingsGroup>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -812,124 +1427,204 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
         </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
         <div
-          className="help-text no-margin"
-        />
-        <p
-          className="help-text"
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
-        <div
-          className="alert alert-transparent"
-        >
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={true}
-            key="plugin_0"
-            pluginStatus={
-              Object {
-                "active": false,
-                "description": "The plugin 0.",
-                "id": "plugin_0",
-                "instances": Array [
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+            <div
+              className="alert alert-transparent"
+            >
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={true}
+                key="plugin_0"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
+                    "active": false,
+                    "description": "The plugin 0.",
+                    "id": "plugin_0",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.1.0",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 0",
                     "state": 0,
                     "version": "0.1.0",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 0",
-                "state": 0,
-                "version": "0.1.0",
-              }
-            }
-            removing={false}
-            showInstances={false}
-          />
+                  }
+                }
+                removing={false}
+                showInstances={false}
+              />
+            </div>
+          </div>
         </div>
+      </SettingsGroup>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
@@ -950,156 +1645,236 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
   </h3>
   <form
     className="form-horizontal"
+    onSubmit={[Function]}
     role="form"
   >
     <div
-      className="form-group"
+      className="wrapper--fixed"
     >
-      <label
-        className="control-label col-sm-4"
+      <SettingsGroup
+        id="PluginSettings"
+        show={true}
       >
-        <FormattedMessage
-          defaultMessage="Upload Plugin: "
-          id="admin.plugin.uploadTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <div
-          className="file__upload"
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-          >
+        <BooleanSetting
+          disabled={false}
+          falseText={
             <FormattedMessage
-              defaultMessage="Choose File"
-              id="admin.plugin.choose"
+              defaultMessage="false"
+              id="admin.false"
               values={Object {}}
             />
-          </button>
-          <input
-            accept=".gz"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
+          }
+          helpText={
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              id="admin.plugins.settings.enableDesc"
+            />
+          }
+          id="enable"
+          label={
+            <FormattedMessage
+              defaultMessage="Enable Plugins: "
+              id="admin.plugins.settings.enable"
+              values={Object {}}
+            />
+          }
+          onChange={[Function]}
+          setByEnv={false}
+          trueText={
+            <FormattedMessage
+              defaultMessage="true"
+              id="admin.true"
+              values={Object {}}
+            />
+          }
+          value={true}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upload Plugin: "
+              id="admin.plugin.uploadTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                disabled={false}
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.plugin.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".gz"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.plugin.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text no-margin"
+            />
+            <p
+              className="help-text"
+            >
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugin.uploadDesc"
+              />
+            </p>
+          </div>
         </div>
-        <button
-          className="btn"
-          disabled={true}
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Upload"
-            id="admin.plugin.upload"
-            values={Object {}}
-          />
-        </button>
         <div
-          className="help-text no-margin"
-        />
-        <p
-          className="help-text"
+          className="form-group"
         >
-          <InjectIntl(FormattedMarkdownMessage)
-            defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
-            id="admin.plugin.uploadDesc"
-          />
-        </p>
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="control-label col-sm-4"
-      >
-        <FormattedMessage
-          defaultMessage="Installed Plugins: "
-          id="admin.plugin.installedTitle"
-          values={Object {}}
-        />
-      </label>
-      <div
-        className="col-sm-8"
-      >
-        <p
-          className="help-text"
-        >
-          <FormattedHTMLMessage
-            defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
-            id="admin.plugin.installedDesc"
-            values={Object {}}
-          />
-        </p>
-        <br />
-        <div
-          className="alert alert-transparent"
-        >
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={false}
-            key="plugin_0"
-            pluginStatus={
-              Object {
-                "active": false,
-                "description": "The plugin 0.",
-                "id": "plugin_0",
-                "instances": Array [
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Installed Plugins: "
+              id="admin.plugin.installedTitle"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p
+              className="help-text"
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                id="admin.plugin.installedDesc"
+                values={Object {}}
+              />
+            </p>
+            <br />
+            <div
+              className="alert alert-transparent"
+            >
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={false}
+                key="plugin_0"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
+                    "active": false,
+                    "description": "The plugin 0.",
+                    "id": "plugin_0",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.1.0",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 0",
                     "state": 0,
                     "version": "0.1.0",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 0",
-                "state": 0,
-                "version": "0.1.0",
-              }
-            }
-            removing={false}
-            showInstances={true}
-          />
-          <PluginItem
-            handleDisable={[Function]}
-            handleEnable={[Function]}
-            handleRemove={[Function]}
-            hasSettings={false}
-            key="plugin_1"
-            pluginStatus={
-              Object {
-                "active": true,
-                "description": "The plugin.",
-                "id": "plugin_1",
-                "instances": Array [
+                  }
+                }
+                removing={false}
+                showInstances={true}
+              />
+              <PluginItem
+                handleDisable={[Function]}
+                handleEnable={[Function]}
+                handleRemove={[Function]}
+                hasSettings={false}
+                key="plugin_1"
+                pluginStatus={
                   Object {
-                    "cluster_id": "cluster_id_1",
-                    "state": 0,
+                    "active": true,
+                    "description": "The plugin.",
+                    "id": "plugin_1",
+                    "instances": Array [
+                      Object {
+                        "cluster_id": "cluster_id_1",
+                        "state": 0,
+                        "version": "0.0.1",
+                      },
+                      Object {
+                        "cluster_id": "cluster_id_2",
+                        "state": 2,
+                        "version": "0.0.2",
+                      },
+                    ],
+                    "is_prepackaged": false,
+                    "name": "Plugin 1",
+                    "state": 5,
                     "version": "0.0.1",
-                  },
-                  Object {
-                    "cluster_id": "cluster_id_2",
-                    "state": 2,
-                    "version": "0.0.2",
-                  },
-                ],
-                "is_prepackaged": false,
-                "name": "Plugin 1",
-                "state": 5,
-                "version": "0.0.1",
-              }
-            }
-            removing={false}
-            showInstances={true}
-          />
+                  }
+                }
+                removing={false}
+                showInstances={true}
+              />
+            </div>
+          </div>
         </div>
+      </SettingsGroup>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage="Save"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
       </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
     </div>
   </form>
 </div>
