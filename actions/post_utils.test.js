@@ -110,7 +110,14 @@ describe('actions/post_utils', () => {
             users: {
                 currentUserId: 'current_user_id',
                 profiles: {
-                    current_user_id: {roles: 'system_role'},
+                    current_user_id: {
+                        id: 'current_user_id',
+                        username: 'current_username',
+                        roles: 'system_role',
+                        useAutomaticTimezone: true,
+                        automaticTimezone: '',
+                        manualTimezone: '',
+                    },
                 },
             },
             general: {
@@ -140,6 +147,7 @@ describe('actions/post_utils', () => {
                 loadingPosts: {},
                 postVisibility: {current_channel_id: 60},
             },
+            rhs: {searchTerms: ''},
         },
     };
 
@@ -221,6 +229,19 @@ describe('actions/post_utils', () => {
                 args: ['current_channel_id', 'latest_post_id', 2, 30],
                 type: 'MOCK_GET_POSTS_BEFORE',
             },
-            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'}]);
+            {channelId: 'current_channel_id', data: false, type: 'LOADING_POSTS'},
+        ]);
+    });
+
+    test('searchForTerm', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.searchForTerm('hello'));
+        expect(testStore.getActions()).toEqual([
+            {terms: 'hello', type: 'UPDATE_RHS_SEARCH_TERMS'},
+            {state: 'search', type: 'UPDATE_RHS_STATE'},
+            {terms: '', type: 'UPDATE_RHS_SEARCH_RESULTS_TERMS'},
+            {isGettingMore: false, type: 'SEARCH_POSTS_REQUEST'},
+        ]);
     });
 });
