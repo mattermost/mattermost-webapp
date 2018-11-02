@@ -91,6 +91,9 @@ export default class Post extends React.PureComponent {
         * Id of last post in the getPostThread
         */
         lastPostId: PropTypes.string,
+        actions: PropTypes.shape({
+            selectPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
