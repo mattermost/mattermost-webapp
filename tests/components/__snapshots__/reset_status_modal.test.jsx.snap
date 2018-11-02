@@ -109,7 +109,7 @@ exports[`components/ResetStatusModal should match snapshot, render modal for OOF
   onCancel={[Function]}
   onConfirm={[Function]}
   show={false}
-  showCheckbox={true}
+  showCheckbox={false}
   title={
     <FormattedMessage
       defaultMessage="Your status is set to \\"{status}\\""
