@@ -1222,10 +1222,16 @@
         max-width: 1000px;
     }
 
+    &:hover {
+        .post__header {
+            padding: 0 70px 0 0;
+        }
+    }
+
     .post__header {
         display: flex;
         margin-bottom: 2px;
-        padding: 0 70px 0 0;
+        padding: 0 40px 0 0;
         white-space: nowrap;
         width: 100%;
 
