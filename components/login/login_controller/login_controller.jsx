@@ -99,14 +99,21 @@ class LoginController extends React.Component {
         }
 
         // Determine if the user was unexpectedly logged out.
-        if (LocalStorageStore.getWasLoggedIn() && extra !== Constants.SIGNIN_CHANGE) {
-            // Although the authority remains the local sessionExpired bit on the state, set this
-            // extra field in the querystring to signal the desktop app. And although eslint
-            // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
-            // eslint-disable-next-line react/no-did-mount-set-state
-            this.setState({sessionExpired: true});
-            search.set('extra', Constants.SESSION_EXPIRED);
-            browserHistory.replace(`${this.props.location.pathname}?${search}`);
+        if (LocalStorageStore.getWasLoggedIn()) {
+            if (extra === Constants.SIGNIN_CHANGE) {
+                // Assume that if the user triggered a sign in change, it was intended to logout.
+                // We can't preflight this, since in some flows it's the server that invalidates
+                // our session after we use it to complete the sign in change.
+                LocalStorageStore.setWasLoggedIn(false);
+            } else {
+                // Although the authority remains the local sessionExpired bit on the state, set this
+                // extra field in the querystring to signal the desktop app. And although eslint
+                // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
+                // eslint-disable-next-line react/no-did-mount-set-state
+                this.setState({sessionExpired: true});
+                search.set('extra', Constants.SESSION_EXPIRED);
+                browserHistory.replace(`${this.props.location.pathname}?${search}`);
+            }
         }
 
         this.showSessionExpiredNotificationIfNeeded();
