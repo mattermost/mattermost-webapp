@@ -123,7 +123,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 onClick={() => plug.action(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
-                tooltipText={plug.tooltipText}
+                tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
             />
         );
     }
