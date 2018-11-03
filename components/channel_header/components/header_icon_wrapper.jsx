@@ -63,7 +63,7 @@ export default function HeaderIconWrapper({
     }
 
     let tooltip;
-    if (tooltipKey === 'plugin' && tooltipText && tooltipText !== '') {
+    if (tooltipKey === 'plugin' && tooltipText) {
         tooltip = (
             <Tooltip
                 id='pluginTooltip'
