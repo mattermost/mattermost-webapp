@@ -36,7 +36,7 @@ class ChannelMentionSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
-                onMouseOver={this.handleMouseOver}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 <div className='mention__align'>
