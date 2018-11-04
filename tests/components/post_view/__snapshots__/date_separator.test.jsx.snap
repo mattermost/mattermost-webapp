@@ -27,7 +27,7 @@ exports[`components/post_view/DateSeparator should match snapshot 1`] = `
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": "America/Los_Angeles",
+      "timeZone": "Etc/UTC",
     }
   }
 >
