@@ -8,7 +8,7 @@ import PostMarkdown from './post_markdown';
 
 function mapStateToProps(state, ownProps) {
     return {
-        channel: getChannel(state, ownProps.post.channel_id),
+        channel: getChannel(state, ownProps.channelId),
         pluginHooks: state.plugins.components.MessageWillFormat,
     };
 }
