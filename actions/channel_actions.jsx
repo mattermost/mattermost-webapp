@@ -67,19 +67,9 @@ export async function openGroupChannelToUsers(userIds, success, error) {
 export function loadChannelsForCurrentUser() {
     return async (dispatch, getState) => {
         const state = getState();
-
-        await dispatch(ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state)));
-        dispatch(loadDMsAndGMsForUnreads());
-
-        loadProfilesForSidebar();
-    };
-}
-
-export function loadDMsAndGMsForUnreads() {
-    return async (dispatch, getState) => {
-        const state = getState();
         const unreads = getUnreadChannelIds(state);
 
+        await dispatch(ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state)));
         for (const id of unreads) {
             const channel = getChannel(state, id);
             if (channel && channel.type === Constants.DM_CHANNEL) {
@@ -88,6 +78,8 @@ export function loadDMsAndGMsForUnreads() {
                 loadNewGMIfNeeded(channel.id);
             }
         }
+
+        loadProfilesForSidebar();
     };
 }
 

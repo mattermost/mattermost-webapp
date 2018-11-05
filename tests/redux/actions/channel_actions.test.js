@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import * as Actions from 'actions/channel_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -38,11 +39,14 @@ describe('Actions.Channel', () => {
                         team_id: 'team_id',
                     },
                 },
+                channelsInTeam: {
+                    'team-id': ['current_channel_id'],
+                },
             },
             teams: {
                 currentTeamId: 'team-id',
                 teams: {
-                    team_id: {
+                    'team-id': {
                         id: 'team_id',
                         name: 'team-1',
                         displayName: 'Team 1',
@@ -50,6 +54,16 @@ describe('Actions.Channel', () => {
                 },
                 myMembers: {
                     'team-id': {roles: 'team_role'},
+                },
+            },
+            preferences: {
+                myPreferences: {
+                    'display_settings--name_format': {
+                        category: 'display_settings',
+                        name: 'name_format',
+                        user_id: 'current_user_id',
+                        value: 'username',
+                    },
                 },
             },
             users: {
@@ -71,6 +85,11 @@ describe('Actions.Channel', () => {
                     },
                 },
             },
+            general: {
+                license: {IsLicensed: 'false'},
+                serverVersion: '5.4.0',
+                config: {PostEditTimeLimit: -1},
+            },
         },
     };
 
@@ -84,5 +103,6 @@ describe('Actions.Channel', () => {
 
         await testStore.dispatch(Actions.loadChannelsForCurrentUser());
         expect(testStore.getActions()).toEqual(expectedActions);
+        expect(loadProfilesForSidebar).toHaveBeenCalledTimes(1);
     });
 });
