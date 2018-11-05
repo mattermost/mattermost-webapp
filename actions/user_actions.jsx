@@ -514,45 +514,6 @@ export async function resendVerification(email, success, error) {
     }
 }
 
-export async function loginById(userId, password, mfaToken, success, error) {
-    const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function createUserWithInvite(user, token, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
-    if (resp && success) {
-        success(resp);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function webLogin(loginId, password, token, success, error) {
-    const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function updateTermsOfServiceStatus(termsOfServiceId, accepted, success, error) {
     const {data, error: err} = await UserActions.updateTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
     if (data && success) {
@@ -567,21 +528,6 @@ export async function getTermsOfService(success, error) {
     if (data && success) {
         success(data);
     } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function webLoginByLdap(loginId, password, token, success, error) {
-    const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
         error({id: err.server_error_id, ...err});
     }
 }
