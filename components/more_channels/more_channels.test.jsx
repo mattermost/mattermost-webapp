@@ -19,7 +19,23 @@ jest.mock('utils/browser_history', () => {
     };
 });
 
+jest.useFakeTimers();
+
 describe('components/MoreChannels', () => {
+    const searchResults = {
+        data: [{
+            id: 'channel-id-1',
+            name: 'channel-name-1',
+            display_name: 'Channel 1',
+            delete_at: 0,
+        }, {
+            id: 'channel-id-2',
+            name: 'archived-channel',
+            display_name: 'Archived',
+            delete_at: 123,
+        }],
+    };
+
     const channelActions = {
         joinChannelAction: (userId, teamId, channelId) => {
             return new Promise((resolve) => {
@@ -32,6 +48,19 @@ describe('components/MoreChannels', () => {
                 }
 
                 return {data: true};
+            });
+        },
+        searchMoreChannels: (term) => {
+            return new Promise((resolve) => {
+                if (term === 'fail') {
+                    return resolve({
+                        error: {
+                            message: 'error',
+                        },
+                    });
+                }
+
+                return resolve(searchResults);
             });
         },
     };
@@ -47,6 +76,7 @@ describe('components/MoreChannels', () => {
         actions: {
             getChannels: jest.fn(),
             joinChannel: jest.spyOn(channelActions, 'joinChannelAction'),
+            searchMoreChannels: jest.spyOn(channelActions, 'searchMoreChannels'),
         },
     };
 
@@ -180,6 +210,78 @@ describe('components/MoreChannels', () => {
             expect(browserHistory.push).toHaveBeenCalledTimes(1);
             expect(callback).toHaveBeenCalledTimes(1);
             expect(wrapper.state('show')).toEqual(false);
+            done();
+        });
+    });
+
+    test('should not perform a search if term is empty', () => {
+        const wrapper = shallow(
+            <MoreChannels {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.onChange = jest.fn();
+        instance.search('');
+        expect(clearTimeout).toHaveBeenCalledTimes(1);
+        expect(instance.onChange).toHaveBeenCalledTimes(1);
+        expect(instance.onChange).toHaveBeenCalledWith(true);
+        expect(wrapper.state('search')).toEqual(false);
+        expect(wrapper.state('searching')).toEqual(false);
+        expect(instance.searchTimeoutId).toEqual('');
+    });
+
+    test('should handle a failed search', (done) => {
+        const wrapper = shallow(
+            <MoreChannels {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.onChange = jest.fn();
+        instance.setSearchResults = jest.fn();
+        instance.search('fail');
+        expect(clearTimeout).toHaveBeenCalledTimes(1);
+        expect(instance.onChange).not.toHaveBeenCalled();
+        expect(wrapper.state('search')).toEqual(true);
+        expect(wrapper.state('searching')).toEqual(true);
+        expect(instance.searchTimeoutId).not.toEqual('');
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+
+        jest.runAllTimers();
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail');
+        process.nextTick(() => {
+            expect(wrapper.state('search')).toEqual(true);
+            expect(wrapper.state('searching')).toEqual(false);
+            expect(wrapper.state('searchedChannels')).toEqual([]);
+            expect(instance.setSearchResults).not.toBeCalled();
+            done();
+        });
+    });
+
+    test('should perform search and set the correct state', (done) => {
+        const wrapper = shallow(
+            <MoreChannels {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.onChange = jest.fn();
+        instance.search('channel');
+        expect(clearTimeout).toHaveBeenCalledTimes(1);
+        expect(instance.onChange).not.toHaveBeenCalled();
+        expect(wrapper.state('search')).toEqual(true);
+        expect(wrapper.state('searching')).toEqual(true);
+        expect(instance.searchTimeoutId).not.toEqual('');
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+
+        jest.runAllTimers();
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel');
+        process.nextTick(() => {
+            expect(wrapper.state('search')).toEqual(true);
+            expect(wrapper.state('searching')).toEqual(false);
+            expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[0]]);
             done();
         });
     });

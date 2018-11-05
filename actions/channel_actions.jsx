@@ -83,21 +83,24 @@ export function loadChannelsForCurrentUser() {
     };
 }
 
-export async function searchMoreChannels(term, success, error) {
-    const state = doGetState();
-    const teamId = getCurrentTeamId(state);
-    if (!teamId) {
-        return;
-    }
+export function searchMoreChannels(term) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
 
-    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(doDispatch, doGetState);
-    if (data && success) {
-        const myMembers = getMyChannelMemberships(doGetState());
-        const channels = data.filter((c) => !myMembers[c.id]);
-        success(channels);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+        if (!teamId) {
+            throw new Error('No team id');
+        }
+
+        const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term));
+        if (data) {
+            const myMembers = getMyChannelMemberships(state);
+            const channels = data.filter((c) => !myMembers[c.id]);
+            return {data: channels};
+        }
+
+        return {error};
+    };
 }
 
 export async function autocompleteChannels(term, success, error) {
