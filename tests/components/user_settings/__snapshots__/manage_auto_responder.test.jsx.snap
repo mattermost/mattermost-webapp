@@ -29,7 +29,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   saving={false}
@@ -226,7 +226,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   saving={false}

@@ -30,7 +30,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   onCancel={[MockFunction]}
@@ -343,7 +343,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   onCancel={[MockFunction]}

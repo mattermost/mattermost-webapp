@@ -26,7 +26,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   isMac={true}
@@ -56,7 +56,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
         "now": [Function],
         "onError": [Function],
         "textComponent": "span",
-        "timeZone": null,
+        "timeZone": "Etc/UTC",
       }
     }
     isMac={true}
@@ -147,7 +147,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   isMac={false}
@@ -177,7 +177,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
         "now": [Function],
         "onError": [Function],
         "textComponent": "span",
-        "timeZone": null,
+        "timeZone": "Etc/UTC",
       }
     }
     isMac={false}

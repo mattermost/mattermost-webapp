@@ -81,7 +81,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   requestAction={
@@ -221,7 +221,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   requestAction={
@@ -369,7 +369,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   requestAction={
@@ -505,7 +505,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   requestAction={
