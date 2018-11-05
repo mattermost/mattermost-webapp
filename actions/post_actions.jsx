@@ -155,19 +155,6 @@ export function storeCommentDraft(rootPostId, draft) {
     };
 }
 
-export async function updatePost(post, success) {
-    const {data, error: err} = await PostActions.editPost(post)(dispatch, getState);
-    if (data && success) {
-        success();
-    } else if (err) {
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_ERROR,
-            err: {id: err.server_error_id, ...err},
-            method: 'editPost',
-        });
-    }
-}
-
 export function emitEmojiPosted(emoji) {
     dispatch(addRecentEmoji(emoji));
 }
