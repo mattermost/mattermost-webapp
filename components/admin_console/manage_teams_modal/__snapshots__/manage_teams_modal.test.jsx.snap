@@ -172,6 +172,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
               onError={[Function]}
               onMemberChange={[Function]}
               onMemberRemove={[Function]}
+              removeUserFromTeam={[MockFunction]}
               team={
                 Object {
                   "delete_at": 0,
