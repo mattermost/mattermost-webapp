@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
 import {JobStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -237,18 +237,21 @@ class JobTable extends React.PureComponent {
         }
 
         const date = new Date(millis);
-        const finishAtTime = this.props.intl.formatDate(new Date(date), {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-        }) + ' - ' + this.props.intl.formatTime(new Date(date), {
-            hour: '2-digit',
-            minute: '2-digit',
-        });
 
         return (
             <span className='whitespace--nowrap'>
-                {finishAtTime}
+                <FormattedDate
+                    value={date}
+                    day='2-digit'
+                    month='short'
+                    year='numeric'
+                />
+                {' - '}
+                <FormattedTime
+                    value={date}
+                    hour='2-digit'
+                    minute='2-digit'
+                />
             </span>
         );
     }
