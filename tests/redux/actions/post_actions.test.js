@@ -12,8 +12,13 @@ import {Constants, ActionTypes} from 'utils/constants';
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
+    addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     getPosts: (...args) => ({type: 'MOCK_GET_POSTS', args}),
     getPostsBefore: (...args) => ({type: 'MOCK_GET_POSTS_BEFORE', args}),
+}));
+
+jest.mock('actions/emoji_actions', () => ({
+    addRecentEmoji: (...args) => ({type: 'MOCK_ADD_RECENT_EMOJI', args}),
 }));
 
 const RECEIVED_POSTS = {
@@ -124,6 +129,7 @@ describe('Actions.Posts', () => {
                     },
                 },
             },
+            emojis: {customEmoji: {}},
         },
         views: {
             posts: {
@@ -245,6 +251,16 @@ describe('Actions.Posts', () => {
             {state: 'search', type: 'UPDATE_RHS_STATE'},
             {terms: '', type: 'UPDATE_RHS_SEARCH_RESULTS_TERMS'},
             {isGettingMore: false, type: 'SEARCH_POSTS_REQUEST'},
+        ]);
+    });
+
+    test('addReaction', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.addReaction('post_id_1', 'emoji_name_1'));
+        expect(testStore.getActions()).toEqual([
+            {args: ['post_id_1', 'emoji_name_1'], type: 'MOCK_ADD_REACTION'},
+            {args: ['emoji_name_1'], type: 'MOCK_ADD_RECENT_EMOJI'},
         ]);
     });
 });

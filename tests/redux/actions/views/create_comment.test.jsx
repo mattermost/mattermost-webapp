@@ -4,7 +4,6 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
-    addReaction,
     removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -30,7 +29,6 @@ import {StoragePrefixes} from 'utils/constants';
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
-    addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
     addMessageIntoHistory: (...args) => ({type: 'MOCK_ADD_MESSAGE_INTO_HISTORY', args}),
     moveHistoryIndexBack: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_BACK', args}),
@@ -51,9 +49,9 @@ jest.mock('actions/global_actions.jsx', () => ({
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
+    addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     createPost: jest.fn(),
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
-    emitEmojiPosted: jest.fn(),
 }));
 
 jest.mock('actions/storage', () => ({
@@ -228,21 +226,18 @@ describe('rhs view actions', () => {
 
     describe('submitReaction', () => {
         test('it adds a reaction when action is +', () => {
-            store.dispatch(submitReaction('', '+', ''));
+            store.dispatch(submitReaction('post_id_1', '+', 'emoji_name_1'));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(addReaction('', ''));
-            expect(PostActions.emitEmojiPosted).toHaveBeenCalled();
-
+            testStore.dispatch(PostActions.addReaction('post_id_1', 'emoji_name_1'));
             expect(store.getActions()).toEqual(testStore.getActions());
         });
 
         test('it removes a reaction when action is -', () => {
-            store.dispatch(submitReaction('', '-', ''));
+            store.dispatch(submitReaction('post_id_1', '-', 'emoji_name_1'));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(removeReaction('', ''));
-            expect(PostActions.emitEmojiPosted).not.toHaveBeenCalled();
+            testStore.dispatch(removeReaction('post_id_1', 'emoji_name_1'));
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });

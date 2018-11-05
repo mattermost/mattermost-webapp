@@ -122,7 +122,7 @@ export async function createPost(post, files, success) {
     if (emojis) {
         for (const emoji of emojis) {
             const trimmed = emoji.substring(1, emoji.length - 1);
-            emitEmojiPosted(trimmed);
+            dispatch(addRecentEmoji(trimmed));
         }
     }
 
@@ -155,8 +155,11 @@ export function storeCommentDraft(rootPostId, draft) {
     };
 }
 
-export function emitEmojiPosted(emoji) {
-    dispatch(addRecentEmoji(emoji));
+export function addReaction(postId, emojiName) {
+    return (doDispatch) => {
+        doDispatch(PostActions.addReaction(postId, emojiName));
+        doDispatch(addRecentEmoji(emojiName));
+    };
 }
 
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;

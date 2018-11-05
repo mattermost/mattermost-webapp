@@ -21,7 +21,6 @@ import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
-    addReaction,
     removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
@@ -29,7 +28,7 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
-import {createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
