@@ -4,18 +4,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as PostActions from 'actions/post_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions';
 
 import {isUrlSafe} from 'utils/url.jsx';
-import * as Utils from 'utils/utils';
+import {handleFormattedTextClick} from 'utils/utils';
 
 import Markdown from 'components/markdown';
-
 import ShowMore from 'components/post_view/show_more';
 
-import ActionButton from './action_button.jsx';
-import ActionMenu from './action_menu';
+import ActionButton from '../action_button';
+import ActionMenu from '../action_menu';
 
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
@@ -36,6 +34,10 @@ export default class MessageAttachment extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
+
+        actions: PropTypes.shape({
+            doPostAction: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -111,7 +113,7 @@ export default class MessageAttachment extends React.PureComponent {
     handleAction = (e) => {
         e.preventDefault();
         const actionId = e.currentTarget.getAttribute('data-action-id');
-        PostActions.doPostAction(this.props.postId, actionId);
+        this.props.actions.doPostAction(this.props.postId, actionId);
     };
 
     getFieldsTable = () => {
@@ -339,7 +341,7 @@ export default class MessageAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                                onClick={Utils.handleFormattedTextClick}
+                                onClick={handleFormattedTextClick}
                             >
                                 {attachmentText}
                                 {image}

@@ -4,13 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MessageAttachment from 'components/post_view/message_attachments/message_attachment.jsx';
-import {doPostAction} from 'actions/post_actions.jsx';
+import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
 import {postListScrollChange} from 'actions/global_actions';
-
-jest.mock('actions/post_actions.jsx', () => ({
-    doPostAction: jest.fn(),
-}));
 
 jest.mock('actions/global_actions.jsx', () => ({
     postListScrollChange: jest.fn(),
@@ -33,6 +28,7 @@ describe('components/post_view/MessageAttachment', () => {
     const baseProps = {
         postId: 'post_id',
         attachment,
+        actions: {doPostAction: jest.fn()},
     };
 
     test('should match snapshot', () => {
@@ -74,13 +70,14 @@ describe('components/post_view/MessageAttachment', () => {
         expect(wrapper.instance().getActionView()).toMatchSnapshot();
     });
 
-    test('should call PostActions.doPostAction on handleAction', () => {
+    test('should call actions.doPostAction on handleAction', () => {
+        const doPostAction = jest.fn();
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,
             actions: [{id: actionId, name: 'action_name_1'}],
         };
-        const props = {...baseProps, attachment: newAttachment};
+        const props = {...baseProps, actions: {doPostAction}, attachment: newAttachment};
         const wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
         wrapper.instance().handleAction({
@@ -90,6 +87,7 @@ describe('components/post_view/MessageAttachment', () => {
             }},
         });
 
+        expect(doPostAction).toHaveBeenCalledTimes(1);
         expect(doPostAction).toBeCalledWith(props.postId, actionId);
     });
 

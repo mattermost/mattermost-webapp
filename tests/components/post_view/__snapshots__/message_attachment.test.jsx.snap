@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/MessageAttachment should call PostActions.doPostAction on handleAction 1`] = `
+exports[`components/post_view/MessageAttachment should call actions.doPostAction on handleAction 1`] = `
 <div
   className="attachment attachment--pretext"
 >

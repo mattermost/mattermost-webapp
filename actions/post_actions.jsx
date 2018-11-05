@@ -250,10 +250,6 @@ export function unpinPost(postId) {
     };
 }
 
-export function doPostAction(postId, actionId) {
-    PostActions.doPostAction(postId, actionId)(dispatch, getState);
-}
-
 export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
