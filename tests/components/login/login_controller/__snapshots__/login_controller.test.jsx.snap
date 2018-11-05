@@ -120,7 +120,7 @@ exports[`components/login/LoginController should match snapshot when initializin
 
 exports[`components/login/LoginController should show session expiry notification 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(AnnouncementBar) />
   <div
     className="col-sm-12"
   >
@@ -188,7 +188,7 @@ exports[`components/login/LoginController should show session expiry notificatio
 
 exports[`components/login/LoginController should suppress session expiry notification on sign in change 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(AnnouncementBar) />
   <div
     className="col-sm-12"
   >
