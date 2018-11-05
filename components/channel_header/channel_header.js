@@ -91,7 +91,7 @@ export default class ChannelHeader extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getCustomEmojisInText(this.props.channel.header);
+        this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
         document.addEventListener('keydown', this.handleShortcut);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.addEventListener('resize', this.handleResize);
@@ -103,8 +103,12 @@ export default class ChannelHeader extends React.PureComponent {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    componentDidUpdate() {
-        this.props.actions.getCustomEmojisInText(this.props.channel.header);
+    componentDidUpdate(prevProps) {
+        const header = this.props.channel ? this.props.channel.header : '';
+        const prevHeader = prevProps.channel ? prevProps.channel.header : '';
+        if (header !== prevHeader) {
+            this.props.actions.getCustomEmojisInText(header);
+        }
     }
 
     handleResize = () => {
