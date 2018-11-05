@@ -15,7 +15,7 @@ export default class ShowSearchButton extends React.PureComponent {
     }
 
     handleClick = () => {
-        this.actions.updateRhsState(RHSStates.SEARCH);
+        this.props.actions.updateRhsState(RHSStates.SEARCH);
     }
 
     render() {
