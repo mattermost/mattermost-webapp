@@ -3,7 +3,7 @@
 .announcement-bar {
     background-color: darken($primary-color, 5%);
     color: $white;
-    padding: 5px 30px;
+    padding: 2px 30px;
     height: $announcement-bar-height;
     position: fixed;
     text-align: center;
@@ -37,7 +37,7 @@
             position: absolute;
             right: 0;
             text-decoration: none;
-            top: 0;
+            top: -2px;
 
             &:hover {
                 color: $white;
