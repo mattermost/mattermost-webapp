@@ -11,6 +11,8 @@ import {loadProfiles, loadProfilesAndTeamMembers, loadProfilesWithoutTeam, searc
 import {Constants, UserSearchOptions, SearchUserTeamFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 import SystemUsersList from './list';
 
 const USER_ID_LENGTH = 26;
@@ -271,15 +273,13 @@ export default class SystemUsers extends React.Component {
     render() {
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.system_users.title'
-                        defaultMessage='{siteName} Users'
-                        values={{
-                            siteName: this.props.siteName,
-                        }}
-                    />
-                </h3>
+                <FormattedAdminHeader
+                    id='admin.system_users.title'
+                    defaultMessage='{siteName} Users'
+                    values={{
+                        siteName: this.props.siteName,
+                    }}
+                />
                 <div className='more-modal__list member-list-holder'>
                     <SystemUsersList
                         loading={this.state.loading}
