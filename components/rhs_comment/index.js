@@ -13,7 +13,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences, UserStatuses} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 
 import RhsComment from './rhs_comment.jsx';
@@ -53,7 +53,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         user: getUser(state, ownProps.post.user_id),
-        status: getStatusForUserId(state, ownProps.post.user_id) || 'offline',
+        status: getStatusForUserId(state, ownProps.post.user_id) || UserStatuses.OFFLINE,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: channel.delete_at !== 0,
         isConsecutivePost: isConsecutivePost(state, ownProps),
