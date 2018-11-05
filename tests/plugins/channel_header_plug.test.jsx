@@ -13,6 +13,7 @@ describe('plugins/ChannelHeaderPlug', () => {
         icon: <i className='fa fa-anchor'/>,
         action: jest.fn,
         dropdownText: 'some dropdown text',
+        tooltipText: 'some tooltip text',
     };
 
     test('should match snapshot with no extended component', () => {
