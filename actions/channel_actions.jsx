@@ -131,15 +131,6 @@ export async function autocompleteChannelsForSearch(term, success, error) {
     }
 }
 
-export async function getChannelMembersForUserIds(channelId, userIds, success, error) {
-    const {data, error: err} = await ChannelActions.getChannelMembersByIds(channelId, userIds)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export function addUsersToChannel(channelId, userIds) {
     return async (doDispatch) => {
         try {
