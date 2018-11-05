@@ -127,7 +127,7 @@ export function reconnect(includeWebSocket = true) {
 
     const currentTeamId = getState().entities.teams.currentTeamId;
     if (currentTeamId) {
-        loadChannelsForCurrentUser();
+        dispatch(loadChannelsForCurrentUser());
         dispatch(getPosts(getCurrentChannelId(getState())));
         StatusActions.loadStatusesForChannelAndSidebar();
         dispatch(TeamActions.getMyTeamUnreads());
@@ -553,7 +553,7 @@ function handleUserRemovedEvent(msg) {
     const currentUserId = getCurrentUserId(state);
 
     if (msg.broadcast.user_id === currentUserId) {
-        loadChannelsForCurrentUser();
+        dispatch(loadChannelsForCurrentUser());
 
         if (msg.data.channel_id === currentChannel.id) {
             GlobalActions.emitCloseRightHandSide();
@@ -579,7 +579,7 @@ function handleUserRemovedEvent(msg) {
             data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
         });
     } else if (msg.broadcast.channel_id === currentChannel.id) {
-        getChannelStats(currentChannel.id)(dispatch, getState);
+        dispatch(getChannelStats(currentChannel.id));
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},

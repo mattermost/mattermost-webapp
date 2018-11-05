@@ -15,12 +15,12 @@ import store from 'stores/redux_store.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-const dispatch = store.dispatch;
-const getState = store.getState;
+const doDispatch = store.dispatch;
+const doGetState = store.getState;
 
 // To be removed in a future PR
 export async function openDirectChannelToUser(userId, success, error) {
-    const state = getState();
+    const state = doGetState();
     const currentUserId = getCurrentUserId(state);
     const channelName = Utils.getDirectChannelName(currentUserId, userId);
     const channel = getChannelByName(state, channelName);
@@ -29,7 +29,7 @@ export async function openDirectChannelToUser(userId, success, error) {
         trackEvent('api', 'api_channels_join_direct');
         const now = Utils.getTimestamp();
 
-        dispatch(savePreferences(currentUserId, [
+        doDispatch(savePreferences(currentUserId, [
             {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
             {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()},
         ]));
@@ -43,7 +43,7 @@ export async function openDirectChannelToUser(userId, success, error) {
         return;
     }
 
-    const result = await ChannelActions.createDirectChannel(currentUserId, userId)(dispatch, getState);
+    const result = await ChannelActions.createDirectChannel(currentUserId, userId)(doDispatch, doGetState);
     loadProfilesForSidebar();
     if (result.data && success) {
         success(result.data, false);
@@ -53,8 +53,8 @@ export async function openDirectChannelToUser(userId, success, error) {
 }
 
 export async function openGroupChannelToUsers(userIds, success, error) {
-    const state = getState();
-    const result = await ChannelActions.createGroupChannel(userIds)(dispatch, getState);
+    const state = doGetState();
+    const result = await ChannelActions.createGroupChannel(userIds)(doDispatch, doGetState);
     loadProfilesForSidebar();
     if (result.data && success) {
         success(result.data, false);
@@ -64,36 +64,35 @@ export async function openGroupChannelToUsers(userIds, success, error) {
     }
 }
 
-export async function loadChannelsForCurrentUser() {
-    const state = getState();
-    await ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state))(dispatch, getState);
-    loadDMsAndGMsForUnreads();
-    loadProfilesForSidebar();
-}
+export function loadChannelsForCurrentUser() {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const unreads = getUnreadChannelIds(state);
 
-export function loadDMsAndGMsForUnreads() {
-    const state = getState();
-    const unreads = getUnreadChannelIds(state);
-    for (const id of unreads) {
-        const channel = getChannel(state, id);
-        if (channel && channel.type === Constants.DM_CHANNEL) {
-            loadNewDMIfNeeded(channel.id);
-        } else if (channel && channel.type === Constants.GM_CHANNEL) {
-            loadNewGMIfNeeded(channel.id);
+        await dispatch(ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state)));
+        for (const id of unreads) {
+            const channel = getChannel(state, id);
+            if (channel && channel.type === Constants.DM_CHANNEL) {
+                loadNewDMIfNeeded(channel.id);
+            } else if (channel && channel.type === Constants.GM_CHANNEL) {
+                loadNewGMIfNeeded(channel.id);
+            }
         }
-    }
+
+        loadProfilesForSidebar();
+    };
 }
 
 export async function searchMoreChannels(term, success, error) {
-    const state = getState();
+    const state = doGetState();
     const teamId = getCurrentTeamId(state);
     if (!teamId) {
         return;
     }
 
-    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
+    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(doDispatch, doGetState);
     if (data && success) {
-        const myMembers = getMyChannelMemberships(getState());
+        const myMembers = getMyChannelMemberships(doGetState());
         const channels = data.filter((c) => !myMembers[c.id]);
         success(channels);
     } else if (err && error) {
@@ -102,13 +101,13 @@ export async function searchMoreChannels(term, success, error) {
 }
 
 export async function autocompleteChannels(term, success, error) {
-    const state = getState();
+    const state = doGetState();
     const teamId = getCurrentTeamId(state);
     if (!teamId) {
         return;
     }
 
-    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(dispatch, getState);
+    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(doDispatch, doGetState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -117,13 +116,13 @@ export async function autocompleteChannels(term, success, error) {
 }
 
 export async function autocompleteChannelsForSearch(term, success, error) {
-    const state = getState();
+    const state = doGetState();
     const teamId = getCurrentTeamId(state);
     if (!teamId) {
         return;
     }
 
-    const {data, error: err} = await ChannelActions.autocompleteChannelsForSearch(teamId, term)(dispatch, getState);
+    const {data, error: err} = await ChannelActions.autocompleteChannelsForSearch(teamId, term)(doDispatch, doGetState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -132,9 +131,9 @@ export async function autocompleteChannelsForSearch(term, success, error) {
 }
 
 export function addUsersToChannel(channelId, userIds) {
-    return async (doDispatch) => {
+    return async (dispatch) => {
         try {
-            const requests = userIds.map((uId) => doDispatch(ChannelActions.addChannelMember(channelId, uId)));
+            const requests = userIds.map((uId) => dispatch(ChannelActions.addChannelMember(channelId, uId)));
 
             return await Promise.all(requests);
         } catch (error) {
