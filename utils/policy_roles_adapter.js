@@ -16,7 +16,7 @@ const MAPPING = {
         ],
         false: [
             {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: false},
-            {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: false},
+            {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
         ],
     },
 
