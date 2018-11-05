@@ -25,7 +25,6 @@ export default class EmailSettings extends AdminSettings {
         super(props);
 
         this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.handleSaved = this.handleSaved.bind(this);
         this.renderSettings = this.renderSettings.bind(this);
     }
 
