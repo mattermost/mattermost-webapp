@@ -168,7 +168,7 @@
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "cross-env NODE_ENV=production webpack --progress --watch",
     "run-fullmap": "webpack --progress --watch",
-    "test": "jest --forceExit",
+    "test": "jest --forceExit --detectOpenHandles",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",

@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings.jsx';
-import SaveButton from 'components/save_button.jsx';
 import {DefaultRolePermissions} from 'utils/constants.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
@@ -104,7 +103,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         });
     });
 
-    test('should save each role on save clicked except system_admin role', () => {
+    test('should save each role on handleSubmit except system_admin role', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
         const wrapper = shallow(
             <PermissionSystemSchemeSettings
@@ -114,11 +113,12 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         );
 
         expect(wrapper).toMatchSnapshot();
-        wrapper.find(SaveButton).simulate('click');
+
+        await wrapper.instance().handleSubmit();
         expect(editRole).toHaveBeenCalledTimes(5);
     });
 
-    test('should show error if editRole fails', (done) => {
+    test('should show error if editRole fails', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
         const wrapper = shallow(
             <PermissionSystemSchemeSettings
@@ -127,11 +127,8 @@ describe('components/admin_console/permission_schemes_settings/permission_system
             />
         );
 
-        wrapper.find(SaveButton).simulate('click');
-        setTimeout(() => {
-            expect(wrapper.state().serverError).toBe('test error');
-            done();
-        });
+        await wrapper.instance().handleSubmit();
+        await expect(wrapper.state().serverError).toBe('test error');
     });
 
     test('should open and close correctly roles blocks', () => {

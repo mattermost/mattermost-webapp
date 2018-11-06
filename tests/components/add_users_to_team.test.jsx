@@ -7,8 +7,6 @@ import {shallow} from 'enzyme';
 
 import AddUsersToTeam from 'components/add_users_to_team/add_users_to_team.jsx';
 
-jest.useFakeTimers();
-
 describe('components/AddUsersToTeam', () => {
     const baseProps = {
         currentTeamId: 'current_team_id',
@@ -182,13 +180,11 @@ describe('components/AddUsersToTeam', () => {
         );
 
         wrapper.instance().search('');
-        jest.runAllTimers();
         expect(actions.setModalSearchTerm).toBeCalled();
 
         const searchTerm = 'term';
         wrapper.instance().search(searchTerm);
         expect(wrapper.state('loadingUsers')).toEqual(true);
-        jest.runAllTimers();
         expect(actions.setModalSearchTerm).toHaveBeenCalledTimes(2);
     });
 

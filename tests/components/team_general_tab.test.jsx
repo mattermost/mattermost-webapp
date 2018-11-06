@@ -6,18 +6,22 @@ import {shallow} from 'enzyme';
 import GeneralTab from 'components/team_general_tab/team_general_tab.jsx';
 
 describe('components/TeamSettings', () => {
+    const patchTeam = jest.fn().mockReturnValue({data: true});
+    const removeTeamIcon = jest.fn().mockReturnValue({data: true});
+    const setTeamIcon = jest.fn().mockReturnValue({data: true});
+    const baseActions = {
+        patchTeam,
+        removeTeamIcon,
+        setTeamIcon,
+    };
     const defaultProps = {
         team: {id: 'team_id'},
         maxFileSize: 50,
         activeSection: 'team_icon',
-        updateSection: () => {}, //eslint-disable-line no-empty-function
-        closeModal: () => {}, //eslint-disable-line no-empty-function
-        collapseModal: () => {}, //eslint-disable-line no-empty-function
-        actions: {
-            patchTeam: () => {}, //eslint-disable-line no-empty-function
-            removeTeamIcon: () => {}, //eslint-disable-line no-empty-function
-            setTeamIcon: () => {}, //eslint-disable-line no-empty-function
-        },
+        updateSection: jest.fn(),
+        closeModal: jest.fn(),
+        collapseModal: jest.fn(),
+        actions: baseActions,
         canInviteTeamMembers: true,
     };
 
@@ -59,14 +63,8 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.setTeamIcon on handleTeamIconSubmit', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
-
         const wrapper = shallow(<GeneralTab {...props}/>);
 
         let teamIconFile = null;
@@ -87,14 +85,8 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.removeTeamIcon on handleTeamIconRemove', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
-
         const wrapper = shallow(<GeneralTab {...props}/>);
 
         wrapper.instance().handleTeamIconRemove({preventDefault: jest.fn()});
@@ -114,14 +106,8 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.patchTeam on handleAllowedDomainsSubmit', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
-
         const wrapper = shallow(<GeneralTab {...props}/>);
 
         wrapper.instance().handleAllowedDomainsSubmit({preventDefault: jest.fn()});
@@ -131,14 +117,8 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.patchTeam on handleOpenInviteSubmit', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
-
         const wrapper = shallow(<GeneralTab {...props}/>);
 
         wrapper.instance().handleOpenInviteSubmit({preventDefault: jest.fn()});
@@ -148,12 +128,7 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.patchTeam on handleNameSubmit', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
         props.team.display_name = 'TestTeam';
 
@@ -166,12 +141,7 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.patchTeam on handleInviteIdSubmit', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
         props.team.invite_id = '12345';
 
@@ -184,12 +154,7 @@ describe('components/TeamSettings', () => {
     });
 
     test('should call actions.patchTeam on handleDescriptionSubmit', () => {
-        const actions = {
-            patchTeam: jest.fn(),
-            removeTeamIcon: jest.fn(),
-            setTeamIcon: jest.fn(),
-        };
-
+        const actions = {...baseActions};
         const props = {...defaultProps, actions};
 
         const wrapper = shallow(<GeneralTab {...props}/>);
