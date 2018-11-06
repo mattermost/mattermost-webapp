@@ -4,12 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Reaction from 'components/post_view/reaction/reaction.jsx';
-
-jest.mock('actions/post_actions.jsx', () => ({
-    emitEmojiPosted: jest.fn(),
-}));
 
 describe('components/post_view/Reaction', () => {
     const post = {id: 'post_id_1'};
@@ -72,7 +67,7 @@ describe('components/post_view/Reaction', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have called actions.addReaction and emitEmojiPosted when handleAddReaction is called', () => {
+    test('should have called actions.addReaction when handleAddReaction is called', () => {
         const newActions = {...actions, addReaction: jest.fn()};
         const props = {...baseProps, actions: newActions};
 
@@ -81,9 +76,6 @@ describe('components/post_view/Reaction', () => {
 
         expect(newActions.addReaction).toHaveBeenCalledTimes(1);
         expect(newActions.addReaction).toHaveBeenCalledWith(post.id, emojiName);
-
-        expect(emitEmojiPosted).toHaveBeenCalledTimes(1);
-        expect(emitEmojiPosted).toHaveBeenCalledWith(emojiName);
     });
 
     test('should have called actions.removeReaction when handleRemoveReaction is called', () => {

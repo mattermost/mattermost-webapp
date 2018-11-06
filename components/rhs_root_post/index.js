@@ -8,8 +8,9 @@ import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/enti
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {addReaction} from 'mattermost-redux/actions/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
+
+import {addReaction} from 'actions/post_actions.jsx';
 
 import {Preferences, UserStatuses} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';
