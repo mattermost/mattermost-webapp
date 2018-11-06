@@ -98,4 +98,23 @@ describe('components/login/LoginController', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    it('should discard session expiry notification on failed sign in', () => {
+        const props = {
+            ...baseProps,
+            initializing: false,
+            location: {
+                search: '?extra=' + Constants.SIGNIN_CHANGE,
+            },
+        };
+
+        LocalStorageStore.setWasLoggedIn(true);
+        const wrapper = shallowWithIntl(
+            <LoginController {...props}/>
+        ).dive();
+
+        const e = {preventDefault: jest.fn()};
+        wrapper.instance().preSubmit(e);
+        expect(wrapper).toMatchSnapshot();
+    });
 });
