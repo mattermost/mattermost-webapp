@@ -31,7 +31,6 @@ import * as UserAgent from 'utils/user_agent';
 import {completePostReceive} from './post_utils';
 
 const dispatch = store.dispatch;
-const getState = store.getState;
 
 export function handleNewPost(post, msg) {
     return async (doDispatch, doGetState) => {
