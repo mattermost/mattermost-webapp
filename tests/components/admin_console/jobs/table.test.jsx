@@ -21,62 +21,59 @@ describe('components/admin_console/jobs/table', () => {
             defaultMessage='Initiates a Compliance Export job immediately.'
         />
     );
-
-    let baseProps;
     const cancelJob = jest.fn(() => Promise.resolve({}));
     const createJob = jest.fn(() => Promise.resolve({}));
+    const getJobsByType = jest.fn(() => Promise.resolve({}));
 
-    beforeEach(() => {
-        baseProps = {
-            config: {},
-            createJobButtonText,
-            createJobHelpText,
-            disabled: false,
-            actions: {
-                cancelJob,
-                createJob,
-                getJobsByType: jest.fn(() => Promise.resolve({})),
-            },
-            jobType: 'data_retention',
-            jobs: [{
-                created_at: 1540834294674,
-                last_activity_at: 1540834294674,
-                id: '1231',
-                status: 'success',
-                type: 'data_retention',
-            }, {
-                created_at: 1540834294674,
-                last_activity_at: 1540834294674,
-                id: '1232',
-                status: 'pending',
-                type: 'data_retention',
-            }, {
-                created_at: 1540834294674,
-                last_activity_at: 1540834294674,
-                id: '1233',
-                status: 'in_progress',
-                type: 'data_retention',
-            }, {
-                created_at: 1540834294674,
-                last_activity_at: 1540834294674,
-                id: '1234',
-                status: 'cancel_requested',
-                type: 'data_retention',
-            }, {
-                created_at: 1540834294674,
-                last_activity_at: 1540834294674,
-                id: '1235',
-                status: 'canceled',
-                type: 'data_retention',
-            }, {
-                created_at: 1540834294674,
-                last_activity_at: 1540834294674,
-                id: '1236',
-                status: 'error',
-                type: 'data_retention',
-            }],
-        };
-    });
+    const baseProps = {
+        config: {},
+        createJobButtonText,
+        createJobHelpText,
+        disabled: false,
+        actions: {
+            cancelJob,
+            createJob,
+            getJobsByType,
+        },
+        jobType: 'data_retention',
+        jobs: [{
+            created_at: 1540834294674,
+            last_activity_at: 1540834294674,
+            id: '1231',
+            status: 'success',
+            type: 'data_retention',
+        }, {
+            created_at: 1540834294674,
+            last_activity_at: 1540834294674,
+            id: '1232',
+            status: 'pending',
+            type: 'data_retention',
+        }, {
+            created_at: 1540834294674,
+            last_activity_at: 1540834294674,
+            id: '1233',
+            status: 'in_progress',
+            type: 'data_retention',
+        }, {
+            created_at: 1540834294674,
+            last_activity_at: 1540834294674,
+            id: '1234',
+            status: 'cancel_requested',
+            type: 'data_retention',
+        }, {
+            created_at: 1540834294674,
+            last_activity_at: 1540834294674,
+            id: '1235',
+            status: 'canceled',
+            type: 'data_retention',
+        }, {
+            created_at: 1540834294674,
+            last_activity_at: 1540834294674,
+            id: '1236',
+            status: 'error',
+            type: 'data_retention',
+        }],
+    };
 
     test('should match snapshot, init', () => {
         const wrapper = shallowWithIntl(
@@ -92,7 +89,7 @@ describe('components/admin_console/jobs/table', () => {
         ).dive();
 
         wrapper.find('.job-table__create-button > div > .btn-default').simulate('click', {preventDefault: jest.fn()});
-        expect(createJob).toHaveBeenCalled();
+        expect(createJob).toHaveBeenCalledTimes(1);
     });
 
     test('should call cancel job func', () => {
@@ -101,6 +98,6 @@ describe('components/admin_console/jobs/table', () => {
         ).dive();
 
         wrapper.find('.job-table__cancel-button').first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});
-        expect(cancelJob).toHaveBeenCalled();
+        expect(cancelJob).toHaveBeenCalledTimes(1);
     });
 });
