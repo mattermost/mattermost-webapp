@@ -709,6 +709,7 @@ export const Constants = {
         word: 'word',
         patch: 'patch',
         other: 'generic',
+        image: 'image',
     },
     MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,

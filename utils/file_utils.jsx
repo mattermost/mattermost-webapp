@@ -35,3 +35,26 @@ export function trimFilename(filename) {
 
     return trimmedFilename;
 }
+
+export function getFileTypeFromMime(extension) {
+    const extentionSplitBySlash = extension.split('/');
+    const extentionPrefix = extentionSplitBySlash[0];
+    const extentionSuffix = extentionSplitBySlash[1];
+    if (extentionPrefix === 'video') {
+        return 'video';
+    } else if (extentionPrefix === 'audio') {
+        return 'audio';
+    } else if (extentionPrefix === 'image') {
+        return 'image';
+    } else if (extentionSuffix === 'pdf') {
+        return 'pdf';
+    } else if (extentionSuffix.includes('vnd.ms-excel') || extentionSuffix.includes('spreadsheetml') || extentionSuffix.includes('vnd.sun.xml.calc') || extentionSuffix.includes('opendocument.spreadsheet')) {
+        return 'spreadsheet';
+    } else if (extentionSuffix.includes('vnd.ms-powerpoint') || extentionSuffix.includes('presentationml') || extentionSuffix.includes('vnd.sun.xml.impress') || extentionSuffix.includes('opendocument.presentation')) {
+        return 'presentation';
+    } else if ((extentionSuffix === 'msword') || extentionSuffix.includes('vnd.ms-word') || extentionSuffix.includes('officedocument.wordprocessingml') || extentionSuffix.includes('application/x-mswrite')) {
+        return 'word';
+    }
+
+    return 'other';
+}

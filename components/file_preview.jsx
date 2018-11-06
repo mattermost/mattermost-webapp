@@ -3,31 +3,28 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {ProgressBar} from 'react-bootstrap';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import Constants, {FileTypes} from 'utils/constants.jsx';
+import {getFileTypeFromMime} from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
-
-import loadingGif from 'images/load.gif';
 
 export default class FilePreview extends React.PureComponent {
     static propTypes = {
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
         uploadsInProgress: PropTypes.array,
+        uploadsProgressPercent: PropTypes.object,
     };
 
     static defaultProps = {
         fileInfos: [],
         uploadsInProgress: [],
+        uploadsProgressPercent: {},
     };
-
-    componentDidUpdate() {
-        if (this.props.uploadsInProgress.length > 0) {
-            this.refs[this.props.uploadsInProgress[0]].scrollIntoView();
-        }
-    }
 
     handleRemove = (id) => {
         this.props.onRemove(id);
@@ -114,26 +111,80 @@ export default class FilePreview extends React.PureComponent {
         });
 
         this.props.uploadsInProgress.forEach((clientId) => {
+            let percent = 0;
+            let fileNameComponent;
+            let previewImage;
+            const uploadsInProgress = this.props.uploadsProgressPercent;
+            const fileInfo = uploadsInProgress[clientId];
+            if (fileInfo) {
+                percent = fileInfo.percent;
+                const percentTxt = ` (${percent.toFixed(0)} %)`;
+                const fileType = getFileTypeFromMime(fileInfo.extension);
+                previewImage = <div className={'file-icon ' + Utils.getIconClassName(fileType)}/>;
+
+                fileNameComponent = (
+                    <React.Fragment>
+                        <FilenameOverlay
+                            fileInfo={fileInfo}
+                            index={clientId}
+                            handleImageClick={null}
+                            compactDisplay={false}
+                            canDownload={false}
+                        />
+                        <span className='post-image__uploadingTxt'>
+                            {percent === 100 ? (
+                                <FormattedMessage
+                                    id='create_post.fileProcessing'
+                                    defaultMessage='Processing...'
+                                />
+                            ) : (
+                                <React.Fragment>
+                                    <FormattedMessage
+                                        id='admin.plugin.uploading'
+                                        defaultMessage='Uploading...'
+                                    />
+                                    <span>{percentTxt}</span>
+                                </React.Fragment>
+                            )}
+
+                        </span>
+                        <ProgressBar
+                            className='post-image__progressBar'
+                            now={percent}
+                            active={percent === 100}
+                        />
+                    </React.Fragment>
+                );
+            }
+
             previews.push(
                 <div
                     ref={clientId}
                     key={clientId}
-                    className='file-preview'
+                    className='file-preview post-image__column'
                     data-client-id={clientId}
                 >
-                    <img
-                        className='spinner'
-                        src={loadingGif}
-                    />
-                    <a
-                        className='file-preview__remove'
-                        onClick={this.handleRemove.bind(this, clientId)}
-                    >
-                        <i
-                            className='fa fa-remove'
-                            title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
-                        />
-                    </a>
+                    <div className='post-image__thumbnail'>
+                        {previewImage}
+                    </div>
+                    <div className='post-image__details'>
+                        <div className='post-image__detail_wrapper'>
+                            <div className='post-image__detail'>
+                                {fileNameComponent}
+                            </div>
+                        </div>
+                        <div>
+                            <a
+                                className='file-preview__remove'
+                                onClick={this.handleRemove.bind(this, clientId)}
+                            >
+                                <i
+                                    className='fa fa-remove'
+                                    title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
+                                />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             );
         });

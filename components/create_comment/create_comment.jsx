@@ -193,6 +193,7 @@ export default class CreateComment extends React.PureComponent {
                 fileInfos: [],
             },
             channelMembersCount: 0,
+            uploadsProgressPercent: {},
         };
 
         this.lastBlurAt = 0;
@@ -536,6 +537,11 @@ export default class CreateComment extends React.PureComponent {
         this.focusTextbox();
     }
 
+    handleUploadProgress = ({clientId, name, percent, extension}) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, extension}};
+        this.setState({uploadsProgressPercent});
+    }
+
     handleFileUploadComplete = (fileInfos, clientIds, channelId, rootId) => {
         const draft = this.draftsForPost[rootId];
         const uploadsInProgress = [...draft.uploadsInProgress];
@@ -735,6 +741,7 @@ export default class CreateComment extends React.PureComponent {
                     fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
                     ref='preview'
                 />
             );
@@ -775,6 +782,7 @@ export default class CreateComment extends React.PureComponent {
                     onUploadStart={this.handleUploadStart}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
+                    onUploadProgress={this.handleUploadProgress}
                     rootId={this.props.rootId}
                     postType='comment'
                 />

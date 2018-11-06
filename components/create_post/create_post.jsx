@@ -240,6 +240,7 @@ export default class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelMembersCount: 0,
+            uploadsProgressPercent: {},
         };
 
         this.lastBlurAt = 0;
@@ -595,6 +596,11 @@ export default class CreatePost extends React.Component {
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
         this.focusTextbox();
+    }
+
+    handleUploadProgress = ({clientId, name, percent, extension}) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, extension}};
+        this.setState({uploadsProgressPercent});
     }
 
     handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
@@ -967,6 +973,7 @@ export default class CreatePost extends React.Component {
                     fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
                 />
             );
         }
@@ -1007,6 +1014,7 @@ export default class CreatePost extends React.Component {
                     onUploadStart={this.handleUploadStart}
                     onFileUpload={this.handleFileUploadComplete}
                     onUploadError={this.handleUploadError}
+                    onUploadProgress={this.handleUploadProgress}
                     postType='post'
                 />
             );
