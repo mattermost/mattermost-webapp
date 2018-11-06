@@ -35,7 +35,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
   modalId="delete_channel"
@@ -73,7 +73,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
         "now": [Function],
         "onError": [Function],
         "textComponent": "span",
-        "timeZone": null,
+        "timeZone": "Etc/UTC",
       }
     }
     onClick={[Function]}

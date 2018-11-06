@@ -8,8 +8,6 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 
-import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -21,8 +19,6 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-const Preferences = Constants.Preferences;
 
 export function renderView(props) {
     return (
@@ -72,11 +68,6 @@ export default class RhsThread extends React.Component {
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
-            profiles: JSON.parse(JSON.stringify(UserStore.getProfiles())),
-            compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
-            statuses: Object.assign({}, UserStore.getStatuses()),
-            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false'),
             isScrolling: false,
             topRhsPostCreateAt: 0,
             openTime,
@@ -84,19 +75,11 @@ export default class RhsThread extends React.Component {
     }
 
     componentDidMount() {
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
-        UserStore.addChangeListener(this.onUserChange);
-        UserStore.addStatusesChangeListener(this.onStatusChange);
-
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
-        UserStore.removeChangeListener(this.onUserChange);
-        UserStore.removeStatusesChangeListener(this.onStatusChange);
-
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -122,16 +105,12 @@ export default class RhsThread extends React.Component {
 
         const curLastPost = curPostsArray[curPostsArray.length - 1];
 
-        if (curLastPost.user_id === UserStore.getCurrentId()) {
+        if (curLastPost.user_id === this.props.currentUser.id) {
             this.scrollToBottom();
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (!Utils.areObjectsEqual(nextState.statuses, this.state.statuses)) {
-            return true;
-        }
-
         if (!Utils.areObjectsEqual(nextState.postsArray, this.props.posts)) {
             return true;
         }
@@ -140,19 +119,7 @@ export default class RhsThread extends React.Component {
             return true;
         }
 
-        if (nextState.compactDisplay !== this.state.compactDisplay) {
-            return true;
-        }
-
         if (nextProps.previewEnabled !== this.props.previewEnabled) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextState.flaggedPosts, this.state.flaggedPosts)) {
-            return true;
-        }
-
-        if (!Utils.areObjectsEqual(nextState.profiles, this.state.profiles)) {
             return true;
         }
 
@@ -186,17 +153,6 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    onPreferenceChange = () => {
-        this.setState({
-            compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
-        });
-    }
-
-    onStatusChange = () => {
-        this.setState({statuses: Object.assign({}, UserStore.getStatuses())});
-    }
-
     onBusy = (isBusy) => {
         this.setState({isBusy});
     }
@@ -216,11 +172,6 @@ export default class RhsThread extends React.Component {
         });
 
         return postsArray;
-    }
-
-    onUserChange = () => {
-        const profiles = JSON.parse(JSON.stringify(UserStore.getProfiles()));
-        this.setState({profiles});
     }
 
     scrollToBottom = () => {
@@ -287,25 +238,7 @@ export default class RhsThread extends React.Component {
         }
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
-        const selected = this.props.selected;
-        const profiles = this.state.profiles || {};
-
-        let profile;
-        if (UserStore.getCurrentId() === selected.user_id) {
-            profile = this.props.currentUser;
-        } else {
-            profile = profiles[selected.user_id];
-        }
-
-        let isRootFlagged = false;
-        if (this.state.flaggedPosts) {
-            isRootFlagged = this.state.flaggedPosts.get(selected.id) != null;
-        }
-
-        let rootStatus = 'offline';
-        if (this.state.statuses) {
-            rootStatus = this.state.statuses[selected.user_id] || 'offline';
-        }
+        const {selected, currentUser} = this.props;
 
         let createAt = selected.create_at;
         if (!createAt) {
@@ -319,22 +252,6 @@ export default class RhsThread extends React.Component {
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
             const previousPostId = i > 0 ? postsArray[i - 1].id : '';
-            let p;
-            if (UserStore.getCurrentId() === comPost.user_id) {
-                p = UserStore.getCurrentUser();
-            } else {
-                p = profiles[comPost.user_id];
-            }
-
-            let isFlagged = false;
-            if (this.state.flaggedPosts) {
-                isFlagged = this.state.flaggedPosts.get(comPost.id) != null;
-            }
-
-            let status = 'offline';
-            if (this.state.statuses && p && p.id) {
-                status = this.state.statuses[p.id] || 'offline';
-            }
 
             const currentPostDay = Utils.getDateForUnixTicks(comPost.create_at);
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
@@ -357,11 +274,7 @@ export default class RhsThread extends React.Component {
                     previousPostId={previousPostId}
                     teamId={this.props.channel.team_id}
                     lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
-                    user={p}
-                    currentUser={this.props.currentUser}
-                    compactDisplay={this.state.compactDisplay}
-                    isFlagged={isFlagged}
-                    status={status}
+                    currentUser={currentUser}
                     isBusy={this.state.isBusy}
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
@@ -443,12 +356,8 @@ export default class RhsThread extends React.Component {
                             ref={selected.id}
                             post={selected}
                             commentCount={postsLength}
-                            user={profile}
                             teamId={this.props.channel.team_id}
                             currentUser={this.props.currentUser}
-                            compactDisplay={this.state.compactDisplay}
-                            isFlagged={isRootFlagged}
-                            status={rootStatus}
                             previewCollapsed={this.props.previewCollapsed}
                             previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}

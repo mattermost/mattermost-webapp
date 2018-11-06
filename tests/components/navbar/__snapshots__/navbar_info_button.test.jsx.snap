@@ -37,7 +37,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
 >
@@ -160,7 +160,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       "now": [Function],
       "onError": [Function],
       "textComponent": "span",
-      "timeZone": null,
+      "timeZone": "Etc/UTC",
     }
   }
 >

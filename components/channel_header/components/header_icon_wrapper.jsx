@@ -15,6 +15,7 @@ export default function HeaderIconWrapper({
     buttonId,
     onClick,
     tooltipKey,
+    tooltipText,
 }) {
     function getTooltip(key) {
         const toolTips = {
@@ -61,7 +62,20 @@ export default function HeaderIconWrapper({
         );
     }
 
-    const tooltip = getTooltip(tooltipKey);
+    let tooltip;
+    if (tooltipKey === 'plugin' && tooltipText) {
+        tooltip = (
+            <Tooltip
+                id='pluginTooltip'
+                className=''
+            >
+                <span>{tooltipText}</span>
+            </Tooltip>
+        );
+    } else {
+        tooltip = getTooltip(tooltipKey);
+    }
+
     if (tooltip) {
         return (
             <div className='flex-child'>
@@ -102,4 +116,5 @@ HeaderIconWrapper.propTypes = {
     iconComponent: PropTypes.element.isRequired,
     onClick: PropTypes.func.isRequired,
     tooltipKey: PropTypes.string,
+    tooltipText: PropTypes.string,
 };

@@ -83,4 +83,30 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, on PluginIcon with tooltipText', () => {
+        const pluginIcon = (
+            <i className='fa fa-anchor'/>
+        );
+
+        const props = {...baseProps, iconComponent: pluginIcon, tooltipKey: 'plugin', tooltipText: 'plugin_tooltip_text'};
+        const wrapper = shallow(
+            <HeaderIconWrapper {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on PluginIcon without tooltipText', () => {
+        const pluginIcon = (
+            <i className='fa fa-anchor'/>
+        );
+
+        const props = {...baseProps, iconComponent: pluginIcon, tooltipKey: 'plugin'};
+        const wrapper = shallow(
+            <HeaderIconWrapper {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
