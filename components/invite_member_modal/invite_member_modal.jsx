@@ -56,7 +56,7 @@ class InviteMemberModal extends React.PureComponent {
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             sendEmailInvitesToTeam: PropTypes.func.isRequired,
-        }),
+        }).isRequired,
     }
 
     constructor(props) {

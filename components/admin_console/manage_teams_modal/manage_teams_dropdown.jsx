@@ -14,9 +14,8 @@ export default class ManageTeamsDropdown extends React.Component {
         teamMember: PropTypes.object.isRequired,
         onError: PropTypes.func.isRequired,
         onMemberChange: PropTypes.func.isRequired,
-        onMemberRemove: PropTypes.func.isRequired,
         updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
-        removeUserFromTeam: PropTypes.func.isRequired,
+        handleRemoveUserFromTeam: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -25,7 +24,6 @@ export default class ManageTeamsDropdown extends React.Component {
         this.toggleDropdown = this.toggleDropdown.bind(this);
 
         this.handleMemberChange = this.handleMemberChange.bind(this);
-        this.handleMemberRemove = this.handleMemberRemove.bind(this);
 
         this.state = {
             show: false,
@@ -56,21 +54,12 @@ export default class ManageTeamsDropdown extends React.Component {
         }
     };
 
-    removeFromTeam = async () => {
-        const {data, error} = await this.props.removeUserFromTeam(this.props.teamMember.team_id, this.props.user.id);
-        if (data) {
-            this.handleMemberRemove();
-        } else if (error) {
-            this.props.onError(error.message);
-        }
+    removeFromTeam = () => {
+        this.props.handleRemoveUserFromTeam(this.props.teamMember.team_id);
     }
 
     handleMemberChange() {
         this.props.onMemberChange(this.props.teamMember.team_id);
-    }
-
-    handleMemberRemove() {
-        this.props.onMemberRemove(this.props.teamMember.team_id);
     }
 
     render() {

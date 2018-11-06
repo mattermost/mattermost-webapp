@@ -90,6 +90,17 @@ export default class ManageTeamsModal extends React.Component {
         });
     }
 
+    handleRemoveUserFromTeam = async (teamId) => {
+        const {actions, user} = this.props;
+
+        const {data, error} = await actions.removeUserFromTeam(teamId, user.id);
+         if (data) {
+           this.handleMemberRemove(teamId);
+        } else if (error) {
+           this.handleError(error.message);
+        }
+    }
+
     renderContents = () => {
         const {user} = this.props;
         const {teams, teamMembers} = this.state;
@@ -119,11 +130,8 @@ export default class ManageTeamsModal extends React.Component {
                 if (isSystemAdmin) {
                     action = (
                         <RemoveFromTeamButton
-                            user={user}
-                            team={team}
-                            onError={this.handleError}
-                            onMemberRemove={this.handleMemberRemove}
-                            removeUserFromTeam={this.props.actions.removeUserFromTeam}
+                            teamId={team.id}
+                            handleRemoveUserFromTeam={this.handleRemoveUserFromTeam}
                         />
                     );
                 } else {
@@ -134,9 +142,8 @@ export default class ManageTeamsModal extends React.Component {
                             teamMember={teamMember}
                             onError={this.handleError}
                             onMemberChange={this.getTeamMembers}
-                            onMemberRemove={this.handleMemberRemove}
                             updateTeamMemberSchemeRoles={this.props.actions.updateTeamMemberSchemeRoles}
-                            removeUserFromTeam={this.props.actions.removeUserFromTeam}
+                            handleRemoveUserFromTeam={this.handleRemoveUserFromTeam}
                         />
                     );
                 }
