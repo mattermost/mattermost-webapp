@@ -50,7 +50,7 @@ jest.mock('actions/global_actions.jsx', () => ({
 
 jest.mock('actions/post_actions.jsx', () => ({
     addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
-    createPost: jest.fn(),
+    createPost: jest.fn(() => ({type: 'MOCK_CREATE_POST'})),
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
 }));
 
