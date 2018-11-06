@@ -47,10 +47,6 @@ class JobTable extends React.PureComponent {
         jobType: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
-
-            /**
-             * Function to fetch jobs
-             */
             getJobsByType: PropTypes.func.isRequired,
             cancelJob: PropTypes.func.isRequired,
             createJob: PropTypes.func.isRequired,
