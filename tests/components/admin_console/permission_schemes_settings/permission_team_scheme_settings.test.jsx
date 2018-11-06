@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PermissionTeamSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings.jsx';
-import SaveButton from 'components/save_button.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings', () => {
     const defaultProps = {
@@ -55,7 +54,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         actions: {
             loadRolesIfNeeded: jest.fn().mockReturnValue(Promise.resolve()),
             loadRole: jest.fn(),
-            loadScheme: jest.fn().mockReturnValue(Promise.resolve()),
+            loadScheme: jest.fn().mockReturnValue(Promise.resolve({data: true})),
             loadSchemeTeams: jest.fn(),
             editRole: jest.fn(),
             patchScheme: jest.fn(),
@@ -113,7 +112,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         });
     });
 
-    test('should save each role on save clicked except system_admin role', (done) => {
+    test('should save each role on handleSubmit except system_admin role', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
         const createScheme = jest.fn().mockImplementation(() => Promise.resolve({
             data: {
@@ -133,14 +132,11 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         );
 
         expect(wrapper).toMatchSnapshot();
-        wrapper.find(SaveButton).simulate('click');
-        setTimeout(() => {
-            expect(editRole).toHaveBeenCalledTimes(4);
-            done();
-        });
+        await wrapper.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(4);
     });
 
-    test('should show error if createScheme fails', (done) => {
+    test('should show error if createScheme fails', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({}));
         const createScheme = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
@@ -151,14 +147,11 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             />
         );
 
-        wrapper.find(SaveButton).simulate('click');
-        setTimeout(() => {
-            expect(wrapper.state().serverError).toBe('test error');
-            done();
-        });
+        await wrapper.instance().handleSubmit();
+        expect(wrapper.state().serverError).toBe('test error');
     });
 
-    test('should show error if editRole fails', (done) => {
+    test('should show error if editRole fails', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
         const createScheme = jest.fn().mockImplementation(() => Promise.resolve({
             data: {
@@ -177,11 +170,8 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             />
         );
 
-        wrapper.find(SaveButton).simulate('click');
-        setTimeout(() => {
-            expect(wrapper.state().serverError).toBe('test error');
-            done();
-        });
+        await wrapper.instance().handleSubmit();
+        expect(wrapper.state().serverError).toBe('test error');
     });
 
     test('should open and close correctly roles blocks', () => {

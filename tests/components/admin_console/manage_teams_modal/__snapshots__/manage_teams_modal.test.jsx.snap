@@ -22,7 +22,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
       "remove": [Function],
     }
   }
-  onHide={[Function]}
+  onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   show={true}
@@ -105,7 +105,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
       "remove": [Function],
     }
   }
-  onHide={[Function]}
+  onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   show={true}
@@ -185,7 +185,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
                   "team_id": "123test",
                 }
               }
-              updateTeamMemberSchemeRoles={[Function]}
+              updateTeamMemberSchemeRoles={[MockFunction]}
               user={
                 Object {
                   "email": "currentUser@test.com",

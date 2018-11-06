@@ -10,7 +10,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -27,7 +27,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           title="Back Icon"
         />
       </div>
@@ -145,7 +145,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -162,7 +162,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           title="Back Icon"
         />
       </div>

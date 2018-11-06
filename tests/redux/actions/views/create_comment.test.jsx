@@ -41,7 +41,7 @@ jest.mock('dispatcher/app_dispatcher.jsx', () => ({
 }));
 
 jest.mock('actions/command', () => ({
-    executeCommand: jest.fn(),
+    executeCommand: jest.fn((...args) => ({type: 'MOCK_ACTIONS_COMMAND_EXECUTE', args})),
 }));
 
 jest.mock('actions/global_actions.jsx', () => ({
@@ -54,10 +54,14 @@ jest.mock('actions/post_actions.jsx', () => ({
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
 }));
 
-jest.mock('actions/storage', () => ({
-    setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
-    actionOnGlobalItemsWithPrefix: (...args) => ({type: 'MOCK_ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', args}),
-}));
+jest.mock('actions/storage', () => {
+    const original = require.requireActual('actions/storage');
+    return {
+        ...original,
+        setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
+        actionOnGlobalItemsWithPrefix: (...args) => ({type: 'MOCK_ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', args}),
+    };
+});
 
 function lastCall(calls) {
     return calls[calls.length - 1];
@@ -276,10 +280,8 @@ describe('rhs view actions', () => {
 
             store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
-            const testStore = mockStore(initialState);
-            testStore.dispatch(submitPost(channelId, rootId, draft));
-
-            expect(store.getActions()).toEqual(testStore.getActions());
+            const expectedActions = [{args: ['test msg', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            expect(store.getActions()).toEqual(expectedActions);
         });
     });
 
@@ -336,28 +338,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a command when message is /away', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        value: {
-                            message: '/away',
-                            fileInfos: [],
-                            uploadsInProgress: [],
-                        },
-                        timestamp: new Date(),
-                    },
-                },
-            });
-
-            store.dispatch(onSubmit());
-
             const testStore = mockStore(initialState);
             testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
 
-            expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
-            );
+            const expectedActions = [{args: ['/away', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            expect(testStore.getActions()).toEqual(expectedActions);
         });
 
         test('it submits a regular post when message is something else', () => {

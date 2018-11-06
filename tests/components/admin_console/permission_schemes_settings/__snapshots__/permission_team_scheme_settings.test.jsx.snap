@@ -1076,7 +1076,7 @@ Object {
 }
 `;
 
-exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should save each role on save clicked except system_admin role 1`] = `
+exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should save each role on handleSubmit except system_admin role 1`] = `
 <div
   className="wrapper--fixed"
 >
