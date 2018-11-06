@@ -779,23 +779,66 @@ describe('components/create_post', () => {
         });
         expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
 
-        const form = wrapper.find('#create_post');
-        form.simulate('submit', {preventDefault: jest.fn()});
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
 
         await Promise.resolve();
         expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
-        wrapper.setState({
-            message: 'some valid text',
-        });
-        wrapper.instance().forceSendRejectedMessage({preventDefault: jest.fn()});
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
+        await Promise.resolve();
         expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({
                 message: '/fakecommand some text',
+            }),
+            expect.anything(),
+        );
+    });
+
+    it('should throw away invalid command error if user resumes typing', async () => {
+        const error = {
+            message: 'No command found',
+            server_error_id: 'api.command.execute_command.not_found.app_error',
+        };
+        const executeCommand = jest.fn(() => Promise.resolve({error}));
+        const onSubmitPost = jest.fn();
+
+        const wrapper = shallow(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    executeCommand,
+                    onSubmitPost,
+                },
+            })
+        );
+
+        wrapper.setState({
+            message: '/fakecommand some text',
+        });
+        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(executeCommand).toHaveBeenCalled();
+
+        await Promise.resolve();
+        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(true);
+        expect(onSubmitPost).not.toHaveBeenCalled();
+
+        wrapper.instance().handleChange({
+            target: {value: 'some valid text'},
+        });
+        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmitPost).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'some valid text',
             }),
             expect.anything(),
         );

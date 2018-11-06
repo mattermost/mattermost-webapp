@@ -30,6 +30,14 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 const KeyCodes = Constants.KeyCodes;
 
+const isErrorInvalidSlashCommand = (error) => {
+    if (!(error && error.server_error_id)) {
+        return false;
+    }
+
+    return error.server_error_id === 'api.command.execute_command.not_found.app_error';
+};
+
 export default class CreatePost extends React.Component {
     static propTypes = {
 
@@ -301,7 +309,7 @@ export default class CreatePost extends React.Component {
         this.setState({showEmojiPicker: false});
     }
 
-    doSubmit = (e, options = {}) => {
+    doSubmit = (e) => {
         const channelId = this.props.currentChannel.id;
         if (e) {
             e.preventDefault();
@@ -311,9 +319,18 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        let message = this.state.message;
+        let ignoreSlash = false;
+        const serverError = this.state.serverError;
+
+        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === message) {
+            message = serverError.submittedMessage;
+            ignoreSlash = true;
+        }
+
         const post = {};
         post.file_ids = [];
-        post.message = options.message || this.state.message;
+        post.message = message;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -332,7 +349,7 @@ export default class CreatePost extends React.Component {
         this.setState({submitting: true, serverError: null});
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
-        if (post.message.indexOf('/') === 0 && !options.ignoreSlash) {
+        if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null, enableSendButton: false});
             const args = {};
             args.channel_id = channelId;
@@ -351,11 +368,6 @@ export default class CreatePost extends React.Component {
                                 },
                                 message: post.message,
                             });
-                        }
-                        if (this.isErrorInvalidSlashCommand(error)) {
-                            setTimeout(() => {
-                                this.focusSendAsMessageLink();
-                            }, 0);
                         }
                     }
                 }
@@ -381,26 +393,6 @@ export default class CreatePost extends React.Component {
         const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
 
         this.focusTextbox(forceFocus);
-    }
-
-    isErrorInvalidSlashCommand = (error) => {
-        if (!(error && error.server_error_id)) {
-            return false;
-        }
-
-        return error.server_error_id === 'api.command.execute_command.not_found.app_error';
-    }
-
-    forceSubmit = (e, message) => {
-        this.doSubmit(e, {message, ignoreSlash: true});
-    }
-
-    forceSendRejectedMessage = (e) => {
-        if (!(this.state.serverError && this.state.serverError.submittedMessage)) {
-            return;
-        }
-
-        this.forceSubmit(e, this.state.serverError.submittedMessage);
     }
 
     handleNotifyAllConfirmation = (e) => {
@@ -545,12 +537,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    focusSendAsMessageLink = (keepFocus = false) => {
-        if (this.refs.sendAsMessageLink && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.sendAsMessageLink.focus();
-        }
-    }
-
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter, currentChannel} = this.props;
 
@@ -574,9 +560,16 @@ export default class CreatePost extends React.Component {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
+
+        let serverError = this.state.serverError;
+        if (isErrorInvalidSlashCommand(serverError)) {
+            serverError = null;
+        }
+
         this.setState({
             message,
             enableSendButton,
+            serverError,
         });
 
         const draft = {
@@ -961,7 +954,7 @@ export default class CreatePost extends React.Component {
         if (this.state.serverError) {
             let serverErrorContent = this.state.serverError.message;
 
-            if (this.isErrorInvalidSlashCommand(this.state.serverError)) {
+            if (isErrorInvalidSlashCommand(this.state.serverError)) {
                 const storedMessage = this.state.serverError.submittedMessage;
                 const command = storedMessage.split(' ')[0];
 
@@ -975,7 +968,7 @@ export default class CreatePost extends React.Component {
                                 <a
                                     ref='sendAsMessageLink'
                                     href='#'
-                                    onClick={this.forceSendRejectedMessage}
+                                    onClick={this.handleSubmit}
                                     className='create-post__send-as-message'
                                 >
                                     <FormattedMessage
