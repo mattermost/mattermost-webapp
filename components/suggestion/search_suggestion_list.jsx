@@ -70,13 +70,15 @@ export default class SearchSuggestionList extends SuggestionList {
             const Component = this.props.components[i];
 
             // temporary hack to add dividers between public and private channels in the search suggestion list
-            if (i === 0 || item.type !== this.props.items[i - 1].type) {
-                if (item.type === Constants.OPEN_CHANNEL) {
-                    items.push(this.renderChannelDivider(Constants.OPEN_CHANNEL));
-                } else if (item.type === Constants.PRIVATE_CHANNEL) {
-                    items.push(this.renderChannelDivider(Constants.PRIVATE_CHANNEL));
-                } else if (i === 0 || this.props.items[i - 1].type === Constants.OPEN_CHANNEL || this.props.items[i - 1].type === Constants.PRIVATE_CHANNEL) {
-                    items.push(this.renderChannelDivider(Constants.DM_CHANNEL));
+            if (this.props.renderDividers) {
+                if (i === 0 || item.type !== this.props.items[i - 1].type) {
+                    if (item.type === Constants.OPEN_CHANNEL) {
+                        items.push(this.renderChannelDivider(Constants.OPEN_CHANNEL));
+                    } else if (item.type === Constants.PRIVATE_CHANNEL) {
+                        items.push(this.renderChannelDivider(Constants.PRIVATE_CHANNEL));
+                    } else if (i === 0 || this.props.items[i - 1].type === Constants.OPEN_CHANNEL || this.props.items[i - 1].type === Constants.PRIVATE_CHANNEL) {
+                        items.push(this.renderChannelDivider(Constants.DM_CHANNEL));
+                    }
                 }
             }
 
