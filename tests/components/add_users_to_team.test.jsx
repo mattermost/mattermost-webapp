@@ -8,50 +8,25 @@ import {shallow} from 'enzyme';
 import AddUsersToTeam from 'components/add_users_to_team/add_users_to_team.jsx';
 
 describe('components/AddUsersToTeam', () => {
+    const baseActions = {
+        getProfilesNotInTeam: jest.fn().mockResolvedValue({data: true}),
+        setModalSearchTerm: jest.fn().mockResolvedValue({data: true}),
+        searchProfiles: jest.fn().mockResolvedValue({data: true}),
+        addUsersToTeam: jest.fn().mockResolvedValue({data: true}),
+        loadStatusesForProfilesList: jest.fn().mockResolvedValue({data: true}),
+    };
     const baseProps = {
         currentTeamId: 'current_team_id',
         currentTeamName: 'display_name',
         searchTerm: '',
         users: [{id: 'someid', username: 'somename', email: 'someemail'}],
         onModalDismissed: jest.fn(),
-        actions: {
-            getProfilesNotInTeam: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-            setModalSearchTerm: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-            searchProfiles: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-            addUsersToTeam: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-            loadStatusesForProfilesList: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-        },
+        actions: baseActions,
     };
 
     test('should match snapshot', () => {
-        const actions = {
-            ...baseProps.actions,
-            getProfilesNotInTeam: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-        };
+        const getProfilesNotInTeam = jest.fn().mockResolvedValue({data: true});
+        const actions = {...baseActions, getProfilesNotInTeam};
         const props = {...baseProps, actions};
         const wrapper = shallow(
             <AddUsersToTeam {...props}/>
@@ -100,29 +75,41 @@ describe('components/AddUsersToTeam', () => {
         expect(wrapper.state('addError')).toEqual(message);
     });
 
-    test('should match state when handleSubmit is called', () => {
-        const actions = {
-            ...baseProps.actions,
-            addUsersToTeam: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-        };
+    test('should match state when handleSubmit is called', async () => {
+        const addUsersToTeam = jest.fn().
+            mockResolvedValueOnce({error: true}).
+            mockResolvedValue({data: true});
+        const actions = {...baseProps.actions, addUsersToTeam};
         const props = {...baseProps, actions};
         const wrapper = shallow(
             <AddUsersToTeam {...props}/>
         );
+        const instance = wrapper.instance();
+        instance.handleResponse = jest.fn();
+        instance.handleHide = jest.fn();
 
         wrapper.setState({values: []});
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(actions.addUsersToTeam).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(actions.addUsersToTeam).toBeCalled();
         expect(actions.addUsersToTeam).toHaveBeenCalledTimes(1);
+        expect(actions.addUsersToTeam).toBeCalledWith('current_team_id', ['id_1', 'id_2']);
+        expect(instance.handleResponse).toBeCalledTimes(1);
+        expect(instance.handleResponse).toBeCalledWith(true);
+        expect(instance.handleHide).not.toBeCalled();
+        expect(wrapper.state('saving')).toEqual(true);
+
+        wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(actions.addUsersToTeam).toBeCalled();
+        expect(actions.addUsersToTeam).toHaveBeenCalledTimes(2);
+        expect(actions.addUsersToTeam).toBeCalledWith('current_team_id', ['id_1', 'id_2']);
+        expect(instance.handleResponse).toBeCalledTimes(2);
+        expect(instance.handleResponse).lastCalledWith(undefined);
+        expect(instance.handleHide).toBeCalledTimes(1);
         expect(wrapper.state('saving')).toEqual(true);
     });
 
@@ -141,14 +128,8 @@ describe('components/AddUsersToTeam', () => {
     });
 
     test('should match state when handlePageChange is called', () => {
-        const actions = {
-            ...baseProps.actions,
-            getProfilesNotInTeam: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-        };
+        const getProfilesNotInTeam = jest.fn().mockResolvedValue({data: true});
+        const actions = {...baseActions, getProfilesNotInTeam};
         const props = {...baseProps, actions};
         const wrapper = shallow(
             <AddUsersToTeam {...props}/>
@@ -166,26 +147,22 @@ describe('components/AddUsersToTeam', () => {
     });
 
     test('should match state when search is called', () => {
-        const actions = {
-            ...baseProps.actions,
-            setModalSearchTerm: jest.fn(() => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }),
-        };
+        const setModalSearchTerm = jest.fn().mockResolvedValue({data: true});
+        const actions = {...baseActions, setModalSearchTerm};
         const props = {...baseProps, actions};
         const wrapper = shallow(
             <AddUsersToTeam {...props}/>
         );
 
         wrapper.instance().search('');
-        expect(actions.setModalSearchTerm).toBeCalled();
+        expect(actions.setModalSearchTerm).toHaveBeenCalledTimes(1);
+        expect(actions.setModalSearchTerm).toBeCalledWith('');
 
         const searchTerm = 'term';
         wrapper.instance().search(searchTerm);
         expect(wrapper.state('loadingUsers')).toEqual(true);
         expect(actions.setModalSearchTerm).toHaveBeenCalledTimes(2);
+        expect(actions.setModalSearchTerm).toBeCalledWith(searchTerm);
     });
 
     test('should match state when handleDelete is called', () => {
