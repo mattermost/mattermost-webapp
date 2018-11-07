@@ -102,7 +102,7 @@ describe('components/AtMention', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test.only('should match snapshot when mentioning current user', () => {
+    test('should match snapshot when mentioning current user', () => {
         const wrapper = shallow(
             <AtMention
                 {...baseProps}
