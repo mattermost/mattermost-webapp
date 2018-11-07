@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
-import {loadProfiles, loadProfilesAndTeamMembers, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
+import {loadProfiles, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
 import {Constants, UserSearchOptions, SearchUserTeamFilter} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -71,6 +71,7 @@ export default class SystemUsers extends React.Component {
              * Function to get a user access token
              */
             getUserAccessToken: PropTypes.func.isRequired,
+            loadProfilesAndTeamMembers: PropTypes.func.isRequired,
             setSystemUsersSearch: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -118,7 +119,7 @@ export default class SystemUsers extends React.Component {
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
             loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, this.loadComplete);
         } else {
-            loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId, this.loadComplete);
+            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId, this.loadComplete);
             this.props.actions.getTeamStats(teamId);
         }
     }
@@ -145,7 +146,7 @@ export default class SystemUsers extends React.Component {
         } else if (this.props.teamId === SearchUserTeamFilter.NO_TEAM) {
             loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, this.loadComplete);
         } else {
-            loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId, this.loadComplete);
+            this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId, this.loadComplete);
         }
     }
 

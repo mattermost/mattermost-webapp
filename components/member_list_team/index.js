@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getMembersInCurrentTeam, getCurrentTeamStats} from 'mattermost-redux/selectors/entities/teams';
@@ -11,6 +12,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadProfilesAndTeamMembers} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MemberListTeam from './member_list_team.jsx';
@@ -44,6 +46,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             searchProfiles,
             getTeamStats,
+            loadProfilesAndTeamMembers,
             loadStatusesForProfilesList,
             setModalSearchTerm,
         }, dispatch),

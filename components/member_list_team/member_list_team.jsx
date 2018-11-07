@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
+import {loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
@@ -24,8 +24,9 @@ export default class MemberListTeam extends React.Component {
         actions: PropTypes.shape({
             searchProfiles: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
+            loadProfilesAndTeamMembers: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -40,7 +41,7 @@ export default class MemberListTeam extends React.Component {
     }
 
     componentDidMount() {
-        loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId, this.loadComplete);
+        this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId, this.loadComplete);
         this.props.actions.getTeamStats(this.props.currentTeamId);
     }
 
@@ -83,8 +84,8 @@ export default class MemberListTeam extends React.Component {
         this.setState({loading: false});
     }
 
-    nextPage(page) {
-        loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
+    nextPage = (page) => {
+        this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 
     search = (term) => {

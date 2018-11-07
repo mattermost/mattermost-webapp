@@ -39,10 +39,15 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     }
 }
 
-export async function loadProfilesAndTeamMembers(page, perPage, teamId = getCurrentTeamId(getState()), success) {
-    const {data} = await UserActions.getProfilesInTeam(teamId, page, perPage)(dispatch, getState);
-    loadTeamMembersForProfilesList(data, teamId, success);
-    dispatch(loadStatusesForProfilesList(data));
+export function loadProfilesAndTeamMembers(page, perPage, teamId = getCurrentTeamId(getState()), success) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = teamId || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage));
+        if (data) {
+            loadTeamMembersForProfilesList(data, newTeamId, success);
+            doDispatch(loadStatusesForProfilesList(data));
+        }
+    };
 }
 
 export async function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
