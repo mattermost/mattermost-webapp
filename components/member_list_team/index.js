@@ -36,7 +36,6 @@ function mapStateToProps(state, ownProps) {
         currentTeamId: state.entities.teams.currentTeamId,
         totalTeamMembers: stats.active_member_count,
         canManageTeamMembers,
-        loadStatusesForProfilesList,
     };
 }
 
@@ -45,6 +44,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             searchProfiles,
             getTeamStats,
+            loadStatusesForProfilesList,
             setModalSearchTerm,
         }, dispatch),
     };
