@@ -10,7 +10,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-import {checkMfa} from 'actions/user_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -59,6 +58,7 @@ class LoginController extends React.Component {
             siteName: PropTypes.string,
             initializing: PropTypes.bool,
             actions: PropTypes.shape({
+                checkMfa: PropTypes.func.isRequired,
                 login: PropTypes.func.isRequired,
             }).isRequired,
         };
@@ -245,19 +245,21 @@ class LoginController extends React.Component {
             return;
         }
 
-        checkMfa(
-            loginId,
-            (requiresMfa) => {
-                if (requiresMfa) {
-                    this.setState({showMfa: true});
-                } else {
-                    this.submit(loginId, password, '');
-                }
-            },
-            (err) => {
-                this.setState({serverError: err.message});
+        this.props.actions.checkMfa(loginId).then((result) => {
+            if (result.error) {
+                this.setState({
+                    serverError: result.error.message,
+                });
+                return;
             }
-        );
+
+            const requiresMfa = result.data;
+            if (requiresMfa) {
+                this.setState({showMfa: true});
+            } else {
+                this.submit(loginId, password, '');
+            }
+        });
     }
 
     submit = (loginId, password, token) => {

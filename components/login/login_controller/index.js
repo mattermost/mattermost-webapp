@@ -10,6 +10,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import {login} from 'actions/views/login';
+import {checkMfa} from 'actions/views/mfa';
 
 import LoginController from './login_controller.jsx';
 
@@ -76,6 +77,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            checkMfa,
             login,
         }, dispatch),
     };

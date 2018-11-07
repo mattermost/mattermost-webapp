@@ -8,6 +8,8 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
+import {deactivateMfa} from 'actions/views/mfa';
+
 import {getPasswordConfig} from 'utils/utils.jsx';
 import {Preferences} from 'utils/constants';
 
@@ -56,6 +58,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            deactivateMfa,
             getMe,
         }, dispatch),
     };
