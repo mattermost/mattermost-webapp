@@ -131,7 +131,7 @@ export function getTeamRelativeUrl(team) {
 export function notifyMe(title, body, channel, teamId, silent) {
     showNotification({title,
         body,
-        requireInteraction: false,
+        requireInteraction: true,
         silent,
         onClick: () => {
             const state = store.getState();
