@@ -192,7 +192,7 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress: [],
                 fileInfos: [],
             },
-            countChannelTimezones: 0,
+            channelMembersCount: 0,
         };
 
         this.lastBlurAt = 0;
@@ -353,9 +353,9 @@ export default class CreateComment extends React.PureComponent {
             this.props.getChannelTimezones(this.props.channelId).then(
                 (data) => {
                     if (data.data) {
-                        this.setState({countChannelTimezones: data.data.length});
+                        this.setState({channelMembersCount: data.data.length});
                     } else {
-                        this.setState({countChannelTimezones: 0});
+                        this.setState({channelMembersCount: 0});
                     }
                 }
             );
@@ -677,14 +677,14 @@ export default class CreateComment extends React.PureComponent {
         );
 
         let notifyAllMessage = '';
-        if (this.state.countChannelTimezones && this.props.isTimezoneEnabled) {
+        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
             notifyAllMessage = (
                 <FormattedMarkdownMessage
                     id='notify_all.question_timezone'
                     defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
                     values={{
                         totalMembers: this.props.channelMembersCount - 1,
-                        timezones: this.state.countChannelTimezones,
+                        timezones: this.state.channelMembersCount,
                     }}
                 />
             );

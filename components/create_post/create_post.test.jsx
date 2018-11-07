@@ -263,6 +263,61 @@ describe('components/create_post', () => {
         expect(wrapper.state('showConfirmModal')).toBe(false);
     });
 
+    it('onSubmit test for @all with timezones', () => {
+        const wrapper = shallow(
+            createPost({
+                getChannelTimezones: jest.fn(() => Promise.resolve([])),
+                isTimezoneEnabled: true,
+            })
+        );
+
+        wrapper.setState({
+            message: 'test @all',
+            channelMembersCount: 4,
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+        expect(wrapper.state('channelMembersCount')).toBe(4);
+        wrapper.instance().hideNotifyAllModal();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+
+        wrapper.setProps({
+            currentChannelMembersCount: 2,
+        });
+
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('onSubmit test for @all with timezones disabled', () => {
+        const wrapper = shallow(
+            createPost({
+                getChannelTimezones: jest.fn(() => Promise.resolve([])),
+                isTimezoneEnabled: false,
+            })
+        );
+
+        wrapper.setState({
+            message: 'test @all',
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+        expect(wrapper.state('channelMembersCount')).toBe(0);
+        wrapper.instance().hideNotifyAllModal();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+
+        wrapper.setProps({
+            currentChannelMembersCount: 2,
+        });
+
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
     it('onSubmit test for "/header" message', () => {
         const openModal = jest.fn();
 
