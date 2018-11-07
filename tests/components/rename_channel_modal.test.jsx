@@ -25,7 +25,7 @@ describe('components/RenameChannelModal', () => {
         requestStatus: RequestStatus.NOT_STARTED,
         team: {...team},
         currentTeamUrl: 'fake-channel',
-        actions: {patchChannel: jest.fn()},
+        actions: {patchChannel: jest.fn().mockResolvedValue({data: true})},
     };
 
     test('should match snapshot', () => {
@@ -109,19 +109,38 @@ describe('components/RenameChannelModal', () => {
         expect(wrapper.state('serverError')).toBe('');
     });
 
-    test('should call handleSubmit function', () => {
+    test('should call handleSubmit function', async () => {
+        const patchChannel = jest.fn().
+            mockResolvedValueOnce({error: true}).
+            mockResolvedValue({data: true});
+
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal
+                {...baseProps}
+                actions={{patchChannel}}
+            />
         ).dive({disableLifecycleMethods: true});
 
         wrapper.setState({displayName: 'Changed Name', channelName: 'changed-name'});
 
         const instance = wrapper.instance();
-        instance.handleSubmit();
+        instance.onSaveSuccess = jest.fn();
+        instance.setError = jest.fn();
 
-        expect(wrapper.instance().props.actions.patchChannel).toHaveBeenCalledTimes(1);
+        await instance.handleSubmit();
+        expect(patchChannel).toHaveBeenCalledTimes(1);
         expect(wrapper.state('displayName')).toBe('Changed Name');
         expect(wrapper.state('channelName')).toBe('changed-name');
+        expect(instance.onSaveSuccess).not.toBeCalled();
+        expect(instance.setError).toBeCalledTimes(1);
+        expect(instance.setError).toBeCalledWith(true);
+
+        await instance.handleSubmit();
+        expect(patchChannel).toHaveBeenCalledTimes(2);
+        expect(wrapper.state('displayName')).toBe('Changed Name');
+        expect(wrapper.state('channelName')).toBe('changed-name');
+        expect(instance.onSaveSuccess).toBeCalledTimes(1);
+        expect(instance.setError).toBeCalledTimes(1);
     });
 
     test('should call handleCancel', () => {
