@@ -539,7 +539,7 @@ export default class Sidebar extends React.PureComponent {
                                             browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
                                         <ChannelCreate
-                                            channelType={section.type}
+                                            sectionType={section.type}
                                             canCreatePublicChannel={this.props.canCreatePublicChannel}
                                             canCreatePrivateChannel={this.props.canCreatePrivateChannel}
                                             createPublicChannel={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
