@@ -6,8 +6,6 @@ import {shallow} from 'enzyme';
 
 import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels.jsx';
 
-jest.useFakeTimers();
-
 describe('components/MoreDirectChannels', () => {
     function emptyFunction() {} //eslint-disable-line no-empty-function
 

@@ -6,7 +6,6 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class Reaction extends React.PureComponent {
@@ -85,7 +84,6 @@ export default class Reaction extends React.PureComponent {
         e.preventDefault();
         const {actions, post, emojiName} = this.props;
         actions.addReaction(post.id, emojiName);
-        emitEmojiPosted(emojiName);
     }
 
     handleRemoveReaction = (e) => {

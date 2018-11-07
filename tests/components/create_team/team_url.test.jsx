@@ -21,10 +21,11 @@ describe('/components/create_team/components/display_name', () => {
             wizard: 'display_name',
         },
         actions: {
-            checkIfTeamExists: jest.fn(),
-            createTeam: jest.fn(),
+            checkIfTeamExists: jest.fn().mockResolvedValue({exists: true}),
+            createTeam: jest.fn().mockResolvedValue({data: {name: 'test-team'}}),
             trackEvent: jest.fn(),
         },
+        history: {push: jest.fn()},
     };
 
     const chatLengthError = (
@@ -54,19 +55,28 @@ describe('/components/create_team/components/display_name', () => {
         expect(wrapper.prop('updateParent')).toHaveBeenCalled();
     });
 
-    test('should successfully submit', () => {
-        defaultProps.actions.checkIfTeamExists = jest.fn().mockImplementation(
-            () => {
-                defaultProps.actions.createTeam();
-            }
+    test('should successfully submit', async () => {
+        const checkIfTeamExists = jest.fn().
+            mockResolvedValueOnce({exists: true}).
+            mockResolvedValue({exists: false});
+
+        const actions = {...defaultProps.actions, checkIfTeamExists};
+        const props = {...defaultProps, actions};
+
+        const wrapper = mountWithIntl(
+            <TeamUrl {...props}/>
         );
-        const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
 
-        wrapper.find('button').simulate('click', {
-            preventDefault: () => jest.fn(),
-        });
+        await wrapper.instance().submitNext({preventDefault: jest.fn()});
+        expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(1);
+        expect(actions.createTeam).not.toHaveBeenCalled();
 
-        expect(wrapper.prop('actions').createTeam).toHaveBeenCalled();
+        await wrapper.instance().submitNext({preventDefault: jest.fn()});
+        expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(2);
+        expect(actions.createTeam).toHaveBeenCalledTimes(1);
+        expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team', type: 'O'});
+        expect(props.history.push).toHaveBeenCalledTimes(1);
+        expect(props.history.push).toBeCalledWith('/test-team/channels/town-square');
     });
 
     test('should display isRequired error', () => {

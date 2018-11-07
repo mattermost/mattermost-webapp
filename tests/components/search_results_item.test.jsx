@@ -8,8 +8,6 @@ import {browserHistory} from 'utils/browser_history';
 import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
 import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
 
-jest.useFakeTimers();
-
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
         push: jest.fn(),
@@ -186,7 +184,6 @@ describe('components/SearchResultsItem', () => {
         );
 
         wrapper.find('.search-item__jump').simulate('click');
-        jest.runAllTimers();
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);

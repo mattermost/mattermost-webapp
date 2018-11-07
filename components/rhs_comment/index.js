@@ -4,7 +4,6 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Posts} from 'mattermost-redux/constants';
-import {addReaction} from 'mattermost-redux/actions/posts';
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
@@ -12,6 +11,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+
+import {addReaction} from 'actions/post_actions.jsx';
 
 import {Preferences, UserStatuses} from 'utils/constants.jsx';
 import {isEmbedVisible} from 'selectors/posts';

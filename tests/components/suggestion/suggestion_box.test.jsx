@@ -18,7 +18,7 @@ describe('components/SuggestionBox', function() {
         expect(SuggestionBox.findOverlap('black', 'ack')).toBe('ack');
     });
 
-    it('should avoid ref access on unmount race', (done) => {
+    test('should avoid ref access on unmount race', (done) => {
         const props = {
             listComponent: SuggestionList,
             value: 'value',
@@ -31,7 +31,6 @@ describe('components/SuggestionBox', function() {
         );
         wrapper.instance().handleFocusIn({});
         wrapper.unmount();
-
-        setTimeout(done, 100);
+        done();
     });
 });

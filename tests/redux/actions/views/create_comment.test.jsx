@@ -4,7 +4,6 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
-    addReaction,
     removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -30,7 +29,6 @@ import {StoragePrefixes} from 'utils/constants';
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
-    addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
     addMessageIntoHistory: (...args) => ({type: 'MOCK_ADD_MESSAGE_INTO_HISTORY', args}),
     moveHistoryIndexBack: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_BACK', args}),
@@ -43,7 +41,7 @@ jest.mock('dispatcher/app_dispatcher.jsx', () => ({
 }));
 
 jest.mock('actions/command', () => ({
-    executeCommand: jest.fn(),
+    executeCommand: jest.fn((...args) => ({type: 'MOCK_ACTIONS_COMMAND_EXECUTE', args})),
 }));
 
 jest.mock('actions/global_actions.jsx', () => ({
@@ -51,15 +49,19 @@ jest.mock('actions/global_actions.jsx', () => ({
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
-    createPost: jest.fn(),
+    addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
+    createPost: jest.fn(() => ({type: 'MOCK_CREATE_POST'})),
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
-    emitEmojiPosted: jest.fn(),
 }));
 
-jest.mock('actions/storage', () => ({
-    setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
-    actionOnGlobalItemsWithPrefix: (...args) => ({type: 'MOCK_ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', args}),
-}));
+jest.mock('actions/storage', () => {
+    const original = require.requireActual('actions/storage');
+    return {
+        ...original,
+        setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
+        actionOnGlobalItemsWithPrefix: (...args) => ({type: 'MOCK_ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', args}),
+    };
+});
 
 function lastCall(calls) {
     return calls[calls.length - 1];
@@ -228,21 +230,18 @@ describe('rhs view actions', () => {
 
     describe('submitReaction', () => {
         test('it adds a reaction when action is +', () => {
-            store.dispatch(submitReaction('', '+', ''));
+            store.dispatch(submitReaction('post_id_1', '+', 'emoji_name_1'));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(addReaction('', ''));
-            expect(PostActions.emitEmojiPosted).toHaveBeenCalled();
-
+            testStore.dispatch(PostActions.addReaction('post_id_1', 'emoji_name_1'));
             expect(store.getActions()).toEqual(testStore.getActions());
         });
 
         test('it removes a reaction when action is -', () => {
-            store.dispatch(submitReaction('', '-', ''));
+            store.dispatch(submitReaction('post_id_1', '-', 'emoji_name_1'));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(removeReaction('', ''));
-            expect(PostActions.emitEmojiPosted).not.toHaveBeenCalled();
+            testStore.dispatch(removeReaction('post_id_1', 'emoji_name_1'));
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });
@@ -281,10 +280,8 @@ describe('rhs view actions', () => {
 
             store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
-            const testStore = mockStore(initialState);
-            testStore.dispatch(submitPost(channelId, rootId, draft));
-
-            expect(store.getActions()).toEqual(testStore.getActions());
+            const expectedActions = [{args: ['test msg', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            expect(store.getActions()).toEqual(expectedActions);
         });
     });
 
@@ -341,28 +338,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a command when message is /away', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        value: {
-                            message: '/away',
-                            fileInfos: [],
-                            uploadsInProgress: [],
-                        },
-                        timestamp: new Date(),
-                    },
-                },
-            });
-
-            store.dispatch(onSubmit());
-
             const testStore = mockStore(initialState);
             testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
 
-            expect(store.getActions()).toEqual(
-                expect.arrayContaining(testStore.getActions())
-            );
+            const expectedActions = [{args: ['/away', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            expect(testStore.getActions()).toEqual(expectedActions);
         });
 
         test('it submits a regular post when message is something else', () => {

@@ -8,11 +8,9 @@ import {General} from 'mattermost-redux/constants';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage_teams_modal.jsx';
 
 describe('ManageTeamsModal', () => {
-    function emptyFunc() {} // eslint-disable-line no-empty-function
-
     const baseProps = {
         locale: General.DEFAULT_LOCALE,
-        onModalDismissed: emptyFunc,
+        onModalDismissed: jest.fn(),
         show: true,
         user: {
             id: 'currentUserId',
@@ -22,9 +20,9 @@ describe('ManageTeamsModal', () => {
             username: 'currentUsername',
         },
         actions: {
-            getTeamMembersForUser: jest.fn(),
-            getTeamsForUser: jest.fn(),
-            updateTeamMemberSchemeRoles: emptyFunc,
+            getTeamMembersForUser: jest.fn().mockReturnValue(Promise.resolve({data: []})),
+            getTeamsForUser: jest.fn().mockReturnValue(Promise.resolve({data: []})),
+            updateTeamMemberSchemeRoles: jest.fn(),
         },
     };
 
@@ -55,17 +53,8 @@ describe('ManageTeamsModal', () => {
             delete_at: 0,
         };
 
-        const getTeamMembersForUser = () => {
-            return {
-                data: [{team_id: '123test'}],
-            };
-        };
-
-        const getTeamsForUser = () => {
-            return {
-                data: [mockTeamData],
-            };
-        };
+        const getTeamMembersForUser = jest.fn().mockReturnValue(Promise.resolve({data: [{team_id: '123test'}]}));
+        const getTeamsForUser = jest.fn().mockReturnValue(Promise.resolve({data: [mockTeamData]}));
 
         const props = {
             ...baseProps,

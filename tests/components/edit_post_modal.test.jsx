@@ -9,8 +9,6 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 
-jest.useFakeTimers();
-
 jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
 }));
@@ -326,7 +324,6 @@ describe('components/EditPostModal', () => {
         wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', showEmojiPicker: true});
         instance.handleExited();
 
-        jest.runAllTimers();
         expect(wrapper.state()).toEqual({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
     });
 

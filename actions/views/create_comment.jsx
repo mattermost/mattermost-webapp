@@ -7,7 +7,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
-    addReaction,
     removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -81,15 +80,14 @@ export function submitPost(channelId, rootId, draft) {
 
         GlobalActions.emitUserCommentedEvent(post);
 
-        PostActions.createPost(post, draft.fileInfos);
+        dispatch(PostActions.createPost(post, draft.fileInfos));
     };
 }
 
 export function submitReaction(postId, action, emojiName) {
     return (dispatch) => {
         if (action === '+') {
-            dispatch(addReaction(postId, emojiName));
-            PostActions.emitEmojiPosted(emojiName);
+            dispatch(PostActions.addReaction(postId, emojiName));
         } else if (action === '-') {
             dispatch(removeReaction(postId, emojiName));
         }
