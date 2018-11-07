@@ -104,11 +104,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -149,11 +149,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -194,11 +194,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -357,11 +357,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -402,11 +402,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -447,11 +447,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -610,11 +610,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -655,11 +655,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -700,11 +700,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -863,11 +863,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -908,11 +908,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -953,11 +953,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -1124,11 +1124,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -1169,11 +1169,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -1214,11 +1214,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -1377,11 +1377,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -1422,11 +1422,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -1467,11 +1467,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -1634,11 +1634,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -1679,11 +1679,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -1724,11 +1724,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -1887,11 +1887,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -1932,11 +1932,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -1977,11 +1977,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -2140,11 +2140,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -2185,11 +2185,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -2230,11 +2230,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
@@ -2393,11 +2393,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="public"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="public"
               />
             </h4>
           </li>
@@ -2438,11 +2438,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="private"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="private"
               />
             </h4>
           </li>
@@ -2483,11 +2483,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               <ChannelCreate
                 canCreatePrivateChannel={true}
                 canCreatePublicChannel={true}
-                channelType="direct"
                 createDirectMessage={[Function]}
                 createPrivateChannel={[Function]}
                 createPublicChannel={[Function]}
                 createPublicDirectChannel={[Function]}
+                sectionType="direct"
               />
             </h4>
           </li>
