@@ -477,4 +477,50 @@ describe('PostUtils.postMessageOnKeyPress', () => {
             expect(output).toEqual(testCase.expected);
         });
     }
+
+    // on sending within channel threshold
+    const channelThresholdCases = [{
+        name: 'now unspecified, last channel switch unspecified',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 0, lastChannelSwitch: 0},
+        expected: {allowSending: true},
+    }, {
+        name: 'now specified, last channel switch unspecified',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 0},
+        expected: {allowSending: true},
+    }, {
+        name: 'now specified, last channel switch unspecified',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 0, lastChannelSwitch: 1541658920334},
+        expected: {allowSending: true},
+    }, {
+        name: 'last channel switch within threshold',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 250},
+        expected: {allowSending: false},
+    }, {
+        name: 'last channel switch at threshold',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 500},
+        expected: {allowSending: false},
+    }, {
+        name: 'last channel switch outside threshold',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 501},
+        expected: {allowSending: true},
+    }, {
+        name: 'last channel switch well outside threshold',
+        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 1500},
+        expected: {allowSending: true},
+    }];
+
+    for (const testCase of channelThresholdCases) {
+        it(testCase.name, () => {
+            const output = PostUtils.postMessageOnKeyPress(
+                testCase.input.event,
+                testCase.input.message,
+                testCase.input.sendMessageOnCtrlEnter,
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                testCase.input.now,
+                testCase.input.lastChannelSwitch
+            );
+
+            expect(output).toEqual(testCase.expected);
+        });
+    }
 });
