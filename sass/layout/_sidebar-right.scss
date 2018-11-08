@@ -11,7 +11,7 @@
     z-index: 8;
 
     body.announcement-bar--fixed & {
-        height: calc(100% - $announcement-bar-height);
+        height: calc(100% - #{$announcement-bar-height});
     }
 
     &.sidebar--right--expanded {
