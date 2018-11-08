@@ -19,9 +19,9 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         sidebarPreference: {
             grouping: 'by_type',
             sorting: 'alpha',
-            unreadsAtTop: 'true',
-            favoriteAtTop: 'true',
         },
+        unreadsAtTop: 'true',
+        favoriteAtTop: 'true',
         user: {
             id: 'someuserid',
         },
@@ -43,8 +43,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: defaultProps.sidebarPreference.grouping,
             sorting: defaultProps.sidebarPreference.sorting,
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
     });
 
@@ -72,8 +72,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'none',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
 
         wrapper.find('#byTypeOption').simulate('change');
@@ -82,8 +82,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
 
         wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: false}});
@@ -93,7 +93,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: 'false',
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
 
         wrapper.find('#unreadAtTopOption').simulate('change', {target: {checked: true}});
@@ -103,7 +103,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
             unreadsAtTop: 'true',
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
 
         wrapper.find('#favoriteAtTopOption').simulate('change', {target: {checked: false}});
@@ -112,7 +112,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
             favoriteAtTop: 'false',
         });
 
@@ -122,7 +122,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'by_type',
             sorting: defaultProps.sidebarPreference.sorting,
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
             favoriteAtTop: 'true',
         });
     });
@@ -143,8 +143,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'none',
             sorting: 'recent',
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
 
         wrapper.find('#alphaSectionEnabled').simulate('change');
@@ -153,8 +153,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             channel_switcher_section: defaultProps.channelSwitcherOption,
             grouping: 'none',
             sorting: 'alpha',
-            unreadsAtTop: defaultProps.sidebarPreference.unreadsAtTop,
-            favoriteAtTop: defaultProps.sidebarPreference.favoriteAtTop,
+            unreadsAtTop: defaultProps.unreadsAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
         });
     });
 });

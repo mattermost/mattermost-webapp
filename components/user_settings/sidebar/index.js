@@ -29,16 +29,13 @@ function mapStateToProps(state) {
         'true'
     );
 
-    let sidebarPreference = getSidebarPreferences(state);
-    sidebarPreference = {
-        ...sidebarPreference,
-        unreadsAtTop: sidebarPreference.unreads_at_top,
-        favoriteAtTop: sidebarPreference.favorite_at_top,
-    };
+    const sidebarPreference = getSidebarPreferences(state);
 
     return {
         closeUnusedDirectMessages,
         sidebarPreference,
+        unreadsAtTop: sidebarPreference.unreads_at_top,
+        favoriteAtTop: sidebarPreference.favorite_at_top,
         channelSwitcherOption,
         showChannelOrganization: config.ExperimentalChannelOrganization === 'true',
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',

@@ -64,17 +64,17 @@ export default class UserSettingsSidebar extends React.Component {
              * Sort channels by recency or alphabetical order
              */
             sorting: PropTypes.string.isRequired,
-
-            /**
-             * Option for including unread channels at top
-             */
-            unreadsAtTop: PropTypes.string.isRequired,
-
-            /**
-             * Option for including favorite channels at top
-             */
-            favoriteAtTop: PropTypes.string.isRequired,
         }).isRequired,
+
+        /**
+         * Option for including unread channels at top
+         */
+        unreadsAtTop: PropTypes.string.isRequired,
+
+        /**
+         * Option for including favorite channels at top
+         */
+        favoriteAtTop: PropTypes.string.isRequired,
 
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
@@ -95,9 +95,9 @@ export default class UserSettingsSidebar extends React.Component {
             sidebarPreference: {
                 grouping,
                 sorting,
-                unreadsAtTop,
-                favoriteAtTop,
             },
+            unreadsAtTop,
+            favoriteAtTop,
         } = this.props;
 
         return {
@@ -281,11 +281,13 @@ export default class UserSettingsSidebar extends React.Component {
 
     renderOrganizationLabel = () => {
         const {
-            grouping,
+            sidebarPreference: {
+                sorting,
+                grouping,
+            },
             unreadsAtTop,
             favoriteAtTop,
-            sorting,
-        } = this.props.sidebarPreference;
+        } = this.props;
 
         const messages = [];
 
