@@ -12,7 +12,25 @@ import EmailToOAuth from 'components/claim/components/email_to_oauth';
 import LDAPToEmail from 'components/claim/components/ldap_to_email';
 import EmailToLDAP from 'components/claim/components/email_to_ldap';
 
-export default class ClaimController extends React.Component {
+export default class ClaimController extends React.PureComponent {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        siteName: PropTypes.string,
+        ldapLoginFieldName: PropTypes.string,
+        passwordConfig: PropTypes.object,
+
+        /*
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+        }).isRequired,
+
+        actions: PropTypes.shape({
+            checkMfa: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
     render() {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
         const newType = (new URLSearchParams(this.props.location.search)).get('new_type');
@@ -31,9 +49,8 @@ export default class ClaimController extends React.Component {
                             <Switch>
                                 <Route
                                     path={`${this.props.match.url}/oauth_to_email`}
-                                    render={(props) => (
+                                    render={() => (
                                         <OAuthToEmail
-                                            {...props}
                                             currentType={currentType}
                                             email={email}
                                             siteName={this.props.siteName}
@@ -43,34 +60,33 @@ export default class ClaimController extends React.Component {
                                 />
                                 <Route
                                     path={`${this.props.match.url}/email_to_oauth`}
-                                    render={(props) => (
+                                    render={() => (
                                         <EmailToOAuth
-                                            {...props}
                                             newType={newType}
                                             email={email}
                                             siteName={this.props.siteName}
+                                            checkMfa={this.props.actions.checkMfa}
                                         />
                                     )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/ldap_to_email`}
-                                    render={(props) => (
+                                    render={() => (
                                         <LDAPToEmail
-                                            {...props}
-                                            siteName={this.props.siteName}
                                             email={email}
                                             passwordConfig={this.props.passwordConfig}
+                                            checkMfa={this.props.actions.checkMfa}
                                         />
                                     )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/email_to_ldap`}
-                                    render={(props) => (
+                                    render={() => (
                                         <EmailToLDAP
-                                            {...props}
                                             email={email}
                                             siteName={this.props.siteName}
                                             ldapLoginFieldName={this.props.ldapLoginFieldName}
+                                            checkMfa={this.props.actions.checkMfa}
                                         />
                                     )}
                                 />
@@ -82,17 +98,3 @@ export default class ClaimController extends React.Component {
         );
     }
 }
-
-ClaimController.propTypes = {
-    location: PropTypes.object.isRequired,
-    siteName: PropTypes.string,
-    ldapLoginFieldName: PropTypes.string,
-    passwordConfig: PropTypes.object,
-
-    /*
-     * Object from react-router
-     */
-    match: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-    }).isRequired,
-};

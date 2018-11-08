@@ -14,6 +14,8 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
+import GroupMessageOption from './group_message_option';
+
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
@@ -25,6 +27,7 @@ export default class MoreDirectChannels extends React.Component {
         currentTeamName: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        groupChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
         statuses: PropTypes.object.isRequired,
         totalCount: PropTypes.number,
 
@@ -188,17 +191,34 @@ export default class MoreDirectChannels extends React.Component {
         } else {
             openGroupChannelToUsers(userIds, success, error);
         }
-    }
+    };
 
     addValue = (value) => {
-        const values = Object.assign([], this.state.values);
+        if (Array.isArray(value)) {
+            this.addUsers(value);
+        } else {
+            const values = Object.assign([], this.state.values);
 
-        if (values.indexOf(value) === -1) {
-            values.push(value);
+            if (values.indexOf(value) === -1) {
+                values.push(value);
+            }
+
+            this.setState({values});
+        }
+    };
+
+    addUsers = (users) => {
+        const values = Object.assign([], this.state.values);
+        const existingUserIds = values.map((user) => user.id);
+        for (const user of users) {
+            if (existingUserIds.indexOf(user.id) !== -1) {
+                continue;
+            }
+            values.push(user);
         }
 
         this.setState({values});
-    }
+    };
 
     getUserProfiles = (page) => {
         const pageNum = page ? page + 1 : 0;
@@ -235,6 +255,17 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     renderOption = (option, isSelected, onAdd) => {
+        if (option.type && option.type === 'G') {
+            return (
+                <GroupMessageOption
+                    key={option.id}
+                    channel={option}
+                    isSelected={isSelected}
+                    onAdd={onAdd}
+                />
+            );
+        }
+
         const displayName = displayEntireNameForUser(option);
 
         let modalName = displayName;
@@ -356,6 +387,9 @@ export default class MoreDirectChannels extends React.Component {
             users = active.concat(inactive);
         }
 
+        const groupChannels = this.props.groupChannels || [];
+
+        const options = [...users, ...groupChannels];
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels'}
@@ -375,7 +409,7 @@ export default class MoreDirectChannels extends React.Component {
                     <MultiSelect
                         key='moreDirectChannelsList'
                         ref='multiselect'
-                        options={users}
+                        options={options}
                         optionRenderer={this.renderOption}
                         values={this.state.values}
                         valueKey='id'

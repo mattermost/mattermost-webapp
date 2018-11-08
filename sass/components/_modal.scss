@@ -390,7 +390,7 @@
                     }
                 }
 
-                > div {
+                >div {
                     display: inline-block;
                     min-height: 100px;
                     min-width: 300px;
@@ -517,6 +517,25 @@
     }
 
     .more-modal {
+        .Select-input {
+            > input {
+                padding: 8px 0;
+            }
+        }
+
+        .status-wrapper {
+            flex: 32px 0 0;
+        }
+
+        .more-modal__gm-icon {
+            align-items: center;
+            display: flex;
+            flex: 32px 0 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            justify-content: center;
+        }
 
         .user-list {
             margin-top: 10px;
@@ -589,7 +608,7 @@
         flex: 20;
     }
 
-    > div {
+    >div {
         min-height: 100%;
         overflow: auto;
     }
@@ -649,6 +668,7 @@
         border-bottom: 1px solid $light-gray;
         display: flex;
         padding: 10px 15px;
+        align-items: center;
 
         &.clickable {
             cursor: pointer;
@@ -707,13 +727,14 @@
     top: 15px;
 }
 
-.filtered-user-list, {
+.filtered-user-list,
+    {
     display: flex;
     flex-direction: column;
     height: calc(90vh - 120px);
     width: 100%;
 
-    > div {
+    >div {
         flex: 1 1 auto;
     }
 
@@ -755,9 +776,9 @@
 }
 
 .modal-invite-member {
-  .btn:hover {
-    text-decoration: underline;
-  }
+    .btn:hover {
+        text-decoration: underline;
+    }
 }
 
 .team-selector-modal {
@@ -798,7 +819,9 @@
         color: $primary-color;
         background: none;
         border: none;
-        &:hover,&:focus,&:active {
+        &:hover,
+        &:focus,
+        &:active {
             color: $primary-color;
             background: none;
             border: none;
