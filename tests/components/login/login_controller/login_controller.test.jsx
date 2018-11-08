@@ -108,13 +108,15 @@ describe('components/login/LoginController', () => {
             },
         };
 
-        LocalStorageStore.setWasLoggedIn(true);
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
         ).dive();
 
+        wrapper.setState({sessionExpired: true});
+
         const e = {preventDefault: jest.fn()};
         wrapper.instance().preSubmit(e);
-        expect(wrapper).toMatchSnapshot();
+
+        expect(wrapper.state('sessionExpired')).toBe(false);
     });
 });
