@@ -508,14 +508,6 @@ export default class Sidebar extends React.PureComponent {
 
         const sectionsToHide = ['unreads', 'favorite'];
 
-        const orderedChannelSections = orderedChannelIds.map((section) => {
-            return {
-                type: section.type,
-                name: section.name,
-                items: section.items.map(this.createSidebarChannel),
-            };
-        });
-
         return (
             <Scrollbars
                 ref='scrollbar'
@@ -532,7 +524,13 @@ export default class Sidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
-                    {orderedChannelSections.map((section) => {
+                    {orderedChannelIds.map((sec) => {
+                        const section = {
+                            type: sec.type,
+                            name: sec.name,
+                            items: sec.items.map(this.createSidebarChannel),
+                        };
+
                         if (sectionsToHide.indexOf(section.type) !== -1 && section.items.length === 0) {
                             return null;
                         }
