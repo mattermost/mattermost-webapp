@@ -54,6 +54,7 @@ export default class MorePublicDirectChannels extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <Tabs
+                        id='morePublicDirectChannelTabs'
                         className='modal-tabs'
                         defaultActiveKey='channels'
                         activeKey={this.state.key}
@@ -75,6 +76,7 @@ export default class MorePublicDirectChannels extends React.PureComponent {
                         >
                             <MoreDirectMessages
                                 onModalDismissed={this.handleHide}
+                                isExistingChannel={false}
                                 bodyOnly={true}
                             />
                         </Tab>

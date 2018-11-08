@@ -344,7 +344,7 @@ export default class UserSettingsSidebar extends React.Component {
 
         if (atTopId) {
             messages.push(
-                <br/>
+                <br key='break'/>
             );
 
             messages.push(

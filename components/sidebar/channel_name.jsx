@@ -54,7 +54,7 @@ export default class ChannelName extends React.PureComponent {
                     overlay={createPublicDirectChannelTooltip}
                 >
                     <div
-                        style={{flex: 1, cursor: 'pointer'}}
+                        className='public_direct_name'
                         onClick={browsePublicDirectChannels}
                     >
                         {name}

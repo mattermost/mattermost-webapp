@@ -201,6 +201,11 @@
             }
         }
 
+        .public_direct_name {
+            flex: 1;
+            cursor: pointer;
+        }
+
         li {
             > h4 {
                 align-items: end;

@@ -444,6 +444,11 @@ export default class Sidebar extends React.PureComponent {
         this.setState({showMorePublicChannelsModal: false});
     }
 
+    onHandleNewChannel = () => {
+        this.hideMorePublicDirectChannelsModal();
+        this.showNewChannelModal(Constants.OPEN_CHANNEL);
+    }
+
     showMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: true});
         trackEvent('ui', 'ui_channels_more_public');
@@ -451,6 +456,14 @@ export default class Sidebar extends React.PureComponent {
 
     hideMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: false});
+    }
+
+    showNewPublicChannelModal = () => {
+        this.showNewChannelModal(Constants.OPEN_CHANNEL);
+    }
+
+    showNewPrivateChannelModal = () => {
+        this.showNewChannelModal(Constants.PRIVATE_CHANNEL);
     }
 
     showNewChannelModal = (type) => {
@@ -493,7 +506,7 @@ export default class Sidebar extends React.PureComponent {
     renderOrderedChannels = () => {
         const {orderedChannelIds} = this.props;
 
-        const channelsToHide = ['unreads', 'favorite'];
+        const sectionsToHide = ['unreads', 'favorite'];
 
         const orderedChannelSections = orderedChannelIds.map((section) => {
             return {
@@ -520,7 +533,7 @@ export default class Sidebar extends React.PureComponent {
                     className='nav-pills__container'
                 >
                     {orderedChannelSections.map((section) => {
-                        if (channelsToHide.indexOf(section.type) !== -1 && section.items.length === 0) {
+                        if (sectionsToHide.indexOf(section.type) !== -1 && section.items.length === 0) {
                             return null;
                         }
 
@@ -542,10 +555,10 @@ export default class Sidebar extends React.PureComponent {
                                             sectionType={section.type}
                                             canCreatePublicChannel={this.props.canCreatePublicChannel}
                                             canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                                            createPublicChannel={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
-                                            createPrivateChannel={this.showNewChannelModal.bind(this, Constants.PRIVATE_CHANNEL)}
+                                            createPublicChannel={this.showNewPublicChannelModal}
+                                            createPrivateChannel={this.showNewPrivateChannelModal}
                                             createDirectMessage={this.handleOpenMoreDirectChannelsModal}
-                                            createPublicDirectChannel={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
+                                            createPublicDirectChannel={this.showNewPublicChannelModal}
                                         />
                                     </h4>
                                 </li>
@@ -660,10 +673,7 @@ export default class Sidebar extends React.PureComponent {
             morePublicDirectChannelsModal = (
                 <MorePublicDirectChannels
                     onModalDismissed={this.hideMorePublicDirectChannelsModal}
-                    handleNewChannel={() => {
-                        this.hideMorePublicDirectChannelsModal();
-                        this.showNewChannelModal(Constants.OPEN_CHANNEL);
-                    }}
+                    handleNewChannel={this.onHandleNewChannel}
                     isExistingChannel={false}
                 />
             );
