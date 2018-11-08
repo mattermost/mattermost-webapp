@@ -12,13 +12,13 @@ const clickableChannelHeader = ['recent', 'alpha'];
 
 export default class ChannelName extends React.PureComponent {
     static propTypes = {
-        channelType: PropTypes.string.isRequired,
+        sectionType: PropTypes.string.isRequired,
         channelName: PropTypes.string.isRequired,
         browsePublicDirectChannels: PropTypes.func.isRequired,
     };
 
     render() {
-        const {channelType, channelName, browsePublicDirectChannels} = this.props;
+        const {sectionType, channelName, browsePublicDirectChannels} = this.props;
 
         let tooltipTriggers = ['hover', 'focus'];
 
@@ -28,12 +28,12 @@ export default class ChannelName extends React.PureComponent {
 
         let name = (
             <FormattedMessage
-                id={`sidebar.types.${channelType}`}
+                id={`sidebar.types.${sectionType}`}
                 defaultMessage={channelName}
             />
         );
 
-        if (clickableChannelHeader.indexOf(channelType) !== -1) {
+        if (clickableChannelHeader.indexOf(sectionType) !== -1) {
             const createPublicDirectChannelTooltip = (
                 <Tooltip
                     id='new-group-tooltip'

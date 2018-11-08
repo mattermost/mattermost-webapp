@@ -534,7 +534,7 @@ export default class Sidebar extends React.PureComponent {
                                 <li>
                                     <h4 id={sectionId}>
                                         <ChannelName
-                                            channelType={section.type}
+                                            sectionType={section.type}
                                             channelName={section.name}
                                             browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
@@ -551,7 +551,7 @@ export default class Sidebar extends React.PureComponent {
                                 </li>
                                 {section.items}
                                 <ChannelMore
-                                    channelType={section.type}
+                                    sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}

@@ -7,7 +7,7 @@ import {PropTypes} from 'prop-types';
 
 export default class ChannelMore extends React.PureComponent {
     static propTypes = {
-        channelType: PropTypes.string.isRequired,
+        sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,
         moreDirectMessages: PropTypes.func.isRequired,
         browsePublicDirectChannels: PropTypes.func.isRequired,
@@ -15,13 +15,13 @@ export default class ChannelMore extends React.PureComponent {
 
     render() {
         const {
-            channelType,
+            sectionType,
             moreChannels,
             moreDirectMessages,
             browsePublicDirectChannels,
         } = this.props;
 
-        switch (channelType) {
+        switch (sectionType) {
         case 'public':
             return (
                 <li key='public-channel-more'>
