@@ -162,3 +162,21 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   </ModalBody>
 </Modal>
 `;
+
+exports[`components/MoreDirectChannels should render the group channel option 1`] = `
+<GroupMessageOption
+  channel={
+    Object {
+      "profiles": Array [
+        Object {
+          "id": "user_id_2",
+          "username": "username",
+        },
+      ],
+      "type": "G",
+    }
+  }
+  isSelected={false}
+  onAdd={[MockFunction]}
+/>
+`;
