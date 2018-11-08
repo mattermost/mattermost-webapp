@@ -310,10 +310,10 @@ export default class UserSettingsSidebar extends React.Component {
         let sortingId;
         let sortingDefaultMessage;
         if (sorting === 'alpha') {
-            sortingId = 'user.settings.sidebar.sortAlphaShort';
+            sortingId = t('user.settings.sidebar.sortAlphaShort');
             sortingDefaultMessage = 'sorted alphabetically';
         } else {
-            sortingId = 'user.settings.sidebar.sortRecentShort';
+            sortingId = t('user.settings.sidebar.sortRecentShort');
             sortingDefaultMessage = 'sorted by recency';
         }
 
@@ -332,13 +332,13 @@ export default class UserSettingsSidebar extends React.Component {
         let atTopId = null;
         let atTopDefaultMessage = null;
         if (unreadsAtTop === 'true' && favoriteAtTop === 'false') {
-            atTopId = 'user.settings.sidebar.unreadsShort';
+            atTopId = t('user.settings.sidebar.unreadsShort');
             atTopDefaultMessage = 'Unreads grouped separately';
         } else if (unreadsAtTop === 'false' && favoriteAtTop === 'true') {
-            atTopId = 'user.settings.sidebar.favoritesShort';
+            atTopId = t('user.settings.sidebar.favoritesShort');
             atTopDefaultMessage = 'Favorites grouped separately';
         } else if (unreadsAtTop === 'true' && favoriteAtTop === 'true') {
-            atTopId = 'user.settings.sidebar.unreadsFavoritesShort';
+            atTopId = t('user.settings.sidebar.unreadsFavoritesShort');
             atTopDefaultMessage = 'Unreads and favorites grouped separately';
         }
 
