@@ -404,9 +404,9 @@ export const NotificationLevels = {
 };
 
 export const IgnoreChannelMentions = {
-    ON: 'ignore_channel_mentions_on',
-    OFF: 'ignore_channel_mentions_off',
-    DEFAULT: 'ignore_channel_mentions_not_set',
+    ON: 'on',
+    OFF: 'off',
+    DEFAULT: 'default',
 };
 
 export const NotificationSections = {

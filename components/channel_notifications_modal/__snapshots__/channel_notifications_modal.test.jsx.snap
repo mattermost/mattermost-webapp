@@ -80,7 +80,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
           />
           <NotificationSection
             expand={false}
-            ignoreChannelMentions="ignore_channel_mentions_off"
+            ignoreChannelMentions="off"
             memberNotificationLevel="all"
             onChange={[Function]}
             onSubmit={[Function]}
