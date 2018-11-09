@@ -2,11 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import PostMarkdown from './post_markdown';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
+        channel: getChannel(state, ownProps.post.channel_id),
         pluginHooks: state.plugins.components.MessageWillFormat,
     };
 }

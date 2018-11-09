@@ -70,7 +70,7 @@ export default class ResetStatusModal extends React.PureComponent {
 
                 this.setState({
                     currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
-                    show: Boolean(statusIsManual && autoResetPrefNotSet),
+                    show: Boolean(status.status === UserStatuses.OUT_OF_OFFICE || (statusIsManual && autoResetPrefNotSet)),
                 });
             }
         );
@@ -169,6 +169,8 @@ export default class ResetStatusModal extends React.PureComponent {
             />
         );
 
+        const showCheckbox = this.props.currentUserStatus !== UserStatuses.OUT_OF_OFFICE;
+
         return (
             <ConfirmModal
                 show={this.state.show}
@@ -179,7 +181,7 @@ export default class ResetStatusModal extends React.PureComponent {
                 cancelButtonText={manualStatusCancel}
                 onCancel={this.onCancel}
                 onExited={this.props.onHide}
-                showCheckbox={true}
+                showCheckbox={showCheckbox}
                 checkboxText={manualStatusCheckbox}
             />
         );

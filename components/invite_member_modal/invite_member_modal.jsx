@@ -11,10 +11,6 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {inviteMembers} from 'actions/team_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import ModalStore from 'stores/modal_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -22,8 +18,6 @@ import {t} from 'utils/i18n';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
-const ActionTypes = Constants.ActionTypes;
 
 const holders = defineMessages({
     emailError: {
@@ -52,14 +46,22 @@ const holders = defineMessages({
     },
 });
 
-class InviteMemberModal extends React.Component {
+class InviteMemberModal extends React.PureComponent {
+    static propTypes = {
+        intl: intlShape.isRequired,
+        sendEmailNotifications: PropTypes.bool.isRequired,
+        enableUserCreation: PropTypes.bool.isRequired,
+        currentUser: PropTypes.object.isRequired,
+        defaultChannelName: PropTypes.string.isRequired,
+        teamType: PropTypes.string.isRequired,
+        onHide: PropTypes.func.isRequired,
+    }
+
     constructor(props) {
         super(props);
 
-        const team = TeamStore.getCurrent();
-
         this.state = {
-            show: false,
+            show: true,
             inviteIds: [0],
             idCount: 0,
             emailErrors: {},
@@ -67,33 +69,11 @@ class InviteMemberModal extends React.Component {
             lastNameErrors: {},
             showConfirmModal: false,
             isSendingEmails: false,
-            teamType: team ? team.type : null,
         };
     }
 
-    teamChange = () => {
-        const team = TeamStore.getCurrent();
-        const teamType = team ? team.type : null;
-        this.setState({
-            teamType,
-        });
-    }
-
-    componentDidMount() {
-        ModalStore.addModalListener(ActionTypes.TOGGLE_INVITE_MEMBER_MODAL, this.handleToggle);
-        TeamStore.addChangeListener(this.teamChange);
-    }
-
-    componentWillUnmount() {
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_INVITE_MEMBER_MODAL, this.handleToggle);
-        TeamStore.removeChangeListener(this.teamChange);
-    }
-
-    handleToggle = (value) => {
-        this.setState({
-            show: value,
-            serverError: null,
-        });
+    onHide = () => {
+        this.setState({show: false});
     }
 
     handleSubmit = () => {
@@ -241,10 +221,10 @@ class InviteMemberModal extends React.Component {
     }
 
     render() {
-        var currentUser = UserStore.getCurrentUser();
+        const {currentUser} = this.props;
         const {formatMessage} = this.props.intl;
 
-        if (currentUser != null && this.state.teamType != null) {
+        if (currentUser != null && this.props.teamType != null) {
             var inviteSections = [];
             var inviteIds = this.state.inviteIds;
             for (var i = 0; i < inviteIds.length; i++) {
@@ -360,11 +340,6 @@ class InviteMemberModal extends React.Component {
             var content = null;
             var sendButton = null;
 
-            var defaultChannelName = '';
-            if (ChannelStore.getByName(Constants.DEFAULT_CHANNEL)) {
-                defaultChannelName = ChannelStore.getByName(Constants.DEFAULT_CHANNEL).display_name;
-            }
-
             if (this.props.sendEmailNotifications && this.props.enableUserCreation) {
                 content = (
                     <div>
@@ -386,7 +361,7 @@ class InviteMemberModal extends React.Component {
                                 id='invite_member.autoJoin'
                                 defaultMessage='People invited automatically join the **{channel}** channel.'
                                 values={{
-                                    channel: defaultChannelName,
+                                    channel: this.props.defaultChannelName,
                                 }}
                             />
                         </span>
@@ -433,7 +408,7 @@ class InviteMemberModal extends React.Component {
                 );
             } else if (this.props.enableUserCreation) {
                 var teamInviteLink = null;
-                if (currentUser && this.state.teamType === 'O') {
+                if (currentUser && this.props.teamType === 'O') {
                     var link = (
                         <button
                             className='color--link style--none'
@@ -489,6 +464,7 @@ class InviteMemberModal extends React.Component {
                         dialogClassName='modal-invite-member'
                         show={this.state.show}
                         onHide={this.handleHide.bind(this, true)}
+                        onExited={this.props.onHide}
                         enforceFocus={!this.state.showConfirmModal}
                         backdrop={this.state.isSendingEmails ? 'static' : true}
                     >
@@ -536,11 +512,5 @@ class InviteMemberModal extends React.Component {
         return null;
     }
 }
-
-InviteMemberModal.propTypes = {
-    intl: intlShape.isRequired,
-    sendEmailNotifications: PropTypes.bool.isRequired,
-    enableUserCreation: PropTypes.bool.isRequired,
-};
 
 export default injectIntl(InviteMemberModal);

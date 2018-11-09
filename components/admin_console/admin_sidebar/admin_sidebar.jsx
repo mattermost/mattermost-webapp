@@ -649,15 +649,6 @@ export default class AdminSidebar extends React.Component {
                                 }
                             >
                                 <AdminSidebarSection
-                                    name='configuration'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.plugins.configuration'
-                                            defaultMessage='Configuration'
-                                        />
-                                    }
-                                />
-                                <AdminSidebarSection
                                     name='management'
                                     title={
                                         <FormattedMessage

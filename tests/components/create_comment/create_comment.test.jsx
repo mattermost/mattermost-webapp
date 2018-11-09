@@ -47,6 +47,7 @@ describe('components/CreateComment', () => {
         enableConfirmNotificationsToChannel: true,
         maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: false,
+        badConnection: false,
     };
 
     test('should match snapshot, empty comment', () => {

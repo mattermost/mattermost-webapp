@@ -9,7 +9,7 @@ import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoin
 describe('components/integrations/InstalledOutgoingWebhooks', () => {
     let outgoingWebhooks = {};
     let mockFunc;
-    const getOutgoingHooks = () => new Promise((resolve) => resolve());
+    const loadOutgoingHooksAndProfilesForTeam = () => new Promise((resolve) => resolve());
     const teamId = 'testteamid';
     beforeEach(() => {
         mockFunc = jest.fn();
@@ -73,7 +73,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
-                    getOutgoingHooks,
+                    loadOutgoingHooksAndProfilesForTeam,
                     regenOutgoingHookToken: emptyFunction,
                 }}
                 user={{
@@ -118,7 +118,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
-                    getOutgoingHooks,
+                    loadOutgoingHooksAndProfilesForTeam,
                     regenOutgoingHookToken: mockFunc,
                 }}
                 user={{
@@ -165,7 +165,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: mockFunc,
-                    getOutgoingHooks,
+                    loadOutgoingHooksAndProfilesForTeam,
                     regenOutgoingHookToken: emptyFunction,
                 }}
                 user={{

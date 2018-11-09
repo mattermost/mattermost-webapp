@@ -396,14 +396,6 @@ export default class AdminConsole extends React.Component {
                             render={(props) => (
                                 <Switch>
                                     <SCRoute
-                                        path={`${props.match.url}/configuration`}
-                                        component={SchemaAdminSettings}
-                                        extraProps={{
-                                            ...extraProps,
-                                            schema: AdminDefinition.settings.plugins.configuration.schema,
-                                        }}
-                                    />
-                                    <SCRoute
                                         path={`${props.match.url}/management`}
                                         component={SchemaAdminSettings}
                                         extraProps={{

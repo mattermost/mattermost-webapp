@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {General, Posts} from 'mattermost-redux/constants';
 
-import ChannelStore from 'stores/channel_store.jsx';
-
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -319,9 +317,8 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
 };
 
-export function renderSystemMessage(post) {
+export function renderSystemMessage(post, channel) {
     if (post.props && post.props.add_channel_member) {
-        const channel = ChannelStore.getCurrent();
         const isUserCanManageMembers = canManageMembers(channel);
         const isEphemeral = Utils.isPostEphemeral(post);
 

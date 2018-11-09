@@ -15,7 +15,6 @@ import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -37,58 +36,49 @@ export default class Textbox extends React.Component {
         suggestionListStyle: PropTypes.string,
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
-        popoverMentionKeyClick: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
         disabled: PropTypes.bool,
+        badConnection: PropTypes.bool,
     };
 
     static defaultProps = {
         supportsCommands: true,
         isRHS: false,
-        popoverMentionKeyClick: false,
     };
 
     constructor(props) {
         super(props);
 
-        this.state = {
-            connection: '',
-        };
+        this.state = {};
 
         this.suggestionProviders = [
             new AtMentionProvider(this.props.channelId),
             new ChannelMentionProvider(),
             new EmoticonProvider(),
         ];
+
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider());
         }
-    }
 
-    componentDidMount() {
-        ErrorStore.addChangeListener(this.onReceivedError);
-    }
-
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        this.checkMessageLength(this.props.value);
-    }
-
-    componentWillUnmount() {
-        ErrorStore.removeChangeListener(this.onReceivedError);
-    }
-
-    onReceivedError = () => {
-        const errorCount = ErrorStore.getConnectionErrorCount();
-
-        if (errorCount > 1) {
-            this.setState({connection: 'bad-connection'});
-        } else {
-            this.setState({connection: ''});
-        }
+        this.checkMessageLength(props.value);
     }
 
     handleChange = (e) => {
         this.props.onChange(e);
+    }
+
+    handlePopoverMentionKeyClick = (mentionKey) => {
+        const textbox = this.refs.message.getTextbox();
+        let insertText = '@' + mentionKey;
+        const oldValue = textbox.value;
+
+        // if the current text does not end with a whitespace, then insert a space
+        if (oldValue && (/[^\s]$/).test(oldValue)) {
+            insertText = ' ' + insertText;
+        }
+
+        textbox.value = oldValue + insertText;
     }
 
     checkMessageLength = (message) => {
@@ -279,8 +269,8 @@ export default class Textbox extends React.Component {
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
-        if (this.state.connection) {
-            textboxClassName += ' ' + this.state.connection;
+        if (this.props.badConnection) {
+            textboxClassName += ' bad-connection';
         }
         if (this.state.preview) {
             textboxClassName += ' custom-textarea--preview';
@@ -324,7 +314,6 @@ export default class Textbox extends React.Component {
                     value={this.props.value}
                     renderDividers={true}
                     isRHS={this.props.isRHS}
-                    popoverMentionKeyClick={this.props.popoverMentionKeyClick}
                     disabled={this.props.disabled}
                 />
                 {preview}

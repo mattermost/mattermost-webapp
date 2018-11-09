@@ -359,18 +359,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           type="text"
         >
           <AdminSidebarSection
-            name="configuration"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Configuration"
-                id="admin.sidebar.plugins.configuration"
-                values={Object {}}
-              />
-            }
-          />
-          <AdminSidebarSection
             name="management"
             parentLink=""
             subsection={false}
@@ -917,18 +905,6 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
           }
           type="text"
         >
-          <AdminSidebarSection
-            name="configuration"
-            parentLink=""
-            subsection={false}
-            title={
-              <FormattedMessage
-                defaultMessage="Configuration"
-                id="admin.sidebar.plugins.configuration"
-                values={Object {}}
-              />
-            }
-          />
           <AdminSidebarSection
             name="management"
             parentLink=""

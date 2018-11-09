@@ -11,8 +11,6 @@ import {Client4} from 'mattermost-redux/client';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {checkMfa, webLogin} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -40,6 +38,8 @@ class LoginController extends React.Component {
 
             location: PropTypes.object.isRequired,
             isLicensed: PropTypes.bool.isRequired,
+
+            currentUser: PropTypes.object,
 
             customBrandText: PropTypes.string,
             customDescriptionText: PropTypes.string,
@@ -85,7 +85,7 @@ class LoginController extends React.Component {
     componentDidMount() {
         this.configureTitle();
 
-        if (UserStore.getCurrentUser()) {
+        if (this.props.currentUser) {
             GlobalActions.redirectUserToDefaultTeam();
             return;
         }
@@ -99,14 +99,21 @@ class LoginController extends React.Component {
         }
 
         // Determine if the user was unexpectedly logged out.
-        if (LocalStorageStore.getWasLoggedIn() && extra !== Constants.SIGNIN_CHANGE) {
-            // Although the authority remains the local sessionExpired bit on the state, set this
-            // extra field in the querystring to signal the desktop app. And although eslint
-            // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
-            // eslint-disable-next-line react/no-did-mount-set-state
-            this.setState({sessionExpired: true});
-            search.set('extra', Constants.SESSION_EXPIRED);
-            browserHistory.replace(`${this.props.location.pathname}?${search}`);
+        if (LocalStorageStore.getWasLoggedIn()) {
+            if (extra === Constants.SIGNIN_CHANGE) {
+                // Assume that if the user triggered a sign in change, it was intended to logout.
+                // We can't preflight this, since in some flows it's the server that invalidates
+                // our session after we use it to complete the sign in change.
+                LocalStorageStore.setWasLoggedIn(false);
+            } else {
+                // Although the authority remains the local sessionExpired bit on the state, set this
+                // extra field in the querystring to signal the desktop app. And although eslint
+                // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
+                // eslint-disable-next-line react/no-did-mount-set-state
+                this.setState({sessionExpired: true});
+                search.set('extra', Constants.SESSION_EXPIRED);
+                browserHistory.replace(`${this.props.location.pathname}?${search}`);
+            }
         }
 
         this.showSessionExpiredNotificationIfNeeded();
@@ -316,7 +323,6 @@ class LoginController extends React.Component {
 
     finishSignin = (team) => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
-        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
 
@@ -327,8 +333,8 @@ class LoginController extends React.Component {
             browserHistory.push(redirectTo);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
-        } else if (primaryTeam) {
-            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+        } else if (experimentalPrimaryTeam) {
+            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }

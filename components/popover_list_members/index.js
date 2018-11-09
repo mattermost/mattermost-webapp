@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getProfilesInChannel} from 'mattermost-redux/actions/users';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import PopoverListMembers from './popover_list_members.jsx';
@@ -21,6 +22,7 @@ function makeMapStateToProps() {
             memberCount: stats.member_count,
             users,
             statuses: getUserStatuses(state),
+            teamUrl: getCurrentRelativeTeamUrl(state),
         };
     };
 }

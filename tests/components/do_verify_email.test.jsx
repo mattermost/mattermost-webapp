@@ -18,6 +18,8 @@ describe('components/DoVerifyEmail', () => {
         actions: {
             verifyUserEmail: jest.fn(),
             updateMe: jest.fn(),
+            logError: jest.fn(),
+            clearErrors: jest.fn(),
         },
         isLoggedIn: false,
     };

@@ -33,7 +33,6 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
@@ -112,14 +111,8 @@ export function emitChannelClickEvent(channel) {
     }
 }
 
-export async function doFocusPost(channelId, postId, data) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_FOCUSED_POST,
-        postId,
-        channelId,
-        post_list: data,
-    });
-
+export async function doFocusPost(channelId, postId) {
+    dispatch(selectChannel(channelId));
     dispatch({
         type: ActionTypes.RECEIVED_FOCUSED_POST,
         data: postId,
@@ -230,13 +223,6 @@ export function showGetPublicLinkModal(fileId) {
 export function showGetTeamInviteLinkModal() {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL,
-        value: true,
-    });
-}
-
-export function showInviteMemberModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_INVITE_MEMBER_MODAL,
         value: true,
     });
 }
@@ -400,7 +386,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         }
 
         BrowserStore.clear();
-        ErrorStore.clearLastError();
         stopPeriodicStatusUpdates();
         WebsocketActions.close();
         document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -474,14 +459,6 @@ export function postListScrollChangeToBottom() {
     AppDispatcher.handleViewAction({
         type: EventTypes.POST_LIST_SCROLL_CHANGE,
         value: true,
-    });
-}
-
-export function emitPopoverMentionKeyClick(isRHS, mentionKey) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.POPOVER_MENTION_KEY_CLICK,
-        isRHS,
-        mentionKey,
     });
 }
 

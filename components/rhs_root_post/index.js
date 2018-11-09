@@ -4,7 +4,7 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
+import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {addReaction} from 'mattermost-redux/actions/posts';
@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
-    const channel = state.entities.channels.channels[ownProps.post.channel_id];
+    const channel = getChannel(state, ownProps.post.channel_id) || {};
 
     return {
         enableEmojiPicker,
@@ -28,6 +28,8 @@ function mapStateToProps(state, ownProps) {
         teamId,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: channel.delete_at !== 0,
+        channelType: channel.type,
+        channelDisplayName: channel.display_name,
     };
 }
 

@@ -36,7 +36,7 @@ export function executeCommand(message, args) {
 
         switch (cmd) {
         case '/search':
-            PostActions.searchForTerm(msg.substring(cmdLength + 1, msg.length));
+            dispatch(PostActions.searchForTerm(msg.substring(cmdLength + 1, msg.length)));
             return {data: true};
         case '/shortcuts':
             if (UserAgent.isMobile()) {

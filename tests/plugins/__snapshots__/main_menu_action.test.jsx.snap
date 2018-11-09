@@ -401,9 +401,12 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           teamId="someteamid"
         >
           <li>
-            <a
-              href="#"
-              onClick={[Function]}
+            <Connect(ModalToggleButtonRedux)
+              dialogProps={Object {}}
+              dialogType={[Function]}
+              id="emailInviteMobile"
+              modalId="email_invite"
+              role="menuitem"
             >
               <i
                 className="icon fa fa-user-plus"
@@ -413,7 +416,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
                 id="sidebar_right_menu.inviteNew"
                 values={Object {}}
               />
-            </a>
+            </Connect(ModalToggleButtonRedux)>
           </li>
         </Connect(TeamPermissionGate)>
       </Connect(TeamPermissionGate)>

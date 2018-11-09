@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-
-import {shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
 import {checkIfMFARequired} from 'utils/route';
 
@@ -18,7 +18,9 @@ function mapStateToProps(state, ownProps) {
     const showTermsOfService = shouldShowTermsOfService(state);
 
     return {
-        mfaRequired: checkIfMFARequired(license, config, ownProps.match.url),
+        currentUser: getCurrentUser(state),
+        currentChannelId: getCurrentChannelId(state),
+        mfaRequired: checkIfMFARequired(getCurrentUser(state), license, config, ownProps.match.url),
         enableTimezone: config.ExperimentalTimezone === 'true',
         showTermsOfService,
     };

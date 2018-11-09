@@ -11,6 +11,8 @@ import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/p
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
+import {connectionErrorCount} from 'selectors/views/system';
+
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 
@@ -40,6 +42,7 @@ function mapStateToProps(state, ownProps) {
     const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enableGifPicker = config.EnableGifPicker === 'true';
+    const badConnection = connectionErrorCount(state) > 1;
 
     return {
         draft,
@@ -56,6 +59,7 @@ function mapStateToProps(state, ownProps) {
         locale: getCurrentLocale(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: getIsRhsExpanded(state),
+        badConnection,
     };
 }
 

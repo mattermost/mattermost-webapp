@@ -3,9 +3,6 @@
 
 import React from 'react';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
-
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -36,48 +33,40 @@ export default class MenuActionProvider extends Provider {
         this.options = options;
     }
 
-    handlePretextChanged(suggestionId, prefix) {
+    handlePretextChanged(prefix, resultsCallback) {
         if (prefix.length === 0) {
-            this.displayAllOptions(suggestionId, prefix);
+            this.displayAllOptions(resultsCallback);
             return true;
         }
 
         if (prefix) {
-            this.filterOptions(suggestionId, prefix);
+            this.filterOptions(prefix, resultsCallback);
             return true;
         }
 
         return false;
     }
 
-    async displayAllOptions(suggestionId) {
+    async displayAllOptions(resultsCallback) {
         const terms = this.options.map((option) => option.text);
 
-        setTimeout(() => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                id: suggestionId,
-                matchedPretext: '',
-                terms,
-                items: this.options,
-                component: MenuActionSuggestion,
-            });
-        }, 0);
+        resultsCallback({
+            matchedPretext: '',
+            terms,
+            items: this.options,
+            component: MenuActionSuggestion,
+        });
     }
 
-    async filterOptions(suggestionId, prefix) {
+    async filterOptions(prefix, resultsCallback) {
         const filteredOptions = this.options.filter((option) => option.text.toLowerCase().indexOf(prefix) >= 0);
         const terms = filteredOptions.map((option) => option.text);
 
-        setTimeout(() => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                id: suggestionId,
-                matchedPretext: prefix,
-                terms,
-                items: filteredOptions,
-                component: MenuActionSuggestion,
-            });
-        }, 0);
+        resultsCallback({
+            matchedPretext: prefix,
+            terms,
+            items: filteredOptions,
+            component: MenuActionSuggestion,
+        });
     }
 }

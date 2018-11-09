@@ -213,7 +213,6 @@ export const ActionTypes = keyMirror({
 
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
-    TOGGLE_INVITE_MEMBER_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
     TOGGLE_GET_POST_LINK_MODAL: null,
     TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
@@ -268,6 +267,9 @@ export const ActionTypes = keyMirror({
     SELECT_ATTACHMENT_MENU_ACTION: null,
 
     RECEIVED_TRANSLATIONS: null,
+
+    INCREMENT_WS_ERROR_COUNT: null,
+    RESET_WS_ERROR_COUNT: null,
 });
 
 export const ModalIdentifiers = {
@@ -283,6 +285,7 @@ export const ModalIdentifiers = {
     LEAVE_TEAM: 'leave_team',
     USER_SETTINGS: 'user_settings',
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
+    EMAIL_INVITE: 'email_invite',
 };
 
 export const UserStatuses = {

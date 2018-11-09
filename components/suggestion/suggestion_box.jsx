@@ -3,11 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import QuickInput from 'components/quick_input.jsx';
-import SuggestionStore from 'stores/suggestion_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -94,11 +93,6 @@ export default class SuggestionBox extends React.Component {
         isRHS: PropTypes.bool,
 
         /**
-         * Function called when @mention is clicked
-         */
-        popoverMentionKeyClick: PropTypes.bool,
-
-        /**
          * The number of characters required to show the suggestion list, defaults to 1
          */
         requiredCharacters: PropTypes.number,
@@ -140,55 +134,32 @@ export default class SuggestionBox extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handlePopoverMentionKeyClick = this.handlePopoverMentionKeyClick.bind(this);
-        this.handleCompleteWord = this.handleCompleteWord.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleCompositionStart = this.handleCompositionStart.bind(this);
-        this.handleCompositionUpdate = this.handleCompositionUpdate.bind(this);
-        this.handleCompositionEnd = this.handleCompositionEnd.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handlePretextChanged = this.handlePretextChanged.bind(this);
-        this.blur = this.blur.bind(this);
-
-        this.suggestionId = Utils.generateId();
-        SuggestionStore.registerSuggestionBox(this.suggestionId);
-
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
 
         // Keep track of whether a list based or date based suggestion provider has been triggered
         this.presentationType = 'text';
 
+        this.pretext = '';
+
+        // pretext: the text before the cursor
+        // matchedPretext: a list of the text before the cursor that will be replaced if the corresponding autocomplete term is selected
+        // terms: a list of strings which the previously typed text may be replaced by
+        // items: a list of objects backing the terms which may be used in rendering
+        // components: a list of react components that can be used to render their corresponding item
+        // selection: the term currently selected by the keyboard
         this.state = {
             focused: false,
+            cleared: true,
+            matchedPretext: [],
+            items: [],
+            terms: [],
+            components: [],
+            selection: '',
         };
     }
 
-    componentDidMount() {
-        if (this.props.popoverMentionKeyClick) {
-            SuggestionStore.addPopoverMentionKeyClickListener(this.props.isRHS, this.handlePopoverMentionKeyClick);
-        }
-        SuggestionStore.addPretextChangedListener(this.suggestionId, this.handlePretextChanged);
-    }
-
-    componentWillUnmount() {
-        if (this.props.popoverMentionKeyClick) {
-            SuggestionStore.removePopoverMentionKeyClickListener(this.props.isRHS, this.handlePopoverMentionKeyClick);
-        }
-        SuggestionStore.removePretextChangedListener(this.suggestionId, this.handlePretextChanged);
-
-        SuggestionStore.unregisterSuggestionBox(this.suggestionId);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.providers !== prevProps.providers) {
-            const textbox = this.getTextbox();
-            const pretext = textbox.value.substring(0, textbox.selectionEnd);
-            GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
-        }
-    }
-
-    getTextbox() {
+    getTextbox = () => {
         if (!this.refs.input) {
             return null;
         }
@@ -202,7 +173,7 @@ export default class SuggestionBox extends React.Component {
         return input;
     }
 
-    recalculateSize() {
+    recalculateSize = () => {
         // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
         // we're rendering as the input
         const input = this.refs.input.getInput();
@@ -212,9 +183,9 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    handleEmitClearSuggestions = (suggestionId, delay = 0) => {
+    handleEmitClearSuggestions = (delay = 0) => {
         setTimeout(() => {
-            GlobalActions.emitClearSuggestions(suggestionId);
+            this.clear();
         }, delay);
     }
 
@@ -231,10 +202,10 @@ export default class SuggestionBox extends React.Component {
             // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
             // blur so that click handlers on the list items still register
             if (this.presentationType !== 'date' || this.props.value.length === 0) {
-                this.handleEmitClearSuggestions(this.suggestionId, MIN_TIME_BEFORE_CLICK);
+                this.handleEmitClearSuggestions(MIN_TIME_BEFORE_CLICK);
             }
         } else {
-            this.handleEmitClearSuggestions(this.suggestionId);
+            this.handleEmitClearSuggestions();
         }
 
         if (this.props.onBlur) {
@@ -257,7 +228,7 @@ export default class SuggestionBox extends React.Component {
                 if (textbox) {
                     const pretext = textbox.value.substring(0, textbox.selectionEnd);
                     if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
-                        GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
+                        this.handlePretextChanged(pretext);
                     }
                 }
             });
@@ -268,12 +239,12 @@ export default class SuggestionBox extends React.Component {
         }
     };
 
-    handleChange(e) {
+    handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd);
+        const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
 
-        if (!this.composing && SuggestionStore.getPretext(this.suggestionId) !== pretext) {
-            this.doEmitSuggestionPretextChanged(pretext);
+        if (!this.composing && this.pretext !== pretext) {
+            this.handlePretextChanged(pretext);
         }
 
         if (this.props.onChange) {
@@ -281,15 +252,11 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    doEmitSuggestionPretextChanged = debounce((pretext) => {
-        GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
-
-    handleCompositionStart() {
+    handleCompositionStart = () => {
         this.composing = true;
     }
 
-    handleCompositionUpdate(e) {
+    handleCompositionUpdate = (e) => {
         if (!e.data) {
             return;
         }
@@ -298,27 +265,14 @@ export default class SuggestionBox extends React.Component {
         const textbox = this.getTextbox();
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
-        if (SuggestionStore.getPretext(this.suggestionId) !== pretext) {
-            GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
-        }
+        this.pretext = pretext;
     }
 
-    handleCompositionEnd() {
+    handleCompositionEnd = () => {
         this.composing = false;
     }
 
-    handlePopoverMentionKeyClick(mentionKey) {
-        let insertText = '@' + mentionKey;
-
-        // if the current text does not end with a whitespace, then insert a space
-        if (this.props.value && (/[^\s]$/).test(this.props.value)) {
-            insertText = ' ' + insertText;
-        }
-
-        this.addTextAtCaret(insertText, '');
-    }
-
-    addTextAtCaret(term, matchedPretext) {
+    addTextAtCaret = (term, matchedPretext) => {
         const textbox = this.getTextbox();
         const caret = textbox.selectionEnd;
         const text = this.props.value;
@@ -366,7 +320,7 @@ export default class SuggestionBox extends React.Component {
         });
     }
 
-    replaceText(term) {
+    replaceText = (term) => {
         const textbox = this.getTextbox();
         textbox.value = term;
 
@@ -381,7 +335,7 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    handleCompleteWord(term, matchedPretext) {
+    handleCompleteWord = (term, matchedPretext) => {
         if (this.props.replaceAllInputOnSelect) {
             this.replaceText(term);
         } else {
@@ -389,8 +343,8 @@ export default class SuggestionBox extends React.Component {
         }
 
         if (this.props.onItemSelected) {
-            const items = SuggestionStore.getItems(this.suggestionId);
-            const terms = SuggestionStore.getTerms(this.suggestionId);
+            const items = this.state.items;
+            const terms = this.state.terms;
             for (let i = 0; i < terms.length; i++) {
                 if (terms[i] === term) {
                     this.props.onItemSelected(items[i]);
@@ -399,6 +353,8 @@ export default class SuggestionBox extends React.Component {
             }
         }
 
+        this.clear();
+
         this.refs.input.focus();
 
         for (const provider of this.props.providers) {
@@ -406,26 +362,75 @@ export default class SuggestionBox extends React.Component {
                 provider.handleCompleteWord(term, matchedPretext);
             }
         }
-
-        GlobalActions.emitCompleteWordSuggestion(this.suggestionId);
     }
 
-    handleKeyDown(e) {
-        if ((this.props.openWhenEmpty || this.props.value) && SuggestionStore.hasSuggestions(this.suggestionId)) {
+    selectNext = () => {
+        this.setSelectionByDelta(1);
+    }
+
+    selectPrevious = () => {
+        this.setSelectionByDelta(-1);
+    }
+
+    setSelectionByDelta = (delta) => {
+        let selectionIndex = this.state.terms.indexOf(this.state.selection);
+
+        if (selectionIndex === -1) {
+            this.setState({
+                selection: '',
+            });
+            return;
+        }
+
+        selectionIndex += delta;
+
+        if (selectionIndex < 0) {
+            selectionIndex = 0;
+        } else if (selectionIndex > this.state.terms.length - 1) {
+            selectionIndex = this.state.terms.length - 1;
+        }
+
+        this.setState({
+            selection: this.state.terms[selectionIndex],
+        });
+    }
+
+    clear = () => {
+        this.setState({
+            cleared: true,
+            matchedPretext: [],
+            terms: [],
+            items: [],
+            components: [],
+        });
+    }
+
+    hasSuggestions = () => {
+        return this.state.items.some((item) => !item.loading);
+    }
+
+    handleKeyDown = (e) => {
+        if ((this.props.openWhenEmpty || this.props.value) && this.hasSuggestions()) {
             if (Utils.isKeyPressed(e, KeyCodes.UP)) {
-                GlobalActions.emitSelectPreviousSuggestion(this.suggestionId);
+                this.selectPrevious();
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
-                GlobalActions.emitSelectNextSuggestion(this.suggestionId);
+                this.selectNext();
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ENTER) || (this.props.completeOnTab && Utils.isKeyPressed(e, KeyCodes.TAB))) {
-                this.handleCompleteWord(SuggestionStore.getSelection(this.suggestionId), SuggestionStore.getSelectedMatchedPretext(this.suggestionId));
+                let matchedPretext = '';
+                for (let i = 0; i < this.state.terms.length; i++) {
+                    if (this.state.terms[i] === this.state.selection) {
+                        matchedPretext = this.state.matchedPretext[i];
+                    }
+                }
+                this.handleCompleteWord(this.state.selection, matchedPretext);
                 if (this.props.onKeyDown) {
                     this.props.onKeyDown(e);
                 }
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
-                GlobalActions.emitClearSuggestions(this.suggestionId);
+                this.clear();
                 this.presentationType = 'text';
                 e.preventDefault();
                 e.stopPropagation();
@@ -437,10 +442,40 @@ export default class SuggestionBox extends React.Component {
         }
     }
 
-    handlePretextChanged(pretext) {
+    handleReceivedSuggestions = (suggestions) => {
+        const newComponents = [];
+        const newPretext = [];
+        for (let i = 0; i < suggestions.terms.length; i++) {
+            newComponents.push(suggestions.component);
+            newPretext.push(suggestions.matchedPretext);
+        }
+        const terms = suggestions.terms;
+        const items = suggestions.items;
+        let selection = this.state.selection;
+        if (terms.length > 0) {
+            // if the current selection is no longer in the map, select the first term in the list
+            if (!this.state.selection || terms.indexOf(this.state.selection) === -1) {
+                selection = terms[0];
+            }
+        } else if (this.state.selection) {
+            selection = '';
+        }
+
+        this.setState({
+            cleared: false,
+            selection,
+            terms,
+            items,
+            components: newComponents,
+            matchedPretext: newPretext,
+        });
+    }
+
+    handlePretextChanged = debounce((pretext) => {
+        this.pretext = pretext;
         let handled = false;
         for (const provider of this.props.providers) {
-            handled = provider.handlePretextChanged(this.suggestionId, pretext) || handled;
+            handled = provider.handlePretextChanged(pretext, this.handleReceivedSuggestions) || handled;
 
             if (handled) {
                 if (provider.constructor.name === 'SearchDateProvider') {
@@ -452,13 +487,12 @@ export default class SuggestionBox extends React.Component {
                 break;
             }
         }
-
         if (!handled) {
-            SuggestionStore.clearSuggestions(this.suggestionId);
+            this.clear();
         }
-    }
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS)
 
-    blur() {
+    blur = () => {
         this.refs.input.blur();
     }
 
@@ -494,7 +528,6 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'onItemSelected');
         Reflect.deleteProperty(props, 'completeOnTab');
         Reflect.deleteProperty(props, 'isRHS');
-        Reflect.deleteProperty(props, 'popoverMentionKeyClick');
         Reflect.deleteProperty(props, 'requiredCharacters');
         Reflect.deleteProperty(props, 'openOnFocus');
         Reflect.deleteProperty(props, 'openWhenEmpty');
@@ -524,17 +557,28 @@ export default class SuggestionBox extends React.Component {
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'text' &&
                     <SuggestionListComponent
+                        ref='list'
                         open={this.state.focused}
-                        suggestionId={this.suggestionId}
+                        pretext={this.pretext}
                         location={listStyle}
                         renderDividers={renderDividers}
                         renderNoResults={renderNoResults}
                         onCompleteWord={this.handleCompleteWord}
+                        cleared={this.state.cleared}
+                        matchedPretext={this.state.matchedPretext}
+                        items={this.state.items}
+                        terms={this.state.terms}
+                        selection={this.state.selection}
+                        components={this.state.components}
                     />
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.presentationType === 'date' &&
                     <SuggestionDateComponent
-                        suggestionId={this.suggestionId}
+                        ref='date'
+                        items={this.state.items}
+                        terms={this.state.terms}
+                        components={this.state.components}
+                        matchedPretext={this.state.matchedPretext}
                         onCompleteWord={this.handleCompleteWord}
                     />
                 }
