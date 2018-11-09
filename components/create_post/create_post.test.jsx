@@ -777,19 +777,15 @@ describe('components/create_post', () => {
         wrapper.setState({
             message: '/fakecommand some text',
         });
-        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
-
-        await Promise.resolve();
-        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(true);
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-
-        await Promise.resolve();
-        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -820,19 +816,17 @@ describe('components/create_post', () => {
         wrapper.setState({
             message: '/fakecommand some text',
         });
-        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
-
-        await Promise.resolve();
-        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(true);
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
         });
-        expect(wrapper.find('[id="create_post.invalidCommand"]').exists()).toBe(false);
+        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 

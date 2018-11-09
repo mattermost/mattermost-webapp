@@ -10,7 +10,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -27,16 +27,9 @@ import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
-
-const isErrorInvalidSlashCommand = (error) => {
-    if (!(error && error.server_error_id)) {
-        return false;
-    }
-
-    return error.server_error_id === 'api.command.execute_command.not_found.app_error';
-};
 
 export default class CreatePost extends React.Component {
     static propTypes = {
@@ -952,41 +945,13 @@ export default class CreatePost extends React.Component {
 
         let serverError = null;
         if (this.state.serverError) {
-            let serverErrorContent = this.state.serverError.message;
-
-            if (isErrorInvalidSlashCommand(this.state.serverError)) {
-                const storedMessage = this.state.serverError.submittedMessage;
-                const command = storedMessage.split(' ')[0];
-
-                serverErrorContent = (
-                    <FormattedMessage
-                        id='create_post.invalidCommand'
-                        defaultMessage={'Command with a trigger of \'{command}\' not found. {send_as_message}'}
-                        values={{
-                            command,
-                            send_as_message: (
-                                <a
-                                    ref='sendAsMessageLink'
-                                    href='#'
-                                    onClick={this.handleSubmit}
-                                    className='create-post__send-as-message'
-                                >
-                                    <FormattedMessage
-                                        id='create_post.sendAsMessageLink'
-                                        defaultMessage='Click here to send as a message.'
-                                    />
-                                </a>
-                            ),
-                        }}
-                    />
-                );
-            }
             serverError = (
-                <div className='has-error'>
-                    <label className='control-label'>
-                        {serverErrorContent}
-                    </label>
-                </div>
+                <MessageSubmitError
+                    id='postServerError'
+                    error={this.state.serverError}
+                    submittedMessage={this.state.serverError.submittedMessage}
+                    handleSubmit={this.handleSubmit}
+                />
             );
         }
 
