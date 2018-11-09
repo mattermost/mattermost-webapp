@@ -55,22 +55,41 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
-          defaultMessage="At the top of the channel sidebar"
-          id="user.settings.sidebar.showUnreadSection"
-          values={Object {}}
-        />
+        Array [
+          <FormattedMessage
+            defaultMessage="Group by channel type"
+            id="user.settings.sidebar.groupByTypeShort"
+            values={Object {}}
+          />,
+          <span>
+            , 
+          </span>,
+          <FormattedMessage
+            defaultMessage="sorted alphabetically"
+            id="user.settings.sidebar.sortAlphaShort"
+            values={Object {}}
+          />,
+          <br />,
+          <FormattedMessage
+            defaultMessage="Unreads and favorites grouped separately"
+            id="user.settings.sidebar.unreadsFavoritesShort"
+            values={Object {}}
+          />,
+        ]
       }
       focused={false}
-      section="unreadChannels"
+      section="groupChannels"
       title={
         <FormattedMessage
-          defaultMessage="Group unread channels"
-          id="user.settings.sidebar.unreadSectionTitle"
+          defaultMessage="Channel grouping and sorting"
+          id="user.settings.sidebar.groupAndSortChannelsTitle"
           values={Object {}}
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
     />
     <div
       className="divider-light"
@@ -93,9 +112,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
         />
       }
       updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
     />
   </div>
 </div>

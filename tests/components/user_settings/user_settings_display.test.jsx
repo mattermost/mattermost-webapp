@@ -36,6 +36,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableLinkPreviews: true,
         enableThemeSelection: false,
         defaultClientLocale: 'en',
+        canCreatePublicChannel: true,
+        canCreatePrivateChannel: true,
         timezones: [
             'America/New_York',
             'America/Los_Angeles',

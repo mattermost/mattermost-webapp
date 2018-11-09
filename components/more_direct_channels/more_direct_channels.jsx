@@ -47,7 +47,7 @@ export default class MoreDirectChannels extends React.Component {
         restrictDirectMessage: PropTypes.string,
         onModalDismissed: PropTypes.func,
         onHide: PropTypes.func,
-
+        bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired,
@@ -139,6 +139,10 @@ export default class MoreDirectChannels extends React.Component {
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
+
+        if (this.props.bodyOnly) {
+            this.handleExit();
+        }
     }
 
     setUsersLoadingState = (loadingState) => {
@@ -390,6 +394,38 @@ export default class MoreDirectChannels extends React.Component {
         const groupChannels = this.props.groupChannels || [];
 
         const options = [...users, ...groupChannels];
+        const body = (
+            <MultiSelect
+                key='moreDirectChannelsList'
+                ref='multiselect'
+                options={options}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueKey='id'
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                handleDelete={this.handleDelete}
+                handleAdd={this.addValue}
+                handleSubmit={this.handleSubmit}
+                noteText={note}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
+                submitImmediatelyOn={this.handleSubmitImmediatelyOn}
+                saving={this.state.saving}
+                loading={this.state.loadingUsers}
+                users={this.props.users}
+                totalCount={this.props.totalCount}
+            />
+        );
+
+        if (this.props.bodyOnly) {
+            return body;
+        }
+
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels'}
@@ -406,31 +442,7 @@ export default class MoreDirectChannels extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <MultiSelect
-                        key='moreDirectChannelsList'
-                        ref='multiselect'
-                        options={options}
-                        optionRenderer={this.renderOption}
-                        values={this.state.values}
-                        valueKey='id'
-                        valueRenderer={this.renderValue}
-                        perPage={USERS_PER_PAGE}
-                        handlePageChange={this.handlePageChange}
-                        handleInput={this.search}
-                        handleDelete={this.handleDelete}
-                        handleAdd={this.addValue}
-                        handleSubmit={this.handleSubmit}
-                        noteText={note}
-                        maxValues={MAX_SELECTABLE_VALUES}
-                        numRemainingText={numRemainingText}
-                        buttonSubmitText={buttonSubmitText}
-                        buttonSubmitLoadingText={buttonSubmitLoadingText}
-                        submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                        saving={this.state.saving}
-                        loading={this.state.loadingUsers}
-                        users={this.props.users}
-                        totalCount={this.props.totalCount}
-                    />
+                    {body}
                 </Modal.Body>
             </Modal>
         );
