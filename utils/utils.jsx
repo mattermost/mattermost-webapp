@@ -499,6 +499,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
         changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
+        changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
+        changeCss('.app__body .modal-tabs .nav-tabs > li > a:active', `color:${theme.sidebarBg}`);
     }
 
     if (theme.sidebarText) {
@@ -639,6 +641,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
+        changeCss('.app__body .modal-tabs .nav-tabs > li', `background:${theme.centerChannelBg}`);
+        changeCss('.app__body .modal-tabs .nav-tabs > li > a', `background:${theme.centerChannelBg}`);
 
         // Fade out effect for collapsed posts (not hovered, not from current user)
         changeCss(
