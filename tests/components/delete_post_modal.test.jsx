@@ -43,6 +43,18 @@ describe('components/delete_post_modal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should focus delete button on enter', () => {
+        const wrapper = shallow(
+            <DeletePostModal {...baseProps}/>
+        );
+
+        const deletePostBtn = {focus: jest.fn()};
+        wrapper.instance().deletePostBtn = deletePostBtn;
+
+        wrapper.instance().handleEntered();
+        expect(deletePostBtn.focus).toHaveBeenCalled();
+    });
+
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
             <DeletePostModal {...baseProps}/>
