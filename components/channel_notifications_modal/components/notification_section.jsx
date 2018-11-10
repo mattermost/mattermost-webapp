@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {NotificationSections} from 'utils/constants.jsx';
+
 import CollapseView from './collapse_view.jsx';
 import ExpandView from './expand_view.jsx';
 
@@ -60,7 +62,7 @@ export default class NotificationSection extends React.PureComponent {
     }
 
     handleCollapseSection = () => {
-        this.props.onUpdateSection();
+        this.props.onUpdateSection(NotificationSections.NONE);
     }
 
     render() {

@@ -103,7 +103,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         );
         wrapper.instance().handleCollapseSection({preventDefault: jest.fn()});
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
-        expect(onUpdateSection).toHaveBeenCalledWith();
+        expect(onUpdateSection).toHaveBeenCalledWith(NotificationSections.NONE);
     });
 
     test('should match snapshot on server error', () => {
