@@ -320,7 +320,10 @@
             @include border-radius(50px);
             cursor: pointer;
             display: inline-block;
-            padding: 4px 20px 3px;
+            padding: 0 20px;
+            height: 28px;
+            display: flex;
+            align-items: center;
         }
 
         &.visible {
@@ -1287,6 +1290,7 @@
                 justify-content: flex-end;
                 padding: 0 4px 0 0;
                 width: auto;
+                align-items: center;
             }
 
             .dropdown {
@@ -1294,6 +1298,7 @@
                     display: flex;
                     flex: 1;
                     justify-content: center;
+                    align-items: center;
                 }
             }
 
@@ -1303,6 +1308,7 @@
                 flex: 1;
                 margin: 0;
                 top: 0;
+                align-items: center;
             }
 
             .reacticon__container {
