@@ -10,6 +10,7 @@
 
 .post-attachment-dropdown {
     position: relative;
+    margin: 8px 8px 0 0;
 
     &:hover {
         &:after {
@@ -329,6 +330,8 @@
         .attachment-actions {
             margin-top: 9px;
             position: relative;
+            display: flex;
+            flex-wrap: wrap;
 
             button {
                 @include border-radius(3px);
@@ -339,6 +342,7 @@
                 height: 30px;
                 font-size: 13px;
                 font-weight: 700;
+                white-space: nowrap;
             }
 
             .alert {
