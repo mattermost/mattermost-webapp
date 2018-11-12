@@ -31,6 +31,7 @@ import PermissionTeamSchemeSettings from './permission_schemes_settings/permissi
 import SystemUsers from './system_users';
 import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
+import GroupSettings from './group_settings/group_settings.jsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -713,6 +714,14 @@ export default {
                             },
                         },
                     ],
+                },
+            },
+        },
+        accessControl: {
+            groups: {
+                schema: {
+                    id: 'Groups',
+                    component: GroupSettings,
                 },
             },
         },

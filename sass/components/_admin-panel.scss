@@ -1,0 +1,100 @@
+.admin-panel {
+    @include border-radius($border-rad);
+    @include box-shadow(0 1px 2px 0 alpha-color($black, .5));
+    @include clearfix;
+    font-size: .95em;
+    margin: 2em 0;
+    padding: 0;
+
+    // &.simple {
+    // }
+
+/*
+    .more-schemes {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        text-decoration: none;
+    }
+*/
+    .header {
+        cursor: pointer;
+        align-items: center;
+        background: $white;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px;
+
+        h3 {
+            font-size: 18px;
+            font-weight: normal;
+            margin: 0;
+            padding: 0;
+        }
+
+        .button {
+            self-align: end;
+            margin-left: 10px;
+
+            svg {
+                transform: rotate(0deg);
+                transition: transform 300ms;
+            }
+        }
+    }
+
+    &.closed {
+        .header {
+            .button {
+                svg {
+                    transform: rotate(90deg);
+                    transition: transform 300ms;
+                }
+            }
+        }
+
+/*
+        .permissions-tree {
+            max-height: 0;
+            overflow-y: hidden;
+            padding: 0 1.5rem;
+        }
+*/
+    }
+/*
+    .no-team-schemes {
+        margin: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, .5);
+        font-size: 16px;
+        color: $gray;
+        text-align: center;
+    }
+    .team-override-unavailable {
+        padding: 20px;
+        color: #3333337d;
+        opacity: 50%;
+        .team-override-unavailable__inner {
+            padding: 20px;
+            background-color: $white;
+        }
+    }
+    .teams-list {
+        padding: 20px;
+        .no-team-schemes {
+            margin: 0;
+        }
+        .team {
+            display: flex;
+            padding: 10px;
+            &:nth-child(even) {
+                background: rgba(255, 255, 255, .5);
+            }
+            .remove {
+                flex-grow: 0;
+            }
+        }
+    }
+*/
+}

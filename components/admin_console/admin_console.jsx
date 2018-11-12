@@ -200,6 +200,21 @@ export default class AdminConsole extends React.Component {
                             )}
                         />
                         <Route
+                            path={`${this.props.match.url}/access-control`}
+                            render={(props) => (
+                                <Switch>
+                                    <SCRoute
+                                        path={`${props.match.url}/groups`}
+                                        component={SchemaAdminSettings}
+                                        extraProps={{
+                                            ...extraProps,
+                                            schema: AdminDefinition.settings.accessControl.groups.schema,
+                                        }}
+                                    />
+                                </Switch>
+                            )}
+                        />
+                        <Route
                             path={`${this.props.match.url}/permissions`}
                             render={(props) => (
                                 <Switch>
