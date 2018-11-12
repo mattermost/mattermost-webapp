@@ -69,6 +69,27 @@
         }
     }
 
+    .groups-list--footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        background: $white;
+        padding: 5px;
+        height: auto;
+        border-top: 1px solid $gray;
+        .btn-link {
+            color: $dark-gray;
+            &.disabled {
+                opacity: .5;
+            }
+        }
+        .counter{
+            color: $dark-gray;
+            font-size: 1.1em;
+            margin-bottom: 2px;
+        }
+    }
+
     .group-check {
         align-items: center;
         border-radius: 3px;
@@ -161,9 +182,4 @@
             animation-name: rowhighlight;
         }
     }
-}
-
-.groups-list--footer {
-    display: flex;
-    justify-content: space-between;
 }

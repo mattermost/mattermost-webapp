@@ -6,9 +6,9 @@ import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
 import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from 'mattermost-redux/actions/admin';
-import {getLdapGroups} from 'mattermost-redux/selectors/entities/admin';
+import {getLdapGroups, getLdapGroupsCount} from 'mattermost-redux/selectors/entities/admin';
 
-import GroupSettings from './group_settings.jsx';
+import GroupsList from './groups_list.jsx';
 
 const getSortedListOfLdapGroups = createSelector(
     getLdapGroups,
@@ -21,7 +21,8 @@ const getSortedListOfLdapGroups = createSelector(
 
 function mapStateToProps(state) {
     return {
-        ldapGroups: getSortedListOfLdapGroups(state),
+        groups: getSortedListOfLdapGroups(state),
+        total: getLdapGroupsCount(state),
     };
 }
 
@@ -35,4 +36,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsList);

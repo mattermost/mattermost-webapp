@@ -33,7 +33,6 @@ const AdminPanel = (props) => {
                 </div>
             </div>
             {props.children}
-            {props.footer && (<div className='footer'>{props.footer}</div>)}
         </div>
     );
 };
@@ -45,7 +44,6 @@ AdminPanel.propTypes = {
     subtitleId: PropTypes.string,
     subtitleDefaultMessage: PropTypes.string,
     children: PropTypes.node,
-    footer: PropTypes.node,
 };
 
 export default AdminPanel;

@@ -7,11 +7,16 @@ import {FormattedMessage} from 'react-intl';
 
 import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
+const LDAP_GROUPS_PAGE_SIZE = 10;
+
 export default class GroupsList extends React.PureComponent {
     static propTypes = {
         groups: PropTypes.arrayOf(PropTypes.object),
-        loading: PropTypes.bool,
+        total: PropTypes.number,
         actions: PropTypes.shape({
+            getLdapGroups: PropTypes.func.isRequired,
             link: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
         }).isRequired,
@@ -25,7 +30,31 @@ export default class GroupsList extends React.PureComponent {
         super(props);
         this.state = {
             checked: {},
+            loading: true,
+            page: 0,
         };
+    }
+
+    componentDidMount() {
+        this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE).then(() => {
+            this.setState({loading: false});
+        });
+    }
+
+    previousPage = async (e) => {
+        e.preventDefault();
+        const page = this.state.page < 1 ? 0 : this.state.page - 1;
+        this.setState({checked: {}, page, loading: true});
+        await this.props.actions.getLdapGroups(page, LDAP_GROUPS_PAGE_SIZE);
+        this.setState({loading: false});
+    }
+
+    nextPage = async (e) => {
+        e.preventDefault();
+        const page = this.state.page + 1;
+        this.setState({checked: {}, page, loading: true});
+        await this.props.actions.getLdapGroups(page, LDAP_GROUPS_PAGE_SIZE);
+        this.setState({loading: false});
     }
 
     onCheckToggle = (key) => {
@@ -111,7 +140,7 @@ export default class GroupsList extends React.PureComponent {
     }
 
     renderRows = () => {
-        if (this.props.loading) {
+        if (this.state.loading) {
             return (
                 <div className='groups-list-loading'>
                     <i className='fa fa-spinner fa-pulse fa-2x'/>
@@ -149,6 +178,14 @@ export default class GroupsList extends React.PureComponent {
     }
 
     render = () => {
+        const startCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + 1;
+        let endCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + LDAP_GROUPS_PAGE_SIZE;
+        const total = this.props.total;
+        if (endCount > total) {
+            endCount = total;
+        }
+        const lastPage = endCount === total;
+        const firstPage = this.state.page === 0;
         return (
             <div className='groups-list'>
                 <div className='groups-list--global-actions'>
@@ -174,6 +211,39 @@ export default class GroupsList extends React.PureComponent {
                 </div>
                 <div className='groups-list--body'>
                     {this.renderRows()}
+                </div>
+                <div className='groups-list--footer'>
+                    <div className='counter'>
+                        <FormattedMessage
+                            id='admin.group_settings.groups_list.paginatorCount'
+                            defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                            values={{
+                                startCount,
+                                endCount,
+                                total,
+                            }}
+                        />
+                    </div>
+                    <button
+                        className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                        onClick={firstPage ? null : this.previousPage}
+                        disabled={firstPage}
+                    >
+                        <i
+                            className='fa fa-chevron-left'
+                            title={localizeMessage('generic_icons.previous', 'Previous Icon')}
+                        />
+                    </button>
+                    <button
+                        className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                        onClick={lastPage ? null : this.nextPage}
+                        disabled={lastPage}
+                    >
+                        <i
+                            className='fa fa-chevron-right'
+                            title={localizeMessage('generic_icons.next', 'Next Icon')}
+                        />
+                    </button>
                 </div>
             </div>
         );

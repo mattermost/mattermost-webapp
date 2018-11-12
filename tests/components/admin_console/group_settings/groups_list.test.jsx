@@ -4,52 +4,22 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupsList from 'components/admin_console/group_settings/groups_list.jsx';
+import GroupsList from 'components/admin_console/group_settings/groups_list/groups_list.jsx';
 
 describe('components/admin_console/group_settings/GroupsList', () => {
     test('should match snapshot, while loading', () => {
         const wrapper = shallow(
             <GroupsList
                 groups={[]}
-                loading={true}
+                total={0}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
             />
         );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, without results', () => {
-        const wrapper = shallow(
-            <GroupsList
-                groups={[]}
-                loading={false}
-                actions={{
-                    link: jest.fn(),
-                    unlink: jest.fn(),
-                }}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, with results', () => {
-        const wrapper = shallow(
-            <GroupsList
-                groups={[
-                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
-                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
-                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
-                ]}
-                loading={false}
-                actions={{
-                    link: jest.fn(),
-                    unlink: jest.fn(),
-                }}
-            />
-        );
+        wrapper.setState({loading: true});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -60,8 +30,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
-                loading={false}
+                total={2}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
@@ -78,8 +49,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
-                loading={false}
+                total={2}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
@@ -96,8 +68,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
-                loading={false}
+                total={2}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
@@ -114,8 +87,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
-                loading={false}
+                total={2}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
@@ -132,8 +106,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
-                loading={false}
+                total={2}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
@@ -159,8 +134,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
                     {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
-                loading={false}
+                total={2}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link,
                     unlink: jest.fn(),
                 }}
@@ -185,8 +161,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                     {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-1', has_syncables: false},
                     {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
                 ]}
-                loading={false}
+                total={4}
                 actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
                     link: jest.fn(),
                     unlink,
                 }}
@@ -199,5 +176,202 @@ describe('components/admin_console/group_settings/GroupsList', () => {
         instance.unlinkSelectedGroups();
         expect(unlink).toHaveBeenCalledTimes(1);
         expect(unlink).toHaveBeenCalledWith('test2');
+    });
+
+    test('should match snapshot, without results', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with results', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                ]}
+                total={3}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with results and next and previous', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
+                ]}
+                total={33}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({page: 1, loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with results and next', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
+                ]}
+                total={13}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with results and previous', () => {
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                ]}
+                total={13}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({page: 1, loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should change properly the state and call the getLdapGroups, on previousPage when page > 0', async () => {
+        const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                ]}
+                total={13}
+                actions={{
+                    getLdapGroups,
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({page: 1, checked: {test1: true, test2: true}});
+
+        await wrapper.instance().previousPage({preventDefault: jest.fn()});
+
+        const state = wrapper.instance().state;
+        expect(state.checked).toEqual({});
+        expect(state.page).toBe(0);
+        expect(state.loading).toBe(false);
+    });
+
+    test('should change properly the state and call the getLdapGroups, on previousPage when page == 0', async () => {
+        const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                ]}
+                total={3}
+                actions={{
+                    getLdapGroups,
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({page: 0, checked: {test1: true, test2: true}});
+
+        await wrapper.instance().previousPage({preventDefault: jest.fn()});
+
+        const state = wrapper.instance().state;
+        expect(state.checked).toEqual({});
+        expect(state.page).toBe(0);
+        expect(state.loading).toBe(false);
+    });
+
+    test('should change properly the state and call the getLdapGroups, on nextPage clicked', async () => {
+        const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
+                ]}
+                total={20}
+                actions={{
+                    getLdapGroups,
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
+        );
+        wrapper.setState({page: 0, checked: {test1: true, test2: true}});
+
+        await wrapper.instance().nextPage({preventDefault: jest.fn()});
+        const state = wrapper.state();
+        expect(state.checked).toEqual({});
+        expect(state.page).toBe(1);
+        expect(state.loading).toBe(false);
     });
 });
