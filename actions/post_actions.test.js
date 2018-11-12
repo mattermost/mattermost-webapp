@@ -23,9 +23,13 @@ jest.mock('actions/emoji_actions', () => ({
     addRecentEmoji: (...args) => ({type: 'MOCK_ADD_RECENT_EMOJI', args}),
 }));
 
-jest.mock('actions/storage', () => ({
-    setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
-}));
+jest.mock('actions/storage', () => {
+    const original = require.requireActual('actions/storage');
+    return {
+        ...original,
+        setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
+    };
+});
 
 jest.mock('utils/user_agent', () => ({
     isIosClassic: jest.fn().mockReturnValueOnce(true).mockReturnValue(false),

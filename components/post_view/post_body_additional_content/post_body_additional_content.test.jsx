@@ -22,7 +22,7 @@ describe('components/post_view/PostBodyAdditionalContent', () => {
         enableLinkPreviews: true,
         hasImageProxy: true,
         actions: {
-            getRedirectLocation: () => null,
+            getRedirectLocation: jest.fn().mockResolvedValue({data: true}),
             toggleEmbedVisibility: jest.fn(),
         },
     };
