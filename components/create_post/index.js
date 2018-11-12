@@ -8,6 +8,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -59,6 +60,7 @@ function mapStateToProps() {
         const currentUserId = getCurrentUserId(state);
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
         const badConnection = connectionErrorCount(state) > 1;
+        const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -86,6 +88,7 @@ function mapStateToProps() {
             rhsExpanded: getIsRhsExpanded(state),
             emojiMap: getEmojiMap(state),
             badConnection,
+            isTimezoneEnabled,
         };
     };
 }
@@ -113,6 +116,7 @@ function mapDispatchToProps(dispatch) {
             setEditingPost,
             openModal,
             executeCommand,
+            getChannelTimezones,
         }, dispatch),
     };
 }
