@@ -48,6 +48,8 @@ describe('components/CreateComment', () => {
         maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: false,
         badConnection: false,
+        getChannelTimezones: jest.fn(() => Promise.resolve([])),
+        isTimezoneEnabled: false,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -514,6 +516,62 @@ describe('components/CreateComment', () => {
                 wrapper.instance().handleSubmit({preventDefault});
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
+                expect(wrapper.state('showConfirmModal')).toBe(true);
+            });
+
+            it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, () => {
+                const props = {
+                    ...baseProps,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                    isTimezoneEnabled: true,
+                    channelMembersCount: 8,
+                    enableConfirmNotificationsToChannel: true,
+                };
+
+                const wrapper = shallow(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                wrapper.setState({channelMembersCount: 4});
+
+                expect(onSubmit).not.toHaveBeenCalled();
+                expect(preventDefault).toHaveBeenCalled();
+                expect(wrapper.state('channelMembersCount')).toBe(4);
+                expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
+                expect(wrapper.state('showConfirmModal')).toBe(true);
+            });
+
+            it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, () => {
+                const props = {
+                    ...baseProps,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                    isTimezoneEnabled: true,
+                    channelMembersCount: 8,
+                    enableConfirmNotificationsToChannel: true,
+                };
+
+                const wrapper = shallow(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                wrapper.setState({channelMembersCount: 0});
+
+                expect(onSubmit).not.toHaveBeenCalled();
+                expect(preventDefault).toHaveBeenCalled();
+                expect(wrapper.state('channelMembersCount')).toBe(0);
+                expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
                 expect(wrapper.state('showConfirmModal')).toBe(true);
             });
         });
