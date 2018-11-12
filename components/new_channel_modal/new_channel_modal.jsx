@@ -7,14 +7,13 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {Permissions} from 'mattermost-redux/constants';
 
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
 import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 export default class NewChannelModal extends React.PureComponent {
     static propTypes = {
@@ -78,6 +77,16 @@ export default class NewChannelModal extends React.PureComponent {
          * Function to call when channel data is modified
          */
         onDataChanged: PropTypes.func.isRequired,
+
+        /**
+         * Permission to create public channel
+         */
+        canCreatePublicChannel: PropTypes.bool.isRequired,
+
+        /**
+         * Permission to create private channel
+         */
+        canCreatePrivateChannel: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -143,7 +152,18 @@ export default class NewChannelModal extends React.PureComponent {
         }
     }
 
+    handlePublicTypeSelect = () => {
+        this.props.onTypeSwitched('O');
+    }
+
+    handlePrivateTypeSelect = () => {
+        this.props.onTypeSwitched('P');
+    }
+
     render() {
+        const {canCreatePublicChannel, canCreatePrivateChannel} = this.props;
+
+        const enableTypeSelection = canCreatePublicChannel && canCreatePrivateChannel;
         var displayNameError = null;
         var serverError = null;
         var displayNameClass = 'form-group';
@@ -165,68 +185,83 @@ export default class NewChannelModal extends React.PureComponent {
             serverError = <div className='form-group has-error'><div className='col-sm-12'><p className='input__help error'>{this.props.serverError}</p></div></div>;
         }
 
-        const createPublicChannelLink = (
-            <button
-                className='style--none color--link'
-                onClick={this.props.onTypeSwitched}
-            >
-                <FormattedMessage
-                    id='channel_modal.publicChannel1'
-                    defaultMessage='Create a public channel'
-                />
-            </button>
-        );
-
-        const createPrivateChannelLink = (
-            <button
-                className='style--none color--link'
-                onClick={this.props.onTypeSwitched}
-                tabIndex='6'
-            >
-                <FormattedMessage
-                    id='channel_modal.privateGroup2'
-                    defaultMessage='Create a private channel'
-                />
-            </button>
-        );
-
-        var channelSwitchText = '';
         let inputPrefixId = '';
         switch (this.props.channelType) {
         case 'P':
-            channelSwitchText = (
-                <div className='modal-intro'>
-                    <FormattedMessage
-                        id='channel_modal.privateGroup1'
-                        defaultMessage='Create a new private channel with restricted membership. '
-                    />
-                    <TeamPermissionGate
-                        teamId={this.props.currentTeamId}
-                        permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
-                    >
-                        {createPublicChannelLink}
-                    </TeamPermissionGate>
-                </div>
-            );
             inputPrefixId = 'newPrivateChannel';
             break;
         case 'O':
-            channelSwitchText = (
-                <div className='modal-intro'>
-                    <FormattedMessage
-                        id='channel_modal.publicChannel2'
-                        defaultMessage='Create a new public channel anyone can join. '
-                    />
-                    <TeamPermissionGate
-                        teamId={this.props.currentTeamId}
-                        permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
-                    >
-                        {createPrivateChannelLink}
-                    </TeamPermissionGate>
-                </div>
-            );
             inputPrefixId = 'newPublicChannel';
             break;
+        }
+
+        const publicChannelDesc = (
+            <div>
+                <GlobeIcon className='icon icon__globe icon--body type-icon'/>
+                <FormattedMessage
+                    id='channel_modal.publicName'
+                    defaultMessage='Public'
+                />
+                <FormattedMessage
+                    id='channel_modal.publicHint'
+                    defaultMessage=' - Anyone can join this channel.'
+                />
+            </div>
+        );
+
+        const privateChannelDesc = (
+            <div>
+                <LockIcon className='icon icon__lock icon--body type-icon'/>
+                <FormattedMessage
+                    id='channel_modal.privateName'
+                    defaultMessage='Private'
+                />
+                <FormattedMessage
+                    id='channel_modal.privateHint'
+                    defaultMessage=' - Only invited members can join this channel.'
+                />
+            </div>
+        );
+
+        let typeOptions = null;
+        if (enableTypeSelection) {
+            typeOptions = (
+                <div key='channelType'>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='public'
+                                type='radio'
+                                name='channelType'
+                                checked={this.props.channelType === 'O'}
+                                onChange={this.handlePublicTypeSelect}
+                            />
+                            {publicChannelDesc}
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='private'
+                                type='radio'
+                                name='channelType'
+                                checked={this.props.channelType === 'P'}
+                                onChange={this.handlePrivateTypeSelect}
+                            />
+                            {privateChannelDesc}
+                        </label>
+                        <br/>
+                    </div>
+                </div>
+            );
+        } else {
+            typeOptions = (
+                <div className='type-container'>
+                    {canCreatePublicChannel ? publicChannelDesc : null}
+                    {canCreatePrivateChannel ? privateChannelDesc : null}
+                </div>
+            );
         }
 
         const prettyTeamURL = getShortenedURL();
@@ -234,7 +269,7 @@ export default class NewChannelModal extends React.PureComponent {
         return (
             <span>
                 <Modal
-                    dialogClassName='new-channel__modal'
+                    dialogClassName='new-channel__modal new-channel'
                     show={this.props.show}
                     bsSize='large'
                     onHide={this.props.onModalDismissed}
@@ -264,8 +299,16 @@ export default class NewChannelModal extends React.PureComponent {
                         className='form-horizontal'
                     >
                         <Modal.Body>
-                            <div>
-                                {channelSwitchText}
+                            <div className='form-group'>
+                                <label className='col-sm-3 form__label control-label'>
+                                    <FormattedMessage
+                                        id='channel_modal.type'
+                                        defaultMessage='Type'
+                                    />
+                                </label>
+                                <div className='col-sm-9'>
+                                    {typeOptions}
+                                </div>
                             </div>
                             <div className={displayNameClass}>
                                 <label className='col-sm-3 form__label control-label'>

@@ -14,6 +14,8 @@ import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
+import GroupMessageOption from './group_message_option';
+
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
@@ -25,6 +27,7 @@ export default class MoreDirectChannels extends React.Component {
         currentTeamName: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        groupChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
         statuses: PropTypes.object.isRequired,
         totalCount: PropTypes.number,
 
@@ -44,7 +47,7 @@ export default class MoreDirectChannels extends React.Component {
         restrictDirectMessage: PropTypes.string,
         onModalDismissed: PropTypes.func,
         onHide: PropTypes.func,
-
+        bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired,
@@ -136,6 +139,10 @@ export default class MoreDirectChannels extends React.Component {
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
+
+        if (this.props.bodyOnly) {
+            this.handleExit();
+        }
     }
 
     setUsersLoadingState = (loadingState) => {
@@ -188,17 +195,34 @@ export default class MoreDirectChannels extends React.Component {
         } else {
             openGroupChannelToUsers(userIds, success, error);
         }
-    }
+    };
 
     addValue = (value) => {
-        const values = Object.assign([], this.state.values);
+        if (Array.isArray(value)) {
+            this.addUsers(value);
+        } else {
+            const values = Object.assign([], this.state.values);
 
-        if (values.indexOf(value) === -1) {
-            values.push(value);
+            if (values.indexOf(value) === -1) {
+                values.push(value);
+            }
+
+            this.setState({values});
+        }
+    };
+
+    addUsers = (users) => {
+        const values = Object.assign([], this.state.values);
+        const existingUserIds = values.map((user) => user.id);
+        for (const user of users) {
+            if (existingUserIds.indexOf(user.id) !== -1) {
+                continue;
+            }
+            values.push(user);
         }
 
         this.setState({values});
-    }
+    };
 
     getUserProfiles = (page) => {
         const pageNum = page ? page + 1 : 0;
@@ -235,6 +259,17 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     renderOption = (option, isSelected, onAdd) => {
+        if (option.type && option.type === 'G') {
+            return (
+                <GroupMessageOption
+                    key={option.id}
+                    channel={option}
+                    isSelected={isSelected}
+                    onAdd={onAdd}
+                />
+            );
+        }
+
         const displayName = displayEntireNameForUser(option);
 
         let modalName = displayName;
@@ -356,6 +391,41 @@ export default class MoreDirectChannels extends React.Component {
             users = active.concat(inactive);
         }
 
+        const groupChannels = this.props.groupChannels || [];
+
+        const options = [...users, ...groupChannels];
+        const body = (
+            <MultiSelect
+                key='moreDirectChannelsList'
+                ref='multiselect'
+                options={options}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueKey='id'
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                handleDelete={this.handleDelete}
+                handleAdd={this.addValue}
+                handleSubmit={this.handleSubmit}
+                noteText={note}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
+                submitImmediatelyOn={this.handleSubmitImmediatelyOn}
+                saving={this.state.saving}
+                loading={this.state.loadingUsers}
+                users={this.props.users}
+                totalCount={this.props.totalCount}
+            />
+        );
+
+        if (this.props.bodyOnly) {
+            return body;
+        }
+
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels'}
@@ -372,31 +442,7 @@ export default class MoreDirectChannels extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <MultiSelect
-                        key='moreDirectChannelsList'
-                        ref='multiselect'
-                        options={users}
-                        optionRenderer={this.renderOption}
-                        values={this.state.values}
-                        valueKey='id'
-                        valueRenderer={this.renderValue}
-                        perPage={USERS_PER_PAGE}
-                        handlePageChange={this.handlePageChange}
-                        handleInput={this.search}
-                        handleDelete={this.handleDelete}
-                        handleAdd={this.addValue}
-                        handleSubmit={this.handleSubmit}
-                        noteText={note}
-                        maxValues={MAX_SELECTABLE_VALUES}
-                        numRemainingText={numRemainingText}
-                        buttonSubmitText={buttonSubmitText}
-                        buttonSubmitLoadingText={buttonSubmitLoadingText}
-                        submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                        saving={this.state.saving}
-                        loading={this.state.loadingUsers}
-                        users={this.props.users}
-                        totalCount={this.props.totalCount}
-                    />
+                    {body}
                 </Modal.Body>
             </Modal>
         );

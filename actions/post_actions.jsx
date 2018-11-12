@@ -16,7 +16,6 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import store from 'stores/redux_store.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getRhsState} from 'selectors/rhs';
 import {
@@ -30,22 +29,19 @@ import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive} from './post_utils';
 
-const dispatch = store.dispatch;
-const getState = store.getState;
-
 export function handleNewPost(post, msg) {
-    return async (doDispatch, doGetState) => {
+    return async (dispatch, getState) => {
         let websocketMessageProps = {};
         if (msg) {
             websocketMessageProps = msg.data;
         }
 
-        const myChannelMember = getMyChannelMemberSelector(doGetState(), post.channel_id);
+        const myChannelMember = getMyChannelMemberSelector(getState(), post.channel_id);
         if (myChannelMember && Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object') {
-            await doDispatch(getMyChannelMember(post.channel_id));
+            await dispatch(getMyChannelMember(post.channel_id));
         }
 
-        doDispatch(completePostReceive(post, websocketMessageProps));
+        dispatch(completePostReceive(post, websocketMessageProps));
 
         if (msg && msg.data) {
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
@@ -60,9 +56,9 @@ export function handleNewPost(post, msg) {
 const getPostsForIds = PostSelectors.makeGetPostsForIds();
 
 export function flagPost(postId) {
-    return async (doDispatch, doGetState) => {
-        await doDispatch(PostActions.flagPost(postId));
-        const state = doGetState();
+    return async (dispatch, getState) => {
+        await dispatch(PostActions.flagPost(postId));
+        const state = getState();
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
@@ -79,7 +75,7 @@ export function flagPost(postId) {
                 const newResults = [...results, postId];
                 newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
 
-                doDispatch({
+                dispatch({
                     type: SearchTypes.RECEIVED_SEARCH_POSTS,
                     data: {posts, order: newResults},
                 });
@@ -91,9 +87,9 @@ export function flagPost(postId) {
 }
 
 export function unflagPost(postId) {
-    return async (doDispatch, doGetState) => {
-        await doDispatch(PostActions.unflagPost(postId));
-        const state = doGetState();
+    return async (dispatch, getState) => {
+        await dispatch(PostActions.unflagPost(postId));
+        const state = getState();
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
@@ -105,7 +101,7 @@ export function unflagPost(postId) {
 
                 const posts = getPostsForIds(state, results);
 
-                doDispatch({
+                dispatch({
                     type: SearchTypes.RECEIVED_SEARCH_POSTS,
                     data: {posts, order: results},
                 });
@@ -116,49 +112,50 @@ export function unflagPost(postId) {
     };
 }
 
-export async function createPost(post, files, success) {
-    // parse message and emit emoji event
-    const emojis = post.message.match(EMOJI_PATTERN);
-    if (emojis) {
-        for (const emoji of emojis) {
-            const trimmed = emoji.substring(1, emoji.length - 1);
-            dispatch(addRecentEmoji(trimmed));
+export function createPost(post, files) {
+    return async (dispatch) => {
+        // parse message and emit emoji event
+        const emojis = post.message.match(EMOJI_PATTERN);
+        if (emojis) {
+            for (const emoji of emojis) {
+                const trimmed = emoji.substring(1, emoji.length - 1);
+                dispatch(addRecentEmoji(trimmed));
+            }
         }
-    }
 
-    if (UserAgent.isIosClassic()) {
-        await PostActions.createPostImmediately(post, files)(dispatch, getState);
-    } else {
-        await PostActions.createPost(post, files)(dispatch, getState);
-    }
+        let result;
+        if (UserAgent.isIosClassic()) {
+            result = await dispatch(PostActions.createPostImmediately(post, files));
+        } else {
+            result = await dispatch(PostActions.createPost(post, files));
+        }
 
-    if (post.root_id) {
-        dispatch(storeCommentDraft(post.root_id, null));
-    } else {
-        dispatch(storeDraft(post.channel_id, null));
-    }
+        if (post.root_id) {
+            dispatch(storeCommentDraft(post.root_id, null));
+        } else {
+            dispatch(storeDraft(post.channel_id, null));
+        }
 
-    if (success) {
-        success();
-    }
+        return result;
+    };
 }
 
 export function storeDraft(channelId, draft) {
-    return (doDispatch) => {
-        doDispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
+    return (dispatch) => {
+        dispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
     };
 }
 
 export function storeCommentDraft(rootPostId, draft) {
-    return (doDispatch) => {
-        doDispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
+    return (dispatch) => {
+        dispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
     };
 }
 
 export function addReaction(postId, emojiName) {
-    return (doDispatch) => {
-        doDispatch(PostActions.addReaction(postId, emojiName));
-        doDispatch(addRecentEmoji(emojiName));
+    return (dispatch) => {
+        dispatch(PostActions.addReaction(postId, emojiName));
+        dispatch(addRecentEmoji(emojiName));
     };
 }
 
@@ -166,8 +163,8 @@ const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
 // Returns true if there are more posts to load
 export function increasePostVisibility(channelId, focusedPostId) {
-    return async (doDispatch, doGetState) => {
-        const state = doGetState();
+    return async (dispatch, getState) => {
+        const state = getState();
         if (state.views.channel.loadingPosts[channelId]) {
             return true;
         }
@@ -178,7 +175,7 @@ export function increasePostVisibility(channelId, focusedPostId) {
             return true;
         }
 
-        doDispatch(batchActions([
+        dispatch(batchActions([
             {
                 type: ActionTypes.LOADING_POSTS,
                 data: true,
@@ -195,13 +192,13 @@ export function increasePostVisibility(channelId, focusedPostId) {
 
         let result;
         if (focusedPostId) {
-            result = await doDispatch(PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT));
+            result = await dispatch(PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT));
         } else {
-            result = await doDispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
+            result = await dispatch(PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT));
         }
         const posts = result.data;
 
-        doDispatch({
+        dispatch({
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,
@@ -212,15 +209,15 @@ export function increasePostVisibility(channelId, focusedPostId) {
 }
 
 export function searchForTerm(term) {
-    return (doDispatch) => {
-        doDispatch(RhsActions.updateSearchTerms(term));
-        doDispatch(RhsActions.showSearchResults());
+    return (dispatch) => {
+        dispatch(RhsActions.updateSearchTerms(term));
+        dispatch(RhsActions.showSearchResults());
     };
 }
 
 export function pinPost(postId) {
-    return async (doDispatch, doGetState) => {
-        await PostActions.pinPost(postId)(doDispatch, doGetState);
+    return async (dispatch) => {
+        await dispatch(PostActions.pinPost(postId));
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_PINNED,
@@ -230,8 +227,8 @@ export function pinPost(postId) {
 }
 
 export function unpinPost(postId) {
-    return async (doDispatch, doGetState) => {
-        await PostActions.unpinPost(postId)(doDispatch, doGetState);
+    return async (dispatch) => {
+        await dispatch(PostActions.unpinPost(postId));
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_UNPINNED,
@@ -241,8 +238,8 @@ export function unpinPost(postId) {
 }
 
 export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
-    return async (doDispatch, doGetState) => {
-        const state = doGetState();
+    return async (dispatch, getState) => {
+        const state = getState();
         const post = PostSelectors.getPost(state, postId);
 
         if (!post || post.pending_post_id === postId) {
@@ -260,10 +257,10 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
         // Only show the modal if we can edit the post now, but allow it to be hidden at any time
 
         if (canEditNow) {
-            doDispatch({
+            dispatch({
                 type: ActionTypes.SHOW_EDIT_POST_MODAL,
                 data: {postId, commentCount, refocusId, title, isRHS},
-            }, doGetState);
+            });
         }
 
         return {data: canEditNow};
@@ -277,20 +274,20 @@ export function hideEditPostModal() {
 }
 
 export function deleteAndRemovePost(post) {
-    return async (doDispatch, doGetState) => {
-        const {currentUserId} = doGetState().entities.users;
+    return async (dispatch, getState) => {
+        const {currentUserId} = getState().entities.users;
 
         let hardDelete = false;
         if (post.user_id === currentUserId) {
             hardDelete = true;
         }
 
-        const {error} = await doDispatch(PostActions.deletePost(post, hardDelete));
+        const {error} = await dispatch(PostActions.deletePost(post, hardDelete));
         if (error) {
             return {error};
         }
 
-        if (post.id === getSelectedPostId(doGetState())) {
+        if (post.id === getSelectedPostId(getState())) {
             dispatch({
                 type: ActionTypes.SELECT_POST,
                 postId: '',
@@ -298,7 +295,7 @@ export function deleteAndRemovePost(post) {
             });
         }
 
-        doDispatch({
+        dispatch({
             type: PostTypes.REMOVE_POST,
             data: post,
         });
@@ -314,10 +311,10 @@ export function deleteAndRemovePost(post) {
 }
 
 export function toggleEmbedVisibility(postId) {
-    return (doDispatch, doGetState) => {
-        const visible = isEmbedVisible(doGetState(), postId);
+    return (dispatch, getState) => {
+        const visible = isEmbedVisible(getState(), postId);
 
-        doDispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + postId, !visible));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + postId, !visible));
     };
 }
 

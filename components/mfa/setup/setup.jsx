@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {activateMfa, generateMfaSecret} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -15,6 +14,10 @@ export default class Setup extends React.Component {
         currentUser: PropTypes.object,
         siteName: PropTypes.string,
         enforceMultifactorAuthentication: PropTypes.bool.isRequired,
+        actions: PropTypes.shape({
+            activateMfa: PropTypes.func.isRequired,
+            generateMfaSecret: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -30,10 +33,19 @@ export default class Setup extends React.Component {
             return;
         }
 
-        generateMfaSecret(
-            (data) => this.setState({secret: data.secret, qrCode: data.qr_code}),
-            (err) => this.setState({serverError: err.message})
-        );
+        this.props.actions.generateMfaSecret().then(({data, error}) => {
+            if (error) {
+                this.setState({
+                    serverError: error.message,
+                });
+                return;
+            }
+
+            this.setState({
+                secret: data.secret,
+                qrCode: data.qr_code,
+            });
+        });
     }
 
     submit = (e) => {
@@ -46,19 +58,23 @@ export default class Setup extends React.Component {
 
         this.setState({error: null});
 
-        activateMfa(
-            code,
-            () => {
-                this.props.history.push('/mfa/confirm');
-            },
-            (err) => {
-                if (err.id === 'ent.mfa.activate.authenticate.app_error') {
-                    this.setState({error: Utils.localizeMessage('mfa.setup.badCode', 'Invalid code. If this issue persists, contact your System Administrator.')});
-                    return;
+        this.props.actions.activateMfa(code).then(({error}) => {
+            if (error) {
+                if (error.server_error_id === 'ent.mfa.activate.authenticate.app_error') {
+                    this.setState({
+                        error: Utils.localizeMessage('mfa.setup.badCode', 'Invalid code. If this issue persists, contact your System Administrator.'),
+                    });
+                } else {
+                    this.setState({
+                        error: error.message,
+                    });
                 }
-                this.setState({error: err.message});
+
+                return;
             }
-        );
+
+            this.props.history.push('/mfa/confirm');
+        });
     }
 
     render() {

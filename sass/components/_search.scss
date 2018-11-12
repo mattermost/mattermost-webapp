@@ -135,8 +135,14 @@
             border: none;
         }
 
+        &:hover {
+            .post__header {
+                padding-right: 105px;
+            }
+        }
+
         .post__header {
-            padding-right: 100px;
+            padding-right: 70px;
         }
 
         .search-channel__name {

@@ -24,7 +24,7 @@ export default class NewChannelFlow extends React.Component {
         show: PropTypes.bool.isRequired,
 
         /**
-        * Set to Constants.OPEN_CHANNEL or Constants.PRIVATE_CHANNEL depending on which modal we should show
+        * Set to Constants.OPEN_CHANNEL or Constants.PRIVATE_CHANNEL depending on which modal we should show first
         */
         channelType: PropTypes.string.isRequired,
 
@@ -37,6 +37,16 @@ export default class NewChannelFlow extends React.Component {
         * The current team ID
         */
         currentTeamId: PropTypes.string.isRequired,
+
+        /**
+         * Permission to create public channel
+         */
+        canCreatePublicChannel: PropTypes.bool.isRequired,
+
+        /**
+         * Permission to create private channel
+         */
+        canCreatePrivateChannel: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
             createChannel: PropTypes.func.isRequired,
@@ -129,14 +139,7 @@ export default class NewChannelFlow extends React.Component {
         }
     };
 
-    typeSwitched = (e) => {
-        e.preventDefault();
-
-        let channelType = Constants.PRIVATE_CHANNEL;
-        if (this.state.channelType === Constants.PRIVATE_CHANNEL) {
-            channelType = Constants.OPEN_CHANNEL;
-        }
-
+    typeSwitched = (channelType) => {
         this.setState({
             channelType,
             serverError: '',
@@ -182,7 +185,6 @@ export default class NewChannelFlow extends React.Component {
         };
 
         let showChannelModal = false;
-        let showGroupModal = false;
         let showChangeURLModal = false;
 
         let changeURLTitle = '';
@@ -192,11 +194,7 @@ export default class NewChannelFlow extends React.Component {
         if (this.props.show) {
             switch (this.state.flowState) {
             case SHOW_NEW_CHANNEL:
-                if (this.state.channelType === Constants.OPEN_CHANNEL) {
-                    showChannelModal = true;
-                } else {
-                    showGroupModal = true;
-                }
+                showChannelModal = true;
                 break;
             case SHOW_EDIT_URL:
                 showChangeURLModal = true;
@@ -229,18 +227,9 @@ export default class NewChannelFlow extends React.Component {
             <span>
                 <NewChannelModal
                     show={showChannelModal}
-                    channelType={Constants.OPEN_CHANNEL}
-                    channelData={channelData}
-                    serverError={this.state.serverError}
-                    onSubmitChannel={this.onSubmit}
-                    onModalDismissed={this.props.onModalDismissed}
-                    onTypeSwitched={this.typeSwitched}
-                    onChangeURLPressed={this.urlChangeRequested}
-                    onDataChanged={this.channelDataChanged}
-                />
-                <NewChannelModal
-                    show={showGroupModal}
-                    channelType={Constants.PRIVATE_CHANNEL}
+                    channelType={this.state.channelType}
+                    canCreatePublicChannel={this.props.canCreatePublicChannel}
+                    canCreatePrivateChannel={this.props.canCreatePrivateChannel}
                     channelData={channelData}
                     serverError={this.state.serverError}
                     onSubmitChannel={this.onSubmit}

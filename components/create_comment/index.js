@@ -9,6 +9,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
+import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
@@ -43,6 +44,7 @@ function mapStateToProps(state, ownProps) {
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enableGifPicker = config.EnableGifPicker === 'true';
     const badConnection = connectionErrorCount(state) > 1;
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
     return {
         draft,
@@ -60,6 +62,7 @@ function mapStateToProps(state, ownProps) {
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: getIsRhsExpanded(state),
         badConnection,
+        isTimezoneEnabled,
     };
 }
 
@@ -111,6 +114,7 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexForward,
             onEditLatestPost,
             resetCreatePostRequest,
+            getChannelTimezones,
         }, dispatch);
     };
 }

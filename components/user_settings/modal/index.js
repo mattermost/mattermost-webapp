@@ -13,14 +13,14 @@ function mapStateToProps(state) {
     const config = getConfig(state);
 
     const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
-    const experimentalGroupUnreadChannels = config.ExperimentalGroupUnreadChannels;
+    const experimentalChannelOrganization = config.ExperimentalChannelOrganization === 'true';
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
 
     return {
         currentUser: getCurrentUser(state),
         closeUnusedDirectMessages,
-        experimentalGroupUnreadChannels,
+        experimentalChannelOrganization,
         sendEmailNotifications,
         requireEmailVerification,
     };

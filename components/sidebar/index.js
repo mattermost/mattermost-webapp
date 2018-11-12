@@ -6,27 +6,22 @@ import {bindActionCreators} from 'redux';
 
 import {Preferences} from 'mattermost-redux/constants/index';
 import {
-    getSortedPublicChannelWithUnreadsIds,
-    getSortedPrivateChannelWithUnreadsIds,
-    getSortedFavoriteChannelWithUnreadsIds,
-    getSortedDirectChannelWithUnreadsIds,
     getCurrentChannel,
     getUnreads,
     getSortedUnreadChannelIds,
-    getSortedDirectChannelIds,
-    getSortedFavoriteChannelIds,
-    getSortedPublicChannelIds,
-    getSortedPrivateChannelIds,
+    getOrderedChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
+
+import Permissions from 'mattermost-redux/constants/permissions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool as getBoolPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
-import {GroupUnreadChannels} from 'utils/constants.jsx';
 
 import Sidebar from './sidebar.jsx';
 
@@ -34,16 +29,21 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = currentChannel && currentChannel.teammate_id && getCurrentChannel(state, currentChannel.teammate_id);
-    let publicChannelIds;
-    let privateChannelIds;
-    let favoriteChannelIds;
-    let directAndGroupChannelIds;
+    const currentTeam = getCurrentTeam(state);
 
-    const showUnreadSection = config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED && getBoolPreference(
+    const canCreatePublicChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PUBLIC_CHANNEL});
+    const canCreatePrivateChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PRIVATE_CHANNEL});
+
+    const sidebarPrefs = getSidebarPreferences(state);
+    const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
+    const unreadChannelIds = getSortedUnreadChannelIds(state, lastUnreadChannel);
+    const orderedChannelIds = getOrderedChannelIds(
         state,
-        Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        'show_unread_section',
-        config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON
+        lastUnreadChannel,
+        sidebarPrefs.grouping,
+        sidebarPrefs.sorting,
+        sidebarPrefs.unreads_at_top === 'true',
+        sidebarPrefs.favorite_at_top === 'true',
     );
 
     const channelSwitcherOption = getBoolPreference(
@@ -53,34 +53,18 @@ function mapStateToProps(state) {
         'true'
     );
 
-    const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;
-
-    if (showUnreadSection) {
-        publicChannelIds = getSortedPublicChannelIds(state, keepChannelIdAsUnread);
-        privateChannelIds = getSortedPrivateChannelIds(state, keepChannelIdAsUnread);
-        favoriteChannelIds = getSortedFavoriteChannelIds(state, keepChannelIdAsUnread);
-        directAndGroupChannelIds = getSortedDirectChannelIds(state, keepChannelIdAsUnread);
-    } else {
-        publicChannelIds = getSortedPublicChannelWithUnreadsIds(state);
-        privateChannelIds = getSortedPrivateChannelWithUnreadsIds(state);
-        favoriteChannelIds = getSortedFavoriteChannelWithUnreadsIds(state);
-        directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
-    }
-
     return {
         config,
-        isOpen: getIsLhsOpen(state),
-        showUnreadSection,
+        unreadChannelIds,
+        orderedChannelIds,
         channelSwitcherOption,
-        publicChannelIds,
-        privateChannelIds,
-        favoriteChannelIds,
-        directAndGroupChannelIds,
-        unreadChannelIds: getSortedUnreadChannelIds(state, keepChannelIdAsUnread),
         currentChannel,
         currentTeammate,
-        currentTeam: getCurrentTeam(state),
+        currentTeam,
         currentUser: getCurrentUser(state),
+        canCreatePublicChannel,
+        canCreatePrivateChannel,
+        isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
     };
 }
