@@ -226,6 +226,7 @@ export default class CreatePost extends React.Component {
         };
 
         this.lastBlurAt = 0;
+        this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
     }
 
@@ -263,6 +264,7 @@ export default class CreatePost extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
+            this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
         }
     }
@@ -494,7 +496,7 @@ export default class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter, currentChannel} = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
 
         if (allowSending) {
             e.persist();
