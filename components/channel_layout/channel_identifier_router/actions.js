@@ -8,7 +8,7 @@ import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as 
 import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
 
 import {Constants} from 'utils/constants.jsx';
-import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
+import {openDirectChannelToUserId} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -139,13 +139,13 @@ function goToDirectChannelByUsername(match, history) {
             user = data;
         }
 
-        openDirectChannelToUser(
-            user.id,
-            (channel) => {
-                doChannelChange(channel);
-            },
-            () => handleError(match, history)
-        );
+        const {error, data} = await openDirectChannelToUserId(user.id);
+        if (error) {
+            handleError(match, history);
+            return;
+        }
+
+        doChannelChange(data);
     };
 }
 

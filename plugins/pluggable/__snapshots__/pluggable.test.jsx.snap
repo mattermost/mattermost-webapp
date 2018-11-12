@@ -240,6 +240,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
       <ProfilePopover
         actions={
           Object {
+            "openDirectChannelToUserId": [Function],
             "openModal": [Function],
           }
         }
