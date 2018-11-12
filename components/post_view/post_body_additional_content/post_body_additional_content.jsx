@@ -9,7 +9,6 @@ import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
-import {getOpenGraphMetadataByLink} from 'utils/file_utils';
 
 import MessageAttachmentList from '../message_attachments/message_attachment_list.jsx';
 import PostAttachmentOpenGraph from '../post_attachment_opengraph';
@@ -135,7 +134,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 postId={this.props.post.id}
                 key={this.props.post.id}
                 options={this.props.options}
-                images={this.props.post.metadata.images}
+                imagesMetadata={this.props.post.metadata.images}
             />
         );
     }
@@ -250,14 +249,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
         const link = Utils.extractFirstLink(this.props.post.message);
         if (link && this.props.enableLinkPreviews && this.props.previewEnabled && this.props.post.metadata.embeds) {
-            const openGraphData = getOpenGraphMetadataByLink(this.props.post.metadata.embeds, link);
             return (
                 <PostAttachmentOpenGraph
                     link={link}
                     isEmbedVisible={this.props.isEmbedVisible}
                     post={this.props.post}
                     toggleEmbedVisibility={this.toggleEmbedVisibility}
-                    openGraphData={openGraphData}
                 />
             );
         }

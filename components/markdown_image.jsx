@@ -19,7 +19,7 @@ export default class MarkdownImage extends React.PureComponent {
     }
 
     handleLoad = () => {
-        // image loaded but not still havent recived new post webscoket event
+        // image is loaded but still havent recived new post webscoket event for metadata
         // so meanwhile correct manually
 
         if (!this.props.dimentions && this.props.onHeightReceived) {
@@ -34,7 +34,6 @@ export default class MarkdownImage extends React.PureComponent {
 
         return (
             <img
-                ref={this.imageRef}
                 {...props}
                 onLoad={this.handleLoad}
                 style={{

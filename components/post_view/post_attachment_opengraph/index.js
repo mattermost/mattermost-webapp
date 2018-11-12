@@ -3,17 +3,17 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
-import {getOpenGraphMetadata} from 'mattermost-redux/actions/posts';
+import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {editPost} from 'actions/views/posts';
 
 import PostAttachmentOpenGraph from './post_attachment_opengraph.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
         currentUser: getCurrentUser(state),
+        openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
     };
 }
 
@@ -21,7 +21,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             editPost,
-            getOpenGraphMetadata,
         }, dispatch),
     };
 }

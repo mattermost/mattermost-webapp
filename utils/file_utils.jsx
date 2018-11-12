@@ -55,11 +55,3 @@ export function getFileDimentionsForDisplay(dimentions, {maxHeight, maxWidth}) {
         width: maxWidth,
     };
 }
-
-export function getOpenGraphMetadataByLink(embedData, url) {
-    const og = embedData.find((embed) => embed.type === 'opengraph' && embed.url === url);
-    if (og) {
-        return og.data;
-    }
-    return null;
-}
