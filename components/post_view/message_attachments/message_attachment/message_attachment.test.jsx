@@ -29,7 +29,7 @@ describe('components/post_view/MessageAttachment', () => {
         postId: 'post_id',
         attachment,
         actions: {doPostAction: jest.fn()},
-        images: {
+        imagesMetadata: {
             image_url: {
                 height: 200,
                 width: 200,

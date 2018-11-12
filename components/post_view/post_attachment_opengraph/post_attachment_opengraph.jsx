@@ -12,6 +12,21 @@ import * as Utils from 'utils/utils.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {getFileDimentionsForDisplay} from 'utils/file_utils';
 
+const MAX_DIMENTIONS_LARGE_IMAGE = {
+    maxHeight: 200,
+    maxWidth: 400,
+};
+
+const MAX_DIMENTIONS_SMALL_IMAGE = {
+    maxHeight: 80,
+    maxWidth: 95,
+};
+
+const DIMENTIONS_NEAREST_POINT_IMAGE = {
+    height: 80,
+    width: 80,
+};
+
 export default class PostAttachmentOpenGraph extends React.PureComponent {
     static propTypes = {
 
@@ -122,12 +137,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (Utils.isEmptyObject(data.images)) {
             return null;
         }
-        const imageDimentions = { // Image dimentions in pixels.
-            height: 80,
-            width: 80,
-        };
 
-        const bestImage = CommonUtils.getNearestPoint(imageDimentions, data.images, 'width', 'height');
+        const bestImage = CommonUtils.getNearestPoint(DIMENTIONS_NEAREST_POINT_IMAGE, data.images, 'width', 'height');
         return bestImage.secure_url || bestImage.url;
     }
 
@@ -180,7 +191,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             (!renderingForLargeImage || (renderingForLargeImage && this.props.isEmbedVisible))
         ) {
             if (renderingForLargeImage) {
-                const imageDimentions = getFileDimentionsForDisplay(this.props.post.metadata.images[imageUrl], {maxHeight: 200, maxWidth: 400});
+                const imageDimentions = getFileDimentionsForDisplay(this.props.post.metadata.images[imageUrl], MAX_DIMENTIONS_LARGE_IMAGE);
 
                 element = (
                     <img
@@ -190,7 +201,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                     />
                 );
             } else {
-                const imageDimentions = getFileDimentionsForDisplay(this.props.post.metadata.images[imageUrl], {maxHeight: 80, maxWidth: 95});
+                const imageDimentions = getFileDimentionsForDisplay(this.props.post.metadata.images[imageUrl], MAX_DIMENTIONS_SMALL_IMAGE);
                 element = this.wrapInSmallImageContainer(
                     <img
                         className={'attachment__image attachment__image--opengraph'}

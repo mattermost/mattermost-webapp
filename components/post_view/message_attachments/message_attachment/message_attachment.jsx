@@ -19,6 +19,15 @@ import ActionMenu from '../action_menu';
 
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
+const MAX_DIMENTIONS_IMAGE_URL = {
+    maxHeight: 300,
+    maxWidth: 500,
+};
+const MAX_DIMENTIONS_THUMB_URL = {
+    maxHeight: 75,
+    maxWidth: 80,
+};
+
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
 
@@ -40,7 +49,7 @@ export default class MessageAttachment extends React.PureComponent {
         /**
          * images object for dimentions
          */
-        images: PropTypes.object,
+        imagesMetadata: PropTypes.object,
 
         actions: PropTypes.shape({
             doPostAction: PropTypes.func.isRequired,
@@ -303,7 +312,7 @@ export default class MessageAttachment extends React.PureComponent {
 
         let image;
         if (attachment.image_url) {
-            const imageDimentions = getFileDimentionsForDisplay(this.props.images[attachment.image_url], {maxHeight: 300, maxWidth: 500});
+            const imageDimentions = getFileDimentionsForDisplay(this.props.imagesMetadata[attachment.image_url], MAX_DIMENTIONS_IMAGE_URL);
             image = (
                 <img
                     className='attachment__image'
@@ -315,7 +324,7 @@ export default class MessageAttachment extends React.PureComponent {
 
         let thumb;
         if (attachment.thumb_url) {
-            const imageDimentions = getFileDimentionsForDisplay(this.props.images[attachment.thumb_url], {maxHeight: 75, maxWidth: 80});
+            const imageDimentions = getFileDimentionsForDisplay(this.props.imagesMetadata[attachment.thumb_url], MAX_DIMENTIONS_THUMB_URL);
             thumb = (
                 <div
                     className='attachment__thumb-container'

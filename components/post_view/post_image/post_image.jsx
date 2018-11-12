@@ -9,6 +9,11 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {getFileDimentionsForDisplay} from 'utils/file_utils';
 
+const MAX_IMAGE_DIMENTIONS = {
+    maxHeight: 500,
+    maxWidth: 450,
+};
+
 export default class PostImageEmbed extends React.PureComponent {
     static propTypes = {
 
@@ -110,7 +115,7 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
-        const imageDimentions = getFileDimentionsForDisplay(this.props.dimentions, {maxHeight: 500, maxWidth: 450});
+        const imageDimentions = getFileDimentionsForDisplay(this.props.dimentions, MAX_IMAGE_DIMENTIONS);
         if (this.state.errored || !this.state.loaded) {
             return (
                 <div style={{...imageDimentions, marginBottom: '13px'}}>
