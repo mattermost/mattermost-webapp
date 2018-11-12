@@ -118,7 +118,7 @@ export default class FilePreview extends React.PureComponent {
             const fileInfo = uploadsInProgress[clientId];
             if (fileInfo) {
                 percent = fileInfo.percent;
-                const percentTxt = ` (${percent.toFixed(0)} %)`;
+                const percentTxt = ` (${percent.toFixed(0)}%)`;
                 const fileType = getFileTypeFromMime(fileInfo.extension);
                 previewImage = <div className={'file-icon ' + Utils.getIconClassName(fileType)}/>;
 
