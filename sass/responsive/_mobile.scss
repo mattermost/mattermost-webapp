@@ -633,10 +633,6 @@
         margin-bottom: 30px;
         padding: 60px 10px 0;
 
-        .min-height--fill {
-            min-height: calc(100vh - 350px);
-        }
-
         .signup-team__name {
             font-size: 2em;
         }
@@ -1813,10 +1809,25 @@
     }
 }
 
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 263px) {
     .signup-team__container {
-        .min-height--fill {
-            min-height: calc(100vh - 383px);
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 265px);
+            height: calc(100vh - 265px);
+        }
+
+        .terms-of-service__height--fill {
+            min-height: calc(100vh - 150px);
+            height: calc(100vh - 150px);;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 216px);
+            height: calc(100vh - 216px);
         }
     }
 }

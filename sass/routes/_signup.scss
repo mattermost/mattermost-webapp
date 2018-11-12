@@ -21,6 +21,16 @@
     padding: 100px 0 50px;
     position: relative;
 
+    .medium-center {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .scrollable {
+        overflow-y: auto;
+    }
+
     &.branded {
         @include display-flex;
         @include flex-direction(row);
@@ -64,7 +74,8 @@
         padding-top: 70px;
     }
 
-    &.padding-botttom--less {
+    &.terms-of-service__padding--less {
+        padding-top: 40px;
         padding-bottom: 10px;
     }
 
@@ -72,12 +83,31 @@
         max-width: 70%;
     }
 
+    &.max-width--full {
+        max-width: 100%;
+    }
+
     .form-control:focus {
         @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6));
     }
 
-    .min-height--fill {
-        min-height: calc(100vh - 252px);
+    .terms-of-service-error__height--fill {
+        min-height: calc(100vh - 186px);
+        height: calc(100vh - 186px);
+    }
+
+    .terms-of-service__height--fill {
+        height: calc(100vh - 130px);
+    }
+
+    .medium-center {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .scrollable {
+        overflow-y: auto;
     }
 
     h1,
@@ -456,6 +486,10 @@
 
     .color--light {
         color: #777777;
+    }
+
+    .margin--small {
+        margin-top: 1em;
     }
 
     .margin--extra {
