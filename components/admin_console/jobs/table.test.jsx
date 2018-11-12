@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+
 import JobTable from './table.jsx';
 
 describe('components/admin_console/jobs/table', () => {
