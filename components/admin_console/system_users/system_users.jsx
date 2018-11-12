@@ -79,12 +79,10 @@ export default class SystemUsers extends React.Component {
     constructor(props) {
         super(props);
 
-        this.loadDataForTeam = this.loadDataForTeam.bind(this);
         this.loadComplete = this.loadComplete.bind(this);
 
         this.handleTeamChange = this.handleTeamChange.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
-        this.nextPage = this.nextPage.bind(this);
 
         this.doSearch = this.doSearch.bind(this);
         this.search = this.search.bind(this);
@@ -107,7 +105,7 @@ export default class SystemUsers extends React.Component {
         this.props.actions.setSystemUsersSearch('', '');
     }
 
-    loadDataForTeam(teamId) {
+    loadDataForTeam = async (teamId) => {
         if (this.props.searchTerm) {
             this.search(this.props.searchTerm, teamId);
             return;
@@ -119,7 +117,12 @@ export default class SystemUsers extends React.Component {
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
             loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, this.loadComplete);
         } else {
-            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId, this.loadComplete);
+            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId).then(({data}) => {
+                if (data) {
+                    this.loadComplete();
+                }
+            });
+
             this.props.actions.getTeamStats(teamId);
         }
     }
@@ -138,7 +141,7 @@ export default class SystemUsers extends React.Component {
         this.props.actions.setSystemUsersSearch(term, this.props.teamId);
     }
 
-    nextPage(page) {
+    nextPage = (page) => {
         // Paging isn't supported while searching
 
         if (this.props.teamId === SearchUserTeamFilter.ALL_USERS) {
@@ -146,7 +149,11 @@ export default class SystemUsers extends React.Component {
         } else if (this.props.teamId === SearchUserTeamFilter.NO_TEAM) {
             loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, this.loadComplete);
         } else {
-            this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId, this.loadComplete);
+            this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId).then(({data}) => {
+                if (data) {
+                    this.loadComplete();
+                }
+            });
         }
     }
 
