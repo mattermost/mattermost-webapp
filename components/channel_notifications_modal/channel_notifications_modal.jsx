@@ -56,19 +56,19 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     handleOnHide = () => {
-        this.updateSection('');
+        this.updateSection(NotificationSections.NONE);
 
         this.props.onHide();
     }
 
-    updateSection = (section) => {
+    updateSection = (section = NotificationSections.NONE) => {
         if ($('.section-max').length) {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
 
         this.setState({activeSection: section});
 
-        if (section === '') {
+        if (section === NotificationSections.NONE) {
             this.resetStateFromNotifyProps(this.props.channelMember.notify_props);
         }
     }
@@ -84,7 +84,7 @@ export default class ChannelNotificationsModal extends React.Component {
         if (error) {
             this.setState({serverError: error.message});
         } else {
-            this.updateSection('');
+            this.updateSection(NotificationSections.NONE);
         }
     }
 
@@ -93,7 +93,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const {desktopNotifyLevel} = this.state;
 
         if (channelMember.notify_props.desktop === desktopNotifyLevel) {
-            this.updateSection('');
+            this.updateSection(NotificationSections.NONE);
             return;
         }
 
@@ -110,7 +110,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const {markUnreadNotifyLevel} = this.state;
 
         if (channelMember.notify_props.mark_unread === markUnreadNotifyLevel) {
-            this.updateSection('');
+            this.updateSection(NotificationSections.NONE);
             return;
         }
 
@@ -126,7 +126,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const {pushNotifyLevel} = this.state;
 
         if (this.props.channelMember.notify_props.push === pushNotifyLevel) {
-            this.updateSection('');
+            this.updateSection(NotificationSections.NONE);
             return;
         }
 
