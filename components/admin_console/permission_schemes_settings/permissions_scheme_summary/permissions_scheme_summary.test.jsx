@@ -21,8 +21,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
             {id: 'zzz', name: 'team-3', display_name: 'Team 3'},
         ],
         actions: {
-            loadSchemeTeams: jest.fn().mockReturnValueOnce(Promise.resolve()),
-            deleteScheme: jest.fn(),
+            deleteScheme: jest.fn().mockResolvedValue({data: true}),
         },
     };
 
@@ -65,12 +64,11 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
     });
 
     test('should ask to toggle on row toggle', () => {
-        const deleteScheme = jest.fn();
+        const deleteScheme = jest.fn().mockResolvedValue({data: true});
         const wrapper = shallow(
             <PermissionsSchemeSummary
                 {...defaultProps}
                 actions={{
-                    loadSchemeTeams: jest.fn(),
                     deleteScheme,
                 }}
             />
