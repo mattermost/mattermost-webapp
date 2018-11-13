@@ -276,6 +276,7 @@ export default class SearchBar extends React.Component {
                             type='search'
                             autoFocus={this.props.isFocus && this.props.searchTerms === ''}
                             delayInputUpdate={true}
+                            renderDividers={true}
                         />
                         <div
                             id='searchClearButton'
