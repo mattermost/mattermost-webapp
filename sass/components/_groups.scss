@@ -200,3 +200,40 @@
         }
     }
 }
+
+.group-users {
+    .group-users--header {
+        background: $black;
+        color: $white;
+        padding: 10px 20px;
+        a {
+            color: $white;
+            text-decoration: underline;
+        }
+    }
+    .group-users--body {
+        padding: 15px;
+        .group-users-row {
+            &:nth-child(even) {
+                background: alpha-color($white, .5)
+            }
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            .profile-picture {
+                width: 32px;
+                height: 32px;
+                margin: 5px 10px;
+                border-radius: 100%;
+            }
+            .user-data {
+                .name-row {
+                    display: flex;
+                }
+                .display-name, .email {
+                    color: $gray;
+                }
+            }
+        }
+    }
+}
