@@ -2,12 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import GroupUsersRow from 'components/admin_console/group_settings/group_details/group_users_row';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class GroupUsers extends React.PureComponent {
+    static propTypes = {
+        members: PropTypes.arrayOf(PropTypes.object),
+    };
+
     render = () => {
+        const {members} = this.props;
         return (
             <div className='group-users'>
                 <div className='group-users--header'>
@@ -17,34 +23,17 @@ export default class GroupUsers extends React.PureComponent {
                     />
                 </div>
                 <div className='group-users--body'>
-                    <GroupUsersRow
-                        username='test.user'
-                        displayName='Test User'
-                        email='test.user@mattermost.com'
-                        userId='5ourgmatkfbuun3a167c6x8wca'
-                        lastPictureUpdate={0}
-                    />
-                    <GroupUsersRow
-                        username='test.user'
-                        displayName='Test User'
-                        email='test.user@mattermost.com'
-                        userId='5ourgmatkfbuun3a167c6x8wca'
-                        lastPictureUpdate={0}
-                    />
-                    <GroupUsersRow
-                        username='test.user'
-                        displayName='Test User'
-                        email='test.user@mattermost.com'
-                        userId='5ourgmatkfbuun3a167c6x8wca'
-                        lastPictureUpdate={0}
-                    />
-                    <GroupUsersRow
-                        username='test.user'
-                        displayName='Test User'
-                        email='test.user@mattermost.com'
-                        userId='5ourgmatkfbuun3a167c6x8wca'
-                        lastPictureUpdate={0}
-                    />
+                    {members.map((member) => {
+                        return (
+                            <GroupUsersRow
+                                username={member.username}
+                                displayName={member.first_name + ' ' + member.last_name}
+                                email={member.email}
+                                userId={member.id}
+                                lastPictureUpdate={0}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         );

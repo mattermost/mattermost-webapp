@@ -21,35 +21,35 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 hasChildren: true,
                 name: 'Contributors',
                 collapsed: false,
-                key: '1',
+                id: '1',
             },
             {
                 type: 'private-channel',
                 name: 'Authentication',
-                key: '2',
+                id: '2',
             },
             {
                 type: 'public-team',
                 hasChildren: false,
                 name: 'Customer Support',
-                key: '3',
+                id: '3',
             },
             {
                 type: 'private-team',
                 hasChildren: true,
                 name: 'Deepmind Product Team',
                 collapsed: false,
-                key: '4',
+                id: '4',
             },
             {
                 type: 'private-channel',
                 name: 'Advertisements',
-                key: '5',
+                id: '5',
             },
             {
                 type: 'public-channel',
                 name: 'Decisions',
-                key: '6',
+                id: '6',
             },
         ];
         return (
@@ -62,7 +62,10 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 </div>
                 <div className='group-teams-and-channels--body'>
                     {entries.map((entry) => (
-                        <GroupTeamsAndChannelsRow {...entry}/>
+                        <GroupTeamsAndChannelsRow
+                            key={entry.id}
+                            {...entry}
+                        />
                     ))}
                 </div>
             </div>

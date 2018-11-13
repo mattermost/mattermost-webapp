@@ -12,7 +12,6 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        key: PropTypes.string.isRequired,
         hasChildren: PropTypes.bool,
         collapsed: PropTypes.bool,
     }

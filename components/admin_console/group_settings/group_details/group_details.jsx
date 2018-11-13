@@ -33,6 +33,7 @@ export default class GroupDetails extends React.PureComponent {
         members: [],
         groupTeams: [],
         groupChannels: [],
+        group: {display_name: ''},
     };
 
     constructor(props) {
@@ -51,6 +52,7 @@ export default class GroupDetails extends React.PureComponent {
     }
 
     render = () => {
+        const {group, members} = this.props;
         return (
             <div className='wrapper--fixed'>
                 <h3 className='admin-console-header'>
@@ -77,7 +79,7 @@ export default class GroupDetails extends React.PureComponent {
                     subtitleDefaultMessage='Set the name and description for this group.'
                 >
                     <GroupProfile
-                        name='fake-name'
+                        name={group.display_name}
                     />
                 </AdminPanel>
 
@@ -98,7 +100,7 @@ export default class GroupDetails extends React.PureComponent {
                     subtitleId={t('admin.group_settings.group_detail.groupUsersDescription')}
                     subtitleDefaultMessage='Below is a listing of all users associated with this group.'
                 >
-                    <GroupUsers/>
+                    <GroupUsers members={members}/>
                 </AdminPanel>
             </div>
         );
