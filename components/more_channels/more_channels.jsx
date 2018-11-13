@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
-import {searchMoreChannels} from 'actions/channel_actions.jsx';
 
 import {getRelativeChannelURL} from 'utils/url.jsx';
 
@@ -32,6 +31,7 @@ export default class MoreChannels extends React.Component {
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
             joinChannel: PropTypes.func.isRequired,
+            searchMoreChannels: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -111,25 +111,31 @@ export default class MoreChannels extends React.Component {
 
         const searchTimeoutId = setTimeout(
             () => {
-                searchMoreChannels(
-                    term,
-                    (channels) => {
+                this.props.actions.searchMoreChannels(term).
+                    then((result) => {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
                         }
-                        this.setSearchResults(channels);
-                    }
-                );
+
+                        if (result.data) {
+                            this.setSearchResults(result.data);
+                        } else {
+                            this.setState({searchedChannels: [], searching: false});
+                        }
+                    }).
+                    catch(() => {
+                        this.setState({searchedChannels: [], searching: false});
+                    });
             },
             SEARCH_TIMEOUT_MILLISECONDS
         );
 
         this.searchTimeoutId = searchTimeoutId;
-    }
+    };
 
     setSearchResults = (channels) => {
         this.setState({searchedChannels: channels.filter((c) => c.delete_at === 0), searching: false});
-    }
+    };
 
     render() {
         const {
