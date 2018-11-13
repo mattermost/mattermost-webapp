@@ -42,6 +42,7 @@ export default class GroupTeamsAndChannelsTeamsManager extends React.PureCompone
                                 defaultMessage='Auto Remove'
                             />
                         </div>
+                        <div className='actions' />
                     </div>
                     <div className='teams-list--body'>
                     </div>
