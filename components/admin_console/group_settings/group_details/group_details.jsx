@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {Groups} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
-
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
@@ -13,6 +14,42 @@ import AdminPanel from 'components/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class GroupDetails extends React.PureComponent {
+    static propTypes = {
+        groupID: PropTypes.string.isRequired,
+        group: PropTypes.object,
+        groupTeams: PropTypes.arrayOf(PropTypes.object),
+        groupChannels: PropTypes.arrayOf(PropTypes.object),
+        members: PropTypes.arrayOf(PropTypes.object),
+        actions: PropTypes.shape({
+            getGroup: PropTypes.func.isRequired,
+            getMembers: PropTypes.func.isRequired,
+            getGroupSyncables: PropTypes.func.isRequired,
+            link: PropTypes.func.isRequired,
+            unlink: PropTypes.func.isRequired,
+        }).isRequired,
+    };
+
+    static defaultProps = {
+        members: [],
+        groupTeams: [],
+        groupChannels: [],
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {loading: true};
+    }
+
+    componentDidMount() {
+        const {groupID, actions} = this.props;
+        actions.getGroup(groupID).then(() => {
+            this.setState({loading: false});
+        });
+        actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM);
+        actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL);
+        actions.getMembers(groupID, 0, 100);
+    }
+
     render = () => {
         return (
             <div className='wrapper--fixed'>
