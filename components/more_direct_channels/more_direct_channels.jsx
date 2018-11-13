@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
@@ -52,10 +51,12 @@ export default class MoreDirectChannels extends React.Component {
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired,
             getStatusesByIds: PropTypes.func.isRequired,
-            searchProfiles: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
             getTotalUsersStats: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
+            openDirectChannelToUserId: PropTypes.func.isRequired,
+            openGroupChannelToUserIds: PropTypes.func.isRequired,
+            searchProfiles: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -166,6 +167,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmit = (values = this.state.values) => {
+        const {actions} = this.props;
         if (this.state.saving) {
             return;
         }
@@ -177,23 +179,20 @@ export default class MoreDirectChannels extends React.Component {
 
         this.setState({saving: true});
 
-        const success = (channel) => {
-            // Due to how react-overlays Modal handles focus, we delay pushing
-            // the new channel information until the modal is fully exited.
-            // The channel information will be pushed in `handleExit`
-            this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + channel.name;
+        const done = (result) => {
+            const {data, error} = result;
             this.setState({saving: false});
-            this.handleHide();
-        };
 
-        const error = () => {
-            this.setState({saving: false});
+            if (!error) {
+                this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
+                this.handleHide();
+            }
         };
 
         if (userIds.length === 1) {
-            openDirectChannelToUser(userIds[0], success, error);
+            actions.openDirectChannelToUserId(userIds[0]).then(done);
         } else {
-            openGroupChannelToUsers(userIds, success, error);
+            actions.openGroupChannelToUserIds(userIds).then(done);
         }
     };
 

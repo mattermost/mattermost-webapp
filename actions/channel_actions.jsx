@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'redux-batched-actions';
+
+import {PreferenceTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
@@ -8,60 +11,67 @@ import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redu
 import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
+import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {getDirectChannelName} from 'utils/utils';
 
 const doDispatch = store.dispatch;
 const doGetState = store.getState;
 
-// To be removed in a future PR
-export async function openDirectChannelToUser(userId, success, error) {
-    const state = doGetState();
-    const currentUserId = getCurrentUserId(state);
-    const channelName = Utils.getDirectChannelName(currentUserId, userId);
-    const channel = getChannelByName(state, channelName);
+export function openDirectChannelToUserId(userId) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const channelName = getDirectChannelName(currentUserId, userId);
+        const channel = getChannelByName(state, channelName);
 
-    if (channel) {
-        trackEvent('api', 'api_channels_join_direct');
-        const now = Utils.getTimestamp();
-
-        doDispatch(savePreferences(currentUserId, [
-            {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-            {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()},
-        ]));
-
-        loadProfilesForSidebar();
-
-        if (success) {
-            success(channel, true);
+        if (!channel) {
+            return dispatch(ChannelActions.createDirectChannel(currentUserId, userId));
         }
 
-        return;
-    }
+        trackEvent('api', 'api_channels_join_direct');
+        const now = Date.now();
+        const prefDirect = {
+            category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
+            name: userId,
+            value: 'true',
+        };
+        const prefOpenTime = {
+            category: Preferences.CATEGORY_CHANNEL_OPEN_TIME,
+            name: channel.id,
+            value: now.toString(),
+        };
+        const actions = [{
+            type: PreferenceTypes.RECEIVED_PREFERENCES,
+            data: [prefDirect],
+        }, {
+            type: PreferenceTypes.RECEIVED_PREFERENCES,
+            data: [prefOpenTime],
+        }];
+        dispatch(batchActions(actions));
 
-    const result = await ChannelActions.createDirectChannel(currentUserId, userId)(doDispatch, doGetState);
-    loadProfilesForSidebar();
-    if (result.data && success) {
-        success(result.data, false);
-    } else if (result.error && error) {
-        error({id: result.error.server_error_id, ...result.error});
-    }
+        dispatch(savePreferences(currentUserId, [
+            {user_id: currentUserId, ...prefDirect},
+            {user_id: currentUserId, ...prefOpenTime},
+        ]));
+
+        return {data: channel};
+    };
 }
 
-export async function openGroupChannelToUsers(userIds, success, error) {
-    const state = doGetState();
-    const result = await ChannelActions.createGroupChannel(userIds)(doDispatch, doGetState);
-    loadProfilesForSidebar();
-    if (result.data && success) {
-        success(result.data, false);
-    } else if (result.error && error) {
-        browserHistory.push(getCurrentTeamUrl(state));
-        error({id: result.error.server_error_id, ...result.error});
-    }
+export function openGroupChannelToUserIds(userIds) {
+    return async (dispatch, getState) => {
+        const result = await dispatch(ChannelActions.createGroupChannel(userIds));
+
+        if (result.error) {
+            browserHistory.push(getCurrentTeamUrl(getState()));
+        }
+
+        return result;
+    };
 }
 
 export function loadChannelsForCurrentUser() {

@@ -5,13 +5,17 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
-
 import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
 
-jest.mock('actions/channel_actions.jsx', () => ({
-    openDirectChannelToUser: jest.fn(),
-}));
+jest.mock('utils/browser_history', () => {
+    const original = require.requireActual('utils/browser_history');
+    return {
+        ...original,
+        browserHistory: {
+            push: jest.fn(),
+        },
+    };
+});
 
 describe('components/PopoverListMembers', () => {
     const channel = {
@@ -30,7 +34,8 @@ describe('components/PopoverListMembers', () => {
     };
 
     const actions = {
-        getProfilesInChannel: () => { }, // eslint-disable-line no-empty-function
+        getProfilesInChannel: jest.fn(),
+        openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'channelname'}}),
     };
 
     const baseProps = {
@@ -50,16 +55,24 @@ describe('components/PopoverListMembers', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have called openDirectChannelToUser when handleShowDirectChannel is called', () => {
+    test('should have called openDirectChannelToUserId when handleShowDirectChannel is called', (done) => {
+        const browserHistory = require('utils/browser_history').browserHistory; //eslint-disable-line global-require
         const wrapper = shallow(
             <PopoverListMembers {...baseProps}/>
         );
 
+        wrapper.instance().closePopover = jest.fn();
         wrapper.instance().handleShowDirectChannel({
             id: 'teammateId',
         });
 
-        expect(openDirectChannelToUser).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.openDirectChannelToUserId).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(browserHistory.push).toHaveBeenCalledTimes(1);
+            expect(browserHistory.push).toHaveBeenCalledWith(`${baseProps.teamUrl}/channels/channelname`);
+            expect(wrapper.state('showPopover')).toEqual(false);
+            done();
+        });
     });
 
     test('should match state when closePopover is called', () => {
