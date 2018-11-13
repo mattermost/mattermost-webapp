@@ -185,7 +185,6 @@ export default class MoreDirectChannels extends React.Component {
 
             if (!error) {
                 this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
-                this.setState({saving: false});
                 this.handleHide();
             }
         };
