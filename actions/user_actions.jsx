@@ -536,7 +536,7 @@ export async function createUserWithInvite(user, token, inviteId, success, error
     if (resp && success) {
         success(resp);
     } else if (err && error) {
-        error({id: err.server_error_id, ...err});
+        error({id: err.server_error_id, message: err.message, ...err});
     }
 }
 
