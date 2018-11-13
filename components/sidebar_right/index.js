@@ -7,7 +7,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {getPinnedPosts, setRhsExpanded, showPinnedPosts} from 'actions/views/rhs';
+import {setRhsExpanded} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
@@ -57,9 +57,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPinnedPosts,
             setRhsExpanded,
-            showPinnedPosts,
         }, dispatch),
     };
 }
