@@ -183,3 +183,20 @@
         }
     }
 }
+
+.group-profile {
+    padding: 15px;
+    .group-profile-field {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        label {
+            flex-grow: 1;
+            width: 33.3%;
+        }
+        .form-control {
+            flex-grow: 3;
+            width: 100%;
+        }
+    }
+}

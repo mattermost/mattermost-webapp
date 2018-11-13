@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
@@ -57,22 +58,22 @@ export default class GroupRow extends React.Component {
         if (this.props.has_syncables) {
             return (
                 <div>
-                    <a href='#'>
+                    <Link to={'/admin_console/access-control/groups/' + this.props.mattermost_group_id}>
                         <FormattedMessage
                             id='admin.group_settings.group_row.edit'
                             defaultMessage='Edit'
                         />
-                    </a>
+                    </Link>
                 </div>
             );
         }
         return (
-            <a href='#'>
+            <Link to={'/admin_console/access-control/groups/' + this.props.mattermost_group_id}>
                 <FormattedMessage
                     id='admin.group_settings.group_row.configure'
                     defaultMessage='Configure'
                 />
-            </a>
+            </Link>
         );
     }
 
