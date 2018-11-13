@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import AddIncomingWebhook from 'components/integrations/add_incoming_webhook/add_incoming_webhook.jsx';
 
 describe('components/integrations/AddIncomingWebhook', () => {
-    const createIncomingHook = jest.fn();
+    const createIncomingHook = jest.fn().mockResolvedValue({data: true});
     const props = {
         team: {
             id: 'testteamid',

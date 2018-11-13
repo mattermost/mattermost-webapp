@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import * as EmojiActions from 'mattermost-redux/actions/emojis';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import {setGlobalItem} from 'actions/storage';
 import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
@@ -19,35 +19,21 @@ export async function addEmoji(emoji, image, success, error) {
     }
 }
 
-export async function deleteEmoji(emojiId, success, error) {
-    const {data, error: err} = await EmojiActions.deleteCustomEmoji(emojiId)(store.dispatch, store.getState);
-    if (data) {
-        // Needed to remove recently used emoji
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.REMOVED_CUSTOM_EMOJI,
-            id: emojiId,
-        });
-
-        if (success) {
-            success(data);
-        }
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
-        if (getState().entities.general.config.EnableCustomEmoji !== 'true') {
+        const state = getState();
+        const config = getConfig(state);
+
+        if (config.EnableCustomEmoji !== 'true') {
             return {data: true};
         }
 
-        const recentEmojis = getRecentEmojis(getState());
-        const emojiMap = getEmojiMap(getState());
+        const recentEmojis = getRecentEmojis(state);
+        const emojiMap = getEmojiMap(state);
         const missingEmojis = recentEmojis.filter((name) => !emojiMap.has(name));
 
         missingEmojis.forEach((name) => {
-            EmojiActions.getCustomEmojiByName(name)(dispatch, getState);
+            dispatch(EmojiActions.getCustomEmojiByName(name));
         });
 
         return {data: true};
@@ -68,8 +54,9 @@ const MAXIMUM_RECENT_EMOJI = 27;
 
 export function addRecentEmoji(alias) {
     return (dispatch, getState) => {
-        const recentEmojis = getRecentEmojis(getState());
-        const emojiMap = getEmojiMap(getState());
+        const state = getState();
+        const recentEmojis = getRecentEmojis(state);
+        const emojiMap = getEmojiMap(state);
 
         let name;
         const emoji = emojiMap.get(alias);

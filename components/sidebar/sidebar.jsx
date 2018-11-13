@@ -291,10 +291,15 @@ export default class Sidebar extends React.PureComponent {
 
     scrollToFirstUnreadChannel = () => {
         if (this.firstUnreadChannel) {
-            const unreadMargin = 15;
-            const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
-            const scrollTop = firstUnreadElement.position().top - unreadMargin;
-            this.refs.scrollbar.scrollTop(scrollTop);
+            const displayedChannels = this.getDisplayedChannels();
+            if (displayedChannels.length > 0 && displayedChannels[0] === this.firstUnreadChannel) {
+                this.refs.scrollbar.scrollToTop();
+            } else {
+                const unreadMargin = 15;
+                const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
+                const scrollTop = firstUnreadElement.position().top - unreadMargin;
+                this.refs.scrollbar.scrollTop(scrollTop);
+            }
         }
     }
 

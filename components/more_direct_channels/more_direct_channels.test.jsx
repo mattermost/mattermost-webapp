@@ -33,6 +33,8 @@ describe('components/MoreDirectChannels', () => {
             searchProfiles: emptyFunction,
             setModalSearchTerm: emptyFunction,
             loadStatusesForProfilesList: emptyFunction,
+            openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'dm'}}),
+            openGroupChannelToUserIds: jest.fn().mockResolvedValue({data: {name: 'group'}}),
             getTotalUsersStats: jest.fn(() => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
@@ -144,5 +146,53 @@ describe('components/MoreDirectChannels', () => {
         };
 
         expect(wrapper.instance().renderOption(channel, false, jest.fn())).toMatchSnapshot();
+    });
+
+    test('should not open a DM or GM if no user Ids', () => {
+        const props = {...baseProps, currentChannelMembers: []};
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+
+        wrapper.instance().handleSubmit();
+        expect(wrapper.state('saving')).toEqual(false);
+        expect(baseProps.actions.openDirectChannelToUserId).not.toBeCalled();
+    });
+
+    test('should open a DM', (done) => {
+        const props = {...baseProps, currentChannelMembers: [{id: 'user_id_1'}]};
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const handleHide = jest.fn();
+        const exitToChannel = null;
+
+        wrapper.instance().handleHide = handleHide;
+        wrapper.instance().exitToChannel = exitToChannel;
+        wrapper.instance().handleSubmit();
+        expect(wrapper.state('saving')).toEqual(true);
+        expect(props.actions.openDirectChannelToUserId).toHaveBeenCalledTimes(1);
+        expect(props.actions.openDirectChannelToUserId).toHaveBeenCalledWith('user_id_1');
+        process.nextTick(() => {
+            expect(wrapper.state('saving')).toEqual(false);
+            expect(handleHide).toBeCalled();
+            expect(wrapper.instance().exitToChannel).toEqual(`/${props.currentTeamName}/channels/dm`);
+            done();
+        });
+    });
+
+    test('should open a GM', (done) => {
+        const wrapper = shallow(<MoreDirectChannels {...baseProps}/>);
+        const handleHide = jest.fn();
+        const exitToChannel = null;
+
+        wrapper.instance().handleHide = handleHide;
+        wrapper.instance().exitToChannel = exitToChannel;
+        wrapper.instance().handleSubmit();
+        expect(wrapper.state('saving')).toEqual(true);
+        expect(baseProps.actions.openGroupChannelToUserIds).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.openGroupChannelToUserIds).toHaveBeenCalledWith(['user_id_1', 'user_id_2']);
+        process.nextTick(() => {
+            expect(wrapper.state('saving')).toEqual(false);
+            expect(handleHide).toBeCalled();
+            expect(wrapper.instance().exitToChannel).toEqual(`/${baseProps.currentTeamName}/channels/group`);
+            done();
+        });
     });
 });
