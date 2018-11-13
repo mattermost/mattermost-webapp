@@ -13,7 +13,7 @@ export default class GroupUsers extends React.PureComponent {
                 <div className='group-users--header'>
                     <FormattedMarkdownMessage
                         id='admin.group_settings.group_profile.group_users.ldapConnector'
-                        defaultMessage={'AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view](!/admin_console/ldap)'}
+                        defaultMessage={'AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view](/admin_console/authentication/ldap)'}
                     />
                 </div>
                 <div className='group-users--body'>
