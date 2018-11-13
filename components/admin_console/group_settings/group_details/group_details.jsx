@@ -78,8 +78,6 @@ export default class GroupDetails extends React.PureComponent {
                 >
                     <GroupProfile
                         name='fake-name'
-                        mention='fake-mention'
-                        description='fake description'
                     />
                 </AdminPanel>
 
