@@ -237,3 +237,35 @@
         }
     }
 }
+
+.group-teams-and-channels {
+    padding: 15px;
+    .group-teams-and-channels--header {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 15px;
+        button {
+            width: 50%;
+        }
+    }
+    .group-teams-and-channels--body {
+        .actions-bar {
+            display: flex;
+            font-size: 1.1em;
+            background: $white;
+            padding: 15px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .teams-list {
+            .teams-list--header {
+                font-weight: bold;
+                display: flex;
+                font-size: 1.1em;
+                border-bottom: 1px solid $dark-gray;
+                justify-content: space-between;
+            }
+        }
+    }
+}
