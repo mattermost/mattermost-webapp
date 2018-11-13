@@ -139,7 +139,7 @@ function goToDirectChannelByUsername(match, history) {
             user = data;
         }
 
-        const {error, data} = await openDirectChannelToUserId(user.id);
+        const {error, data} = await dispatch(openDirectChannelToUserId(user.id));
         if (error) {
             handleError(match, history);
             return;
