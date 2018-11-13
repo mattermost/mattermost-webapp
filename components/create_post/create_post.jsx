@@ -622,10 +622,9 @@ export default class CreatePost extends React.Component {
     handleUploadError = (err, clientId, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
 
-        let message = err;
-        if (message && typeof message !== 'string') {
-            // err is an AppError from the server
-            message = err.message;
+        let serverError = err;
+        if (typeof err === 'string') {
+            serverError = new Error(err);
         }
 
         if (clientId !== -1 && draft.uploadsInProgress) {
@@ -642,7 +641,7 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        this.setState({serverError: {message}});
+        this.setState({serverError});
     }
 
     removePreview = (id) => {
