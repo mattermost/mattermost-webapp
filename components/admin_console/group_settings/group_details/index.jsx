@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {linkGroupSyncable, unlinkGroupSyncable, getGroup as fetchGroup, getGroupMembers as fetchMembers, getGroupSyncables as fetchGroupSyncables} from 'mattermost-redux/actions/groups';
-import {getGroup, getGroupTeams, getGroupChannels, getGroupMembers} from 'mattermost-redux/selectors/entities/groups';
+import {getGroup, getGroupTeams, getGroupChannels, getGroupMembers, getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
 
 import GroupDetails from './group_details.jsx';
 
@@ -15,6 +15,7 @@ function mapStateToProps(state, props) {
     const groupTeams = getGroupTeams(state, groupID);
     const groupChannels = getGroupChannels(state, groupID);
     const members = getGroupMembers(state, groupID);
+    const memberCount = getGroupMemberCount(state, groupID);
 
     return {
         groupID,
@@ -22,6 +23,7 @@ function mapStateToProps(state, props) {
         groupTeams,
         groupChannels,
         members,
+        memberCount,
     };
 }
 

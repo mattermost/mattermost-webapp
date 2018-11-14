@@ -10,6 +10,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 export default class GroupUsers extends React.PureComponent {
     static propTypes = {
         members: PropTypes.arrayOf(PropTypes.object),
+        memberCount: PropTypes.number.isRequired,
     };
 
     render = () => {

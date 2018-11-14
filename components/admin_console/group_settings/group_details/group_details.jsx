@@ -22,6 +22,7 @@ export default class GroupDetails extends React.PureComponent {
         groupTeams: PropTypes.arrayOf(PropTypes.object),
         groupChannels: PropTypes.arrayOf(PropTypes.object),
         members: PropTypes.arrayOf(PropTypes.object),
+        memberCount: PropTypes.number.isRequired,
         actions: PropTypes.shape({
             getGroup: PropTypes.func.isRequired,
             getMembers: PropTypes.func.isRequired,
@@ -36,6 +37,7 @@ export default class GroupDetails extends React.PureComponent {
         groupTeams: [],
         groupChannels: [],
         group: {display_name: ''},
+        memberCount: 0,
     };
 
     constructor(props) {
@@ -85,7 +87,7 @@ export default class GroupDetails extends React.PureComponent {
     }
 
     render = () => {
-        const {group, members, groupTeams, groupChannels} = this.props;
+        const {group, members, groupTeams, groupChannels, memberCount} = this.props;
         return (
             <div className='wrapper--fixed'>
                 <h3 className='admin-console-header'>
@@ -177,7 +179,10 @@ export default class GroupDetails extends React.PureComponent {
                     subtitleId={t('admin.group_settings.group_detail.groupUsersDescription')}
                     subtitleDefaultMessage='Below is a listing of all users associated with this group.'
                 >
-                    <GroupUsers members={members}/>
+                    <GroupUsers
+                        members={members}
+                        count={memberCount}
+                    />
                 </AdminPanel>
             </div>
         );
