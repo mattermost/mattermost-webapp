@@ -553,17 +553,18 @@ class LoginController extends React.Component {
             );
 
             if (this.state.loading) {
-                loginButton =
-                (<span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    <FormattedMessage
-                        id='login.signInLoading'
-                        defaultMessage='Signing in...'
-                    />
-                </span>);
+                loginButton = (
+                    <span data-cy='login_signing_in'>
+                        <span
+                            className='fa fa-refresh icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                        <FormattedMessage
+                            id='login.signInLoading'
+                            defaultMessage='Signing in...'
+                        />
+                    </span>
+                );
             }
 
             loginControls.push(
@@ -825,7 +826,10 @@ class LoginController extends React.Component {
             <div>
                 <AnnouncementBar/>
                 {backButton}
-                <div className='col-sm-12'>
+                <div
+                    className='col-sm-12'
+                    data-cy='login_page'
+                >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
                             {customContent}

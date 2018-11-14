@@ -467,7 +467,10 @@ export default class SignupEmail extends React.Component {
         return (
             <div>
                 <BackButton/>
-                <div className='col-sm-12'>
+                <div
+                    className='col-sm-12'
+                    data-cy='signup_email_page'
+                >
                     <div className='signup-team__container padding--less'>
                         <img
                             className='signup-team-logo'
