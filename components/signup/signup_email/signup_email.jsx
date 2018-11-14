@@ -49,7 +49,6 @@ export default class SignupEmail extends React.Component {
         trackEvent('signup', 'signup_user_01_welcome');
     }
 
-    getInviteInfo = () => {
     getInviteInfo = async () => {
         let data = (new URLSearchParams(this.props.location.search)).get('d');
         let token = (new URLSearchParams(this.props.location.search)).get('t');

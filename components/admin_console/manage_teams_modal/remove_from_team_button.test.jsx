@@ -7,7 +7,6 @@ import {shallow} from 'enzyme';
 import RemoveFromTeamButton from 'components/admin_console/manage_teams_modal/remove_from_team_button.jsx';
 
 describe('RemoveFromTeamButton', () => {
-
     const baseProps = {
         teamId: '1234',
         handleRemoveUserFromTeam: jest.fn(),

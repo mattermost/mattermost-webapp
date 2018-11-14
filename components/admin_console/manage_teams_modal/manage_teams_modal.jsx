@@ -94,10 +94,10 @@ export default class ManageTeamsModal extends React.Component {
         const {actions, user} = this.props;
 
         const {data, error} = await actions.removeUserFromTeam(teamId, user.id);
-         if (data) {
-           this.handleMemberRemove(teamId);
+        if (data) {
+            this.handleMemberRemove(teamId);
         } else if (error) {
-           this.handleError(error.message);
+            this.handleError(error.message);
         }
     }
 
