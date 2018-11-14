@@ -2,11 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/group_details/group_teams_and_channels_row.jsx';
 
 export default class GroupTeamsAndChannels extends React.PureComponent {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        groupTeams: PropTypes.arrayOf(PropTypes.object),
+        groupChannels: PropTypes.arrayOf(PropTypes.object),
+        actions: PropTypes.shape({
+            unlink: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +24,13 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         };
     }
 
+    teamsAndChannelsToEntries = (teams, channels) => {
+        console.log(teams);
+        console.log(channels);
+    }
+
     render = () => {
+        this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);
         const entries = [
             {
                 type: 'public-team',

@@ -31,6 +31,11 @@ const AdminPanel = (props) => {
                         </span>
                     )}
                 </div>
+                {props.action &&
+                    <div className='action'>
+                        {props.action}
+                    </div>
+                }
             </div>
             {props.children}
         </div>
@@ -44,6 +49,7 @@ AdminPanel.propTypes = {
     subtitleId: PropTypes.string,
     subtitleDefaultMessage: PropTypes.string,
     children: PropTypes.node,
+    action: PropTypes.node,
 };
 
 export default AdminPanel;

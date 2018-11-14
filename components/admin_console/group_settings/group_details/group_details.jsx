@@ -13,6 +13,8 @@ import GroupUsers from 'components/admin_console/group_settings/group_details/gr
 import AdminPanel from 'components/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+import TeamSelectorModal from 'components/team_selector_modal';
+
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
         groupID: PropTypes.string.isRequired,
@@ -38,7 +40,12 @@ export default class GroupDetails extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {loading: true};
+        this.state = {
+            loading: true,
+            addTeamOpen: false,
+            addChannelOpen: false,
+            addTeamOrChannelOpen: false,
+        };
     }
 
     componentDidMount() {
@@ -51,8 +58,34 @@ export default class GroupDetails extends React.PureComponent {
         actions.getMembers(groupID, 0, 100);
     }
 
+    openAddChannel = () => {
+        this.setState({addChannelOpen: true, addTeamOrChannelOpen: false});
+    }
+
+    closeAddChannel = () => {
+        this.setState({addChannelOpen: false, addTeamOrChannelOpen: false});
+    }
+
+    openAddTeam = () => {
+        this.setState({addTeamOpen: true, addTeamOrChannelOpen: false});
+    }
+
+    closeAddTeam = () => {
+        this.setState({addTeamOpen: false, addTeamOrChannelOpen: false});
+    }
+
+    toggleAddTeamOrChannel = () => {
+        this.setState({addTeamOrChannelOpen: !this.state.addTeamOrChannelOpen});
+    }
+
+    addTeams = (teams) => {
+        for (const team of teams) {
+            this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {can_leave: true, auto_add: true});
+        }
+    }
+
     render = () => {
-        const {group, members} = this.props;
+        const {group, members, groupTeams, groupChannels} = this.props;
         return (
             <div className='wrapper--fixed'>
                 <h3 className='admin-console-header'>
@@ -89,9 +122,53 @@ export default class GroupDetails extends React.PureComponent {
                     titleDefaultMessage='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
                     subtitleDefaultMessage='Specify team and channel membership, sync policies and roles for your group.'
+                    action={(
+                        <div className='group-profile-add-menu'>
+                            <button
+                                className='btn btn-primary'
+                                onClick={this.toggleAddTeamOrChannel}
+                            >
+                                <FormattedMessage
+                                    id='admin.group_settings.group_details.add_team_or_channel'
+                                    defaultMessage='Add Team or Channel'
+                                />
+                                <i className={'fa fa-caret-down'}/>
+                            </button>
+                            {this.state.addTeamOrChannelOpen && (
+                                <ul className='add-team-or-channel-menu'>
+                                    <a onClick={this.openAddTeam}>
+                                        <FormattedMessage
+                                            id='admin.group_settings.group_details.add_team'
+                                            defaultMessage='Add Team'
+                                        />
+                                    </a>
+                                    <a onClick={this.openAddChannel}>
+                                        <FormattedMessage
+                                            id='admin.group_settings.group_details.add_channel'
+                                            defaultMessage='Add Channel'
+                                        />
+                                    </a>
+                                </ul>
+                            )}
+                        </div>
+                    )}
                 >
-                    <GroupTeamsAndChannels/>
+                    <GroupTeamsAndChannels
+                        id={this.props.groupID}
+                        teams={groupTeams}
+                        channels={groupChannels}
+                        actions={{
+                            unlink: this.props.actions.unlink,
+                        }}
+                    />
                 </AdminPanel>
+                {this.state.addTeamOpen &&
+                    <TeamSelectorModal
+                        onModalDismissed={this.closeAddTeam}
+                        onTeamsSelected={this.addTeams}
+                        alreadySelected={this.props.groupTeams.map((team) => team.id)}
+                    />
+                }
 
                 <AdminPanel
                     id='group_users'

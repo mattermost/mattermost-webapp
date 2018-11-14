@@ -289,3 +289,24 @@
         }
     }
 }
+
+.group-profile-add-menu {
+    position: relative;
+    .fa-caret-down {
+        margin-left: 5px;
+    }
+    .add-team-or-channel-menu {
+        position: absolute;
+        top: 33px;
+        border: 1px solid $gray;
+        background: $white;
+        border-radius: 2px;
+        width: 100%;
+        padding: 5px 8px;
+        a {
+            display: block;
+            color: $dark-gray;
+            padding: 7px;
+        }
+    }
+}
