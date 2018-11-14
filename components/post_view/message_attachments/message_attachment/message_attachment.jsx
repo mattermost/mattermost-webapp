@@ -8,7 +8,6 @@ import {postListScrollChange} from 'actions/global_actions';
 
 import {isUrlSafe} from 'utils/url.jsx';
 import {handleFormattedTextClick} from 'utils/utils';
-import * as Utils from 'utils/utils';
 import {getFileDimentionsForDisplay} from 'utils/file_utils';
 
 import Markdown from 'components/markdown';

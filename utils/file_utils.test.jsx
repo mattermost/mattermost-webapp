@@ -68,7 +68,7 @@ describe('FileUtils.canUploadFiles', () => {
     });
 });
 
-describe('FileUtils.getFileDimentionsForDisplay', function() {
+describe('FileUtils.getFileDimentionsForDisplay', () => {
     it('return image dimensions as they are smaller than max dimensions', () => {
         const expectedDimentions = getFileDimentionsForDisplay({height: 200, width: 200}, {maxHeight: 300, maxWidth: 300});
         expect(expectedDimentions).toEqual({height: 200, width: 200});
