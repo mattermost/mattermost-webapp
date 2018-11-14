@@ -471,7 +471,7 @@ export async function resendVerification(email, success, error) {
 }
 
 export async function updateTermsOfServiceStatus(termsOfServiceId, accepted, success, error) {
-    const {data, error: err} = await UserActions.updateTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
+    const {data, error: err} = await UserActions.updateMyTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
