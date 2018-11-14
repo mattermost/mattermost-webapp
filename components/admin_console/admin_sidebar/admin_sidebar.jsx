@@ -75,6 +75,7 @@ export default class AdminSidebar extends React.Component {
         let clusterSettings = null;
         let metricsSettings = null;
         let complianceSettings = null;
+        let customTermsOfServiceSettings = null;
         let mfaSettings = null;
         let messageExportSettings = null;
         let complianceSection = null;
@@ -162,6 +163,20 @@ export default class AdminSidebar extends React.Component {
                             <FormattedMessage
                                 id='admin.sidebar.compliance'
                                 defaultMessage='Compliance'
+                            />
+                        }
+                    />
+                );
+            }
+
+            if (this.props.license.CustomTermsOfService === 'true') {
+                customTermsOfServiceSettings = (
+                    <AdminSidebarSection
+                        name='custom_terms_of_service'
+                        title={
+                            <FormattedMessage
+                                id='admin.sidebar.customTermsOfService'
+                                defaultMessage='Custom Terms of Service'
                             />
                         }
                     />
@@ -739,6 +754,7 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
+                                {customTermsOfServiceSettings}
                                 <AdminSidebarSection
                                     name='native_app_links'
                                     title={
