@@ -559,9 +559,9 @@ describe('components/create_post', () => {
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
         const wrapper = shallow(createPost({}));
-        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, extension: 'extension'});
+        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', extension: 'extension'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
     it('Remove preview from fileInfos', () => {

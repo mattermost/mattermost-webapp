@@ -27,9 +27,9 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
           compactDisplay={false}
           fileInfo={
             Object {
-              "extension": "image/png",
               "name": "file",
               "percent": 50,
+              "type": "image/png",
             }
           }
           handleImageClick={null}

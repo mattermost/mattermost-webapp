@@ -29,7 +29,7 @@ export default class FileProgressPreview extends React.PureComponent {
         if (fileInfo) {
             percent = fileInfo.percent;
             const percentTxt = ` (${percent.toFixed(0)}%)`;
-            const fileType = getFileTypeFromMime(fileInfo.extension);
+            const fileType = getFileTypeFromMime(fileInfo.type);
             previewImage = <div className={'file-icon ' + Utils.getIconClassName(fileType)}/>;
 
             fileNameComponent = (

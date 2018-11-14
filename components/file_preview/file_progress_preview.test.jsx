@@ -12,7 +12,7 @@ describe('component/file_preview/file_progress_preview', () => {
     const fileInfo = {
         name: 'file',
         percent: 50,
-        extension: 'image/png',
+        type: 'image/png',
     };
 
     const baseProps = {

@@ -273,7 +273,7 @@ export default class FileUpload extends PureComponent {
                     clientId,
                     name: sortedFiles[i].name,
                     percent: progressEvent.percent,
-                    extension: sortedFiles[i].type,
+                    type: sortedFiles[i].type,
                 });
             });
 

@@ -36,23 +36,23 @@ export function trimFilename(filename) {
     return trimmedFilename;
 }
 
-export function getFileTypeFromMime(extension) {
-    const extentionSplitBySlash = extension.split('/');
-    const extentionPrefix = extentionSplitBySlash[0];
-    const extentionSuffix = extentionSplitBySlash[1];
-    if (extentionPrefix === 'video') {
+export function getFileTypeFromMime(mimetype) {
+    const mimeTypeSplitBySlash = mimetype.split('/');
+    const mimeTypePrefix = mimeTypeSplitBySlash[0];
+    const mimeTypeSuffix = mimeTypeSplitBySlash[1];
+    if (mimeTypePrefix === 'video') {
         return 'video';
-    } else if (extentionPrefix === 'audio') {
+    } else if (mimeTypePrefix === 'audio') {
         return 'audio';
-    } else if (extentionPrefix === 'image') {
+    } else if (mimeTypePrefix === 'image') {
         return 'image';
-    } else if (extentionSuffix === 'pdf') {
+    } else if (mimeTypeSuffix === 'pdf') {
         return 'pdf';
-    } else if (extentionSuffix.includes('vnd.ms-excel') || extentionSuffix.includes('spreadsheetml') || extentionSuffix.includes('vnd.sun.xml.calc') || extentionSuffix.includes('opendocument.spreadsheet')) {
+    } else if (mimeTypeSuffix.includes('vnd.ms-excel') || mimeTypeSuffix.includes('spreadsheetml') || mimeTypeSuffix.includes('vnd.sun.xml.calc') || mimeTypeSuffix.includes('opendocument.spreadsheet')) {
         return 'spreadsheet';
-    } else if (extentionSuffix.includes('vnd.ms-powerpoint') || extentionSuffix.includes('presentationml') || extentionSuffix.includes('vnd.sun.xml.impress') || extentionSuffix.includes('opendocument.presentation')) {
+    } else if (mimeTypeSuffix.includes('vnd.ms-powerpoint') || mimeTypeSuffix.includes('presentationml') || mimeTypeSuffix.includes('vnd.sun.xml.impress') || mimeTypeSuffix.includes('opendocument.presentation')) {
         return 'presentation';
-    } else if ((extentionSuffix === 'msword') || extentionSuffix.includes('vnd.ms-word') || extentionSuffix.includes('officedocument.wordprocessingml') || extentionSuffix.includes('application/x-mswrite')) {
+    } else if ((mimeTypeSuffix === 'msword') || mimeTypeSuffix.includes('vnd.ms-word') || mimeTypeSuffix.includes('officedocument.wordprocessingml') || mimeTypeSuffix.includes('application/x-mswrite')) {
         return 'word';
     }
 

@@ -537,8 +537,8 @@ export default class CreateComment extends React.PureComponent {
         this.focusTextbox();
     }
 
-    handleUploadProgress = ({clientId, name, percent, extension}) => {
-        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, extension}};
+    handleUploadProgress = ({clientId, name, percent, type}) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, type}};
         this.setState({uploadsProgressPercent});
     }
 
