@@ -6,11 +6,10 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+import AutocompleteSelector from 'components/widgets/settings/autocomplete_selector';
 
 export default class ActionMenu extends React.PureComponent {
     static propTypes = {
@@ -18,7 +17,6 @@ export default class ActionMenu extends React.PureComponent {
         action: PropTypes.object.isRequired,
         selected: PropTypes.object,
         actions: PropTypes.shape({
-            doPostAction: PropTypes.func.isRequired,
             selectAttachmentMenuAction: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -27,6 +25,7 @@ export default class ActionMenu extends React.PureComponent {
         super(props);
 
         const action = props.action;
+        this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
                 this.providers = [new GenericUserProvider()];
@@ -34,32 +33,9 @@ export default class ActionMenu extends React.PureComponent {
                 this.providers = [new GenericChannelProvider()];
             } else if (action.options) {
                 this.providers = [new MenuActionProvider(action.options)];
-            } else {
-                this.providers = [];
             }
-        } else {
-            this.providers = [];
         }
-
-        this.state = {
-            input: '',
-        };
     }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.selected && props.selected !== state.selected) {
-            return {
-                input: props.selected.displayText,
-                selected: props.selected,
-            };
-        }
-
-        return null;
-    }
-
-    onChange = (e) => {
-        this.setState({input: e.target.value, previousInput: ''});
-    };
 
     handleSelected = (selected) => {
         if (!selected) {
@@ -69,46 +45,26 @@ export default class ActionMenu extends React.PureComponent {
         const {action} = this.props;
 
         let value = '';
-        let displayText = '';
+        let text = '';
         if (action.data_source === 'users') {
-            displayText = selected.username;
+            text = selected.username;
             value = selected.id;
         } else if (action.data_source === 'channels') {
-            displayText = selected.display_name;
+            text = selected.display_name;
             value = selected.id;
         } else {
-            displayText = selected.text;
+            text = selected.text;
             value = selected.value;
         }
 
-        this.props.actions.selectAttachmentMenuAction(this.props.postId, this.props.action.id, this.props.action.data_source, displayText, value);
-
-        requestAnimationFrame(() => {
-            if (this.suggestionRef) {
-                this.suggestionRef.blur();
-            }
-        });
-    }
-
-    setSuggestionRef = (ref) => {
-        this.suggestionRef = ref;
-    }
-
-    onFocus = () => {
-        this.setState({input: '', previousInput: this.state.input});
-    }
-
-    onBlur = () => {
-        if (this.state.previousInput) {
-            this.setState({input: this.state.previousInput, previousInput: ''});
-        }
+        this.props.actions.selectAttachmentMenuAction(this.props.postId, this.props.action.id, this.props.action.data_source, text, value);
     }
 
     render() {
-        const {action} = this.props;
+        const {action, selected} = this.props;
 
         let submitted;
-        if (this.props.selected) {
+        if (selected) {
             submitted = (
                 <div className='alert alert-success'>
                     <i className='fa fa-check margin-right margin-right--half'/>
@@ -121,28 +77,14 @@ export default class ActionMenu extends React.PureComponent {
         }
 
         return (
-            <div>
-                <SuggestionBox
-                    placeholder={action.name}
-                    ref={this.setSuggestionRef}
-                    listComponent={SuggestionList}
-                    className='form-control'
-                    containerClass={'post-attachment-dropdown'}
-                    value={this.state.input}
-                    onChange={this.onChange}
-                    onItemSelected={this.handleSelected}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
-                    providers={this.providers}
-                    completeOnTab={true}
-                    renderDividers={false}
-                    renderNoResults={true}
-                    openOnFocus={true}
-                    openWhenEmpty={true}
-                    replaceAllInputOnSelect={true}
-                />
-                {submitted}
-            </div>
+            <AutocompleteSelector
+                providers={this.providers}
+                onSelected={this.handleSelected}
+                placeholder={action.name}
+                afterSelectorNode={submitted}
+                selected={selected}
+                inputClassName='post-attachment-dropdown'
+            />
         );
     }
 }
