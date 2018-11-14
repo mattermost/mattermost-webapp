@@ -8,9 +8,9 @@ export default class MarkdownImage extends React.PureComponent {
     static propTypes = {
 
         /*
-         * dimentions object to create empty space required to prevent scroll pop
+         * dimensions object to create empty space required to prevent scroll pop
          */
-        dimentions: PropTypes.object,
+        dimensions: PropTypes.object,
 
         /*
          * A callback that is called as soon as the image component has a height value
@@ -22,7 +22,7 @@ export default class MarkdownImage extends React.PureComponent {
         // image is loaded but still havent recived new post webscoket event for metadata
         // so meanwhile correct manually
 
-        if (!this.props.dimentions && this.props.onHeightReceived) {
+        if (!this.props.dimensions && this.props.onHeightReceived) {
             this.props.onHeightReceived(this.refs.image.height);
         }
     };
@@ -30,14 +30,14 @@ export default class MarkdownImage extends React.PureComponent {
     render() {
         const props = {...this.props};
         Reflect.deleteProperty(props, 'onHeightReceived');
-        Reflect.deleteProperty(props, 'dimentions');
+        Reflect.deleteProperty(props, 'dimensions');
 
         return (
             <img
                 {...props}
                 onLoad={this.handleLoad}
                 style={{
-                    height: this.props.dimentions ? this.props.dimentions.height : 'initial',
+                    height: this.props.dimensions ? this.props.dimensions.height : 'initial',
                 }}
             />
         );

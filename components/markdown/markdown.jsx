@@ -72,7 +72,7 @@ export default class Markdown extends React.PureComponent {
         imageProps: PropTypes.object,
 
         /**
-         * prop for passed down to MarkdownImage component for dimentions
+         * prop for passed down to MarkdownImage component for dimensions
          */
         imagesMetadata: PropTypes.object,
     };

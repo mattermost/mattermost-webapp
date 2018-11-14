@@ -47,7 +47,7 @@ export default class MessageAttachment extends React.PureComponent {
         options: PropTypes.object,
 
         /**
-         * images object for dimentions
+         * images object for dimensions
          */
         imagesMetadata: PropTypes.object,
 

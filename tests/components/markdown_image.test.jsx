@@ -11,7 +11,7 @@ describe('components/MarkdownImage', () => {
         const wrapper = shallow(
             <MarkdownImage
                 src={'https://something.com/image.png'}
-                dimentions={{
+                dimensions={{
                     width: '100',
                     height: '200',
                 }}

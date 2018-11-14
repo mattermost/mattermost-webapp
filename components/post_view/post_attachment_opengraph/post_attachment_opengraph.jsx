@@ -52,56 +52,19 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         isEmbedVisible: PropTypes.bool,
         toggleEmbedVisibility: PropTypes.func.isRequired,
-<<<<<<< HEAD
 
         actions: PropTypes.shape({
-
             editPost: PropTypes.func.isRequired,
-
-            /**
-             * The function to get open graph data for a link
-             */
-            getOpenGraphMetadata: PropTypes.func.isRequired,
         }).isRequired,
-=======
->>>>>>> Use metadata for webapp
     }
 
     constructor(props) {
         super(props);
-<<<<<<< HEAD
-        this.largeImageMinWidth = 150;
-        this.imageDimentions = { // Image dimentions in pixels.
-            height: 80,
-            width: 80,
-        };
-        this.textMaxLength = 300;
-        this.textEllipsis = '...';
-        this.largeImageMinRatio = 16 / 9;
-        this.smallImageContainerLeftPadding = 15;
-
-        this.imageRatio = null;
-
-        this.smallImageContainer = null;
-        this.smallImageElement = null;
-
-        this.IMAGE_LOADED = {
-            LOADING: 'loading',
-            YES: 'yes',
-            ERROR: 'error',
-        };
-    }
-
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        const removePreview = this.isRemovePreview(this.props.post, this.props.currentUser);
-=======
-
         this.handleRemovePreview = this.handleRemovePreview.bind(this);
->>>>>>> Use metadata for webapp
 
         const removePreview = this.isRemovePreview(props.post, props.currentUser);
         const imageUrl = this.getBestImageUrl(props.openGraphData);
-        const hasLargeImage = this.hasLargeImage(props.post.metadata.images[imageUrl]);
+        const hasLargeImage = props.post.metadata && imageUrl ? this.hasLargeImage(props.post.metadata.images[imageUrl]) : false;
         this.state = {
             hasLargeImage,
             removePreview,
@@ -113,7 +76,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
             const removePreview = this.isRemovePreview(nextProps.post, nextProps.currentUser);
             const imageUrl = this.getBestImageUrl(nextProps.openGraphData);
-            const hasLargeImage = this.hasLargeImage(nextProps.post.metadata.images[imageUrl]);
+            const hasLargeImage = nextProps.post.metadata && imageUrl ? this.hasLargeImage(nextProps.post.metadata.images[imageUrl]) : false;
 
             this.setState({
                 hasLargeImage,
@@ -134,7 +97,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     getBestImageUrl(data) {
-        if (Utils.isEmptyObject(data.images)) {
+        if (!data || Utils.isEmptyObject(data.images)) {
             return null;
         }
 

@@ -43,9 +43,9 @@ export default class PostImageEmbed extends React.PureComponent {
         hasImageProxy: PropTypes.bool.isRequired,
 
         /**
-         * dimentions for empty space to prevent scroll popup.
+         * dimensions for empty space to prevent scroll popup.
          */
-        dimentions: PropTypes.object.isRequired,
+        dimensions: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -115,7 +115,11 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
-        const imageDimentions = getFileDimentionsForDisplay(this.props.dimentions, MAX_IMAGE_DIMENTIONS);
+        if (!this.props.dimensions) {
+            return null;
+        }
+
+        const imageDimentions = getFileDimentionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENTIONS);
         if (this.state.errored || !this.state.loaded) {
             return (
                 <div style={{...imageDimentions, marginBottom: '13px'}}>

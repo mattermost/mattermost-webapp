@@ -234,7 +234,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     onLinkLoadError={this.handleLinkLoadError}
                     onLinkLoaded={this.handleLinkLoaded}
                     handleImageClick={this.handleImageClick}
-                    dimentions={this.props.post.metadata.images[link]}
+                    dimensions={this.props.post.metadata && this.props.post.metadata.images[link]}
                 />
             );
         }
@@ -248,7 +248,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         const link = Utils.extractFirstLink(this.props.post.message);
-        if (link && this.props.enableLinkPreviews && this.props.previewEnabled && this.props.post.metadata.embeds) {
+        if (link && this.props.enableLinkPreviews && this.props.previewEnabled) {
             return (
                 <PostAttachmentOpenGraph
                     link={link}
