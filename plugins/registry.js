@@ -282,6 +282,11 @@ export default class PluginRegistry {
         unregisterPluginReconnectHandler(this.id);
     }
 
+    // Register a hook that will be called before a message is formatted into Markdown.
+    // Accepts a function that receives the unmodified post and the message (potentially
+    // already modified by other hooks) as arguments. This function must return a string
+    // message that will be formatted.
+    // Returns a unique identifier.
     registerMessageWillFormatHook(hook) {
         const id = generateId();
 
