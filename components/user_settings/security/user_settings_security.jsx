@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
 import {deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -17,6 +16,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
+import MfaSection from './mfa_section';
 import UserAccessTokenSection from './user_access_token_section';
 
 const SECTION_MFA = 'mfa';
@@ -39,20 +39,8 @@ export default class SecurityTab extends React.Component {
          */
         canUseAccessTokens: PropTypes.bool,
 
-        // Whether or not this instance of Mattermost is licensed.
-        isLicensed: PropTypes.bool,
-
-        // Whether or not this instance of Mattermost is licensed to use multi-factor authentication.
-        mfaLicensed: PropTypes.bool,
-
         // Whether or not OAuth applications are enabled.
         enableOAuthServiceProvider: PropTypes.bool,
-
-        // Whether or not multi-factor authentication is enabled.
-        enableMultifactorAuthentication: PropTypes.bool,
-
-        // Whether or not multi-factor authentication is enforced.
-        enforceMultifactorAuthentication: PropTypes.bool,
 
         // Whether or not sign-up with email is enabled.
         enableSignUpWithEmail: PropTypes.bool,
@@ -79,7 +67,6 @@ export default class SecurityTab extends React.Component {
         militaryTime: PropTypes.bool,
 
         actions: PropTypes.shape({
-            deactivateMfa: PropTypes.func.isRequired,
             getMe: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -166,38 +153,6 @@ export default class SecurityTab extends React.Component {
         );
     }
 
-    setupMfa = (e) => {
-        e.preventDefault();
-        browserHistory.push('/mfa/setup');
-    }
-
-    removeMfa = () => {
-        this.props.actions.deactivateMfa(({error}) => {
-            if (error) {
-                const state = this.getDefaultState();
-
-                if (error.message) {
-                    state.serverError = error.message;
-                } else {
-                    state.serverError = error;
-                }
-
-                this.setState(state);
-                return;
-            }
-
-            if (this.props.mfaLicensed &&
-                    this.props.enableMultifactorAuthentication &&
-                    this.props.enforceMultifactorAuthentication) {
-                browserHistory.push('/mfa/setup');
-                return;
-            }
-
-            this.props.updateSection('');
-            this.setState(this.getDefaultState());
-        });
-    }
-
     updateCurrentPassword = (e) => {
         this.setState({currentPassword: e.target.value});
     }
@@ -255,128 +210,6 @@ export default class SecurityTab extends React.Component {
 
             this.props.updateSection('');
         }
-    }
-
-    createMfaSection = () => {
-        if (this.props.activeSection === SECTION_MFA) {
-            let content;
-            let extraInfo;
-            if (this.props.user.mfa_active) {
-                let mfaRemoveHelp;
-                let mfaButtonText;
-
-                if (this.props.enforceMultifactorAuthentication) {
-                    mfaRemoveHelp = (
-                        <FormattedMessage
-                            id='user.settings.mfa.requiredHelp'
-                            defaultMessage='Multi-factor authentication is required on this server. Resetting is only recommended when you need to switch code generation to a new mobile device. You will be required to set it up again immediately.'
-                        />
-                    );
-
-                    mfaButtonText = (
-                        <FormattedMessage
-                            id='user.settings.mfa.reset'
-                            defaultMessage='Reset MFA on your account'
-                        />
-                    );
-                } else {
-                    mfaRemoveHelp = (
-                        <FormattedMessage
-                            id='user.settings.mfa.removeHelp'
-                            defaultMessage='Removing multi-factor authentication means you will no longer require a phone-based passcode to sign-in to your account.'
-                        />
-                    );
-
-                    mfaButtonText = (
-                        <FormattedMessage
-                            id='user.settings.mfa.remove'
-                            defaultMessage='Remove MFA from your account'
-                        />
-                    );
-                }
-
-                content = (
-                    <div key='mfaQrCode'>
-                        <a
-                            className='btn btn-primary'
-                            href='#'
-                            onClick={this.removeMfa}
-                        >
-                            {mfaButtonText}
-                        </a>
-                        <br/>
-                    </div>
-                );
-
-                extraInfo = (
-                    <span>
-                        {mfaRemoveHelp}
-                    </span>
-                );
-            } else {
-                content = (
-                    <div key='mfaQrCode'>
-                        <a
-                            className='btn btn-primary'
-                            href='#'
-                            onClick={this.setupMfa}
-                        >
-                            <FormattedMessage
-                                id='user.settings.mfa.add'
-                                defaultMessage='Add MFA to your account'
-                            />
-                        </a>
-                        <br/>
-                    </div>
-                );
-
-                extraInfo = (
-                    <span>
-                        <FormattedMessage
-                            id='user.settings.mfa.addHelp'
-                            defaultMessage='Adding multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in.'
-                        />
-                    </span>
-                );
-            }
-
-            const inputs = [];
-            inputs.push(
-                <div
-                    key='mfaSetting'
-                    className='padding-top'
-                >
-                    {content}
-                </div>
-            );
-
-            return (
-                <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.mfa.title', 'Multi-factor Authentication')}
-                    inputs={inputs}
-                    extraInfo={extraInfo}
-                    serverError={this.state.serverError}
-                    updateSection={this.handleUpdateSection}
-                    width='medium'
-                />
-            );
-        }
-
-        let describe;
-        if (this.props.user.mfa_active) {
-            describe = Utils.localizeMessage('user.settings.security.active', 'Active');
-        } else {
-            describe = Utils.localizeMessage('user.settings.security.inactive', 'Inactive');
-        }
-
-        return (
-            <SettingItemMin
-                title={Utils.localizeMessage('user.settings.mfa.title', 'Multi-factor Authentication')}
-                describe={describe}
-                section={SECTION_MFA}
-                updateSection={this.handleUpdateSection}
-            />
-        );
     }
 
     createPasswordSection = () => {
@@ -980,13 +813,6 @@ export default class SecurityTab extends React.Component {
             signInSection = this.createSignInSection();
         }
 
-        let mfaSection;
-        if (this.props.enableMultifactorAuthentication &&
-                this.props.isLicensed &&
-                (user.auth_service === '' || user.auth_service === Constants.LDAP_SERVICE)) {
-            mfaSection = this.createMfaSection();
-        }
-
         let oauthSection;
         if (this.props.enableOAuthServiceProvider) {
             oauthSection = this.createOAuthAppsSection();
@@ -1043,7 +869,10 @@ export default class SecurityTab extends React.Component {
                     <div className='divider-dark first'/>
                     {passwordSection}
                     <div className='divider-light'/>
-                    {mfaSection}
+                    <MfaSection
+                        active={this.props.activeSection === SECTION_MFA}
+                        updateSection={this.handleUpdateSection}
+                    />
                     <div className='divider-light'/>
                     {oauthSection}
                     <div className='divider-light'/>

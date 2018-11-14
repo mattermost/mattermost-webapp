@@ -154,6 +154,11 @@ export default class CreatePost extends React.Component {
          */
         userIsOutOfOffice: PropTypes.bool.isRequired,
         rhsExpanded: PropTypes.bool.isRequired,
+
+        /**
+         * To check if the timezones are enable on the server.
+         */
+        isTimezoneEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -210,7 +215,13 @@ export default class CreatePost extends React.Component {
              * Function to open a modal
              */
             openModal: PropTypes.func.isRequired,
+
             executeCommand: PropTypes.func.isRequired,
+
+            /**
+             * Function to get the users timezones in the channel
+             */
+            getChannelTimezones: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -227,9 +238,11 @@ export default class CreatePost extends React.Component {
             enableSendButton: false,
             showEmojiPicker: false,
             showConfirmModal: false,
+            channelMembersCount: 0,
         };
 
         this.lastBlurAt = 0;
+        this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
     }
 
@@ -267,6 +280,7 @@ export default class CreatePost extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
+            this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
         }
     }
@@ -395,6 +409,18 @@ export default class CreatePost extends React.Component {
             userIsOutOfOffice,
         } = this.props;
 
+        if (this.props.isTimezoneEnabled) {
+            this.props.actions.getChannelTimezones(this.props.currentChannel.id).then(
+                (data) => {
+                    if (data.data) {
+                        this.setState({channelMembersCount: data.data.length});
+                    } else {
+                        this.setState({channelMembersCount: 0});
+                    }
+                }
+            );
+        }
+
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
@@ -494,7 +520,7 @@ export default class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter, currentChannel} = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
 
         if (allowSending) {
             e.persist();
@@ -873,15 +899,29 @@ export default class CreatePost extends React.Component {
             />
         );
 
-        const notifyAllMessage = (
-            <FormattedMessage
-                id='notify_all.question'
-                defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
-                values={{
-                    totalMembers: members,
-                }}
-            />
-        );
+        let notifyAllMessage = '';
+        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
+            notifyAllMessage = (
+                <FormattedMarkdownMessage
+                    id='notify_all.question_timezone'
+                    defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: members,
+                        timezones: this.state.channelMembersCount,
+                    }}
+                />
+            );
+        } else {
+            notifyAllMessage = (
+                <FormattedMessage
+                    id='notify_all.question'
+                    defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: members,
+                    }}
+                />
+            );
+        }
 
         let serverError = null;
         if (this.state.serverError) {

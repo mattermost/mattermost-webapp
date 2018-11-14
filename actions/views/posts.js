@@ -29,7 +29,12 @@ export function selectAttachmentMenuAction(postId, actionId, dataSource, display
         dispatch({
             type: ActionTypes.SELECT_ATTACHMENT_MENU_ACTION,
             postId,
-            data: {displayText, value},
+            data: {
+                [actionId]: {
+                    displayText,
+                    value,
+                },
+            },
         });
 
         dispatch(PostActions.doPostAction(postId, actionId, value));
