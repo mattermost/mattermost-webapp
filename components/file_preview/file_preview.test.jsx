@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FilePreview from 'components/file_preview.jsx';
+import FilePreview from './file_preview.jsx';
 
 describe('component/FilePreview', () => {
     const onRemove = jest.fn();
