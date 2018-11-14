@@ -201,10 +201,10 @@ export default class Root extends React.Component {
 
         // redirect to the mobile landing page if the user hasn't seen it before
         if (iosDownloadLink && UserAgent.isIosWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
-            this.props.history.push('/get_ios_app');
+            this.props.history.push('/get_ios_app?redirect_to=' + encodeURIComponent(this.props.location.pathname) + encodeURIComponent(this.props.location.search));
             BrowserStore.setLandingPageSeen(true);
         } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
-            this.props.history.push('/get_android_app');
+            this.props.history.push('/get_android_app?redirect_to=' + encodeURIComponent(this.props.location.pathname) + encodeURIComponent(this.props.location.search));
             BrowserStore.setLandingPageSeen(true);
         }
     }
