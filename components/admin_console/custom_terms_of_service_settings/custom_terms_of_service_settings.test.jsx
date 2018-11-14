@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import configureStore from 'redux-mock-store';
 
 import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings.jsx';
 

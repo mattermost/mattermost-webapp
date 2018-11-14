@@ -15,7 +15,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import {Constants} from 'utils/constants';
-import {t} from 'utils/i18n';
 
 export default class CustomTermsOfServiceSettings extends AdminSettings {
     static propTypes = {
@@ -33,7 +32,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         this.state = {
             termsEnabled: props.config.SupportSettings.CustomTermsOfServiceEnabled,
             reAcceptancePeriod: props.config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod,
-            loadingTermsText: true,
+            loadingTermsText: props.config.SupportSettings.CustomTermsOfServiceEnabled,
             receivedTermsText: '',
             termsText: '',
             saveNeeded: false,
@@ -62,10 +61,6 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
     componentDidMount() {
         if (this.state.termsEnabled) {
             this.getTermsOfService();
-        } else {
-            this.setState({
-                loadingTermsText: false,
-            });
         }
     }
 
@@ -108,7 +103,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
                 }
             },
             (err) => {
-                this.handleAPIError(err, callback, config)
+                this.handleAPIError(err, callback, config);
             }
         );
     };
