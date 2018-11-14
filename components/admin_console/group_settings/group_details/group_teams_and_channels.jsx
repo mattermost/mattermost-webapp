@@ -10,8 +10,8 @@ import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/gr
 export default class GroupTeamsAndChannels extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        groupTeams: PropTypes.arrayOf(PropTypes.object),
-        groupChannels: PropTypes.arrayOf(PropTypes.object),
+        teams: PropTypes.arrayOf(PropTypes.object),
+        channels: PropTypes.arrayOf(PropTypes.object),
         actions: PropTypes.shape({
             unlink: PropTypes.func.isRequired,
         }).isRequired,
@@ -25,49 +25,68 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
     }
 
     teamsAndChannelsToEntries = (teams, channels) => {
-        console.log(teams);
-        console.log(channels);
+        const entries = [];
+
+        const teamEntries = teams.map((team) => ({
+            type: team.team_type === 'O' ? 'public-team' : 'private-team',
+            hasChildren: channels.some((channel) => channel.team_id === team.id),
+            name: team.team_display_name,
+            collapsed: false,
+            id: team.id,
+        }));
+
+        const channelEntries = channels.map((channel) => ({
+            type: channel.channel_type === 'O' ? 'public-channel' : 'private-channel',
+            name: channel.channel_name,
+            id: channel.id,
+        }));
+
+        console.log('teamEntries', teamEntries);
+        console.log('channelEntries', channelEntries);
+
+        return entries;
     }
 
     render = () => {
-        this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);
-        const entries = [
-            {
-                type: 'public-team',
-                hasChildren: true,
-                name: 'Contributors',
-                collapsed: false,
-                id: '1',
-            },
-            {
-                type: 'private-channel',
-                name: 'Authentication',
-                id: '2',
-            },
-            {
-                type: 'public-team',
-                hasChildren: false,
-                name: 'Customer Support',
-                id: '3',
-            },
-            {
-                type: 'private-team',
-                hasChildren: true,
-                name: 'Deepmind Product Team',
-                collapsed: false,
-                id: '4',
-            },
-            {
-                type: 'private-channel',
-                name: 'Advertisements',
-                id: '5',
-            },
-            {
-                type: 'public-channel',
-                name: 'Decisions',
-                id: '6',
-            },
-        ];
+        const entries = this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);
+
+        // const entries = [
+        //     {
+        //         type: 'public-team',
+        //         hasChildren: true,
+        //         name: 'Contributors',
+        //         collapsed: false,
+        //         id: '1',
+        //     },
+        //     {
+        //         type: 'private-channel',
+        //         name: 'Authentication',
+        //         id: '2',
+        //     },
+        //     {
+        //         type: 'public-team',
+        //         hasChildren: false,
+        //         name: 'Customer Support',
+        //         id: '3',
+        //     },
+        //     {
+        //         type: 'private-team',
+        //         hasChildren: true,
+        //         name: 'Deepmind Product Team',
+        //         collapsed: false,
+        //         id: '4',
+        //     },
+        //     {
+        //         type: 'private-channel',
+        //         name: 'Advertisements',
+        //         id: '5',
+        //     },
+        //     {
+        //         type: 'public-channel',
+        //         name: 'Decisions',
+        //         id: '6',
+        //     },
+        // ];
         return (
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--header'>
