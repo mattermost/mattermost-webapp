@@ -1809,6 +1809,15 @@
     }
 }
 
+@media screen and (max-width: 450px) {
+    .signup-team__container {
+        .terms-of-service-error__height--fill {
+            min-height: calc(100vh - 182px);
+            height: calc(100vh - 182px);
+        }
+    }
+}
+
 @media screen and (max-width: 263px) {
     .signup-team__container {
         .terms-of-service-error__height--fill {
@@ -1817,17 +1826,8 @@
         }
 
         .terms-of-service__height--fill {
-            min-height: calc(100vh - 150px);
-            height: calc(100vh - 150px);;
-        }
-    }
-}
-
-@media screen and (max-width: 450px) {
-    .signup-team__container {
-        .terms-of-service-error__height--fill {
-            min-height: calc(100vh - 216px);
-            height: calc(100vh - 216px);
+            min-height: calc(100vh - 126px);
+            height: calc(100vh - 126px);;
         }
     }
 }

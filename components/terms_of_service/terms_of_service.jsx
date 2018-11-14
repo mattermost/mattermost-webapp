@@ -154,12 +154,12 @@ export default class TermsOfService extends React.PureComponent {
                 </div>
                 <div>
                     <div className='signup-team__container terms-of-service__padding--less max-width--full'>
-                        <div className='scrollable'>
+                        <div className='terms-of-service__markdown'>
                             <div className={termsMarkdownClasses}>
                                 {messageHtmlToComponent(this.formattedText(this.state.customTermsOfServiceText), false, {mentions: false})}
                             </div>
                         </div>
-                        <div className='margin--extra medium-center'>
+                        <div className='margin--small medium-center'>
                             <ButtonGroup>
                                 <Button
                                     bsStyle={'primary'}

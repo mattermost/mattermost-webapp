@@ -27,7 +27,8 @@
         margin-right: auto;
     }
 
-    .scrollable {
+    .terms-of-service__markdown {
+        background-color: #fff;
         overflow-y: auto;
     }
 
@@ -92,22 +93,18 @@
     }
 
     .terms-of-service-error__height--fill {
-        min-height: calc(100vh - 186px);
-        height: calc(100vh - 186px);
+        min-height: calc(100vh - 176px);
+        height: calc(100vh - 176px);
     }
 
     .terms-of-service__height--fill {
-        height: calc(100vh - 130px);
+        height: calc(100vh - 108px);
     }
 
     .medium-center {
         width: 70%;
         margin-left: auto;
         margin-right: auto;
-    }
-
-    .scrollable {
-        overflow-y: auto;
     }
 
     h1,
