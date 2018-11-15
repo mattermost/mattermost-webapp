@@ -14,6 +14,7 @@ import AdminPanel from 'components/admin_console/admin_panel.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import TeamSelectorModal from 'components/team_selector_modal';
+import ChannelSelectorModal from 'components/channel_selector_modal';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -83,6 +84,12 @@ export default class GroupDetails extends React.PureComponent {
     addTeams = (teams) => {
         for (const team of teams) {
             this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {can_leave: true, auto_add: true});
+        }
+    }
+
+    addChannels = (channels) => {
+        for (const channel of channels) {
+            this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {can_leave: true, auto_add: true});
         }
     }
 
@@ -169,6 +176,13 @@ export default class GroupDetails extends React.PureComponent {
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
                         alreadySelected={this.props.groupTeams.map((team) => team.id)}
+                    />
+                }
+                {this.state.addChannelOpen &&
+                    <ChannelSelectorModal
+                        onModalDismissed={this.closeAddChannel}
+                        onChannelsSelected={this.addChannels}
+                        alreadySelected={this.props.groupChannels.map((channel) => channel.id)}
                     />
                 }
 
