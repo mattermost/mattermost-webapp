@@ -197,6 +197,7 @@ export default class CreateComment extends React.PureComponent {
 
         this.lastBlurAt = 0;
         this.draftsForPost = {};
+        this.doInitialScrollToBottom = false;
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -208,6 +209,13 @@ export default class CreateComment extends React.PureComponent {
     componentDidMount() {
         this.focusTextbox();
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+
+        // When draft.message is not empty, set doInitialScrollToBottom to true so that
+        // on next component update, the actual this.scrollToBottom() will be called.
+        // This is made so that the this.scrollToBottom() will be called only once.
+        if (this.props.draft.message !== '') {
+            this.doInitialScrollToBottom = true;
+        }
     }
 
     componentWillUnmount() {
@@ -235,6 +243,11 @@ export default class CreateComment extends React.PureComponent {
 
         if (prevProps.rootId !== this.props.rootId) {
             this.focusTextbox();
+        }
+
+        if (this.doInitialScrollToBottom) {
+            this.scrollToBottom();
+            this.doInitialScrollToBottom = false;
         }
     }
 
