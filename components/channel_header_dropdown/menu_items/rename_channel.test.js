@@ -47,7 +47,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.RenameChannel', () => {
     });
 
     it('should be hidden if the channel is DM or GM', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
         const makeWrapper = () => shallow(<RenameChannel {...props}/>);
 
         props.channel.type = Constants.DM_CHANNEL;
@@ -58,7 +61,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.RenameChannel', () => {
     });
 
     it('should requires right permission level for channel type', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
         const makeWrapper = () => shallow(<RenameChannel {...props}/>);
 
         props.channel.type = Constants.OPEN_CHANNEL;

@@ -7,7 +7,9 @@ exports[`components/ChannelHeaderDropdown/MenuItem.NotificationPreferences shoul
   <Connect(ModalToggleButtonRedux)
     dialogProps={
       Object {
-        "channel": Object {},
+        "channel": Object {
+          "type": "O",
+        },
         "currentUser": Object {},
       }
     }

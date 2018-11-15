@@ -37,7 +37,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () =
 
     it('should match snapshot for favorite channel', () => {
         const wrapper = shallow(<ToggleFavoriteChannel {...propsForFavorite}/>);
-
         expect(wrapper).toMatchSnapshot();
     });
 

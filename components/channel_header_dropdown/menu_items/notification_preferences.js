@@ -6,28 +6,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import {Constants, ModalIdentifiers} from 'utils/constants';
+
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
-import {ModalIdentifiers} from 'utils/constants';
 
-const NotificationPreferences = ({user, channel}) => (
-    <li role='presentation'>
-        <ToggleModalButtonRedux
-            role='menuitem'
-            modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
-            dialogType={ChannelNotificationsModal}
-            dialogProps={{
-                channel,
-                currentUser: user,
-            }}
-        >
-            <FormattedMessage
-                id='navbar.preferences'
-                defaultMessage='Notification Preferences'
-            />
-        </ToggleModalButtonRedux>
-    </li>
-);
+const NotificationPreferences = ({user, channel, isArchived}) => {
+    if (channel.type === Constants.DM_CHANNEL) {
+        return null;
+    }
+
+    if (isArchived) {
+        return null;
+    }
+
+    return (
+        <li role='presentation'>
+            <ToggleModalButtonRedux
+                role='menuitem'
+                modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
+                dialogType={ChannelNotificationsModal}
+                dialogProps={{
+                    channel,
+                    currentUser: user,
+                }}
+            >
+                <FormattedMessage
+                    id='navbar.preferences'
+                    defaultMessage='Notification Preferences'
+                />
+            </ToggleModalButtonRedux>
+        </li>
+    );
+};
 
 NotificationPreferences.propTypes = {
 
@@ -40,6 +51,11 @@ NotificationPreferences.propTypes = {
      * Object with info about channel
      */
     channel: PropTypes.object.isRequired,
+
+    /**
+     * Boolean whether the current channel is archived
+     */
+    isArchived: PropTypes.bool.isRequired,
 };
 
 export default NotificationPreferences;

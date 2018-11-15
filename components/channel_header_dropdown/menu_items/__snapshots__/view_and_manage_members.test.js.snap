@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo should match snapshot 1`] = `
+exports[`components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers should match snapshot 1`] = `
 <li
   role="presentation"
 >
@@ -13,12 +13,12 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo should match 
       }
     }
     dialogType={[Function]}
-    modalId="channel_info"
+    modalId="channel_members"
     role="menuitem"
   >
     <FormattedMessage
-      defaultMessage="View Info"
-      id="navbar.viewInfo"
+      defaultMessage="View Members"
+      id="channel_header.viewMembers"
       values={Object {}}
     />
   </Connect(ModalToggleButtonRedux)>

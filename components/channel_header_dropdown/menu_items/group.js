@@ -4,10 +4,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DropdownMenuItemGroup = ({children}) => (
+const DropdownMenuItemGroup = ({children, showDivider = true}) => (
     <React.Fragment>
         {children}
-        {children.length && (
+        {children.length && showDivider && (
             <li className='divider'/>
         )}
     </React.Fragment>
@@ -15,6 +15,7 @@ const DropdownMenuItemGroup = ({children}) => (
 
 DropdownMenuItemGroup.propTypes = {
     children: PropTypes.any,
+    showDivider: PropTypes.bool,
 };
 
 export default DropdownMenuItemGroup;

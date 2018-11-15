@@ -77,12 +77,8 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     className='dropdown-menu'
                     role='menu'
                 >
-                    <MenuItem.ViewChannelInfo
-                        channel={channel}
-                    />
-                    <MenuItem.ViewPinnedPosts
-                        channel={channel}
-                    />
+                    <MenuItem.ViewChannelInfo channel={channel}/>
+                    <MenuItem.ViewPinnedPosts channel={channel}/>
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
@@ -112,16 +108,13 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         isDefault={isDefault}
                         isArchived={isArchived}
                     />
-                    <MenuItem.ConvertChannel
-                        channel={channel}
-                    />
-                    <MenuItem.DeleteChannel
-                        channel={channel}
-                    />
+                    <MenuItem.ConvertChannel channel={channel}/>
+                    <MenuItem.DeleteChannel channel={channel}/>
                     <MenuItem.LeaveChannel
                         channel={channel}
                         isDefault={isDefault}
                     />
+                    <MenuItem.CloseChannel/>
                     <MenuItem.ToggleFavoriteChannel
                         channel={channel}
                         isFavorite={isFavorite}

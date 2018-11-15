@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {NotificationLevels} from 'utils/constants';
+import {Constants, NotificationLevels} from 'utils/constants';
 
 export default class ToggleMuteChannel extends React.PureComponent {
     static propTypes = {
@@ -49,6 +49,10 @@ export default class ToggleMuteChannel extends React.PureComponent {
     }
 
     render() {
+        if (this.props.channel.type === Constants.DM_CHANNEL) {
+            return null;
+        }
+
         let message;
         if (this.props.isMuted) {
             message = (

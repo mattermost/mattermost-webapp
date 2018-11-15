@@ -16,6 +16,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
             team_id: 'team_id',
             type: Constants.OPEN_CHANNEL,
         },
+        isArchived: false,
         isReadonly: false,
     };
 
@@ -23,6 +24,16 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
         const wrapper = shallow(<SetChannelPurpose {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should be hidden if the channel is archived', () => {
+        const props = {
+            ...baseProps,
+            isArchived: true,
+        };
+        const wrapper = shallow(<SetChannelPurpose {...props}/>);
+
+        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should be hidden if the channel is readonly', () => {
@@ -36,7 +47,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
     });
 
     it('should be hidden if the channel type is DM or GM', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
         const makeWrapper = () => shallow(<SetChannelPurpose {...props}/>);
 
         props.channel.type = Constants.DM_CHANNEL;
@@ -47,7 +61,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
     });
 
     it('should requires right permission level for channel type to manage purpose', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
         const makeWrapper = () => shallow(<SetChannelPurpose {...props}/>);
 
         props.channel.type = Constants.OPEN_CHANNEL;

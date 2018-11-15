@@ -6,9 +6,9 @@ import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants';
 
-import ViewChannelInfo from './view_channel_info';
+import ViewAndManageMembers from './view_and_manage_members';
 
-describe('components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo', () => {
+describe('components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers', () => {
     const baseProps = {
         channel: {
             type: Constants.OPEN_CHANNEL,
@@ -16,7 +16,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<ViewChannelInfo {...baseProps}/>);
+        const wrapper = shallow(<ViewAndManageMembers {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -24,7 +24,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo', () => {
         const props = {
             channel: {...baseProps.channel},
         };
-        const makeWrapper = () => shallow(<ViewChannelInfo {...props}/>);
+        const makeWrapper = () => shallow(<ViewAndManageMembers {...props}/>);
 
         props.channel.type = Constants.DM_CHANNEL;
         expect(makeWrapper().isEmptyRender()).toBeTruthy();

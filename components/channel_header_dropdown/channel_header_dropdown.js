@@ -34,9 +34,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 aria-labelledby='channel_header_dropdown'
             >
                 <MenuItem.Group>
-                    <MenuItem.ViewChannelInfo
-                        channel={channel}
-                    />
+                    <MenuItem.ViewChannelInfo channel={channel}/>
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
@@ -75,18 +73,17 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         isDefault={isDefault}
                         isArchived={isArchived}
                     />
-                    <MenuItem.ConvertChannel
-                        channel={channel}
-                    />
-                    <MenuItem.DeleteChannel
-                        channel={channel}
-                    />
+                    <MenuItem.ConvertChannel channel={channel}/>
+                    <MenuItem.DeleteChannel channel={channel}/>
                 </MenuItem.Group>
 
-                <MenuItem.LeaveChannel
-                    channel={channel}
-                    isDefault={isDefault}
-                />
+                <MenuItem.Group showDivider={false}>
+                    <MenuItem.LeaveChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                    />
+                    <MenuItem.CloseChannel/>
+                </MenuItem.Group>
             </ul>
         );
     }

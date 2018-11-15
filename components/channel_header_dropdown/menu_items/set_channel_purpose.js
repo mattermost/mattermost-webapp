@@ -11,7 +11,11 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
-const SetChannelPurpose = ({channel, isReadonly}) => {
+const SetChannelPurpose = ({channel, isArchived, isReadonly}) => {
+    if (isArchived) {
+        return null;
+    }
+
     if (isReadonly) {
         return null;
     }
@@ -56,6 +60,11 @@ SetChannelPurpose.propTypes = {
      * Object with info about channel
      */
     channel: PropTypes.object.isRequired,
+
+    /**
+     * Boolean whether the channel is readonly
+     */
+    isArchived: PropTypes.bool.isRequired,
 
     /**
      * Boolean whether the channel is readonly

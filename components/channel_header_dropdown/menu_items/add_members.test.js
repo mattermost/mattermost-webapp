@@ -9,73 +9,50 @@ import {Constants} from 'utils/constants';
 import AddMembers from './add_members';
 
 describe('components/ChannelHeaderDropdown/MenuItem.AddMembers', () => {
+    const baseProps = {
+        channel: {
+            id: 'channel_id',
+            team_id: 'team_id',
+            type: Constants.OPEN_CHANNEL,
+        },
+        isDefault: false,
+        isArchived: false,
+    };
+
+    it('should match snapshot', () => {
+        const wrapper = shallow(<AddMembers {...baseProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     it('should be hidden if the channel is default channel', () => {
-        const wrapper = shallow(
-            <AddMembers
-                channel={{
-                    id: 'channel_id',
-                    team_id: 'team_id',
-                    type: Constants.OPEN_CHANNEL,
-                }}
-                isDefault={true}
-            />
-        );
+        const props = {
+            ...baseProps,
+            isDefault: true,
+        };
+        const wrapper = shallow(<AddMembers {...props}/>);
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
-    it('should be hidden when if the channel is DM channel', () => {
-        const wrapper = shallow(
-            <AddMembers
-                channel={{
-                    id: 'channel_id',
-                    team_id: 'team_id',
-                    type: Constants.DM_CHANNEL,
-                }}
-                isDefault={false}
-            />
-        );
+    it('should be hidden if the channel is archived', () => {
+        const props = {
+            ...baseProps,
+            isArchived: true,
+        };
+        const wrapper = shallow(<AddMembers {...props}/>);
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
-    it('should match snapshot for public channel', () => {
-        const wrapper = shallow(
-            <AddMembers
-                channel={{
-                    id: 'channel_id',
-                    team_id: 'team_id',
-                    type: Constants.OPEN_CHANNEL,
-                }}
-                isDefault={false}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
+    it('should be hidden if the channel type is DM or GM', () => {
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
+        const makeWrapper = () => shallow(<AddMembers {...props}/>);
 
-    it('should match snapshot for private channel', () => {
-        const wrapper = shallow(
-            <AddMembers
-                channel={{
-                    id: 'channel_id',
-                    team_id: 'team_id',
-                    type: Constants.PRIVATE_CHANNEL,
-                }}
-                isDefault={false}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
+        props.channel.type = Constants.DM_CHANNEL;
+        expect(makeWrapper().isEmptyRender()).toBeTruthy();
 
-    it('should match snapshot for group message', () => {
-        const wrapper = shallow(
-            <AddMembers
-                channel={{
-                    id: 'channel_id',
-                    team_id: 'team_id',
-                    type: Constants.GM_CHANNEL,
-                }}
-                isDefault={false}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
+        props.channel.type = Constants.GM_CHANNEL;
+        expect(makeWrapper().isEmptyRender()).toBeTruthy();
     });
 });

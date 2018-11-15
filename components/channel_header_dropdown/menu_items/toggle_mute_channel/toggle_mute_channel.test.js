@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {NotificationLevels} from 'utils/constants';
+import {Constants, NotificationLevels} from 'utils/constants';
 
 import ToggleMuteChannel from './toggle_mute_channel';
 
@@ -15,6 +15,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel', () => {
         },
         channel: {
             id: 'channel_id',
+            type: Constants.OPEN_CHANNEL,
         },
         isMuted: false,
         actions: {
@@ -24,7 +25,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel', () => {
 
     it('should match snapshot', () => {
         const wrapper = shallow(<ToggleMuteChannel {...baseProps}/>);
-
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -64,5 +64,17 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel', () => {
             props.channel.id,
             {mark_unread: NotificationLevels.MENTION}
         );
+    });
+
+    it('should be hidden if the channel type is DM', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                type: Constants.DM_CHANNEL,
+            },
+        };
+        const wrapper = shallow(<ToggleMuteChannel {...props}/>);
+        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 });

@@ -15,7 +15,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.ConvertChannel should match s
     <Connect(ModalToggleButtonRedux)
       dialogProps={
         Object {
-          "channelDisplayName": "Test",
+          "channelDisplayName": "Test Channel",
           "channelId": "channel_id",
         }
       }

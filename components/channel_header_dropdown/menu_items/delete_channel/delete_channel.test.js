@@ -16,17 +16,39 @@ describe('components/ChannelHeaderDropdown/MenuItem.DeleteChannel', () => {
             team_id: 'team_id',
             type: Constants.OPEN_CHANNEL,
         },
+        isDefault: false,
+        isArchived: false,
         penultimateViewedChannelName: '',
     };
 
     it('should match snapshot', () => {
         const wrapper = shallow(<DeleteChannel {...baseProps}/>);
-
         expect(wrapper).toMatchSnapshot();
     });
 
+    it('should be hidden if the channel is default', () => {
+        const props = {
+            ...baseProps,
+            isDefault: true,
+        };
+        const wrapper = shallow(<DeleteChannel {...props}/>);
+        expect(wrapper.isEmptyRender()).toBeTruthy();
+    });
+
+    it('should be hidden if the channel is archived', () => {
+        const props = {
+            ...baseProps,
+            isArchived: true,
+        };
+        const wrapper = shallow(<DeleteChannel {...props}/>);
+        expect(wrapper.isEmptyRender()).toBeTruthy();
+    });
+
     it('should be hidden if the channel is DM or GM', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
         const makeWrapper = () => shallow(<DeleteChannel {...props}/>);
 
         props.channel.type = Constants.DM_CHANNEL;
@@ -37,7 +59,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.DeleteChannel', () => {
     });
 
     it('should requires right permission level by channel type', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
         const makeWrapper = () => shallow(<DeleteChannel {...props}/>);
 
         props.channel.type = Constants.OPEN_CHANNEL;

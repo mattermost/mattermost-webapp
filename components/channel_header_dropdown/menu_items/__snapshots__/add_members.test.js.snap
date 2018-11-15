@@ -1,66 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should match snapshot for group message 1`] = `
-<li
-  role="presentation"
->
-  <Connect(ModalToggleButtonRedux)
-    dialogProps={
-      Object {
-        "isExistingChannel": true,
-      }
-    }
-    dialogType={[Function]}
-    modalId="create_dm_channel"
-    role="menuitem"
-  >
-    <FormattedMessage
-      defaultMessage="Add Members"
-      id="navbar.addMembers"
-      values={Object {}}
-    />
-  </Connect(ModalToggleButtonRedux)>
-</li>
-`;
-
-exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should match snapshot for private channel 1`] = `
-<Connect(ChannelPermissionGate)
-  channelId="channel_id"
-  permissions={
-    Array [
-      "manage_private_channel_members",
-    ]
-  }
-  teamId="team_id"
->
-  <li
-    role="presentation"
-  >
-    <Connect(ModalToggleButtonRedux)
-      dialogProps={
-        Object {
-          "channel": Object {
-            "id": "channel_id",
-            "team_id": "team_id",
-            "type": "P",
-          },
-        }
-      }
-      dialogType={[Function]}
-      modalId="channel_invite"
-      role="menuitem"
-    >
-      <FormattedMessage
-        defaultMessage="Add Members"
-        id="navbar.addMembers"
-        values={Object {}}
-      />
-    </Connect(ModalToggleButtonRedux)>
-  </li>
-</Connect(ChannelPermissionGate)>
-`;
-
-exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should match snapshot for public channel 1`] = `
+exports[`components/ChannelHeaderDropdown/MenuItem.AddMembers should match snapshot 1`] = `
 <Connect(ChannelPermissionGate)
   channelId="channel_id"
   permissions={

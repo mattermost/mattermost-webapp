@@ -26,7 +26,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
 
     it('should match snapshot', () => {
         const wrapper = shallow(<LeaveChannel {...baseProps}/>);
-
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -41,26 +40,25 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
     });
 
     it('should be hidden if the channel type is DM or GM', () => {
-        const props = baseProps;
-        const wrapper = shallow(<LeaveChannel {...props}/>);
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
+        const makeWrapper = () => shallow(<LeaveChannel {...props}/>);
 
-        wrapper.setProps({
-            channel: {
-                type: Constants.DM_CHANNEL,
-            },
-        });
-        expect(wrapper.isEmptyRender()).toBeTruthy();
+        props.channel.type = Constants.DM_CHANNEL;
+        expect(makeWrapper().isEmptyRender()).toBeTruthy();
 
-        wrapper.setProps({
-            channel: {
-                type: Constants.GM_CHANNEL,
-            },
-        });
-        expect(wrapper.isEmptyRender()).toBeTruthy();
+        props.channel.type = Constants.GM_CHANNEL;
+        expect(makeWrapper().isEmptyRender()).toBeTruthy();
     });
 
     it('should runs leaveChannel function on click only if the channel is not private', () => {
-        const props = baseProps;
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+            actions: {...baseProps.actions},
+        };
         const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow(<LeaveChannel {...props}/>);
 

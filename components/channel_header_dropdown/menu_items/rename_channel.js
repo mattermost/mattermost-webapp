@@ -12,11 +12,7 @@ import RenameChannelModal from 'components/rename_channel_modal';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
 const RenameChannel = ({channel, isDefault, isArchived}) => {
-    if (isDefault) {
-        return null;
-    }
-
-    if (isArchived) {
+    if (isDefault || isArchived) {
         return null;
     }
 

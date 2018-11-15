@@ -11,7 +11,11 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
-const SetChannelHeader = ({channel, isReadonly}) => {
+const SetChannelHeader = ({channel, isArchived, isReadonly}) => {
+    if (isArchived) {
+        return null;
+    }
+
     if (isReadonly) {
         return null;
     }
@@ -49,6 +53,11 @@ SetChannelHeader.propTypes = {
      * Object with info about user
      */
     channel: PropTypes.object.isRequired,
+
+    /**
+     * Boolean whether the channel is archived
+     */
+    isArchived: PropTypes.bool.isRequired,
 
     /**
      * Boolean whether the channel is readonly

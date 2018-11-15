@@ -17,12 +17,23 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelHeader', () => {
             type: Constants.OPEN_CHANNEL,
         },
         isReadonly: false,
+        isArchived: false,
     };
 
     it('should match snapshot', () => {
         const wrapper = shallow(<SetChannelHeader {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should be hidden if the channel is archived', () => {
+        const props = {
+            ...baseProps,
+            isReadonly: true,
+        };
+        const wrapper = shallow(<SetChannelHeader {...props}/>);
+
+        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should be hidden if the channel is readonly', () => {
@@ -36,8 +47,11 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelHeader', () => {
     });
 
     it('should requires right permission level for channel type to manage header', () => {
-        const props = baseProps;
-        const makeWrapper = () => shallow(<SetChannelHeader {...baseProps}/>);
+        const props = {
+            ...baseProps,
+            channel: {...baseProps.channel},
+        };
+        const makeWrapper = () => shallow(<SetChannelHeader {...props}/>);
 
         // Public, DM, GM (is this correct?)
         props.channel.type = Constants.OPEN_CHANNEL;
