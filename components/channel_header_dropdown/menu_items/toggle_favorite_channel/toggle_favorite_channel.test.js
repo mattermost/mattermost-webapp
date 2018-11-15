@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ToggleFavoriteChannel from 'components/channel_header_dropdown/menu_items/toggle_favorite_channel/toggle_favorite_channel';
+import ToggleFavoriteChannel from './toggle_favorite_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () => {
     const baseProps = {

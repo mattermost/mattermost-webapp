@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelHeaderMobile from 'components/channel_header_mobile/channel_header_mobile';
+import ChannelHeaderMobile from './channel_header_mobile';
 
 describe('components/ChannelHeaderMobile/ChannelHeaderMobile', () => {
     global.document.querySelector = jest.fn().mockReturnValue({

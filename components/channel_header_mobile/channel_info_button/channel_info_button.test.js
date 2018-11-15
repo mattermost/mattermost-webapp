@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import ChannelInfoButton from 'components/channel_header_mobile/channel_info_button/channel_info_button.js';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+
+import ChannelInfoButton from './channel_info_button';
 
 describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
     const baseProps = {

@@ -5,10 +5,11 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {SetChannelPurpose} from 'components/channel_header_dropdown/menu_items';
 import {Constants} from 'utils/constants';
 
-describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
+import SetChannelHeader from './set_channel_header';
+
+describe('components/ChannelHeaderDropdown/MenuItem.SetChannelHeader', () => {
     const baseProps = {
         channel: {
             id: 'channel_id',
@@ -19,7 +20,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<SetChannelPurpose {...baseProps}/>);
+        const wrapper = shallow(<SetChannelHeader {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -29,26 +30,16 @@ describe('components/ChannelHeaderDropdown/MenuItem.SetChannelPurpose', () => {
             ...baseProps,
             isReadonly: true,
         };
-        const wrapper = shallow(<SetChannelPurpose {...props}/>);
+        const wrapper = shallow(<SetChannelHeader {...props}/>);
 
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
-    it('should be hidden if the channel type is DM or GM', () => {
+    it('should requires right permission level for channel type to manage header', () => {
         const props = baseProps;
-        const makeWrapper = () => shallow(<SetChannelPurpose {...props}/>);
+        const makeWrapper = () => shallow(<SetChannelHeader {...baseProps}/>);
 
-        props.channel.type = Constants.DM_CHANNEL;
-        expect(makeWrapper().isEmptyRender()).toBeTruthy();
-
-        props.channel.type = Constants.GM_CHANNEL;
-        expect(makeWrapper().isEmptyRender()).toBeTruthy();
-    });
-
-    it('should requires right permission level for channel type to manage purpose', () => {
-        const props = baseProps;
-        const makeWrapper = () => shallow(<SetChannelPurpose {...props}/>);
-
+        // Public, DM, GM (is this correct?)
         props.channel.type = Constants.OPEN_CHANNEL;
         expect(makeWrapper().prop('permissions')[0]).toBe(Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
 

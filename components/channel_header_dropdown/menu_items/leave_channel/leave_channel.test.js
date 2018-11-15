@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LeaveChannel from 'components/channel_header_dropdown/menu_items/leave_channel/leave_channel';
 import {Constants} from 'utils/constants';
+
+import LeaveChannel from './leave_channel';
 
 jest.mock('actions/global_actions', () => ({
     showLeavePrivateChannelModal: jest.fn(),

@@ -5,9 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Permissions} from 'mattermost-redux/constants';
 
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import {ViewMembers} from 'components/channel_header_dropdown/menu_items';
 import {Constants} from 'utils/constants';
+
+import ManageMembers from './manage_members';
 
 describe('components/ChannelHeaderDropdown/MenuItem.ViewMembers', () => {
     const baseProps = {
@@ -20,24 +20,24 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewMembers', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<ViewMembers {...baseProps}/>);
+        const wrapper = shallow(<ManageMembers {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should appears without permission check if the channel is default channel', () => {
+    it('should be hidden if the channel is default channel', () => {
         const props = {
             ...baseProps,
             isDefault: true,
         };
-        const wrapper = shallow(<ViewMembers {...props}/>);
+        const wrapper = shallow(<ManageMembers {...props}/>);
 
-        expect(wrapper.is(ChannelPermissionGate)).toBeFalsy();
+        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should right permission level for channel type', () => {
         const props = baseProps;
-        const makeWrapper = () => shallow(<ViewMembers {...props}/>);
+        const makeWrapper = () => shallow(<ManageMembers {...props}/>);
 
         props.channel.type = Constants.OPEN_CHANNEL;
         expect(makeWrapper().prop('permissions')[0]).toBe(Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);

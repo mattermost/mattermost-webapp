@@ -5,8 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Permissions} from 'mattermost-redux/constants';
 
-import DeleteChannel from 'components/channel_header_dropdown/menu_items/delete_channel/delete_channel';
 import {Constants} from 'utils/constants';
+
+import DeleteChannel from './delete_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.DeleteChannel', () => {
     const baseProps = {

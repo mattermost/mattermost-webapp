@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels} from 'utils/constants';
 
-import UnmuteChannelButton from 'components/channel_header_mobile/unmute_channel_button/unmute_channel_button';
+import UnmuteChannelButton from './unmute_channel_button';
 
 describe('components/ChannelHeaderMobile/UnmuteChannelButton', () => {
     const baseProps = {

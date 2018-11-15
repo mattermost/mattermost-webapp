@@ -5,7 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants';
-import {AddMembers} from 'components/channel_header_dropdown/menu_items';
+
+import AddMembers from './add_members';
 
 describe('components/ChannelHeaderDropdown/MenuItem.AddMembers', () => {
     it('should be hidden if the channel is default channel', () => {

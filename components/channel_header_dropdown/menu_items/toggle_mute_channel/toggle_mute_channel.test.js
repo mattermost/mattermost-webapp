@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels} from 'utils/constants';
 
-import ToggleMuteChannel from 'components/channel_header_dropdown/menu_items/toggle_mute_channel/toggle_mute_channel';
+import ToggleMuteChannel from './toggle_mute_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.ToggleMuteChannel', () => {
     const baseProps = {

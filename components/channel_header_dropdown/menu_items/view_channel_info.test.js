@@ -4,12 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Group} from 'components/channel_header_dropdown/menu_items';
+import ViewChannelInfo from './view_channel_info';
 
-describe('components/ChannelHeaderDropdown/MenuItem.Group', () => {
+describe('components/ChannelHeaderDropdown/MenuItem.ViewChannelInfo', () => {
     it('should match snapshot', () => {
-        const wrapper = shallow(<Group>{'children'}</Group>);
-
+        const wrapper = shallow(
+            <ViewChannelInfo channel={{}}/>
+        );
         expect(wrapper).toMatchSnapshot();
     });
 });

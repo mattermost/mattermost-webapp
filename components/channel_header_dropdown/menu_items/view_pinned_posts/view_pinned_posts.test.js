@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ViewPinnedPosts from 'components/channel_header_dropdown/menu_items/view_pinned_posts/view_pinned_posts';
+import ViewPinnedPosts from './view_pinned_posts';
 
 describe('components/ChannelHeaderDropdown/MenuItem.ViewPinnedPosts', () => {
     const baseProps = {

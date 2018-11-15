@@ -5,8 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {RenameChannel} from 'components/channel_header_dropdown/menu_items';
 import {Constants} from 'utils/constants';
+
+import RenameChannel from './rename_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.RenameChannel', () => {
     const baseProps = {
