@@ -27,22 +27,46 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
     teamsAndChannelsToEntries = (teams, channels) => {
         const entries = [];
 
-        const teamEntries = teams.map((team) => ({
-            type: team.team_type === 'O' ? 'public-team' : 'private-team',
-            hasChildren: channels.some((channel) => channel.team_id === team.id),
-            name: team.team_display_name,
-            collapsed: false,
-            id: team.id,
-        }));
+        const existingTeams = new Set();
+        const teamEntries = [];
+        teams.forEach((team) => {
+            existingTeams.add(team.team_id);
+            teamEntries.push({
+                type: team.team_type === 'O' ? 'public-team' : 'private-team',
+                hasChildren: channels.some((channel) => channel.team_id === team.id),
+                name: team.team_display_name,
+                collapsed: false,
+                id: team.team_id,
+            });
+        });
 
-        const channelEntries = channels.map((channel) => ({
-            type: channel.channel_type === 'O' ? 'public-channel' : 'private-channel',
-            name: channel.channel_name,
-            id: channel.id,
-        }));
+        const channelEntriesByTeam = {};
+        channels.forEach((channel) => {
+            channelEntriesByTeam[channel.team_id] = channelEntriesByTeam[channel.team_id] || [];
+            channelEntriesByTeam[channel.team_id].push({
+                type: channel.channel_type === 'O' ? 'public-channel' : 'private-channel',
+                name: channel.channel_display_name,
+                id: channel.channel_id,
+            });
 
-        console.log('teamEntries', teamEntries);
-        console.log('channelEntries', channelEntries);
+            if (!existingTeams.has(channel.team_id)) {
+                existingTeams.add(channel.team_id);
+                teamEntries.push({
+                    type: channel.team_type === 'O' ? 'public-team' : 'private-team',
+                    hasChildren: true,
+                    name: channel.team_display_name,
+                    collapsed: false,
+                    id: channel.team_id,
+                });
+            }
+        });
+
+        teamEntries.forEach((team) => {
+            entries.push(team);
+            if (team.hasChildren) {
+                entries.push(...channelEntriesByTeam[team.id]);
+            }
+        });
 
         return entries;
     }
@@ -50,43 +74,6 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
     render = () => {
         const entries = this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);
 
-        // const entries = [
-        //     {
-        //         type: 'public-team',
-        //         hasChildren: true,
-        //         name: 'Contributors',
-        //         collapsed: false,
-        //         id: '1',
-        //     },
-        //     {
-        //         type: 'private-channel',
-        //         name: 'Authentication',
-        //         id: '2',
-        //     },
-        //     {
-        //         type: 'public-team',
-        //         hasChildren: false,
-        //         name: 'Customer Support',
-        //         id: '3',
-        //     },
-        //     {
-        //         type: 'private-team',
-        //         hasChildren: true,
-        //         name: 'Deepmind Product Team',
-        //         collapsed: false,
-        //         id: '4',
-        //     },
-        //     {
-        //         type: 'private-channel',
-        //         name: 'Advertisements',
-        //         id: '5',
-        //     },
-        //     {
-        //         type: 'public-channel',
-        //         name: 'Decisions',
-        //         id: '6',
-        //     },
-        // ];
         return (
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--header'>
