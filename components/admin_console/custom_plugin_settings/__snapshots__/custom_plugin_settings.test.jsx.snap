@@ -4,11 +4,9 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     testplugin
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -223,11 +221,9 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     testplugin
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -280,11 +276,9 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     testplugin
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
