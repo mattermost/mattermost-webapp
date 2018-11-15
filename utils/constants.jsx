@@ -286,6 +286,7 @@ export const ModalIdentifiers = {
     USER_SETTINGS: 'user_settings',
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
+    INTERACTIVE_DIALOG: 'interactive_dialog',
 };
 
 export const UserStatuses = {
@@ -342,6 +343,7 @@ export const SocketEvents = {
     LICENSE_CHANGED: 'license_changed',
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
+    OPEN_DIALOG: 'open_dialog',
 };
 
 export const TutorialSteps = {

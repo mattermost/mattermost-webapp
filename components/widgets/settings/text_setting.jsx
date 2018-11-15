@@ -20,6 +20,7 @@ export default class TextSetting extends React.Component {
         ]).isRequired,
         inputClassName: PropTypes.string,
         maxLength: PropTypes.number,
+        resizable: PropTypes.bool,
         onChange: PropTypes.func,
         disabled: PropTypes.bool,
         type: PropTypes.oneOf([
@@ -37,6 +38,7 @@ export default class TextSetting extends React.Component {
         inputClassName: '',
         type: 'input',
         maxLength: null,
+        resizable: true,
     };
 
     handleChange = (e) => {
@@ -48,13 +50,20 @@ export default class TextSetting extends React.Component {
     }
 
     render() {
+        const {resizable} = this.props;
         let {type} = this.props;
         let input = null;
 
         if (type === 'textarea') {
+            const style = {};
+            if (!resizable) {
+                style.resize = 'none';
+            }
+
             input = (
                 <textarea
                     id={this.props.id}
+                    style={style}
                     className='form-control'
                     rows='5'
                     placeholder={this.props.placeholder}

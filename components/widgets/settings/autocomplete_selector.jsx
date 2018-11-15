@@ -13,14 +13,16 @@ export default class AutocompleteSelector extends React.PureComponent {
         providers: PropTypes.array.isRequired,
         onChange: PropTypes.func,
         onSelected: PropTypes.func,
-        label: PropTypes.string,
+        label: PropTypes.node,
         labelClassName: PropTypes.string,
         inputClassName: PropTypes.string,
-        helpText: PropTypes.string,
+        helpText: PropTypes.node,
         placeholder: PropTypes.string,
         footer: PropTypes.node,
         afterSelectorNode: PropTypes.node,
         value: PropTypes.string,
+
+        // Object with value and text fields
         selected: PropTypes.object,
     };
 

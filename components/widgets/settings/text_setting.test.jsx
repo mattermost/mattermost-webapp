@@ -55,6 +55,7 @@ describe('components/widgets/settings/TextSetting', () => {
     maxLength={null}
     onChange={[Function]}
     rows="5"
+    style={Object {}}
     value="some value"
   />
 </Setting>

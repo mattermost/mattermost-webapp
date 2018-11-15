@@ -2,7 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {
+    ChannelTypes,
+    EmojiTypes,
+    PostTypes,
+    TeamTypes,
+    UserTypes,
+    RoleTypes,
+    GeneralTypes,
+    AdminTypes,
+    IntegrationTypes,
+} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
@@ -333,6 +343,10 @@ function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_STATUSES_CHANGED:
         handlePluginStatusesChangedEvent(msg);
+        break;
+
+    case SocketEvents.OPEN_DIALOG:
+        handleOpenDialogEvent(msg);
         break;
 
     default:
@@ -844,4 +858,9 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleOpenDialogEvent(msg) {
+    const data = (msg.data && msg.data.dialog) || {};
+    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: JSON.parse(data)});
 }
