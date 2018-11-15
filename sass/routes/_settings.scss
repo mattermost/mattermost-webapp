@@ -107,6 +107,33 @@
             height: 128px;
             width: 128px;
         }
+        .profile-img__container {
+            height: 128px;
+            position: relative;
+            width: 128px;
+        }
+
+        .profile-img__remove {
+            @include border-radius(50%);
+            @include single-transition(all, .15s, ease);
+            background: $black;
+            color: $white;
+            height: 24px;
+            line-height: 23px;
+            position: absolute;
+            right: -8px;
+            text-align: center;
+            text-decoration: none;
+            top: -8px;
+            width: 24px;
+
+            span {
+                font-size: 22px;
+                left: .5px;
+                position: relative;
+            }
+        }
+
 
         .team-img-preview,
         .team-img__container {
