@@ -16,10 +16,15 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         hasChildren: PropTypes.bool,
         collapsed: PropTypes.bool,
         onRemoveItem: PropTypes.func.isRequired,
+        onToggleCollapse: PropTypes.func.isRequired,
     }
 
     removeItem = () => {
         this.props.onRemoveItem(this.props.id, this.props.type);
+    }
+
+    toggleCollapse = () => {
+        this.props.onToggleCollapse(this.props.id);
     }
 
     render = () => {
@@ -27,7 +32,10 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         let arrowIcon = null;
         if (this.props.hasChildren) {
             arrowIcon = (
-                <i className={'fa fa-caret-right' + (this.props.collapsed ? '' : ' open')}/>
+                <i
+                    className={'fa fa-caret-right' + (this.props.collapsed ? '' : ' open')}
+                    onClick={this.toggleCollapse}
+                />
             );
             extraClasses += ' has-clidren';
         }

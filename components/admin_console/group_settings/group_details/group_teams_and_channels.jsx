@@ -25,6 +25,13 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         };
     }
 
+    onToggleCollapse = (id) => {
+        console.log(id);
+        const collapsed = {...this.state.collapsed};
+        collapsed[id] = !collapsed[id];
+        this.setState({collapsed});
+    }
+
     onRemoveItem = (id, type) => {
         if (type === 'public-team' || type === 'private-team') {
             this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM);
@@ -44,7 +51,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 type: team.team_type === 'O' ? 'public-team' : 'private-team',
                 hasChildren: channels.some((channel) => channel.team_id === team.team_id),
                 name: team.team_display_name,
-                collapsed: false,
+                collapsed: this.state.collapsed[team.team_id],
                 id: team.team_id,
             });
         });
@@ -64,7 +71,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                     type: channel.team_type === 'O' ? 'public-team' : 'private-team',
                     hasChildren: true,
                     name: channel.team_display_name,
-                    collapsed: false,
+                    collapsed: this.state.collapsed[channel.team_id],
                     id: channel.team_id,
                 });
             }
@@ -72,7 +79,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
 
         teamEntries.forEach((team) => {
             entries.push(team);
-            if (team.hasChildren) {
+            if (team.hasChildren && !team.collapsed) {
                 entries.push(...channelEntriesByTeam[team.id]);
             }
         });
@@ -96,6 +103,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                         <GroupTeamsAndChannelsRow
                             key={entry.id}
                             onRemoveItem={this.onRemoveItem}
+                            onToggleCollapse={this.onToggleCollapse}
                             {...entry}
                         />
                     ))}
