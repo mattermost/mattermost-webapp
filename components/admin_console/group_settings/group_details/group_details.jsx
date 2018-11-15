@@ -58,7 +58,6 @@ export default class GroupDetails extends React.PureComponent {
         });
         actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM);
         actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL);
-        actions.getMembers(groupID, 0, 100);
     }
 
     openAddChannel = () => {
@@ -200,7 +199,11 @@ export default class GroupDetails extends React.PureComponent {
                 >
                     <GroupUsers
                         members={members}
-                        count={memberCount}
+                        total={memberCount}
+                        groupID={this.props.groupID}
+                        actions={{
+                            getMembers: this.props.actions.getMembers,
+                        }}
                     />
                 </AdminPanel>
             </div>
