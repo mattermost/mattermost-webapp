@@ -4,8 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import EmojiStore from 'stores/emoji_store.jsx';
 import imgTrans from 'images/img_trans.gif';
 
 export default class EmojiPickerPreview extends React.Component {
@@ -41,7 +41,7 @@ export default class EmojiPickerPreview extends React.Component {
                 previewImage = (
                     <img
                         className='emoji-picker__preview-image'
-                        src={EmojiStore.getEmojiImageUrl(emoji)}
+                        src={getEmojiImageUrl(emoji)}
                     />
                 );
             }

@@ -8,10 +8,6 @@ import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -19,9 +15,9 @@ import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostProfilePicture from 'components/post_profile_picture';
-import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionListContainer from 'components/post_view/reaction_list';
-import PostTime from 'components/post_view/post_time.jsx';
+import PostTime from 'components/post_view/post_time';
 import EmojiIcon from 'components/svg/emoji_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
@@ -47,6 +43,11 @@ export default class RhsRootPost extends React.Component {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        channelType: PropTypes.string,
+        channelDisplayName: PropTypes.string,
+        actions: PropTypes.shape({
+            addReaction: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -57,7 +58,6 @@ export default class RhsRootPost extends React.Component {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
@@ -150,16 +150,17 @@ export default class RhsRootPost extends React.Component {
     };
 
     reactEmojiClick = (emoji) => {
-        this.setState({showEmojiPicker: false});
+        this.setState({
+            dropdownOpened: false,
+            showEmojiPicker: false,
+        });
         const emojiName = emoji.name || emoji.aliases[0];
-        addReaction(this.props.post.channel_id, this.props.post.id, emojiName);
-        emitEmojiPosted(emojiName);
-        this.handleDropdownOpened(false);
+        this.props.actions.addReaction(this.props.post.id, emojiName);
     };
 
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--root post--thread';
-        if (UserStore.getCurrentId() === post.user_id) {
+        if (this.props.currentUser.id === post.user_id) {
             className += ' current--user';
         }
 
@@ -193,24 +194,21 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const {post, user, isReadOnly, teamId, channelIsArchived} = this.props;
-        var channel = ChannelStore.get(post.channel_id);
+        const {post, user, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
 
-        var channelName;
-        if (channel) {
-            if (channel.type === 'D') {
-                channelName = (
-                    <FormattedMessage
-                        id='rhs_root.direct'
-                        defaultMessage='Direct Message'
-                    />
-                );
-            } else {
-                channelName = channel.display_name;
-            }
+        let channelName;
+        if (channelType === 'D') {
+            channelName = (
+                <FormattedMessage
+                    id='rhs_root.direct'
+                    defaultMessage='Direct Message'
+                />
+            );
+        } else {
+            channelName = channelDisplayName;
         }
 
         let react;

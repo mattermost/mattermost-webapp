@@ -2,10 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getJoinableTeamIds} from 'mattermost-redux/selectors/entities/teams';
 import {haveITeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+
+import {openModal} from 'actions/views/modals';
 
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
@@ -20,15 +24,12 @@ function mapStateToProps(state) {
     const enableCustomEmoji = config.EnableCustomEmoji === 'true';
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
-    const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enableTeamCreation = config.EnableTeamCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
     const enableEmailInvitations = config.EnableEmailInvitations === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
-    const restrictTeamInvite = config.RestrictTeamInvite;
 
     let canCreateCustomEmoji = haveISystemPermission(state, {permission: Permissions.MANAGE_EMOJIS});
     if (!canCreateCustomEmoji) {
@@ -40,6 +41,9 @@ function mapStateToProps(state) {
         }
     }
 
+    const joinableTeams = getJoinableTeamIds(state);
+    const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
+
     return {
         isLicensed,
         appDownloadLink,
@@ -47,18 +51,24 @@ function mapStateToProps(state) {
         enableCustomEmoji,
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
-        enableOnlyAdminIntegrations,
         enableOutgoingWebhooks,
-        enableTeamCreation,
         enableUserCreation,
         enableEmailInvitations,
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,
-        restrictTeamInvite,
         pluginMenuItems: state.plugins.components.MainMenu,
         canCreateCustomEmoji,
+        moreTeamsToJoin,
     };
 }
 
-export default connect(mapStateToProps)(SidebarHeaderDropdown);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            openModal,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarHeaderDropdown);

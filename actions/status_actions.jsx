@@ -2,109 +2,83 @@
 // See LICENSE.txt for license information.
 
 import {getStatusesByIds} from 'mattermost-redux/actions/users';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getPostsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
+import {getDirectShowPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import PostStore from 'stores/post_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
-
-const dispatch = store.dispatch;
-const getState = store.getState;
-
-export function loadStatusesForChannel(channelId = ChannelStore.getCurrentId()) {
-    const postList = PostStore.getVisiblePosts(channelId);
-    if (!postList || !postList.posts) {
-        return;
-    }
-
-    const statuses = UserStore.getStatuses();
-    const statusesToLoad = {};
-    for (const pid in postList.posts) {
-        if (!postList.posts.hasOwnProperty(pid)) {
-            continue;
-        }
-
-        const post = postList.posts[pid];
-        if (statuses[post.user_id] == null) {
-            statusesToLoad[post.user_id] = true;
-        }
-    }
-
-    loadStatusesByIds(Object.keys(statusesToLoad));
-}
-
-export function loadStatusesForDMSidebar() {
-    const dmPrefs = PreferenceStore.getCategory(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW);
-    const statusesToLoad = [];
-
-    for (const [key, value] of dmPrefs) {
-        if (value === 'true') {
-            statusesToLoad.push(key);
-        }
-    }
-
-    loadStatusesByIds(statusesToLoad);
-}
+import {Constants} from 'utils/constants.jsx';
 
 export function loadStatusesForChannelAndSidebar() {
-    const statusesToLoad = {};
+    return (dispatch, getState) => {
+        const state = getState();
+        const statusesToLoad = {};
 
-    const channelId = ChannelStore.getCurrentId();
-    const posts = PostStore.getVisiblePosts(channelId) || [];
-    for (const post of posts) {
-        statusesToLoad[post.user_id] = true;
-    }
-
-    const dmPrefs = PreferenceStore.getCategory(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW);
-
-    for (const [key, value] of dmPrefs) {
-        if (value === 'true') {
-            statusesToLoad[key] = true;
+        const channelId = getCurrentChannelId(state);
+        const postsInChannel = getPostsInCurrentChannel(state);
+        const posts = postsInChannel.slice(0, state.views.channel.postVisibility[channelId] || 0);
+        for (const post of posts) {
+            if (post.user_id) {
+                statusesToLoad[post.user_id] = true;
+            }
         }
-    }
 
-    const {currentUserId} = getState().entities.users;
-    statusesToLoad[currentUserId] = true;
+        const dmPrefs = getDirectShowPreferences(state);
 
-    loadStatusesByIds(Object.keys(statusesToLoad));
+        for (const pref of dmPrefs) {
+            if (pref.value === 'true') {
+                statusesToLoad[pref.name] = true;
+            }
+        }
+
+        const currentUserId = getCurrentUserId(state);
+        statusesToLoad[currentUserId] = true;
+
+        dispatch(loadStatusesByIds(Object.keys(statusesToLoad)));
+    };
 }
 
 export function loadStatusesForProfilesList(users) {
-    if (users == null) {
-        return;
-    }
+    return (dispatch) => {
+        if (users == null) {
+            return;
+        }
 
-    const statusesToLoad = [];
-    for (let i = 0; i < users.length; i++) {
-        statusesToLoad.push(users[i].id);
-    }
+        const statusesToLoad = [];
+        for (let i = 0; i < users.length; i++) {
+            statusesToLoad.push(users[i].id);
+        }
 
-    loadStatusesByIds(statusesToLoad);
+        dispatch(loadStatusesByIds(statusesToLoad));
+    };
 }
 
 export function loadStatusesForProfilesMap(users) {
-    if (users == null) {
-        return;
-    }
-
-    const statusesToLoad = [];
-    for (const userId in users) {
-        if ({}.hasOwnProperty.call(users, userId)) {
-            statusesToLoad.push(userId);
+    return (dispatch) => {
+        if (users == null) {
+            return;
         }
-    }
 
-    loadStatusesByIds(statusesToLoad);
+        const statusesToLoad = [];
+        for (const userId in users) {
+            if ({}.hasOwnProperty.call(users, userId)) {
+                statusesToLoad.push(userId);
+            }
+        }
+
+        dispatch(loadStatusesByIds(statusesToLoad));
+    };
 }
 
 export function loadStatusesByIds(userIds) {
-    if (userIds.length === 0) {
-        return;
-    }
+    return (dispatch) => {
+        if (userIds.length === 0) {
+            return;
+        }
 
-    getStatusesByIds(userIds)(dispatch, getState);
+        dispatch(getStatusesByIds(userIds));
+    };
 }
 
 let intervalId = '';
@@ -114,7 +88,7 @@ export function startPeriodicStatusUpdates() {
 
     intervalId = setInterval(
         () => {
-            loadStatusesForChannelAndSidebar();
+            store.dispatch(loadStatusesForChannelAndSidebar());
         },
         Constants.STATUS_INTERVAL
     );

@@ -1,6 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const testUsers = {
+    admin: {
+        username: 'admin',
+        email: 'admin@test.com',
+        password: 'passwd',
+    },
+    test: {
+        username: 'test',
+        email: 'test@test.com',
+        password: 'passwd',
+    },
+};
+
 module.exports = {
 
     // this controls whether to abort the test execution when an assertion failed and skip the rest
@@ -13,7 +26,7 @@ module.exports = {
 
     // default timeout value in milliseconds for waitFor commands and implicit waitFor value for
     // expect assertions
-    waitForConditionTimeout: 5000,
+    waitForConditionTimeout: 20000,
 
     // this will cause waitFor commands on elements to throw an error if multiple
     // elements are found using the given locate strategy and selector
@@ -52,5 +65,15 @@ module.exports = {
 
     reporter(results, cb) {
         cb();
+    },
+
+    testUsers,
+
+    cmdOrCtrl: () => {
+        if (process.platform === 'darwin') {
+            return '\uE03D';
+        }
+
+        return '\uE009';
     },
 };

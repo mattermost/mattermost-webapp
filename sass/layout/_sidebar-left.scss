@@ -11,7 +11,7 @@
     z-index: 10;
 
     body.announcement-bar--fixed & {
-        height: calc(100% - $announcement-bar-height);
+        height: calc(100% - #{$announcement-bar-height});
     }
 
     &.sidebar--padded {
@@ -201,6 +201,11 @@
             }
         }
 
+        .public_direct_name {
+            flex: 1;
+            cursor: pointer;
+        }
+
         li {
             > h4 {
                 align-items: end;
@@ -330,7 +335,6 @@
                     @include alpha-property(background-color, $black, .1);
                     border-radius: 0;
                     font-weight: 400;
-                    position: relative;
 
                     &.unread-title {
                         font-weight: 600;

@@ -15,7 +15,7 @@ indent_style = tab
 indent_style = space
 indent_size = 4
 
-[package.json]
+[{package.json,.eslintrc.json}]
 indent_size = 2
 
 [i18n/**.json]

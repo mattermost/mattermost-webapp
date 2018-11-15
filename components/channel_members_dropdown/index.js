@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getChannelStats, updateChannelMemberSchemeRoles} from 'mattermost-redux/actions/channels';
+import {getChannelStats, updateChannelMemberSchemeRoles, removeChannelMember} from 'mattermost-redux/actions/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Permissions} from 'mattermost-redux/constants';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
 
@@ -27,6 +28,7 @@ function mapStateToProps(state, ownProps) {
     const canRemoveMember = canManageMembers(ownProps.channel);
 
     return {
+        currentUserId: getCurrentUserId(state),
         isLicensed,
         canChangeMemberRoles,
         canRemoveMember,
@@ -38,6 +40,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getChannelStats,
             updateChannelMemberSchemeRoles,
+            removeChannelMember,
         }, dispatch),
     };
 }

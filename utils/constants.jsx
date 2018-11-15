@@ -113,7 +113,6 @@ export const ActionTypes = keyMirror({
     FOCUS_POST: null,
     RECEIVED_POSTS: null,
     RECEIVED_FOCUSED_POST: null,
-    RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,
@@ -207,17 +206,13 @@ export const ActionTypes = keyMirror({
     RECEIVED_MEMBERS_IN_TEAM: null,
     RECEIVED_TEAM_STATS: null,
 
-    RECEIVED_LOCALE: null,
-
     UPDATE_OPEN_GRAPH_METADATA: null,
     RECIVED_OPEN_GRAPH_METADATA: null,
 
     SHOW_SEARCH: null,
 
-    TOGGLE_ACCOUNT_SETTINGS_MODAL: null,
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
-    TOGGLE_INVITE_MEMBER_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
     TOGGLE_GET_POST_LINK_MODAL: null,
     TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
@@ -265,32 +260,16 @@ export const ActionTypes = keyMirror({
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
 
-    INIT_WEBRTC: null,
-    CLOSE_WEBRTC: null,
-
     STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
 
-    UPDATE_BUSY_WEBRTC: null,
-
     SELECT_ATTACHMENT_MENU_ACTION: null,
-});
 
-export const WebrtcActionTypes = keyMirror({
-    INITIALIZE: null,
-    NOTIFY: null,
-    CHANGED: null,
-    ANSWER: null,
-    DECLINE: null,
-    CANCEL: null,
-    NO_ANSWER: null,
-    BUSY: null,
-    FAILED: null,
-    UNSUPPORTED: null,
-    MUTED: null,
-    IN_PROGRESS: null,
-    DISABLED: null,
+    RECEIVED_TRANSLATIONS: null,
+
+    INCREMENT_WS_ERROR_COUNT: null,
+    RESET_WS_ERROR_COUNT: null,
 });
 
 export const ModalIdentifiers = {
@@ -304,6 +283,9 @@ export const ModalIdentifiers = {
     CONVERT_CHANNEL: 'convert_channel',
     RESET_STATUS: 'reset_status',
     LEAVE_TEAM: 'leave_team',
+    USER_SETTINGS: 'user_settings',
+    REMOVED_FROM_CHANNEL: 'removed_from_channel',
+    EMAIL_INVITE: 'email_invite',
 };
 
 export const UserStatuses = {
@@ -352,7 +334,6 @@ export const SocketEvents = {
     EPHEMERAL_MESSAGE: 'ephemeral_message',
     STATUS_CHANGED: 'status_change',
     HELLO: 'hello',
-    WEBRTC: 'webrtc',
     REACTION_ADDED: 'reaction_added',
     REACTION_REMOVED: 'reaction_removed',
     EMOJI_ADDED: 'emoji_added',
@@ -663,7 +644,6 @@ export const Constants = {
     Preferences,
     SocketEvents,
     ActionTypes,
-    WebrtcActionTypes,
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
@@ -757,6 +737,7 @@ export const Constants = {
     GET_TERMS_ERROR: 'get_terms_error',
     TERMS_REJECTED: 'terms_rejected',
     SIGNIN_VERIFIED: 'verified',
+    CREATE_LDAP: 'create_ldap',
     SESSION_EXPIRED: 'expired',
     POST_CHUNK_SIZE: 60,
     PROFILE_CHUNK_SIZE: 100,
@@ -1246,8 +1227,6 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
-    WEBRTC_TIME_DELAY: 750,
-    WEBRTC_CLEAR_ERROR_DELAY: 15000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
@@ -1272,7 +1251,7 @@ export const Constants = {
     RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
-    MTPNS: 'http://push-test.mattermost.com',
+    MTPNS: 'https://push-test.mattermost.com',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     PERMISSIONS_ALL: 'all',

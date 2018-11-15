@@ -1,6 +1,9 @@
 #!/usr/bin/env groovy
 
 pipeline {
+
+    options { buildDiscarder(logRotator(numToKeepStr: '2')) }
+
     agent {
         docker {
             image 'mattermost/mattermost-build-webapp:oct-2-2018'

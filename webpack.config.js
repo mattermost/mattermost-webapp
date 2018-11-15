@@ -147,8 +147,8 @@ var config = {
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath,
-        filename: '[name].[hash].js',
-        chunkFilename: '[name].[chunkhash].js',
+        filename: '[name].[contenthash].js',
+        chunkFilename: '[name].[contenthash].js',
     },
     module: {
         rules: [

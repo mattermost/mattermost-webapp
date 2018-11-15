@@ -5,10 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-import * as Utils from 'utils/utils.jsx';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
@@ -77,11 +74,6 @@ export default class Post extends React.PureComponent {
         replyCount: PropTypes.number,
 
         /**
-         * Set to mark the poster as in a webrtc call
-         */
-        isBusy: PropTypes.bool,
-
-        /**
          * The post count used for selenium tests
          */
         lastPostCount: PropTypes.number,
@@ -90,6 +82,10 @@ export default class Post extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
+
+        actions: PropTypes.shape({
+            selectPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -118,11 +114,7 @@ export default class Post extends React.PureComponent {
             return;
         }
 
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: Utils.getRootId(post),
-            channelId: post.channel_id,
-        });
+        this.props.actions.selectPost(post);
     }
 
     handleDropdownOpened = (opened) => {
@@ -237,7 +229,6 @@ export default class Post extends React.PureComponent {
             profilePic = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
-                    isBusy={this.props.isBusy}
                     post={post}
                     status={this.props.status}
                     user={this.props.user}
@@ -280,7 +271,6 @@ export default class Post extends React.PureComponent {
                             currentUser={this.props.currentUser}
                             compactDisplay={this.props.compactDisplay}
                             status={this.props.status}
-                            isBusy={this.props.isBusy}
                             lastPostCount={this.props.lastPostCount}
                             isFirstReply={this.props.isFirstReply}
                             replyCount={this.props.replyCount}

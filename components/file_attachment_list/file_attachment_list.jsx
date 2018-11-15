@@ -88,7 +88,7 @@ export default class FileAttachmentList extends React.Component {
                         <SingleImageView
                             fileInfo={fileInfos[0]}
                             isEmbedVisible={this.props.isEmbedVisible}
-                            post={this.props.post}
+                            postId={this.props.post.id}
                         />
                     );
                 }

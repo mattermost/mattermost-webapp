@@ -10,7 +10,6 @@ import {Client4} from 'mattermost-redux/client';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
-import {loadMe} from 'actions/user_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
@@ -35,6 +34,7 @@ export default class SignupController extends React.Component {
         samlLoginButtonText: PropTypes.string,
         siteName: PropTypes.string,
         usedBefore: PropTypes.string,
+        ldapLoginFieldName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
         }).isRequired,
@@ -98,11 +98,7 @@ export default class SignupController extends React.Component {
                     token,
                     inviteId,
                     (team) => {
-                        loadMe().then(
-                            () => {
-                                browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
-                            }
-                        );
+                        browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
                     },
                     this.handleInvalidInvite
                 );
@@ -240,11 +236,24 @@ export default class SignupController extends React.Component {
         }
 
         if (this.props.isLicensed && this.props.enableLDAP) {
+            const params = new URLSearchParams(this.props.location.search);
+            params.append('extra', 'create_ldap');
+            const query = '?' + params.toString();
+
+            let LDAPText = (
+                <FormattedMessage
+                    id='signup.ldap'
+                    defaultMessage='AD/LDAP Credentials'
+                />
+            );
+            if (this.props.ldapLoginFieldName) {
+                LDAPText = this.props.ldapLoginFieldName;
+            }
             signupControls.push(
                 <Link
                     className='btn btn-custom-login btn--full ldap'
                     key='ldap'
-                    to={'/login' + this.props.location.search}
+                    to={'/login' + query}
                 >
                     <span>
                         <span
@@ -252,10 +261,7 @@ export default class SignupController extends React.Component {
                             title={localizeMessage('signup.ldap.icon', 'AD/LDAP Icon')}
                         />
                         <span>
-                            <FormattedMessage
-                                id='signup.ldap'
-                                defaultMessage='AD/LDAP Credentials'
-                            />
+                            {LDAPText}
                         </span>
                     </span>
                 </Link>

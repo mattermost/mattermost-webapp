@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -87,7 +86,6 @@ export default class ReactionListView extends React.PureComponent {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
-        emitEmojiPosted(emojiName);
     }
 
     hideEmojiPicker = () => {

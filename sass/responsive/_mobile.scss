@@ -1,21 +1,10 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
-    .webrtc__option {
-        .disable-links {
-            @include opacity(.5);
-            pointer-events: none;
-        }
-    }
-
     .textarea-wrapper {
         .help__text {
             display: none;
         }
-    }
-
-    .webrtc__option {
-        display: none;
     }
 
     .channel-header {
@@ -97,13 +86,6 @@
 
     .suggestion-list__content {
         max-height: 145px;
-    }
-
-    .webrtc__notification--rhs {
-        left: auto;
-        right: 0;
-        top: 47px;
-        width: 205px;
     }
 
     .filtered-user-list {
@@ -977,10 +959,11 @@
                 top: 48px;
                 visibility: hidden;
                 width: 100%;
+                padding-bottom: 50px;
 
                 body.announcement-bar--fixed & {
-                    height: calc(100% - 48px - $announcement-bar-height);
-                    top: 48px + $announcement-bar-height;
+                    height: calc(100% - 48px - #{$announcement-bar-height});
+                    top: calc(48px + #{$announcement-bar-height});
                 }
 
                 .close {
@@ -1137,8 +1120,7 @@
             visibility: visible;
         }
 
-        &.move--left,
-        &.webrtc--show {
+        &.move--left {
             @include translate3d(0, 0, 0);
             display: block;
             visibility: visible;
@@ -1157,10 +1139,6 @@
 
         &.move--right {
             @include translate3d(0, 0, 0);
-        }
-
-        .nav-pills__container {
-            height: calc(100% - 55px);
         }
 
         .nav-pills__unread-indicator {
@@ -1371,8 +1349,7 @@
             }
         }
 
-        &.move--left,
-        &.webrtc--show {
+        &.move--left {
             margin: 0;
             @include translate3d(-100%, 0, 0);
         }

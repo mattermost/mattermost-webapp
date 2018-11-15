@@ -23,6 +23,7 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -133,6 +134,11 @@ export default class CreateComment extends React.PureComponent {
         onEditLatestPost: PropTypes.func.isRequired,
 
         /**
+         * Function to get the users timezones in the channel
+         */
+        getChannelTimezones: PropTypes.func.isRequired,
+
+        /**
          * Reset state of createPost request
          */
         resetCreatePostRequest: PropTypes.func.isRequired,
@@ -158,10 +164,20 @@ export default class CreateComment extends React.PureComponent {
         enableGifPicker: PropTypes.bool.isRequired,
 
         /**
+         * Set if the connection may be bad to warn user
+         */
+        badConnection: PropTypes.bool.isRequired,
+
+        /**
          * The maximum length of a post
          */
         maxPostSize: PropTypes.number.isRequired,
         rhsExpanded: PropTypes.bool.isRequired,
+
+        /**
+         * To check if the timezones are enable on the server.
+         */
+        isTimezoneEnabled: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -176,6 +192,7 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress: [],
                 fileInfos: [],
             },
+            channelMembersCount: 0,
         };
 
         this.lastBlurAt = 0;
@@ -332,6 +349,18 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (this.props.isTimezoneEnabled) {
+            this.props.getChannelTimezones(this.props.channelId).then(
+                (data) => {
+                    if (data.data) {
+                        this.setState({channelMembersCount: data.data.length});
+                    } else {
+                        this.setState({channelMembersCount: 0});
+                    }
+                }
+            );
+        }
+
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.draft.message)) {
@@ -455,7 +484,11 @@ export default class CreateComment extends React.PureComponent {
             if (this.refs.textbox) {
                 this.refs.textbox.blur();
             }
-            this.props.onEditLatestPost();
+
+            const {data: canEditNow} = this.props.onEditLatestPost();
+            if (!canEditNow) {
+                this.focusTextbox(true);
+            }
         }
 
         if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
@@ -643,15 +676,29 @@ export default class CreateComment extends React.PureComponent {
             />
         );
 
-        const notifyAllMessage = (
-            <FormattedMessage
-                id='notify_all.question'
-                defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
-                values={{
-                    totalMembers: this.props.channelMembersCount - 1,
-                }}
-            />
-        );
+        let notifyAllMessage = '';
+        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
+            notifyAllMessage = (
+                <FormattedMarkdownMessage
+                    id='notify_all.question_timezone'
+                    defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: this.props.channelMembersCount - 1,
+                        timezones: this.state.channelMembersCount,
+                    }}
+                />
+            );
+        } else {
+            notifyAllMessage = (
+                <FormattedMessage
+                    id='notify_all.question'
+                    defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: this.props.channelMembersCount - 1,
+                    }}
+                />
+            );
+        }
 
         let serverError = null;
         if (this.state.serverError) {
@@ -724,7 +771,12 @@ export default class CreateComment extends React.PureComponent {
         let emojiPicker = null;
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
-                <span className='emoji-picker__container'>
+                <span
+                    role='button'
+                    tabIndex='0'
+                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
+                    className='emoji-picker__container'
+                >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.props.getSidebarBody}
@@ -776,6 +828,7 @@ export default class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                badConnection={this.props.badConnection}
                             />
                             <span
                                 ref='createCommentControls'

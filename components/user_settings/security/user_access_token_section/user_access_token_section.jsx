@@ -312,7 +312,7 @@ export default class UserAccessTokenSection extends React.Component {
                     >
                         <FormattedMessage
                             id='user.settings.tokens.deactivate'
-                            defaultMessage='Deactivate'
+                            defaultMessage='Disable'
                         />
                     </a>);
             } else {
@@ -320,7 +320,7 @@ export default class UserAccessTokenSection extends React.Component {
                     <span className='has-error setting-box__inline-error'>
                         <FormattedMessage
                             id='user.settings.tokens.deactivatedWarning'
-                            defaultMessage='(Inactive)'
+                            defaultMessage='(Disabled)'
                         />
                     </span>
                 );
@@ -335,7 +335,7 @@ export default class UserAccessTokenSection extends React.Component {
                     >
                         <FormattedMessage
                             id='user.settings.tokens.activate'
-                            defaultMessage='Activate'
+                            defaultMessage='Enable'
                         />
                     </a>
                 );

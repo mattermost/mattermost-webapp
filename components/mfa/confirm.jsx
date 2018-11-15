@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {loadMe} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {isKeyPressed} from 'utils/utils.jsx';
 
@@ -23,9 +22,8 @@ export default class Confirm extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        loadMe().then(() => {
-            this.props.history.push('/');
-        });
+
+        this.props.history.push('/');
     }
 
     onKeyPress = (e) => {
@@ -68,8 +66,3 @@ export default class Confirm extends React.Component {
         );
     }
 }
-
-Confirm.defaultProps = {
-};
-Confirm.propTypes = {
-};

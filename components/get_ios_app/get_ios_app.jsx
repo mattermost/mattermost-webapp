@@ -3,14 +3,24 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {useSafeUrl} from 'utils/url';
 import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 
-export default function GetIosApp({iosAppDownloadLink}) {
+export default function GetIosApp({iosAppDownloadLink, history, location}) {
+    const onContinue = (e) => {
+        e.preventDefault();
+
+        const redirectTo = (new URLSearchParams(location.search)).get('redirect_to');
+        if (redirectTo) {
+            history.push(redirectTo);
+        } else {
+            history.push('/');
+        }
+    };
+
     return (
         <div className='get-app get-ios-app'>
             <h1 className='get-app__header'>
@@ -52,12 +62,16 @@ export default function GetIosApp({iosAppDownloadLink}) {
                     defaultMessage='Or {link}'
                     values={{
                         link: (
-                            <Link to='/'>
+                            <a
+                                onClick={onContinue}
+                                className='get-ios-app__continue'
+                            >
+
                                 <FormattedMessage
                                     id='get_app.continueWithBrowserLink'
                                     defaultMessage='continue with browser'
                                 />
-                            </Link>
+                            </a>
                         ),
                     }}
                 />

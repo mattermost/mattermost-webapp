@@ -10,15 +10,14 @@ import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import PostTime from 'components/post_view/post_time.jsx';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
+import PostTime from 'components/post_view/post_time';
 import EmojiIcon from 'components/svg/emoji_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
@@ -156,7 +155,6 @@ export default class PostInfo extends React.PureComponent {
         this.setState({showEmojiPicker: false, reactionPickerOffset: pickerOffset});
         const emojiName = emoji.name || emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
-        emitEmojiPosted(emojiName);
         this.props.handleDropdownOpened(false);
     };
 

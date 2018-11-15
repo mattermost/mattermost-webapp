@@ -7,19 +7,19 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
-    addReaction,
     removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
+import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as ChannelActions from 'actions/channel_actions.jsx';
+import {executeCommand} from 'actions/command';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {EmojiMap} from 'stores/emoji_store.jsx';
+import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
@@ -80,15 +80,14 @@ export function submitPost(channelId, rootId, draft) {
 
         GlobalActions.emitUserCommentedEvent(post);
 
-        PostActions.createPost(post, draft.fileInfos);
+        dispatch(PostActions.createPost(post, draft.fileInfos));
     };
 }
 
 export function submitReaction(postId, action, emojiName) {
     return (dispatch) => {
         if (action === '+') {
-            dispatch(addReaction(postId, emojiName));
-            PostActions.emitEmojiPosted(emojiName);
+            dispatch(PostActions.addReaction(postId, emojiName));
         } else if (action === '-') {
             dispatch(removeReaction(postId, emojiName));
         }
@@ -96,7 +95,7 @@ export function submitReaction(postId, action, emojiName) {
 }
 
 export function submitCommand(channelId, rootId, draft) {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const state = getState();
 
         const teamId = getCurrentTeamId(state);
@@ -110,15 +109,15 @@ export function submitCommand(channelId, rootId, draft) {
 
         const {message} = draft;
 
-        return new Promise((resolve, reject) => {
-            ChannelActions.executeCommand(message, args, resolve, (err) => {
-                if (err.sendMessage) {
-                    dispatch(submitPost(channelId, rootId, draft));
-                } else {
-                    reject(err);
-                }
-            });
-        });
+        const {error} = await dispatch(executeCommand(message, args));
+
+        if (error) {
+            if (error.sendMessage) {
+                dispatch(submitPost(channelId, rootId, draft));
+            } else {
+                throw (error);
+            }
+        }
     };
 }
 
@@ -162,10 +161,13 @@ function makeGetCurrentUsersLatestPost(channelId, rootId) {
                 const post = getPostById(id) || {};
 
                 // don't edit webhook posts, deleted posts, or system messages
-                if (post.user_id !== userId ||
+                if (
+                    post.user_id !== userId ||
                     (post.props && post.props.from_webhook) ||
                     post.state === Constants.POST_DELETED ||
-                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX))) {
+                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX)) ||
+                    isPostPendingOrFailed(post)
+                ) {
                     continue;
                 }
 
@@ -195,10 +197,10 @@ export function makeOnEditLatestPost(channelId, rootId) {
         const lastPost = getCurrentUsersLatestPost(state);
 
         if (!lastPost) {
-            return;
+            return {data: false};
         }
 
-        dispatch(PostActions.setEditingPost(
+        return dispatch(PostActions.setEditingPost(
             lastPost.id,
             getCommentCount(state, {post: lastPost}),
             'reply_textbox',

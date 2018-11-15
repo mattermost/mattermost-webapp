@@ -5,8 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -20,16 +22,19 @@ import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
-    addReaction,
     removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 
+import {connectionErrorCount} from 'selectors/views/system';
+
 import {emitUserPostedEvent, postListScrollChangeToBottom} from 'actions/global_actions.jsx';
-import {createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
+import {executeCommand} from 'actions/command';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
+import {getEmojiMap} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants.jsx';
@@ -54,6 +59,8 @@ function mapStateToProps() {
         const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
         const currentUserId = getCurrentUserId(state);
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
+        const badConnection = connectionErrorCount(state) > 1;
+        const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -79,14 +86,17 @@ function mapStateToProps() {
             maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             userIsOutOfOffice,
             rhsExpanded: getIsRhsExpanded(state),
+            emojiMap: getEmojiMap(state),
+            badConnection,
+            isTimezoneEnabled,
         };
     };
 }
 
 function onSubmitPost(post, fileInfos) {
-    return () => {
+    return (dispatch) => {
         emitUserPostedEvent(post);
-        createPost(post, fileInfos);
+        dispatch(createPost(post, fileInfos));
         postListScrollChangeToBottom();
     };
 }
@@ -105,6 +115,8 @@ function mapDispatchToProps(dispatch) {
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
             openModal,
+            executeCommand,
+            getChannelTimezones,
         }, dispatch),
     };
 }

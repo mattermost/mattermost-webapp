@@ -10,9 +10,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-import {checkMfa, webLogin} from 'actions/user_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -20,6 +17,7 @@ import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {showNotification} from 'utils/notifications.jsx';
 import {t} from 'utils/i18n.jsx';
 
 import logoImage from 'images/logo.png';
@@ -40,6 +38,8 @@ class LoginController extends React.Component {
             location: PropTypes.object.isRequired,
             isLicensed: PropTypes.bool.isRequired,
 
+            currentUser: PropTypes.object,
+
             customBrandText: PropTypes.string,
             customDescriptionText: PropTypes.string,
             enableCustomBrand: PropTypes.bool.isRequired,
@@ -57,18 +57,15 @@ class LoginController extends React.Component {
             samlLoginButtonText: PropTypes.string,
             siteName: PropTypes.string,
             initializing: PropTypes.bool,
+            actions: PropTypes.shape({
+                checkMfa: PropTypes.func.isRequired,
+                login: PropTypes.func.isRequired,
+            }).isRequired,
         };
     }
 
     constructor(props) {
         super(props);
-
-        this.preSubmit = this.preSubmit.bind(this);
-        this.submit = this.submit.bind(this);
-        this.finishSignin = this.finishSignin.bind(this);
-
-        this.handleLoginIdChange = this.handleLoginIdChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
 
         let loginId = '';
         if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
@@ -91,7 +88,7 @@ class LoginController extends React.Component {
     componentDidMount() {
         this.configureTitle();
 
-        if (UserStore.getCurrentUser()) {
+        if (this.props.currentUser) {
             GlobalActions.redirectUserToDefaultTeam();
             return;
         }
@@ -103,14 +100,23 @@ class LoginController extends React.Component {
         if (extra === Constants.SIGNIN_VERIFIED && email) {
             this.refs.password.focus();
         }
+
+        // Determine if the user was unexpectedly logged out.
         if (LocalStorageStore.getWasLoggedIn()) {
-            // Although the authority remains the local sessionExpired bit on the state, set this
-            // extra field in the querystring to signal the desktop app. And although eslint
-            // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
-            // eslint-disable-next-line react/no-did-mount-set-state
-            this.setState({sessionExpired: true});
-            search.set('extra', Constants.SESSION_EXPIRED);
-            browserHistory.replace(`${this.props.location.pathname}?${search}`);
+            if (extra === Constants.SIGNIN_CHANGE) {
+                // Assume that if the user triggered a sign in change, it was intended to logout.
+                // We can't preflight this, since in some flows it's the server that invalidates
+                // our session after we use it to complete the sign in change.
+                LocalStorageStore.setWasLoggedIn(false);
+            } else {
+                // Although the authority remains the local sessionExpired bit on the state, set this
+                // extra field in the querystring to signal the desktop app. And although eslint
+                // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
+                // eslint-disable-next-line react/no-did-mount-set-state
+                this.setState({sessionExpired: true});
+                search.set('extra', Constants.SESSION_EXPIRED);
+                browserHistory.replace(`${this.props.location.pathname}?${search}`);
+            }
         }
 
         this.showSessionExpiredNotificationIfNeeded();
@@ -128,7 +134,7 @@ class LoginController extends React.Component {
         }
     }
 
-    configureTitle() {
+    configureTitle = () => {
         if (this.state.sessionExpired) {
             document.title = this.props.intl.formatMessage({
                 id: 'login.session_expired.title',
@@ -143,7 +149,7 @@ class LoginController extends React.Component {
 
     showSessionExpiredNotificationIfNeeded = () => {
         if (this.state.sessionExpired && !this.closeSessionExpiredNotification) {
-            Utils.showNotification({
+            showNotification({
                 title: this.props.siteName,
                 body: Utils.localizeMessage(
                     'login.session_expired.notification',
@@ -169,8 +175,11 @@ class LoginController extends React.Component {
         }
     }
 
-    preSubmit(e) {
+    preSubmit = (e) => {
         e.preventDefault();
+
+        // Discard any session expiry notice once the user interacts with the login page.
+        this.onDismissSessionExpired();
 
         const {location} = this.props;
         const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
@@ -180,14 +189,20 @@ class LoginController extends React.Component {
 
         // password managers don't always call onInput handlers for form fields so it's possible
         // for the state to get out of sync with what the user sees in the browser
-        let loginId = this.refs.loginId.value;
-        if (loginId !== this.state.loginId) {
-            this.setState({loginId});
+        let loginId = this.state.loginId;
+        if (this.refs.loginId) {
+            loginId = this.refs.loginId.value;
+            if (loginId !== this.state.loginId) {
+                this.setState({loginId});
+            }
         }
 
-        const password = this.refs.password.value;
-        if (password !== this.state.password) {
-            this.setState({password});
+        let password = this.state.password;
+        if (this.refs.password) {
+            password = this.refs.password.value;
+            if (password !== this.state.password) {
+                this.setState({password});
+            }
         }
 
         // don't trim the password since we support spaces in passwords
@@ -239,57 +254,32 @@ class LoginController extends React.Component {
             return;
         }
 
-        checkMfa(
-            loginId,
-            (requiresMfa) => {
-                if (requiresMfa) {
-                    this.setState({showMfa: true});
-                } else {
-                    this.submit(loginId, password, '');
-                }
-            },
-            (err) => {
-                this.setState({serverError: err.message});
+        this.props.actions.checkMfa(loginId).then((result) => {
+            if (result.error) {
+                this.setState({
+                    serverError: result.error.message,
+                });
+                return;
             }
-        );
+
+            const requiresMfa = result.data;
+            if (requiresMfa) {
+                this.setState({showMfa: true});
+            } else {
+                this.submit(loginId, password, '');
+            }
+        });
     }
 
-    submit(loginId, password, token) {
+    submit = (loginId, password, token) => {
         this.setState({serverError: null, loading: true});
 
-        webLogin(
-            loginId,
-            password,
-            token,
-            () => {
-                // check for query params brought over from signup_user_complete
-                const params = new URLSearchParams(this.props.location.search);
-                const inviteToken = params.get('t') || '';
-                const inviteId = params.get('id') || '';
-
-                if (inviteId || inviteToken) {
-                    addUserToTeamFromInvite(
-                        inviteToken,
-                        inviteId,
-                        (team) => {
-                            this.finishSignin(team);
-                        },
-                        () => {
-                            // there's not really a good way to deal with this, so just let the user log in like normal
-                            this.finishSignin();
-                        }
-                    );
-
-                    return;
-                }
-
-                this.finishSignin();
-            },
-            (err) => {
-                if (err.id === 'api.user.login.not_verified.app_error') {
+        this.props.actions.login(loginId, password, token).then(({error}) => {
+            if (error) {
+                if (error.id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
-                } else if (err.id === 'store.sql_user.get_for_login.app_error' ||
-                    err.id === 'ent.ldap.do_login.user_not_registered.app_error') {
+                } else if (error.id === 'store.sql_user.get_for_login.app_error' ||
+                    error.id === 'ent.ldap.do_login.user_not_registered.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -300,7 +290,7 @@ class LoginController extends React.Component {
                             />
                         ),
                     });
-                } else if (err.id === 'api.user.check_user_password.invalid.app_error' || err.id === 'ent.ldap.do_login.invalid_password.app_error') {
+                } else if (error.id === 'api.user.check_user_password.invalid.app_error' || error.id === 'ent.ldap.do_login.invalid_password.app_error') {
                     this.setState({
                         showMfa: false,
                         loading: false,
@@ -312,46 +302,67 @@ class LoginController extends React.Component {
                         ),
                     });
                 } else {
-                    this.setState({showMfa: false, serverError: err.message, loading: false});
+                    this.setState({showMfa: false, serverError: error.message, loading: false});
                 }
+
+                return;
             }
-        );
+
+            // check for query params brought over from signup_user_complete
+            const params = new URLSearchParams(this.props.location.search);
+            const inviteToken = params.get('t') || '';
+            const inviteId = params.get('id') || '';
+
+            if (inviteId || inviteToken) {
+                addUserToTeamFromInvite(
+                    inviteToken,
+                    inviteId,
+                    (team) => {
+                        this.finishSignin(team);
+                    },
+                    () => {
+                        // there's not really a good way to deal with this, so just let the user log in like normal
+                        this.finishSignin();
+                    }
+                );
+            } else {
+                this.finishSignin();
+            }
+        });
     }
 
-    finishSignin(team) {
+    finishSignin = (team) => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
-        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
 
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
         LocalStorageStore.setWasLoggedIn(true);
-        GlobalActions.loadCurrentLocale();
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
             browserHistory.push(redirectTo);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
-        } else if (primaryTeam) {
-            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+        } else if (experimentalPrimaryTeam) {
+            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
     }
 
-    handleLoginIdChange(e) {
+    handleLoginIdChange = (e) => {
         this.setState({
             loginId: e.target.value,
         });
     }
 
-    handlePasswordChange(e) {
+    handlePasswordChange = (e) => {
         this.setState({
             password: e.target.value,
         });
     }
 
-    createCustomLogin() {
+    createCustomLogin = () => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
@@ -371,7 +382,7 @@ class LoginController extends React.Component {
         return null;
     }
 
-    createLoginPlaceholder() {
+    createLoginPlaceholder = () => {
         const ldapEnabled = this.state.ldapEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -404,7 +415,7 @@ class LoginController extends React.Component {
         return '';
     }
 
-    checkSignUpEnabled() {
+    checkSignUpEnabled = () => {
         return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
@@ -418,11 +429,10 @@ class LoginController extends React.Component {
         this.setState({sessionExpired: false});
     }
 
-    createLoginOptions() {
+    createExtraText = () => {
         const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
-        let extraBox = '';
         if (this.state.sessionExpired) {
-            extraBox = (
+            return (
                 <div className='alert alert-warning'>
                     <i
                         className='fa fa-exclamation-triangle'
@@ -445,8 +455,10 @@ class LoginController extends React.Component {
                     </Link>
                 </div>
             );
-        } else if (extraParam === Constants.GET_TERMS_ERROR) {
-            extraBox = (
+        }
+
+        if (extraParam === Constants.GET_TERMS_ERROR) {
+            return (
                 <div className='alert has-error no-padding'>
                     <label className='control-label'>
                         <FormattedMessage
@@ -457,7 +469,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.TERMS_REJECTED) {
-            extraBox = (
+            return (
                 <div className='alert alert-warning'>
                     <i
                         className='fa fa-exclamation-triangle'
@@ -473,7 +485,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_CHANGE) {
-            extraBox = (
+            return (
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
@@ -486,7 +498,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.SIGNIN_VERIFIED) {
-            extraBox = (
+            return (
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
@@ -499,7 +511,7 @@ class LoginController extends React.Component {
                 </div>
             );
         } else if (extraParam === Constants.PASSWORD_CHANGE) {
-            extraBox = (
+            return (
                 <div className='alert alert-success'>
                     <i
                         className='fa fa-check'
@@ -511,8 +523,21 @@ class LoginController extends React.Component {
                     />
                 </div>
             );
+        } else if (extraParam === Constants.CREATE_LDAP) {
+            return (
+                <div className='alert alert-grey'>
+                    <FormattedMessage
+                        id='login.ldapCreate'
+                        defaultMessage=' Enter your AD/LDAP username and password to create an account.'
+                    />
+                </div>
+            );
         }
 
+        return null;
+    }
+
+    createLoginOptions = () => {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
@@ -537,17 +562,18 @@ class LoginController extends React.Component {
             );
 
             if (this.state.loading) {
-                loginButton =
-                (<span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    <FormattedMessage
-                        id='login.signInLoading'
-                        defaultMessage='Signing in...'
-                    />
-                </span>);
+                loginButton = (
+                    <span id='login_button_signing'>
+                        <span
+                            className='fa fa-refresh icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                        <FormattedMessage
+                            id='login.signInLoading'
+                            defaultMessage='Signing in...'
+                        />
+                    </span>
+                );
             }
 
             loginControls.push(
@@ -630,6 +656,7 @@ class LoginController extends React.Component {
         if (usernameSigninEnabled || emailSigninEnabled) {
             loginControls.push(
                 <div
+                    id='login_forgot'
                     key='forgotPassword'
                     className='form-group'
                 >
@@ -763,7 +790,7 @@ class LoginController extends React.Component {
 
         return (
             <div>
-                {extraBox}
+                {this.createExtraText()}
                 {loginControls}
             </div>
         );
@@ -809,7 +836,10 @@ class LoginController extends React.Component {
             <div>
                 <AnnouncementBar/>
                 {backButton}
-                <div className='col-sm-12'>
+                <div
+                    id='login_section'
+                    className='col-sm-12'
+                >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
                             {customContent}

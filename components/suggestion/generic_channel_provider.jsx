@@ -4,8 +4,6 @@
 import React from 'react';
 
 import {autocompleteChannels} from 'actions/channel_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -49,9 +47,9 @@ class ChannelSuggestion extends Suggestion {
 }
 
 export default class ChannelProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
-        this.startNewRequest(suggestionId, normalizedPretext);
+        this.startNewRequest(normalizedPretext);
 
         autocompleteChannels(
             normalizedPretext,
@@ -62,9 +60,7 @@ export default class ChannelProvider extends Provider {
 
                 const channels = Object.assign([], data);
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
+                resultsCallback({
                     matchedPretext: normalizedPretext,
                     terms: channels.map((channel) => channel.display_name),
                     items: channels,

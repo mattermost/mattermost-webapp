@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/PostMarkdown plugin hooks can build upon other hook message updates 1`] = `
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
+    }
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  message="hello world!"
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages 1`] = `
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
+    }
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  message="world!"
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown should render header change properly 1`] = `
+<div>
+  <FormattedMessage
+    defaultMessage="{username} updated the channel header from: {old} to: {new}"
+    id="api.channel.post_update_channel_header_message_and_forget.updated_from"
+    values={
+      Object {
+        "new": <Connect(Markdown)
+          message="now ~test"
+          options={
+            Object {
+              "channelNamesMap": Object {
+                "test": Object {
+                  "display_name": "Test",
+                },
+              },
+              "singleline": true,
+            }
+          }
+        />,
+        "old": <Connect(Markdown)
+          message="see ~test"
+          options={
+            Object {
+              "channelNamesMap": Object {
+                "test": Object {
+                  "display_name": "Test",
+                },
+              },
+              "singleline": true,
+            }
+          }
+        />,
+        "username": <Connect(Markdown)
+          message="@user"
+          options={
+            Object {
+              "markdown": false,
+            }
+          }
+        />,
+      }
+    }
+  />
+</div>
+`;
+
+exports[`components/PostMarkdown should render properly with a post 1`] = `
+<Connect(Markdown)
+  channelNamesMap={
+    Object {
+      "test": Object {
+        "display_name": "Test",
+      },
+    }
+  }
+  imageProps={Object {}}
+  isRHS={false}
+  message="See ~test"
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown should render properly with an empty post 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  message="message"
+  proxyImages={true}
+/>
+`;

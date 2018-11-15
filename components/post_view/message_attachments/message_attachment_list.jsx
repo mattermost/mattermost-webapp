@@ -4,9 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PostAttachment from './message_attachment.jsx';
+import MessageAttachment from './message_attachment';
 
-export default class PostAttachmentList extends React.PureComponent {
+export default class MessageAttachmentList extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -29,7 +29,7 @@ export default class PostAttachmentList extends React.PureComponent {
         const content = [];
         this.props.attachments.forEach((attachment, i) => {
             content.push(
-                <PostAttachment
+                <MessageAttachment
                     attachment={attachment}
                     postId={this.props.postId}
                     key={'att_' + i}

@@ -28,10 +28,8 @@ class ModalStoreClass extends EventEmitter {
         const {type, value, ...args} = payload.action; //eslint-disable-line no-use-before-define
 
         switch (type) {
-        case ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL:
         case ActionTypes.TOGGLE_SHORTCUTS_MODAL:
         case ActionTypes.TOGGLE_IMPORT_THEME_MODAL:
-        case ActionTypes.TOGGLE_INVITE_MEMBER_MODAL:
         case ActionTypes.TOGGLE_DELETE_POST_MODAL:
         case ActionTypes.TOGGLE_GET_POST_LINK_MODAL:
         case ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL:

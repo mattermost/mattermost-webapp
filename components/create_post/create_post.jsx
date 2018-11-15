@@ -8,10 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -145,12 +142,23 @@ export default class CreatePost extends React.Component {
          * The maximum length of a post
          */
         maxPostSize: PropTypes.number.isRequired,
+        emojiMap: PropTypes.object.isRequired,
+
+        /**
+         * If our connection is bad
+         */
+        badConnection: PropTypes.bool.isRequired,
 
         /**
          * Whether to display a confirmation modal to reset status.
          */
         userIsOutOfOffice: PropTypes.bool.isRequired,
         rhsExpanded: PropTypes.bool.isRequired,
+
+        /**
+         * To check if the timezones are enable on the server.
+         */
+        isTimezoneEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -207,6 +215,13 @@ export default class CreatePost extends React.Component {
              * Function to open a modal
              */
             openModal: PropTypes.func.isRequired,
+
+            executeCommand: PropTypes.func.isRequired,
+
+            /**
+             * Function to get the users timezones in the channel
+             */
+            getChannelTimezones: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -223,9 +238,11 @@ export default class CreatePost extends React.Component {
             enableSendButton: false,
             showEmojiPicker: false,
             showConfirmModal: false,
+            channelMembersCount: 0,
         };
 
         this.lastBlurAt = 0;
+        this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
     }
 
@@ -263,6 +280,7 @@ export default class CreatePost extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
+            this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
         }
     }
@@ -319,25 +337,22 @@ export default class CreatePost extends React.Component {
             const args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
-            ChannelActions.executeCommand(
-                post.message,
-                args,
-                () => {
+            this.props.actions.executeCommand(post.message, args).then(
+                ({error}) => {
                     this.setState({submitting: false});
-                },
-                (err) => {
-                    if (err.sendMessage) {
-                        this.sendMessage(post);
-                    } else {
-                        this.setState({
-                            serverError: err.message,
-                            submitting: false,
-                            message: post.message,
-                        });
+                    if (error) {
+                        if (error.sendMessage) {
+                            this.sendMessage(post);
+                        } else {
+                            this.setState({
+                                serverError: error.message,
+                                message: post.message,
+                            });
+                        }
                     }
                 }
             );
-        } else if (isReaction && EmojiStore.has(isReaction[2])) {
+        } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
         } else {
             this.sendMessage(post);
@@ -393,6 +408,18 @@ export default class CreatePost extends React.Component {
             currentChannel: updateChannel,
             userIsOutOfOffice,
         } = this.props;
+
+        if (this.props.isTimezoneEnabled) {
+            this.props.actions.getChannelTimezones(this.props.currentChannel.id).then(
+                (data) => {
+                    if (data.data) {
+                        this.setState({channelMembersCount: data.data.length});
+                    } else {
+                        this.setState({channelMembersCount: 0});
+                    }
+                }
+            );
+        }
 
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
@@ -476,7 +503,6 @@ export default class CreatePost extends React.Component {
 
         if (postId && action === '+') {
             this.props.actions.addReaction(postId, emojiName);
-            emitEmojiPosted(emojiName);
         } else if (postId && action === '-') {
             this.props.actions.removeReaction(postId, emojiName);
         }
@@ -494,7 +520,7 @@ export default class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter, currentChannel} = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
 
         if (allowSending) {
             e.persist();
@@ -873,15 +899,29 @@ export default class CreatePost extends React.Component {
             />
         );
 
-        const notifyAllMessage = (
-            <FormattedMessage
-                id='notify_all.question'
-                defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
-                values={{
-                    totalMembers: members,
-                }}
-            />
-        );
+        let notifyAllMessage = '';
+        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
+            notifyAllMessage = (
+                <FormattedMarkdownMessage
+                    id='notify_all.question_timezone'
+                    defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: members,
+                        timezones: this.state.channelMembersCount,
+                    }}
+                />
+            );
+        } else {
+            notifyAllMessage = (
+                <FormattedMessage
+                    id='notify_all.question'
+                    defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: members,
+                    }}
+                />
+            );
+        }
 
         let serverError = null;
         if (this.state.serverError) {
@@ -953,7 +993,12 @@ export default class CreatePost extends React.Component {
         let emojiPicker = null;
         if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
-                <span className='emoji-picker__container'>
+                <span
+                    role='button'
+                    tabIndex='0'
+                    aria-label={Utils.localizeMessage('create_post.open_emoji_picker', 'Open emoji picker')}
+                    className='emoji-picker__container'
+                >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={getChannelView}
@@ -1002,11 +1047,11 @@ export default class CreatePost extends React.Component {
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
-                                popoverMentionKeyClick={true}
                                 id='post_textbox'
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                badConnection={this.props.badConnection}
                             />
                             <span
                                 ref='createPostControls'
@@ -1015,6 +1060,9 @@ export default class CreatePost extends React.Component {
                                 {fileUpload}
                                 {emojiPicker}
                                 <a
+                                    role='button'
+                                    tabIndex='0'
+                                    aria-label={Utils.localizeMessage('create_post.send_message', 'Send a message')}
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >

@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Constants} from '../../utils';
-
 module.exports = {
     '@tags': ['channel_header'],
     before: (client) => {
-        const testUser = Constants.USERS.test;
+        const testUser = client.globals.testUsers.test;
         const loginPage = client.page.loginPage();
 
         loginPage.navigate().
@@ -21,7 +19,8 @@ module.exports = {
         channelHeaderSection.
             assert.visible('@channelHeaderPinButton').
             assert.visible('@channelHeaderMentionButton').
-            assert.visible('@channelHeaderFlagButton');
+            assert.visible('@channelHeaderFlagButton').
+            assert.visible('@channelHeaderDropdownButton');
 
         channelHeaderSection.expect.section('@channelHeaderInfo').to.be.visible;
         const channelHeaderInfoSection = channelHeaderSection.section.channelHeaderInfo;

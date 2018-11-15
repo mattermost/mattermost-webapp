@@ -10,10 +10,11 @@ import rhs from './rhs';
 import posts from './posts';
 import modals from './modals';
 import emoji from './emoji';
+import i18n from './i18n';
 import lhs from './lhs';
-import webrtc from './webrtc';
 import search from './search';
 import notice from './notice';
+import system from './system';
 
 export default combineReducers({
     admin,
@@ -23,8 +24,9 @@ export default combineReducers({
     posts,
     modals,
     emoji,
+    i18n,
     lhs,
-    webrtc,
     search,
     notice,
+    system,
 });

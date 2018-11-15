@@ -58,7 +58,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             /**
             * The function to call for outgoingWebhook List and for the status of api
             */
-            getOutgoingHooks: PropTypes.func,
+            loadOutgoingHooksAndProfilesForTeam: PropTypes.func,
 
             /**
             * The function to call for regeneration of webhook token
@@ -84,8 +84,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.enableOutgoingWebhooks) {
-            this.props.actions.getOutgoingHooks(
-                '',
+            this.props.actions.loadOutgoingHooksAndProfilesForTeam(
                 this.props.teamId,
                 Constants.Integrations.START_PAGE_NUM,
                 Constants.Integrations.PAGE_SIZE

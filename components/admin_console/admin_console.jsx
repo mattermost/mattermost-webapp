@@ -380,14 +380,6 @@ export default class AdminConsole extends React.Component {
                                         }}
                                     />
                                     <SCRoute
-                                        path={`${props.match.url}/webrtc`}
-                                        component={SchemaAdminSettings}
-                                        extraProps={{
-                                            ...extraProps,
-                                            schema: AdminDefinition.settings.integrations.webrtc.schema,
-                                        }}
-                                    />
-                                    <SCRoute
                                         path={`${props.match.url}/external`}
                                         component={SchemaAdminSettings}
                                         extraProps={{
@@ -403,14 +395,6 @@ export default class AdminConsole extends React.Component {
                             path={`${this.props.match.url}/plugins`}
                             render={(props) => (
                                 <Switch>
-                                    <SCRoute
-                                        path={`${props.match.url}/configuration`}
-                                        component={SchemaAdminSettings}
-                                        extraProps={{
-                                            ...extraProps,
-                                            schema: AdminDefinition.settings.plugins.configuration.schema,
-                                        }}
-                                    />
                                     <SCRoute
                                         path={`${props.match.url}/management`}
                                         component={SchemaAdminSettings}

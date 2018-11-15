@@ -7,13 +7,18 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {emailToOAuth} from 'actions/admin_actions.jsx';
-import {checkMfa} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
-export default class EmailToOAuth extends React.Component {
+export default class EmailToOAuth extends React.PureComponent {
+    static propTypes = {
+        newType: PropTypes.string,
+        email: PropTypes.string,
+        siteName: PropTypes.string,
+        checkMfa: PropTypes.func.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -39,19 +44,21 @@ export default class EmailToOAuth extends React.Component {
         state.error = null;
         this.setState(state);
 
-        checkMfa(
-            this.props.email,
-            (requiresMfa) => {
-                if (requiresMfa) {
-                    this.setState({showMfa: true});
-                } else {
-                    this.submit(this.props.email, password, '');
-                }
-            },
-            (err) => {
-                this.setState({error: err.message});
+        this.props.checkMfa(this.props.email).then((result) => {
+            if (result.error) {
+                this.setState({
+                    error: result.error.message,
+                });
+                return;
             }
-        );
+
+            const requiresMfa = result.data;
+            if (requiresMfa) {
+                this.setState({showMfa: true});
+            } else {
+                this.submit(this.props.email, password, '');
+            }
+        });
     }
 
     submit(loginId, password, token) {
@@ -61,7 +68,9 @@ export default class EmailToOAuth extends React.Component {
             token,
             this.props.newType,
             (data) => {
-                emitUserLoggedOutEvent(data.follow_link, false, true);
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
             },
             (err) => {
                 this.setState({error: err.message, showMfa: false});
@@ -165,9 +174,3 @@ export default class EmailToOAuth extends React.Component {
         );
     }
 }
-
-EmailToOAuth.propTypes = {
-    newType: PropTypes.string,
-    email: PropTypes.string,
-    siteName: PropTypes.string,
-};

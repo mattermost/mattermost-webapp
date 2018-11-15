@@ -265,18 +265,6 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
-        const webrtcSettings = (
-            <AdminSidebarSection
-                name='webrtc'
-                title={
-                    <FormattedMessage
-                        id='admin.sidebar.webrtc'
-                        defaultMessage='WebRTC (Beta)'
-                    />
-                }
-            />
-        );
-
         let elasticSearchSettings = null;
         if (this.props.license.IsLicensed === 'true' && this.props.license.Elasticsearch === 'true') {
             elasticSearchSettings = (
@@ -344,7 +332,8 @@ export default class AdminSidebar extends React.Component {
         const customPlugins = [];
         if (this.props.config.PluginSettings.Enable) {
             Object.values(this.props.plugins).forEach((p) => {
-                if (!p.settings_schema || Object.keys(p.settings_schema) === 0) {
+                const hasSettings = p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || p.settings_schema.settings.length > 0);
+                if (!hasSettings) {
                     return;
                 }
 
@@ -639,7 +628,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {webrtcSettings}
                                 <AdminSidebarSection
                                     name='external'
                                     title={
@@ -660,15 +648,6 @@ export default class AdminSidebar extends React.Component {
                                     />
                                 }
                             >
-                                <AdminSidebarSection
-                                    name='configuration'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.plugins.configuration'
-                                            defaultMessage='Configuration'
-                                        />
-                                    }
-                                />
                                 <AdminSidebarSection
                                     name='management'
                                     title={

@@ -8,12 +8,12 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
+
+import GroupMessageOption from './group_message_option';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -26,6 +26,7 @@ export default class MoreDirectChannels extends React.Component {
         currentTeamName: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
+        groupChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
         statuses: PropTypes.object.isRequired,
         totalCount: PropTypes.number,
 
@@ -45,14 +46,17 @@ export default class MoreDirectChannels extends React.Component {
         restrictDirectMessage: PropTypes.string,
         onModalDismissed: PropTypes.func,
         onHide: PropTypes.func,
-
+        bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired,
             getStatusesByIds: PropTypes.func.isRequired,
+            getTotalUsersStats: PropTypes.func.isRequired,
+            loadStatusesForProfilesList: PropTypes.func.isRequired,
+            openDirectChannelToUserId: PropTypes.func.isRequired,
+            openGroupChannelToUserIds: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
-            getTotalUsersStats: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -105,7 +109,7 @@ export default class MoreDirectChannels extends React.Component {
                         this.setUsersLoadingState(true);
                         const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: teamId});
                         if (data) {
-                            loadStatusesForProfilesList(data);
+                            this.props.actions.loadStatusesForProfilesList(data);
                             this.resetPaging();
                         }
                         this.setUsersLoadingState(false);
@@ -136,6 +140,10 @@ export default class MoreDirectChannels extends React.Component {
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
+
+        if (this.props.bodyOnly) {
+            this.handleExit();
+        }
     }
 
     setUsersLoadingState = (loadingState) => {
@@ -159,6 +167,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmit = (values = this.state.values) => {
+        const {actions} = this.props;
         if (this.state.saving) {
             return;
         }
@@ -170,35 +179,49 @@ export default class MoreDirectChannels extends React.Component {
 
         this.setState({saving: true});
 
-        const success = (channel) => {
-            // Due to how react-overlays Modal handles focus, we delay pushing
-            // the new channel information until the modal is fully exited.
-            // The channel information will be pushed in `handleExit`
-            this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + channel.name;
+        const done = (result) => {
+            const {data, error} = result;
             this.setState({saving: false});
-            this.handleHide();
-        };
 
-        const error = () => {
-            this.setState({saving: false});
+            if (!error) {
+                this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
+                this.handleHide();
+            }
         };
 
         if (userIds.length === 1) {
-            openDirectChannelToUser(userIds[0], success, error);
+            actions.openDirectChannelToUserId(userIds[0]).then(done);
         } else {
-            openGroupChannelToUsers(userIds, success, error);
+            actions.openGroupChannelToUserIds(userIds).then(done);
         }
-    }
+    };
 
     addValue = (value) => {
-        const values = Object.assign([], this.state.values);
+        if (Array.isArray(value)) {
+            this.addUsers(value);
+        } else {
+            const values = Object.assign([], this.state.values);
 
-        if (values.indexOf(value) === -1) {
-            values.push(value);
+            if (values.indexOf(value) === -1) {
+                values.push(value);
+            }
+
+            this.setState({values});
+        }
+    };
+
+    addUsers = (users) => {
+        const values = Object.assign([], this.state.values);
+        const existingUserIds = values.map((user) => user.id);
+        for (const user of users) {
+            if (existingUserIds.indexOf(user.id) !== -1) {
+                continue;
+            }
+            values.push(user);
         }
 
         this.setState({values});
-    }
+    };
 
     getUserProfiles = (page) => {
         const pageNum = page ? page + 1 : 0;
@@ -235,6 +258,17 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     renderOption = (option, isSelected, onAdd) => {
+        if (option.type && option.type === 'G') {
+            return (
+                <GroupMessageOption
+                    key={option.id}
+                    channel={option}
+                    isSelected={isSelected}
+                    onAdd={onAdd}
+                />
+            );
+        }
+
         const displayName = displayEntireNameForUser(option);
 
         let modalName = displayName;
@@ -302,8 +336,8 @@ export default class MoreDirectChannels extends React.Component {
         );
     }
 
-    renderValue(user) {
-        return user.username;
+    renderValue(props) {
+        return props.data.username;
     }
 
     handleSubmitImmediatelyOn = (value) => {
@@ -356,6 +390,41 @@ export default class MoreDirectChannels extends React.Component {
             users = active.concat(inactive);
         }
 
+        const groupChannels = this.props.groupChannels || [];
+
+        const options = [...users, ...groupChannels];
+        const body = (
+            <MultiSelect
+                key='moreDirectChannelsList'
+                ref='multiselect'
+                options={options}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueKey='id'
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                handleDelete={this.handleDelete}
+                handleAdd={this.addValue}
+                handleSubmit={this.handleSubmit}
+                noteText={note}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
+                submitImmediatelyOn={this.handleSubmitImmediatelyOn}
+                saving={this.state.saving}
+                loading={this.state.loadingUsers}
+                users={this.props.users}
+                totalCount={this.props.totalCount}
+            />
+        );
+
+        if (this.props.bodyOnly) {
+            return body;
+        }
+
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels'}
@@ -372,31 +441,7 @@ export default class MoreDirectChannels extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <MultiSelect
-                        key='moreDirectChannelsList'
-                        ref='multiselect'
-                        options={users}
-                        optionRenderer={this.renderOption}
-                        values={this.state.values}
-                        valueKey='id'
-                        valueRenderer={this.renderValue}
-                        perPage={USERS_PER_PAGE}
-                        handlePageChange={this.handlePageChange}
-                        handleInput={this.search}
-                        handleDelete={this.handleDelete}
-                        handleAdd={this.addValue}
-                        handleSubmit={this.handleSubmit}
-                        noteText={note}
-                        maxValues={MAX_SELECTABLE_VALUES}
-                        numRemainingText={numRemainingText}
-                        buttonSubmitText={buttonSubmitText}
-                        buttonSubmitLoadingText={buttonSubmitLoadingText}
-                        submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                        saving={this.state.saving}
-                        loading={this.state.loadingUsers}
-                        users={this.props.users}
-                        totalCount={this.props.totalCount}
-                    />
+                    {body}
                 </Modal.Body>
             </Modal>
         );

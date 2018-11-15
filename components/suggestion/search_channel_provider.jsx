@@ -3,9 +3,9 @@
 
 import React from 'react';
 
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+
 import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -49,12 +49,12 @@ class SearchChannelSuggestion extends Suggestion {
 }
 
 export default class SearchChannelProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             const channelPrefix = captured[1];
 
-            this.startNewRequest(suggestionId, channelPrefix);
+            this.startNewRequest(channelPrefix);
 
             autocompleteChannelsForSearch(
                 channelPrefix,
@@ -62,12 +62,14 @@ export default class SearchChannelProvider extends Provider {
                     if (this.shouldCancelDispatch(channelPrefix)) {
                         return;
                     }
-                    const channels = data.sort(sortChannelsByDisplayName);
+
+                    //
+                    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+                    //
+                    const channels = data.sort(sortChannelsByTypeAndDisplayName.bind(null, 'en'));
                     const channelNames = channels.map(itemToName);
 
-                    AppDispatcher.handleServerAction({
-                        type: Constants.ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                        id: suggestionId,
+                    resultsCallback({
                         matchedPretext: channelPrefix,
                         terms: channelNames,
                         items: channels,

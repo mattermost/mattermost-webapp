@@ -57,7 +57,7 @@ export default class CommandsContainer extends React.PureComponent {
             /**
             * The function to call to fetch team commands
             */
-            getCustomTeamCommands: PropTypes.func.isRequired,
+            loadCommandsAndProfilesForTeam: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -75,7 +75,7 @@ export default class CommandsContainer extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.enableCommands) {
-            this.props.actions.getCustomTeamCommands(this.props.team.id).then(
+            this.props.actions.loadCommandsAndProfilesForTeam(this.props.team.id).then(
                 () => this.setState({loading: false})
             );
         }

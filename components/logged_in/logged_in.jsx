@@ -9,13 +9,7 @@ import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
-import 'stores/emoji_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
-import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
@@ -25,36 +19,30 @@ const getState = store.getState;
 
 const BACKSPACE_CHAR = 8;
 
-export default class LoggedIn extends React.Component {
-    constructor(params) {
-        super(params);
-
-        this.onUserChanged = this.onUserChanged.bind(this);
-
-        this.state = {
-            user: UserStore.getCurrentUser(),
-        };
-
-        document.getElementById('root').className += ' channel-view';
+export default class LoggedIn extends React.PureComponent {
+    static propTypes = {
+        currentUser: PropTypes.object,
+        currentChannelId: PropTypes.string,
+        children: PropTypes.object,
+        mfaRequired: PropTypes.bool.isRequired,
+        enableTimezone: PropTypes.bool.isRequired,
+        actions: PropTypes.shape({
+            autoUpdateTimezone: PropTypes.func.isRequired,
+        }).isRequired,
+        showTermsOfService: PropTypes.bool.isRequired,
     }
 
-    isValidState() {
-        return this.state.user != null;
-    }
+    constructor(props) {
+        super(props);
 
-    onUserChanged() {
-        // Grab the current user
-        const user = UserStore.getCurrentUser();
-
-        if (!Utils.areObjectsEqual(this.state.user, user)) {
-            this.setState({
-                user,
-            });
+        const root = document.getElementById('root');
+        if (root) {
+            root.className += ' channel-view';
         }
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        ErrorStore.clearLastError();
+    isValidState() {
+        return this.props.currentUser != null;
     }
 
     componentDidMount() {
@@ -71,14 +59,11 @@ export default class LoggedIn extends React.Component {
                 // Turn off to prevent getting stuck in a loop
                 $(window).off('beforeunload');
                 if (document.cookie.indexOf('MMUSERID=') > -1) {
-                    viewChannel('', ChannelStore.getCurrentId() || '')(dispatch, getState);
+                    viewChannel('', this.props.currentChannelId || '')(dispatch, getState);
                 }
                 WebSocketActions.close();
             }
         );
-
-        // Listen for user
-        UserStore.addChangeListener(this.onUserChanged);
 
         // Listen for focused tab/window state
         window.addEventListener('focus', this.onFocusListener);
@@ -93,13 +78,9 @@ export default class LoggedIn extends React.Component {
             $('body').addClass('android');
         }
 
-        if (!this.state.user) {
+        if (!this.props.currentUser) {
             $('#root').attr('class', '');
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
-        }
-
-        if (this.props.showTermsOfService && this.props.location.pathname !== '/terms_of_service') {
-            browserHistory.push('/terms_of_service?redirect_to=' + encodeURIComponent(this.props.location.pathname));
         }
 
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
@@ -142,7 +123,6 @@ export default class LoggedIn extends React.Component {
 
     componentWillUnmount() {
         WebSocketActions.close();
-        UserStore.removeChangeListener(this.onUserChanged);
 
         $('body').off('click.userpopover');
         $('body').off('mouseenter mouseleave', '.post');
@@ -162,8 +142,16 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        if (this.props.location.pathname !== '/mfa/setup' && this.props.mfaRequired) {
-            return <Redirect to={'/mfa/setup'}/>;
+        if (this.props.mfaRequired) {
+            if (this.props.location.pathname !== '/mfa/setup') {
+                return <Redirect to={'/mfa/setup'}/>;
+            }
+        } else if (this.props.location.pathname === '/mfa/confirm') {
+            // Nothing to do. Wait for MFA flow to complete before prompting TOS.
+        } else if (this.props.showTermsOfService) {
+            if (this.props.location.pathname !== '/terms_of_service') {
+                return <Redirect to={'/terms_of_service?redirect_to=' + encodeURIComponent(this.props.location.pathname)}/>;
+            }
         }
 
         return this.props.children;
@@ -177,13 +165,3 @@ export default class LoggedIn extends React.Component {
         GlobalActions.emitBrowserFocus(false);
     }
 }
-
-LoggedIn.propTypes = {
-    children: PropTypes.object,
-    mfaRequired: PropTypes.bool.isRequired,
-    enableTimezone: PropTypes.bool.isRequired,
-    actions: PropTypes.shape({
-        autoUpdateTimezone: PropTypes.func.isRequired,
-    }).isRequired,
-    showTermsOfService: PropTypes.bool.isRequired,
-};

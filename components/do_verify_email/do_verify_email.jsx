@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import ErrorStore from 'stores/error_store.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants.jsx';
@@ -42,6 +41,8 @@ export default class DoVerifyEmail extends React.PureComponent {
              * Action creator to update the user in the redux store
              */
             updateMe: PropTypes.func.isRequired,
+            logError: PropTypes.func.isRequired,
+            clearErrors: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -77,14 +78,12 @@ export default class DoVerifyEmail extends React.PureComponent {
 
     handleSuccess() {
         this.setState({verifyStatus: 'success'});
-        ErrorStore.clearError(AnnouncementBarMessages.EMAIL_VERIFICATION_REQUIRED);
+        this.props.actions.clearErrors();
         if (this.props.isLoggedIn) {
-            ErrorStore.storeLastError({
-                notification: true,
+            this.props.actions.logError({
                 message: AnnouncementBarMessages.EMAIL_VERIFIED,
                 type: AnnouncementBarTypes.SUCCESS,
-            });
-            ErrorStore.emitChange();
+            }, true);
             const user = Object.assign({}, this.props.user);
             user.email_verified = true;
             trackEvent('settings', 'verify_email');

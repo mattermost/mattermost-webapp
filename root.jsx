@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {logError} from 'mattermost-redux/actions/errors';
 import PDFJS from 'pdfjs-dist';
 
 // Import our styles
@@ -43,8 +44,7 @@ function preRenderSetup(callwhendone) {
         const state = store.getState();
         const config = getConfig(state);
         if (config.EnableDeveloper === 'true') {
-            window.ErrorStore.storeLastError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'});
-            window.ErrorStore.emitChange();
+            store.dispatch(logError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'}, true));
         }
     };
     callwhendone();

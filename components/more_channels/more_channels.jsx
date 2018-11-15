@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
-import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
 
 import {getRelativeChannelURL} from 'utils/url.jsx';
 
@@ -22,13 +21,17 @@ const SEARCH_TIMEOUT_MILLISECONDS = 100;
 export default class MoreChannels extends React.Component {
     static propTypes = {
         channels: PropTypes.array.isRequired,
+        currentUserId: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
         channelsRequestStarted: PropTypes.bool,
+        bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
+            joinChannel: PropTypes.func.isRequired,
+            searchMoreChannels: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -52,6 +55,10 @@ export default class MoreChannels extends React.Component {
 
     handleHide = () => {
         this.setState({show: false});
+
+        if (this.props.bodyOnly) {
+            this.handleExit();
+        }
     }
 
     handleExit = () => {
@@ -76,24 +83,20 @@ export default class MoreChannels extends React.Component {
     }
 
     handleJoin = (channel, done) => {
-        joinChannel(
-            channel,
-            () => {
-                browserHistory.push(getRelativeChannelURL(this.props.teamName, channel.name));
-                if (done) {
-                    done();
-                }
-
+        const {actions, currentUserId, teamId, teamName} = this.props;
+        actions.joinChannel(currentUserId, teamId, channel.id).then((result) => {
+            if (result.error) {
+                this.setState({serverError: result.error.message});
+            } else {
+                browserHistory.push(getRelativeChannelURL(teamName, channel.name));
                 this.handleHide();
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-                if (done) {
-                    done();
-                }
             }
-        );
-    }
+
+            if (done) {
+                done();
+            }
+        });
+    };
 
     search = (term) => {
         clearTimeout(this.searchTimeoutId);
@@ -108,31 +111,38 @@ export default class MoreChannels extends React.Component {
 
         const searchTimeoutId = setTimeout(
             () => {
-                searchMoreChannels(
-                    term,
-                    (channels) => {
+                this.props.actions.searchMoreChannels(term).
+                    then((result) => {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
                         }
-                        this.setSearchResults(channels);
-                    }
-                );
+
+                        if (result.data) {
+                            this.setSearchResults(result.data);
+                        } else {
+                            this.setState({searchedChannels: [], searching: false});
+                        }
+                    }).
+                    catch(() => {
+                        this.setState({searchedChannels: [], searching: false});
+                    });
             },
             SEARCH_TIMEOUT_MILLISECONDS
         );
 
         this.searchTimeoutId = searchTimeoutId;
-    }
+    };
 
     setSearchResults = (channels) => {
         this.setState({searchedChannels: channels.filter((c) => c.delete_at === 0), searching: false});
-    }
+    };
 
     render() {
         const {
             channels,
             teamId,
             channelsRequestStarted,
+            bodyOnly,
         } = this.props;
 
         const {
@@ -181,6 +191,27 @@ export default class MoreChannels extends React.Component {
             </TeamPermissionGate>
         );
 
+        const body = (
+            <React.Fragment>
+                <SearchableChannelList
+                    channels={search ? searchedChannels : channels}
+                    channelsPerPage={CHANNELS_PER_PAGE}
+                    nextPage={this.nextPage}
+                    isSearch={search}
+                    search={this.search}
+                    handleJoin={this.handleJoin}
+                    noResultsText={createChannelHelpText}
+                    loading={search ? searching : channelsRequestStarted}
+                    createChannelButton={bodyOnly && createNewChannelButton}
+                />
+                {serverError}
+            </React.Fragment>
+        );
+
+        if (bodyOnly) {
+            return body;
+        }
+
         return (
             <Modal
                 dialogClassName='more-modal more-modal--action'
@@ -198,17 +229,7 @@ export default class MoreChannels extends React.Component {
                     {createNewChannelButton}
                 </Modal.Header>
                 <Modal.Body>
-                    <SearchableChannelList
-                        channels={search ? searchedChannels : channels}
-                        channelsPerPage={CHANNELS_PER_PAGE}
-                        nextPage={this.nextPage}
-                        isSearch={search}
-                        search={this.search}
-                        handleJoin={this.handleJoin}
-                        noResultsText={createChannelHelpText}
-                        loading={search ? searching : channelsRequestStarted}
-                    />
-                    {serverError}
+                    {body}
                 </Modal.Body>
             </Modal>
         );

@@ -2,20 +2,32 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 
 import ProfilePopover from './profile_popover.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
-
-    const enableWebrtc = config.EnableWebrtc === 'true';
-
     return {
-        enableWebrtc,
         enableTimezone: areTimezonesEnabledAndSupported(state),
+        currentUserId: getCurrentUserId(state),
+        teamUrl: '/' + getCurrentTeam(state).name,
     };
 }
 
-export default connect(mapStateToProps)(ProfilePopover);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            openDirectChannelToUserId,
+            openModal,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePopover);

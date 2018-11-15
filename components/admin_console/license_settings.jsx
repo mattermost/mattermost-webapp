@@ -8,11 +8,12 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
-import ErrorStore from 'stores/error_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
 
 const holders = defineMessages({
     removing: {
@@ -83,7 +84,6 @@ class LicenseSettings extends React.Component {
             () => {
                 $('#remove-button').button('reset');
                 this.setState({fileSelected: false, fileName: null, serverError: null});
-                ErrorStore.clearLastError(true);
                 window.location.reload(true);
             },
             (error) => {
@@ -225,12 +225,10 @@ class LicenseSettings extends React.Component {
 
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.license.title'
-                        defaultMessage='Edition and License'
-                    />
-                </h3>
+                <FormattedAdminHeader
+                    id='admin.license.title'
+                    defaultMessage='Edition and License'
+                />
                 <form
                     className='form-horizontal'
                     role='form'

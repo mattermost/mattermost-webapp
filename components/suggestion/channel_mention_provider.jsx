@@ -3,13 +3,16 @@
 
 import React from 'react';
 
-import {autocompleteChannels} from 'actions/channel_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import SuggestionStore from 'stores/suggestion_store.jsx';
+import {getMyChannels, getChannel, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 
-import {ActionTypes, Constants} from 'utils/constants.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+
+import {ChannelTypes} from 'mattermost-redux/action_types';
+
+import {autocompleteChannels} from 'actions/channel_actions.jsx';
+import store from 'stores/redux_store.jsx';
+
+import {Constants} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -61,7 +64,7 @@ export default class ChannelMentionProvider extends Provider {
         this.lastCompletedWord = '';
     }
 
-    handlePretextChanged(suggestionId, pretext) {
+    handlePretextChanged(pretext, resultCallback) {
         this.resetRequest();
 
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
@@ -98,14 +101,12 @@ export default class ChannelMentionProvider extends Provider {
         // Clear the last completed word since we've started to match new text
         this.lastCompletedWord = '';
 
-        this.startNewRequest(suggestionId, prefix);
-
-        SuggestionStore.clearSuggestions(suggestionId);
+        this.startNewRequest(prefix);
 
         const words = prefix.toLowerCase().split(/\s+/);
         const wrappedChannelIds = {};
         var wrappedChannels = [];
-        ChannelStore.getAll().forEach((item) => {
+        getMyChannels(store.getState()).forEach((item) => {
             if (item.type !== 'O' || item.delete_at > 0) {
                 return;
             }
@@ -137,22 +138,26 @@ export default class ChannelMentionProvider extends Provider {
             });
         });
         wrappedChannels = wrappedChannels.sort((a, b) => {
-            return ChannelUtils.sortChannelsByDisplayName(a.channel, b.channel);
+            //
+            // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+            //
+            return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
         });
         const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
-        if (channelMentions.length > 0) {
-            SuggestionStore.addSuggestions(suggestionId, channelMentions, wrappedChannels, ChannelMentionSuggestion, captured[1]);
-        }
-
-        SuggestionStore.addSuggestions(suggestionId, [''], [{
-            type: Constants.MENTION_MORE_CHANNELS,
-            loading: true,
-        }], ChannelMentionSuggestion, captured[1]);
+        resultCallback({
+            terms: channelMentions.concat([' ']),
+            items: wrappedChannels.concat([{
+                type: Constants.MENTION_MORE_CHANNELS,
+                loading: true,
+            }]),
+            component: ChannelMentionSuggestion,
+            matchedPretext: captured[1],
+        });
 
         autocompleteChannels(
             prefix,
             (channels) => {
-                const myMembers = ChannelStore.getMyMembers();
+                const myMembers = getMyChannelMemberships(store.getState());
                 if (this.shouldCancelDispatch(prefix)) {
                     return;
                 }
@@ -168,7 +173,7 @@ export default class ChannelMentionProvider extends Provider {
                     if (item.delete_at > 0 && !myMembers[item.id]) {
                         return;
                     }
-                    if (ChannelStore.get(item.id)) {
+                    if (getChannel(store.getState(), item.id)) {
                         if (!wrappedChannelIds[item.id]) {
                             wrappedChannelIds[item.id] = true;
                             wrappedChannels.push({
@@ -188,19 +193,20 @@ export default class ChannelMentionProvider extends Provider {
                 });
 
                 wrappedChannels = wrappedChannels.sort((a, b) => {
-                    return ChannelUtils.sortChannelsByDisplayName(a.channel, b.channel);
+                    //
+                    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+                    //
+                    return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
                 });
                 const wrapped = wrappedChannels.concat(wrappedMoreChannels);
                 const mentions = wrapped.map((item) => '~' + item.channel.name);
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_MORE_CHANNELS,
-                    channels: moreChannels,
+                store.dispatch({
+                    type: ChannelTypes.RECEIVED_CHANNELS,
+                    data: moreChannels,
                 });
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
+                resultCallback({
                     matchedPretext: captured[1],
                     terms: mentions,
                     items: wrapped,

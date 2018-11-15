@@ -11,11 +11,7 @@
     z-index: 8;
 
     body.announcement-bar--fixed & {
-        height: calc(100% - $announcement-bar-height);
-    }
-
-    &.webrtc {
-        z-index: 5;
+        height: calc(100% - #{$announcement-bar-height});
     }
 
     &.sidebar--right--expanded {
@@ -32,8 +28,7 @@
         width: 300%;
     }
 
-    &.move--left,
-    &.webrtc--show {
+    &.move--left {
         .sidebar--right__bg {
             left: -100%;
         }
