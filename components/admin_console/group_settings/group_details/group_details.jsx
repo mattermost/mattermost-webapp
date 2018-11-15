@@ -175,14 +175,14 @@ export default class GroupDetails extends React.PureComponent {
                     <TeamSelectorModal
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
-                        alreadySelected={this.props.groupTeams.map((team) => team.id)}
+                        alreadySelected={this.props.groupTeams.map((team) => team.team_id)}
                     />
                 }
                 {this.state.addChannelOpen &&
                     <ChannelSelectorModal
                         onModalDismissed={this.closeAddChannel}
                         onChannelsSelected={this.addChannels}
-                        alreadySelected={this.props.groupChannels.map((channel) => channel.id)}
+                        alreadySelected={this.props.groupChannels.map((channel) => channel.channel_id)}
                     />
                 }
 
