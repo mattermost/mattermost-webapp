@@ -39,8 +39,8 @@ export default class ChannelController extends React.Component {
     render() {
         return (
             <div
+                id='channel_view'
                 className='channel-view'
-                data-cy='main_channel_page'
             >
                 <AnnouncementBarController/>
                 <SystemNotice/>

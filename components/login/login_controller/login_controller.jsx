@@ -554,7 +554,7 @@ class LoginController extends React.Component {
 
             if (this.state.loading) {
                 loginButton = (
-                    <span data-cy='login_signing_in'>
+                    <span id='login_button_signing'>
                         <span
                             className='fa fa-refresh icon--rotate'
                             title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
@@ -647,6 +647,7 @@ class LoginController extends React.Component {
         if (usernameSigninEnabled || emailSigninEnabled) {
             loginControls.push(
                 <div
+                    id='login_forgot'
                     key='forgotPassword'
                     className='form-group'
                 >
@@ -827,8 +828,8 @@ class LoginController extends React.Component {
                 <AnnouncementBar/>
                 {backButton}
                 <div
+                    id='login_section'
                     className='col-sm-12'
-                    data-cy='login_page'
                 >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
