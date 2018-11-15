@@ -8,6 +8,7 @@ import CloseChannel from './close_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
     const baseProps = {
+        isArchived: true,
         actions: {
             goToLastViewedChannel: jest.fn(),
         },
@@ -16,6 +17,15 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
     it('should match snapshot', () => {
         const wrapper = shallow(<CloseChannel {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('shoud be hidden if the channel is not archived', () => {
+        const props = {
+            ...baseProps,
+            isArchived: false,
+        };
+        const wrapper = shallow(<CloseChannel {...props}/>);
+        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should runs goToLastViewedChannel function on click', () => {

@@ -38,34 +38,37 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
+                        isArchived={isArchived}
                     />
                     <MenuItem.ToggleMuteChannel
                         user={user}
                         channel={channel}
                         isMuted={isMuted}
+                        isArchived={isArchived}
                     />
                 </MenuItem.Group>
+
                 <MenuItem.Group>
                     <MenuItem.AddMembers
                         channel={channel}
                         isDefault={isDefault}
+                        isArchived={isArchived}
                     />
-                    <MenuItem.ViewMembers
-                        channel={channel}
-                        isDefault={isDefault}
-                    />
-                    <MenuItem.ManageMembers
+                    <MenuItem.ViewAndManageMembers
                         channel={channel}
                         isDefault={isDefault}
                     />
                 </MenuItem.Group>
+
                 <MenuItem.Group>
                     <MenuItem.SetChannelHeader
                         channel={channel}
+                        isArchived={isArchived}
                         isReadonly={isReadonly}
                     />
                     <MenuItem.SetChannelPurpose
                         channel={channel}
+                        isArchived={isArchived}
                         isReadonly={isReadonly}
                     />
                     <MenuItem.RenameChannel
@@ -73,8 +76,16 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         isDefault={isDefault}
                         isArchived={isArchived}
                     />
-                    <MenuItem.ConvertChannel channel={channel}/>
-                    <MenuItem.DeleteChannel channel={channel}/>
+                    <MenuItem.ConvertChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                        isArchived={isArchived}
+                    />
+                    <MenuItem.DeleteChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                        isArchived={isArchived}
+                    />
                 </MenuItem.Group>
 
                 <MenuItem.Group showDivider={false}>
@@ -82,7 +93,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         channel={channel}
                         isDefault={isDefault}
                     />
-                    <MenuItem.CloseChannel/>
+                    <MenuItem.CloseChannel isArchived={isArchived}/>
                 </MenuItem.Group>
             </ul>
         );

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 export default class CloseChannel extends React.PureComponent {
     static propTypes = {
+        isArchived: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             goToLastViewedChannel: PropTypes.func.isRequired,
         }).isRequired,
@@ -17,6 +18,10 @@ export default class CloseChannel extends React.PureComponent {
     }
 
     render() {
+        if (!this.props.isArchived) {
+            return null;
+        }
+
         return (
             <li role='presentation'>
                 <button

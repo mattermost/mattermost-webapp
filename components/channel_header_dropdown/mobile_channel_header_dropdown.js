@@ -82,25 +82,25 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     <MenuItem.NotificationPreferences
                         user={user}
                         channel={channel}
+                        isArchived={isArchived}
                     />
                     <MenuItem.AddMembers
                         channel={channel}
                         isDefault={isDefault}
+                        isArchived={isArchived}
                     />
-                    <MenuItem.ViewMembers
-                        channel={channel}
-                        isDefault={isDefault}
-                    />
-                    <MenuItem.ManageMembers
+                    <MenuItem.ViewAndManageMembers
                         channel={channel}
                         isDefault={isDefault}
                     />
                     <MenuItem.SetChannelHeader
                         channel={channel}
+                        isArchived={isArchived}
                         isReadonly={isReadonly}
                     />
                     <MenuItem.SetChannelPurpose
                         channel={channel}
+                        isArchived={isArchived}
                         isReadonly={isReadonly}
                     />
                     <MenuItem.RenameChannel
@@ -108,13 +108,21 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         isDefault={isDefault}
                         isArchived={isArchived}
                     />
-                    <MenuItem.ConvertChannel channel={channel}/>
-                    <MenuItem.DeleteChannel channel={channel}/>
+                    <MenuItem.ConvertChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                        isArchived={isArchived}
+                    />
+                    <MenuItem.DeleteChannel
+                        channel={channel}
+                        isDefault={isDefault}
+                        isArchived={isArchived}
+                    />
                     <MenuItem.LeaveChannel
                         channel={channel}
                         isDefault={isDefault}
                     />
-                    <MenuItem.CloseChannel/>
+                    <MenuItem.CloseChannel isArchived={isArchived}/>
                     <MenuItem.ToggleFavoriteChannel
                         channel={channel}
                         isFavorite={isFavorite}
