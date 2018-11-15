@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {Groups} from 'mattermost-redux/constants';
 
 import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/group_details/group_teams_and_channels_row.jsx';
 
@@ -24,6 +25,14 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         };
     }
 
+    onRemoveItem = (id, type) => {
+        if (type === 'public-team' || type === 'private-team') {
+            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM);
+        } else {
+            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL);
+        }
+    }
+
     teamsAndChannelsToEntries = (teams, channels) => {
         const entries = [];
 
@@ -33,7 +42,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
             existingTeams.add(team.team_id);
             teamEntries.push({
                 type: team.team_type === 'O' ? 'public-team' : 'private-team',
-                hasChildren: channels.some((channel) => channel.team_id === team.id),
+                hasChildren: channels.some((channel) => channel.team_id === team.team_id),
                 name: team.team_display_name,
                 collapsed: false,
                 id: team.team_id,
@@ -86,6 +95,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                     {entries.map((entry) => (
                         <GroupTeamsAndChannelsRow
                             key={entry.id}
+                            onRemoveItem={this.onRemoveItem}
                             {...entry}
                         />
                     ))}

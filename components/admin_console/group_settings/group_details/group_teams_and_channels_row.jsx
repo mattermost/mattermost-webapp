@@ -10,10 +10,16 @@ import LockIcon from 'components/svg/lock_icon';
 
 export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     static propTypes = {
+        id: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         hasChildren: PropTypes.bool,
         collapsed: PropTypes.bool,
+        onRemoveItem: PropTypes.func.isRequired,
+    }
+
+    removeItem = () => {
+        this.props.onRemoveItem(this.props.id, this.props.type);
     }
 
     render = () => {
@@ -79,7 +85,10 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     {this.props.name}
                 </div>
                 <div className='remove'>
-                    <button className='btn btn-link'>
+                    <button
+                        className='btn btn-link'
+                        onClick={this.removeItem}
+                    >
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove'
                             defaultMessage='Remove'
