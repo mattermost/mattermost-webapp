@@ -81,6 +81,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 const callMarkdownImage = (
                     <MarkdownImage
                         className={className}
+                        dimensions={options.images[attribs.src]}
                         {...attribs}
                         {...options.imageProps}
                     />

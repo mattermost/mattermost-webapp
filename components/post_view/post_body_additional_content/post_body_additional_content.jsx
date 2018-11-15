@@ -134,6 +134,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 postId={this.props.post.id}
                 key={this.props.post.id}
                 options={this.props.options}
+                imagesMetadata={this.props.post.metadata.images}
             />
         );
     }
@@ -233,6 +234,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     onLinkLoadError={this.handleLinkLoadError}
                     onLinkLoaded={this.handleLinkLoaded}
                     handleImageClick={this.handleImageClick}
+                    dimensions={this.props.post.metadata && this.props.post.metadata.images[link]}
                 />
             );
         }

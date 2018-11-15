@@ -35,3 +35,23 @@ export function trimFilename(filename) {
 
     return trimmedFilename;
 }
+
+export function getFileDimensionsForDisplay(dimensions, {maxHeight, maxWidth}) {
+    const {width, height} = dimensions;
+    if (height <= maxHeight && width <= maxWidth) {
+        return dimensions;
+    }
+    const widthRatio = width / maxWidth;
+    const heightRatio = height / maxHeight;
+    if (heightRatio > widthRatio) {
+        return {
+            height: maxHeight,
+            width: width * (1 / heightRatio),
+        };
+    }
+
+    return {
+        height: height * (1 / widthRatio),
+        width: maxWidth,
+    };
+}

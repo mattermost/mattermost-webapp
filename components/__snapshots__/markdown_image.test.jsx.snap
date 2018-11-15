@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MarkdownImage should match snapshot 1`] = `
+<img
+  onLoad={[Function]}
+  src="https://something.com/image.png"
+  style={
+    Object {
+      "height": "200",
+    }
+  }
+/>
+`;
