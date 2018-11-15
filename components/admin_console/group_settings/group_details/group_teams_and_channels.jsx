@@ -14,6 +14,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         teams: PropTypes.arrayOf(PropTypes.object),
         channels: PropTypes.arrayOf(PropTypes.object),
         actions: PropTypes.shape({
+            getGroupSyncables: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -26,7 +27,6 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
     }
 
     onToggleCollapse = (id) => {
-        console.log(id);
         const collapsed = {...this.state.collapsed};
         collapsed[id] = !collapsed[id];
         this.setState({collapsed});
@@ -34,9 +34,13 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
 
     onRemoveItem = (id, type) => {
         if (type === 'public-team' || type === 'private-team') {
-            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM);
+            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM).then(() => {
+                this.props.actions.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_TEAM);
+            });
         } else {
-            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL);
+            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL).then(() => {;
+                this.props.actions.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
+            });
         }
     }
 
@@ -77,10 +81,13 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
             }
         });
 
+        teamEntries.sort((a, b) => a.name.localeCompare(b.name));
         teamEntries.forEach((team) => {
             entries.push(team);
             if (team.hasChildren && !team.collapsed) {
-                entries.push(...channelEntriesByTeam[team.id]);
+                const teamChannels = channelEntriesByTeam[team.id];
+                teamChannels.sort((a, b) => a.name.localeCompare(b.name));
+                entries.push(...teamChannels);
             }
         });
 

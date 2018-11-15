@@ -83,13 +83,17 @@ export default class GroupDetails extends React.PureComponent {
 
     addTeams = (teams) => {
         for (const team of teams) {
-            this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {can_leave: true, auto_add: true});
+            this.props.actions.link(this.props.groupID, team.id, Groups.SYNCABLE_TYPE_TEAM, {can_leave: true, auto_add: true}).then(() => {
+                this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM);
+            });
         }
     }
 
     addChannels = (channels) => {
         for (const channel of channels) {
-            this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {can_leave: true, auto_add: true});
+            this.props.actions.link(this.props.groupID, channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {can_leave: true, auto_add: true}).then(() => {
+                this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL);
+            });
         }
     }
 
@@ -167,6 +171,7 @@ export default class GroupDetails extends React.PureComponent {
                         teams={groupTeams}
                         channels={groupChannels}
                         actions={{
+                            getGroupSyncables: this.props.actions.getGroupSyncables,
                             unlink: this.props.actions.unlink,
                         }}
                     />
