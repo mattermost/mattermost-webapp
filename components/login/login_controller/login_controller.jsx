@@ -562,17 +562,18 @@ class LoginController extends React.Component {
             );
 
             if (this.state.loading) {
-                loginButton =
-                (<span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    <FormattedMessage
-                        id='login.signInLoading'
-                        defaultMessage='Signing in...'
-                    />
-                </span>);
+                loginButton = (
+                    <span id='login_button_signing'>
+                        <span
+                            className='fa fa-refresh icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                        <FormattedMessage
+                            id='login.signInLoading'
+                            defaultMessage='Signing in...'
+                        />
+                    </span>
+                );
             }
 
             loginControls.push(
@@ -655,6 +656,7 @@ class LoginController extends React.Component {
         if (usernameSigninEnabled || emailSigninEnabled) {
             loginControls.push(
                 <div
+                    id='login_forgot'
                     key='forgotPassword'
                     className='form-group'
                 >
@@ -834,7 +836,10 @@ class LoginController extends React.Component {
             <div>
                 <AnnouncementBar/>
                 {backButton}
-                <div className='col-sm-12'>
+                <div
+                    id='login_section'
+                    className='col-sm-12'
+                >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
                             {customContent}

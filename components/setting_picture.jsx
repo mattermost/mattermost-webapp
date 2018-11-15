@@ -24,10 +24,12 @@ export default class SettingPicture extends Component {
         clientError: PropTypes.string,
         serverError: PropTypes.string,
         src: PropTypes.string,
+        defaultImageSrc: PropTypes.string,
         file: PropTypes.object,
         loadingPicture: PropTypes.bool,
         submitActive: PropTypes.bool,
         onRemove: PropTypes.func,
+        onSetDefault: PropTypes.func,
         onSubmit: PropTypes.func,
         title: PropTypes.string,
         onFileChange: PropTypes.func,
@@ -42,6 +44,7 @@ export default class SettingPicture extends Component {
         this.state = {
             image: null,
             removeSrc: false,
+            setDefaultSrc: false,
         };
     }
 
@@ -60,21 +63,29 @@ export default class SettingPicture extends Component {
     }
 
     handleCancel = (e) => {
-        this.setState({removeSrc: false});
+        this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection(e);
     }
 
     handleSave = (e) => {
+        e.preventDefault();
         if (this.state.removeSrc) {
-            this.props.onRemove(e);
+            this.props.onRemove();
+        } else if (this.state.setDefaultSrc) {
+            this.props.onSetDefault();
         } else {
-            this.props.onSubmit(e);
+            this.props.onSubmit();
         }
     }
 
     handleRemoveSrc = (e) => {
         e.preventDefault();
         this.setState({removeSrc: true});
+    }
+
+    handleSetDefaultSrc = (e) => {
+        e.preventDefault();
+        this.setState({setDefaultSrc: true});
     }
 
     handleFileChange = (e) => {
@@ -147,10 +158,8 @@ export default class SettingPicture extends Component {
         return {transform, transformOrigin};
     }
 
-    render() {
+    renderImg = () => {
         const imageContext = this.props.imageContext;
-
-        let img;
 
         if (this.props.file) {
             const imageStyles = {
@@ -158,7 +167,7 @@ export default class SettingPicture extends Component {
                 ...this.state.orientationStyles,
             };
 
-            img = (
+            return (
                 <div className={`${imageContext}-img-preview`}>
                     <div className='img-preview__image'>
                         <div
@@ -169,49 +178,82 @@ export default class SettingPicture extends Component {
                     </div>
                 </div>
             );
-        } else if (this.props.src && !this.state.removeSrc) {
-            img = (
+        }
+
+        if (this.state.setDefaultSrc) {
+            return (
+                <img
+                    className={`${imageContext}-img`}
+                    alt={`${imageContext} image`}
+                    src={this.props.defaultImageSrc}
+                />
+            );
+        }
+
+        if (this.props.src && !this.state.removeSrc) {
+            const imageElement = (
                 <img
                     className={`${imageContext}-img`}
                     alt={`${imageContext} image`}
                     src={this.props.src}
                 />
             );
-
-            if (this.props.onRemove) {
-                img = (
-                    <div className={`${imageContext}-img__container`}>
-                        <div className='img-preview__image'>
-                            <img
-                                className={`${imageContext}-img`}
-                                alt={`${imageContext} image`}
-                                src={this.props.src}
-                            />
-                        </div>
-                        <OverlayTrigger
-                            trigger={['hover', 'focus']}
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='right'
-                            overlay={(
-                                <Tooltip id='removeIcon'>
-                                    <FormattedMessage
-                                        id='setting_picture.remove'
-                                        defaultMessage='Remove this icon'
-                                    />
-                                </Tooltip>
-                            )}
-                        >
-                            <a
-                                className={`${imageContext}-img__remove`}
-                                onClick={this.handleRemoveSrc}
-                            >
-                                <span>{'×'}</span>
-                            </a>
-                        </OverlayTrigger>
-                    </div>
-                );
+            if (!this.props.onRemove && !this.props.onSetDefault) {
+                return imageElement;
             }
+
+            let title;
+            let handler;
+            if (this.props.onRemove) {
+                title = (
+                    <FormattedMessage
+                        id='setting_picture.remove'
+                        defaultMessage='Remove this icon'
+                    />
+                );
+                handler = this.handleRemoveSrc;
+            } else if (this.props.onSetDefault) {
+                title = (
+                    <FormattedMessage
+                        id='setting_picture.remove_profile_picture'
+                        defaultMessage='Remove profile picture'
+                    />
+                );
+                handler = this.handleSetDefaultSrc;
+            }
+
+            return (
+                <div className={`${imageContext}-img__container`}>
+                    <div className='img-preview__image'>
+                        {imageElement}
+                    </div>
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='right'
+                        overlay={(
+                            <Tooltip id='removeIcon'>
+                                {title}
+                            </Tooltip>
+                        )}
+                    >
+                        <a
+                            className={`${imageContext}-img__remove`}
+                            onClick={handler}
+                        >
+                            <span>{'×'}</span>
+                        </a>
+                    </OverlayTrigger>
+                </div>
+            );
         }
+        return null;
+    }
+
+    render() {
+        const imageContext = this.props.imageContext;
+
+        const img = this.renderImg();
 
         let confirmButton;
         let selectButtonSpinner;
@@ -232,7 +274,7 @@ export default class SettingPicture extends Component {
             fileInputDisabled = true;
         } else {
             let confirmButtonClass = 'btn btn-sm';
-            if (this.props.submitActive || this.state.removeSrc) {
+            if (this.props.submitActive || this.state.removeSrc || this.state.setDefaultSrc) {
                 confirmButtonClass += ' btn-primary';
             } else {
                 confirmButtonClass += ' btn-inactive disabled';

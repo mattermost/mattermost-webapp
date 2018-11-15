@@ -736,4 +736,57 @@ describe('components/CreateComment', () => {
         expect(instance.focusTextbox).toHaveBeenCalledTimes(1);
         expect(instance.focusTextbox).toHaveBeenCalledWith(true);
     });
+
+    test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+
+        wrapper.instance().scrollToBottom = jest.fn();
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
+
+        // should scroll to bottom on first component update
+        wrapper.setState({draft: {...draft, message: 'new message'}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+
+        // but not after the first update
+        wrapper.setState({draft: {...draft, message: 'another message'}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+    });
+
+    test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallow(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+            />
+        );
+
+        wrapper.instance().scrollToBottom = jest.fn();
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+
+        wrapper.setState({draft: {...draft, uploadsInProgress: [1]}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+
+        wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2]}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+
+        wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
+        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+    });
 });

@@ -74,12 +74,14 @@
     "copy-webpack-plugin": "4.5.2",
     "cross-env": "5.2.0",
     "css-loader": "1.0.0",
+    "cypress": "3.1.1",
     "enzyme": "3.6.0",
     "enzyme-adapter-react-16": "1.5.0",
     "enzyme-to-json": "3.3.4",
     "eslint": "5.6.1",
     "eslint-config-mattermost": "github:mattermost/eslint-config-mattermost",
     "eslint-import-resolver-webpack": "0.10.1",
+    "eslint-plugin-cypress": "2.1.2",
     "eslint-plugin-header": "2.0.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-react": "7.11.1",
@@ -175,6 +177,8 @@
     "test:coverage": "jest --coverage",
     "test:e2e": "./tests/e2e/test.sh",
     "selenium-install": "selenium-standalone install --config=./tests/e2e/config.js",
-    "selenium-start": "selenium-standalone start --config=./tests/e2e/config.js"
+    "selenium-start": "selenium-standalone start --config=./tests/e2e/config.js",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
   }
 }
