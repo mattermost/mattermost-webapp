@@ -7,9 +7,9 @@ import React from 'react';
 import LoadingImagePreview from 'components/loading_image_preview';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-import {getFileDimentionsForDisplay} from 'utils/file_utils';
+import {getFileDimensionsForDisplay} from 'utils/file_utils';
 
-const MAX_IMAGE_DIMENTIONS = {
+const MAX_IMAGE_DIMENSIONS = {
     maxHeight: 500,
     maxWidth: 450,
 };
@@ -119,10 +119,10 @@ export default class PostImageEmbed extends React.PureComponent {
             return null;
         }
 
-        const imageDimentions = getFileDimentionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENTIONS);
+        const imageDimensions = getFileDimensionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENSIONS);
         if (this.state.errored || !this.state.loaded) {
             return (
-                <div style={{...imageDimentions, marginBottom: '13px'}}>
+                <div style={{...imageDimensions, marginBottom: '13px'}}>
                     <LoadingImagePreview
                         containerClass={'file__image-loading'}
                     />
@@ -138,7 +138,7 @@ export default class PostImageEmbed extends React.PureComponent {
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
                     src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
-                    {...imageDimentions}
+                    {...imageDimensions}
                 />
             </div>
         );

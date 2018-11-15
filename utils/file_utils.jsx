@@ -36,7 +36,7 @@ export function trimFilename(filename) {
     return trimmedFilename;
 }
 
-export function getFileDimentionsForDisplay(dimensions, {maxHeight, maxWidth}) {
+export function getFileDimensionsForDisplay(dimensions, {maxHeight, maxWidth}) {
     const {width, height} = dimensions;
     if (height <= maxHeight && width <= maxWidth) {
         return dimensions;
