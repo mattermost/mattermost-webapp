@@ -9,10 +9,14 @@ import ChannelMembersModal from 'components/channel_members_modal/channel_member
 
 describe('components/ChannelMembersModal', () => {
     const baseProps = {
-        channel: {id: 'channel_id', display_name: 'channel_display_name', delete_at: 0},
+        channel: {
+            id: 'channel_id',
+            display_name: 'channel_display_name',
+            delete_at: 0,
+        },
         canManageChannelMembers: true,
-        onModalDismissed: () => { }, //eslint-disable-line no-empty-function
-        showInviteModal: () => { }, //eslint-disable-line no-empty-function
+        showInviteModal: jest.fn(),
+        onHide: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -56,17 +60,6 @@ describe('components/ChannelMembersModal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called props.onModalDismissed when Modal.onExited', () => {
-        const onModalDismissed = jest.fn();
-        const props = {...baseProps, onModalDismissed};
-        const wrapper = shallow(
-            <ChannelMembersModal {...props}/>
-        );
-
-        wrapper.find(Modal).first().props().onExited();
-        expect(onModalDismissed).toHaveBeenCalledTimes(1);
-    });
-
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channel: {...baseProps.channel, delete_at: 1234}};
 
@@ -76,38 +69,12 @@ describe('components/ChannelMembersModal', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
-});
-
-describe('components/ChannelMembersModal', () => {
-    const baseProps = {
-        channel: {
-            display_name: 'testchannel',
-            header: '',
-            name: 'testchannel',
-            purpose: '',
-            delete_at: 0,
-        },
-        canManageChannelMembers: true,
-        onModalDismissed: () => {}, // eslint-disable-line no-empty-function
-        showInviteModal: () => {}, // eslint-disable-line no-empty-function
-    };
 
     test('renders the channel display name', () => {
         const wrapper = shallow(
             <ChannelMembersModal {...baseProps}/>
         );
         expect(wrapper.find('.name').text()).toBe(baseProps.channel.display_name);
-    });
-
-    test('should call the onHide callback when the modal is hidden', () => {
-        const onModalDismissed = jest.fn();
-        const newProps = {...baseProps, onModalDismissed};
-        const wrapper = shallow(
-            <ChannelMembersModal {...newProps}/>
-        );
-        expect(onModalDismissed).not.toHaveBeenCalled();
-        wrapper.find(Modal).first().props().onExited();
-        expect(onModalDismissed).toHaveBeenCalled();
     });
 
     test('should show the invite modal link if the user can manage channel members', () => {
