@@ -61,7 +61,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
 
     it('should runs leaveChannel function on click only if the channel is not private', () => {
         const props = baseProps;
-        const {showLeavePrivateChannelModal} = require('actions/global_actions');
+        const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow(<LeaveChannel {...props}/>);
 
         wrapper.find('button').simulate('click', {
