@@ -14,6 +14,9 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
+
 const CHANNELS_PER_PAGE = 50;
 
 export default class ChannelSelectorModal extends React.Component {
@@ -149,6 +152,10 @@ export default class ChannelSelectorModal extends React.Component {
                 <div
                     className='more-modal__details'
                 >
+                    {option.type === 'P' &&
+                        <LockIcon className='icon icon__lock'/>}
+                    {option.type === 'O' &&
+                        <GlobeIcon className='icon icon__globe'/>}
                     <span className='channel-name'>{option.display_name}</span>
                     <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
                 </div>
