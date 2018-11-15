@@ -9,6 +9,7 @@ import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
 import Scrollbars from 'react-custom-scrollbars';
+import {SpringSystem, MathUtil} from 'rebound';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -159,6 +160,11 @@ export default class Sidebar extends React.PureComponent {
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
         };
+
+        this.animate = new SpringSystem();
+        this.unreadScrollAnimate = this.animate.createSpring();
+        this.unreadScrollAnimate.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
+        this.unreadScrollAnimate.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
     }
 
     componentDidMount() {
@@ -205,6 +211,10 @@ export default class Sidebar extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.navigateChannelShortcut);
         document.removeEventListener('keydown', this.navigateUnreadChannelShortcut);
+
+        this.animate.deregisterSpring(this.unreadScrollAnimate);
+        this.animate.removeAllListeners();
+        this.unreadScrollAnimate.destroy();
     }
 
     setBadgesActiveAndFavicon() {
@@ -289,27 +299,39 @@ export default class Sidebar extends React.PureComponent {
         this.updateUnreadIndicators();
     }
 
+    handleScrollAnimationUpdate = (spring) => {
+        const {scrollbar} = this.refs;
+        const val = spring.getCurrentValue();
+        scrollbar.scrollTop(val);
+    }
+
     scrollToFirstUnreadChannel = () => {
         if (this.firstUnreadChannel) {
             const displayedChannels = this.getDisplayedChannels();
+            this.unreadScrollAnimate.setCurrentValue(this.refs.scrollbar.getScrollTop()).setAtRest();
+            let position;
             if (displayedChannels.length > 0 && displayedChannels[0] === this.firstUnreadChannel) {
-                this.refs.scrollbar.scrollToTop();
+                position = MathUtil.mapValueInRange(0, 0, 1, 0, 1);
             } else {
                 const unreadMargin = 15;
                 const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
                 const scrollTop = firstUnreadElement.position().top - unreadMargin;
-                this.refs.scrollbar.scrollTop(scrollTop);
+                position = MathUtil.mapValueInRange(scrollTop, 0, 1, 0, 1);
             }
+            this.unreadScrollAnimate.setEndValue(position);
         }
     }
 
     scrollToLastUnreadChannel = () => {
         if (this.lastUnreadChannel) {
+            const {scrollbar} = this.refs;
             const unreadMargin = 15;
             const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const elementBottom = lastUnreadElement.position().top + lastUnreadElement.height();
-            const scrollTop = (elementBottom - this.refs.scrollbar.getClientHeight()) + unreadMargin;
-            this.refs.scrollbar.scrollTop(scrollTop);
+            const scrollTop = (elementBottom - scrollbar.getClientHeight()) + unreadMargin;
+            const position = MathUtil.mapValueInRange(scrollTop, 0, 1, 0, 1);
+            this.unreadScrollAnimate.setCurrentValue(scrollbar.getScrollTop()).setAtRest();
+            this.unreadScrollAnimate.setEndValue(position);
         }
     }
 
