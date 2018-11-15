@@ -13,6 +13,8 @@ import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 const holders = defineMessages({
     removing: {
         id: t('admin.license.removing'),
@@ -223,12 +225,10 @@ class LicenseSettings extends React.Component {
 
         return (
             <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.license.title'
-                        defaultMessage='Edition and License'
-                    />
-                </h3>
+                <FormattedAdminHeader
+                    id='admin.license.title'
+                    defaultMessage='Edition and License'
+                />
                 <form
                     className='form-horizontal'
                     role='form'

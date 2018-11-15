@@ -10,6 +10,8 @@ import Constants from 'utils/constants.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+
 import DoughnutChart from '../doughnut_chart.jsx';
 import LineChart from '../line_chart.jsx';
 import StatisticCount from '../statistic_count.jsx';
@@ -362,12 +364,10 @@ export default class SystemAnalytics extends React.PureComponent {
 
         return (
             <div className='wrapper--fixed team_statistics'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='analytics.system.title'
-                        defaultMessage='System Statistics'
-                    />
-                </h3>
+                <FormattedAdminHeader
+                    id='analytics.system.title'
+                    defaultMessage='System Statistics'
+                />
                 {banner}
                 <div className='row'>
                     {firstRow}

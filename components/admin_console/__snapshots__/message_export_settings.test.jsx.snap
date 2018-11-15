@@ -4,15 +4,13 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Compliance Export (Beta)"
       id="admin.complianceExport.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -185,15 +183,13 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Compliance Export (Beta)"
       id="admin.complianceExport.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -476,15 +472,13 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Compliance Export (Beta)"
       id="admin.complianceExport.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -657,15 +651,13 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Compliance Export (Beta)"
       id="admin.complianceExport.title"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
