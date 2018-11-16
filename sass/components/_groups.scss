@@ -291,6 +291,17 @@
 
 .group-teams-and-channels {
     padding: 15px;
+    .group-teams-and-channels-loading {
+        text-align: center;
+        padding: 40px;
+    }
+    .group-teams-and-channels-empty {
+        text-align: center;
+        padding: 20px;
+        font-size: 1.5em;
+        background: alpha-color($white, .5);
+        color: $gray;
+    }
     .group-teams-and-channels--header {
         font-size: 1.1em;
         font-weight: bold;

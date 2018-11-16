@@ -13,6 +13,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         id: PropTypes.string.isRequired,
         teams: PropTypes.arrayOf(PropTypes.object),
         channels: PropTypes.arrayOf(PropTypes.object),
+        loading: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getGroupSyncables: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
@@ -96,6 +97,29 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
 
     render = () => {
         const entries = this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);
+
+        if (this.props.loading) {
+            return (
+                <div className='group-teams-and-channels'>
+                    <div className='group-teams-and-channels-loading'>
+                        <i className='fa fa-spinner fa-pulse fa-2x'/>
+                    </div>
+                </div>
+            );
+        }
+
+        if (entries.length === 0) {
+            return (
+                <div className='group-teams-and-channels'>
+                    <div className='group-teams-and-channels-empty'>
+                        <FormattedMessage
+                            id='admin.group_settings.group_details.group_teams_and_channels.no-teams-or-channels-speicified'
+                            defaultMessage='No teams or channels specified yet'
+                        />
+                    </div>
+                </div>
+            );
+        }
 
         return (
             <div className='group-teams-and-channels'>

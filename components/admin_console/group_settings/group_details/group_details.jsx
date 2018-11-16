@@ -45,6 +45,7 @@ export default class GroupDetails extends React.PureComponent {
         super(props);
         this.state = {
             loading: true,
+            loadingTeamsAndChannels: true,
             addTeamOpen: false,
             addChannelOpen: false,
             addTeamOrChannelOpen: false,
@@ -56,8 +57,12 @@ export default class GroupDetails extends React.PureComponent {
         actions.getGroup(groupID).then(() => {
             this.setState({loading: false});
         });
-        actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM);
-        actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL);
+        Promise.all([
+            actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
+            actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
+        ]).then(() => {
+            this.setState({loadingTeamsAndChannels: false});
+        });
     }
 
     openAddChannel = () => {
@@ -169,6 +174,7 @@ export default class GroupDetails extends React.PureComponent {
                         id={this.props.groupID}
                         teams={groupTeams}
                         channels={groupChannels}
+                        loading={this.state.loadingTeamsAndChannels}
                         actions={{
                             getGroupSyncables: this.props.actions.getGroupSyncables,
                             unlink: this.props.actions.unlink,

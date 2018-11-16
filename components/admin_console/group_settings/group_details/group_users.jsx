@@ -142,7 +142,7 @@ export default class GroupUsers extends React.PureComponent {
                     </div>
                     {this.renderRows()}
                 </div>
-                    {this.renderPagination()}
+                {this.renderPagination()}
             </div>
         );
     };
