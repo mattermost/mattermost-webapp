@@ -1850,7 +1850,11 @@
         width: 100%;
         height: 100%;
         border-radius: 0;
-        z-index: 10000;
+        z-index: 1070;
+
+        &.bottom {
+            margin-top: 0;
+        }
     }
 
     .emoji-picker__inner {
