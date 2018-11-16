@@ -117,6 +117,7 @@ const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
         listHeight: PropTypes.number,
+        onEmojiClose: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
@@ -139,7 +140,7 @@ export default class EmojiPicker extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleEmojiPickerClick = this.handleEmojiPickerClick.bind(this);
+        this.handleEmojiPickerClose = this.handleEmojiPickerClose.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleItemOver = this.handleItemOver.bind(this);
@@ -251,8 +252,8 @@ export default class EmojiPicker extends React.PureComponent {
         this.searchInput = input;
     };
 
-    handleEmojiPickerClick() {
-        console.log('works!!');
+    handleEmojiPickerClose() {
+        this.props.onEmojiClose();
     }
 
     handleCategoryClick(categoryName) {
@@ -488,8 +489,8 @@ export default class EmojiPicker extends React.PureComponent {
             <div className="emoji-picker__header modal-header">
                 <button
                     type="button"
-                    className="close emoji-picker__header-button"
-                    onClick={this.handleEmojiPickerClick}
+                    className="close emoji-picker__header-close-button"
+                    onClick={this.handleEmojiPickerClose}
                     >
                     <span aria-hidden="true">×</span>
                     <span className="sr-only">Close</span>

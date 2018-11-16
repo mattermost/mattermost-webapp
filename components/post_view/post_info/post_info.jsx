@@ -150,6 +150,10 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
+    reactEmojiClose = () => {
+        this.setState({showEmojiPicker: false});
+    }
+
     reactEmojiClick = (emoji) => {
         const pickerOffset = 21;
         this.setState({showEmojiPicker: false, reactionPickerOffset: pickerOffset});
@@ -227,11 +231,12 @@ export default class PostInfo extends React.PureComponent {
                         <div>
                             <EmojiPickerOverlay
                                 show={this.state.showEmojiPicker}
-                                // - removed defined container to position picker
-                                // - above everything for fullscreen on web mobile
+                                // - allows picker to be added on top of everything
+                                //   for mobile fullscreensupport
                                 // container={this.props.getPostList}
                                 target={this.getDotMenu}
                                 onHide={this.hideEmojiPicker}
+                                onEmojiClose={this.reactEmojiClose}
                                 onEmojiClick={this.reactEmojiClick}
                                 rightOffset={12}
                                 topOffset={-7}

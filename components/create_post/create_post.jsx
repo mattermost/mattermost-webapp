@@ -857,6 +857,11 @@ export default class CreatePost extends React.Component {
         });
     }
 
+    handleEmojiClose = () => {
+        this.setState({showEmojiPicker: false});
+        this.focusTextbox();
+    }
+
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
@@ -1065,11 +1070,12 @@ export default class CreatePost extends React.Component {
                 >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        // - removed defined container to position picker
-                        // - above everything for fullscreen on web mobile
+                        // - allows picker to be added on top of everything
+                        //   for mobile fullscreensupport
                         // container={getChannelView}
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
+                        onEmojiClose={this.handleEmojiClose}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.enableGifPicker}

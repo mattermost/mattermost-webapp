@@ -24,6 +24,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         show: PropTypes.bool.isRequired,
         container: PropTypes.func,
         target: PropTypes.func.isRequired,
+        onEmojiClose: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
         onGifClick: PropTypes.func,
         onHide: PropTypes.func.isRequired,
@@ -71,6 +72,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
             >
                 <EmojiPickerTabs
                     enableGifPicker={this.props.enableGifPicker}
+                    onEmojiClose={this.props.onEmojiClose}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
                     rightOffset={this.props.rightOffset}
