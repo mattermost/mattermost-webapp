@@ -72,14 +72,14 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         case 'public-channel':
             channelIcon = (
                 <div className='channel-icon'>
-                    <LockIcon className='icon icon__lock'/>
+                    <GlobeIcon className='icon icon__globe'/>
                 </div>
             );
             break;
         case 'private-channel':
             channelIcon = (
                 <div className='channel-icon'>
-                    <GlobeIcon className='icon icon__globe'/>
+                    <LockIcon className='icon icon__lock'/>
                 </div>
             );
             break;

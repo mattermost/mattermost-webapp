@@ -1,0 +1,240 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for private-channel 1`] = `
+<div
+  className="group-teams-and-channels-row"
+>
+  <div
+    className="arrow-icon"
+  />
+  <div
+    className="team-icon"
+  />
+  <div
+    className="channel-icon"
+  >
+    <LockIcon
+      className="icon icon__lock"
+    />
+  </div>
+  <div
+    className="name"
+  >
+    Test private-channel
+  </div>
+  <div
+    className="remove"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for private-team 1`] = `
+<div
+  className="group-teams-and-channels-row"
+>
+  <div
+    className="arrow-icon"
+  />
+  <div
+    className="team-icon team-icon-private"
+  >
+    <span
+      className="fa-stack fa-2x"
+    >
+      <i
+        className="fa fa-circle-thin fa-stack-2x"
+      />
+      <i
+        className="fa fa-lock fa-stack-1x"
+      />
+    </span>
+  </div>
+  <div
+    className="name"
+  >
+    Test private-team
+  </div>
+  <div
+    className="remove"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for public-channel 1`] = `
+<div
+  className="group-teams-and-channels-row"
+>
+  <div
+    className="arrow-icon"
+  />
+  <div
+    className="team-icon"
+  />
+  <div
+    className="channel-icon"
+  >
+    <GlobeIcon
+      className="icon icon__globe"
+    />
+  </div>
+  <div
+    className="name"
+  >
+    Test public-channel
+  </div>
+  <div
+    className="remove"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for public-team 1`] = `
+<div
+  className="group-teams-and-channels-row"
+>
+  <div
+    className="arrow-icon"
+  />
+  <div
+    className="team-icon team-icon-public"
+  >
+    <i
+      className="fa fa-circle-o-notch"
+    />
+  </div>
+  <div
+    className="name"
+  >
+    Test public-team
+  </div>
+  <div
+    className="remove"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, when has children 1`] = `
+<div
+  className="group-teams-and-channels-row has-clidren"
+>
+  <div
+    className="arrow-icon"
+  >
+    <i
+      className="fa fa-caret-right open"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="team-icon team-icon-public"
+  >
+    <i
+      className="fa fa-circle-o-notch"
+    />
+  </div>
+  <div
+    className="name"
+  >
+    Test team with children
+  </div>
+  <div
+    className="remove"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, when has children and is collapsed 1`] = `
+<div
+  className="group-teams-and-channels-row has-clidren collapsed"
+>
+  <div
+    className="arrow-icon"
+  >
+    <i
+      className="fa fa-caret-right"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="team-icon team-icon-public"
+  >
+    <i
+      className="fa fa-circle-o-notch"
+    />
+  </div>
+  <div
+    className="name"
+  >
+    Test team with children
+  </div>
+  <div
+    className="remove"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Remove"
+        id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;
