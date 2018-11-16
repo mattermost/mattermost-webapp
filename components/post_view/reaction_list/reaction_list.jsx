@@ -83,6 +83,10 @@ export default class ReactionListView extends React.PureComponent {
         return this.refs.addReactionButton;
     }
 
+    handleEmojiClose = () => {
+        this.setState({showEmojiPicker: false});
+    }
+
     handleEmojiClick = (emoji) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
@@ -158,6 +162,7 @@ export default class ReactionListView extends React.PureComponent {
                         show={this.state.showEmojiPicker}
                         target={this.getTarget}
                         onHide={this.hideEmojiPicker}
+                        onEmojiClose={this.handleEmojiClose}
                         onEmojiClick={this.handleEmojiClick}
                         rightOffset={rightOffset}
                         topOffset={-5}

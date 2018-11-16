@@ -376,6 +376,7 @@ export default class RhsComment extends React.Component {
                             show={this.state.showEmojiPicker}
                             onHide={this.toggleEmojiPicker}
                             target={this.getDotMenuRef}
+                            onEmojiClose={this.toggleEmojiPicker}
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={15}
                             spaceRequiredAbove={EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE}
