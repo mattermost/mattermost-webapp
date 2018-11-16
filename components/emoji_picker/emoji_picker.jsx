@@ -605,7 +605,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     render() {
         return (
-            <div>
+            <div className='emoji-picker__inner'>
                 {this.emojiHeader()}
                 {this.emojiSearch()}
                 {this.emojiCategories()}
