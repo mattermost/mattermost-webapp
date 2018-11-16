@@ -13,7 +13,7 @@ export default class GroupUsersRow extends React.PureComponent {
         displayName: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
         userId: PropTypes.string.isRequired,
-        lastPictureUpdate: PropTypes.string.isRequired,
+        lastPictureUpdate: PropTypes.number.isRequired,
     };
 
     render = () => {
