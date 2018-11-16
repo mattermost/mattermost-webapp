@@ -30,6 +30,9 @@
     .terms-of-service__markdown {
         background-color: #fff;
         overflow-y: auto;
+        padding-top: 3em;
+        padding-bottom: 3em;
+        min-width: 100vw;
     }
 
     &.branded {
@@ -75,13 +78,23 @@
         padding-top: 70px;
     }
 
-    &.terms-of-service__padding--less {
-        padding-top: 40px;
-        padding-bottom: 10px;
+    &.terms-of-service__container {
+        padding-top: 3em;
+        max-width: 100%;
     }
 
-    &.max-width--more {
-        max-width: 70%;
+    .terms-of-service__footer {
+        padding-top: .5em;
+        padding-bottom: .5em;
+
+        .terms-of-service__button-group {
+            padding-top: 1em;
+            padding-bottom: 1em;
+        }
+
+        .terms-of-service__server-error {
+            padding-bottom: 1em;
+        }
     }
 
     &.max-width--full {
@@ -93,12 +106,13 @@
     }
 
     .terms-of-service-error__height--fill {
-        min-height: calc(100vh - 176px);
-        height: calc(100vh - 176px);
+        min-height: calc(100vh - 107px - 4em);
+        height: calc(100vh - 107px - 4em);
     }
 
     .terms-of-service__height--fill {
-        height: calc(100vh - 108px);
+        min-height: calc(100vh - 69px - 3em);
+        height: calc(100vh - 69px - 3em);
     }
 
     .medium-center {
@@ -483,10 +497,6 @@
 
     .color--light {
         color: #777777;
-    }
-
-    .margin--small {
-        margin-top: 1em;
     }
 
     .margin--extra {

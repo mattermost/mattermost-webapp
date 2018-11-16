@@ -128,7 +128,7 @@ export default class TermsOfService extends React.PureComponent {
             return <LoadingScreen/>;
         }
 
-        let termsMarkdownClasses = 'signup__markdown medium-center';
+        let termsMarkdownClasses = 'terms-of-service__markdown';
         if (this.state.serverError) {
             termsMarkdownClasses += ' terms-of-service-error__height--fill';
         } else {
@@ -153,14 +153,14 @@ export default class TermsOfService extends React.PureComponent {
                     </a>
                 </div>
                 <div>
-                    <div className='signup-team__container terms-of-service__padding--less max-width--full'>
-                        <div className='terms-of-service__markdown'>
-                            <div className={termsMarkdownClasses}>
+                    <div className='signup-team__container terms-of-service__container'>
+                        <div className={termsMarkdownClasses}>
+                            <div className='medium-center'>
                                 {messageHtmlToComponent(this.formattedText(this.state.customTermsOfServiceText), false, {mentions: false})}
                             </div>
                         </div>
-                        <div className='margin--small medium-center'>
-                            <ButtonGroup>
+                        <div className='terms-of-service__footer medium-center'>
+                            <ButtonGroup className='terms-of-service__button-group'>
                                 <Button
                                     bsStyle={'primary'}
                                     disabled={this.state.loadingAgree || this.state.loadingDisagree}
@@ -199,7 +199,7 @@ export default class TermsOfService extends React.PureComponent {
                                 </Button>
                             </ButtonGroup>
                             {Boolean(this.state.serverError) && (
-                                <div className='alert alert-warning margin--small'>
+                                <div className='terms-of-service__server-error alert alert-warning'>
                                     <i
                                         className='fa fa-exclamation-triangle'
                                         title={Utils.localizeMessage('generic_icons.warning', 'Warning Icon')}
