@@ -138,11 +138,17 @@
 
 .emoji-picker__header {
     display: none; // only visible < 480px width screen
-    background: darken($primary-color, 10%);
+    padding: 13px 10px 13px 15px;
+    background: $primary-color;
     border: 1px solid $light-gray;
     color: $white;
 
-    .emoji-picker__header-button {
+    .emoji-picker__header-title {
+        margin-top: 2px;
+        font-size: 17px;
+    }
+
+    .emoji-picker__header-close-button {
         width: 30px;
         height: 30px;
         opacity: 1;
