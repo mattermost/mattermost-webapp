@@ -49,15 +49,18 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         switch (this.props.type) {
         case 'public-team':
             teamIcon = (
-                <div className='team-icon'>
-                    <LockIcon className='icon icon__lock'/>
+                <div className='team-icon team-icon-public'>
+                    <i className={'fa fa-circle-o-notch'}/>
                 </div>
             );
             break;
         case 'private-team':
             teamIcon = (
-                <div className='team-icon'>
-                    <GlobeIcon className='icon icon__globe'/>
+                <div className='team-icon team-icon-private'>
+                    <span className='fa-stack fa-2x'>
+                        <i className={'fa fa-circle-thin fa-stack-2x'}/>
+                        <i className={'fa fa-lock fa-stack-1x'}/>
+                    </span>
                 </div>
             );
             break;
