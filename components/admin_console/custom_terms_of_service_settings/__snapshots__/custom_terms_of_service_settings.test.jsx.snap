@@ -4,15 +4,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Custom Terms of Service"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -66,15 +64,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Custom Terms of Service"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -128,15 +124,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Custom Terms of Service"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
@@ -190,15 +184,13 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
+  <AdminHeader>
     <FormattedMessage
       defaultMessage="Custom Terms of Service"
       id="admin.support.termsOfServiceTitle"
       values={Object {}}
     />
-  </h3>
+  </AdminHeader>
   <form
     className="form-horizontal"
     onSubmit={[Function]}
