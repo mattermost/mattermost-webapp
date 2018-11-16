@@ -59,12 +59,6 @@
     position: absolute;
     width: 315px;
     z-index: 999;
-    top: 0 !important;
-    right: auto !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 10000 !important;
 
     .browser--ie & {
         width: 325px;
@@ -143,7 +137,7 @@
 }
 
 .emoji-picker__header {
-    // display: none; // only visible < 480px width screen
+    display: none; // only visible < 480px width screen
     background: darken($primary-color, 10%);
     border: 1px solid $light-gray;
     color: $white;
@@ -197,6 +191,7 @@
     padding: 0 8px 8px;
     position: relative;
     width: 100%;
+    background: $bg--gray;
 
     .emoji-picker__container {
         min-height: 100%;
