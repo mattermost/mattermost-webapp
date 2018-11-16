@@ -121,7 +121,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupProfileTitle')}
                     titleDefaultMessage='Group Profile'
                     subtitleId={t('admin.group_settings.group_detail.groupProfileDescription')}
-                    subtitleDefaultMessage='Set the name and description for this group.'
+                    subtitleDefaultMessage='The name for this group.'
                 >
                     <GroupProfile
                         name={group.display_name}
@@ -133,7 +133,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
                     titleDefaultMessage='Team and Channel Membership'
                     subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
-                    subtitleDefaultMessage='Specify team and channel membership, sync policies and roles for your group.'
+                    subtitleDefaultMessage='Specify teams and channels group members will default membership in.'
                     action={(
                         <div className='group-profile-add-menu'>
                             <button
@@ -195,7 +195,7 @@ export default class GroupDetails extends React.PureComponent {
                     titleId={t('admin.group_settings.group_detail.groupUsersTitle')}
                     titleDefaultMessage='Users'
                     subtitleId={t('admin.group_settings.group_detail.groupUsersDescription')}
-                    subtitleDefaultMessage='Below is a listing of all users associated with this group.'
+                    subtitleDefaultMessage='Listing of users in Mattermost associated with this group.'
                 >
                     <GroupUsers
                         members={members}
