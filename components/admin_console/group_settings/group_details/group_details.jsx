@@ -111,7 +111,7 @@ export default class GroupDetails extends React.PureComponent {
                     <div className='banner__content'>
                         <FormattedMarkdownMessage
                             id='admin.group_settings.group_detail.introBanner'
-                            defaultMessage={'TODO: Lorem Ipsum'}
+                            defaultMessage={'TODO (The link): [Configure default teams and channels](!/todo) and view users belonging to this group.'}
                         />
                     </div>
                 </div>
