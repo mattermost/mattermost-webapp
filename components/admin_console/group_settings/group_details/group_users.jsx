@@ -77,6 +77,47 @@ export default class GroupUsers extends React.PureComponent {
         });
     }
 
+    renderPagination = () => {
+        if (this.props.members.length === 0) {
+            return (<div className='group-users--footer empty'/>);
+        }
+        return (
+            <div className='group-users--footer'>
+                <div className='counter'>
+                    <FormattedMessage
+                        id='admin.group_settings.groups_list.paginatorCount'
+                        defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                        values={{
+                            startCount,
+                            endCount,
+                            total,
+                        }}
+                    />
+                </div>
+                <button
+                    className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                    onClick={firstPage ? null : this.previousPage}
+                    disabled={firstPage}
+                >
+                    <i
+                        className='fa fa-chevron-left'
+                        title={localizeMessage('generic_icons.previous', 'Previous Icon')}
+                    />
+                </button>
+                <button
+                    className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                    onClick={lastPage ? null : this.nextPage}
+                    disabled={lastPage}
+                >
+                    <i
+                        className='fa fa-chevron-right'
+                        title={localizeMessage('generic_icons.next', 'Next Icon')}
+                    />
+                </button>
+            </div>
+        );
+    }
+
     render = () => {
         const startCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + 1;
         let endCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + GROUP_MEMBERS_PAGE_SIZE;
@@ -101,39 +142,7 @@ export default class GroupUsers extends React.PureComponent {
                     </div>
                     {this.renderRows()}
                 </div>
-                <div className='group-users--footer'>
-                    <div className='counter'>
-                        <FormattedMessage
-                            id='admin.group_settings.groups_list.paginatorCount'
-                            defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
-                            values={{
-                                startCount,
-                                endCount,
-                                total,
-                            }}
-                        />
-                    </div>
-                    <button
-                        className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                        onClick={firstPage ? null : this.previousPage}
-                        disabled={firstPage}
-                    >
-                        <i
-                            className='fa fa-chevron-left'
-                            title={localizeMessage('generic_icons.previous', 'Previous Icon')}
-                        />
-                    </button>
-                    <button
-                        className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                        onClick={lastPage ? null : this.nextPage}
-                        disabled={lastPage}
-                    >
-                        <i
-                            className='fa fa-chevron-right'
-                            title={localizeMessage('generic_icons.next', 'Next Icon')}
-                        />
-                    </button>
-                </div>
+                    {this.renderPagination()}
             </div>
         );
     };
