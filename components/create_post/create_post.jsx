@@ -1073,7 +1073,7 @@ export default class CreatePost extends React.Component {
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
                         enableGifPicker={this.props.enableGifPicker}
-                        rightOffset={15}
+                        rightOffset={12}
                         topOffset={-7}
                     />
                     <EmojiIcon

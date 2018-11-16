@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
+import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import * as Emoji from 'utils/emoji.jsx';
 import {t} from 'utils/i18n';
@@ -137,6 +139,7 @@ export default class EmojiPicker extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.handleEmojiPickerClick = this.handleEmojiPickerClick.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleItemOver = this.handleItemOver.bind(this);
@@ -247,6 +250,10 @@ export default class EmojiPicker extends React.PureComponent {
     emojiSearchInput = (input) => {
         this.searchInput = input;
     };
+
+    handleEmojiPickerClick() {
+        console.log('works!!');
+    }
 
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
@@ -475,6 +482,23 @@ export default class EmojiPicker extends React.PureComponent {
         return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
     }
 
+    // create header markup for fullscreen picker on web mobile
+    emojiHeader() {
+        return (
+            <div className="emoji-picker__header modal-header">
+                <button
+                    type="button"
+                    className="close emoji-picker__header-button"
+                    onClick={this.handleEmojiPickerClick}
+                    >
+                    <span aria-hidden="true">×</span>
+                    <span className="sr-only">Close</span>
+                </button>
+                <h4 className="modal-title emoji-picker__header-title"><span>Emoji Picker</span></h4>
+            </div>
+        );
+    }
+
     emojiSearch() {
         return (
             <div className='emoji-picker__search-container'>
@@ -603,6 +627,7 @@ export default class EmojiPicker extends React.PureComponent {
     render() {
         return (
             <div>
+                {this.emojiHeader()}
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}

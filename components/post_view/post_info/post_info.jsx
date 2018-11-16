@@ -233,7 +233,8 @@ export default class PostInfo extends React.PureComponent {
                                 target={this.getDotMenu}
                                 onHide={this.hideEmojiPicker}
                                 onEmojiClick={this.reactEmojiClick}
-                                rightOffset={7}
+                                rightOffset={12}
+                                topOffset={-7}
                             />
                             <OverlayTrigger
                                 className='hidden-xs'
