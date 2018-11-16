@@ -264,7 +264,10 @@ export default class SignupEmail extends React.Component {
     renderEmailSignup = () => {
         let emailError = null;
         let emailHelpText = (
-            <span className='help-block'>
+            <span
+                id='valid_email'
+                className='help-block'
+            >
                 <FormattedMessage
                     id='signup_user_completed.emailHelp'
                     defaultMessage='Valid email required for sign-up'
@@ -280,7 +283,10 @@ export default class SignupEmail extends React.Component {
 
         let nameError = null;
         let nameHelpText = (
-            <span className='help-block'>
+            <span
+                id='valid_name'
+                className='help-block'
+            >
                 <FormattedMessage
                     id='signup_user_completed.userHelp'
                     defaultMessage="Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-' and '_'"
@@ -328,12 +334,14 @@ export default class SignupEmail extends React.Component {
             <form>
                 <div className='inner__content'>
                     <div className={emailContainerStyle}>
-                        <h5><strong>
-                            <FormattedMessage
-                                id='signup_user_completed.whatis'
-                                defaultMessage="What's your email address?"
-                            />
-                        </strong></h5>
+                        <h5 id='email_label'>
+                            <strong>
+                                <FormattedMessage
+                                    id='signup_user_completed.whatis'
+                                    defaultMessage="What's your email address?"
+                                />
+                            </strong>
+                        </h5>
                         <div className={emailDivStyle}>
                             <input
                                 id='email'
@@ -353,12 +361,14 @@ export default class SignupEmail extends React.Component {
                     </div>
                     {yourEmailIs}
                     <div className='margin--extra'>
-                        <h5><strong>
-                            <FormattedMessage
-                                id='signup_user_completed.chooseUser'
-                                defaultMessage='Choose your username'
-                            />
-                        </strong></h5>
+                        <h5 id='name_label'>
+                            <strong>
+                                <FormattedMessage
+                                    id='signup_user_completed.chooseUser'
+                                    defaultMessage='Choose your username'
+                                />
+                            </strong>
+                        </h5>
                         <div className={nameDivStyle}>
                             <input
                                 id='name'
@@ -375,12 +385,14 @@ export default class SignupEmail extends React.Component {
                         </div>
                     </div>
                     <div className='margin--extra'>
-                        <h5><strong>
-                            <FormattedMessage
-                                id='signup_user_completed.choosePwd'
-                                defaultMessage='Choose your password'
-                            />
-                        </strong></h5>
+                        <h5 id='password_label'>
+                            <strong>
+                                <FormattedMessage
+                                    id='signup_user_completed.choosePwd'
+                                    defaultMessage='Choose your password'
+                                />
+                            </strong>
+                        </h5>
                         <div className={passwordDivStyle}>
                             <input
                                 id='password'
@@ -446,7 +458,7 @@ export default class SignupEmail extends React.Component {
         let terms = null;
         if (!this.state.noOpenServerError && emailSignup) {
             terms = (
-                <p>
+                <p id='signup_agreement'>
                     <FormattedMarkdownMessage
                         id='create_team.agreement'
                         defaultMessage='By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}.'
@@ -467,7 +479,10 @@ export default class SignupEmail extends React.Component {
         return (
             <div>
                 <BackButton/>
-                <div className='col-sm-12'>
+                <div
+                    id='signup_email_section'
+                    className='col-sm-12'
+                >
                     <div className='signup-team__container padding--less'>
                         <img
                             className='signup-team-logo'
@@ -477,19 +492,26 @@ export default class SignupEmail extends React.Component {
                             customDescriptionText={customDescriptionText}
                             siteName={siteName}
                         />
-                        <h4 className='color--light'>
+                        <h4
+                            id='create_account'
+                            className='color--light'
+                        >
                             <FormattedMessage
                                 id='signup_user_completed.lets'
                                 defaultMessage="Let's create your account"
                             />
                         </h4>
-                        <span className='color--light'>
+                        <span
+                            id='signin_account'
+                            className='color--light'
+                        >
                             <FormattedMessage
                                 id='signup_user_completed.haveAccount'
                                 defaultMessage='Already have an account?'
                             />
                             {' '}
                             <Link
+                                id='signin_account_link'
                                 to={'/login' + location.search}
                             >
                                 <FormattedMessage

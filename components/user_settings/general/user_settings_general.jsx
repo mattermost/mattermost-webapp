@@ -100,6 +100,7 @@ class UserSettingsGeneralTab extends React.Component {
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
             sendVerificationEmail: PropTypes.func.isRequred,
+            setDefaultProfileImage: PropTypes.func.isRequred,
         }).isRequired,
         sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
@@ -283,9 +284,23 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    submitPicture = (e) => {
-        e.preventDefault();
+    setDefaultProfilePicture = async () => {
+        try {
+            await this.props.actions.setDefaultProfileImage(this.props.user.id);
+            this.updateSection('');
+            this.submitActive = false;
+        } catch (err) {
+            let serverError;
+            if (err.message) {
+                serverError = err.message;
+            } else {
+                serverError = err;
+            }
+            this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
+        }
+    }
 
+    submitPicture = () => {
         if (!this.state.pictureFile) {
             return;
         }
@@ -1181,7 +1196,9 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingPicture
                     title={formatMessage(holders.profilePicture)}
                     onSubmit={this.submitPicture}
+                    onSetDefault={user.last_picture_update > 0 ? this.setDefaultProfilePicture : null}
                     src={Utils.imageURLForUser(user)}
+                    defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
                     updateSection={(e) => {

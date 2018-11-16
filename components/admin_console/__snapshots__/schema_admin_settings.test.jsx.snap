@@ -38,14 +38,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
-  >
-    <FormattedMessage
-      id="config"
-      values={Object {}}
-    />
-  </h3>
+  <FormattedAdminHeader
+    defaultMessage="Configuration"
+    id="config"
+    values={Object {}}
+  />
   <form
     className="form-horizontal"
     onSubmit={[Function]}

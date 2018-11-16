@@ -178,6 +178,9 @@ class LoginController extends React.Component {
     preSubmit = (e) => {
         e.preventDefault();
 
+        // Discard any session expiry notice once the user interacts with the login page.
+        this.onDismissSessionExpired();
+
         const {location} = this.props;
         const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
         if (newQuery !== location.search) {
@@ -186,14 +189,20 @@ class LoginController extends React.Component {
 
         // password managers don't always call onInput handlers for form fields so it's possible
         // for the state to get out of sync with what the user sees in the browser
-        let loginId = this.refs.loginId.value;
-        if (loginId !== this.state.loginId) {
-            this.setState({loginId});
+        let loginId = this.state.loginId;
+        if (this.refs.loginId) {
+            loginId = this.refs.loginId.value;
+            if (loginId !== this.state.loginId) {
+                this.setState({loginId});
+            }
         }
 
-        const password = this.refs.password.value;
-        if (password !== this.state.password) {
-            this.setState({password});
+        let password = this.state.password;
+        if (this.refs.password) {
+            password = this.refs.password.value;
+            if (password !== this.state.password) {
+                this.setState({password});
+            }
         }
 
         // don't trim the password since we support spaces in passwords
@@ -553,17 +562,18 @@ class LoginController extends React.Component {
             );
 
             if (this.state.loading) {
-                loginButton =
-                (<span>
-                    <span
-                        className='fa fa-refresh icon--rotate'
-                        title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
-                    />
-                    <FormattedMessage
-                        id='login.signInLoading'
-                        defaultMessage='Signing in...'
-                    />
-                </span>);
+                loginButton = (
+                    <span id='login_button_signing'>
+                        <span
+                            className='fa fa-refresh icon--rotate'
+                            title={Utils.localizeMessage('generic_icons.loading', 'Loading Icon')}
+                        />
+                        <FormattedMessage
+                            id='login.signInLoading'
+                            defaultMessage='Signing in...'
+                        />
+                    </span>
+                );
             }
 
             loginControls.push(
@@ -646,6 +656,7 @@ class LoginController extends React.Component {
         if (usernameSigninEnabled || emailSigninEnabled) {
             loginControls.push(
                 <div
+                    id='login_forgot'
                     key='forgotPassword'
                     className='form-group'
                 >
@@ -825,7 +836,10 @@ class LoginController extends React.Component {
             <div>
                 <AnnouncementBar/>
                 {backButton}
-                <div className='col-sm-12'>
+                <div
+                    id='login_section'
+                    className='col-sm-12'
+                >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>
                             {customContent}
