@@ -98,7 +98,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     getContainer = () => {
-        return this.refs.editModalBody;
+        return this.refs.emojiPickerContainer;
     }
 
     toggleEmojiPicker = () => {
@@ -300,9 +300,7 @@ export default class EditPostModal extends React.PureComponent {
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        // - allows picker to be added on top of everything
-                        //   for mobile fullscreensupport
-                        // container={this.getContainer}
+                        container={this.getContainer}
                         target={this.getEditPostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClose={this.handleEmojiClose}
@@ -393,6 +391,16 @@ export default class EditPostModal extends React.PureComponent {
                         />
                     </button>
                 </Modal.Footer>
+                {/*
+                    Custom container for emoji picker to support fullscreen
+                    on mobile screens < 480 and positioning with the edit modal
+                    on screens > 480
+                */}
+                <div
+                    ref="emojiPickerContainer"
+                    className="modal-emoji-container"
+                    >
+                </div>
             </Modal>
         );
     }

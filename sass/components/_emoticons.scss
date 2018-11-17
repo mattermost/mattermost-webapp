@@ -47,6 +47,22 @@
     vertical-align: middle;
 }
 
+// Custom container for emoji picker to support fullscreen
+// on mobile screens < 480 and positioning with the edit modal
+// on screens > 480
+.modal-emoji-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    > * {
+        pointer-events: all;
+    }
+}
+
 .emoji-picker {
     @include border-radius($border-rad);
     @include clearfix;
