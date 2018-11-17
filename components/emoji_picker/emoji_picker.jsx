@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
-import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Emoji from 'utils/emoji.jsx';
@@ -495,7 +494,12 @@ export default class EmojiPicker extends React.PureComponent {
                     <span aria-hidden="true">×</span>
                     <span className="sr-only">Close</span>
                 </button>
-                <h4 className="modal-title emoji-picker__header-title"><span>Emoji Picker</span></h4>
+                <h4 className="modal-title emoji-picker__header-title">
+                    <FormattedMessage
+                        id={'emoji_picker.header'}
+                        defaultMessage={'Emoji Picker'}
+                    />
+                </h4>
             </div>
         );
     }
