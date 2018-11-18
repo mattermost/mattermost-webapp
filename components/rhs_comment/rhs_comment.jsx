@@ -384,6 +384,7 @@ export default class RhsComment extends React.Component {
                     location={'RHS_COMMENT'}
                     isFlagged={this.props.isFlagged}
                     handleDropdownOpened={this.handleDropdownOpened}
+                    handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
                 />
             );
