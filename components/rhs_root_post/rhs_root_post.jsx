@@ -330,6 +330,7 @@ export default class RhsRootPost extends React.Component {
                 location={'RHS_ROOT'}
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
+                handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
                 isReadOnly={isReadOnly || channelIsArchived}
             />
