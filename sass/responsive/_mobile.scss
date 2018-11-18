@@ -1244,7 +1244,8 @@
             }
 
             .emoji-rhs {
-                display: none;
+                // bring back the emoji picker for mobile
+                // display: none;
                 position: relative;
                 right: -1px;
                 top: 1px;
