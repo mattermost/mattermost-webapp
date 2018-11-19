@@ -1075,7 +1075,7 @@ export const Constants = {
         diff: {name: 'Diff', extensions: ['diff', 'patch'], aliases: ['patch', 'udiff']},
         django: {name: 'Django', extensions: ['django', 'jinja']},
         dockerfile: {name: 'Dockerfile', extensions: ['dockerfile', 'docker'], aliases: ['docker']},
-        elixir: {name: 'Elixir', extensions: ['ex','exs'], aliases: ['ex','exs']},
+        elixir: {name: 'Elixir', extensions: ['ex', 'exs'], aliases: ['ex', 'exs']},
         erlang: {name: 'Erlang', extensions: ['erl'], aliases: ['erl']},
         fortran: {name: 'Fortran', extensions: ['f90', 'f95']},
         fsharp: {name: 'F#', extensions: ['fsharp', 'fs']},
