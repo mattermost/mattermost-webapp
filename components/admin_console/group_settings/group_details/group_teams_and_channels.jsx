@@ -33,15 +33,13 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         this.setState({collapsed});
     }
 
-    onRemoveItem = (id, type) => {
+    onRemoveItem = async (id, type) => {
         if (type === 'public-team' || type === 'private-team') {
-            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM).then(() => {
-                this.props.actions.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_TEAM);
-            });
+            await this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM);
+            await this.props.actions.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_TEAM);
         } else {
-            this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL).then(() => {;
-                this.props.actions.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
-            });
+            await this.props.actions.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL);
+            await this.props.actions.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
         }
     }
 
