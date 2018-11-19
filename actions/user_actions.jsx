@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
+import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -17,14 +17,12 @@ import {
 import {getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
-import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -122,7 +120,13 @@ export function loadChannelMembersForProfilesMap(profiles, channelId = getCurren
         return;
     }
 
-    getChannelMembersForUserIds(channelId, list, success, error);
+    dispatch(getChannelMembersByIds(channelId, list)).then((result) => {
+        if (result.error) {
+            error(result.error);
+        } else {
+            success(result.data);
+        }
+    });
 }
 
 export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId = getCurrentTeamId(getState()), channelId = getCurrentChannelId(getState()), success, error) {
@@ -150,7 +154,13 @@ export function loadChannelMembersForProfilesList(profiles, channelId = getCurre
         return;
     }
 
-    getChannelMembersForUserIds(channelId, list, success, error);
+    dispatch(getChannelMembersByIds(channelId, list)).then((result) => {
+        if (result.error) {
+            error(result.error);
+        } else {
+            success(result.data);
+        }
+    });
 }
 
 export async function loadNewDMIfNeeded(channelId) {
@@ -381,15 +391,6 @@ export async function updateUser(user, success, error) {
     }
 }
 
-export async function generateMfaSecret(success, error) {
-    const {data, error: err} = await UserActions.generateMfaSecret(Selectors.getCurrentUserId(getState()))(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function updateUserNotifyProps(props, success, error) {
     const {data, error: err} = await UserActions.updateMe({notify_props: props})(dispatch, getState);
     if (data && success) {
@@ -402,40 +403,6 @@ export async function updateUserNotifyProps(props, success, error) {
 export async function updateUserRoles(userId, newRoles, success, error) {
     const {data, error: err} = await UserActions.updateUserRoles(userId, newRoles)(dispatch, getState);
     if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function activateMfa(code, success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), true, code)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function deactivateMfa(success, error) {
-    const {data, error: err} = await UserActions.updateUserMfa(Selectors.getCurrentUserId(getState()), false)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function checkMfa(loginId, success, error) {
-    const config = getConfig(getState());
-
-    if (config.EnableMultifactorAuthentication !== 'true') {
-        success(false);
-        return;
-    }
-
-    const {data, error: err} = await UserActions.checkMfa(loginId)(dispatch, getState);
-    if (data != null && success) {
         success(data);
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
@@ -503,47 +470,8 @@ export async function resendVerification(email, success, error) {
     }
 }
 
-export async function loginById(userId, password, mfaToken, success, error) {
-    const {data: ok, error: err} = await UserActions.loginById(userId, password, mfaToken)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function createUserWithInvite(user, token, inviteId, success, error) {
-    const {data: resp, error: err} = await UserActions.createUser(user, token, inviteId)(dispatch, getState);
-    if (resp && success) {
-        success(resp);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function webLogin(loginId, password, token, success, error) {
-    const {data: ok, error: err} = await UserActions.login(loginId, password, token)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function updateTermsOfServiceStatus(termsOfServiceId, accepted, success, error) {
-    const {data, error: err} = await UserActions.updateTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
+    const {data, error: err} = await UserActions.updateMyTermsOfServiceStatus(termsOfServiceId, accepted)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -556,21 +484,6 @@ export async function getTermsOfService(success, error) {
     if (data && success) {
         success(data);
     } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function webLoginByLdap(loginId, password, token, success, error) {
-    const {data: ok, error: err} = await UserActions.login(loginId, password, token, true)(dispatch, getState);
-    if (ok && success) {
-        success();
-    } else if (err && error) {
-        if (err.server_error_id === 'api.context.mfa_required.app_error') {
-            if (success) {
-                success();
-            }
-            return;
-        }
         error({id: err.server_error_id, ...err});
     }
 }
@@ -660,7 +573,7 @@ export function autoResetStatus() {
         const {currentUserId} = getState().entities.users;
         const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
 
-        if (!userStatus.manual) {
+        if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual) {
             return userStatus;
         }
 

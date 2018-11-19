@@ -4,10 +4,8 @@
 import React from 'react';
 import * as Selectors from 'mattermost-redux/selectors/entities/teams';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
@@ -66,10 +64,10 @@ function quickSwitchSorter(a, b) {
 }
 
 export default class SwitchTeamProvider extends Provider {
-    handlePretextChanged(suggestionId, teamPrefix) {
+    handlePretextChanged(teamPrefix, resultsCallback) {
         if (teamPrefix) {
             prefix = teamPrefix;
-            this.startNewRequest(suggestionId, teamPrefix);
+            this.startNewRequest(teamPrefix);
 
             const allTeams = Selectors.getMyTeams(getState());
 
@@ -82,16 +80,12 @@ export default class SwitchTeamProvider extends Provider {
                 sort(quickSwitchSorter).
                 map((team) => team.name);
 
-            setTimeout(() => {
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: teamPrefix,
-                    terms: teamNames,
-                    items: teams,
-                    component: SwitchTeamSuggestion,
-                });
-            }, 0);
+            resultsCallback({
+                matchedPretext: teamPrefix,
+                terms: teamNames,
+                items: teams,
+                component: SwitchTeamSuggestion,
+            });
 
             return true;
         }

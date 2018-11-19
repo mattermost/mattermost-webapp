@@ -9,6 +9,8 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {addReaction} from 'actions/post_actions.jsx';
+
 import ReactionList from './reaction_list.jsx';
 
 function makeMapStateToProps() {
@@ -34,7 +36,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getReactionsForPost: Actions.getReactionsForPost,
-            addReaction: Actions.addReaction,
+            addReaction,
         }, dispatch),
     };
 }

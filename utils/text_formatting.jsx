@@ -501,7 +501,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
                     term = term.substr(1);
                 }
 
-                if (alias.startsWith('$MM_HASHTAG') && alias.endsWith('$') && originalText !== term) {
+                if (alias.startsWith('$MM_HASHTAG') && alias.endsWith('$') && originalText.toLowerCase() !== term.toLowerCase()) {
                     continue;
                 }
 

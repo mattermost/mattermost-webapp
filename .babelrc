@@ -4,9 +4,9 @@
             targets: {
                 chrome: 66,
                 firefox: 60,
-                edge: 41,
+                edge: 42,
                 ie: 11,
-                ios: 11,
+                safari: 12,
             },
             modules: false,
             debug: false,
@@ -28,9 +28,9 @@
                     targets: {
                         chrome: 66,
                         firefox: 60,
-                        edge: 41,
+                        edge: 42,
                         ie: 11,
-                        ios: 11,
+                        safari: 12,
                     },
                     debug: false,
                     useBuiltIns: 'usage',

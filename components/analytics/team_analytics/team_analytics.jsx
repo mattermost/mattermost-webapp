@@ -9,7 +9,6 @@ import {General} from 'mattermost-redux/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import AnalyticsStore from 'stores/analytics_store.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {StatTypes} from 'utils/constants.jsx';
 import Banner from 'components/admin_console/banner.jsx';
@@ -17,6 +16,8 @@ import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
 
 import {getMonthLong} from 'utils/i18n';
 
@@ -41,6 +42,7 @@ export default class TeamAnalytics extends React.Component {
          * The locale of the current user
           */
         locale: PropTypes.string.isRequired,
+        stats: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
 
@@ -59,19 +61,14 @@ export default class TeamAnalytics extends React.Component {
     constructor(props) {
         super(props);
 
-        const teamId = props.initialTeam ? props.initialTeam.id : '';
-
         this.state = {
             team: props.initialTeam,
-            stats: AnalyticsStore.getAllTeam(teamId),
             recentlyActiveUsers: [],
             newUsers: [],
         };
     }
 
     componentDidMount() {
-        AnalyticsStore.addChangeListener(this.onChange);
-
         if (this.state.team) {
             this.getData(this.state.team.id);
         }
@@ -98,17 +95,6 @@ export default class TeamAnalytics extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        AnalyticsStore.removeChangeListener(this.onChange);
-    }
-
-    onChange = () => {
-        const teamId = this.state.team ? this.state.team.id : '';
-        this.setState({
-            stats: AnalyticsStore.getAllTeam(teamId),
-        });
-    }
-
     handleTeamChange = (e) => {
         const teamId = e.target.value;
 
@@ -127,7 +113,7 @@ export default class TeamAnalytics extends React.Component {
     }
 
     render() {
-        if (this.props.teams.length === 0 || !this.state.team || !this.state.stats) {
+        if (this.props.teams.length === 0 || !this.state.team || !this.props.stats[this.state.team.id]) {
             return <LoadingScreen/>;
         }
 
@@ -144,7 +130,7 @@ export default class TeamAnalytics extends React.Component {
             );
         }
 
-        const stats = this.state.stats;
+        const stats = this.props.stats[this.state.team.id];
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
@@ -250,15 +236,13 @@ export default class TeamAnalytics extends React.Component {
             <div className='wrapper--fixed team_statistics'>
                 <div className='admin-console-header team-statistics__header-row'>
                     <div className='team-statistics__header'>
-                        <h3 className='admin-console-header'>
-                            <FormattedMessage
-                                id='analytics.team.title'
-                                defaultMessage='Team Statistics for {team}'
-                                values={{
-                                    team: this.state.team.display_name,
-                                }}
-                            />
-                        </h3>
+                        <FormattedAdminHeader
+                            id='analytics.team.title'
+                            defaultMessage='Team Statistics for {team}'
+                            values={{
+                                team: this.state.team.display_name,
+                            }}
+                        />
                     </div>
                     <div className='team-statistics__team-filter'>
                         <select

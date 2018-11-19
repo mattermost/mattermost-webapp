@@ -17,30 +17,15 @@ export default class DeletePostModal extends React.PureComponent {
         teamName: PropTypes.string,
         post: PropTypes.object.isRequired,
         commentCount: PropTypes.number.isRequired,
-
-        /**
-         * Does the post come from RHS mode
-         */
         isRHS: PropTypes.bool.isRequired,
-
-        /**
-        * Function called when modal is dismissed
-        */
         onHide: PropTypes.func.isRequired,
-
         actions: PropTypes.shape({
-
-            /**
-            * Function called for deleting post
-            */
             deleteAndRemovePost: PropTypes.func.isRequired,
         }),
     }
 
     constructor(props) {
         super(props);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.onHide = this.onHide.bind(this);
         this.state = {
             show: true,
         };
@@ -66,7 +51,13 @@ export default class DeletePostModal extends React.PureComponent {
         }
     }
 
-    onHide() {
+    handleEntered = () => {
+        if (this.deletePostBtn) {
+            this.deletePostBtn.focus();
+        }
+    }
+
+    onHide = () => {
         this.setState({show: false});
 
         if (!UserAgent.isMobile()) {
@@ -111,6 +102,7 @@ export default class DeletePostModal extends React.PureComponent {
         return (
             <Modal
                 show={this.state.show}
+                onEntered={this.handleEntered}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 enforceFocus={false}

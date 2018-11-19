@@ -22,7 +22,7 @@ export default class SettingItemMax extends React.PureComponent {
         /**
          * Array of inputs selection
          */
-        inputs: PropTypes.array,
+        inputs: PropTypes.node,
 
         /**
          * Styles for main component

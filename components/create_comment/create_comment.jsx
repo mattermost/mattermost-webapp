@@ -23,6 +23,7 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -133,6 +134,11 @@ export default class CreateComment extends React.PureComponent {
         onEditLatestPost: PropTypes.func.isRequired,
 
         /**
+         * Function to get the users timezones in the channel
+         */
+        getChannelTimezones: PropTypes.func.isRequired,
+
+        /**
          * Reset state of createPost request
          */
         resetCreatePostRequest: PropTypes.func.isRequired,
@@ -158,10 +164,20 @@ export default class CreateComment extends React.PureComponent {
         enableGifPicker: PropTypes.bool.isRequired,
 
         /**
+         * Set if the connection may be bad to warn user
+         */
+        badConnection: PropTypes.bool.isRequired,
+
+        /**
          * The maximum length of a post
          */
         maxPostSize: PropTypes.number.isRequired,
         rhsExpanded: PropTypes.bool.isRequired,
+
+        /**
+         * To check if the timezones are enable on the server.
+         */
+        isTimezoneEnabled: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -176,10 +192,12 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress: [],
                 fileInfos: [],
             },
+            channelMembersCount: 0,
         };
 
         this.lastBlurAt = 0;
         this.draftsForPost = {};
+        this.doInitialScrollToBottom = false;
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -191,6 +209,13 @@ export default class CreateComment extends React.PureComponent {
     componentDidMount() {
         this.focusTextbox();
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+
+        // When draft.message is not empty, set doInitialScrollToBottom to true so that
+        // on next component update, the actual this.scrollToBottom() will be called.
+        // This is made so that the this.scrollToBottom() will be called only once.
+        if (this.props.draft.message !== '') {
+            this.doInitialScrollToBottom = true;
+        }
     }
 
     componentWillUnmount() {
@@ -218,6 +243,11 @@ export default class CreateComment extends React.PureComponent {
 
         if (prevProps.rootId !== this.props.rootId) {
             this.focusTextbox();
+        }
+
+        if (this.doInitialScrollToBottom) {
+            this.scrollToBottom();
+            this.doInitialScrollToBottom = false;
         }
     }
 
@@ -331,6 +361,18 @@ export default class CreateComment extends React.PureComponent {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (this.props.isTimezoneEnabled) {
+            this.props.getChannelTimezones(this.props.channelId).then(
+                (data) => {
+                    if (data.data) {
+                        this.setState({channelMembersCount: data.data.length});
+                    } else {
+                        this.setState({channelMembersCount: 0});
+                    }
+                }
+            );
+        }
 
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
@@ -647,15 +689,29 @@ export default class CreateComment extends React.PureComponent {
             />
         );
 
-        const notifyAllMessage = (
-            <FormattedMessage
-                id='notify_all.question'
-                defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
-                values={{
-                    totalMembers: this.props.channelMembersCount - 1,
-                }}
-            />
-        );
+        let notifyAllMessage = '';
+        if (this.state.channelMembersCount && this.props.isTimezoneEnabled) {
+            notifyAllMessage = (
+                <FormattedMarkdownMessage
+                    id='notify_all.question_timezone'
+                    defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: this.props.channelMembersCount - 1,
+                        timezones: this.state.channelMembersCount,
+                    }}
+                />
+            );
+        } else {
+            notifyAllMessage = (
+                <FormattedMessage
+                    id='notify_all.question'
+                    defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
+                    values={{
+                        totalMembers: this.props.channelMembersCount - 1,
+                    }}
+                />
+            );
+        }
 
         let serverError = null;
         if (this.state.serverError) {
@@ -785,6 +841,7 @@ export default class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
+                                badConnection={this.props.badConnection}
                             />
                             <span
                                 ref='createCommentControls'

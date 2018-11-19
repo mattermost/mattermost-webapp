@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import {updatePost} from 'actions/post_actions.jsx';
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
@@ -40,6 +39,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         actions: PropTypes.shape({
 
+            editPost: PropTypes.func.isRequired,
+
             /**
              * The function to get open graph data for a link
              */
@@ -69,11 +70,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             YES: 'yes',
             ERROR: 'error',
         };
-
-        this.fetchData = this.fetchData.bind(this);
-        this.onImageLoad = this.onImageLoad.bind(this);
-        this.onImageError = this.onImageError.bind(this);
-        this.handleRemovePreview = this.handleRemovePreview.bind(this);
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -103,7 +99,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         setTimeout(postListScrollChange, 0);
     }
 
-    fetchData(url) {
+    fetchData = (url) => {
         if (!this.props.openGraphData) {
             this.props.actions.getOpenGraphMetadata(url);
         }
@@ -118,7 +114,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return bestImage.secure_url || bestImage.url;
     }
 
-    onImageLoad(image) {
+    onImageLoad = (image) => {
         this.imageRatio = image.target.naturalWidth / image.target.naturalHeight;
         if (
             image.target.naturalWidth >= this.largeImageMinWidth &&
@@ -134,7 +130,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         });
     }
 
-    onImageError() {
+    onImageError = () => {
         this.setState({imageLoaded: this.IMAGE_LOADED.ERROR});
     }
 
@@ -223,7 +219,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return text;
     }
 
-    handleRemovePreview() {
+    handleRemovePreview = async () => {
         const props = Object.assign({}, this.props.post.props);
         props[PostTypes.REMOVE_LINK_PREVIEW] = 'true';
 
@@ -232,9 +228,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             props,
         });
 
-        updatePost(patchedPost, () => {
+        const {data} = await this.props.actions.editPost(patchedPost);
+        if (data) {
             this.setState({removePreview: true});
-        });
+        }
     }
 
     isRemovePreview(post) {

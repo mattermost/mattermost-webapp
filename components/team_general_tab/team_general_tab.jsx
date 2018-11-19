@@ -246,9 +246,7 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    handleTeamIconSubmit = async (e) => {
-        e.preventDefault();
-
+    handleTeamIconSubmit = async () => {
         if (!this.state.teamIconFile) {
             return;
         }
@@ -279,9 +277,7 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    handleTeamIconRemove = async (e) => {
-        e.preventDefault();
-
+    handleTeamIconRemove = async () => {
         this.setState({
             loadingIcon: true,
             clientError: '',

@@ -17,6 +17,7 @@ import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
+import InviteMemberModal from 'components/invite_member_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -123,7 +124,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
 
         this.props.onToggleDropdown(false);
 
-        GlobalActions.showInviteMemberModal();
+        this.props.actions.openModal({ModalId: ModalIdentifiers.EMAIL_INVITE, dialogType: InviteMemberModal});
     }
 
     showGetTeamInviteLinkModal = (e) => {

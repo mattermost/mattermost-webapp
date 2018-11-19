@@ -4,10 +4,10 @@
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions} from 'mattermost-redux/constants';
 
-import UserStore from 'stores/user_store.jsx';
 import store from 'stores/redux_store.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -15,6 +15,8 @@ import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
+
+const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
 export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
@@ -29,7 +31,7 @@ export function isFromWebhook(post) {
 }
 
 export function isPostOwner(post) {
-    return UserStore.getCurrentId() === post.user_id;
+    return getCurrentUserId(store.getState()) === post.user_id;
 }
 
 export function isComment(post) {
@@ -193,14 +195,23 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     return {allowSending: false};
 }
 
-export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter) {
-    if (
-        !event ||
-        isMobile() ||
-        !Utils.isKeyPressed(event, Constants.KeyCodes.ENTER) ||
-        event.shiftKey ||
-        event.altKey
-    ) {
+export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0) {
+    if (!event) {
+        return {allowSending: false};
+    }
+
+    // Typing enter on mobile never sends.
+    if (isMobile()) {
+        return {allowSending: false};
+    }
+
+    // Only ENTER sends, unless shift or alt key pressed.
+    if (!Utils.isKeyPressed(event, Constants.KeyCodes.ENTER) || event.shiftKey || event.altKey) {
+        return {allowSending: false};
+    }
+
+    // Don't send if we just switched channels within a threshold.
+    if (lastChannelSwitchAt > 0 && now > 0 && now - lastChannelSwitchAt <= CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS) {
         return {allowSending: false};
     }
 

@@ -192,6 +192,7 @@ export default class PostMessageView extends React.PureComponent {
                         isRHS={isRHS}
                         options={options}
                         post={post}
+                        channelId={post.channel_id}
                     />
                 </div>
                 {this.renderEditedIndicator()}

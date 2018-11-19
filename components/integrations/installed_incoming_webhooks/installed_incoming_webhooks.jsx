@@ -58,7 +58,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             /**
             * The function to call for incomingWebhook List and for the status of api
             */
-            getIncomingHooks: PropTypes.func,
+            loadIncomingHooksAndProfilesForTeam: PropTypes.func,
         }),
 
         /**
@@ -70,8 +70,6 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.deleteIncomingWebhook = this.deleteIncomingWebhook.bind(this);
-        this.incomingWebhookCompare = this.incomingWebhookCompare.bind(this);
         this.state = {
             loading: true,
         };
@@ -79,7 +77,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.enableIncomingWebhooks) {
-            this.props.actions.getIncomingHooks(
+            this.props.actions.loadIncomingHooksAndProfilesForTeam(
                 this.props.teamId,
                 Constants.Integrations.START_PAGE_NUM,
                 Constants.Integrations.PAGE_SIZE
@@ -93,7 +91,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         this.props.actions.removeIncomingHook(incomingWebhook.id);
     }
 
-    incomingWebhookCompare(a, b) {
+    incomingWebhookCompare = (a, b) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
             const channelA = this.props.channels[a.channel_id];

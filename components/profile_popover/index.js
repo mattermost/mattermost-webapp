@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 
@@ -23,6 +24,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            openDirectChannelToUserId,
             openModal,
         }, dispatch),
     };

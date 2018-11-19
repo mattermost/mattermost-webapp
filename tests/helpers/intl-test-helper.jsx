@@ -5,7 +5,7 @@ import React from 'react';
 import {IntlProvider, intlShape} from 'react-intl';
 import {mount, shallow} from 'enzyme';
 
-const intlProvider = new IntlProvider({locale: 'en'}, {});
+const intlProvider = new IntlProvider({locale: 'en', timeZone: 'Etc/UTC'}, {});
 const {intl} = intlProvider.getChildContext();
 
 export function shallowWithIntl(node, {context} = {}) {

@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import ErrorStore from 'stores/error_store.jsx';
-import {AnnouncementBarMessages} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import EmailConnectionTest from 'components/admin_console/email_connection_test';
@@ -27,7 +25,6 @@ export default class EmailSettings extends AdminSettings {
         super(props);
 
         this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.handleSaved = this.handleSaved.bind(this);
         this.renderSettings = this.renderSettings.bind(this);
     }
 
@@ -49,12 +46,6 @@ export default class EmailSettings extends AdminSettings {
         config.EmailSettings.EmailNotificationContentsType = this.state.emailNotificationContentsType;
 
         return config;
-    }
-
-    handleSaved(newConfig) {
-        if (newConfig.EmailSettings.SendEmailNotifications || !newConfig.EmailSettings.EnablePreviewModeBanner) {
-            ErrorStore.clearError(AnnouncementBarMessages.PREVIEW_MODE);
-        }
     }
 
     getStateFromConfig(config) {

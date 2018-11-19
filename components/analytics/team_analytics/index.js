@@ -23,6 +23,7 @@ function mapStateToProps(state) {
         initialTeam,
         locale: getCurrentLocale(state),
         teams,
+        stats: state.entities.admin.teamAnalytics,
     };
 }
 

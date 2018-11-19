@@ -86,7 +86,8 @@ export default class PluginRegistry {
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
-    registerChannelHeaderButtonAction(icon, action, dropdownText) {
+    // - tooltip_text - string shown for tooltip appear on hover
+    registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
         const data = {
@@ -95,6 +96,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             action,
             dropdownText: resolveReactElement(dropdownText),
+            tooltipText,
         };
 
         store.dispatch({
@@ -280,6 +282,11 @@ export default class PluginRegistry {
         unregisterPluginReconnectHandler(this.id);
     }
 
+    // Register a hook that will be called before a message is formatted into Markdown.
+    // Accepts a function that receives the unmodified post and the message (potentially
+    // already modified by other hooks) as arguments. This function must return a string
+    // message that will be formatted.
+    // Returns a unique identifier.
     registerMessageWillFormatHook(hook) {
         const id = generateId();
 

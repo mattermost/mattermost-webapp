@@ -3,11 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addReaction, removePost} from 'mattermost-redux/actions/posts';
+import {removePost} from 'mattermost-redux/actions/posts';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {addReaction} from 'actions/post_actions.jsx';
 
 import {Preferences} from 'utils/constants.jsx';
 

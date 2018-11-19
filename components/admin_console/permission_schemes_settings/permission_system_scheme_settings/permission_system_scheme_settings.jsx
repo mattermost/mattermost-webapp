@@ -136,21 +136,19 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         const channelUserPromise = this.props.actions.editRole(roles.channel_user);
         this.setState({saving: true});
 
-        Promise.all([teamAdminPromise, channelAdminPromise, systemUserPromise, teamUserPromise, channelUserPromise]).then(
-            (results) => {
-                let serverError = null;
-                let saveNeeded = false;
-                for (const result of results) {
-                    if (result.error) {
-                        serverError = result.error.message;
-                        saveNeeded = true;
-                        break;
-                    }
-                }
-                this.setState({serverError, saving: false, saveNeeded});
-                this.props.actions.setNavigationBlocked(saveNeeded);
+        const results = await Promise.all([teamAdminPromise, channelAdminPromise, systemUserPromise, teamUserPromise, channelUserPromise]);
+        let serverError = null;
+        let saveNeeded = false;
+        for (const result of results) {
+            if (result.error) {
+                serverError = result.error.message;
+                saveNeeded = true;
+                break;
             }
-        );
+        }
+
+        this.setState({serverError, saving: false, saveNeeded});
+        this.props.actions.setNavigationBlocked(saveNeeded);
     }
 
     toggleRole = (roleId) => {

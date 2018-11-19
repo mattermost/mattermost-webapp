@@ -6,16 +6,19 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import * as EmojiActions from 'actions/emoji_actions.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
+import {browserHistory} from 'utils/browser_history';
 
 export default class AddEmoji extends React.Component {
     static propTypes = {
+        actions: PropTypes.shape({
+            createCustomEmoji: PropTypes.func.isRequired,
+        }).isRequired,
+        emojiMap: PropTypes.object.isRequired,
         team: PropTypes.object,
         user: PropTypes.object,
-        emojiMap: PropTypes.object.isRequired,
     };
 
     static contextTypes = {
@@ -34,10 +37,13 @@ export default class AddEmoji extends React.Component {
         };
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
+        const {actions, emojiMap, user, team} = this.props;
+        const {image, name, saving} = this.state;
+
         e.preventDefault();
 
-        if (this.state.saving) {
+        if (saving) {
             return;
         }
 
@@ -47,8 +53,8 @@ export default class AddEmoji extends React.Component {
         });
 
         const emoji = {
-            creator_id: this.props.user.id,
-            name: this.state.name.trim().toLowerCase(),
+            creator_id: user.id,
+            name: name.trim().toLowerCase(),
         };
 
         // trim surrounding colons if the user accidentally included them in the name
@@ -80,7 +86,7 @@ export default class AddEmoji extends React.Component {
             });
 
             return;
-        } else if (this.props.emojiMap.hasSystemEmoji(emoji.name)) {
+        } else if (emojiMap.hasSystemEmoji(emoji.name)) {
             this.setState({
                 saving: false,
                 error: (
@@ -94,7 +100,7 @@ export default class AddEmoji extends React.Component {
             return;
         }
 
-        if (!this.state.image) {
+        if (!image) {
             this.setState({
                 saving: false,
                 error: (
@@ -108,26 +114,23 @@ export default class AddEmoji extends React.Component {
             return;
         }
 
-        EmojiActions.addEmoji(
-            emoji,
-            this.state.image,
-            () => {
-                this.props.history.push('/' + this.props.team.name + '/emoji');
-            },
-            (err) => {
-                this.setState({
-                    saving: false,
-                    error: err.message,
-                });
-            }
-        );
-    }
+        const {error} = await actions.createCustomEmoji(emoji, image);
+        if (error) {
+            this.setState({
+                saving: false,
+                error: error.message,
+            });
+            return;
+        }
+
+        browserHistory.push('/' + team.name + '/emoji');
+    };
 
     updateName = (e) => {
         this.setState({
             name: e.target.value,
         });
-    }
+    };
 
     updateImage = (e) => {
         if (e.target.files.length === 0) {
@@ -149,7 +152,7 @@ export default class AddEmoji extends React.Component {
             });
         };
         reader.readAsDataURL(image);
-    }
+    };
 
     render() {
         let filename = null;
@@ -258,6 +261,7 @@ export default class AddEmoji extends React.Component {
                                             />
                                         </button>
                                         <input
+                                            id='select-emoji'
                                             type='file'
                                             accept='.jpg,.png,.gif'
                                             multiple={false}

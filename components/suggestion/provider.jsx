@@ -9,7 +9,7 @@ export default class Provider {
         this.requestStarted = false;
     }
 
-    handlePretextChanged(suggestionId, pretext) { // eslint-disable-line no-unused-vars
+    handlePretextChanged(pretext) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 
@@ -17,7 +17,7 @@ export default class Provider {
         this.requestStarted = false;
     }
 
-    startNewRequest(suggestionId, prefix) {
+    startNewRequest(prefix) {
         this.latestPrefix = prefix;
         this.latestComplete = false;
         this.requestStarted = true;

@@ -12,6 +12,7 @@ function mapStateToProps(state) {
 
     return {
         isLicensed,
+        stats: state.entities.admin.analytics,
     };
 }
 

@@ -9,9 +9,15 @@ import {FormattedMessage} from 'react-intl';
 import {oauthToEmail} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
-export default class OAuthToEmail extends React.Component {
+export default class OAuthToEmail extends React.PureComponent {
+    static propTypes = {
+        currentType: PropTypes.string,
+        email: PropTypes.string,
+        siteName: PropTypes.string,
+        passwordConfig: PropTypes.object,
+    };
+
     constructor(props) {
         super(props);
 
@@ -51,8 +57,10 @@ export default class OAuthToEmail extends React.Component {
             this.props.currentType,
             this.props.email,
             password,
-            () => {
-                emitUserLoggedOutEvent('/', false, true);
+            (data) => {
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
             },
             (err) => {
                 this.setState({error: err.message});
@@ -137,10 +145,3 @@ export default class OAuthToEmail extends React.Component {
         );
     }
 }
-
-OAuthToEmail.propTypes = {
-    currentType: PropTypes.string,
-    email: PropTypes.string,
-    siteName: PropTypes.string,
-    passwordConfig: PropTypes.object,
-};
