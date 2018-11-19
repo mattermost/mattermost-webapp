@@ -4,7 +4,7 @@
         "password": "sysadmin",
         "email": "sysadmin@sample.mattermost.com"
     },
-    "user1": {
+    "user-1": {
         "username": "user-1",
         "password": "user-1",
         "email": "user-1@sample.mattermost.com"

@@ -616,7 +616,10 @@ export default class UserSettingsSidebar extends React.Component {
                     }
                     inputs={[
                         <div key='channelSwitcherSectionSetting'>
-                            <div className='radio'>
+                            <div
+                                id='channelSwitcherRadioOn'
+                                className='radio'
+                            >
                                 <label>
                                     <input
                                         id='channelSwitcherSectionEnabled'
@@ -632,7 +635,10 @@ export default class UserSettingsSidebar extends React.Component {
                                 </label>
                                 <br/>
                             </div>
-                            <div className='radio'>
+                            <div
+                                id='channelSwitcherRadioOff'
+                                className='radio'
+                            >
                                 <label>
                                     <input
                                         id='channelSwitcherSectionOff'
@@ -648,7 +654,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 </label>
                                 <br/>
                             </div>
-                            <div>
+                            <div id='channelSwitcherHelpText'>
                                 <br/>
                                 {helpChannelSwitcherText}
                             </div>
@@ -715,7 +721,10 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h4>
                 </div>
-                <div className='user-settings'>
+                <div
+                    id='sidebarTitle'
+                    className='user-settings'
+                >
                     <h3 className='tab-header'>
                         <FormattedMessage
                             id='user.settings.sidebar.title'
