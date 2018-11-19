@@ -79,6 +79,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           container={[Function]}
           enableGifPicker={false}
           onEmojiClick={[Function]}
+          onEmojiClose={[Function]}
           onGifClick={[Function]}
           onHide={[Function]}
           rightOffset={50}
@@ -125,6 +126,9 @@ exports[`components/EditPostModal should match with default config 1`] = `
       />
     </button>
   </ModalFooter>
+  <div
+    className="modal-emoji-container"
+  />
 </Modal>
 `;
 
@@ -313,6 +317,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           container={[Function]}
           enableGifPicker={false}
           onEmojiClick={[Function]}
+          onEmojiClose={[Function]}
           onGifClick={[Function]}
           onHide={[Function]}
           rightOffset={50}
@@ -359,6 +364,9 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       />
     </button>
   </ModalFooter>
+  <div
+    className="modal-emoji-container"
+  />
 </Modal>
 `;
 
@@ -441,6 +449,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           container={[Function]}
           enableGifPicker={false}
           onEmojiClick={[Function]}
+          onEmojiClose={[Function]}
           onGifClick={[Function]}
           onHide={[Function]}
           rightOffset={50}
@@ -493,5 +502,8 @@ exports[`components/EditPostModal should show errors when it is set in the state
       />
     </button>
   </ModalFooter>
+  <div
+    className="modal-emoji-container"
+  />
 </Modal>
 `;
