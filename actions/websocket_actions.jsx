@@ -48,6 +48,7 @@ import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatu
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
+import InteractiveDialog from 'components/interactive_dialog';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -862,5 +863,15 @@ function handlePluginStatusesChangedEvent(msg) {
 
 function handleOpenDialogEvent(msg) {
     const data = (msg.data && msg.data.dialog) || {};
-    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: JSON.parse(data)});
+    const dialog = JSON.parse(data);
+
+    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
+
+    const currentTriggerId = getState().entities.integrations.dialogTriggerId;
+
+    if (dialog.trigger_id !== currentTriggerId) {
+        return;
+    }
+
+    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
 }
