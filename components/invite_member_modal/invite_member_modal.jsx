@@ -53,6 +53,7 @@ class InviteMemberModal extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
         defaultChannelName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired,
+        teamId: PropTypes.string.isRequired,
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             sendEmailInvitesToTeam: PropTypes.func.isRequired,
@@ -121,7 +122,7 @@ class InviteMemberModal extends React.PureComponent {
 
         this.setState({isSendingEmails: true});
 
-        const {data, error} = await this.props.actions.sendEmailInvitesToTeam(this.props.currentUser.id, emails);
+        const {data, error} = await this.props.actions.sendEmailInvitesToTeam(this.props.teamId, emails);
         if (data) {
             this.handleHide(false);
             this.setState({isSendingEmails: false});
