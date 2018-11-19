@@ -1771,7 +1771,7 @@
   "error.generic.title": "Error",
   "error.local_storage.help1": "Enable cookies",
   "error.local_storage.help2": "Turn off private browsing",
-  "error.local_storage.help3": "Use a supported browser (IE 11, Chrome 43+, Firefox 52+, Safari 9, Edge 40+)",
+  "error.local_storage.help3": "Use a supported browser (IE 11, Chrome 61+, Firefox 60+, Safari 12+, Edge 42+)",
   "error.local_storage.message": "Mattermost was unable to load because a setting in your browser prevents the use of its local storage features. To allow Mattermost to load, try the following actions:",
   "error.local_storage.title": "Cannot Load Mattermost",
   "error.not_found.message": "The page you were trying to reach does not exist",
