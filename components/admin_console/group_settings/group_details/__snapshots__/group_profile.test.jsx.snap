@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/group_settings/group_details/GroupProfile should match snapshot 1`] = `
+<div
+  className="group-profile"
+>
+  <div
+    className="group-profile-field"
+  >
+    <label>
+      <FormattedMessage
+        defaultMessage="Name:"
+        id="admin.group_settings.group_details.group_profile.name"
+        values={Object {}}
+      />
+    </label>
+    <input
+      className="form-control"
+      disabled={true}
+      type="text"
+      value="Test"
+    />
+  </div>
+</div>
+`;
