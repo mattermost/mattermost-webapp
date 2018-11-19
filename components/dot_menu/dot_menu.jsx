@@ -127,8 +127,9 @@ export default class DotMenu extends Component {
     // listen to clicks/taps on add reaction menu item and pass to parent handler
     handleAddReactionenuItemActivated = (e) => {
         e.preventDefault();
+
         // to be safe, make sure the handler function has been defined
-        if(typeof this.props.handleAddReactionClick === 'function') {
+        if (typeof this.props.handleAddReactionClick === 'function') {
             this.props.handleAddReactionClick();
         }
     }
@@ -179,12 +180,11 @@ export default class DotMenu extends Component {
         const canEdit = PostUtils.canEditPost(this.props.post, this.editDisableAction); // Fix this crazy
 
         const menuItems = [];
-
         if (isMobile && !isSystemMessage) {
             // add menu item to support adding reactions to posts
             // - only add if handler is defined as this menu is used in
             //   multiple locations, not all requiring reaction functionality
-            if(typeof this.props.handleAddReactionClick === 'function') {
+            if (typeof this.props.handleAddReactionClick === 'function') {
                 menuItems.push(
                     <DotMenuItem
                         key={'react'}
