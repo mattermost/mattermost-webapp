@@ -46,7 +46,7 @@ export default class GroupUsers extends React.PureComponent {
 
     nextPage = async (e) => {
         e.preventDefault();
-        const page = this.state.page + 1;
+        const page = (this.state.page + 1) * GROUP_MEMBERS_PAGE_SIZE >= this.props.total ? this.state.page : this.state.page + 1;
         this.setState({page, loading: true});
         await this.props.actions.getMembers(this.props.groupID, page, GROUP_MEMBERS_PAGE_SIZE);
         this.setState({loading: false});
@@ -81,6 +81,16 @@ export default class GroupUsers extends React.PureComponent {
         if (this.props.members.length === 0) {
             return (<div className='group-users--footer empty'/>);
         }
+
+        const startCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + 1;
+        let endCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + GROUP_MEMBERS_PAGE_SIZE;
+        const total = this.props.total;
+        if (endCount > total) {
+            endCount = total;
+        }
+        const lastPage = endCount === total;
+        const firstPage = this.state.page === 0;
+
         return (
             <div className='group-users--footer'>
                 <div className='counter'>
@@ -119,15 +129,6 @@ export default class GroupUsers extends React.PureComponent {
     }
 
     render = () => {
-        const startCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + 1;
-        let endCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + GROUP_MEMBERS_PAGE_SIZE;
-        const total = this.props.total;
-        if (endCount > total) {
-            endCount = total;
-        }
-        const lastPage = endCount === total;
-        const firstPage = this.state.page === 0;
-
         return (
             <div className='group-users'>
                 <div className='group-users--header'>
