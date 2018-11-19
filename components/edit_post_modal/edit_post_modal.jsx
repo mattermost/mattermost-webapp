@@ -397,10 +397,9 @@ export default class EditPostModal extends React.PureComponent {
                     on screens > 480
                 */}
                 <div
-                    ref="emojiPickerContainer"
-                    className="modal-emoji-container"
-                    >
-                </div>
+                    ref='emojiPickerContainer'
+                    className='modal-emoji-container'
+                />
             </Modal>
         );
     }

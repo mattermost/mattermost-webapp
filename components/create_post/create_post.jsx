@@ -942,7 +942,6 @@ export default class CreatePost extends React.Component {
             currentChannelMembersCount,
             draft,
             fullWidthTextBox,
-            getChannelView,
             showTutorialTip,
             readOnlyChannel,
         } = this.props;
@@ -1070,8 +1069,9 @@ export default class CreatePost extends React.Component {
                 >
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        // - allows picker to be added on top of everything
-                        //   for mobile fullscreensupport
+
+                        // - removing allows picker to be added on top
+                        //   of everything for mobile fullscreen support
                         // container={getChannelView}
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}

@@ -485,16 +485,16 @@ export default class EmojiPicker extends React.PureComponent {
     // create header markup for fullscreen picker on web mobile
     emojiHeader() {
         return (
-            <div className="emoji-picker__header modal-header">
+            <div className='emoji-picker__header modal-header'>
                 <button
-                    type="button"
-                    className="close emoji-picker__header-close-button"
+                    type='button'
+                    className='close emoji-picker__header-close-button'
                     onClick={this.handleEmojiPickerClose}
-                    >
-                    <span aria-hidden="true">×</span>
-                    <span className="sr-only">Close</span>
+                >
+                    <span aria-hidden='true'>{'×'}</span>
+                    <span className='sr-only'>{Utils.localizeMessage('emoji_picker.close', 'Close')}</span>
                 </button>
-                <h4 className="modal-title emoji-picker__header-title">
+                <h4 className='modal-title emoji-picker__header-title'>
                     <FormattedMessage
                         id={'emoji_picker.header'}
                         defaultMessage={'Emoji Picker'}
