@@ -1,6 +1,5 @@
 .groups-list {
     @include single-transition(all, .4s, ease-in-out, 0s);
-    max-height: 2000px;
     padding: .8em 1.5rem;
 
     .groups-list--global-actions {

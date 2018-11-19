@@ -9,7 +9,7 @@ import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
-const LDAP_GROUPS_PAGE_SIZE = 10;
+const LDAP_GROUPS_PAGE_SIZE = 200;
 
 export default class GroupsList extends React.PureComponent {
     static propTypes = {
