@@ -43,7 +43,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         showTeamSwitcher: PropTypes.bool,
 
         actions: PropTypes.shape({
-            switchToChannel: PropTypes.func.isRequired,
+            switchToChannelById: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -131,7 +131,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         if (this.state.mode === CHANNEL_MODE) {
             const selectedChannel = selected.channel;
-            this.props.actions.switchToChannel(selectedChannel).then((result) => {
+            this.props.actions.switchToChannelById(selectedChannel.id).then((result) => {
                 if (result.data) {
                     this.onHide();
                 }

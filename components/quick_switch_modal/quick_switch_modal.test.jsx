@@ -15,7 +15,7 @@ describe('components/QuickSwitchModal', () => {
         onHide: jest.fn(),
         showTeamSwitcher: false,
         actions: {
-            switchToChannel: jest.fn().mockImplementation(() => {
+            switchToChannelById: jest.fn().mockImplementation(() => {
                 const error = {
                     message: 'Failed',
                 };
@@ -42,7 +42,7 @@ describe('components/QuickSwitchModal', () => {
 
             wrapper.instance().handleSubmit();
             expect(baseProps.onHide).not.toBeCalled();
-            expect(props.actions.switchToChannel).not.toBeCalled();
+            expect(props.actions.switchToChannelById).not.toBeCalled();
         });
 
         it('should fail to switch to a channel', (done) => {
@@ -52,7 +52,7 @@ describe('components/QuickSwitchModal', () => {
 
             const channel = {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL};
             wrapper.instance().handleSubmit({channel});
-            expect(baseProps.actions.switchToChannel).toBeCalledWith(channel);
+            expect(baseProps.actions.switchToChannelById).toBeCalledWith(channel.id);
             process.nextTick(() => {
                 expect(baseProps.onHide).not.toBeCalled();
                 done();
@@ -63,7 +63,7 @@ describe('components/QuickSwitchModal', () => {
             const props = {
                 ...baseProps,
                 actions: {
-                    switchToChannel: jest.fn().mockImplementation(() => {
+                    switchToChannelById: jest.fn().mockImplementation(() => {
                         const data = true;
                         return Promise.resolve({data});
                     }),
@@ -76,7 +76,7 @@ describe('components/QuickSwitchModal', () => {
 
             const channel = {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL};
             wrapper.instance().handleSubmit({channel});
-            expect(props.actions.switchToChannel).toBeCalledWith(channel);
+            expect(props.actions.switchToChannelById).toBeCalledWith(channel.id);
             process.nextTick(() => {
                 expect(baseProps.onHide).toBeCalled();
                 done();
