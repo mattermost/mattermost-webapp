@@ -373,7 +373,62 @@ function handleChannelMemberUpdatedEvent(msg) {
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
-function handleNewPostEvent(msg) {
+export function debouncePostEvent(func, wait) {
+    let timeout;
+    let queue = [];
+    let count = 0;
+
+    // Called when timeout triggered
+    const triggered = () => {
+        timeout = null;
+        if (queue.length > 0) {
+            const posts = {};
+            for (const queuedMsg of queue) {
+                const post = JSON.parse(queuedMsg.data.post);
+                if (!posts[post.channel_id]) {
+                    posts[post.channel_id] = {};
+                }
+                posts[post.channel_id][post.id] = post;
+            }
+            for (const channelId in posts) {
+                if (!posts.hasOwnProperty(channelId)) {
+                    continue;
+                }
+                dispatch({
+                    type: PostTypes.RECEIVED_POSTS,
+                    data: {posts: posts[channelId]},
+                    channelId,
+                });
+                getProfilesAndStatusesForPosts(posts[channelId], dispatch, getState);
+            }
+        }
+        queue = [];
+        count = 0;
+    };
+
+    return function fx(msg) {
+        if (timeout && count > 2) {
+            // If the timeout is going this is the second or further event so queue them up.
+            if (queue.push(msg) > 200) {
+                // Don't run us out of memory, give up if the queue gets insane
+                queue = [];
+                console.log('channel broken because of too many incoming messages'); //eslint-disable-line no-console
+            }
+            clearTimeout(timeout);
+            timeout = setTimeout(triggered, wait);
+        } else {
+            // Apply immediately for events up until count reaches limit
+            count += 1;
+            func(msg);
+            clearTimeout(timeout);
+            timeout = setTimeout(triggered, wait);
+        }
+    };
+}
+
+const handleNewPostEvent = debouncePostEvent(handleNewPostEventWrapped, 100);
+
+function handleNewPostEventWrapped(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(handleNewPost(post, msg));
 

@@ -27,6 +27,7 @@ export default class TeamSidebar extends React.PureComponent {
         locale: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
+            switchTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -55,6 +56,7 @@ export default class TeamSidebar extends React.PureComponent {
                         unread={member.msg_count > 0}
                         mentions={member.mention_count}
                         teamIconUrl={Utils.imageURLForTeam(team)}
+                        switchTeam={this.props.actions.switchTeam}
                     />
                 );
             });

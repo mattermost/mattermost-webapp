@@ -320,7 +320,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Română (Beta)",
+              "text": "Română",
               "value": "ro",
             },
             Object {
@@ -429,7 +429,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             },
             Object {
               "order": 8,
-              "text": "Română (Beta)",
+              "text": "Română",
               "value": "ro",
             },
             Object {

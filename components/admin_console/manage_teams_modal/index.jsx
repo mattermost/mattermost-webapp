@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {updateTeamMemberSchemeRoles, getTeamMembersForUser, getTeamsForUser} from 'mattermost-redux/actions/teams';
 
+import {removeUserFromTeam} from 'actions/team_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import ManageTeamsModal from './manage_teams_modal';
@@ -22,6 +23,7 @@ function mapDispatchToProps(dispatch) {
             getTeamMembersForUser,
             getTeamsForUser,
             updateTeamMemberSchemeRoles,
+            removeUserFromTeam,
         }, dispatch),
     };
 }

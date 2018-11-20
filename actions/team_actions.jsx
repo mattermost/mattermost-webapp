@@ -5,33 +5,26 @@ import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import store from 'stores/redux_store.jsx';
 
-const dispatch = store.dispatch;
-const getState = store.getState;
-
-export async function removeUserFromTeam(teamId, userId, success, error) {
-    const {data, error: err} = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
-    dispatch(getUser(userId));
-    dispatch(TeamActions.getTeamStats(teamId));
-    dispatch(getChannelStats(getCurrentChannelId(getState())));
-
-    if (data && success) {
-        success();
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+export function removeUserFromTeam(teamId, userId) {
+    return async (dispatch, getState) => {
+        const response = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
+        dispatch(getUser(userId));
+        dispatch(TeamActions.getTeamStats(teamId));
+        dispatch(getChannelStats(getCurrentChannelId(getState())));
+        return response;
+    };
 }
 
-export function addUserToTeamFromInvite(token, inviteId, success, error) {
-    Client4.addToTeamFromInvite(token, inviteId).then(
-        async (member) => {
-            const {data: team} = await TeamActions.getTeam(member.team_id)(dispatch, getState);
+export function addUserToTeamFromInvite(token, inviteId) {
+    return async (dispatch) => {
+        const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId));
+        if (member) {
+            const {data} = await dispatch(TeamActions.getTeam(member.team_id));
+
             dispatch({
                 type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
                 data: {
@@ -42,66 +35,29 @@ export function addUserToTeamFromInvite(token, inviteId, success, error) {
                 },
             });
 
-            if (success) {
-                success(team);
-            }
+            return {data};
         }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
+        return {error};
+    };
 }
 
 export function addUsersToTeam(teamId, userIds) {
-    return async (doDispatch, doGetState) => {
-        const {data, error} = await doDispatch(TeamActions.addUsersToTeam(teamId, userIds));
+    return async (dispatch, getState) => {
+        const {data, error} = await dispatch(TeamActions.addUsersToTeam(teamId, userIds));
 
         if (error) {
             return {error};
         }
 
-        doDispatch(getChannelStats(doGetState().entities.channels.currentChannelId));
+        dispatch(getChannelStats(getCurrentChannelId(getState())));
 
         return {data};
     };
 }
 
-export function getInviteInfo(inviteId, success, error) {
-    Client4.getTeamInviteInfo(inviteId).then(
-        (inviteData) => {
-            if (success) {
-                success(inviteData);
-            }
-        }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
-}
-
-export async function inviteMembers(data, success, error) {
-    if (!data.invites) {
-        success();
-    }
-    const emails = [];
-    data.invites.forEach((i) => {
-        emails.push(i.email);
-    });
-    const {data: result, error: err} = await dispatch(TeamActions.sendEmailInvitesToTeam(getCurrentTeamId(getState()), emails));
-    if (result && success) {
-        success();
-    } else if (result == null && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export function switchTeams(url) {
-    dispatch(viewChannel(getCurrentChannelId(getState())));
-    browserHistory.push(url);
+export function switchTeam(url) {
+    return (dispatch, getState) => {
+        dispatch(viewChannel(getCurrentChannelId(getState())));
+        browserHistory.push(url);
+    };
 }

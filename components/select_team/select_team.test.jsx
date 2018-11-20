@@ -7,14 +7,9 @@ import {shallow} from 'enzyme';
 import SelectTeam from 'components/select_team/select_team.jsx';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
-}));
-
-jest.mock('actions/team_actions.jsx', () => ({
-    addUserToTeamFromInvite: jest.fn(),
 }));
 
 jest.mock('utils/policy_roles_adapter', () => ({
@@ -22,6 +17,7 @@ jest.mock('utils/policy_roles_adapter', () => ({
 }));
 
 describe('components/select_team/SelectTeam', () => {
+    const addUserToTeamFromInvite = jest.fn();
     const baseProps = {
         currentUserRoles: 'system_admin',
         isMemberOfTeam: true,
@@ -35,6 +31,7 @@ describe('components/select_team/SelectTeam', () => {
         actions: {
             getTeams: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
+            addUserToTeamFromInvite,
         },
     };
 
