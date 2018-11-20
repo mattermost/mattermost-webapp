@@ -34,6 +34,7 @@ class DotMenu extends Component {
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
         intl: intlShape.isRequired,
+        enableEmojiPicker: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -74,6 +75,7 @@ class DotMenu extends Component {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
+        enableEmojiPicker: false,
         pluginMenuItems: [],
     }
 
@@ -207,9 +209,7 @@ class DotMenu extends Component {
         const menuItems = [];
         if (isMobile && !isSystemMessage) {
             // add menu item to support adding reactions to posts
-            // - only add if handler is defined as this menu is used in
-            //   multiple locations, not all requiring reaction functionality
-            if (typeof this.props.handleAddReactionClick === 'function') {
+            if (!this.props.isReadOnly && this.props.enableEmojiPicker) {
                 menuItems.push(
                     <DotMenuItem
                         key={'react'}

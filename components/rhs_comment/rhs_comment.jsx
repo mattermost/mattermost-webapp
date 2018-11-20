@@ -386,6 +386,7 @@ export default class RhsComment extends React.Component {
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
 

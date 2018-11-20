@@ -273,6 +273,7 @@ export default class PostInfo extends React.PureComponent {
                     handleDropdownOpened={this.handleDotMenuOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
         }

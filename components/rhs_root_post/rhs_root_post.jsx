@@ -312,6 +312,7 @@ export default class RhsRootPost extends React.Component {
                 handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
                 isReadOnly={isReadOnly || channelIsArchived}
+                enableEmojiPicker={this.props.enableEmojiPicker}
             />
         );
 
