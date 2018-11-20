@@ -452,11 +452,9 @@ export default class PostList extends React.PureComponent {
                 });
             }
 
-            if (postList.scrollTop <= 0.4 * postList.clientHeight && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
+            if (postList.scrollTop <= 0.5 * postList.clientHeight && !this.state.loadingPosts && !this.state.atEnd && this.state.autoRetryEnable) {
                 this.setState({loadingPosts: true});
-                window.requestAnimationFrame(() => {
-                    this.loadMorePosts();
-                });
+                this.loadMorePosts();
             }
             this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
         });
@@ -625,7 +623,7 @@ export default class PostList extends React.PureComponent {
             topRow = (
                 <div
                     className='loading-screen'
-                    style={{position: 'relative', height: '150px'}}
+                    style={{position: 'relative', height: '40px', padding: '0px'}}
                 >
                     <div className='loading__content'>
                         <div className='round round-1'/>
