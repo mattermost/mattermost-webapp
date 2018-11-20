@@ -73,7 +73,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     />
                     <MenuItem.RenameChannel
                         channel={channel}
-                        isDefault={isDefault}
                         isArchived={isArchived}
                     />
                     <MenuItem.ConvertChannel

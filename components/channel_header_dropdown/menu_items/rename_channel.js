@@ -11,8 +11,8 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import RenameChannelModal from 'components/rename_channel_modal';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
-const RenameChannel = ({channel, isDefault, isArchived}) => {
-    if (isDefault || isArchived) {
+const RenameChannel = ({channel, isArchived}) => {
+    if (isArchived) {
         return null;
     }
 
@@ -56,11 +56,6 @@ RenameChannel.propTypes = {
      * Object with info about channel
      */
     channel: PropTypes.object.isRequired,
-
-    /**
-     * Boolean whether the current channel is default channel
-     */
-    isDefault: PropTypes.bool.isRequired,
 
     /**
      * Boolean whether the current channel is archived

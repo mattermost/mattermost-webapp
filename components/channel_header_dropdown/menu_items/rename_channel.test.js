@@ -16,7 +16,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.RenameChannel', () => {
             team_id: 'team_id',
             type: Constants.OPEN_CHANNEL,
         },
-        isDefault: false,
         isArchived: false,
     };
 
@@ -24,16 +23,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.RenameChannel', () => {
         const wrapper = shallow(<RenameChannel {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should be hidden if the channel is default channel', () => {
-        const props = {
-            ...baseProps,
-            isDefault: true,
-        };
-        const wrapper = shallow(<RenameChannel {...props}/>);
-
-        expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should be hidden if the channel is archived', () => {
