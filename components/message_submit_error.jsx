@@ -21,26 +21,24 @@ class MessageSubmitError extends React.PureComponent {
 
         const command = this.props.submittedMessage.split(' ')[0];
         return (
-            <FormattedMessage
-                id='message_submit_error.invalidCommand'
-                defaultMessage={'Command with a trigger of \'{command}\' not found. {send_as_message}'}
-                values={{
-                    command,
-                    send_as_message: (
-                        <a
-                            ref='sendAsMessageLink'
-                            href='#'
-                            onClick={this.props.handleSubmit}
-                            className='message-submit-error__send-as-message'
-                        >
-                            <FormattedMessage
-                                id='message-submit-error.sendAsMessageLink'
-                                defaultMessage='Click here to send as a message.'
-                            />
-                        </a>
-                    ),
-                }}
-            />
+            <React.Fragment>
+                <FormattedMessage
+                    id='message_submit_error.invalidCommand'
+                    defaultMessage={'Command with a trigger of \'{command}\' not found. '}
+                    values={{
+                        command,
+                    }}
+                />
+                <a
+                    href='#'
+                    onClick={this.props.handleSubmit}
+                >
+                    <FormattedMessage
+                        id='message-submit-error.sendAsMessageLink'
+                        defaultMessage='Click here to send as a message.'
+                    />
+                </a>
+            </React.Fragment>
         );
     }
 
