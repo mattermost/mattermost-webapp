@@ -126,7 +126,7 @@ export default class AtMentionProvider extends Provider {
 
         const remoteNonMembers = this.remoteNonMembers().filter((item) => !localUserIds[item.id]);
 
-        return specialMentions.concat(localAndRemoteMembers).concat(remoteNonMembers);
+        return localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers);
     }
 
     // updateMatches invokes the resultCallback with the metadata for rendering at mentions
