@@ -232,3 +232,11 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
 
     return {allowSending: false};
 }
+
+export function isErrorInvalidSlashCommand(error) {
+    if (error && error.server_error_id) {
+        return error.server_error_id === 'api.command.execute_command.not_found.app_error';
+    }
+
+    return false;
+}

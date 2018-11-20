@@ -10,7 +10,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -27,6 +27,7 @@ import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -311,9 +312,18 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        let message = this.state.message;
+        let ignoreSlash = false;
+        const serverError = this.state.serverError;
+
+        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === message) {
+            message = serverError.submittedMessage;
+            ignoreSlash = true;
+        }
+
         const post = {};
         post.file_ids = [];
-        post.message = this.state.message;
+        post.message = message;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -332,7 +342,7 @@ export default class CreatePost extends React.Component {
         this.setState({submitting: true, serverError: null});
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
-        if (post.message.indexOf('/') === 0) {
+        if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null, enableSendButton: false});
             const args = {};
             args.channel_id = channelId;
@@ -345,7 +355,10 @@ export default class CreatePost extends React.Component {
                             this.sendMessage(post);
                         } else {
                             this.setState({
-                                serverError: error.message,
+                                serverError: {
+                                    ...error,
+                                    submittedMessage: post.message,
+                                },
                                 message: post.message,
                             });
                         }
@@ -540,9 +553,16 @@ export default class CreatePost extends React.Component {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
+
+        let serverError = this.state.serverError;
+        if (isErrorInvalidSlashCommand(serverError)) {
+            serverError = null;
+        }
+
         this.setState({
             message,
             enableSendButton,
+            serverError,
         });
 
         const draft = {
@@ -602,10 +622,9 @@ export default class CreatePost extends React.Component {
     handleUploadError = (err, clientId, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
 
-        let message = err;
-        if (message && typeof message !== 'string') {
-            // err is an AppError from the server
-            message = err.message;
+        let serverError = err;
+        if (typeof err === 'string') {
+            serverError = new Error(err);
         }
 
         if (clientId !== -1 && draft.uploadsInProgress) {
@@ -622,7 +641,7 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        this.setState({serverError: message});
+        this.setState({serverError});
     }
 
     removePreview = (id) => {
@@ -926,9 +945,12 @@ export default class CreatePost extends React.Component {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className='has-error'>
-                    <label className='control-label'>{this.state.serverError}</label>
-                </div>
+                <MessageSubmitError
+                    id='postServerError'
+                    error={this.state.serverError}
+                    submittedMessage={this.state.serverError.submittedMessage}
+                    handleSubmit={this.handleSubmit}
+                />
             );
         }
 
