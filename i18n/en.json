@@ -2165,6 +2165,8 @@
   "members_popover.manageMembers": "Manage Members",
   "members_popover.title": "Channel Members",
   "members_popover.viewMembers": "View Members",
+  "message_submit_error.sendAsMessageLink": "Click here to send as a message.",
+  "message_submit_error.invalidCommand": "Command with a trigger of '{command}' not found. ",
   "mfa.confirm.complete": "**Set up complete!**",
   "mfa.confirm.okay": "Okay",
   "mfa.confirm.secure": "Your account is now secure. Next time you sign in, you will be asked to enter a code from the Google Authenticator app on your phone.",
