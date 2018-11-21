@@ -12,7 +12,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 
 import Suggestion from './suggestion.jsx';
 
-class CommandSuggestion extends Suggestion {
+export class CommandSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
@@ -28,7 +28,7 @@ class CommandSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <div className='command__title'>
-                    {item.suggestion + item.hint}
+                    {item.suggestion + ' ' + item.hint}
                 </div>
                 <div className='command__desc'>
                     {item.description}
