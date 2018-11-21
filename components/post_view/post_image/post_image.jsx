@@ -45,7 +45,7 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * dimensions for empty space to prevent scroll popup.
          */
-        dimensions: PropTypes.object.isRequired,
+        dimensions: PropTypes.object,
     }
 
     constructor(props) {

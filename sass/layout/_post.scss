@@ -275,7 +275,7 @@
         overflow-y: scroll;
         padding: 1em 0 0;
         width: 100%;
-
+        position: absolute;
         &.active {
             display: inline;
         }
