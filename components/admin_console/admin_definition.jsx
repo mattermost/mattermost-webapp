@@ -1488,21 +1488,15 @@ export default {
                             help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                             isDisabled: needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             render_job: (job) => {
-                                let mattermostUsers = 0;
                                 let ldapUsers = 0;
                                 let deleteCount = 0;
                                 let updateCount = 0;
-                                let mattermostGroups = 0;
                                 let ldapGroups = 0;
                                 let groupDeleteCount = 0;
                                 let groupMemberDeleteCount = 0;
                                 let groupMemberAddCount = 0;
 
                                 if (job && job.data) {
-                                    if (job.data.mattermost_users_count && job.data.mattermost_users_count.length > 0) {
-                                        mattermostUsers = job.data.mattermost_users_count;
-                                    }
-
                                     if (job.data.ldap_users_count && job.data.ldap_users_count.length > 0) {
                                         ldapUsers = job.data.ldap_users_count;
                                     }
@@ -1513,10 +1507,6 @@ export default {
 
                                     if (job.data.update_count && job.data.update_count.length > 0) {
                                         updateCount = job.data.update_count;
-                                    }
-
-                                    if (job.data.mattermost_groups_count) {
-                                        mattermostGroups = job.data.mattermost_groups_count;
                                     }
 
                                     if (job.data.ldap_groups_count) {
@@ -1537,21 +1527,61 @@ export default {
                                 }
 
                                 return (
-                                    <FormattedMarkdownMessage
-                                        id='admin.ldap.jobExtraInfo'
-                                        defaultMessage={'Scanned {ldapUsers} LDAP users and {ldapGroups} groups:\n* Updated {updateCount} users.\n* Deactivated {deleteCount} users.\n* Deleted {groupDeleteCount} groups.\n* Deleted {groupMemberDeleteCount} group members.\n* Added {groupMemberAddCount} group members.'}
-                                        values={{
-                                            mattermostUsers,
-                                            ldapUsers,
-                                            deleteCount,
-                                            updateCount,
-                                            mattermostGroups,
-                                            ldapGroups,
-                                            groupDeleteCount,
-                                            groupMemberDeleteCount,
-                                            groupMemberAddCount,
-                                        }}
-                                    />
+                                    <span>
+                                        <FormattedMarkdownMessage
+                                            id='admin.ldap.jobExtraInfo'
+                                            defaultMessage={'Scanned {ldapUsers} LDAP users and {ldapGroups} groups.'}
+                                            values={{
+                                                ldapUsers,
+                                                ldapGroups,
+                                            }}
+                                        />
+                                        {updateCount > 0 &&
+                                            <FormattedMarkdownMessage
+                                                id='admin.ldap.jobExtraInfo.updatedUsers'
+                                                defaultMessage={'* Updated {updateCount} users.\n'}
+                                                values={{
+                                                    updateCount,
+                                                }}
+                                            />
+                                        }
+                                        {deleteCount > 0 &&
+                                            <FormattedMarkdownMessage
+                                                id='admin.ldap.jobExtraInfo.deactivatedUsers'
+                                                defaultMessage={'* Deactivated {deleteCount} users.\n'}
+                                                values={{
+                                                    deleteCount,
+                                                }}
+                                            />
+                                        }
+                                        {groupDeleteCount > 0 &&
+                                            <FormattedMarkdownMessage
+                                                id='admin.ldap.jobExtraInfo.deletedGroups'
+                                                defaultMessage={'* Deleted {groupDeleteCount} groups.\n'}
+                                                values={{
+                                                    groupDeleteCount,
+                                                }}
+                                            />
+                                        }
+                                        {groupMemberDeleteCount > 0 &&
+                                            <FormattedMarkdownMessage
+                                                id='admin.ldap.jobExtraInfo.deletedGroupMembers'
+                                                defaultMessage={'* Deleted {groupMemberDeleteCount} group members.\n'}
+                                                values={{
+                                                    groupMemberDeleteCount,
+                                                }}
+                                            />
+                                        }
+                                        {groupMemberAddCount > 0 &&
+                                            <FormattedMarkdownMessage
+                                                id='admin.ldap.jobExtraInfo.addedGroupMembers'
+                                                defaultMessage={'* Added {groupMemberAddCount} group members.\n'}
+                                                values={{
+                                                    groupMemberAddCount,
+                                                }}
+                                            />
+                                        }
+                                    </span>
                                 );
                             },
                         },
