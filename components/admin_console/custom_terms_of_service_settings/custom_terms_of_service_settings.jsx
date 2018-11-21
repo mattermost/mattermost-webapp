@@ -32,7 +32,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         this.state = {
             termsEnabled: props.config.SupportSettings.CustomTermsOfServiceEnabled,
             reAcceptancePeriod: props.config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod,
-            loadingTermsText: props.config.SupportSettings.CustomTermsOfServiceEnabled,
+            loadingTermsText: true,
             receivedTermsText: '',
             termsText: '',
             saveNeeded: false,
@@ -40,8 +40,6 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
             serverError: null,
             errorTooltip: false,
         };
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
     }
 
     getStateFromConfig(config) {
@@ -51,7 +49,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         };
     }
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.SupportSettings.CustomTermsOfServiceEnabled = this.state.termsEnabled;
         config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod = this.parseIntNonZero(this.state.reAcceptancePeriod, Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD);
 
@@ -59,9 +57,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
     }
 
     componentDidMount() {
-        if (this.state.termsEnabled) {
-            this.getTermsOfService();
-        }
+        this.getTermsOfService();
     }
 
     doSubmit = async (callback) => {
@@ -159,7 +155,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         if (this.state.loadingTermsText) {
             return <LoadingScreen/>;
         }

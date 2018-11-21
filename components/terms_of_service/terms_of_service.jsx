@@ -20,11 +20,11 @@ import {Constants} from 'utils/constants.jsx';
 
 export default class TermsOfService extends React.PureComponent {
     static propTypes = {
+        termsEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getTermsOfService: PropTypes.func.isRequired,
             updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
         }).isRequired,
-        termsEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
