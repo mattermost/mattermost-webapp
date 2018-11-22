@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/CommentedOnFilesMessage Should call snapshot when no files and call getFilesForPost 1`] = `""`;
+
+exports[`components/CommentedOnFilesMessage should match snapshot for multiple files 1`] = `
+<span>
+  image_3.png
+  <FormattedMessage
+    defaultMessage=" plus {count, number} other {count, plural, one {file} other {files}}"
+    id="post_body.plusMore"
+    values={
+      Object {
+        "count": 2,
+      }
+    }
+  />
+</span>
+`;
+
+exports[`components/CommentedOnFilesMessage should match snapshot for single file 1`] = `
+<span>
+  image_1.png
+</span>
+`;
