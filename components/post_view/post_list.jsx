@@ -228,7 +228,7 @@ export default class PostList extends React.PureComponent {
             const postId = posts[0].id;
             const prevPostId = prevPosts[0].id;
             const pendingPostId = posts[0].pending_post_id;
-            if (postId !== prevPostId && pendingPostId !== prevPostId) {
+            if (postId !== prevPostId || pendingPostId === prevPostId) {
                 // If already scrolled to bottom
                 if (snapshot.wasAtBottom) {
                     doScrollToBottom = true;
