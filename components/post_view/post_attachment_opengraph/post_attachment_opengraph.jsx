@@ -151,7 +151,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         let element = null;
 
         if (!this.props.post.metadata) {
-          return element;
+            return element;
         }
 
         if (
