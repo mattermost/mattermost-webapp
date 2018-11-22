@@ -277,7 +277,7 @@ export default class PostList extends React.PureComponent {
         if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
-            this.state({autoRetryEnable: false});
+            this.setState({autoRetryEnable: false});
             return;
         }
 
