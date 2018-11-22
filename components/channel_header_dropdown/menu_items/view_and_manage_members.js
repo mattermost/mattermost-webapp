@@ -12,7 +12,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ChannelMembersModal from 'components/channel_members_modal';
 
-const ViewAndManageMembers = ({channel}) => {
+const ViewAndManageMembers = ({channel, isDefault}) => {
     if (channel.type === Constants.DM_CHANNEL) {
         return null;
     }
@@ -32,21 +32,23 @@ const ViewAndManageMembers = ({channel}) => {
                 dialogType={ChannelMembersModal}
                 dialogProps={{channel}}
             >
+                {!isDefault &&
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={channel.team_id}
+                        permissions={[permission]}
+                    >
+                        <FormattedMessage
+                            id='channel_header.manageMembers'
+                            defaultMessage='Manage Members'
+                        />
+                    </ChannelPermissionGate>
+                }
                 <ChannelPermissionGate
                     channelId={channel.id}
                     teamId={channel.team_id}
                     permissions={[permission]}
-                >
-                    <FormattedMessage
-                        id='channel_header.manageMembers'
-                        defaultMessage='Manage Members'
-                    />
-                </ChannelPermissionGate>
-                <ChannelPermissionGate
-                    channelId={channel.id}
-                    teamId={channel.team_id}
-                    permissions={[permission]}
-                    invert={true}
+                    invert={!isDefault}
                 >
                     <FormattedMessage
                         id='channel_header.viewMembers'
@@ -64,6 +66,11 @@ ViewAndManageMembers.propTypes = {
      * Object with info about channel
      */
     channel: PropTypes.object.isRequired,
+
+    /**
+     * Boolean whether the current channel is default
+     */
+    isDefault: PropTypes.bool.isRequired,
 };
 
 export default ViewAndManageMembers;

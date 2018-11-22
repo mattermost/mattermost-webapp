@@ -13,6 +13,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers', () =>
         channel: {
             type: Constants.OPEN_CHANNEL,
         },
+        isDefault: false,
     };
 
     it('should match snapshot', () => {
@@ -20,9 +21,21 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewAndManageMembers', () =>
         expect(wrapper).toMatchSnapshot();
     });
 
+    it('should match snapshot when the channel is town square', () => {
+        const props = {
+            ...baseProps,
+            isDefault: true,
+        };
+        const wrapper = shallow(<ViewAndManageMembers {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     it('should be hidden if the channel type is DM or GM', () => {
         const props = {
-            channel: {...baseProps.channel},
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+            },
         };
         const makeWrapper = () => shallow(<ViewAndManageMembers {...props}/>);
 
