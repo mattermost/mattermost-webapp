@@ -23,6 +23,7 @@ describe('ManageTeamsModal', () => {
             getTeamMembersForUser: jest.fn().mockReturnValue(Promise.resolve({data: []})),
             getTeamsForUser: jest.fn().mockReturnValue(Promise.resolve({data: []})),
             updateTeamMemberSchemeRoles: jest.fn(),
+            removeUserFromTeam: jest.fn(),
         },
     };
 

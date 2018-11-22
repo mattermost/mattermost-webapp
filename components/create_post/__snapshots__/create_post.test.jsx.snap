@@ -42,6 +42,7 @@ exports[`components/create_post Show tutorial 1`] = `
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="post"
           />
@@ -206,6 +207,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="post"
           />
@@ -439,6 +441,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="post"
           />
@@ -572,6 +575,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
             onUploadError={[Function]}
+            onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="post"
           />

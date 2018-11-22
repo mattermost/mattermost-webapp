@@ -10,8 +10,6 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getInviteInfo} from 'actions/team_actions.jsx';
-
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -37,6 +35,7 @@ export default class SignupEmail extends React.Component {
             createUser: PropTypes.func.isRequired,
             loginById: PropTypes.func.isRequired,
             setGlobalItem: PropTypes.func.isRequired,
+            getTeamInviteInfo: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -50,7 +49,7 @@ export default class SignupEmail extends React.Component {
         trackEvent('signup', 'signup_user_01_welcome');
     }
 
-    getInviteInfo = () => {
+    getInviteInfo = async () => {
         let data = (new URLSearchParams(this.props.location.search)).get('d');
         let token = (new URLSearchParams(this.props.location.search)).get('t');
         const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
@@ -70,38 +69,29 @@ export default class SignupEmail extends React.Component {
             teamId = parsedData.id;
         } else if (inviteId && inviteId.length > 0) {
             loading = true;
-            getInviteInfo(
-                inviteId,
-                (inviteData) => {
-                    if (!inviteData) {
-                        this.setState({loading: false});
-                        return;
-                    }
-
-                    this.setState({
-                        loading: false,
-                        serverError: '',
-                        teamDisplayName: inviteData.display_name,
-                        teamName: inviteData.name,
-                        teamId: inviteData.id,
-                    });
-                },
-                () => {
-                    this.setState({
-                        loading: false,
-                        noOpenServerError: true,
-                        serverError: (
-                            <FormattedMessage
-                                id='signup_user_completed.invalid_invite'
-                                defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
-                            />
-                        ),
-                    });
-                }
-            );
-
             data = null;
             token = null;
+            const {data: inviteData, error} = await this.props.actions.getTeamInviteInfo(inviteId);
+            if (inviteData) {
+                this.setState({
+                    loading: false,
+                    serverError: '',
+                    teamDisplayName: inviteData.display_name,
+                    teamName: inviteData.name,
+                    teamId: inviteData.id,
+                });
+            } else if (error) {
+                this.setState({
+                    loading: false,
+                    noOpenServerError: true,
+                    serverError: (
+                        <FormattedMessage
+                            id='signup_user_completed.invalid_invite'
+                            defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                        />
+                    ),
+                });
+            }
         }
 
         return {

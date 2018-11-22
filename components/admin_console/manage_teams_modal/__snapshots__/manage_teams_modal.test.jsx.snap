@@ -169,9 +169,9 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
             className="manage-teams__team-actions"
           >
             <ManageTeamsDropdown
+              handleRemoveUserFromTeam={[Function]}
               onError={[Function]}
               onMemberChange={[Function]}
-              onMemberRemove={[Function]}
               team={
                 Object {
                   "delete_at": 0,

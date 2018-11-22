@@ -34,6 +34,7 @@ describe('components/login/LoginController', () => {
         actions: {
             checkMfa: jest.fn(),
             login: jest.fn(),
+            addUserToTeamFromInvite: jest.fn(),
         },
     };
 
