@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingImagePreview from 'components/loading_image_preview';
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {getFileDimensionsForDisplay} from 'utils/file_utils';
 
@@ -91,8 +90,6 @@ export default class PostImageEmbed extends React.PureComponent {
             loaded: true,
             errored: false,
         });
-
-        postListScrollChange();
 
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
