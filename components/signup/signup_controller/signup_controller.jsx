@@ -9,7 +9,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
@@ -37,6 +36,8 @@ export default class SignupController extends React.Component {
         ldapLoginFieldName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
+            getTeamInviteInfo: PropTypes.func.isRequired,
+            addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -94,40 +95,32 @@ export default class SignupController extends React.Component {
             const userLoggedIn = this.props.loggedIn;
 
             if ((inviteId || token) && userLoggedIn) {
-                addUserToTeamFromInvite(
-                    token,
-                    inviteId,
-                    (team) => {
-                        browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
-                    },
-                    this.handleInvalidInvite
-                );
-
-                return;
+                const {data: team, error} = this.props.actions.addUserToTeamFromInvite(token, inviteId);
+                if (team) {
+                    browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                } else if (error) {
+                    this.handleInvalidInvite(error);
+                }
             }
 
             if (inviteId) {
-                getInviteInfo(
-                    inviteId,
-                    (inviteData) => {
-                        if (!inviteData) {
-                            return;
-                        }
-
-                        this.setState({ // eslint-disable-line react/no-did-mount-set-state
-                            serverError: '',
-                            loading: false,
-                        });
-                    },
-                    this.handleInvalidInvite
-                );
-
-                return;
+                this.getInviteInfo(inviteId);
             }
-
             if (userLoggedIn) {
                 GlobalActions.redirectUserToDefaultTeam();
             }
+        }
+    }
+
+    getInviteInfo = async (inviteId) => {
+        const {data} = await this.props.actions.getTeamInviteInfo(inviteId);
+        if (data) {
+            this.setState({
+                serverError: '',
+                loading: false,
+            });
+        } else {
+            this.handleInvalidInvite();
         }
     }
 

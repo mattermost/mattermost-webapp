@@ -12,6 +12,7 @@ import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx'
 import * as Utils from 'utils/utils.jsx';
 
 import CreatePost from 'components/create_post/create_post.jsx';
+import FileUpload from 'components/file_upload';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -554,6 +555,13 @@ describe('components/create_post', () => {
         instance.handleUploadError('error message', 'a', currentChannelProp.id);
 
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+    });
+
+    it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
+        const wrapper = shallow(createPost({}));
+        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
+
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
     it('Remove preview from fileInfos', () => {

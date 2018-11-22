@@ -7,6 +7,8 @@ import {shallow} from 'enzyme';
 import Constants from 'utils/constants.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
+import FileUpload from 'components/file_upload';
+import FilePreview from 'components/file_preview/file_preview.jsx';
 
 jest.mock('stores/post_store.jsx', () => ({
     clearCommentDraftUploads: jest.fn(),
@@ -313,6 +315,17 @@ describe('components/CreateComment', () => {
 
         expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
         expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
+    });
+
+    it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+
+        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
+        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
     test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {

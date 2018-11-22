@@ -9,25 +9,21 @@ import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import Constants, {FileTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import loadingGif from 'images/load.gif';
+import FileProgressPreview from './file_progress_preview.jsx';
 
 export default class FilePreview extends React.PureComponent {
     static propTypes = {
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
         uploadsInProgress: PropTypes.array,
+        uploadsProgressPercent: PropTypes.object,
     };
 
     static defaultProps = {
         fileInfos: [],
         uploadsInProgress: [],
+        uploadsProgressPercent: {},
     };
-
-    componentDidUpdate() {
-        if (this.props.uploadsInProgress.length > 0) {
-            this.refs[this.props.uploadsInProgress[0]].scrollIntoView();
-        }
-    }
 
     handleRemove = (id) => {
         this.props.onRemove(id);
@@ -115,26 +111,12 @@ export default class FilePreview extends React.PureComponent {
 
         this.props.uploadsInProgress.forEach((clientId) => {
             previews.push(
-                <div
-                    ref={clientId}
+                <FileProgressPreview
                     key={clientId}
-                    className='file-preview'
-                    data-client-id={clientId}
-                >
-                    <img
-                        className='spinner'
-                        src={loadingGif}
-                    />
-                    <a
-                        className='file-preview__remove'
-                        onClick={this.handleRemove.bind(this, clientId)}
-                    >
-                        <i
-                            className='fa fa-remove'
-                            title={Utils.localizeMessage('generic_icons.remove', 'Remove Icon')}
-                        />
-                    </a>
-                </div>
+                    clientId={clientId}
+                    fileInfo={this.props.uploadsProgressPercent[clientId]}
+                    handleRemove={this.handleRemove}
+                />
             );
         });
 
