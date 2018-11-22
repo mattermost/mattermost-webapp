@@ -10,8 +10,6 @@ import QuickSwitchModal from 'components/quick_switch_modal/quick_switch_modal.j
 
 describe('components/QuickSwitchModal', () => {
     const baseProps = {
-        initialMode: 'channel',
-        show: true,
         onHide: jest.fn(),
         showTeamSwitcher: false,
         actions: {

@@ -60,19 +60,19 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         );
 
         wrapper.setState({activeSection: NotificationSections.DESKTOP, desktopNotifyLevel: NotificationLevels.NONE});
-        wrapper.instance().handleOnHide();
+        wrapper.instance().handleExit();
         expect(onHide).toHaveBeenCalledTimes(1);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
 
         wrapper.setState({activeSection: NotificationSections.MARK_UNREAD, markUnreadNotifyLevel: NotificationLevels.NONE});
-        wrapper.instance().handleOnHide();
+        wrapper.instance().handleExit();
         expect(onHide).toHaveBeenCalledTimes(2);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
 
         wrapper.setState({activeSection: NotificationSections.PUSH, pushNotifyLevel: NotificationLevels.NONE});
-        wrapper.instance().handleOnHide();
+        wrapper.instance().handleExit();
         expect(onHide).toHaveBeenCalledTimes(3);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
