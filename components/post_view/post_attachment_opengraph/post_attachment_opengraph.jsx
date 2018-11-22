@@ -64,7 +64,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         const removePreview = this.isRemovePreview(props.post, props.currentUser);
         const imageUrl = this.getBestImageUrl(props.openGraphData);
-        const hasLargeImage = props.post.metadata && imageUrl ? this.hasLargeImage(props.post.metadata.images[imageUrl]) : false;
+        const {metadata} = props.post;
+        const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
         this.state = {
             hasLargeImage,
             removePreview,
@@ -76,7 +77,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
             const removePreview = this.isRemovePreview(nextProps.post, nextProps.currentUser);
             const imageUrl = this.getBestImageUrl(nextProps.openGraphData);
-            const hasLargeImage = nextProps.post.metadata && imageUrl ? this.hasLargeImage(nextProps.post.metadata.images[imageUrl]) : false;
+            const {metadata} = nextProps.post;
+            const hasLargeImage = metadata && metadata.images && metadata.images[imageUrl] && imageUrl ? this.hasLargeImage(metadata.images[imageUrl]) : false;
 
             this.setState({
                 hasLargeImage,
@@ -149,8 +151,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     imageTag(imageUrl, renderingForLargeImage = false) {
         let element = null;
-
-        if (!this.props.post.metadata) {
+        const {metadata} = this.props.post;
+        if (!metadata) {
             return element;
         }
 
@@ -159,7 +161,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             (!renderingForLargeImage || (renderingForLargeImage && this.props.isEmbedVisible))
         ) {
             if (renderingForLargeImage) {
-                const imageDimensions = getFileDimensionsForDisplay(this.props.post.metadata.images[imageUrl], MAX_DIMENSIONS_LARGE_IMAGE);
+                const imageDimensions = getFileDimensionsForDisplay(metadata.images && metadata.images[imageUrl], MAX_DIMENSIONS_LARGE_IMAGE);
 
                 element = (
                     <img
@@ -169,7 +171,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                     />
                 );
             } else {
-                const imageDimensions = getFileDimensionsForDisplay(this.props.post.metadata.images[imageUrl], MAX_DIMENSIONS_SMALL_IMAGE);
+                const imageDimensions = getFileDimensionsForDisplay(metadata.images && metadata.images[imageUrl], MAX_DIMENSIONS_SMALL_IMAGE);
                 element = this.wrapInSmallImageContainer(
                     <img
                         className={'attachment__image attachment__image--opengraph'}

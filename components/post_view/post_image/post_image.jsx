@@ -112,10 +112,6 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
-        if (!this.props.dimensions) {
-            return null;
-        }
-
         const imageDimensions = getFileDimensionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENSIONS);
         if (this.state.errored || !this.state.loaded) {
             return (
