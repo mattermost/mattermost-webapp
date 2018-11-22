@@ -34,6 +34,7 @@ export default class MarkdownImage extends React.PureComponent {
 
         return (
             <img
+                ref='image'
                 {...props}
                 onLoad={this.handleLoad}
                 style={{

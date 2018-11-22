@@ -149,6 +149,11 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     imageTag(imageUrl, renderingForLargeImage = false) {
         let element = null;
+
+        if (!this.props.post.metadata) {
+            return element;
+        }
+
         if (
             imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
             (!renderingForLargeImage || (renderingForLargeImage && this.props.isEmbedVisible))
