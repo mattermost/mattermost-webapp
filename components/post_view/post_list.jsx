@@ -264,7 +264,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (!this.postListContentRef || !this.postListRef) {
+        if (!this.postListContentRef || !this.postListRef.current) {
             // No posts to load
             return;
         }
