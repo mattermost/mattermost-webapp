@@ -1291,6 +1291,7 @@ export default {
                                 needsUtils.stateValueFalse('LdapSettings.Enable'),
                                 needsUtils.stateValueFalse('LdapSettings.EnableSync'),
                             ),
+                            isHidden: needsUtils.not(needsUtils.hasLicenseFeature('LDAPGroups')),
                         },
                         {
                             type: Constants.SettingsTypes.TYPE_TEXT,
