@@ -623,7 +623,6 @@ export default class PostList extends React.PureComponent {
             topRow = (
                 <div
                     className='loading-screen'
-                    style={{position: 'relative', height: '40px', padding: '0px'}}
                 >
                     <div className='loading__content'>
                         <div className='round round-1'/>
