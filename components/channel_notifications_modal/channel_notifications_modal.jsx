@@ -83,9 +83,14 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         };
     }
 
-    handleOnHide = () => {
-        this.updateSection(NotificationSections.NONE);
+    handleHide = () => {
+        this.setState({
+            show: false,
+        });
+    }
 
+    handleExit = () => {
+        this.updateSection(NotificationSections.NONE);
         this.props.onHide();
     }
 
@@ -191,8 +196,8 @@ export default class ChannelNotificationsModal extends React.PureComponent {
             <Modal
                 dialogClassName='settings-modal settings-modal--tabless'
                 show={this.state.show}
-                onHide={this.handleOnHide}
-                onExited={this.handleOnHide}
+                onHide={this.handleHide}
+                onExited={this.handleExit}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
