@@ -467,7 +467,7 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                             </AdminSidebarSection>
-                            {this.props.license.IsLicensed === 'true' && this.props.license.LDAP === 'true' &&
+                            {this.props.license.IsLicensed === 'true' && this.props.license.LDAPGroups === 'true' &&
                                 <AdminSidebarSection
                                     name='access-control'
                                     type='text'
