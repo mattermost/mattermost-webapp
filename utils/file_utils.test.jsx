@@ -93,4 +93,9 @@ describe('FileUtils.getFileDimensionsForDisplay', () => {
         const expectedDimensions = getFileDimensionsForDisplay({height: 600, width: 200}, {maxHeight: 300, maxWidth: 300});
         expect(expectedDimensions).toEqual({height: 300, width: 100});
     });
+
+    it('return null if dimensions does not exists', () => {
+        const expectedDimensions = getFileDimensionsForDisplay(null, {maxHeight: 300, maxWidth: 300});
+        expect(expectedDimensions).toEqual(null);
+    });
 });
