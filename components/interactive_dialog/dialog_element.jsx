@@ -46,6 +46,25 @@ export default class DialogElement extends React.PureComponent {
                 this.providers = [new MenuActionProvider(props.options)];
             }
         }
+
+        this.state = {
+            value: '',
+        };
+    }
+
+    handleSelected = (selected) => {
+        const {name, dataSource, onChange} = this.props;
+
+        if (dataSource === 'users') {
+            onChange(name, selected.id);
+            this.setState({value: selected.username});
+        } else if (dataSource === 'channels') {
+            onChange(name, selected.id);
+            this.setState({value: selected.display_name});
+        } else {
+            onChange(name, selected.value);
+            this.setState({value: selected.text});
+        }
     }
 
     render() {
@@ -130,8 +149,7 @@ export default class DialogElement extends React.PureComponent {
                     label={displayNameContent}
                     helpText={helpTextContent}
                     placeholder={placeholder}
-                    onChange={onChange}
-                    value={value}
+                    value={this.state.value}
                 />
             );
         }

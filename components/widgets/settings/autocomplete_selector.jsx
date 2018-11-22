@@ -9,9 +9,8 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 export default class AutocompleteSelector extends React.PureComponent {
     static propTypes = {
-        id: PropTypes.string,
         providers: PropTypes.array.isRequired,
-        onChange: PropTypes.func,
+        value: PropTypes.string.isRequired,
         onSelected: PropTypes.func,
         label: PropTypes.node,
         labelClassName: PropTypes.string,
@@ -19,14 +18,10 @@ export default class AutocompleteSelector extends React.PureComponent {
         helpText: PropTypes.node,
         placeholder: PropTypes.string,
         footer: PropTypes.node,
-        afterSelectorNode: PropTypes.node,
-        value: PropTypes.string,
-
-        // Object with value and text fields
-        selected: PropTypes.object,
     };
 
     static defaultProps = {
+        value: '',
         id: '',
         labelClassName: '',
         inputClassName: '',
@@ -36,33 +31,20 @@ export default class AutocompleteSelector extends React.PureComponent {
         super(props);
 
         this.state = {
-            selected: null,
             input: '',
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.selected && props.selected !== state.selected) {
-            return {
-                input: props.selected.text,
-                selected: props.selected,
-            };
+    onChange = (e) => {
+        if (!e || !e.target) {
+            return;
         }
 
-        return null;
+        this.setState({input: e.target.value});
     }
 
-    onChange = (e) => {
-        const value = e.target.value;
-        this.setState({input: value, previousInput: ''});
-
-        if (this.props.onChange) {
-            this.props.onChange(this.props.id, value);
-        }
-    };
-
     handleSelected = (selected) => {
-        this.setState({selected});
+        this.setState({input: ''});
 
         if (this.props.onSelected) {
             this.props.onSelected(selected);
@@ -80,13 +62,11 @@ export default class AutocompleteSelector extends React.PureComponent {
     }
 
     onFocus = () => {
-        this.setState({input: '', previousInput: this.state.input});
+        this.setState({focused: true});
     }
 
     onBlur = () => {
-        if (this.state.previousInput) {
-            this.setState({input: this.state.previousInput, previousInput: ''});
-        }
+        this.setState({focused: false});
     }
 
     render() {
@@ -94,13 +74,19 @@ export default class AutocompleteSelector extends React.PureComponent {
             providers,
             placeholder,
             footer,
-            value,
             label,
             labelClassName,
             helpText,
             inputClassName,
-            afterSelectorNode,
+            value,
         } = this.props;
+
+        const {focused} = this.state;
+        let {input} = this.state;
+
+        if (!focused) {
+            input = value;
+        }
 
         let labelContent;
         if (label) {
@@ -132,7 +118,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         listComponent={SuggestionList}
                         className='form-control'
                         containerClass='select-suggestion-container'
-                        value={value || this.state.input}
+                        value={input}
                         onChange={this.onChange}
                         onItemSelected={this.handleSelected}
                         onFocus={this.onFocus}
@@ -145,7 +131,6 @@ export default class AutocompleteSelector extends React.PureComponent {
                         openWhenEmpty={true}
                         replaceAllInputOnSelect={true}
                     />
-                    {afterSelectorNode}
                     {helpTextContent}
                     {footer}
                 </div>

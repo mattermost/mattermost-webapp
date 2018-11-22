@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
-
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
@@ -35,6 +33,21 @@ export default class ActionMenu extends React.PureComponent {
                 this.providers = [new MenuActionProvider(action.options)];
             }
         }
+
+        this.state = {
+            value: '',
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.selected && props.selected !== state.selected) {
+            return {
+                value: props.selected.text,
+                selected: props.selected,
+            };
+        }
+
+        return null;
     }
 
     handleSelected = (selected) => {
@@ -58,32 +71,20 @@ export default class ActionMenu extends React.PureComponent {
         }
 
         this.props.actions.selectAttachmentMenuAction(this.props.postId, this.props.action.id, this.props.action.data_source, text, value);
+
+        this.setState({value: text});
     }
 
     render() {
-        const {action, selected} = this.props;
-
-        let submitted;
-        if (selected) {
-            submitted = (
-                <div className='alert alert-success'>
-                    <i className='fa fa-check margin-right margin-right--half'/>
-                    <FormattedMessage
-                        id='action_menu.submitted'
-                        defaultMessage='Submitted'
-                    />
-                </div>
-            );
-        }
+        const {action} = this.props;
 
         return (
             <AutocompleteSelector
                 providers={this.providers}
                 onSelected={this.handleSelected}
                 placeholder={action.name}
-                afterSelectorNode={submitted}
-                selected={selected}
                 inputClassName='post-attachment-dropdown'
+                value={this.state.value}
             />
         );
     }

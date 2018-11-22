@@ -52,35 +52,108 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
 `);
     });
 
-    test('check state with selected prop', () => {
-        const selected = {text: 'text', value: 'value'};
+    test('check snapshot with value prop and changing focus', () => {
         const wrapper = shallow(
             <AutocompleteSelector
-                id='string.id'
                 providers={[]}
                 label='some label'
-                selected={selected}
+                value='value from prop'
             />
         );
 
-        expect(wrapper.state()).toEqual({input: selected.text, selected});
+        wrapper.instance().onBlur();
+
+        expect(wrapper).toMatchInlineSnapshot(`
+<div
+  className="form-group"
+>
+  <label
+    className="control-label "
+  >
+    some label
+  </label>
+  <div
+    className=""
+  >
+    <SuggestionBox
+      className="form-control"
+      completeOnTab={true}
+      containerClass="select-suggestion-container"
+      isRHS={false}
+      listComponent={[Function]}
+      listStyle="top"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onItemSelected={[Function]}
+      openOnFocus={true}
+      openWhenEmpty={true}
+      providers={Array []}
+      renderDividers={false}
+      renderNoResults={true}
+      replaceAllInputOnSelect={true}
+      requiredCharacters={1}
+      value="value from prop"
+    />
+  </div>
+</div>
+`);
+
+        wrapper.instance().onChange({target: {value: 'value from input'}});
+        wrapper.instance().onFocus();
+
+        expect(wrapper).toMatchInlineSnapshot(`
+<div
+  className="form-group"
+>
+  <label
+    className="control-label "
+  >
+    some label
+  </label>
+  <div
+    className=""
+  >
+    <SuggestionBox
+      className="form-control"
+      completeOnTab={true}
+      containerClass="select-suggestion-container"
+      isRHS={false}
+      listComponent={[Function]}
+      listStyle="top"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onItemSelected={[Function]}
+      openOnFocus={true}
+      openWhenEmpty={true}
+      providers={Array []}
+      renderDividers={false}
+      renderNoResults={true}
+      replaceAllInputOnSelect={true}
+      requiredCharacters={1}
+      value="value from input"
+    />
+  </div>
+</div>
+`);
     });
 
-    test('onChange', () => {
-        const onChange = jest.fn();
+    test('onSelected', () => {
+        const onSelected = jest.fn();
         const wrapper = shallow(
             <AutocompleteSelector
-                id='string.id'
                 label='some label'
                 value='some value'
                 providers={[]}
-                onChange={onChange}
+                onSelected={onSelected}
             />
         );
 
-        wrapper.instance().onChange({target: {value: 'somenewvalue'}});
+        const selected = {text: 'sometext', value: 'somevalue'};
+        wrapper.instance().handleSelected(selected);
 
-        expect(onChange).toHaveBeenCalledTimes(1);
-        expect(onChange).toHaveBeenCalledWith('string.id', 'somenewvalue');
+        expect(onSelected).toHaveBeenCalledTimes(1);
+        expect(onSelected).toHaveBeenCalledWith(selected);
     });
 });

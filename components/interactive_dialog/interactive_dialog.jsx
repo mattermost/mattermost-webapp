@@ -96,6 +96,10 @@ export default class InteractiveDialog extends React.Component {
         this.handleHide(true);
     }
 
+    onHide = () => {
+        this.handleHide(false);
+    }
+
     handleHide = (submitted = false) => {
         const {url, callbackId, state, notifyOnCancel} = this.props;
 
@@ -147,8 +151,9 @@ export default class InteractiveDialog extends React.Component {
             <Modal
                 dialogClassName='about-modal'
                 show={this.state.show}
-                onHide={this.handleHide}
+                onHide={this.onHide}
                 onExited={this.props.onHide}
+                backdrop='static'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -182,7 +187,7 @@ export default class InteractiveDialog extends React.Component {
                     <button
                         type='button'
                         className='btn btn-default cancel-button'
-                        onClick={this.handleHide}
+                        onClick={this.onHide}
                     >
                         <FormattedMessage
                             id='interactive_dialog.cancel'
