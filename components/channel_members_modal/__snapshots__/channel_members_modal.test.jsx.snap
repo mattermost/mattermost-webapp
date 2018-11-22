@@ -23,7 +23,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         "remove": [Function],
       }
     }
-    onExited={[MockFunction]}
+    onExited={[Function]}
     onHide={[Function]}
     renderBackdrop={[Function]}
     restoreFocus={true}
@@ -103,7 +103,7 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
         "remove": [Function],
       }
     }
-    onExited={[MockFunction]}
+    onExited={[Function]}
     onHide={[Function]}
     renderBackdrop={[Function]}
     restoreFocus={true}
