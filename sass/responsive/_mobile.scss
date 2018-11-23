@@ -1507,13 +1507,23 @@
             }
 
             .about-modal {
+                .modal-content {
+                    display: flex;
+                    flex-direction: column;
+                }
+
                 .modal-header {
-                    padding: 16px 25px;
+                    flex: 0 0 70px;
+                    padding: 0 25px;
                     border-bottom: 1px solid #ddd;
                 }
 
+                .modal-footer {
+                    position: relative;
+                }
+
                 .modal-body {
-                    max-height: calc(100vh - 180px);
+                    max-height: 100%;
                 }
                 .about-modal__content {
                     display: block;
