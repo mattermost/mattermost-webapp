@@ -2,7 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes, GeneralTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {
+    ChannelTypes,
+    EmojiTypes,
+    PostTypes,
+    TeamTypes,
+    UserTypes,
+    RoleTypes,
+    GeneralTypes,
+    AdminTypes,
+    IntegrationTypes,
+} from 'mattermost-redux/action_types';
 import {WebsocketEvents, General} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
@@ -38,6 +48,7 @@ import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatu
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
+import InteractiveDialog from 'components/interactive_dialog';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -333,6 +344,10 @@ function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_STATUSES_CHANGED:
         handlePluginStatusesChangedEvent(msg);
+        break;
+
+    case SocketEvents.OPEN_DIALOG:
+        handleOpenDialogEvent(msg);
         break;
 
     default:
@@ -844,4 +859,19 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleOpenDialogEvent(msg) {
+    const data = (msg.data && msg.data.dialog) || {};
+    const dialog = JSON.parse(data);
+
+    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
+
+    const currentTriggerId = getState().entities.integrations.dialogTriggerId;
+
+    if (dialog.trigger_id !== currentTriggerId) {
+        return;
+    }
+
+    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
 }

@@ -51,7 +51,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
     <SettingsGroup
       show={true}
     >
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedMessage
@@ -63,7 +63,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         id="FirstSettings.settinga"
         key="Config_text_FirstSettings.settinga"
         label="Setting One"
-        maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         setByEnv={false}
@@ -206,7 +205,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         placeholder="Type a username here"
         value="3xz3r6n7dtbbmgref3yw4zg7sr"
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedMessage
@@ -218,14 +217,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         id="SecondSettings.settingg"
         key="Config_text_SecondSettings.settingg"
         label="Setting Seven"
-        maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         setByEnv={false}
         type="number"
         value={7}
       />
-      <TextSetting
+      <AdminTextSetting
         disabled={false}
         helpText={
           <FormattedMessage
@@ -237,7 +235,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         id="SecondSettings.settingh"
         key="Config_text_SecondSettings.settingh"
         label="Setting Eight"
-        maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
         setByEnv={false}

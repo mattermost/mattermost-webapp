@@ -24,14 +24,14 @@ export function editPost(post) {
     };
 }
 
-export function selectAttachmentMenuAction(postId, actionId, dataSource, displayText, value) {
+export function selectAttachmentMenuAction(postId, actionId, dataSource, text, value) {
     return async (dispatch) => {
         dispatch({
             type: ActionTypes.SELECT_ATTACHMENT_MENU_ACTION,
             postId,
             data: {
                 [actionId]: {
-                    displayText,
+                    text,
                     value,
                 },
             },
