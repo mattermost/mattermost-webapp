@@ -71,6 +71,7 @@ export default class PostMarkdown extends React.PureComponent {
                 proxyImages={proxyImages}
                 options={this.props.options}
                 channelNamesMap={channelNamesMap}
+                imagesMetadata={this.props.post.metadata && this.props.post.metadata.images}
             />
         );
     }

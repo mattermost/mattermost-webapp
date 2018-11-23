@@ -134,6 +134,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 postId={this.props.post.id}
                 key={this.props.post.id}
                 options={this.props.options}
+                imagesMetadata={this.props.post.metadata.images}
             />
         );
     }
@@ -226,6 +227,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         if (this.isLinkImage(link)) {
+            const {metadata} = this.props.post;
             return (
                 <PostImage
                     channelId={this.props.post.channel_id}
@@ -233,6 +235,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     onLinkLoadError={this.handleLinkLoadError}
                     onLinkLoaded={this.handleLinkLoaded}
                     handleImageClick={this.handleImageClick}
+                    dimensions={metadata && metadata.images && metadata.images[link]}
                 />
             );
         }

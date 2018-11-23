@@ -4,8 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {postListScrollChange} from 'actions/global_actions.jsx';
+import LoadingImagePreview from 'components/loading_image_preview';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {getFileDimensionsForDisplay} from 'utils/file_utils';
+
+const MAX_IMAGE_DIMENSIONS = {
+    maxHeight: 500,
+    maxWidth: 450,
+};
 
 export default class PostImageEmbed extends React.PureComponent {
     static propTypes = {
@@ -34,6 +40,11 @@ export default class PostImageEmbed extends React.PureComponent {
          * If an image proxy is enabled.
          */
         hasImageProxy: PropTypes.bool.isRequired,
+
+        /**
+         * dimensions for empty space to prevent scroll popup.
+         */
+        dimensions: PropTypes.object,
     }
 
     constructor(props) {
@@ -80,8 +91,6 @@ export default class PostImageEmbed extends React.PureComponent {
             errored: false,
         });
 
-        postListScrollChange();
-
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
         }
@@ -103,9 +112,15 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
+        const imageDimensions = getFileDimensionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENSIONS);
         if (this.state.errored || !this.state.loaded) {
-            // scroll pop could be improved with a placeholder when !this.state.loaded
-            return null;
+            return (
+                <div style={{...imageDimensions, marginBottom: '13px'}}>
+                    <LoadingImagePreview
+                        containerClass={'file__image-loading'}
+                    />
+                </div>
+            );
         }
 
         return (
@@ -116,6 +131,7 @@ export default class PostImageEmbed extends React.PureComponent {
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
                     src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
+                    {...imageDimensions}
                 />
             </div>
         );
