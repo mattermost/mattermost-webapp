@@ -59,10 +59,11 @@ export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamI
         const channelIdParam = channelId || getCurrentChannelId(state);
         const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage));
         if (data) {
-            doDispatch(loadTeamMembersForProfilesList(data, teamIdParam)).then(() => {
+            const {data: listData} = await doDispatch(loadTeamMembersForProfilesList(data, teamIdParam));
+            if (listData) {
                 doDispatch(loadChannelMembersForProfilesList(data, channelIdParam));
                 doDispatch(loadStatusesForProfilesList(data));
-            });
+            }
         }
 
         return {data: true};
@@ -87,7 +88,7 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
             return {data: true};
         }
 
-        doDispatch(getTeamMembersByIds(teamIdParam, userIdsToLoad));
+        await doDispatch(getTeamMembersByIds(teamIdParam, userIdsToLoad));
 
         return {data: true};
     };
@@ -107,16 +108,17 @@ export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
         const channelIdParam = channelId || getCurrentChannelId(state);
-        doDispatch(loadTeamMembersForProfilesList(profiles, teamIdParam)).then(() => {
+        const {data} = await doDispatch(loadTeamMembersForProfilesList(profiles, teamIdParam));
+        if (data) {
             doDispatch(loadChannelMembersForProfilesList(profiles, channelIdParam));
-        });
+        }
 
         return {data: true};
     };
 }
 
 export function loadChannelMembersForProfilesList(profiles, channelId) {
-    return (doDispatch, doGetState) => {
+    return async (doDispatch, doGetState) => {
         const state = doGetState();
         const channelIdParam = channelId || getCurrentChannelId(state);
         const membersToLoad = {};
@@ -134,7 +136,7 @@ export function loadChannelMembersForProfilesList(profiles, channelId) {
             return {data: true};
         }
 
-        doDispatch(getChannelMembersByIds(channelIdParam, list));
+        await doDispatch(getChannelMembersByIds(channelIdParam, list));
         return {data: true};
     };
 }
