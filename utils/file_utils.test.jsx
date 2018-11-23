@@ -104,6 +104,10 @@ describe('FileUtils.canUploadFiles', () => {
         it('mime type for unknown file format', () => {
             assert.equal(getFileTypeFromMime('application/unknownFormat'), 'other');
         });
+
+        it('mime type for no suffix', () => {
+            assert.equal(getFileTypeFromMime('asdasd'), 'other');
+        });
     });
 });
 
