@@ -6,6 +6,8 @@ import {mount, shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
+import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
+
 import Pluggable from 'plugins/pluggable/pluggable.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import ProfilePopover from 'components/profile_popover';
@@ -16,27 +18,58 @@ class ProfilePopoverPlugin extends React.PureComponent {
     }
 }
 
+jest.mock('actions/views/profile_popover');
+
 describe('plugins/Pluggable', () => {
     const mockStore = configureStore();
+
+    const membersInTeam = {};
+    membersInTeam.someid = {};
+    membersInTeam.someid.someid = {team_id: 'someid', user_id: 'someid', roles: 'team_user'};
+
+    const membersInChannel = {};
+    membersInChannel.someid = {};
+    membersInChannel.someid.someid = {channel_id: 'someid', user_id: 'someid', roles: 'channel_user'};
+
     const store = mockStore({
         entities: {
+            channels: {
+                currentChannelId: 'someid',
+                channels: {
+                    someid: {team_id: 'someid', id: 'someid'},
+                },
+                membersInChannel,
+            },
             general: {
+                license: {IsLicensed: 'false'},
                 config: {
                 },
             },
             teams: {
                 currentTeamId: 'someid',
-                teams: {someid: {name: 'somename'}},
+                teams: {someid: {id: 'someid', name: 'somename'}},
+                membersInTeam,
             },
             preferences: {
                 myPreferences: {},
             },
+            posts: {
+                posts: {},
+            },
             users: {
-                currentUserId: '',
+                currentUserId: 'someid',
+                users: {someid: {id: 'someid', name: 'somename'}},
             },
         },
         plugins: {
             components: {},
+        },
+        views: {
+            posts: {
+            },
+            channel: {
+            },
+            rhs: {},
         },
     });
 
@@ -104,6 +137,10 @@ describe('plugins/Pluggable', () => {
     });
 
     test('should match snapshot with no overridden component', () => {
+        getMembershipForCurrentEntities.mockImplementation((...args) => {
+            return {type: 'MOCK_GET_MEMBERSHIP_FOR_CURRENT_ENTITIES', args};
+        });
+
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <Pluggable
@@ -111,7 +148,7 @@ describe('plugins/Pluggable', () => {
                     theme={{}}
                 >
                     <ProfilePopover
-                        user={{name: 'name'}}
+                        user={{id: 'someid', name: 'name'}}
                         src='src'
                     />
                 </Pluggable>
@@ -128,7 +165,7 @@ describe('plugins/Pluggable', () => {
                     theme={{id: 'theme_id'}}
                 >
                     <ProfilePopover
-                        user={{name: 'name'}}
+                        user={{id: 'someid', name: 'name'}}
                         src='src'
                     />
                 </Pluggable>
