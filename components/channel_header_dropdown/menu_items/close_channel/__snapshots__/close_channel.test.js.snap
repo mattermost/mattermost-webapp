@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderDropdown/MenuItem.CloseChannel should match snapshot 1`] = `
+<li
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Close Channel"
+      id="center_panel.archived.closeChannel"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;

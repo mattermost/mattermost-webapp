@@ -7,16 +7,30 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import MemberListChannel from 'components/member_list_channel';
+import ChannelInviteModal from 'components/channel_invite_modal';
+import {ModalIdentifiers} from 'utils/constants';
 
 export default class ChannelMembersModal extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Bool whether user has permission to manage current channel
+         */
         canManageChannelMembers: PropTypes.bool.isRequired,
-        channel: PropTypes.shape({
-            display_name: PropTypes.string.isRequired,
-            delete_at: PropTypes.number.isRequired,
+
+        /**
+         * Object with info about current channel
+         */
+        channel: PropTypes.object.isRequired,
+
+        /**
+         * Function that is called when modal is hidden
+         */
+        onHide: PropTypes.func.isRequired,
+
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
-        onModalDismissed: PropTypes.func.isRequired,
-        showInviteModal: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -27,15 +41,26 @@ export default class ChannelMembersModal extends React.PureComponent {
         };
     }
 
-    onHide = () => {
+    handleHide = () => {
         this.setState({
             show: false,
         });
     }
 
-    onClickManageChannelsButton = () => {
-        this.props.showInviteModal();
-        this.onHide();
+    handleExit = () => {
+        this.props.onHide();
+    }
+
+    onAddNewMembersButton = () => {
+        const {channel, actions} = this.props;
+
+        actions.openModal({
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel},
+        });
+
+        this.handleExit();
     }
 
     render() {
@@ -44,9 +69,9 @@ export default class ChannelMembersModal extends React.PureComponent {
             <div>
                 <Modal
                     dialogClassName='more-modal more-modal--action'
-                    onExited={this.props.onModalDismissed}
-                    onHide={this.onHide}
                     show={this.state.show}
+                    onHide={this.handleHide}
+                    onExited={this.handleExit}
                 >
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
@@ -61,7 +86,7 @@ export default class ChannelMembersModal extends React.PureComponent {
                                 id='showInviteModal'
                                 className='btn btn-md btn-primary'
                                 href='#'
-                                onClick={this.onClickManageChannelsButton}
+                                onClick={this.onAddNewMembersButton}
                             >
                                 <FormattedMessage
                                     id='channel_members_modal.addNew'

@@ -162,7 +162,7 @@ export default class DataRetentionSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.data_retention.title'
-                defaultMessage='Data Retention Policy (Beta)'
+                defaultMessage='Data Retention Policy'
             />
         );
     }
