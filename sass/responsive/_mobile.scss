@@ -1507,6 +1507,9 @@
             }
 
             .about-modal {
+                .modal-body {
+                    max-height: calc(100vh - 145px);
+                }
                 .about-modal__content {
                     display: block;
                 }
