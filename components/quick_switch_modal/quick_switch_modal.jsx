@@ -23,16 +23,6 @@ export default class QuickSwitchModal extends React.PureComponent {
     static propTypes = {
 
         /**
-         * The mode to start in when showing the modal, either 'channel' or 'team'
-         */
-        initialMode: PropTypes.string.isRequired,
-
-        /**
-         * Set to show the modal
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
          * The function called to hide the modal
          */
         onHide: PropTypes.func.isRequired,
@@ -47,10 +37,6 @@ export default class QuickSwitchModal extends React.PureComponent {
         }).isRequired,
     }
 
-    static defaultProps = {
-        initialMode: CHANNEL_MODE,
-    }
-
     constructor(props) {
         super(props);
 
@@ -61,14 +47,8 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         this.state = {
             text: '',
-            mode: props.initialMode,
+            mode: CHANNEL_MODE,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.show && nextProps.show) {
-            this.setState({mode: nextProps.initialMode, text: ''});
-        }
     }
 
     focusTextbox = () => {
@@ -270,7 +250,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             <Modal
                 dialogClassName='channel-switch-modal modal--overflow'
                 ref='modal'
-                show={this.props.show}
+                show={true}
                 onHide={this.onHide}
                 enforceFocus={false}
                 restoreFocus={false}
