@@ -140,8 +140,8 @@ export default class InteractiveDialog extends React.Component {
             icon = (
                 <img
                     className='more-modal__image'
-                    width='24'
-                    height='24'
+                    width='36'
+                    height='36'
                     src={iconUrl}
                 />
             );

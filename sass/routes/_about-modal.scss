@@ -12,17 +12,26 @@
                 background: transparent;
                 border: none;
                 color: inherit;
-                padding: 20px 25px 0;
+                padding: 20px 25px;
+                display: flex;
+                align-items: center;
 
                 .close {
                     color: inherit;
                     font-weight: normal;
                     right: 15px;
+                    font-size: 30px;
+                    opacity: .5;
+                }
+
+                .more-modal__image {
+                    margin-right: 12px;
                 }
 
                 .modal-title {
                     color: inherit;
-                    font-size: 16px;
+                    font-size: 17px;
+                    font-weight: 600;
                 }
 
                 .icon {
@@ -40,8 +49,50 @@
         }
 
         .modal-body {
-            padding: 20px 25px 10px;
-            max-height: calc(100vh - 62px);
+            padding: 16px 25px;
+            max-height: calc(100vh - 220px);
+        }
+
+        .modal-footer {
+            .btn {
+                font-size: 14px;
+                height: 40px;
+                padding: 0 20px;
+                font-weight: 600;
+                border-radius: 4px;
+            }
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .select-suggestion-container {
+            margin: 0;
+
+            .form-control {
+                height: 36px;
+                padding: 8px 12px;
+            }
+
+            &:after {
+                top: 9px;
+                right: 12px;
+                font-size: 20px;
+            }
+        }
+
+        .form-control {
+            padding: 8px 12px;
+            font-size: 14px;
+
+            &[type=input] {
+                height: 36px;
+            }
         }
 
         &.large {

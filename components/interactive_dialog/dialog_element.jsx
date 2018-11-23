@@ -87,17 +87,19 @@ export default class DialogElement extends React.PureComponent {
             displayNameContent = (
                 <React.Fragment>
                     {displayName + ' '}
-                    <FormattedMessage
-                        id='interactive_dialog.element.optional'
-                        defaultMessage='(optional)'
-                    />
+                    <span className='font-weight--normal light'>
+                        <FormattedMessage
+                            id='interactive_dialog.element.optional'
+                            defaultMessage='(optional)'
+                        />
+                    </span>
                 </React.Fragment>
             );
         } else {
             displayNameContent = (
                 <React.Fragment>
                     {displayName}
-                    <span style={{color: 'red'}}>{' *'}</span>
+                    <span className='error-text'>{' *'}</span>
                 </React.Fragment>
             );
         }
@@ -107,7 +109,7 @@ export default class DialogElement extends React.PureComponent {
             helpTextContent = (
                 <React.Fragment>
                     {helpText}
-                    <div style={{color: 'red'}}>
+                    <div className='error-text margin-top x2'>
                         {errorText}
                     </div>
                 </React.Fragment>
