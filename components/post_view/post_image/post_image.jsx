@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingImagePreview from 'components/loading_image_preview';
-import {postListScrollChange} from 'actions/global_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {getFileDimensionsForDisplay} from 'utils/file_utils';
 
@@ -45,7 +44,7 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * dimensions for empty space to prevent scroll popup.
          */
-        dimensions: PropTypes.object.isRequired,
+        dimensions: PropTypes.object,
     }
 
     constructor(props) {
@@ -92,8 +91,6 @@ export default class PostImageEmbed extends React.PureComponent {
             errored: false,
         });
 
-        postListScrollChange();
-
         if (this.props.onLinkLoaded) {
             this.props.onLinkLoaded();
         }
@@ -115,10 +112,6 @@ export default class PostImageEmbed extends React.PureComponent {
     };
 
     render() {
-        if (!this.props.dimensions) {
-            return null;
-        }
-
         const imageDimensions = getFileDimensionsForDisplay(this.props.dimensions, MAX_IMAGE_DIMENSIONS);
         if (this.state.errored || !this.state.loaded) {
             return (
