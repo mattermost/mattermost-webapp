@@ -1507,8 +1507,12 @@
             }
 
             .about-modal {
+                .modal-header {
+                    border-bottom: 1px solid #ddd;
+                }
+
                 .modal-body {
-                    max-height: calc(100vh - 145px);
+                    max-height: calc(100vh - 180px);
                 }
                 .about-modal__content {
                     display: block;
