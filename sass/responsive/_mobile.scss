@@ -1437,6 +1437,12 @@
 }
 
 @media screen and (max-width: 640px) {
+    body {
+        &.browser--ie {
+            min-width: 600px;
+        }
+    }
+
     .multi-select__help {
         flex-direction: column;
 
