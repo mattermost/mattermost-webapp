@@ -202,6 +202,8 @@ export default class SuggestionBox extends React.Component {
         }
 
         if (UserAgent.isIos() && !e.relatedTarget) {
+            // On Safari and iOS classic app, the autocomplete stays open
+            // when you tap outside of the post textbox or search box.
             return;
         }
 
