@@ -12,7 +12,6 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
-const MIN_TIME_BEFORE_CLICK = 200;
 
 export default class SuggestionBox extends React.Component {
     static propTypes = {
@@ -202,17 +201,15 @@ export default class SuggestionBox extends React.Component {
             return;
         }
 
-        this.setState({focused: false});
-
         if (UserAgent.isIos() && !e.relatedTarget) {
-            // iOS doesn't support e.relatedTarget, so we need to use the old method of just delaying the
-            // blur so that click handlers on the list items still register
-            if (this.presentationType !== 'date' || this.props.value.length === 0) {
-                this.handleEmitClearSuggestions(MIN_TIME_BEFORE_CLICK);
-            }
-        } else {
-            this.handleEmitClearSuggestions();
+            // On Safari and iOS classic app, the autocomplete stays open
+            // when you tap outside of the post textbox or search box.
+            return;
         }
+
+        this.handleEmitClearSuggestions();
+
+        this.setState({focused: false});
 
         if (this.props.onBlur) {
             this.props.onBlur();
