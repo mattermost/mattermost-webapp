@@ -134,7 +134,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 postId={this.props.post.id}
                 key={this.props.post.id}
                 options={this.props.options}
-                imagesMetadata={this.props.post.metadata.images}
+                imagesMetadata={this.props.post.metadata && this.props.post.metadata.images}
             />
         );
     }
